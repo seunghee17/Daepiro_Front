@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/route/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +19,9 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: DaepiroColorStyle.white
+      ),
     );
   }
 
