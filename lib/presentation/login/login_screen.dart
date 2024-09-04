@@ -4,8 +4,10 @@ import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/presentation/widgets/button/CustomElevatedButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import '../../data/model/request/token_request.dart';
 import 'login_controller.dart';
@@ -16,10 +18,13 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(loginControllerProvider);
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
+          if(state.isLoading)
+            const CircularProgressIndicator(),
           Container(
             width: MediaQuery.of(context).size.width,
             height: screenHeight * 0.63,
@@ -52,7 +57,10 @@ class LoginScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomElevatedButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        String token = await kakaoLogin();
+                        await ref.read(loginControllerProvider.notifier).getKakaoToken(token);
+                      },
                       backgroundColor: Color(0xFFFAE300),
                       pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
                       radius: 8.0,
@@ -141,6 +149,37 @@ class LoginScreen extends ConsumerWidget {
           ),
         )
     );
+  }
+
+  Future<String> kakaoLogin() async {
+    if(await isKakaoTalkInstalled()) {
+      try {
+        OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
+        print('카카오톡으로 로그인 성공');
+        return token.accessToken;
+      } catch(error) {
+        print('카카오톡으로 로그인 실패: $error');
+        if(error is PlatformException && error.code == 'CANCELED') {
+          return '';
+        }
+        try {
+          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+          print('카카오 계정으로 로그인 성공');
+          return token.accessToken;
+        } catch(error) {
+          print('카카오계정으로 로그인 실패: $error');
+        }
+      }
+    } else {
+      try {
+        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+        print('카카오 계정으로 로그인 성공');
+        return token.accessToken;
+      } catch(error) {
+        print('카카오계정으로 로그인 실패: $error');
+      }
+    }
+    return '';
   }
  
 

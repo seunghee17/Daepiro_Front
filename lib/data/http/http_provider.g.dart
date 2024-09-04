@@ -20,7 +20,7 @@ final httpProvider = AutoDisposeProvider<Dio>.internal(
 );
 
 typedef HttpRef = AutoDisposeProviderRef<Dio>;
-String _$httpInterceptorHash() => r'b17520df0632980cecb3db2cd50e3064b8def31e';
+String _$httpInterceptorHash() => r'809832b68a573d956f7217076c89c01e945a4e21';
 
 /// See also [httpInterceptor].
 @ProviderFor(httpInterceptor)

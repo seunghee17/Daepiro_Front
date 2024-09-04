@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/sociallogin_token_response.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,6 +31,24 @@ class LoginRepositoryImpl implements LoginRepository {
     }
     return true;
   }
+
+  @override
+  Future<SocialLoginTokenResponse> getKakaoTokenResponse({required TokenRequest tokenRequest}) async {
+   final tokenResult = await _source.getKakaoTokenResponse(tokenRequest);
+   await storage.write(key: 'accessToken', value: tokenResult.accessToken);
+   await storage.write(key: 'refreshToken', value: tokenResult.refreshToken);
+   return tokenResult;
+  }
+
+  @override
+  Future<SocialLoginTokenResponse> getNaverTokenResponse({required TokenRequest tokenRequest}) {
+    // TODO: implement getNaverTokenResponse
+    throw UnimplementedError();
+  }
+
+
+
+
 
 }
 

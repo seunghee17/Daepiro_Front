@@ -12,8 +12,6 @@ part 'http_provider.g.dart';
 Dio http(HttpRef ref) {
   final options = BaseOptions(
     baseUrl: 'http://ec2-15-164-253-33.ap-northeast-2.compute.amazonaws.com',
-    connectTimeout: const Duration(milliseconds: 3000),
-    receiveTimeout: const Duration(milliseconds: 3000),
   );
  final Dio dio = Dio(options);
  dio.interceptors.add( PrettyDioLogger(
@@ -38,8 +36,13 @@ InterceptorsWrapper httpInterceptor(HttpInterceptorRef ref) {
 
   return InterceptorsWrapper(
     onRequest: (options, handler) async {
-      String? accessToken = await storage.read(key: 'accessToken');
-      options.headers['Authorization'] = 'Bearer $accessToken';
+      // 로그인 요청 시 URL을 확인
+      if ((!options.path.contains("/kakao")) || (!options.path.contains("/naver"))) {
+        String? accessToken = await storage.read(key: 'accessToken');
+        if (accessToken != null) {
+          options.headers['Authorization'] = 'Bearer $accessToken';
+        }
+      }
       handler.next(options);
     },
     onError: (DioError error, handler) async {

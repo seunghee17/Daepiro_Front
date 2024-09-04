@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/model/request/token_request.dart';
+import '../../domain/usecase/login/social_login_usecase.dart';
 import '../../domain/usecase/login/token_result_usecase.dart';
 import 'login_state.dart';
 
@@ -24,14 +25,14 @@ class LoginController extends _$LoginController {
     return LoginState(isLoading: false, accessToken: '', refreshToken: '');
   }
 
-  Future<void> tokenData() async {
+  Future<void> tokenData(String token) async {
     final value = state.valueOrNull;
     if(value != null) {
       if(!value.isLoading) {
         state = AsyncValue.data(value.copyWith(isLoading: true));
         state = await AsyncValue.guard(() async {
-          String token = 'kakaotoken'; //예시로 달아둠
           final result = await ref.read(getTokenResponseProvider(tokenRequest: TokenRequest(token: token)).future);
+          print('we are in login_controller: ${result.accessToken} &&&& ${result.refreshToken}');
           storage.write(key: 'accessToken', value: result.accessToken);
           storage.write(key: 'refreshToken', value: result.refreshToken);
           return value.copyWith(
@@ -40,6 +41,19 @@ class LoginController extends _$LoginController {
               refreshToken: result.refreshToken ?? ''
           );
         });
+      }
+    }
+  }//getSocialTokenResponseProvider
+
+  Future<void> getKakaoToken(String token) async {
+    final value = state.valueOrNull;
+    if(value != null) {
+      if(!value.isLoading) {
+        state = AsyncValue.data(value.copyWith(isLoading: true));
+        final result = await ref.read(GetKakaoTokenResponseProvider(tokenRequest: TokenRequest(token: token)).future);
+        storage.write(key: 'accessToken', value: result.accessToken);
+        storage.write(key: 'refreshToken', value: result.refreshToken);
+        state = AsyncValue.data(value.copyWith(isLoading: true, accessToken: result.accessToken ?? '', refreshToken: result.refreshToken ?? ''));
       }
     }
   }
