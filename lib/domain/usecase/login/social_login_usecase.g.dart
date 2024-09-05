@@ -7,7 +7,7 @@ part of 'social_login_usecase.dart';
 // **************************************************************************
 
 String _$getKakaoTokenResponseHash() =>
-    r'71477b256a9a3108cf89b77146f74bd4a81822dc';
+    r'ad57054726d17a1986d1f80e2081f92195fa1beb';
 
 /// Copied from Dart SDK
 class _SystemHash {

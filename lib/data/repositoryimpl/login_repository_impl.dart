@@ -3,20 +3,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/repository/login_repository.dart';
+import '../http/http_provider.dart';
 import '../model/request/token_request.dart';
 import '../model/response/token_response.dart';
-import '../source/login/login_data_source.dart';
-import '../source/login/login_data_source_impl.dart';
+import '../source/login/login_service.dart';
 part 'login_repository_impl.g.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  LoginRepositoryImpl({required LoginDataSource source}) : _source = source;
-  final LoginDataSource _source;
+  LoginRepositoryImpl({required LoginService service}) : _service = service;
+  final LoginService _service;
   final storage = FlutterSecureStorage();
 
   @override
   Future<TokenResponse> getTokenResponse({required TokenRequest tokenRequest}) async {
-    final tokenResult = await _source.getTokenResponse(tokenRequest);
+    final tokenResult = await _service.getTokenResponse(tokenRequest: tokenRequest);
     await storage.write(key: 'accessToken', value: tokenResult.accessToken);
     await storage.write(key: 'refreshToken', value: tokenResult.refreshToken);
     return tokenResult;
@@ -34,7 +34,7 @@ class LoginRepositoryImpl implements LoginRepository {
 
   @override
   Future<SocialLoginTokenResponse> getKakaoTokenResponse({required TokenRequest tokenRequest}) async {
-   final tokenResult = await _source.getKakaoTokenResponse(tokenRequest);
+   final tokenResult = await _service.getKakaoTokenResponse(tokenRequest: tokenRequest);
    await storage.write(key: 'accessToken', value: tokenResult.accessToken);
    await storage.write(key: 'refreshToken', value: tokenResult.refreshToken);
    return tokenResult;
@@ -46,14 +46,9 @@ class LoginRepositoryImpl implements LoginRepository {
     throw UnimplementedError();
   }
 
-
-
-
-
 }
-
 @riverpod
-LoginRepository loginRepository(LoginRepositoryRef ref) {
-  final source = ref.watch(loginDataSourceProvider);
-  return LoginRepositoryImpl(source: source);
+LoginRepository loginRepository (LoginRepositoryRef ref) {
+  final http = ref.watch(httpProvider);
+  return LoginRepositoryImpl(service: LoginService(http));
 }
