@@ -22,7 +22,7 @@ class LoginController extends _$LoginController {
 
   Future<LoginState> _initState() async {
     storage.deleteAll();
-    return LoginState(isLoading: false, accessToken: '', refreshToken: '');
+    return LoginState(isLoading: false, isOnboarding: false, accessToken: '', refreshToken: '');
   }
 
   Future<void> tokenData(String token) async {
@@ -53,7 +53,7 @@ class LoginController extends _$LoginController {
         final result = await ref.read(GetKakaoTokenResponseProvider(tokenRequest: TokenRequest(token: token)).future);
         storage.write(key: 'accessToken', value: result.accessToken);
         storage.write(key: 'refreshToken', value: result.refreshToken);
-        state = AsyncValue.data(value.copyWith(isLoading: true, accessToken: result.accessToken ?? '', refreshToken: result.refreshToken ?? ''));
+        state = AsyncValue.data(value.copyWith(isLoading: false, isOnboarding: result.isOnboarding, accessToken: result.accessToken ?? '', refreshToken: result.refreshToken ?? ''));
       }
     }
   }

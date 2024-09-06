@@ -8,6 +8,7 @@ sealed class LoginState with _$LoginState {
   factory LoginState({
     @Default(false) bool isLoading,
     @Default('') String accessToken,
-    @Default('') String refreshToken
+    @Default('') String refreshToken,
+    @Default(false) bool isOnboarding,
   }) = _LoginState;
 }

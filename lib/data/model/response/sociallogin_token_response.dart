@@ -1,10 +1,10 @@
 class SocialLoginTokenResponse {
-  String? accessToken;
-  String? refreshToken;
-  bool? isOnboarding;
+  String accessToken = "";
+  String refreshToken = "";
+  bool isOnboarding = false;
 
   SocialLoginTokenResponse(
-      {this.accessToken, this.refreshToken, this.isOnboarding});
+      {required this.accessToken, required this.refreshToken, required this.isOnboarding});
 
   SocialLoginTokenResponse.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];

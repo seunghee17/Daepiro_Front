@@ -19,6 +19,7 @@ mixin _$LoginState {
   bool get isLoading => throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
+  bool get isOnboarding => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LoginStateCopyWith<LoginState> get copyWith =>
@@ -31,7 +32,11 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({bool isLoading, String accessToken, String refreshToken});
+  $Res call(
+      {bool isLoading,
+      String accessToken,
+      String refreshToken,
+      bool isOnboarding});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
     Object? isLoading = null,
     Object? accessToken = null,
     Object? refreshToken = null,
+    Object? isOnboarding = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -64,6 +70,10 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
+      isOnboarding: null == isOnboarding
+          ? _value.isOnboarding
+          : isOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -76,7 +86,11 @@ abstract class _$$LoginStateImplCopyWith<$Res>
       __$$LoginStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, String accessToken, String refreshToken});
+  $Res call(
+      {bool isLoading,
+      String accessToken,
+      String refreshToken,
+      bool isOnboarding});
 }
 
 /// @nodoc
@@ -93,6 +107,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? accessToken = null,
     Object? refreshToken = null,
+    Object? isOnboarding = null,
   }) {
     return _then(_$LoginStateImpl(
       isLoading: null == isLoading
@@ -107,6 +122,10 @@ class __$$LoginStateImplCopyWithImpl<$Res>
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
+      isOnboarding: null == isOnboarding
+          ? _value.isOnboarding
+          : isOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -115,7 +134,10 @@ class __$$LoginStateImplCopyWithImpl<$Res>
 
 class _$LoginStateImpl implements _LoginState {
   _$LoginStateImpl(
-      {this.isLoading = false, this.accessToken = '', this.refreshToken = ''});
+      {this.isLoading = false,
+      this.accessToken = '',
+      this.refreshToken = '',
+      this.isOnboarding = false});
 
   @override
   @JsonKey()
@@ -126,10 +148,13 @@ class _$LoginStateImpl implements _LoginState {
   @override
   @JsonKey()
   final String refreshToken;
+  @override
+  @JsonKey()
+  final bool isOnboarding;
 
   @override
   String toString() {
-    return 'LoginState(isLoading: $isLoading, accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'LoginState(isLoading: $isLoading, accessToken: $accessToken, refreshToken: $refreshToken, isOnboarding: $isOnboarding)';
   }
 
   @override
@@ -142,12 +167,14 @@ class _$LoginStateImpl implements _LoginState {
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
-                other.refreshToken == refreshToken));
+                other.refreshToken == refreshToken) &&
+            (identical(other.isOnboarding, isOnboarding) ||
+                other.isOnboarding == isOnboarding));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, accessToken, refreshToken);
+  int get hashCode => Object.hash(
+      runtimeType, isLoading, accessToken, refreshToken, isOnboarding);
 
   @JsonKey(ignore: true)
   @override
@@ -160,7 +187,8 @@ abstract class _LoginState implements LoginState {
   factory _LoginState(
       {final bool isLoading,
       final String accessToken,
-      final String refreshToken}) = _$LoginStateImpl;
+      final String refreshToken,
+      final bool isOnboarding}) = _$LoginStateImpl;
 
   @override
   bool get isLoading;
@@ -168,6 +196,8 @@ abstract class _LoginState implements LoginState {
   String get accessToken;
   @override
   String get refreshToken;
+  @override
+  bool get isOnboarding;
   @override
   @JsonKey(ignore: true)
   _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>
