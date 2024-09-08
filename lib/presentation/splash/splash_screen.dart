@@ -11,11 +11,23 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  bool isAuthenticated = false;
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    Future.delayed(Duration(seconds: 5), checkAuth);
+    //Future.delayed(Duration(seconds: 5), checkAuth);
+    checkAuth().then((authenticated) {
+      isAuthenticated = authenticated;
+    });
+    Future.delayed(Duration(seconds: 5), () {
+      if(isAuthenticated) {
+        GoRouter.of(context).go('/home');
+      } else {
+        GoRouter.of(context).go('/login');
+      }
+    });
   }
 
   @override
@@ -24,13 +36,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.dispose();
   }
 
-  void checkAuth() async {
+  Future<bool> checkAuth() async {
     String? accessToken = await storage.read(key: 'accessToken');
     String? refreshToken = await storage.read(key: 'refreshToken');
     if((accessToken == null) && refreshToken == null || accessToken == "" && refreshToken == "") {
-      GoRouter.of(context).go('/login');
+      return false;
     } else {
-      GoRouter.of(context).go('/home');
+      return true;
     }
   }
 

@@ -20,13 +20,16 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncValue = ref.watch(loginControllerProvider);
+    //final authController = ref.read(authControllerProvider.notifier);
     var screenHeight = MediaQuery.of(context).size.height;
 
     return asyncValue.when(
         data: (state) {
           if(!state.isOnboarding) {
+            print('로그인스크린!!!${state.isOnboarding}');
             GoRouter.of(context).replace('/onboarding');
           } else {
+            print('로그인스크린!!!${state.isOnboarding}');
             GoRouter.of(context).replace('/home');
           }
           return Scaffold(

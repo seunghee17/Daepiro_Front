@@ -1,17 +1,21 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storge;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
-
 import '../model/request/token_request.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 part 'http_provider.g.dart';
 
 @riverpod
 Dio http(HttpRef ref) {
   final options = BaseOptions(
     baseUrl: 'http://ec2-15-164-253-33.ap-northeast-2.compute.amazonaws.com',
+    headers: {
+      'Content-Type': 'application/json',
+    }
   );
  final Dio dio = Dio(options);
  dio.interceptors.add( PrettyDioLogger(
@@ -22,22 +26,21 @@ Dio http(HttpRef ref) {
    error: true,
    maxWidth: 90,
    enabled: kDebugMode
- )
+ ));
 
- );
- dio.interceptors.add(ref.read(httpInterceptorProvider));
+ dio.interceptors.add(httpInterceptor(ref, dio));
  return dio;
 }
 
 @riverpod
-InterceptorsWrapper httpInterceptor(HttpInterceptorRef ref) {
-  final storage = FlutterSecureStorage();
-  final dio = Dio();
+InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
+  final storage = storge.FlutterSecureStorage();
 
   return InterceptorsWrapper(
     onRequest: (options, handler) async {
-      // 로그인 요청 시 URL을 확인
-      if ((!options.path.contains("/kakao")) || (!options.path.contains("/naver"))) {
+
+      //헤더주입이 필요없는 api
+      if ((!options.path.contains("/kakao")) && (!options.path.contains("/naver")) && (!options.path.contains('/refresh'))) {
         String? accessToken = await storage.read(key: 'accessToken');
         if (accessToken != null) {
           options.headers['Authorization'] = 'Bearer $accessToken';
@@ -46,14 +49,42 @@ InterceptorsWrapper httpInterceptor(HttpInterceptorRef ref) {
       handler.next(options);
     },
     onError: (DioError error, handler) async {
+      //토큰 갱신 요청 실패시 재시도 하지 않음
+      if(error.requestOptions.path.contains('/token/refresh')) {
+        print('토큰 갱신 요청 실패시 재시도 하지 않음:: ');
+        handler.next(error);
+        return;
+      }
+      //네트워크 에러 처리
+      if(error.response?.statusCode == 500) {
+        Fluttertoast.showToast(
+            msg: '서버 오류가 발생했습니다. 넘버원 서버팀에 문의해주세요.',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.black,
+          textColor: Colors.white
+        );
+      } else {
+        Fluttertoast.showToast(
+            msg: '네트워크 에러 ${error.response?.statusCode} 발생',
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.black,
+            textColor: Colors.white
+        );
+      }
       if(error.response?.statusCode == 401) {
         String? refreshToken = await storage.read(key: 'refreshToken');
         if(refreshToken != null ) {
           try {
-            final response = await dio.post('http://ec2-15-164-253-33.ap-northeast-2.compute.amazonaws.com/token/refresh',
-              data: TokenRequest(token: refreshToken)
+            final response = await dio.post(
+                'http://ec2-15-164-253-33.ap-northeast-2.compute.amazonaws.com/token/refresh',
+              data: TokenRequest(token: refreshToken),
             );
             if(response.statusCode == 200) {
+              print('토큰 갱신 성공!!!');
               //토큰 재발급에 성공
               String newAccessToken = response.data['accessToken'];
               String newRefreshToken = response.data['refreshToken'];
@@ -62,10 +93,21 @@ InterceptorsWrapper httpInterceptor(HttpInterceptorRef ref) {
 
               //원래 요청을 재시도
               error.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-              return handler.resolve(await dio.fetch(error.requestOptions));
+              final opts = Options(
+                method: error.requestOptions.method,
+                headers: error.requestOptions.headers
+              );
+              final clonedRequest = await dio.request(
+                error.requestOptions.path,
+                options: opts,
+                data: error.requestOptions.data,
+                queryParameters: error.requestOptions.queryParameters
+              );
+              return handler.resolve(clonedRequest);
             } else {
               //refresh 토큰이 존재하지 않거나 만료되었음 로그인 화면으로 이동해야함
-              print('Error refreshing token: $error');
+              //재로그인이 필요함을 언급
+              print('cathch 전');
             }
           } catch(e) {
             print('Error refreshing token: $e');

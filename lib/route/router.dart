@@ -24,10 +24,11 @@ final _sponsorNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sponsor');
 final _mypageNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'mypage');
 final FlutterSecureStorage storage = FlutterSecureStorage();
 
+//중간에 토큰 만료시 로직은 개선해야함
 Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
   String current = state.uri.path;
   if(current != '/splash') {
-    await Future.delayed(Duration(seconds: 3));
+    //await Future.delayed(Duration(seconds: 3));
     String? accessToken = await storage.read(key: 'accessToken');
     String? refreshToken = await storage.read(key: 'refreshToken');
     if((accessToken == null && refreshToken == null) || accessToken == "" && refreshToken == "") {

@@ -11,6 +11,7 @@ class MainNavigation extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
+
   void _goBranch(int index) {
     navigationShell.goBranch(
       index,
