@@ -18,6 +18,7 @@ class HomeScreen extends ConsumerWidget {
       body: Center(
         child: Row(
           children: [
+            Text('홈')
             ]
         ),
       ),

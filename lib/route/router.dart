@@ -118,6 +118,5 @@ final goRouteProvider = Provider((ref) {
           ],
       )
     ],
-    redirect: checkRedirect
   );
 });

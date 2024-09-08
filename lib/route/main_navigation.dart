@@ -13,10 +13,9 @@ class MainNavigation extends StatelessWidget {
 
 
   void _goBranch(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
+    if(index != navigationShell.currentIndex) {
+      navigationShell.goBranch(index);
+    }
   }
 
   @override
