@@ -37,7 +37,7 @@ class LoginController extends _$LoginController {
           return value.copyWith(
               isLoading: false,
               accessToken: result.accessToken ?? '',
-              refreshToken: result.refreshToken ?? ''
+              refreshToken: result.refreshToken ?? '',
           );
         });
       }

@@ -16,17 +16,19 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
-    //Future.delayed(Duration(seconds: 5), checkAuth);
-    checkAuth().then((authenticated) {
-      isAuthenticated = authenticated;
-    });
-    Future.delayed(Duration(seconds: 5), () {
-      if(isAuthenticated) {
-        GoRouter.of(context).go('/home');
-      } else {
-        GoRouter.of(context).go('/login');
-      }
+    _controller = AnimationController(
+        vsync: this,
+      duration: Duration(seconds: 5)
+    );
+    _controller.forward();
+    checkAuth().then((isAuthenticated) {
+      Future.delayed(Duration(seconds: 5), () {  // 최소 5초간 스플래시 화면 표시
+        if (isAuthenticated) {
+          GoRouter.of(context).replace('/home');
+        } else {
+          GoRouter.of(context).replace('/login');
+        }
+      });
     });
   }
 

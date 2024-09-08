@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daepiro/presentation/home/home_screen.dart';
+import 'package:daepiro/presentation/login/login_state.dart';
 import 'package:daepiro/presentation/onboarding/onboarding_screen.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/presentation/widgets/button/CustomElevatedButton.dart';
@@ -20,18 +21,24 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncValue = ref.watch(loginControllerProvider);
-    //final authController = ref.read(authControllerProvider.notifier);
     var screenHeight = MediaQuery.of(context).size.height;
+
+    ref.listen<AsyncValue<LoginState>>(loginControllerProvider, (previous, next) {
+      next.whenData((state) {
+        if(state.refreshToken != '' && state.refreshToken != '') {
+          if(state.isOnboarding) {
+            print('온보딩화면으로');
+            GoRouter.of(context).replace('/home');
+          } else {
+            print('홈화면으로');
+            GoRouter.of(context).replace('/onboarding');
+          }
+        }
+      });
+    });
 
     return asyncValue.when(
         data: (state) {
-          if(!state.isOnboarding) {
-            print('로그인스크린!!!${state.isOnboarding}');
-            GoRouter.of(context).replace('/onboarding');
-          } else {
-            print('로그인스크린!!!${state.isOnboarding}');
-            GoRouter.of(context).replace('/home');
-          }
           return Scaffold(
             body: Column(
               children: [
@@ -64,7 +71,7 @@ class LoginScreen extends ConsumerWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         CustomElevatedButton(
                             onPressed: () async {
@@ -76,6 +83,7 @@ class LoginScreen extends ConsumerWidget {
                             radius: 8.0,
                             child: KakaoWidget()
                         ),
+                        SizedBox(height: screenHeight * 0.009,),
                         CustomElevatedButton(
                             onPressed: (){},
                             backgroundColor: Color(0xFF03C75A),
@@ -83,6 +91,7 @@ class LoginScreen extends ConsumerWidget {
                             radius: 8.0,
                             child: NaverWidget()
                         ),
+                        SizedBox(height: screenHeight * 0.009,),
                         if(Platform.isIOS)
                           CustomElevatedButton(
                               onPressed: (){},
@@ -104,6 +113,7 @@ class LoginScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator())
     );
   }
+
 
   Widget KakaoWidget() {
     return SizedBox(
