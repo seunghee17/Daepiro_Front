@@ -1,4 +1,5 @@
-import 'package:daepiro/presentation/onboarding/Onboarding1.dart';
+import 'package:daepiro/presentation/onboarding/onboarding_first_screen.dart';
+import 'package:daepiro/presentation/onboarding/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,7 +10,7 @@ import '../presentation/home/home_screen.dart';
 import '../presentation/information/information_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
-import '../presentation/onboarding/onboarding_screen.dart';
+import '../presentation/onboarding/onboarding_second_screen.dart';
 import '../presentation/splash/splash_screen.dart';
 import '../presentation/sponsor/sponsor_screen.dart';
 import 'main_navigation.dart';
@@ -56,11 +57,15 @@ final goRouteProvider = Provider((ref) {
       ),
       GoRoute(
         path: '/onboarding',
-        builder: (context, state) => const OnboardingScreen(),
+        builder: (context, state) => const OnboardingFirstScreen(),
         routes: [
           GoRoute(
-              path: 'onboarding1',
-            builder: (context, state) => const Onboarding1()
+              path: 'first',
+            builder: (context, state) => const OnboardingSecondScreen()
+          ),
+          GoRoute(
+              path: 'second',
+              builder: (context, state) => const OnboardingThirdScreen()
           ),
         ]
       ),

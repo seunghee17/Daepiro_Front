@@ -41,9 +41,11 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
-  Future<SocialLoginTokenResponse> getNaverTokenResponse({required TokenRequest tokenRequest}) {
-    // TODO: implement getNaverTokenResponse
-    throw UnimplementedError();
+  Future<SocialLoginTokenResponse> getNaverTokenResponse({required TokenRequest tokenRequest}) async{
+    final tokenResult = await _service.getNaverTokenResponse(tokenRequest: tokenRequest);
+    await storage.write(key: 'accessToken', value: tokenResult.accessToken);
+    await storage.write(key: 'refreshToken', value: tokenResult.refreshToken);
+    return tokenResult;
   }
 
 }

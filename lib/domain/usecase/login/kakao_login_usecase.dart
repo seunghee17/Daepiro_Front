@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../data/model/request/token_request.dart';
 import '../../../data/repositoryimpl/login_repository_impl.dart';
-part 'social_login_usecase.g.dart';
+part 'kakao_login_usecase.g.dart';
 
 @riverpod
 Future<SocialLoginTokenResponse> getKakaoTokenResponse(GetKakaoTokenResponseRef ref,

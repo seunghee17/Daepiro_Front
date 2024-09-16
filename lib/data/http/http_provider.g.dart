@@ -20,7 +20,7 @@ final httpProvider = AutoDisposeProvider<Dio>.internal(
 );
 
 typedef HttpRef = AutoDisposeProviderRef<Dio>;
-String _$httpInterceptorHash() => r'e8fe2f70a27a1d7f13e4b6088ee5f5efe325e84e';
+String _$httpInterceptorHash() => r'81853f7ab2e0f3711fda55529156028c4daf4543';
 
 /// Copied from Dart SDK
 class _SystemHash {
