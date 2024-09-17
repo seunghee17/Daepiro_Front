@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../presentation/widgets/DaepiroTheme.dart';
 
 
 class MainNavigation extends StatelessWidget {
@@ -43,38 +46,98 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: body,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.search_outlined),
-            selectedIcon: const Icon(Icons.search),
-            label: '홈',
+      bottomNavigationBar: Container (
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: DaepiroColorStyle.g_75, width: 2),
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.favorite_outline),
-            selectedIcon: const Icon(Icons.favorite),
-            label: '커뮤니티',
+        ),
+        child: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            height: MediaQuery.of(context).size.height * 0.081,
+            backgroundColor: DaepiroColorStyle.white,
+            indicatorColor: Colors.transparent,
+            labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
+                (Set<MaterialState> states) {
+                  if(states.contains(MaterialState.selected)) {
+                    return DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_600);
+                  }
+                  return DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_100);
+                },
+            ),
+            iconTheme: MaterialStateProperty.resolveWith<IconThemeData>(
+                (Set<MaterialState> states) {
+                  if(states.contains(MaterialState.selected)) {
+                    return IconThemeData(color: DaepiroColorStyle.g_600);
+                  }
+                  return IconThemeData(color: DaepiroColorStyle.g_100);
+                }
+            )
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.search_outlined),
-            selectedIcon: const Icon(Icons.search),
-            label: '정보',
+          child: NavigationBar(
+            selectedIndex: currentIndex,
+            destinations: [
+              NavigationDestination(
+                icon: SvgPicture.asset(
+                  'assets/icons/home.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                ),
+                selectedIcon: SvgPicture.asset(
+                  'assets/icons/home.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                ),
+                label: '홈',
+              ),
+              NavigationDestination(
+                icon: SvgPicture.asset(
+                'assets/icons/community.svg',
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+              ),
+                selectedIcon: SvgPicture.asset(
+                  'assets/icons/community.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                ),
+                label: '커뮤니티',
+              ),
+              NavigationDestination(
+                icon: SvgPicture.asset(
+                  'assets/icons/info.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                ),
+                selectedIcon:  SvgPicture.asset(
+                  'assets/icons/info.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                ),
+                label: '재난정보',
+              ),
+              NavigationDestination(
+                icon: SvgPicture.asset(
+                  'assets/icons/funding.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                ),
+                selectedIcon: SvgPicture.asset(
+                  'assets/icons/funding.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                ),
+                label: '후원',
+              ),
+              NavigationDestination(
+                icon:SvgPicture.asset(
+                  'assets/icons/mypage.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                ),
+                selectedIcon: SvgPicture.asset(
+                  'assets/icons/mypage.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                ),
+                label: '마이페이지',
+              ),
+            ],
+            onDestinationSelected: (index) {
+              if (index != currentIndex) onDestinationSelected(index);
+            },
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.search_outlined),
-            selectedIcon: const Icon(Icons.search),
-            label: '후원',
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.search_outlined),
-            selectedIcon: const Icon(Icons.search),
-            label: '마이페이지',
-          ),
-        ],
-        onDestinationSelected: (index) {
-          if (index != currentIndex) onDestinationSelected(index);
-        },
+        ),
       ),
     );
   }

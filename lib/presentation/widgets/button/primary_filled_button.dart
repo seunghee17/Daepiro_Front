@@ -24,7 +24,6 @@ class PrimaryFilledButton extends StatefulWidget {
 }
 
   class _PrimaryFilledButton extends State<PrimaryFilledButton> {
-    //bool isPressed = false;
     bool isEnabled = true;
     @override
     Widget build(BuildContext context) {
