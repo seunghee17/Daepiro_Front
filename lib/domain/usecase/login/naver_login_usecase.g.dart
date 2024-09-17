@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'social_login_usecase.dart';
+part of 'naver_login_usecase.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getKakaoTokenResponseHash() =>
-    r'ad57054726d17a1986d1f80e2081f92195fa1beb';
+String _$getNaverTokenResponseHash() =>
+    r'a4759640e79e4ee33a615ba9495c8aefa4cb1f9e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,28 +30,28 @@ class _SystemHash {
   }
 }
 
-/// See also [getKakaoTokenResponse].
-@ProviderFor(getKakaoTokenResponse)
-const getKakaoTokenResponseProvider = GetKakaoTokenResponseFamily();
+/// See also [getNaverTokenResponse].
+@ProviderFor(getNaverTokenResponse)
+const getNaverTokenResponseProvider = GetNaverTokenResponseFamily();
 
-/// See also [getKakaoTokenResponse].
-class GetKakaoTokenResponseFamily
+/// See also [getNaverTokenResponse].
+class GetNaverTokenResponseFamily
     extends Family<AsyncValue<SocialLoginTokenResponse>> {
-  /// See also [getKakaoTokenResponse].
-  const GetKakaoTokenResponseFamily();
+  /// See also [getNaverTokenResponse].
+  const GetNaverTokenResponseFamily();
 
-  /// See also [getKakaoTokenResponse].
-  GetKakaoTokenResponseProvider call({
+  /// See also [getNaverTokenResponse].
+  GetNaverTokenResponseProvider call({
     required TokenRequest tokenRequest,
   }) {
-    return GetKakaoTokenResponseProvider(
+    return GetNaverTokenResponseProvider(
       tokenRequest: tokenRequest,
     );
   }
 
   @override
-  GetKakaoTokenResponseProvider getProviderOverride(
-    covariant GetKakaoTokenResponseProvider provider,
+  GetNaverTokenResponseProvider getProviderOverride(
+    covariant GetNaverTokenResponseProvider provider,
   ) {
     return call(
       tokenRequest: provider.tokenRequest,
@@ -70,33 +70,33 @@ class GetKakaoTokenResponseFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'getKakaoTokenResponseProvider';
+  String? get name => r'getNaverTokenResponseProvider';
 }
 
-/// See also [getKakaoTokenResponse].
-class GetKakaoTokenResponseProvider
+/// See also [getNaverTokenResponse].
+class GetNaverTokenResponseProvider
     extends AutoDisposeFutureProvider<SocialLoginTokenResponse> {
-  /// See also [getKakaoTokenResponse].
-  GetKakaoTokenResponseProvider({
+  /// See also [getNaverTokenResponse].
+  GetNaverTokenResponseProvider({
     required TokenRequest tokenRequest,
   }) : this._internal(
-          (ref) => getKakaoTokenResponse(
-            ref as GetKakaoTokenResponseRef,
+          (ref) => getNaverTokenResponse(
+            ref as GetNaverTokenResponseRef,
             tokenRequest: tokenRequest,
           ),
-          from: getKakaoTokenResponseProvider,
-          name: r'getKakaoTokenResponseProvider',
+          from: getNaverTokenResponseProvider,
+          name: r'getNaverTokenResponseProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getKakaoTokenResponseHash,
-          dependencies: GetKakaoTokenResponseFamily._dependencies,
+                  : _$getNaverTokenResponseHash,
+          dependencies: GetNaverTokenResponseFamily._dependencies,
           allTransitiveDependencies:
-              GetKakaoTokenResponseFamily._allTransitiveDependencies,
+              GetNaverTokenResponseFamily._allTransitiveDependencies,
           tokenRequest: tokenRequest,
         );
 
-  GetKakaoTokenResponseProvider._internal(
+  GetNaverTokenResponseProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -111,13 +111,13 @@ class GetKakaoTokenResponseProvider
   @override
   Override overrideWith(
     FutureOr<SocialLoginTokenResponse> Function(
-            GetKakaoTokenResponseRef provider)
+            GetNaverTokenResponseRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GetKakaoTokenResponseProvider._internal(
-        (ref) => create(ref as GetKakaoTokenResponseRef),
+      override: GetNaverTokenResponseProvider._internal(
+        (ref) => create(ref as GetNaverTokenResponseRef),
         from: from,
         name: null,
         dependencies: null,
@@ -130,12 +130,12 @@ class GetKakaoTokenResponseProvider
 
   @override
   AutoDisposeFutureProviderElement<SocialLoginTokenResponse> createElement() {
-    return _GetKakaoTokenResponseProviderElement(this);
+    return _GetNaverTokenResponseProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetKakaoTokenResponseProvider &&
+    return other is GetNaverTokenResponseProvider &&
         other.tokenRequest == tokenRequest;
   }
 
@@ -148,20 +148,20 @@ class GetKakaoTokenResponseProvider
   }
 }
 
-mixin GetKakaoTokenResponseRef
+mixin GetNaverTokenResponseRef
     on AutoDisposeFutureProviderRef<SocialLoginTokenResponse> {
   /// The parameter `tokenRequest` of this provider.
   TokenRequest get tokenRequest;
 }
 
-class _GetKakaoTokenResponseProviderElement
+class _GetNaverTokenResponseProviderElement
     extends AutoDisposeFutureProviderElement<SocialLoginTokenResponse>
-    with GetKakaoTokenResponseRef {
-  _GetKakaoTokenResponseProviderElement(super.provider);
+    with GetNaverTokenResponseRef {
+  _GetNaverTokenResponseProviderElement(super.provider);
 
   @override
   TokenRequest get tokenRequest =>
-      (origin as GetKakaoTokenResponseProvider).tokenRequest;
+      (origin as GetNaverTokenResponseProvider).tokenRequest;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

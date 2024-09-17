@@ -25,7 +25,7 @@ class MyApp extends ConsumerWidget {
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: DaepiroColorStyle.white
+        scaffoldBackgroundColor: DaepiroColorStyle.white,
       ),
     );
 

@@ -1,8 +1,9 @@
+import 'package:daepiro/domain/usecase/login/naver_login_usecase.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/model/request/token_request.dart';
-import '../../domain/usecase/login/social_login_usecase.dart';
+import '../../domain/usecase/login/kakao_login_usecase.dart';
 import '../../domain/usecase/login/token_result_usecase.dart';
 import 'login_state.dart';
 
@@ -50,6 +51,19 @@ class LoginController extends _$LoginController {
       if(!value.isLoading) {
         state = AsyncValue.data(value.copyWith(isLoading: true));
         final result = await ref.read(GetKakaoTokenResponseProvider(tokenRequest: TokenRequest(token: token)).future);
+        storage.write(key: 'accessToken', value: result.accessToken);
+        storage.write(key: 'refreshToken', value: result.refreshToken);
+        state = AsyncValue.data(value.copyWith(isLoading: false, isOnboarding: result.isOnboarding, accessToken: result.accessToken ?? '', refreshToken: result.refreshToken ?? ''));
+      }
+    }
+  }
+
+  Future<void> getNaverToken(String token) async {
+    final value = state.valueOrNull;
+    if(value != null) {
+      if(!value.isLoading) {
+        state = AsyncValue.data(value.copyWith(isLoading: true));
+        final result = await ref.read(GetNaverTokenResponseProvider(tokenRequest: TokenRequest(token: token)).future);
         storage.write(key: 'accessToken', value: result.accessToken);
         storage.write(key: 'refreshToken', value: result.refreshToken);
         state = AsyncValue.data(value.copyWith(isLoading: false, isOnboarding: result.isOnboarding, accessToken: result.accessToken ?? '', refreshToken: result.refreshToken ?? ''));

@@ -54,37 +54,34 @@ class DaepiroTextStyle {
   static final TextStyle h1 = TextStyle(
     fontSize: 96,
     fontWeight: FontWeight.w400,
-    height: 115 % 96,
+    height: 1.19,
     letterSpacing: -1.5
   );
   static final h2 = TextStyle(
       fontSize: 60,
       fontWeight: FontWeight.w400,
-      height: 72 % 60,
+      height: 1.2,
       letterSpacing: -0.5
   );
   static final h3 = TextStyle(
       fontSize: 48,
       fontWeight: FontWeight.w500,
-      height: 58 % 48,
-      letterSpacing: 0
+      height: 1.208,
   );
   static final h4 = TextStyle(
       fontSize: 34,
       fontWeight: FontWeight.w600,
-      height: 42 % 34,
-      letterSpacing: 0
+      height: 1.235
   );
   static final h5 = TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w700,
-      height: 32 % 24,
-      letterSpacing: 0
+      height: 1.333
   );
   static final h6 = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
-      height: 28 % 20,
+      height: 1.4,
       letterSpacing: 0.1
   );
   static final body_1_b = TextStyle(
@@ -102,25 +99,23 @@ class DaepiroTextStyle {
   static final body_2_b = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w700,
-      height: 22 % 14,
+      height: 1.571,
       letterSpacing: -0.25
   );
   static final body_2_m = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
-      height: 22 % 14,
-      letterSpacing: -0.25
+      letterSpacing: -0.25,
+      height: 1.571
   );
   static final caption = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w500,
-      height: 16 % 12,
-      letterSpacing: 0
+      height: 1.333
   );
   static final overline = TextStyle(
       fontSize: 10,
       fontWeight: FontWeight.w500,
-      height: 12 % 10,
-      letterSpacing: 0
+      height: 1.2
   );
 }

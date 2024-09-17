@@ -1,10 +1,7 @@
 import 'dart:io';
-
-import 'package:daepiro/presentation/home/home_screen.dart';
 import 'package:daepiro/presentation/login/login_state.dart';
-import 'package:daepiro/presentation/onboarding/onboarding_screen.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
-import 'package:daepiro/presentation/widgets/button/CustomElevatedButton.dart';
+import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'login_controller.dart';
 
 
@@ -27,11 +25,9 @@ class LoginScreen extends ConsumerWidget {
       next.whenData((state) {
         if(state.refreshToken != '' && state.refreshToken != '') {
           if(state.isOnboarding) {
-            print('온보딩화면으로');
-            GoRouter.of(context).replace('/home');
+            GoRouter.of(context).go('/home');
           } else {
-            print('홈화면으로');
-            GoRouter.of(context).replace('/onboarding');
+            GoRouter.of(context).push('/onboarding');
           }
         }
       });
@@ -73,32 +69,35 @@ class LoginScreen extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        CustomElevatedButton(
+                        PrimaryFilledButton(
                             onPressed: () async {
-                              String token = await kakaoLogin();
+                              String token = await _kakaoLogin();
                               await ref.read(loginControllerProvider.notifier).getKakaoToken(token);
                             },
                             backgroundColor: Color(0xFFFAE300),
                             pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
-                            radius: 8.0,
-                            child: KakaoWidget()
+                            child: KakaoWidget(),
+                          verticalPadding: 16,
                         ),
                         SizedBox(height: screenHeight * 0.009,),
-                        CustomElevatedButton(
-                            onPressed: (){},
+                        PrimaryFilledButton(
+                            onPressed: () async {
+                              String token = await _naverLogin();
+                              await ref.read(loginControllerProvider.notifier).getNaverToken(token);
+                            },
                             backgroundColor: Color(0xFF03C75A),
                             pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
-                            radius: 8.0,
-                            child: NaverWidget()
+                            child: NaverWidget(),
+                          verticalPadding: 16,
                         ),
                         SizedBox(height: screenHeight * 0.009,),
                         if(Platform.isIOS)
-                          CustomElevatedButton(
+                          PrimaryFilledButton(
                               onPressed: (){},
                               backgroundColor: DaepiroColorStyle.black,
                               pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
-                              radius: 8.0,
-                              child: AppleWidget()
+                              child: AppleWidget(),
+                            verticalPadding: 16,
                           ),
                       ],
                     ),
@@ -118,64 +117,55 @@ class LoginScreen extends ConsumerWidget {
   Widget KakaoWidget() {
     return SizedBox(
       width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset('assets/icons/kakao_icon.svg', color: DaepiroColorStyle.black,),
-            SizedBox(width: 8),
-            Text(
-              'Kakao로 로그인',
-              style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.black),
-            )
-          ],
-        ),
-      )
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset('assets/icons/kakao_icon.svg', color: DaepiroColorStyle.black,),
+          SizedBox(width: 8),
+          Text(
+            'Kakao로 로그인',
+            style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.black),
+          )
+        ],
+      ),
     );
   }
 
   Widget NaverWidget() {
     return SizedBox(
         width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/icons/naver_icon.svg'),
-              SizedBox(width: 8),
-              Text(
-                'Naver로 로그인',
-                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.white),
-              )
-            ],
-          ),
-        )
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icons/naver_icon.svg'),
+            SizedBox(width: 8),
+            Text(
+              'Naver로 로그인',
+              style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.white),
+            )
+          ],
+        ),
     );
   }
 
   Widget AppleWidget() {
     return SizedBox(
         width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/icons/apple_logo.svg', color: DaepiroColorStyle.white,),
-              SizedBox(width: 8),
-              Text(
-                'Apple로 로그인',
-                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.white),
-              )
-            ],
-          ),
-        )
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icons/apple_logo.svg', color: DaepiroColorStyle.white,),
+            SizedBox(width: 8),
+            Text(
+              'Apple로 로그인',
+              style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.white),
+            )
+          ],
+        ),
     );
   }
 
-  Future<String> kakaoLogin() async {
+  Future<String> _kakaoLogin() async {
     if(await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
@@ -202,6 +192,16 @@ class LoginScreen extends ConsumerWidget {
       } catch(error) {
         print('카카오계정으로 로그인 실패: $error');
       }
+    }
+    return '';
+  }
+
+  Future<String> _naverLogin() async {
+    try {
+      final NaverLoginResult res = await FlutterNaverLogin.logIn();
+      return res.accessToken.toString();
+    } catch(error) {
+      print('네이버 로그인 에러: ${error}');
     }
     return '';
   }
