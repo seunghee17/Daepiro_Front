@@ -54,7 +54,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
         ),
         child: NavigationBarTheme(
           data: NavigationBarThemeData(
-            height: MediaQuery.of(context).size.height * 0.081,
+            height: MediaQuery.of(context).size.height * 0.099,
             backgroundColor: DaepiroColorStyle.white,
             indicatorColor: Colors.transparent,
             labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
@@ -72,7 +72,8 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                   }
                   return IconThemeData(color: DaepiroColorStyle.g_100);
                 }
-            )
+            ),
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
           child: NavigationBar(
             selectedIndex: currentIndex,
