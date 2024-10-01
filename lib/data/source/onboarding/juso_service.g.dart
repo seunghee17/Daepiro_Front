@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_service.dart';
+part of 'juso_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,14 @@ part of 'login_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _LoginService implements LoginService {
-  _LoginService(
+class _JusoService implements JusoService {
+  _JusoService(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  });
+  }) {
+    baseUrl ??= 'https://business.juso.go.kr/addrlink/';
+  }
 
   final Dio _dio;
 
@@ -22,58 +24,33 @@ class _LoginService implements LoginService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<RefreshTokenResponse> getTokenResponse(
-      {required RefreshTokenRequest tokenRequest}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(tokenRequest.toJson());
-    final _options = _setStreamType<RefreshTokenResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/v1/auth/refresh',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late RefreshTokenResponse _value;
-    try {
-      _value = RefreshTokenResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<SocialLoginTokenResponse> getSocialLogin({
-    required String platform,
-    required SocialLoginRequest socialLoginRequest,
+  Future<JusoListResponse> getJusoList({
+    int currentPage = 1,
+    int countPerPage = 10,
+    required String keyword,
+    String confmKey = "U01TX0FVVEgyMDI0MDkyMjE1NTk1MTExNTA5OTA=",
+    String hstryYn = "Y",
+    String resultType = "json",
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'currentPage': currentPage,
+      r'countPerPage': countPerPage,
+      r'keyword': keyword,
+      r'confmKey': confmKey,
+      r'hstryYn': hstryYn,
+      r'resultType': resultType,
+    };
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(socialLoginRequest.toJson());
-    final _options = _setStreamType<SocialLoginTokenResponse>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<JusoListResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/v1/auth/login/${platform}',
+          'addrLinkApi.do',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -83,9 +60,9 @@ class _LoginService implements LoginService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SocialLoginTokenResponse _value;
+    late JusoListResponse _value;
     try {
-      _value = SocialLoginTokenResponse.fromJson(_result.data!);
+      _value = JusoListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

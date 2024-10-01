@@ -9,6 +9,6 @@ sealed class LoginState with _$LoginState {
     @Default(false) bool isLoading,
     @Default('') String accessToken,
     @Default('') String refreshToken,
-    @Default(false) bool isOnboarding,
+    @Default(false) bool isCompletedOnboarding,
   }) = _LoginState;
 }

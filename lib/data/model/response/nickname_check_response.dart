@@ -1,14 +1,14 @@
-class SocialLoginTokenResponse {
+class NicknameCheckResponse {
   int? code;
   String? message;
   Data? data;
   String? path;
   String? timestamp;
 
-  SocialLoginTokenResponse(
+  NicknameCheckResponse(
       {this.code, this.message, this.data, this.path, this.timestamp});
 
-  SocialLoginTokenResponse.fromJson(Map<String, dynamic> json) {
+  NicknameCheckResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -30,23 +30,17 @@ class SocialLoginTokenResponse {
 }
 
 class Data {
-  String? accessToken;
-  String? refreshToken;
-  bool? isCompletedOnboarding;
+  bool? isAvailable;
 
-  Data({this.accessToken, this.refreshToken, this.isCompletedOnboarding});
+  Data({this.isAvailable});
 
   Data.fromJson(Map<String, dynamic> json) {
-    accessToken = json['accessToken'];
-    refreshToken = json['refreshToken'];
-    isCompletedOnboarding = json['isCompletedOnboarding'];
+    isAvailable = json['isAvailable'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['accessToken'] = this.accessToken;
-    data['refreshToken'] = this.refreshToken;
-    data['isCompletedOnboarding'] = this.isCompletedOnboarding;
+    data['isAvailable'] = this.isAvailable;
     return data;
   }
 }

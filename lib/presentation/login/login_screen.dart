@@ -8,8 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'login_controller.dart';
 
 
@@ -24,7 +22,7 @@ class LoginScreen extends ConsumerWidget {
     ref.listen<AsyncValue<LoginState>>(loginControllerProvider, (previous, next) {
       next.whenData((state) {
         if(state.refreshToken != '' && state.refreshToken != '') {
-          if(state.isOnboarding) {
+          if(state.isCompletedOnboarding) {
             GoRouter.of(context).go('/home');
           } else {
             GoRouter.of(context).push('/onboarding');
@@ -71,8 +69,8 @@ class LoginScreen extends ConsumerWidget {
                       children: [
                         PrimaryFilledButton(
                             onPressed: () async {
-                              String token = await _kakaoLogin();
-                              await ref.read(loginControllerProvider.notifier).getKakaoToken(token);
+                              String token = await ref.read(loginControllerProvider.notifier).kakaoLogin();
+                              await ref.read(loginControllerProvider.notifier).getSocialToken('kakao',token);
                             },
                             backgroundColor: Color(0xFFFAE300),
                             pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
@@ -82,8 +80,8 @@ class LoginScreen extends ConsumerWidget {
                         SizedBox(height: screenHeight * 0.009,),
                         PrimaryFilledButton(
                             onPressed: () async {
-                              String token = await _naverLogin();
-                              await ref.read(loginControllerProvider.notifier).getNaverToken(token);
+                              String token = await ref.read(loginControllerProvider.notifier).naverLogin();
+                              await ref.read(loginControllerProvider.notifier).getSocialToken('naver',token);
                             },
                             backgroundColor: Color(0xFF03C75A),
                             pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
@@ -163,46 +161,5 @@ class LoginScreen extends ConsumerWidget {
           ],
         ),
     );
-  }
-
-  Future<String> _kakaoLogin() async {
-    if(await isKakaoTalkInstalled()) {
-      try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
-        print('카카오톡으로 로그인 성공');
-        return token.accessToken;
-      } catch(error) {
-        print('카카오톡으로 로그인 실패: $error');
-        if(error is PlatformException && error.code == 'CANCELED') {
-          return '';
-        }
-        try {
-          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-          print('카카오 계정으로 로그인 성공');
-          return token.accessToken;
-        } catch(error) {
-          print('카카오계정으로 로그인 실패: $error');
-        }
-      }
-    } else {
-      try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        print('카카오 계정으로 로그인 성공');
-        return token.accessToken;
-      } catch(error) {
-        print('카카오계정으로 로그인 실패: $error');
-      }
-    }
-    return '';
-  }
-
-  Future<String> _naverLogin() async {
-    try {
-      final NaverLoginResult res = await FlutterNaverLogin.logIn();
-      return res.accessToken.toString();
-    } catch(error) {
-      print('네이버 로그인 에러: ${error}');
-    }
-    return '';
   }
 }

@@ -7,7 +7,7 @@ part of 'onboarding_controller.dart';
 // **************************************************************************
 
 String _$onboardingControllerHash() =>
-    r'9e065d67bb6dfda84ebeb7519aea01fb0db5e99f';
+    r'39d0fb6c3f3a0c77c6f397fc44ef5f37f71c2b83';
 
 /// See also [OnboardingController].
 @ProviderFor(OnboardingController)

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_service.dart';
+part of 'onboarding_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'login_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _LoginService implements LoginService {
-  _LoginService(
+class _OnboardingService implements OnboardingService {
+  _OnboardingService(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
@@ -22,21 +22,20 @@ class _LoginService implements LoginService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<RefreshTokenResponse> getTokenResponse(
-      {required RefreshTokenRequest tokenRequest}) async {
+  Future<NicknameCheckResponse> checkNickName(
+      {required String nickname}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(tokenRequest.toJson());
-    final _options = _setStreamType<RefreshTokenResponse>(Options(
-      method: 'POST',
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<NicknameCheckResponse>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/v1/auth/refresh',
+          '/v1/users/nickname/${nickname}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -46,46 +45,9 @@ class _LoginService implements LoginService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late RefreshTokenResponse _value;
+    late NicknameCheckResponse _value;
     try {
-      _value = RefreshTokenResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<SocialLoginTokenResponse> getSocialLogin({
-    required String platform,
-    required SocialLoginRequest socialLoginRequest,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(socialLoginRequest.toJson());
-    final _options = _setStreamType<SocialLoginTokenResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/v1/auth/login/${platform}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SocialLoginTokenResponse _value;
-    try {
-      _value = SocialLoginTokenResponse.fromJson(_result.data!);
+      _value = NicknameCheckResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

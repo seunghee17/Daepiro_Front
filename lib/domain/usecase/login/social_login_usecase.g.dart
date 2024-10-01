@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'naver_login_usecase.dart';
+part of 'social_login_usecase.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getNaverTokenResponseHash() =>
-    r'a4759640e79e4ee33a615ba9495c8aefa4cb1f9e';
+String _$getSocialTokenResponseHash() =>
+    r'ba37a88c3772a11a6420d2e3c1e50c9c243c5c6b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,30 +30,33 @@ class _SystemHash {
   }
 }
 
-/// See also [getNaverTokenResponse].
-@ProviderFor(getNaverTokenResponse)
-const getNaverTokenResponseProvider = GetNaverTokenResponseFamily();
+/// See also [getSocialTokenResponse].
+@ProviderFor(getSocialTokenResponse)
+const getSocialTokenResponseProvider = GetSocialTokenResponseFamily();
 
-/// See also [getNaverTokenResponse].
-class GetNaverTokenResponseFamily
+/// See also [getSocialTokenResponse].
+class GetSocialTokenResponseFamily
     extends Family<AsyncValue<SocialLoginTokenResponse>> {
-  /// See also [getNaverTokenResponse].
-  const GetNaverTokenResponseFamily();
+  /// See also [getSocialTokenResponse].
+  const GetSocialTokenResponseFamily();
 
-  /// See also [getNaverTokenResponse].
-  GetNaverTokenResponseProvider call({
-    required TokenRequest tokenRequest,
+  /// See also [getSocialTokenResponse].
+  GetSocialTokenResponseProvider call({
+    required String platform,
+    required SocialLoginRequest tokenRequest,
   }) {
-    return GetNaverTokenResponseProvider(
+    return GetSocialTokenResponseProvider(
+      platform: platform,
       tokenRequest: tokenRequest,
     );
   }
 
   @override
-  GetNaverTokenResponseProvider getProviderOverride(
-    covariant GetNaverTokenResponseProvider provider,
+  GetSocialTokenResponseProvider getProviderOverride(
+    covariant GetSocialTokenResponseProvider provider,
   ) {
     return call(
+      platform: provider.platform,
       tokenRequest: provider.tokenRequest,
     );
   }
@@ -70,59 +73,65 @@ class GetNaverTokenResponseFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'getNaverTokenResponseProvider';
+  String? get name => r'getSocialTokenResponseProvider';
 }
 
-/// See also [getNaverTokenResponse].
-class GetNaverTokenResponseProvider
+/// See also [getSocialTokenResponse].
+class GetSocialTokenResponseProvider
     extends AutoDisposeFutureProvider<SocialLoginTokenResponse> {
-  /// See also [getNaverTokenResponse].
-  GetNaverTokenResponseProvider({
-    required TokenRequest tokenRequest,
+  /// See also [getSocialTokenResponse].
+  GetSocialTokenResponseProvider({
+    required String platform,
+    required SocialLoginRequest tokenRequest,
   }) : this._internal(
-          (ref) => getNaverTokenResponse(
-            ref as GetNaverTokenResponseRef,
+          (ref) => getSocialTokenResponse(
+            ref as GetSocialTokenResponseRef,
+            platform: platform,
             tokenRequest: tokenRequest,
           ),
-          from: getNaverTokenResponseProvider,
-          name: r'getNaverTokenResponseProvider',
+          from: getSocialTokenResponseProvider,
+          name: r'getSocialTokenResponseProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getNaverTokenResponseHash,
-          dependencies: GetNaverTokenResponseFamily._dependencies,
+                  : _$getSocialTokenResponseHash,
+          dependencies: GetSocialTokenResponseFamily._dependencies,
           allTransitiveDependencies:
-              GetNaverTokenResponseFamily._allTransitiveDependencies,
+              GetSocialTokenResponseFamily._allTransitiveDependencies,
+          platform: platform,
           tokenRequest: tokenRequest,
         );
 
-  GetNaverTokenResponseProvider._internal(
+  GetSocialTokenResponseProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
+    required this.platform,
     required this.tokenRequest,
   }) : super.internal();
 
-  final TokenRequest tokenRequest;
+  final String platform;
+  final SocialLoginRequest tokenRequest;
 
   @override
   Override overrideWith(
     FutureOr<SocialLoginTokenResponse> Function(
-            GetNaverTokenResponseRef provider)
+            GetSocialTokenResponseRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GetNaverTokenResponseProvider._internal(
-        (ref) => create(ref as GetNaverTokenResponseRef),
+      override: GetSocialTokenResponseProvider._internal(
+        (ref) => create(ref as GetSocialTokenResponseRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
+        platform: platform,
         tokenRequest: tokenRequest,
       ),
     );
@@ -130,38 +139,45 @@ class GetNaverTokenResponseProvider
 
   @override
   AutoDisposeFutureProviderElement<SocialLoginTokenResponse> createElement() {
-    return _GetNaverTokenResponseProviderElement(this);
+    return _GetSocialTokenResponseProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetNaverTokenResponseProvider &&
+    return other is GetSocialTokenResponseProvider &&
+        other.platform == platform &&
         other.tokenRequest == tokenRequest;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, platform.hashCode);
     hash = _SystemHash.combine(hash, tokenRequest.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GetNaverTokenResponseRef
+mixin GetSocialTokenResponseRef
     on AutoDisposeFutureProviderRef<SocialLoginTokenResponse> {
+  /// The parameter `platform` of this provider.
+  String get platform;
+
   /// The parameter `tokenRequest` of this provider.
-  TokenRequest get tokenRequest;
+  SocialLoginRequest get tokenRequest;
 }
 
-class _GetNaverTokenResponseProviderElement
+class _GetSocialTokenResponseProviderElement
     extends AutoDisposeFutureProviderElement<SocialLoginTokenResponse>
-    with GetNaverTokenResponseRef {
-  _GetNaverTokenResponseProviderElement(super.provider);
+    with GetSocialTokenResponseRef {
+  _GetSocialTokenResponseProviderElement(super.provider);
 
   @override
-  TokenRequest get tokenRequest =>
-      (origin as GetNaverTokenResponseProvider).tokenRequest;
+  String get platform => (origin as GetSocialTokenResponseProvider).platform;
+  @override
+  SocialLoginRequest get tokenRequest =>
+      (origin as GetSocialTokenResponseProvider).tokenRequest;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
