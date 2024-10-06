@@ -8,6 +8,6 @@ part 'check_nickname_usecase.g.dart';
 @riverpod
 Future<NicknameCheckResponse> checkNickName(CheckNickNameRef ref,
   {required String nickName}) async {
-  final repository = ref.watch(onboardingRepositoryProvider);
+  final repository = await ref.watch(onboardingRepositoryProvider);
   return await repository.checkNickName(nickname: nickName);
 }

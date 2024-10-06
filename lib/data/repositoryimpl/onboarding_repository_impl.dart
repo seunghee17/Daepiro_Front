@@ -1,4 +1,6 @@
 import 'package:daepiro/data/http/http_provider.dart';
+import 'package:daepiro/data/model/request/onboarding_info_request.dart';
+import 'package:daepiro/data/model/response/onboarding_info_response.dart';
 import 'package:daepiro/data/source/onboarding/onboarding_service.dart';
 import 'package:daepiro/domain/repository/onboarding_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,6 +18,17 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     return isNotSame;
   }
 
+  @override
+  Future<OnboardingInfoResponse> sendOnboardingInfoData({required OnboardingInfoRequest onboardingInfoRequest}) async {
+    try {
+      final OnboardingSendresult = await _service.sendOnboardingInfo(onboardingInfoRequest: onboardingInfoRequest);
+      return OnboardingSendresult;
+    } catch(e) {
+      rethrow;
+    }
+  }
+
+
 }
 
 @riverpod
@@ -23,3 +36,4 @@ OnboardingRepository onboardingRepository(OnboardingRepositoryRef ref) {
   final http = ref.watch(httpProvider);
   return OnboardingRepositoryImpl(service: OnboardingService(http));
 }
+
