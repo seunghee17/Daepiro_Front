@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/onboarding/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/onboarding_first_screen.dart';
 import 'package:daepiro/presentation/onboarding/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,9 @@ import '../presentation/home/home_screen.dart';
 import '../presentation/information/information_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
+import '../presentation/onboarding/onboarding_fifth_screen.dart';
+import '../presentation/onboarding/onboarding_final_screen.dart';
+import '../presentation/onboarding/onboarding_fourth_screen.dart';
 import '../presentation/onboarding/onboarding_second_screen.dart';
 import '../presentation/splash/splash_screen.dart';
 import '../presentation/sponsor/sponsor_screen.dart';
@@ -53,7 +57,7 @@ final goRouteProvider = Provider((ref) {
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) => LoginScreen(),
       ),
       GoRoute(
         path: '/onboarding',
@@ -66,6 +70,25 @@ final goRouteProvider = Provider((ref) {
           GoRoute(
               path: 'second',
               builder: (context, state) => const OnboardingThirdScreen()
+          ),
+          GoRoute(
+              path: 'juso/:type',
+              builder: (context, state) {
+                final type = state.pathParameters['type'];
+                return JusoInputScreen(type: type);
+              }
+          ),
+          GoRoute(
+              path: 'third',
+              builder: (context, state) => OnboardingFourthScreen()
+          ),
+          GoRoute(
+              path: 'fourth',
+              builder: (context, state) => OnboardingFifthScreen()
+          ),
+          GoRoute(
+              path: 'final',
+              builder: (context, state) => OnboardingFinalScreen()
           ),
         ]
       ),

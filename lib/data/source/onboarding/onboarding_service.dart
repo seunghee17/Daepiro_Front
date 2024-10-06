@@ -13,4 +13,5 @@ abstract class OnboardingService {
   Future<NicknameCheckResponse> checkNickName({
     @Path('nickname') required String nickname,
   });
+
 }

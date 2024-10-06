@@ -1,4 +1,3 @@
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,12 +5,22 @@ class SecondaryFilledButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final double radius;
   final Widget child;
+  final double? verticalPadding;
+  final double? horizontalPadding;
+  final Color backgroundColor;
+  final Color overlayColor;
+  final Color? disableColor;
 
   const SecondaryFilledButton({
     Key? key,
     required this.onPressed,
     required this.radius,
     required this.child,
+    this.verticalPadding,
+    this.horizontalPadding,
+    required this.backgroundColor,
+    required this.overlayColor,
+    this.disableColor
   }) : super(key: key);
 
   @override
@@ -22,20 +31,22 @@ class _SecondaryFilledButton extends State<SecondaryFilledButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        overlayColor: DaepiroColorStyle.g_400,
-        backgroundColor: DaepiroColorStyle.g_600,
-        disabledBackgroundColor: DaepiroColorStyle.g_200,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.radius)
+    return IntrinsicWidth(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          overlayColor: widget.overlayColor,
+          backgroundColor: widget.backgroundColor,
+          disabledBackgroundColor: widget.disableColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(widget.radius)
+          ),
+          elevation: 0.0,
+          shadowColor: Colors.transparent,
+          padding: EdgeInsets.symmetric(vertical: widget.verticalPadding ?? 0, horizontal: widget.horizontalPadding ?? 0)
         ),
-        elevation: 0.0,
-        shadowColor: Colors.transparent,
-        padding: EdgeInsets.symmetric(vertical: 4)
+          onPressed: widget.onPressed,
+          child: widget.child
       ),
-        onPressed: widget.onPressed,
-        child: widget.child
     );
   }
 

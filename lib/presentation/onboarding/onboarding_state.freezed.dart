@@ -16,9 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$OnboardingState {
+  bool get isError => throw _privateConstructorUsedError;
   String get nameState => throw _privateConstructorUsedError;
   String get nicknameState => throw _privateConstructorUsedError;
-  List<Juso> get jusoListState => throw _privateConstructorUsedError;
+  Set<String> get jusoListState => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
+  List<String> get inputJusoList => throw _privateConstructorUsedError;
+  List<String> get inputJusoName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OnboardingStateCopyWith<OnboardingState> get copyWith =>
@@ -31,7 +35,14 @@ abstract class $OnboardingStateCopyWith<$Res> {
           OnboardingState value, $Res Function(OnboardingState) then) =
       _$OnboardingStateCopyWithImpl<$Res, OnboardingState>;
   @useResult
-  $Res call({String nameState, String nicknameState, List<Juso> jusoListState});
+  $Res call(
+      {bool isError,
+      String nameState,
+      String nicknameState,
+      Set<String> jusoListState,
+      String userName,
+      List<String> inputJusoList,
+      List<String> inputJusoName});
 }
 
 /// @nodoc
@@ -47,11 +58,19 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isError = null,
     Object? nameState = null,
     Object? nicknameState = null,
     Object? jusoListState = null,
+    Object? userName = null,
+    Object? inputJusoList = null,
+    Object? inputJusoName = null,
   }) {
     return _then(_value.copyWith(
+      isError: null == isError
+          ? _value.isError
+          : isError // ignore: cast_nullable_to_non_nullable
+              as bool,
       nameState: null == nameState
           ? _value.nameState
           : nameState // ignore: cast_nullable_to_non_nullable
@@ -63,7 +82,19 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
       jusoListState: null == jusoListState
           ? _value.jusoListState
           : jusoListState // ignore: cast_nullable_to_non_nullable
-              as List<Juso>,
+              as Set<String>,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      inputJusoList: null == inputJusoList
+          ? _value.inputJusoList
+          : inputJusoList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      inputJusoName: null == inputJusoName
+          ? _value.inputJusoName
+          : inputJusoName // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -76,7 +107,14 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       __$$OnboardingStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String nameState, String nicknameState, List<Juso> jusoListState});
+  $Res call(
+      {bool isError,
+      String nameState,
+      String nicknameState,
+      Set<String> jusoListState,
+      String userName,
+      List<String> inputJusoList,
+      List<String> inputJusoName});
 }
 
 /// @nodoc
@@ -90,11 +128,19 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isError = null,
     Object? nameState = null,
     Object? nicknameState = null,
     Object? jusoListState = null,
+    Object? userName = null,
+    Object? inputJusoList = null,
+    Object? inputJusoName = null,
   }) {
     return _then(_$OnboardingStateImpl(
+      isError: null == isError
+          ? _value.isError
+          : isError // ignore: cast_nullable_to_non_nullable
+              as bool,
       nameState: null == nameState
           ? _value.nameState
           : nameState // ignore: cast_nullable_to_non_nullable
@@ -106,7 +152,19 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
       jusoListState: null == jusoListState
           ? _value._jusoListState
           : jusoListState // ignore: cast_nullable_to_non_nullable
-              as List<Juso>,
+              as Set<String>,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      inputJusoList: null == inputJusoList
+          ? _value._inputJusoList
+          : inputJusoList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      inputJusoName: null == inputJusoName
+          ? _value._inputJusoName
+          : inputJusoName // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -115,29 +173,59 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
 
 class _$OnboardingStateImpl implements _OnboardingState {
   _$OnboardingStateImpl(
-      {this.nameState = 'NONE',
+      {this.isError = false,
+      this.nameState = 'NONE',
       this.nicknameState = 'NONE',
-      final List<Juso> jusoListState = const []})
-      : _jusoListState = jusoListState;
+      final Set<String> jusoListState = const <String>{},
+      this.userName = '',
+      final List<String> inputJusoList = const [],
+      final List<String> inputJusoName = const []})
+      : _jusoListState = jusoListState,
+        _inputJusoList = inputJusoList,
+        _inputJusoName = inputJusoName;
 
+  @override
+  @JsonKey()
+  final bool isError;
   @override
   @JsonKey()
   final String nameState;
   @override
   @JsonKey()
   final String nicknameState;
-  final List<Juso> _jusoListState;
+  final Set<String> _jusoListState;
   @override
   @JsonKey()
-  List<Juso> get jusoListState {
-    if (_jusoListState is EqualUnmodifiableListView) return _jusoListState;
+  Set<String> get jusoListState {
+    if (_jusoListState is EqualUnmodifiableSetView) return _jusoListState;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_jusoListState);
+    return EqualUnmodifiableSetView(_jusoListState);
+  }
+
+  @override
+  @JsonKey()
+  final String userName;
+  final List<String> _inputJusoList;
+  @override
+  @JsonKey()
+  List<String> get inputJusoList {
+    if (_inputJusoList is EqualUnmodifiableListView) return _inputJusoList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_inputJusoList);
+  }
+
+  final List<String> _inputJusoName;
+  @override
+  @JsonKey()
+  List<String> get inputJusoName {
+    if (_inputJusoName is EqualUnmodifiableListView) return _inputJusoName;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_inputJusoName);
   }
 
   @override
   String toString() {
-    return 'OnboardingState(nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName)';
   }
 
   @override
@@ -145,17 +233,31 @@ class _$OnboardingStateImpl implements _OnboardingState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OnboardingStateImpl &&
+            (identical(other.isError, isError) || other.isError == isError) &&
             (identical(other.nameState, nameState) ||
                 other.nameState == nameState) &&
             (identical(other.nicknameState, nicknameState) ||
                 other.nicknameState == nicknameState) &&
             const DeepCollectionEquality()
-                .equals(other._jusoListState, _jusoListState));
+                .equals(other._jusoListState, _jusoListState) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            const DeepCollectionEquality()
+                .equals(other._inputJusoList, _inputJusoList) &&
+            const DeepCollectionEquality()
+                .equals(other._inputJusoName, _inputJusoName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, nameState, nicknameState,
-      const DeepCollectionEquality().hash(_jusoListState));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isError,
+      nameState,
+      nicknameState,
+      const DeepCollectionEquality().hash(_jusoListState),
+      userName,
+      const DeepCollectionEquality().hash(_inputJusoList),
+      const DeepCollectionEquality().hash(_inputJusoName));
 
   @JsonKey(ignore: true)
   @override
@@ -167,16 +269,28 @@ class _$OnboardingStateImpl implements _OnboardingState {
 
 abstract class _OnboardingState implements OnboardingState {
   factory _OnboardingState(
-      {final String nameState,
+      {final bool isError,
+      final String nameState,
       final String nicknameState,
-      final List<Juso> jusoListState}) = _$OnboardingStateImpl;
+      final Set<String> jusoListState,
+      final String userName,
+      final List<String> inputJusoList,
+      final List<String> inputJusoName}) = _$OnboardingStateImpl;
 
+  @override
+  bool get isError;
   @override
   String get nameState;
   @override
   String get nicknameState;
   @override
-  List<Juso> get jusoListState;
+  Set<String> get jusoListState;
+  @override
+  String get userName;
+  @override
+  List<String> get inputJusoList;
+  @override
+  List<String> get inputJusoName;
   @override
   @JsonKey(ignore: true)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>

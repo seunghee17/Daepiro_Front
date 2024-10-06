@@ -6,7 +6,7 @@ part of 'juso_result_usecase.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getjusoListHash() => r'2eb1d695c7096be3cf01fca7fba9a1188ea64909';
+String _$getjusoListHash() => r'228b46b4cac83b42a0b529d930e8891202d5617e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,16 +34,18 @@ class _SystemHash {
 const getjusoListProvider = GetjusoListFamily();
 
 /// See also [getjusoList].
-class GetjusoListFamily extends Family<AsyncValue<List<Juso>>> {
+class GetjusoListFamily extends Family<AsyncValue<List<String>>> {
   /// See also [getjusoList].
   const GetjusoListFamily();
 
   /// See also [getjusoList].
   GetjusoListProvider call({
     required String inputJuso,
+    required int currentPage,
   }) {
     return GetjusoListProvider(
       inputJuso: inputJuso,
+      currentPage: currentPage,
     );
   }
 
@@ -53,6 +55,7 @@ class GetjusoListFamily extends Family<AsyncValue<List<Juso>>> {
   ) {
     return call(
       inputJuso: provider.inputJuso,
+      currentPage: provider.currentPage,
     );
   }
 
@@ -72,14 +75,16 @@ class GetjusoListFamily extends Family<AsyncValue<List<Juso>>> {
 }
 
 /// See also [getjusoList].
-class GetjusoListProvider extends AutoDisposeFutureProvider<List<Juso>> {
+class GetjusoListProvider extends AutoDisposeFutureProvider<List<String>> {
   /// See also [getjusoList].
   GetjusoListProvider({
     required String inputJuso,
+    required int currentPage,
   }) : this._internal(
           (ref) => getjusoList(
             ref as GetjusoListRef,
             inputJuso: inputJuso,
+            currentPage: currentPage,
           ),
           from: getjusoListProvider,
           name: r'getjusoListProvider',
@@ -91,6 +96,7 @@ class GetjusoListProvider extends AutoDisposeFutureProvider<List<Juso>> {
           allTransitiveDependencies:
               GetjusoListFamily._allTransitiveDependencies,
           inputJuso: inputJuso,
+          currentPage: currentPage,
         );
 
   GetjusoListProvider._internal(
@@ -101,13 +107,15 @@ class GetjusoListProvider extends AutoDisposeFutureProvider<List<Juso>> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.inputJuso,
+    required this.currentPage,
   }) : super.internal();
 
   final String inputJuso;
+  final int currentPage;
 
   @override
   Override overrideWith(
-    FutureOr<List<Juso>> Function(GetjusoListRef provider) create,
+    FutureOr<List<String>> Function(GetjusoListRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -119,40 +127,49 @@ class GetjusoListProvider extends AutoDisposeFutureProvider<List<Juso>> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         inputJuso: inputJuso,
+        currentPage: currentPage,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Juso>> createElement() {
+  AutoDisposeFutureProviderElement<List<String>> createElement() {
     return _GetjusoListProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetjusoListProvider && other.inputJuso == inputJuso;
+    return other is GetjusoListProvider &&
+        other.inputJuso == inputJuso &&
+        other.currentPage == currentPage;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, inputJuso.hashCode);
+    hash = _SystemHash.combine(hash, currentPage.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GetjusoListRef on AutoDisposeFutureProviderRef<List<Juso>> {
+mixin GetjusoListRef on AutoDisposeFutureProviderRef<List<String>> {
   /// The parameter `inputJuso` of this provider.
   String get inputJuso;
+
+  /// The parameter `currentPage` of this provider.
+  int get currentPage;
 }
 
 class _GetjusoListProviderElement
-    extends AutoDisposeFutureProviderElement<List<Juso>> with GetjusoListRef {
+    extends AutoDisposeFutureProviderElement<List<String>> with GetjusoListRef {
   _GetjusoListProviderElement(super.provider);
 
   @override
   String get inputJuso => (origin as GetjusoListProvider).inputJuso;
+  @override
+  int get currentPage => (origin as GetjusoListProvider).currentPage;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

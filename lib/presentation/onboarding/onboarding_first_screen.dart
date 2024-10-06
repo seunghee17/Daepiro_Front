@@ -14,7 +14,7 @@ class OnboardingFirstScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth* 0.053),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -23,7 +23,7 @@ class OnboardingFirstScreen extends StatelessWidget {
                 '반복되는 수신과 불명확한 재난문자로\n불편함을 겪으셨나요?',
                 style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_500),
               ),
-              SizedBox(height: screenHeight * 0.009,),
+              SizedBox(height: 8),
               Text(
                 '대피로가 해결해드릴게요.',
                 style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
@@ -41,9 +41,9 @@ class OnboardingFirstScreen extends StatelessWidget {
                       '다음',
                       style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
                     ),
-                    verticalPadding: screenHeight * 0.014),
+                    verticalPadding: 12, borderRadius: 8),
               ),
-              SizedBox(height: screenHeight * 0.019,),
+              SizedBox(height: 16),
             ],
           ),
         ),

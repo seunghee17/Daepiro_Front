@@ -1,5 +1,3 @@
-import 'package:daepiro/data/model/response/jusolist_response.dart';
-import 'package:daepiro/data/repositoryimpl/juso_repository_impl.dart';
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,6 +7,7 @@ part 'onboarding_controller.g.dart';
 
 @riverpod
 class OnboardingController extends _$OnboardingController {
+  List<String> inputJusoList = [];
 
   @override
   FutureOr<OnboardingState> build() async {
@@ -22,6 +21,13 @@ class OnboardingController extends _$OnboardingController {
     }
   }
 
+  Future<void> updateUserName(String name) async {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(userName: name));
+    }
+  }
+
   Future<void> setNickState(String nickState) async {
     final value = state.valueOrNull;
     if(value != null) {
@@ -29,23 +35,48 @@ class OnboardingController extends _$OnboardingController {
     }
   }
 
-  Future<void> checkNickName(String nickname) async {
+  Future<bool?> checkNickName(String nickname) async {
+    final result = await ref.read(checkNickNameProvider(nickName: nickname).future);
+    return result.data?.isAvailable;
+  }
+
+//검색결과 주소 리스트 반환
+  Future<void> getJusoList(String inputJuso, int currentPage, bool append) async {
+    state = await AsyncValue.guard(() async {
+      try {
+        final result = await ref
+            .read(getjusoListProvider(inputJuso: inputJuso, currentPage: currentPage).future);
+        final currentList = state.value?.jusoListState ?? <String>{};
+        final updateList = append ? currentList.union(result.toSet()) : result.toSet();
+        return state.value?.copyWith(
+          jusoListState: updateList,
+          isError: false,
+        ) ?? OnboardingState(jusoListState: updateList);
+
+      } catch (e) {
+        return state.value?.copyWith(isError: true) ?? OnboardingState(isError: true);
+      }
+    });
+  }
+
+  Future<void> addJuso(String jusoString) async {
     final value = state.valueOrNull;
     if(value != null) {
-      state = await AsyncValue.guard(() async {
-        final result = await ref.read(checkNickNameProvider(nickName: nickname).future);
-        bool? nickState = result.data?.isAvailable;
-        return value.copyWith(
-          nicknameState: nickState! ? 'SUCCESS' : 'SAME'
-        );
-      });
+      inputJusoList.add(jusoString);
+      state =  state.whenData((value) => value.copyWith(inputJusoList: inputJusoList));
     }
   }
 
-  Future<void> getJusoList(String inputJuso) async {
-    state = await AsyncValue.guard(() async {
-      final result = await ref.read(getjusoListProvider(inputJuso: inputJuso).future);
-      return state.value?.copyWith(jusoListState: result) ?? OnboardingState();
-    });
+  Future<void> addFirstIdxJuso(String jusoString) async {
+    var currentList = state.value!.inputJusoList ?? [];
+    currentList.insert(0, jusoString);
+    state = state.whenData((value) => value.copyWith(inputJusoList: currentList));
+  }
+
+  Future<List<String>> getInputJusoList() async {
+    return state.value!.inputJusoList;
+  }
+  Future<void> initJusoList() async {
+    state =  state.whenData((value) => value.copyWith(jusoListState: Set()));
   }
 }

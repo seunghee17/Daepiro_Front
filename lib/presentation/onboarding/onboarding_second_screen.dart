@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:daepiro/presentation/onboarding/onboarding_controller.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
@@ -8,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-
+//하단 버튼 올라오는 것이 맞는가??
 class OnboardingSecondScreen extends ConsumerStatefulWidget {
   const OnboardingSecondScreen({super.key});
 
@@ -58,17 +56,27 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     }
   }
 
-  void updateNickState() {
+  void updateNickState() async {
     var newNickLength = nicknameController.text.length;
     var newState = 'NORMAL';
     var newCaution = false;
+    //print('Checking nickname: ${nicknameController.text}');
+    var isAvailable = await ref.read(onboardingControllerProvider.notifier).checkNickName(nicknameController.text);
 
     if(newNickLength > 10) {
       newState = 'OVER_LENGTH_NICK';
       newCaution = true;
     } else if(newNickLength > 1) {
       newState = 'NORMAL';
+      newCaution = false;
+    } else if( !isAvailable!) {
+      newState = 'SAME';
+      newCaution = true;
+    } else if(!_checkForSpecialCharacter(nicknameController.text)) {
+      newState = 'ERRORCHARACTER';
+      newCaution = true;
     }
+    print('여기!!! ${_checkForSpecialCharacter(nicknameController.text)}');
     if (newCaution != cautionNick || _nicknameLength != newNickLength) {
       setState(() {
         _nicknameLength = newNickLength;
@@ -83,11 +91,15 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     return englishPattern.hasMatch(text);
   }
 
+  bool _checkForSpecialCharacter(String text) {
+    final regex = RegExp(r'[^가-힣a-zA-Z0-9]');
+    return !regex.hasMatch(text);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingControllerProvider);
-    var screenHeight = MediaQuery.of(context).size.height; //812
-    var screenWidth = MediaQuery.of(context).size.width; //375
+    var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -96,74 +108,90 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
             data: (state) {
               bool canProceed = state.nameState == 'NORMAL' && state.nicknameState == 'NORMAL';
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.053),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(height: screenHeight * 0.024,),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: LinearPercentIndicator(
-                            padding: EdgeInsets.zero,
-                            percent: 0.3,
-                            lineHeight: 10,
-                            backgroundColor: DaepiroColorStyle.g_50,
-                            progressColor: DaepiroColorStyle.o_300,
-                            barRadius: Radius.circular(10.0),
-                          ),
-                        ),
-                        SizedBox(width: screenWidth * 0.042),
-                        Text(
-                          '1/3',
-                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_100),
-                        ),
-                      ],
-                    ),
-                     SizedBox(height: screenHeight * 0.029,),
-                     RichText(
-                         text: TextSpan(
-                           text: '기본 정보',
-                           style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
-                           children: [
-                             TextSpan(
-                               text: ' 를 입력해주세요.' ,
-                               style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
-                             )
-                           ]
-                         ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: LinearPercentIndicator(
+                                    padding: EdgeInsets.zero,
+                                    percent: 0.3,
+                                    lineHeight: 10,
+                                    backgroundColor: DaepiroColorStyle.g_50,
+                                    progressColor: DaepiroColorStyle.o_300,
+                                    barRadius: Radius.circular(10.0),
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  '1/3',
+                                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_100),
+                                ),
+                              ],
+                            ),
+                             SizedBox(height: 24),
+                             RichText(
+                                 text: TextSpan(
+                                   text: '기본 정보',
+                                   style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
+                                   children: [
+                                     TextSpan(
+                                       text: ' 를 입력해주세요.' ,
+                                       style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
+                                     )
+                                   ]
+                                 ),
 
-                     ),
-                      SizedBox(height: screenHeight * 0.004,),
-                      Text(
-                        '이름은 기본 서비스 이용을 위해,\n닉네임은 커뮤니티에서 사용돼요.',
-                        style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_300),
+                             ),
+                              SizedBox(height: 4),
+                              Text(
+                                '이름은 기본 서비스 이용을 위해,\n닉네임은 커뮤니티에서 사용돼요.',
+                                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_300),
+                              ),
+                              SizedBox(height: 24),
+                            Text(
+                              '이름',
+                              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+                            ),
+                            SizedBox(height: 8),
+                              OnboardingTextField(nameController, _nameLength, cautionName, '6자 이내의 한글', 6),
+                              if(state.nameState == 'ENG_INPUT')
+                                StateText('ENG_INPUT','*한글만 입력 가능합니다.'),
+                              if(state.nameState == 'OVER_LENGTH_NAME')
+                                StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
+                            SizedBox(height: 16),
+                            Text(
+                              '닉네임',
+                              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+                            ),
+                            SizedBox(height: 8),
+                            OnboardingTextField(nicknameController, _nicknameLength, cautionNick, '10자 이내의 한글/영문/숫자', 10),
+                            if(state.nicknameState == 'OVER_LENGTH_NICK')
+                              StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
+                            if(state.nicknameState == 'NORMAL' && state.nicknameState != 'NONE' && state.nicknameState != 'SAME' && state.nicknameState != 'ERRORCHARACTER')
+                              StateText('NORMAL','*사용 가능한 닉네임 입니다.'),
+                            if(state.nicknameState == 'SAME')
+                              StateText('NORMAL','*이미 사용 중인 닉네임이에요.'),
+                            if(state.nicknameState == 'ERRORCHARACTER')
+                              StateText('ERRORCHARACTER','*닉네임은 한글/영문/숫자만 입력 가능해요.'),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: screenHeight * 0.029),
-                    Text(
-                      '이름',
-                      style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                     ),
-                    SizedBox(height: screenHeight * 0.009),
-                      OnboardingTextField(nameController, _nameLength, cautionName, '6자 이내의 한글', 6),
-                      if(state.nameState == 'ENG_INPUT')
-                        StateText('ENG_INPUT','*한글만 입력 가능합니다.'),
-                      if(state.nameState == 'OVER_LENGTH_NAME')
-                        StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
-                    SizedBox(height: screenHeight * 0.019),
-                    Text(
-                      '닉네임',
-                      style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: keyboardHeight), // 키보드 높이만큼 하단 패딩 추가
+                      child: BottomWidget(context, canProceed),
                     ),
-                    SizedBox(height: screenHeight * 0.009),
-                    OnboardingTextField(nicknameController, _nicknameLength, cautionNick, '10자 이내의 한글/영문/숫자', 10),
-                    if(state.nicknameState == 'OVER_LENGTH_NICK')
-                      StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
-                    if(state.nicknameState == 'NORMAL' && state.nicknameState != 'NONE')
-                      StateText('NORMAL','*사용 가능한 닉네임 입니다.'),
-                    Spacer(),
-                    BottomWidget(context, canProceed, screenHeight, screenWidth),
-                    SizedBox(height: screenHeight * 0.019,)
+                    SizedBox(height: 16)
                   ],
                 ),
               );
@@ -176,7 +204,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     );
   }
 
-  Widget BottomWidget(BuildContext context, bool isAvailable, double height, double width) {
+  Widget BottomWidget(BuildContext context, bool isAvailable) {
     return Container(
       width: double.infinity,
       child: Row(
@@ -186,26 +214,31 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                   onPressed: GoRouter.of(context).pop,
                   backgroundColor: DaepiroColorStyle.g_50,
                   pressedColor: DaepiroColorStyle.g_75,
+                  borderRadius: 8.0,
                   disabledColor: DaepiroColorStyle.g_50,
                   child: Text(
                     '이전',
                     style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
                   ),
-                  verticalPadding: height * 0.014
+                  verticalPadding: 12
               )
           ),
-          SizedBox(width: width * 0.021,),
+          SizedBox(width: 8),
           Expanded(
               child: PrimaryFilledButton(
-                  onPressed: isAvailable ? () =>   GoRouter.of(context).replace('/onboarding/second') : null,
+                  onPressed: isAvailable ? () async =>   {
+                    await ref.read(onboardingControllerProvider.notifier).updateUserName(nameController.text),
+                    GoRouter.of(context).push('/onboarding/second')
+                  }: null,
                   backgroundColor: DaepiroColorStyle.o_500,
                   pressedColor: DaepiroColorStyle.o_600,
+                  borderRadius: 8.0,
                   disabledColor: DaepiroColorStyle.o_100,
                   child: Text(
                     '다음',
                     style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
                   ),
-                  verticalPadding: height * 0.014
+                  verticalPadding: 12
               )
           ),
         ],
@@ -217,6 +250,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   Widget OnboardingTextField(TextEditingController _controller, int length, bool isCaution, String hint, int max) {
     return TextField(
       controller: _controller,
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       style: DaepiroTextStyle.body_1_m.copyWith(
           color: DaepiroColorStyle.g_900,
         decorationThickness: 0

@@ -12,7 +12,7 @@ part 'http_provider.g.dart';
 @riverpod
 Dio http(HttpRef ref) {
   final options = BaseOptions(
-    baseUrl: 'http://13.125.2.66',
+    baseUrl: 'https://api.daepiro.com',
     headers: {
       'Content-Type': 'application/json',
     }
