@@ -22,7 +22,13 @@ mixin _$OnboardingState {
   Set<String> get jusoListState => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   List<String> get inputJusoList => throw _privateConstructorUsedError;
-  List<String> get inputJusoName => throw _privateConstructorUsedError;
+  List<String> get inputJusoName =>
+      throw _privateConstructorUsedError; //권한 모두 동의 활성화 상태
+  bool get isAllPermissionGrant =>
+      throw _privateConstructorUsedError; //@Default([false, false, false, false]) List<bool> isPermissionGrant,
+//체크박스의 활성화상태
+  List<bool> get isPermissionCheckboxState =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OnboardingStateCopyWith<OnboardingState> get copyWith =>
@@ -42,7 +48,9 @@ abstract class $OnboardingStateCopyWith<$Res> {
       Set<String> jusoListState,
       String userName,
       List<String> inputJusoList,
-      List<String> inputJusoName});
+      List<String> inputJusoName,
+      bool isAllPermissionGrant,
+      List<bool> isPermissionCheckboxState});
 }
 
 /// @nodoc
@@ -65,6 +73,8 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? userName = null,
     Object? inputJusoList = null,
     Object? inputJusoName = null,
+    Object? isAllPermissionGrant = null,
+    Object? isPermissionCheckboxState = null,
   }) {
     return _then(_value.copyWith(
       isError: null == isError
@@ -95,6 +105,14 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.inputJusoName
           : inputJusoName // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isAllPermissionGrant: null == isAllPermissionGrant
+          ? _value.isAllPermissionGrant
+          : isAllPermissionGrant // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPermissionCheckboxState: null == isPermissionCheckboxState
+          ? _value.isPermissionCheckboxState
+          : isPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
     ) as $Val);
   }
 }
@@ -114,7 +132,9 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       Set<String> jusoListState,
       String userName,
       List<String> inputJusoList,
-      List<String> inputJusoName});
+      List<String> inputJusoName,
+      bool isAllPermissionGrant,
+      List<bool> isPermissionCheckboxState});
 }
 
 /// @nodoc
@@ -135,6 +155,8 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? userName = null,
     Object? inputJusoList = null,
     Object? inputJusoName = null,
+    Object? isAllPermissionGrant = null,
+    Object? isPermissionCheckboxState = null,
   }) {
     return _then(_$OnboardingStateImpl(
       isError: null == isError
@@ -165,6 +187,14 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value._inputJusoName
           : inputJusoName // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isAllPermissionGrant: null == isAllPermissionGrant
+          ? _value.isAllPermissionGrant
+          : isAllPermissionGrant // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPermissionCheckboxState: null == isPermissionCheckboxState
+          ? _value._isPermissionCheckboxState
+          : isPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
     ));
   }
 }
@@ -179,10 +209,18 @@ class _$OnboardingStateImpl implements _OnboardingState {
       final Set<String> jusoListState = const <String>{},
       this.userName = '',
       final List<String> inputJusoList = const [],
-      final List<String> inputJusoName = const []})
+      final List<String> inputJusoName = const [],
+      this.isAllPermissionGrant = false,
+      final List<bool> isPermissionCheckboxState = const [
+        false,
+        false,
+        false,
+        false
+      ]})
       : _jusoListState = jusoListState,
         _inputJusoList = inputJusoList,
-        _inputJusoName = inputJusoName;
+        _inputJusoName = inputJusoName,
+        _isPermissionCheckboxState = isPermissionCheckboxState;
 
   @override
   @JsonKey()
@@ -223,9 +261,27 @@ class _$OnboardingStateImpl implements _OnboardingState {
     return EqualUnmodifiableListView(_inputJusoName);
   }
 
+//권한 모두 동의 활성화 상태
+  @override
+  @JsonKey()
+  final bool isAllPermissionGrant;
+//@Default([false, false, false, false]) List<bool> isPermissionGrant,
+//체크박스의 활성화상태
+  final List<bool> _isPermissionCheckboxState;
+//@Default([false, false, false, false]) List<bool> isPermissionGrant,
+//체크박스의 활성화상태
+  @override
+  @JsonKey()
+  List<bool> get isPermissionCheckboxState {
+    if (_isPermissionCheckboxState is EqualUnmodifiableListView)
+      return _isPermissionCheckboxState;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_isPermissionCheckboxState);
+  }
+
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName, isAllPermissionGrant: $isAllPermissionGrant, isPermissionCheckboxState: $isPermissionCheckboxState)';
   }
 
   @override
@@ -245,7 +301,11 @@ class _$OnboardingStateImpl implements _OnboardingState {
             const DeepCollectionEquality()
                 .equals(other._inputJusoList, _inputJusoList) &&
             const DeepCollectionEquality()
-                .equals(other._inputJusoName, _inputJusoName));
+                .equals(other._inputJusoName, _inputJusoName) &&
+            (identical(other.isAllPermissionGrant, isAllPermissionGrant) ||
+                other.isAllPermissionGrant == isAllPermissionGrant) &&
+            const DeepCollectionEquality().equals(
+                other._isPermissionCheckboxState, _isPermissionCheckboxState));
   }
 
   @override
@@ -257,7 +317,9 @@ class _$OnboardingStateImpl implements _OnboardingState {
       const DeepCollectionEquality().hash(_jusoListState),
       userName,
       const DeepCollectionEquality().hash(_inputJusoList),
-      const DeepCollectionEquality().hash(_inputJusoName));
+      const DeepCollectionEquality().hash(_inputJusoName),
+      isAllPermissionGrant,
+      const DeepCollectionEquality().hash(_isPermissionCheckboxState));
 
   @JsonKey(ignore: true)
   @override
@@ -275,7 +337,9 @@ abstract class _OnboardingState implements OnboardingState {
       final Set<String> jusoListState,
       final String userName,
       final List<String> inputJusoList,
-      final List<String> inputJusoName}) = _$OnboardingStateImpl;
+      final List<String> inputJusoName,
+      final bool isAllPermissionGrant,
+      final List<bool> isPermissionCheckboxState}) = _$OnboardingStateImpl;
 
   @override
   bool get isError;
@@ -291,6 +355,11 @@ abstract class _OnboardingState implements OnboardingState {
   List<String> get inputJusoList;
   @override
   List<String> get inputJusoName;
+  @override //권한 모두 동의 활성화 상태
+  bool get isAllPermissionGrant;
+  @override //@Default([false, false, false, false]) List<bool> isPermissionGrant,
+//체크박스의 활성화상태
+  List<bool> get isPermissionCheckboxState;
   @override
   @JsonKey(ignore: true)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>

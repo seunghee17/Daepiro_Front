@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'login_controller.dart';
-//질문하고 답변 듣고 만들기 시작..이해안되는 부분...
+
 class LoginScreen extends ConsumerStatefulWidget {
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -28,9 +28,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     super.initState();
     isChecked = List<bool>.filled(4, false);
     isHighlighted = List<bool>.filled(4, false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      permissionBottomSheet(context, MediaQuery.of(context).size.height);
-    });
   }
 
   @override

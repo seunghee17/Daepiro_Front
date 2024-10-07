@@ -7,7 +7,7 @@ part of 'onboarding_sendinfo_usecase.dart';
 // **************************************************************************
 
 String _$sendOnboardingInfoUseCaseHash() =>
-    r'0baccae1bbfbeed7d95b0b6b381a58cc69717083';
+    r'9f8be38e7d14eef03784cdfa2cbfbb099679bf47';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -107,7 +107,7 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
               return handler.resolve(clonedRequest);
             } else {
               //refresh 토큰이 존재하지 않거나 만료되었음 로그인 화면으로 이동해야함
-              //재로그인이 필요함을 언급
+              //재로그인이 필요함을 언급 //저장한 토큰 사라지게 하는 로직 필요
               print('cathch 전');
             }
           } catch(e) {

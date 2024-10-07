@@ -1,6 +1,7 @@
 import 'package:daepiro/presentation/onboarding/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/onboarding_first_screen.dart';
 import 'package:daepiro/presentation/onboarding/onboarding_third_screen.dart';
+import 'package:daepiro/presentation/onboarding/permission_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -89,6 +90,11 @@ final goRouteProvider = Provider((ref) {
           GoRoute(
               path: 'final',
               builder: (context, state) => OnboardingFinalScreen()
+          ),
+          //임시 수정가능성 있음
+          GoRoute(
+              path: 'permission',
+              builder: (context, state) => PermissionScreen()
           ),
         ]
       ),

@@ -6,7 +6,7 @@ part of 'check_nickname_usecase.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$checkNickNameHash() => r'3b3c7e4b5e1c19d8cc52178fd42f89318d516d7e';
+String _$checkNickNameHash() => r'439d32f190ad302298468e9e62564bebbe3f242b';
 
 /// Copied from Dart SDK
 class _SystemHash {

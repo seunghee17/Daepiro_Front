@@ -79,4 +79,25 @@ class OnboardingController extends _$OnboardingController {
   Future<void> initJusoList() async {
     state =  state.whenData((value) => value.copyWith(jusoListState: Set()));
   }
+
+  void updateAllAgreeState() {
+    bool current = state.value!.isAllPermissionGrant;
+    List<bool> updateList = [false,false,false,false];
+    for(int i=0; i<4; i++) {
+      updateList[i] = !current;
+    }
+    state =  state.whenData((value) => value.copyWith(
+        isAllPermissionGrant: !current,
+        isPermissionCheckboxState: updateList
+    ));
+  }
+
+  void updateEachPermissionState(int index) {
+    var current = List<bool>.from(state.value!.isPermissionCheckboxState);
+    current[index] = !current[index];
+
+    state =  state.whenData((value) => value.copyWith(
+        isPermissionCheckboxState: current
+    ));
+  }
 }

@@ -9,7 +9,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../widgets/DaepiroTheme.dart';
 import '../widgets/button/primary_filled_button.dart';
-import 'onboarding_second_screen.dart';
 
 class OnboardingThirdScreen extends ConsumerStatefulWidget {
   const OnboardingThirdScreen({super.key});
