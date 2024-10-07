@@ -8,7 +8,7 @@ class SecondaryFilledButton extends StatefulWidget {
   final double? verticalPadding;
   final double? horizontalPadding;
   final Color backgroundColor;
-  final Color overlayColor;
+  final Color? pressedColor;
   final Color? disableColor;
 
   const SecondaryFilledButton({
@@ -19,8 +19,8 @@ class SecondaryFilledButton extends StatefulWidget {
     this.verticalPadding,
     this.horizontalPadding,
     required this.backgroundColor,
-    required this.overlayColor,
-    this.disableColor
+    this.disableColor,
+    this.pressedColor
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class _SecondaryFilledButton extends State<SecondaryFilledButton> {
     return IntrinsicWidth(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          overlayColor: widget.overlayColor,
+          overlayColor: Colors.transparent,
           backgroundColor: widget.backgroundColor,
           disabledBackgroundColor: widget.disableColor,
           shape: RoundedRectangleBorder(
@@ -43,6 +43,13 @@ class _SecondaryFilledButton extends State<SecondaryFilledButton> {
           elevation: 0.0,
           shadowColor: Colors.transparent,
           padding: EdgeInsets.symmetric(vertical: widget.verticalPadding ?? 0, horizontal: widget.horizontalPadding ?? 0)
+        ).copyWith(//g_400
+          backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed) && widget.pressedColor!=null) {
+              return widget.pressedColor!;
+            }
+            return widget.backgroundColor;
+          }),
         ),
           onPressed: widget.onPressed,
           child: widget.child

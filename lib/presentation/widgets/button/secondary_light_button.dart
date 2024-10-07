@@ -23,7 +23,6 @@ class _SecondaryLightButton extends State<SecondaryLightButton> {
   Widget build(BuildContext context) {
    return ElevatedButton(
      style: ElevatedButton.styleFrom(
-       overlayColor: DaepiroColorStyle.g_75,
        backgroundColor: DaepiroColorStyle.g_50,
        disabledBackgroundColor: DaepiroColorStyle.g_50,
        shape: RoundedRectangleBorder(
@@ -32,6 +31,13 @@ class _SecondaryLightButton extends State<SecondaryLightButton> {
        elevation: 0.0,
        shadowColor: Colors.transparent,
          padding: EdgeInsets.symmetric(vertical: 4)
+     ).copyWith(
+       backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+         if (states.contains(MaterialState.pressed)) {
+           return DaepiroColorStyle.g_75;
+         }
+         return DaepiroColorStyle.g_50;
+       }),
      ),
        onPressed: widget.onPressed,
        child: widget.child

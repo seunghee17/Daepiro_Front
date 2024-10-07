@@ -319,7 +319,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         onPressed: GoRouter.of(context).pop,
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_50,
-                        overlayColor: DaepiroColorStyle.g_75,
+                        pressedColor:  DaepiroColorStyle.g_75,
                         child: Text(
                           textAlign: TextAlign.center,
                           '다시 선택',
@@ -337,7 +337,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_700,
-                        overlayColor: DaepiroColorStyle.g_400,
+                        pressedColor:  DaepiroColorStyle.g_400,
                         child: Text(
                           textAlign: TextAlign.center,
                           '확인',

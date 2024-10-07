@@ -1,8 +1,8 @@
 import 'package:daepiro/presentation/onboarding/onboarding_controller.dart';
+import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../widgets/DaepiroTheme.dart';
 
 class PermissionScreen extends ConsumerWidget {
@@ -23,65 +23,85 @@ class PermissionScreen extends ConsumerWidget {
                 Container(
                   width: screenWidth,
                   height: screenHeight,
-                  color: DaepiroColorStyle.black,
+                  color: DaepiroColorStyle.black.withOpacity(0.6),
                 ),
                 Positioned(
                   bottom: 0,
+                  left: 0,
+                  right: 0,
                   child: Container(
-                    height: screenHeight*0.6,
+                    height: screenHeight * 0.6,
                     decoration: BoxDecoration(
-                      color: DaepiroColorStyle.white,
+                        color: DaepiroColorStyle.white,
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
                     ),
-                    child: SingleChildScrollView (
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 24),
-                            Text(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 24),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
                               '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
                               style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                             ),
-                            GestureDetector(
-                              onTap: ref.read(onboardingControllerProvider.notifier).updateAllAgreeState,
-                              child: allAgreeWidget(
-                                  state.isAllPermissionGrant,
-                                  ref.read(onboardingControllerProvider.notifier).updateAllAgreeState,
-                                screenWidth
-                              ),
+                          ),
+                          SizedBox(height: 16),
+                          allAgreeWidget(state.isAllPermissionGrant, ref),
+                          SizedBox(
+                            //width: screenWidth - 16,
+                            child: ListView.builder(
+                                itemCount: 4,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return permissionWidget(index, state.isPermissionCheckboxState, ref);
+                                }
                             ),
-                            SizedBox(
-                              width: screenWidth-40,
-                              child: ListView.builder(
-                                  itemCount: 4,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        ref.read(onboardingControllerProvider.notifier).updateEachPermissionState(index);
-                                      },
-                                      child: permissionWidget(
-                                          index,
-                                          state.isPermissionCheckboxState,
-                                              () {
-                                            ref.read(onboardingControllerProvider.notifier).updateEachPermissionState(index);
-                                          },
-                                        screenWidth
-                                      ),
-                                    );
-                                  }
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 44),
+                        ],
                       ),
                     ),
-                  )
-                )
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '권한을 허용하지 않아도 서비스를 사용할 수 있으나\n일부 서비스 이용이 제한될 수 있어요.',
+                          style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          width: screenWidth,
+                          child: PrimaryFilledButton(
+                              onPressed: () => ref.read(onboardingControllerProvider.notifier).permissionRequest(state.isPermissionCheckboxState),
+                              backgroundColor: DaepiroColorStyle.g_700,
+                              pressedColor: DaepiroColorStyle.g_600,
+                              borderRadius: 8,
+                              child: Text(
+                                '다음',
+                                style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+                              ),
+                              verticalPadding: 12
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
               ],
-            )
+            ),
           );
         },
         error: (error, state) => Center(child: Text('error: ${error}')),
@@ -89,18 +109,32 @@ class PermissionScreen extends ConsumerWidget {
     );
   }
 
-  Widget allAgreeWidget(bool isAllPermissionGrant, VoidCallback onChange, double screenWidth) {
-    return Container(
-        width: screenWidth,
-        decoration: BoxDecoration(
-            color: DaepiroColorStyle.g_75,
-            borderRadius: BorderRadius.circular(8)
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+  Widget allAgreeWidget(bool isAllPermissionGrant, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ElevatedButton(
+          onPressed: ref.read(onboardingControllerProvider.notifier).updateAllAgreeState,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: DaepiroColorStyle.g_50,
+            overlayColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: EdgeInsets.all(8),
+            shadowColor: Colors.transparent,
+            elevation: 0.0
+          ).copyWith(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              if (states.contains(MaterialState.pressed)) {
+                return DaepiroColorStyle.g_75;
+              }
+              return DaepiroColorStyle.g_50;
+            }),
+          ),
           child: Row(
             children: [
               Checkbox(
+                  visualDensity: VisualDensity.compact,
                   side: BorderSide(color: Colors.transparent),
                   activeColor: DaepiroColorStyle.g_500,
                   checkColor: DaepiroColorStyle.white,
@@ -112,59 +146,74 @@ class PermissionScreen extends ConsumerWidget {
                   }),
                   value: isAllPermissionGrant,
                   onChanged: (value) {
-                    onChange();
+                    ref.read(onboardingControllerProvider.notifier).updateAllAgreeState();
                   }),
               SizedBox(width: 8),
               Text(
-                '권한 모두 동의',
+                '권한 전체 동의',
                 style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
               )
             ],
           ),
-        )
+      ),
     );
   }
 
   //각 권한 허용 위젯
-  Widget permissionWidget(int index, List<bool> isPermissionCheckboxState, VoidCallback onChange, double screenWidth) {
-    return Container(
-        width: screenWidth,
-        decoration: BoxDecoration(
-            color: DaepiroColorStyle.white,
-            borderRadius: BorderRadius.circular(8)
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          child: Row(
-            children: [
-              Checkbox(
-                  side: BorderSide(color: Colors.transparent),
-                  activeColor: DaepiroColorStyle.g_500,
-                  checkColor: DaepiroColorStyle.white,
-                  fillColor: MaterialStateProperty.resolveWith((state) {
-                    if(!state.contains(MaterialState.selected)) {
-                      return DaepiroColorStyle.g_100;
-                    }
-                    return null;
-                  }),
-                  value:isPermissionCheckboxState[index],
-                  onChanged: (value) {
-                    onChange();
-                  }),
-              SizedBox(width: 8,),
-              Text(
-                permissionDescription[index],
-                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
-              ),
-              Spacer(),
-              Text(
-                permissionSubDescription[index],
-                style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
-              ),
-            ],
+  Widget permissionWidget(int index, List<bool> isPermissionCheckboxState, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ElevatedButton(
+          onPressed: () => ref.read(onboardingControllerProvider.notifier).updateEachPermissionState(index),
+          style: ElevatedButton.styleFrom(
+          backgroundColor: DaepiroColorStyle.white,
+          overlayColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
-        )
+          padding: EdgeInsets.all(8),
+          shadowColor: Colors.transparent,
+          elevation: 0.0
+      ).copyWith(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return DaepiroColorStyle.g_50;
+          }
+          return DaepiroColorStyle.white;
+        }),
+      ),
+      child: Row(
+        children: [
+          Checkbox(
+              visualDensity: VisualDensity.compact,
+              side: BorderSide(color: Colors.transparent),
+              activeColor: DaepiroColorStyle.g_500,
+              checkColor: DaepiroColorStyle.white,
+              fillColor: MaterialStateProperty.resolveWith((state) {
+                if(!state.contains(MaterialState.selected)) {
+                  return DaepiroColorStyle.g_100;
+                }
+                return null;
+              }),
+              value: isPermissionCheckboxState[index],
+              onChanged: (value) {
+                ref.read(onboardingControllerProvider.notifier).updateEachPermissionState(index);
+              }),
+          SizedBox(width: 8),
+          Text(
+            permissionDescription[index],
+            style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
+          ),
+          Spacer(),
+          Text(
+            permissionSubDescription[index],
+            style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+          ),
+        ],
+      ),
+      ),
     );
   }
+
 
 }

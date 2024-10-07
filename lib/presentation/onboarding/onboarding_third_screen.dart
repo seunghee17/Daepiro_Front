@@ -174,7 +174,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> with Wid
         onPressed: (){},
         radius: 99,
         backgroundColor: DaepiroColorStyle.g_600,
-        overlayColor: DaepiroColorStyle.g_600,
+        pressedColor: DaepiroColorStyle.g_600,
       verticalPadding: 8,
       horizontalPadding: 16,
         child: Row(
@@ -236,7 +236,6 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> with Wid
       verticalPadding: 8,
       backgroundColor: DaepiroColorStyle.g_50,
       disableColor: DaepiroColorStyle.g_50,
-      overlayColor: DaepiroColorStyle.g_50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

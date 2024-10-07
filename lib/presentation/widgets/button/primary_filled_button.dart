@@ -33,7 +33,7 @@ class PrimaryFilledButton extends StatefulWidget {
     Widget build(BuildContext context) {
       return ElevatedButton(
           style: ElevatedButton.styleFrom(
-            overlayColor: widget.pressedColor,
+            overlayColor: Colors.transparent,
             backgroundColor: widget.backgroundColor,
             disabledBackgroundColor: widget.disabledColor ?? widget.backgroundColor,
             shape: RoundedRectangleBorder(
@@ -42,6 +42,13 @@ class PrimaryFilledButton extends StatefulWidget {
             elevation: 1.0,
             shadowColor: DaepiroColorStyle.black.withOpacity(0.15),
             padding: EdgeInsets.symmetric(vertical: widget.verticalPadding)
+          ).copyWith(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              if (states.contains(MaterialState.pressed)) {
+                return widget.pressedColor;
+              }
+              return widget.backgroundColor;
+            }),
           ),
           onPressed: widget.onPressed,
           child: widget.child

@@ -12,8 +12,7 @@ sealed class OnboardingState with _$OnboardingState {
     @Default([]) List<String> inputJusoName,
     //권한 모두 동의 활성화 상태
     @Default(false) bool isAllPermissionGrant,
-    //@Default([false, false, false, false]) List<bool> isPermissionGrant,
     //체크박스의 활성화상태
-    @Default([false, false, false, false]) List<bool> isPermissionCheckboxState,
+    @Default([false, false, false, false]) List<bool> isPermissionCheckboxState
 }) = _OnboardingState;
 }

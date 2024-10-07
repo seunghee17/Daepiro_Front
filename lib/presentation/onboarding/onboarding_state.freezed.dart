@@ -25,8 +25,7 @@ mixin _$OnboardingState {
   List<String> get inputJusoName =>
       throw _privateConstructorUsedError; //권한 모두 동의 활성화 상태
   bool get isAllPermissionGrant =>
-      throw _privateConstructorUsedError; //@Default([false, false, false, false]) List<bool> isPermissionGrant,
-//체크박스의 활성화상태
+      throw _privateConstructorUsedError; //체크박스의 활성화상태
   List<bool> get isPermissionCheckboxState =>
       throw _privateConstructorUsedError;
 
@@ -265,10 +264,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final bool isAllPermissionGrant;
-//@Default([false, false, false, false]) List<bool> isPermissionGrant,
 //체크박스의 활성화상태
   final List<bool> _isPermissionCheckboxState;
-//@Default([false, false, false, false]) List<bool> isPermissionGrant,
 //체크박스의 활성화상태
   @override
   @JsonKey()
@@ -357,8 +354,7 @@ abstract class _OnboardingState implements OnboardingState {
   List<String> get inputJusoName;
   @override //권한 모두 동의 활성화 상태
   bool get isAllPermissionGrant;
-  @override //@Default([false, false, false, false]) List<bool> isPermissionGrant,
-//체크박스의 활성화상태
+  @override //체크박스의 활성화상태
   List<bool> get isPermissionCheckboxState;
   @override
   @JsonKey(ignore: true)

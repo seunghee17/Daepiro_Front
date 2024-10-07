@@ -212,7 +212,6 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
       onPressed: (){},
       radius: 99,
       backgroundColor: DaepiroColorStyle.g_600,
-      overlayColor: DaepiroColorStyle.g_600,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

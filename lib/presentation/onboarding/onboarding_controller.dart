@@ -1,4 +1,5 @@
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/usecase/onboarding/juso_result_usecase.dart';
@@ -8,6 +9,7 @@ part 'onboarding_controller.g.dart';
 @riverpod
 class OnboardingController extends _$OnboardingController {
   List<String> inputJusoList = [];
+  List<Permission> permission = [Permission.location, Permission.notification, Permission.camera, Permission.photos];
 
   @override
   FutureOr<OnboardingState> build() async {
@@ -95,9 +97,24 @@ class OnboardingController extends _$OnboardingController {
   void updateEachPermissionState(int index) {
     var current = List<bool>.from(state.value!.isPermissionCheckboxState);
     current[index] = !current[index];
-
     state =  state.whenData((value) => value.copyWith(
         isPermissionCheckboxState: current
     ));
+    bool allChecked = current.every((checked) => checked);
+    state =  state.whenData((value) => value.copyWith(
+        isAllPermissionGrant: allChecked
+    ));
   }
+
+  Future<void> permissionRequest(List<bool> requestPermissionState) async {
+    List<Permission> requestPermission = [];
+    for(int i=0; i<4; i++) {
+      if(requestPermissionState[i]) {
+        requestPermission.add(permission[i]);
+      }
+    }
+    await requestPermission.request();
+}
+
+
 }
