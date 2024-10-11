@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/onboarding/onboarding_controller.dart';
+import 'package:daepiro/presentation/onboarding/controller/onboarding_controller.dart';
 import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:daepiro/presentation/widgets/button/secondary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import '../widgets/DaepiroTheme.dart';
+import '../../widgets/DaepiroTheme.dart';
 
 class OnboardingFourthScreen extends ConsumerStatefulWidget {
 
@@ -90,10 +90,10 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                     pressedColor: DaepiroColorStyle.o_50,
                                     borderRadius: 4.0,
                                     child: primaryFilledButtonWidget(),
-                                    verticalPadding: 4.0)
+                                    verticalPadding: 0.0
+                                )
                               ],
                             ),
-                            SizedBox(height: 4),
                             Text(
                               '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
                               style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
@@ -225,7 +225,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 4),
+              padding: EdgeInsets.symmetric(vertical: 2),
               child: SvgPicture.asset(
                   'assets/icons/alram.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)

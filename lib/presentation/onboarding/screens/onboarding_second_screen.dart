@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/onboarding/onboarding_controller.dart';
+import 'package:daepiro/presentation/onboarding/controller/onboarding_controller.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-//하단 버튼 올라오는 것이 맞는가??
+
 class OnboardingSecondScreen extends ConsumerStatefulWidget {
   const OnboardingSecondScreen({super.key});
 
@@ -60,7 +60,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     var newNickLength = nicknameController.text.length;
     var newState = 'NORMAL';
     var newCaution = false;
-    //print('Checking nickname: ${nicknameController.text}');
     var isAvailable = await ref.read(onboardingControllerProvider.notifier).checkNickName(nicknameController.text);
 
     if(newNickLength > 10) {
@@ -76,7 +75,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       newState = 'ERRORCHARACTER';
       newCaution = true;
     }
-    print('여기!!! ${_checkForSpecialCharacter(nicknameController.text)}');
     if (newCaution != cautionNick || _nicknameLength != newNickLength) {
       setState(() {
         _nicknameLength = newNickLength;
@@ -230,10 +228,9 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                     await ref.read(onboardingControllerProvider.notifier).updateUserName(nameController.text),
                     GoRouter.of(context).push('/onboarding/second')
                   }: null,
-                  backgroundColor: DaepiroColorStyle.o_500,
+                  backgroundColor: isAvailable? DaepiroColorStyle.o_500 : DaepiroColorStyle.o_100,
                   pressedColor: DaepiroColorStyle.o_600,
                   borderRadius: 8.0,
-                  disabledColor: DaepiroColorStyle.o_100,
                   child: Text(
                     '다음',
                     style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),

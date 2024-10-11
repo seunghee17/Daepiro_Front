@@ -1,7 +1,5 @@
-import 'package:daepiro/presentation/onboarding/juso_input_screen.dart';
-import 'package:daepiro/presentation/onboarding/onboarding_first_screen.dart';
-import 'package:daepiro/presentation/onboarding/onboarding_third_screen.dart';
-import 'package:daepiro/presentation/onboarding/permission_screen.dart';
+import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
+import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,10 +10,11 @@ import '../presentation/home/home_screen.dart';
 import '../presentation/information/information_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
-import '../presentation/onboarding/onboarding_fifth_screen.dart';
-import '../presentation/onboarding/onboarding_final_screen.dart';
-import '../presentation/onboarding/onboarding_fourth_screen.dart';
-import '../presentation/onboarding/onboarding_second_screen.dart';
+import '../presentation/onboarding/screens/onboarding_fifth_screen.dart';
+import '../presentation/onboarding/screens/onboarding_final_screen.dart';
+import '../presentation/onboarding/screens/onboarding_first_screen.dart';
+import '../presentation/onboarding/screens/onboarding_fourth_screen.dart';
+import '../presentation/onboarding/screens/onboarding_second_screen.dart';
 import '../presentation/splash/splash_screen.dart';
 import '../presentation/sponsor/sponsor_screen.dart';
 import 'main_navigation.dart';
@@ -73,10 +72,11 @@ final goRouteProvider = Provider((ref) {
               builder: (context, state) => const OnboardingThirdScreen()
           ),
           GoRoute(
-              path: 'juso/:type',
+              path: 'juso/:type/:index',
               builder: (context, state) {
                 final type = state.pathParameters['type'];
-                return JusoInputScreen(type: type);
+                final index = state.pathParameters['index'];
+                return JusoInputScreen(type: type, index: index);
               }
           ),
           GoRoute(
@@ -90,11 +90,6 @@ final goRouteProvider = Provider((ref) {
           GoRoute(
               path: 'final',
               builder: (context, state) => OnboardingFinalScreen()
-          ),
-          //임시 수정가능성 있음
-          GoRoute(
-              path: 'permission',
-              builder: (context, state) => PermissionScreen()
           ),
         ]
       ),

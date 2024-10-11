@@ -18,15 +18,17 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$OnboardingState {
   bool get isError => throw _privateConstructorUsedError;
   String get nameState => throw _privateConstructorUsedError;
-  String get nicknameState => throw _privateConstructorUsedError;
+  String get nicknameState =>
+      throw _privateConstructorUsedError; //검색된 주소 목록의 중복을 제거하기 위함
   Set<String> get jusoListState => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
-  List<String> get inputJusoList => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError; //입력한 실주소
+  List<String> get inputJusoList =>
+      throw _privateConstructorUsedError; //입력한 주소 별명
   List<String> get inputJusoName =>
       throw _privateConstructorUsedError; //권한 모두 동의 활성화 상태
-  bool get isAllPermissionGrant =>
+  bool get isAllAppPermissionGrant =>
       throw _privateConstructorUsedError; //체크박스의 활성화상태
-  List<bool> get isPermissionCheckboxState =>
+  List<bool> get isAppPermissionCheckboxState =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -48,8 +50,8 @@ abstract class $OnboardingStateCopyWith<$Res> {
       String userName,
       List<String> inputJusoList,
       List<String> inputJusoName,
-      bool isAllPermissionGrant,
-      List<bool> isPermissionCheckboxState});
+      bool isAllAppPermissionGrant,
+      List<bool> isAppPermissionCheckboxState});
 }
 
 /// @nodoc
@@ -72,8 +74,8 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? userName = null,
     Object? inputJusoList = null,
     Object? inputJusoName = null,
-    Object? isAllPermissionGrant = null,
-    Object? isPermissionCheckboxState = null,
+    Object? isAllAppPermissionGrant = null,
+    Object? isAppPermissionCheckboxState = null,
   }) {
     return _then(_value.copyWith(
       isError: null == isError
@@ -104,13 +106,13 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.inputJusoName
           : inputJusoName // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      isAllPermissionGrant: null == isAllPermissionGrant
-          ? _value.isAllPermissionGrant
-          : isAllPermissionGrant // ignore: cast_nullable_to_non_nullable
+      isAllAppPermissionGrant: null == isAllAppPermissionGrant
+          ? _value.isAllAppPermissionGrant
+          : isAllAppPermissionGrant // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPermissionCheckboxState: null == isPermissionCheckboxState
-          ? _value.isPermissionCheckboxState
-          : isPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
+      isAppPermissionCheckboxState: null == isAppPermissionCheckboxState
+          ? _value.isAppPermissionCheckboxState
+          : isAppPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
               as List<bool>,
     ) as $Val);
   }
@@ -132,8 +134,8 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       String userName,
       List<String> inputJusoList,
       List<String> inputJusoName,
-      bool isAllPermissionGrant,
-      List<bool> isPermissionCheckboxState});
+      bool isAllAppPermissionGrant,
+      List<bool> isAppPermissionCheckboxState});
 }
 
 /// @nodoc
@@ -154,8 +156,8 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? userName = null,
     Object? inputJusoList = null,
     Object? inputJusoName = null,
-    Object? isAllPermissionGrant = null,
-    Object? isPermissionCheckboxState = null,
+    Object? isAllAppPermissionGrant = null,
+    Object? isAppPermissionCheckboxState = null,
   }) {
     return _then(_$OnboardingStateImpl(
       isError: null == isError
@@ -186,13 +188,13 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value._inputJusoName
           : inputJusoName // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      isAllPermissionGrant: null == isAllPermissionGrant
-          ? _value.isAllPermissionGrant
-          : isAllPermissionGrant // ignore: cast_nullable_to_non_nullable
+      isAllAppPermissionGrant: null == isAllAppPermissionGrant
+          ? _value.isAllAppPermissionGrant
+          : isAllAppPermissionGrant // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPermissionCheckboxState: null == isPermissionCheckboxState
-          ? _value._isPermissionCheckboxState
-          : isPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
+      isAppPermissionCheckboxState: null == isAppPermissionCheckboxState
+          ? _value._isAppPermissionCheckboxState
+          : isAppPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
               as List<bool>,
     ));
   }
@@ -207,10 +209,11 @@ class _$OnboardingStateImpl implements _OnboardingState {
       this.nicknameState = 'NONE',
       final Set<String> jusoListState = const <String>{},
       this.userName = '',
-      final List<String> inputJusoList = const [],
+      final List<String> inputJusoList = const ['', '', ''],
       final List<String> inputJusoName = const [],
-      this.isAllPermissionGrant = false,
-      final List<bool> isPermissionCheckboxState = const [
+      this.isAllAppPermissionGrant = false,
+      final List<bool> isAppPermissionCheckboxState = const [
+        false,
         false,
         false,
         false,
@@ -219,7 +222,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
       : _jusoListState = jusoListState,
         _inputJusoList = inputJusoList,
         _inputJusoName = inputJusoName,
-        _isPermissionCheckboxState = isPermissionCheckboxState;
+        _isAppPermissionCheckboxState = isAppPermissionCheckboxState;
 
   @override
   @JsonKey()
@@ -230,7 +233,9 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final String nicknameState;
+//검색된 주소 목록의 중복을 제거하기 위함
   final Set<String> _jusoListState;
+//검색된 주소 목록의 중복을 제거하기 위함
   @override
   @JsonKey()
   Set<String> get jusoListState {
@@ -242,7 +247,9 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final String userName;
+//입력한 실주소
   final List<String> _inputJusoList;
+//입력한 실주소
   @override
   @JsonKey()
   List<String> get inputJusoList {
@@ -251,7 +258,9 @@ class _$OnboardingStateImpl implements _OnboardingState {
     return EqualUnmodifiableListView(_inputJusoList);
   }
 
+//입력한 주소 별명
   final List<String> _inputJusoName;
+//입력한 주소 별명
   @override
   @JsonKey()
   List<String> get inputJusoName {
@@ -263,22 +272,22 @@ class _$OnboardingStateImpl implements _OnboardingState {
 //권한 모두 동의 활성화 상태
   @override
   @JsonKey()
-  final bool isAllPermissionGrant;
+  final bool isAllAppPermissionGrant;
 //체크박스의 활성화상태
-  final List<bool> _isPermissionCheckboxState;
+  final List<bool> _isAppPermissionCheckboxState;
 //체크박스의 활성화상태
   @override
   @JsonKey()
-  List<bool> get isPermissionCheckboxState {
-    if (_isPermissionCheckboxState is EqualUnmodifiableListView)
-      return _isPermissionCheckboxState;
+  List<bool> get isAppPermissionCheckboxState {
+    if (_isAppPermissionCheckboxState is EqualUnmodifiableListView)
+      return _isAppPermissionCheckboxState;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_isPermissionCheckboxState);
+    return EqualUnmodifiableListView(_isAppPermissionCheckboxState);
   }
 
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName, isAllPermissionGrant: $isAllPermissionGrant, isPermissionCheckboxState: $isPermissionCheckboxState)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState)';
   }
 
   @override
@@ -299,10 +308,12 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 .equals(other._inputJusoList, _inputJusoList) &&
             const DeepCollectionEquality()
                 .equals(other._inputJusoName, _inputJusoName) &&
-            (identical(other.isAllPermissionGrant, isAllPermissionGrant) ||
-                other.isAllPermissionGrant == isAllPermissionGrant) &&
+            (identical(
+                    other.isAllAppPermissionGrant, isAllAppPermissionGrant) ||
+                other.isAllAppPermissionGrant == isAllAppPermissionGrant) &&
             const DeepCollectionEquality().equals(
-                other._isPermissionCheckboxState, _isPermissionCheckboxState));
+                other._isAppPermissionCheckboxState,
+                _isAppPermissionCheckboxState));
   }
 
   @override
@@ -315,8 +326,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
       userName,
       const DeepCollectionEquality().hash(_inputJusoList),
       const DeepCollectionEquality().hash(_inputJusoName),
-      isAllPermissionGrant,
-      const DeepCollectionEquality().hash(_isPermissionCheckboxState));
+      isAllAppPermissionGrant,
+      const DeepCollectionEquality().hash(_isAppPermissionCheckboxState));
 
   @JsonKey(ignore: true)
   @override
@@ -335,8 +346,8 @@ abstract class _OnboardingState implements OnboardingState {
       final String userName,
       final List<String> inputJusoList,
       final List<String> inputJusoName,
-      final bool isAllPermissionGrant,
-      final List<bool> isPermissionCheckboxState}) = _$OnboardingStateImpl;
+      final bool isAllAppPermissionGrant,
+      final List<bool> isAppPermissionCheckboxState}) = _$OnboardingStateImpl;
 
   @override
   bool get isError;
@@ -344,18 +355,18 @@ abstract class _OnboardingState implements OnboardingState {
   String get nameState;
   @override
   String get nicknameState;
-  @override
+  @override //검색된 주소 목록의 중복을 제거하기 위함
   Set<String> get jusoListState;
   @override
   String get userName;
-  @override
+  @override //입력한 실주소
   List<String> get inputJusoList;
-  @override
+  @override //입력한 주소 별명
   List<String> get inputJusoName;
   @override //권한 모두 동의 활성화 상태
-  bool get isAllPermissionGrant;
+  bool get isAllAppPermissionGrant;
   @override //체크박스의 활성화상태
-  List<bool> get isPermissionCheckboxState;
+  List<bool> get isAppPermissionCheckboxState;
   @override
   @JsonKey(ignore: true)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>

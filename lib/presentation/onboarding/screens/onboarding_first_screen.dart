@@ -10,7 +10,7 @@ class OnboardingFirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height; //812
-    var screenWidth = MediaQuery.of(context).size.width; //375
+
     return Scaffold(
       body: SafeArea(
         child: Padding(

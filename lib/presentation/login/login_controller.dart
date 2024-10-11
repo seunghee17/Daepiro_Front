@@ -3,11 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../data/model/request/refresh_token_request.dart';
 import '../../domain/usecase/login/social_login_usecase.dart';
-import '../../domain/usecase/login/token_result_usecase.dart';
 import 'login_state.dart';
 
 part 'login_controller.g.dart';
@@ -15,10 +13,9 @@ part 'login_controller.g.dart';
 @riverpod
 class LoginController extends _$LoginController {
   final storage = FlutterSecureStorage();
+  List<Permission> permission = [Permission.location, Permission.notification, Permission.camera, Permission.storage];
   @override
-  //초기 데이터 로드를 수행할 목적으로 사용
   //로그인 할려는 화면에 들어왔기에 이미 토큰은 유효하지 않음
-  //주로 초기 정보를 로드하는 목적으로 사용됨
   FutureOr<LoginState> build() async {
     return _initState();
   }
@@ -27,26 +24,6 @@ class LoginController extends _$LoginController {
     storage.deleteAll();
     return LoginState(isLoading: false, accessToken: '', refreshToken: '', isCompletedOnboarding: false);
   }
-
-  Future<void> tokenData(String token) async {
-    final value = state.valueOrNull;
-    if(value != null) {
-      if(!value.isLoading) {
-        state = AsyncValue.data(value.copyWith(isLoading: true));
-        state = await AsyncValue.guard(() async {
-          final result = await ref.read(getTokenResponseProvider(tokenRequest: RefreshTokenRequest(refreshToken: token)).future);
-          print('we are in login_controller: ${result.data?.accessToken} &&&& ${result.data?.refreshToken}');
-          storage.write(key: 'accessToken', value: result.data?.accessToken);
-          storage.write(key: 'refreshToken', value: result.data?.refreshToken);
-          return value.copyWith(
-              isLoading: false,
-              accessToken: result.data?.accessToken ?? '',
-              refreshToken: result.data?.refreshToken ?? '',
-          );
-        });
-      }
-    }
-  }//getSocialTokenResponseProvider
 
   Future<void> getSocialToken(String platform, String token) async {
     final value = state.valueOrNull;
@@ -59,12 +36,12 @@ class LoginController extends _$LoginController {
         );
         storage.write(key: 'accessToken', value: result.data?.accessToken);
         storage.write(key: 'refreshToken', value: result.data?.refreshToken);
-        //온보딩값 준다면 여기 변경되어야함(지금 false로 임시값 넣어놓음)
         state = AsyncValue.data(value.copyWith(
             isLoading: false,
             accessToken: result.data?.accessToken ?? '',
             refreshToken: result.data?.refreshToken ?? '',
-          isCompletedOnboarding: result.data?.isCompletedOnboarding ?? false
+            isCompletedOnboarding: result.data?.isCompletedOnboarding ?? false,
+            isLoginSuccess: true
            )
         );
       }
@@ -113,5 +90,17 @@ class LoginController extends _$LoginController {
     return '';
   }
 
+  Future<bool> checkLocationPermission() async {
+    var status = await Permission.location.status;
+    if(status.isGranted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> requestLocationPermission() async {
+    await Permission.location.request();
+  }
 }
 

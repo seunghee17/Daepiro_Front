@@ -1,39 +1,22 @@
 import 'dart:io';
-import 'package:daepiro/presentation/login/login_state.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
-import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../onboarding/screens/permission_screen.dart';
+import '../widgets/button/secondary_filled_button.dart';
 import 'login_controller.dart';
+import 'login_state.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  @override
-  LoginScreenState createState() => LoginScreenState();
-}
-
-class LoginScreenState extends ConsumerState<LoginScreen> {
-  bool _isAllChecked = false;
-  late List<bool> isChecked;
-  late List<bool> isHighlighted;
-  bool isAllAgreePressed = false;
-  List<String> permissionDescription = ['위치권한', '알림', '카메라', '사진'];
-  List<String> permissionSubDescription = ['사용자 위치 확인', '재난 알림 수신', '커뮤니티', '커뮤니티'];
+class LoginScreen extends ConsumerWidget {
 
   @override
-  void initState() {
-    super.initState();
-    isChecked = List<bool>.filled(4, false);
-    isHighlighted = List<bool>.filled(4, false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final asyncValue = ref.watch(loginControllerProvider);
-    var screenHeight = MediaQuery.of(context).size.height;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(loginControllerProvider);
+    final screenHeight = MediaQuery.of(context).size.height;
 
     ref.listen<AsyncValue<LoginState>>(loginControllerProvider, (previous, next) {
       next.whenData((state) {
@@ -41,13 +24,29 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
           if(state.isCompletedOnboarding) {
             GoRouter.of(context).go('/home');
           } else {
-            GoRouter.of(context).go('/onboarding');
+              showModalBottomSheet(
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) {
+                    return PermissionScreen(
+                      onPermissionCheck: () async {
+                        GoRouter.of(context).pop();
+                        var locationGrant = await ref.read(loginControllerProvider.notifier).checkLocationPermission();
+                        if(!locationGrant) {
+                          locationDialog(context, ref);
+                        } else {
+                          GoRouter.of(context).go('/onboarding');
+                        }
+                      },
+                    );
+                  }
+              );
           }
         }
       });
     });
 
-    return asyncValue.when(
+    return controller.when(
         data: (state) {
           return Scaffold(
             body: Column(
@@ -192,172 +191,82 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         child: child
     );
   }
-  
-  void permissionBottomSheet(BuildContext context, double height) {
-    showModalBottomSheet(
-      enableDrag: false,
+
+  void locationDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
         context: context,
-        builder: (context) {
-          return Container(
-            color: DaepiroColorStyle.white,
-            width: double.infinity,
-            height: height * 0.6,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
-            ),
-            child: Column(
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 24,),
                 Text(
                   '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
-                  style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 16),
-                          allAgreeWidget(),
-                          ListView.builder(
-                            itemCount: 4,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTapDown: (details) {
-                                  setState(() {
-                                    isHighlighted[index] = !isHighlighted[index];
-                                    isChecked[index] = !isChecked[index];
-                                  });
-                                },
-                                onTapUp: (details) {
-                                  setState(() {
-                                    isHighlighted[index] = !isHighlighted[index];
-                                  });
-                                },
-                                child: permissionWidget(index),
-                              );
-                            }
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 44),
-                Text(
-                  '권한을 허용하지 않아도 서비스를 사용할 수 있으나\n일부 서비스 이용이 제한될 수 있어요.',
-                  style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
-                ),
-                PrimaryFilledButton(
-                  onPressed: () {
-                    GoRouter.of(context).pop();
-                  },
-                    backgroundColor: DaepiroColorStyle.g_700,
-                    pressedColor: DaepiroColorStyle.g_600,
-                    borderRadius: 8,
-                    child: Text('다음', style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white)),
-                    verticalPadding: 12
+                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
                 ),
               ],
             ),
+            contentPadding:EdgeInsets.fromLTRB(20, 0, 20, 24) ,
+            content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    '만약 위치 권한을 허용하지 않는다면\n거주지를 기준으로 재난문자가 발송돼요.',
+                    style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
+                  ),
+                ]
+            ),
+            actions: <Widget>[
+              Row(
+                children: [
+                  Expanded(
+                    child: SecondaryFilledButton(
+                        verticalPadding: 12,
+                        onPressed: () {
+                          GoRouter.of(context).pop();
+                          GoRouter.of(context).go('/onboarding');
+                        },
+                        radius: 8,
+                        backgroundColor: DaepiroColorStyle.g_50,
+                        pressedColor:  DaepiroColorStyle.g_75,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          '위치 미허용',
+                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
+                        )
+                    ),
+                  ),
+                  SizedBox(width: 8,),
+                  Expanded(
+                    child: SecondaryFilledButton(
+                        verticalPadding: 12,
+                        onPressed: () async {
+                          await ref.read(loginControllerProvider.notifier).requestLocationPermission();
+                          GoRouter.of(context).pop();
+                          GoRouter.of(context).go('/onboarding');
+                        },
+                        radius: 8,
+                        backgroundColor: DaepiroColorStyle.g_700,
+                        pressedColor:  DaepiroColorStyle.g_400,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          '위치 허용',
+                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+                        )
+                    ),
+                  )
+                ],
+              ),
+            ],
           );
         }
     );
   }
 
-  Widget allAgreeWidget() {
-    return GestureDetector(
-      onTapDown: (details) {
-        setState(() {
-          isAllAgreePressed = true;
-          _isAllChecked = !_isAllChecked;
-        });
-      },
-      onTapUp: (details) {
-        setState(() {
-          isAllAgreePressed = false;
-        });
-      },
-      child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: isAllAgreePressed ? DaepiroColorStyle.g_75 : DaepiroColorStyle.g_50,
-              borderRadius: BorderRadius.circular(8)
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            child: Row(
-              children: [
-                Checkbox(
-                    side: BorderSide(color: Colors.transparent),
-                    activeColor: DaepiroColorStyle.g_500,
-                    checkColor: DaepiroColorStyle.white,
-                    fillColor: MaterialStateProperty.resolveWith((state) {
-                      if(!state.contains(MaterialState.selected)) {
-                        return DaepiroColorStyle.g_100;
-                      }
-                      return null;
-                    }),
-                    value: _isAllChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        _isAllChecked = value!;
-                        isChecked.fillRange(0, 5, value);
-                      });
-                    }),
-                SizedBox(width: 8),
-                Text(
-                  '권한 모두 동의',
-                  style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
-                )
-              ],
-            ),
-          )
-      ),
-    );
-  }
-
-  Widget permissionWidget(int index) {
-    return Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: isHighlighted[index] ? DaepiroColorStyle.g_50 : DaepiroColorStyle.white,
-            borderRadius: BorderRadius.circular(8)
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          child: Row(
-            children: [
-              Checkbox(
-                  side: BorderSide(color: Colors.transparent),
-                  activeColor: DaepiroColorStyle.g_500,
-                  checkColor: DaepiroColorStyle.white,
-                  fillColor: MaterialStateProperty.resolveWith((state) {
-                    if(!state.contains(MaterialState.selected)) {
-                      return DaepiroColorStyle.g_100;
-                    }
-                    return null;
-                  }),
-                  value:isChecked[index],
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked[index] = value!;
-                    });
-                  }),
-              SizedBox(width: 8,),
-              Text(
-                permissionDescription[index],
-                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
-              ),
-              Spacer(),
-              Text(
-                permissionSubDescription[index],
-                style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
-              ),
-            ],
-          ),
-        )
-    );
-  }
 }

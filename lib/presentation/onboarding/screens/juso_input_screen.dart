@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
-import '../widgets/DaepiroTheme.dart';
-import '../widgets/button/secondary_filled_button.dart';
-import 'onboarding_controller.dart';
+import '../../widgets/DaepiroTheme.dart';
+import '../../widgets/button/secondary_filled_button.dart';
+import '../controller/onboarding_controller.dart';
 
 class JusoInputScreen extends ConsumerStatefulWidget {
   final String? type;
-  const JusoInputScreen({super.key, this.type});
+  final String? index;
+  const JusoInputScreen({super.key, this.type, this.index});
 
   @override
   JusoInputState createState() => JusoInputState();
@@ -26,9 +26,10 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(onboardingControllerProvider);
+    Future(() {
+      ref.read(onboardingControllerProvider.notifier).initSearchHistory();
+    });
     jusoController.addListener(updateList);
-
     scrollController.addListener(() {
       if(scrollController.position.pixels == scrollController.position.maxScrollExtent && !isLoading) {
         loadMoreJuso();
@@ -147,7 +148,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                         controller: scrollController,
                         itemCount: state.jusoListState.length+1,
                         itemBuilder: (context, index) {
-                          if(state.isError)
+                          if(state.isError) {
                             return Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -164,6 +165,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                 ],
                               ),
                             );
+                          }
                          if(index == state.jusoListState.length)
                             return Container();
                           var jusoList = state.jusoListState.toList();
@@ -184,12 +186,9 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                 setState(() {
                                   selected.add(index);
                                 });
-                                if(state.inputJusoList.isEmpty)
-                                  await ref.read(onboardingControllerProvider.notifier).addJuso(juso);
-                                else
-                                  await ref.read(onboardingControllerProvider.notifier).addFirstIdxJuso(juso);
+                                await ref.read(onboardingControllerProvider.notifier).addJuso(juso, int.parse(widget.index!));
+                                await ref.read(onboardingControllerProvider.notifier).initSearchHistory();
                                 GoRouter.of(context).pop();
-                                print('리스트 뭐추가?? ${state.inputJusoList}');
                               }
                             ),
                           );

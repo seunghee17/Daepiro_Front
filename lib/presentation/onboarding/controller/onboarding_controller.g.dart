@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_controller.dart';
+part of 'onboarding_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loginControllerHash() => r'1bfd92598dc7bec8e9557462dea92bdd57091f85';
+String _$onboardingControllerHash() =>
+    r'48ef9e7bffbb34e3a89cc4cd8fdfeda5e7286b00';
 
-/// See also [LoginController].
-@ProviderFor(LoginController)
-final loginControllerProvider =
-    AutoDisposeAsyncNotifierProvider<LoginController, LoginState>.internal(
-  LoginController.new,
-  name: r'loginControllerProvider',
+/// See also [OnboardingController].
+@ProviderFor(OnboardingController)
+final onboardingControllerProvider = AutoDisposeAsyncNotifierProvider<
+    OnboardingController, OnboardingState>.internal(
+  OnboardingController.new,
+  name: r'onboardingControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$loginControllerHash,
+      : _$onboardingControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$LoginController = AutoDisposeAsyncNotifier<LoginState>;
+typedef _$OnboardingController = AutoDisposeAsyncNotifier<OnboardingState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
