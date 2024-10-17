@@ -45,6 +45,9 @@ class _PrimaryFilledButton extends State<PrimaryFilledButton> {
       ).copyWith(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return widget.disabledColor ?? widget.backgroundColor;
+            }
             if (states.contains(MaterialState.pressed)) {
               return widget.pressedColor;
             }

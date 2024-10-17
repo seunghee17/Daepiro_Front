@@ -17,6 +17,7 @@ class OnboardingFourthScreen extends ConsumerStatefulWidget {
 
 class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
   Set<int> selected = Set();
+  Set<int> selectedSub = Set();
 
   @override
   Widget build(BuildContext context) {
@@ -30,47 +31,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: LinearPercentIndicator(
-                            padding: EdgeInsets.zero,
-                            percent: 1.0,
-                            lineHeight: 10,
-                            backgroundColor: DaepiroColorStyle.g_50,
-                            progressColor: DaepiroColorStyle.o_300,
-                            barRadius: Radius.circular(10.0),
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Text(
-                          '3/3',
-                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_100),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 24),
-                    RichText(
-                        text: TextSpan(
-                            text: '수신 받을 ',
-                            style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
-                            children: [
-                              TextSpan(
-                                text: '재난 유형',
-                                style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
-                              ),
-                              TextSpan(
-                                text: '을\n',
-                                style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
-                              ),
-                              TextSpan(
-                                text: '선택해주세요.',
-                                style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
-                              ),
-                            ]
-                        )
-                    ),
+                    headerWidget(),
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
@@ -103,8 +64,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                 spacing: 8,
                                 runSpacing: 8,
                                 children: List.generate(
-                                    6,
-                                        (index) {
+                                    6, (index) {
                                       bool isTapped = selected.contains(index);
                                       return GestureDetector(
                                           onTap: () {
@@ -116,30 +76,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                               }
                                             });
                                           },
-                                          child: Container(
-                                            width: (MediaQuery.of(context).size.width / 3) - 20,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(height: 8),
-                                                SvgPicture.asset(
-                                                  'assets/icons/alram.svg',
-                                                  width: 50,
-                                                  height: 50,
-                                                ),
-                                                Text(
-                                                  '재난 유형',
-                                                  style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
-                                                ),
-                                                SizedBox(height: 8),
-                                              ],
-                                            ),
-                                            decoration: BoxDecoration(
-                                                color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
-                                                border: Border.all(color: isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50, width: 1),
-                                                borderRadius: BorderRadius.circular(8)
-                                            ),
-                                          )
+                                          child: disasterItem(isTapped)
                                       );
                                     }
                                 )
@@ -159,30 +96,19 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                               spacing: 8,
                               runSpacing: 8,
                               children: List.generate(
-                                  15,
-                                      (index) {
-                                    return Container(
-                                      width: (MediaQuery.of(context).size.width / 3) - 20,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          SizedBox(height: 8),
-                                          SvgPicture.asset(
-                                            'assets/icons/alram.svg',
-                                            width: 50,
-                                            height: 50,
-                                          ),
-                                          Text(
-                                            '재난 유형',
-                                            style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
-                                          ),
-                                          SizedBox(height: 8),
-                                        ],
-                                      ),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: DaepiroColorStyle.g_50, width: 1),
-                                          borderRadius: BorderRadius.circular(8)
-                                      ),
+                                  15, (index) {
+                                    bool isTapped = selectedSub.contains(index);
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          if(isTapped) {
+                                            selectedSub.remove(index);
+                                          } else {
+                                            selectedSub.add(index);
+                                          }
+                                        });
+                                      },
+                                      child: disasterItem(isTapped),
                                     );
                                   }
                               ),
@@ -192,21 +118,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                       ),
                     ),
                     SizedBox(height: 10,),
-                    BottomWidget(context),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      child: TextButton(
-                          onPressed: (){
-                            dialog(context);
-                          },
-                          child: Text(
-                            '다음에 설정하기',
-                            style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300),
-                          )
-                      ),
-                    ),
-                    //SizedBox(height: 12),
+                    bottomWidget(context),
                   ],
                 ),
               );
@@ -241,39 +153,132 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
     );
   }
 
-  Widget BottomWidget(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        child: Row(
+  Widget headerWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 20),
+        Row(
           children: [
             Expanded(
-                child: PrimaryFilledButton(
-                    onPressed: GoRouter.of(context).pop,
-                    backgroundColor: DaepiroColorStyle.g_50,
-                    pressedColor: DaepiroColorStyle.g_75,
-                    borderRadius: 8.0,
-                    disabledColor: DaepiroColorStyle.g_50,
-                    child: Text(
-                      '이전',
-                      style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
-                    ),
-                    verticalPadding: 12
-                )
+              child: LinearPercentIndicator(
+                padding: EdgeInsets.zero,
+                percent: 1.0,
+                lineHeight: 10,
+                backgroundColor: DaepiroColorStyle.g_50,
+                progressColor: DaepiroColorStyle.o_300,
+                barRadius: Radius.circular(10.0),
+              ),
             ),
-            SizedBox(width: 8),
-            Expanded(
-                child: PrimaryFilledButton(
-                    onPressed: () =>   GoRouter.of(context).push('/onboarding/fourth'),
-                    backgroundColor: DaepiroColorStyle.o_500,
-                    pressedColor: DaepiroColorStyle.o_600,
-                    borderRadius: 8.0,
-                    disabledColor: DaepiroColorStyle.o_500,
-                    child: Text(
-                      '다음',
-                      style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
-                    ),
-                    verticalPadding: 12
-                )
+            SizedBox(width: 16),
+            Text(
+              '3/3',
+              style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_100),
+            ),
+          ],
+        ),
+        SizedBox(height: 24),
+        RichText(
+            text: TextSpan(
+                text: '수신 받을 ',
+                style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
+                children: [
+                  TextSpan(
+                    text: '재난 유형',
+                    style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
+                  ),
+                  TextSpan(
+                    text: '을\n',
+                    style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
+                  ),
+                  TextSpan(
+                    text: '선택해주세요.',
+                    style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
+                  ),
+                ]
+            )
+        ),
+      ],
+    );
+  }
+
+  Widget disasterItem(bool isTapped) {
+    return Container(
+      width: (MediaQuery.of(context).size.width / 3) - 20,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 8),
+          SvgPicture.asset(
+            'assets/icons/alram.svg',
+            width: 50,
+            height: 50,
+          ),
+          Text(
+            '재난 유형',
+            style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
+          ),
+          SizedBox(height: 8),
+        ],
+      ),
+      decoration: BoxDecoration(
+          color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
+          border: Border.all(color: isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50, width: 1),
+          borderRadius: BorderRadius.circular(8)
+      ),
+    );
+  }
+
+  Widget bottomWidget(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    child: PrimaryFilledButton(
+                        onPressed: GoRouter.of(context).pop,
+                        backgroundColor: DaepiroColorStyle.g_50,
+                        pressedColor: DaepiroColorStyle.g_75,
+                        borderRadius: 8.0,
+                        disabledColor: DaepiroColorStyle.g_50,
+                        child: Text(
+                          '이전',
+                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
+                        ),
+                        verticalPadding: 12
+                    )
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                    child: PrimaryFilledButton(
+                        onPressed: () =>   GoRouter.of(context).push('/onboarding/fourth'),
+                        backgroundColor: DaepiroColorStyle.o_500,
+                        pressedColor: DaepiroColorStyle.o_600,
+                        borderRadius: 8.0,
+                        disabledColor: DaepiroColorStyle.o_500,
+                        child: Text(
+                          '다음',
+                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+                        ),
+                        verticalPadding: 12
+                    )
+                ),
+              ],
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: TextButton(
+                  onPressed: (){
+                    dialog(context);
+                  },
+                  child: Text(
+                    '다음에 설정하기',
+                    style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300),
+                  )
+              ),
             ),
           ],
         )

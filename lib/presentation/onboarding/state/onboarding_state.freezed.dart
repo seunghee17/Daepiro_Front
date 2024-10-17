@@ -30,6 +30,7 @@ mixin _$OnboardingState {
       throw _privateConstructorUsedError; //체크박스의 활성화상태
   List<bool> get isAppPermissionCheckboxState =>
       throw _privateConstructorUsedError;
+  List<String> get disasterTypes => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OnboardingStateCopyWith<OnboardingState> get copyWith =>
@@ -51,7 +52,8 @@ abstract class $OnboardingStateCopyWith<$Res> {
       List<String> inputJusoList,
       List<String> inputJusoName,
       bool isAllAppPermissionGrant,
-      List<bool> isAppPermissionCheckboxState});
+      List<bool> isAppPermissionCheckboxState,
+      List<String> disasterTypes});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? inputJusoName = null,
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
+    Object? disasterTypes = null,
   }) {
     return _then(_value.copyWith(
       isError: null == isError
@@ -114,6 +117,10 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.isAppPermissionCheckboxState
           : isAppPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
               as List<bool>,
+      disasterTypes: null == disasterTypes
+          ? _value.disasterTypes
+          : disasterTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -135,7 +142,8 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       List<String> inputJusoList,
       List<String> inputJusoName,
       bool isAllAppPermissionGrant,
-      List<bool> isAppPermissionCheckboxState});
+      List<bool> isAppPermissionCheckboxState,
+      List<String> disasterTypes});
 }
 
 /// @nodoc
@@ -158,6 +166,7 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? inputJusoName = null,
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
+    Object? disasterTypes = null,
   }) {
     return _then(_$OnboardingStateImpl(
       isError: null == isError
@@ -196,6 +205,10 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value._isAppPermissionCheckboxState
           : isAppPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
               as List<bool>,
+      disasterTypes: null == disasterTypes
+          ? _value._disasterTypes
+          : disasterTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -218,11 +231,13 @@ class _$OnboardingStateImpl implements _OnboardingState {
         false,
         false,
         false
-      ]})
+      ],
+      final List<String> disasterTypes = const []})
       : _jusoListState = jusoListState,
         _inputJusoList = inputJusoList,
         _inputJusoName = inputJusoName,
-        _isAppPermissionCheckboxState = isAppPermissionCheckboxState;
+        _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
+        _disasterTypes = disasterTypes;
 
   @override
   @JsonKey()
@@ -285,9 +300,18 @@ class _$OnboardingStateImpl implements _OnboardingState {
     return EqualUnmodifiableListView(_isAppPermissionCheckboxState);
   }
 
+  final List<String> _disasterTypes;
+  @override
+  @JsonKey()
+  List<String> get disasterTypes {
+    if (_disasterTypes is EqualUnmodifiableListView) return _disasterTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_disasterTypes);
+  }
+
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
   }
 
   @override
@@ -313,7 +337,9 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 other.isAllAppPermissionGrant == isAllAppPermissionGrant) &&
             const DeepCollectionEquality().equals(
                 other._isAppPermissionCheckboxState,
-                _isAppPermissionCheckboxState));
+                _isAppPermissionCheckboxState) &&
+            const DeepCollectionEquality()
+                .equals(other._disasterTypes, _disasterTypes));
   }
 
   @override
@@ -327,7 +353,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
       const DeepCollectionEquality().hash(_inputJusoList),
       const DeepCollectionEquality().hash(_inputJusoName),
       isAllAppPermissionGrant,
-      const DeepCollectionEquality().hash(_isAppPermissionCheckboxState));
+      const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
+      const DeepCollectionEquality().hash(_disasterTypes));
 
   @JsonKey(ignore: true)
   @override
@@ -347,7 +374,8 @@ abstract class _OnboardingState implements OnboardingState {
       final List<String> inputJusoList,
       final List<String> inputJusoName,
       final bool isAllAppPermissionGrant,
-      final List<bool> isAppPermissionCheckboxState}) = _$OnboardingStateImpl;
+      final List<bool> isAppPermissionCheckboxState,
+      final List<String> disasterTypes}) = _$OnboardingStateImpl;
 
   @override
   bool get isError;
@@ -367,6 +395,8 @@ abstract class _OnboardingState implements OnboardingState {
   bool get isAllAppPermissionGrant;
   @override //체크박스의 활성화상태
   List<bool> get isAppPermissionCheckboxState;
+  @override
+  List<String> get disasterTypes;
   @override
   @JsonKey(ignore: true)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>

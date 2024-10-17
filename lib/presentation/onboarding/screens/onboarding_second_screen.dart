@@ -39,7 +39,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
 
     if(_checkForEnglish(nameController.text)) {
       newState = 'ENG_INPUT';
-      cautionName = true;
+      newCaution = true;
     } else if(newNameLength > 6) {
       newState = 'OVER_LENGTH_NAME';
       newCaution = true;
@@ -85,8 +85,8 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   }
 
   bool _checkForEnglish(String text) {
-    final englishPattern = RegExp(r'[a-zA-Z]');
-    return englishPattern.hasMatch(text);
+    final pattern = RegExp(r'[a-zA-Z]|[^\w]');
+    return pattern.hasMatch(text);
   }
 
   bool _checkForSpecialCharacter(String text) {
@@ -117,62 +117,22 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(height: 20),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: LinearPercentIndicator(
-                                    padding: EdgeInsets.zero,
-                                    percent: 0.3,
-                                    lineHeight: 10,
-                                    backgroundColor: DaepiroColorStyle.g_50,
-                                    progressColor: DaepiroColorStyle.o_300,
-                                    barRadius: Radius.circular(10.0),
-                                  ),
-                                ),
-                                SizedBox(width: 16),
-                                Text(
-                                  '1/3',
-                                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_100),
-                                ),
-                              ],
-                            ),
-                             SizedBox(height: 24),
-                             RichText(
-                                 text: TextSpan(
-                                   text: '기본 정보',
-                                   style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
-                                   children: [
-                                     TextSpan(
-                                       text: ' 를 입력해주세요.' ,
-                                       style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
-                                     )
-                                   ]
-                                 ),
-
-                             ),
-                              SizedBox(height: 4),
-                              Text(
-                                '이름은 기본 서비스 이용을 위해,\n닉네임은 커뮤니티에서 사용돼요.',
-                                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_300),
-                              ),
-                              SizedBox(height: 24),
-                            Text(
-                              '이름',
-                              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
-                            ),
+                            headerWidget(),
+                            SizedBox(height: 24),
+                            Text('이름', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
                             SizedBox(height: 8),
-                              OnboardingTextField(nameController, _nameLength, cautionName, '6자 이내의 한글', 6),
+                              OnboardingTextField(nameController, _nameLength, cautionName, '6자 이내의 한글', 6, state.nameState),
                               if(state.nameState == 'ENG_INPUT')
-                                StateText('ENG_INPUT','*한글만 입력 가능합니다.'),
+                                StateText('ENG_INPUT','*이름은 한글만 입력 가능해요.'),
                               if(state.nameState == 'OVER_LENGTH_NAME')
-                                StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
+                                StateText('OVER_LENGTH','*최대 6자까지 작성 가능해요.'),
                             SizedBox(height: 16),
                             Text(
                               '닉네임',
                               style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                             ),
                             SizedBox(height: 8),
-                            OnboardingTextField(nicknameController, _nicknameLength, cautionNick, '10자 이내의 한글/영문/숫자', 10),
+                            OnboardingTextField(nicknameController, _nicknameLength, cautionNick, '10자 이내의 한글/영문/숫자', 10, ''),
                             if(state.nicknameState == 'OVER_LENGTH_NICK')
                               StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
                             if(state.nicknameState == 'NORMAL' && state.nicknameState != 'NONE' && state.nicknameState != 'SAME' && state.nicknameState != 'ERRORCHARACTER')
@@ -243,8 +203,54 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     );
   }
 
+  Widget headerWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: LinearPercentIndicator(
+                padding: EdgeInsets.zero,
+                percent: 0.3,
+                lineHeight: 10,
+                backgroundColor: DaepiroColorStyle.g_50,
+                progressColor: DaepiroColorStyle.o_300,
+                barRadius: Radius.circular(10.0),
+              ),
+            ),
+            SizedBox(width: 16),
+            Text(
+              '1/3',
+              style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_100),
+            ),
+          ],
+        ),
+        SizedBox(height: 24),
+        RichText(
+          text: TextSpan(
+              text: '기본 정보',
+              style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
+              children: [
+                TextSpan(
+                  text: ' 를 입력해주세요.' ,
+                  style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.black),
+                )
+              ]
+          ),
 
-  Widget OnboardingTextField(TextEditingController _controller, int length, bool isCaution, String hint, int max) {
+        ),
+        SizedBox(height: 4),
+        Text(
+          '이름은 기본 서비스 이용을 위해,\n닉네임은 커뮤니티에서 사용돼요.',
+          style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_300),
+        ),
+      ],
+    );
+  }
+
+
+  Widget OnboardingTextField(TextEditingController _controller, int length, bool isCaution, String hint, int max, String nameState) {
     return TextField(
       controller: _controller,
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
@@ -259,8 +265,12 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
         fillColor: DaepiroColorStyle.g_50,
         hintText: hint,
         hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
-        suffixText: '${length}/${max}',
-        suffixStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
+        suffix: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('${length}/${max}', style: DaepiroTextStyle.body_1_m.copyWith(color: nameState == 'OVER_LENGTH_NAME' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_200)),
+          ],
+        ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4)),
             borderSide: BorderSide(

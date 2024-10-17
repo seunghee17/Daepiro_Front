@@ -17,5 +17,6 @@ sealed class OnboardingState with _$OnboardingState {
     @Default(false) bool isAllAppPermissionGrant,
     //체크박스의 활성화상태
     @Default([false, false, false, false, false]) List<bool> isAppPermissionCheckboxState,
+    @Default([]) List<String> disasterTypes
 }) = _OnboardingState;
 }

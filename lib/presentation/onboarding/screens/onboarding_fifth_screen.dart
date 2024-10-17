@@ -27,46 +27,20 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 48,),
-                    Text(
-                      '이제 거의 다 왔어요!',
-                      style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.o_400),
-                    ),
-                    SizedBox(height: 8,),
-                    Text(
-                      '대피로 서비스 이용을 위해\n이용약관에 동의해 주세요.',
-                      style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
-                    ),
+                    headerWidget(),
                     SizedBox(height: 36),
                     allAgreeWidget(state.isAllAppPermissionGrant, ref),
                     SizedBox(height: 16),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: List.generate(5, (index) {
-                            return Column(
-                              children: [
-                                privateInfoWidget(index, state.isAppPermissionCheckboxState, ref),
-                                if (index == 4) SizedBox(height: 40), // 마지막 아이템 하단에 여유 공간 추가
-                              ],
-                            );
-                          }),
-                        ),
-                      ),
+                        child: ListView.builder(
+                            itemCount: 5,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
+                            }
+                        )
                     ),
-                    Spacer(),
-                    Container(
-                      width: double.infinity,
-                      child: PrimaryFilledButton(
-                          onPressed: () {
-                            state.isAllAppPermissionGrant ? GoRouter.of(context).push('/onboarding/final') : null;
-                          },
-                          backgroundColor: state.isAllAppPermissionGrant ? DaepiroColorStyle.o_500 : DaepiroColorStyle.o_100,
-                          pressedColor: DaepiroColorStyle.o_600,
-                          borderRadius: 8,
-                          child: Text('다음', style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white)),
-                          verticalPadding: 12
-                      ),
-                    ),
+                    bottomWidget(state.isAllAppPermissionGrant),
                     SizedBox(height: 28)
                   ],
                 ),
@@ -78,7 +52,45 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
       ),
     );
   }
-  
+
+  Widget headerWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '이제 거의 다 왔어요!',
+          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.o_400),
+        ),
+        SizedBox(height: 8,),
+        Text(
+          '대피로 서비스 이용을 위해\n이용약관에 동의해 주세요.',
+          style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
+        ),
+      ],
+    );
+  }
+
+  Widget bottomWidget(bool isAllAppPermissionGrant) {
+    return Container(
+      width: double.infinity,
+      child: PrimaryFilledButton(
+        onPressed: isAllAppPermissionGrant ? () {
+          GoRouter.of(context).push('/onboarding/final');
+        } : null, // 이 부분을 변경하여 콜백이 null이면 버튼 비활성화
+        backgroundColor: DaepiroColorStyle.o_500,
+        pressedColor: DaepiroColorStyle.o_600,
+        disabledColor: DaepiroColorStyle.o_100,
+        borderRadius: 8,
+        child: Text(
+          '다음',
+          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+        ),
+        verticalPadding: 12,
+      ),
+    );
+  }
+
+  //전체 권한 동의 위젯
   Widget allAgreeWidget(bool isAllPermissionGrant, WidgetRef ref) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -129,6 +141,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     );
   }
 
+  //개별 권한 동의 위젯
   Widget privateInfoWidget(int index, List<bool> isPermissionCheckboxState, WidgetRef ref) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),

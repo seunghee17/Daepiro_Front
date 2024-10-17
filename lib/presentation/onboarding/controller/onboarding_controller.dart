@@ -1,7 +1,9 @@
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
+import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../state/onboarding_state.dart';
 part 'onboarding_controller.g.dart';
@@ -39,6 +41,21 @@ class OnboardingController extends _$OnboardingController {
   Future<bool?> checkNickName(String nickname) async {
     final result = await ref.read(checkNickNameProvider(nickName: nickname).future);
     return result.data?.isAvailable;
+  }
+
+  Future<void> sendUserInfo(OnboardingInfoRequest request) async {
+    await ref.read(sendOnboardingInfoUseCaseProvider(onboardingInfoRequest: request).future);
+  }
+
+  List<Addresses> parseAddress() {
+    List<Addresses> address = [];
+    for(int i=0; i<state.value!.inputJusoName.length; i++) {
+      address.add({
+        'name': state.value!.inputJusoName[i],
+        'address': inputJusoList[i],
+      } as Addresses);
+    }
+    return address;
   }
 
 //검색결과 주소 리스트 반환
@@ -160,5 +177,6 @@ class OnboardingController extends _$OnboardingController {
         isAllAppPermissionGrant: allChecked
     ));
   }
+
 
 }
