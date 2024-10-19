@@ -9,7 +9,7 @@ import '../state/onboarding_state.dart';
 part 'onboarding_view_model.g.dart';
 
 @riverpod
-class OnboardingController extends _$OnboardingController {
+class OnboardingViewModel extends _$OnboardingController {
   List<String> inputJusoList = [];
 
   @override

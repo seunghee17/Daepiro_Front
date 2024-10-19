@@ -9,11 +9,11 @@ part of 'onboarding_view_model.dart';
 String _$onboardingControllerHash() =>
     r'6c5302bde9fc32db05c015dc599e54e3e912923f';
 
-/// See also [OnboardingController].
-@ProviderFor(OnboardingController)
+/// See also [OnboardingViewModel].
+@ProviderFor(OnboardingViewModel)
 final onboardingControllerProvider = AutoDisposeAsyncNotifierProvider<
-    OnboardingController, OnboardingState>.internal(
-  OnboardingController.new,
+    OnboardingViewModel, OnboardingState>.internal(
+  OnboardingViewModel.new,
   name: r'onboardingControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null

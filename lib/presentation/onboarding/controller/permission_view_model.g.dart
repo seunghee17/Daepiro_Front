@@ -9,11 +9,11 @@ part of 'permission_view_model.dart';
 String _$permissionControllerHash() =>
     r'7e7abd34bf22548284ebc0fbe000a84b618642c2';
 
-/// See also [PermissionController].
-@ProviderFor(PermissionController)
+/// See also [PermissionViewModel].
+@ProviderFor(PermissionViewModel)
 final permissionControllerProvider = AutoDisposeAsyncNotifierProvider<
-    PermissionController, PermissionState>.internal(
-  PermissionController.new,
+    PermissionViewModel, PermissionState>.internal(
+  PermissionViewModel.new,
   name: r'permissionControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null

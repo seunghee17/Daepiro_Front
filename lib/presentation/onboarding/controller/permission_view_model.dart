@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'permission_view_model.g.dart';
 
 @riverpod
-class PermissionController extends _$PermissionController {
+class PermissionViewModel extends _$PermissionController {
   //이미지 권한의 경우 버전별 분기처리 필요
   List<Permission> permission = [
     Permission.location,
