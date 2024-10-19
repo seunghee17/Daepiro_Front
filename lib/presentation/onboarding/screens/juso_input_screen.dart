@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../widgets/DaepiroTheme.dart';
 import '../../widgets/button/secondary_filled_button.dart';
-import '../controller/onboarding_controller.dart';
+import '../controller/onboarding_view_model.dart';
 
 class JusoInputScreen extends ConsumerStatefulWidget {
   final String? type;

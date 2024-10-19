@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'permission_controller.dart';
+part of 'permission_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator

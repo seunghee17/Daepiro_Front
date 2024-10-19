@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../widgets/DaepiroTheme.dart';
 import '../../widgets/button/primary_filled_button.dart';
-import '../controller/permission_controller.dart';
+import '../controller/permission_view_model.dart';
 
 class PermissionScreen extends ConsumerWidget {
   final VoidCallback onPermissionCheck;

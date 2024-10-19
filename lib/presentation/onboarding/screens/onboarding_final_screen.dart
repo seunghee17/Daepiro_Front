@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:daepiro/data/model/request/onboarding_info_request.dart';
-import 'package:daepiro/presentation/onboarding/controller/onboarding_controller.dart';
+import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
 import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

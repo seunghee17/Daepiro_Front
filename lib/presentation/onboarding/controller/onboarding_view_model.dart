@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../state/onboarding_state.dart';
-part 'onboarding_controller.g.dart';
+part 'onboarding_view_model.g.dart';
 
 @riverpod
 class OnboardingController extends _$OnboardingController {

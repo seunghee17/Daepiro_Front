@@ -4,7 +4,7 @@ import 'package:daepiro/presentation/onboarding/state/permission_state.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'permission_controller.g.dart';
+part 'permission_view_model.g.dart';
 
 @riverpod
 class PermissionController extends _$PermissionController {
