@@ -27,7 +27,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
   void initState() {
     super.initState();
     Future(() {
-      ref.read(onboardingControllerProvider.notifier).initSearchHistory();
+      ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
     });
     jusoController.addListener(updateList);
     scrollController.addListener(() {
@@ -42,7 +42,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
       setState(() {
         currentPage = 1;
       });
-      ref.read(onboardingControllerProvider.notifier).getJusoList(jusoController.text, currentPage, false);
+      ref.read(onboardingViewModelProvider.notifier).getJusoList(jusoController.text, currentPage, false);
     }
   }
 
@@ -52,7 +52,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         isLoading = true;
         currentPage++;
       });
-      await ref.read(onboardingControllerProvider.notifier).getJusoList(
+      await ref.read(onboardingViewModelProvider.notifier).getJusoList(
         jusoController.text,
         currentPage,
         true
@@ -65,7 +65,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingControllerProvider);
+    final state = ref.watch(onboardingViewModelProvider);
     return Scaffold(
       body: SafeArea(
         child: state.when(
@@ -147,8 +147,8 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                       setState(() {
                                         selected.add(index);
                                       });
-                                      await ref.read(onboardingControllerProvider.notifier).addJuso(juso, int.parse(widget.index!));
-                                      await ref.read(onboardingControllerProvider.notifier).initSearchHistory();
+                                      await ref.read(onboardingViewModelProvider.notifier).addJuso(juso, int.parse(widget.index!));
+                                      await ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
                                       GoRouter.of(context).pop();
                                     }
                                 ),

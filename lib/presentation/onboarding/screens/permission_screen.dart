@@ -14,7 +14,7 @@ class PermissionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final permissionController = ref.watch(permissionControllerProvider);
+    final permissionController = ref.watch(permissionViewModelProvider);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return permissionController.when(
@@ -77,7 +77,7 @@ class PermissionScreen extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: ref.read(permissionControllerProvider.notifier).updateAllAgreeState,
+        onPressed: ref.read(permissionViewModelProvider.notifier).updateAllAgreeState,
         style: ElevatedButton.styleFrom(
             backgroundColor: DaepiroColorStyle.g_50,
             overlayColor: Colors.transparent,
@@ -110,7 +110,7 @@ class PermissionScreen extends ConsumerWidget {
                 }),
                 value: isAllPermissionGrant,
                 onChanged: (value) {
-                  ref.read(permissionControllerProvider.notifier).updateAllAgreeState();
+                  ref.read(permissionViewModelProvider.notifier).updateAllAgreeState();
                 }),
             SizedBox(width: 8),
             Text(
@@ -128,7 +128,7 @@ class PermissionScreen extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: () => ref.read(permissionControllerProvider.notifier).updateEachPermissionState(index),
+        onPressed: () => ref.read(permissionViewModelProvider.notifier).updateEachPermissionState(index),
         style: ElevatedButton.styleFrom(
             backgroundColor: DaepiroColorStyle.white,
             overlayColor: Colors.transparent,
@@ -161,7 +161,7 @@ class PermissionScreen extends ConsumerWidget {
                 }),
                 value: isPermissionCheckboxState[index],
                 onChanged: (value) {
-                  ref.read(permissionControllerProvider.notifier).updateEachPermissionState(index);
+                  ref.read(permissionViewModelProvider.notifier).updateEachPermissionState(index);
                 }),
             SizedBox(width: 8),
             Text(
@@ -196,7 +196,7 @@ class PermissionScreen extends ConsumerWidget {
             width: screenWidth,
             child: PrimaryFilledButton(
               onPressed: () async {
-                await ref.read(permissionControllerProvider.notifier).permissionRequest();
+                await ref.read(permissionViewModelProvider.notifier).permissionRequest();
                 onPermissionCheck();
               },
                 backgroundColor: DaepiroColorStyle.g_700,

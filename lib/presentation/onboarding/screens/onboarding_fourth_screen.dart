@@ -21,7 +21,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingControllerProvider);
+    final state = ref.watch(onboardingViewModelProvider);
     return Scaffold(
       body: SafeArea(
         child: state.when(

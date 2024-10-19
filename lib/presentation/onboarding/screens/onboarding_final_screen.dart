@@ -13,7 +13,7 @@ import '../../widgets/DaepiroTheme.dart';
 class OnboardingFinalScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(onboardingControllerProvider);
+    final controller = ref.watch(onboardingViewModelProvider);
     return controller.when(
         data: (state) {
           return Scaffold(
@@ -33,8 +33,8 @@ class OnboardingFinalScreen extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width,
                       child: PrimaryFilledButton(
                           onPressed: () async {
-                            final address = ref.read(onboardingControllerProvider.notifier).parseAddress();
-                            await ref.read(onboardingControllerProvider.notifier).sendUserInfo(
+                            final address = ref.read(onboardingViewModelProvider.notifier).parseAddress();
+                            await ref.read(onboardingViewModelProvider.notifier).sendUserInfo(
                                 OnboardingInfoRequest(
                                   realname: state.nameState,
                                   nickname: state.nicknameState,

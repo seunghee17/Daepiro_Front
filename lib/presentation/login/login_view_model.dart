@@ -8,10 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/usecase/login/social_login_usecase.dart';
 import 'login_state.dart';
 
-part 'login_controller.g.dart';
+part 'login_view_model.g.dart';
 
 @riverpod
-class LoginController extends _$LoginController {
+class LoginViewModel extends _$LoginViewModel {
   final storage = FlutterSecureStorage();
   List<Permission> permission = [Permission.location, Permission.notification, Permission.camera, Permission.storage];
   @override
