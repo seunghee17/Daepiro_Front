@@ -26,10 +26,8 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   void initState() {
     super.initState();
     ref.read(onboardingControllerProvider);
-
     nameController.addListener(updateNameState);
     nicknameController.addListener(updateNickState);
-
   }
 
   void updateNameState() {
@@ -85,7 +83,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   }
 
   bool _checkForEnglish(String text) {
-    final pattern = RegExp(r'[a-zA-Z]|[^\w]');
+    final pattern = RegExp(r'[a-zA-Z0-9\p{P}]');
     return pattern.hasMatch(text);
   }
 
@@ -121,7 +119,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                             SizedBox(height: 24),
                             Text('이름', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
                             SizedBox(height: 8),
-                              OnboardingTextField(nameController, _nameLength, cautionName, '6자 이내의 한글', 6, state.nameState),
+                            NameTextField(nameController, _nameLength, cautionName, state.nameState),
                               if(state.nameState == 'ENG_INPUT')
                                 StateText('ENG_INPUT','*이름은 한글만 입력 가능해요.'),
                               if(state.nameState == 'OVER_LENGTH_NAME')
@@ -132,7 +130,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                               style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                             ),
                             SizedBox(height: 8),
-                            OnboardingTextField(nicknameController, _nicknameLength, cautionNick, '10자 이내의 한글/영문/숫자', 10, ''),
+                            NickNameTextField(nicknameController, _nicknameLength, cautionNick, ''),
                             if(state.nicknameState == 'OVER_LENGTH_NICK')
                               StateText('OVER_LENGTH','*최대 10글자만 입력 가능합니다.'),
                             if(state.nicknameState == 'NORMAL' && state.nicknameState != 'NONE' && state.nicknameState != 'SAME' && state.nicknameState != 'ERRORCHARACTER')
@@ -249,28 +247,24 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     );
   }
 
-
-  Widget OnboardingTextField(TextEditingController _controller, int length, bool isCaution, String hint, int max, String nameState) {
-    return TextField(
-      controller: _controller,
+  //이름 입력란
+  Widget NameTextField(TextEditingController controller, int length, bool isCaution, String nameState) {
+    return Stack(
+      children: [
+      TextField(
+      controller: controller,
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       style: DaepiroTextStyle.body_1_m.copyWith(
           color: DaepiroColorStyle.g_900,
-        decorationThickness: 0
+          decorationThickness: 0
       ),
       decoration: InputDecoration(
         filled: true,
         isDense: true,
         contentPadding: EdgeInsets.all(16),
         fillColor: DaepiroColorStyle.g_50,
-        hintText: hint,
+        hintText: '6자 이내의 한글',
         hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
-        suffix: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('${length}/${max}', style: DaepiroTextStyle.body_1_m.copyWith(color: nameState == 'OVER_LENGTH_NAME' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_200)),
-          ],
-        ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4)),
             borderSide: BorderSide(
@@ -283,6 +277,65 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
             borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
         ),
       ),
+    ),
+        Positioned(
+            right:16,
+            top:16,
+            bottom: 16,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('${length}/6', style: DaepiroTextStyle.body_1_m.copyWith(color: nameState == 'OVER_LENGTH_NAME' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_200)),
+              ],
+            )
+        ),
+      ],
+    );
+  }
+
+  //닉네임 입력란
+  Widget NickNameTextField(TextEditingController _controller, int length, bool isCaution, String state) {
+    return Stack(
+      children: [
+        TextField(
+          controller: _controller,
+          onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+          style: DaepiroTextStyle.body_1_m.copyWith(
+              color: DaepiroColorStyle.g_900,
+              decorationThickness: 0
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            isDense: true,
+            contentPadding: EdgeInsets.all(16),
+            fillColor: DaepiroColorStyle.g_50,
+            hintText: '10자 이내의 한글/영문/숫자',
+            hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderSide: BorderSide(
+                    width: 1.5,
+                    color: isCaution ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_100
+                )
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
+            ),
+          ),
+        ),
+        Positioned(
+            right:16,
+            top:16,
+            bottom: 16,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('${length}/10', style: DaepiroTextStyle.body_1_m.copyWith(color: state == 'OVER_LENGTH_NICK' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_200)),
+              ],
+            )
+        ),
+      ],
     );
   }
 
