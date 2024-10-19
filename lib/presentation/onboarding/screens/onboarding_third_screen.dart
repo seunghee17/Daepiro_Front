@@ -39,7 +39,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     juso2Visible = false;
 
     // 초기 상태 설정
-    final state = ref.read(onboardingControllerProvider);
+    final state = ref.read(onboardingViewModelProvider);
     if (state.value != null && state.value!.inputJusoList.isNotEmpty) {
       if (state.value!.inputJusoList.length > 0) {
         homeController.text = state.value!.inputJusoList[0];
@@ -54,19 +54,19 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
 
     // 검색 기록 초기화
     Future(() {
-      ref.read(onboardingControllerProvider.notifier).initSearchHistory();
+      ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
     });
 
     // 별명 입력 시 오류 상태 자동 업데이트 리스너 추가
     jusoNickController1.addListener(() {
-      String newState = ref.read(onboardingControllerProvider.notifier).checklocationControllerState(jusoNickController1);
+      String newState = ref.read(onboardingViewModelProvider.notifier).checklocationControllerState(jusoNickController1);
       setState(() {
         errorStateNick1 = newState;
       });
     });
 
     jusoNickController2.addListener(() {
-      String newState = ref.read(onboardingControllerProvider.notifier).checklocationControllerState(jusoNickController2);
+      String newState = ref.read(onboardingViewModelProvider.notifier).checklocationControllerState(jusoNickController2);
       setState(() {
         errorStateNick2 = newState;
       });
@@ -85,10 +85,10 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingControllerProvider);
+    final state = ref.watch(onboardingViewModelProvider);
 
     // 상태 변화 리스너 추가: build() 내에서 setState 호출을 피하기 위함
-    ref.listen<AsyncValue<OnboardingState>>(onboardingControllerProvider, (previous, next) {
+    ref.listen<AsyncValue<OnboardingState>>(onboardingViewModelProvider, (previous, next) {
       next.whenData((data) {
         if(data.inputJusoList.isNotEmpty) {
           if(data.inputJusoList.length > 0 && homeController.text != data.inputJusoList[0]) {
@@ -209,7 +209,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       bool juso1visible,
       bool juso2visible
       ) {
-    String errorState = ref.watch(onboardingControllerProvider.notifier).checkHomeControllerState(homeController, juso1visible, juso2visible);
+    String errorState = ref.watch(onboardingViewModelProvider.notifier).checkHomeControllerState(homeController, juso1visible, juso2visible);
     bool isError = errorState == 'LENGTH_ERROR' ? true : false;
     return Container(
       width: double.infinity,
@@ -509,7 +509,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       bool juso1visible,
       bool juso2visible
   ) {
-    bool isButtonDisabled =  ref.watch(onboardingControllerProvider.notifier).checkPlusChipState(homecontroller, jusoController1, jusoController2, juso1visible, juso2visible);
+    bool isButtonDisabled =  ref.watch(onboardingViewModelProvider.notifier).checkPlusChipState(homecontroller, jusoController1, jusoController2, juso1visible, juso2visible);
     return SecondaryFilledButton(
       onPressed: () {
         if(!isButtonDisabled) {
@@ -629,7 +629,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          await ref.read(onboardingControllerProvider.notifier).deleteJuso(controller, index);
+                          await ref.read(onboardingViewModelProvider.notifier).deleteJuso(controller, index);
                           controller.clear();
                           GoRouter.of(context).pop();
                         },

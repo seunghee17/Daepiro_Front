@@ -9,10 +9,9 @@ import '../state/onboarding_state.dart';
 part 'onboarding_view_model.g.dart';
 
 @riverpod
-class OnboardingViewModel extends _$OnboardingController {
+class OnboardingViewModel extends _$OnboardingViewModel {
   List<String> inputJusoList = [];
 
-  @override
   FutureOr<OnboardingState> build() async {
     return OnboardingState(nameState: 'NONE', nicknameState: 'NONE');
   }

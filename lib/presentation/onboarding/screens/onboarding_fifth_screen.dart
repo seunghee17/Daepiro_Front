@@ -16,7 +16,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingControllerProvider);
+    final state = ref.watch(onboardingViewModelProvider);
     return Scaffold(
       body: SafeArea(
         child: state.when(
@@ -95,7 +95,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: ref.read(onboardingControllerProvider.notifier).updateAllAgreeState,
+        onPressed: ref.read(onboardingViewModelProvider.notifier).updateAllAgreeState,
         style: ElevatedButton.styleFrom(
             backgroundColor: DaepiroColorStyle.g_50,
             overlayColor: Colors.transparent,
@@ -128,7 +128,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
                 value: isAllPermissionGrant,
                 onChanged: (value) {
-                  ref.read(onboardingControllerProvider.notifier).updateAllAgreeState();
+                  ref.read(onboardingViewModelProvider.notifier).updateAllAgreeState();
                 }),
             SizedBox(width: 8,),
             Text(
@@ -146,7 +146,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: () => ref.read(onboardingControllerProvider.notifier).updateEachPermissionState(index),
+        onPressed: () => ref.read(onboardingViewModelProvider.notifier).updateEachPermissionState(index),
         style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.white,
             overlayColor: Colors.transparent,
@@ -179,7 +179,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
                 value:isPermissionCheckboxState[index],
                 onChanged: (value) {
-                 ref.read(onboardingControllerProvider.notifier).updateEachPermissionState(index);
+                 ref.read(onboardingViewModelProvider.notifier).updateEachPermissionState(index);
                 }),
             SizedBox(width: 8,),
             Text(

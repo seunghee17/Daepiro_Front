@@ -8,17 +8,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../onboarding/screens/permission_screen.dart';
 import '../widgets/button/secondary_filled_button.dart';
-import 'login_controller.dart';
+import 'login_view_model.dart';
 import 'login_state.dart';
 
 class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(loginControllerProvider);
+    final controller = ref.watch(loginViewModelProvider);
     final screenHeight = MediaQuery.of(context).size.height;
 
-    ref.listen<AsyncValue<LoginState>>(loginControllerProvider, (previous, next) {
+    ref.listen<AsyncValue<LoginState>>(loginViewModelProvider, (previous, next) {
       next.whenData((state) {
         if(state.refreshToken != '' && state.refreshToken != '') {
           if(state.isCompletedOnboarding) {
@@ -31,7 +31,7 @@ class LoginScreen extends ConsumerWidget {
                     return PermissionScreen(
                       onPermissionCheck: () async {
                         GoRouter.of(context).pop();
-                        var locationGrant = await ref.read(loginControllerProvider.notifier).checkLocationPermission();
+                        var locationGrant = await ref.read(loginViewModelProvider.notifier).checkLocationPermission();
                         if(!locationGrant) {
                           locationDialog(context, ref);
                         } else {
@@ -85,8 +85,8 @@ class LoginScreen extends ConsumerWidget {
                         LoginButton(
                             Color(0xFFFAE300),
                             () async {
-                              String token = await ref.read(loginControllerProvider.notifier).kakaoLogin();
-                              await ref.read(loginControllerProvider.notifier).getSocialToken('kakao',token);
+                              String token = await ref.read(loginViewModelProvider.notifier).kakaoLogin();
+                              await ref.read(loginViewModelProvider.notifier).getSocialToken('kakao',token);
                             },
                           KakaoWidget(),
                         ),
@@ -94,8 +94,8 @@ class LoginScreen extends ConsumerWidget {
                         LoginButton(
                           Color(0xFF03C75A),
                               () async {
-                            String token = await ref.read(loginControllerProvider.notifier).naverLogin();
-                            await ref.read(loginControllerProvider.notifier).getSocialToken('naver',token);
+                            String token = await ref.read(loginViewModelProvider.notifier).naverLogin();
+                            await ref.read(loginViewModelProvider.notifier).getSocialToken('naver',token);
                           },
                           NaverWidget(),
                         ),
@@ -250,7 +250,7 @@ class LoginScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          await ref.read(loginControllerProvider.notifier).requestLocationPermission();
+                          await ref.read(loginViewModelProvider.notifier).requestLocationPermission();
                           GoRouter.of(context).pop();
                           GoRouter.of(context).go('/onboarding');
                         },

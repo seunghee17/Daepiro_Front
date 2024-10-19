@@ -25,7 +25,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(onboardingControllerProvider);
+    ref.read(onboardingViewModelProvider);
     nameController.addListener(updateNameState);
     nicknameController.addListener(updateNickState);
   }
@@ -49,7 +49,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       setState(() {
         _nameLength = newNameLength;
         cautionName = newCaution;
-        ref.read(onboardingControllerProvider.notifier).setNameState(newState);
+        ref.read(onboardingViewModelProvider.notifier).setNameState(newState);
       });
     }
   }
@@ -58,7 +58,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     var newNickLength = nicknameController.text.length;
     var newState = 'NORMAL';
     var newCaution = false;
-    var isAvailable = await ref.read(onboardingControllerProvider.notifier).checkNickName(nicknameController.text);
+    var isAvailable = await ref.read(onboardingViewModelProvider.notifier).checkNickName(nicknameController.text);
 
     if(newNickLength > 10) {
       newState = 'OVER_LENGTH_NICK';
@@ -77,7 +77,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       setState(() {
         _nicknameLength = newNickLength;
         cautionNick = newCaution;
-        ref.read(onboardingControllerProvider.notifier).setNickState(newState);
+        ref.read(onboardingViewModelProvider.notifier).setNickState(newState);
       });
     }
   }
@@ -94,7 +94,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingControllerProvider);
+    final state = ref.watch(onboardingViewModelProvider);
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
@@ -183,7 +183,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
           Expanded(
               child: PrimaryFilledButton(
                   onPressed: isAvailable ? () async =>   {
-                    await ref.read(onboardingControllerProvider.notifier).updateUserName(nameController.text),
+                    await ref.read(onboardingViewModelProvider.notifier).updateUserName(nameController.text),
                     GoRouter.of(context).push('/onboarding/second')
                   }: null,
                   backgroundColor: isAvailable? DaepiroColorStyle.o_500 : DaepiroColorStyle.o_100,

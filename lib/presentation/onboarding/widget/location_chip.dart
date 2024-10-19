@@ -32,7 +32,7 @@ class _LocationChipState extends State<LocationChip> {
 
   void _validateInput() {
     // 입력 값을 확인하고 유효하면 콜백을 호출하여 부모에서 상태를 변경
-    final errorState = widget.ref.read(onboardingControllerProvider.notifier)
+    final errorState = widget.ref.read(onboardingViewModelProvider.notifier)
         .checklocationControllerState(widget.controller);
 
     if (errorState == 'AVAILABLE') {

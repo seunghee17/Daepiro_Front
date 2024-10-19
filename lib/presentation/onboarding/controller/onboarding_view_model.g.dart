@@ -6,22 +6,22 @@ part of 'onboarding_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$onboardingControllerHash() =>
-    r'6c5302bde9fc32db05c015dc599e54e3e912923f';
+String _$onboardingViewModelHash() =>
+    r'372d35c4d01fbab7ab08f76bf83d285a90622fde';
 
 /// See also [OnboardingViewModel].
 @ProviderFor(OnboardingViewModel)
-final onboardingControllerProvider = AutoDisposeAsyncNotifierProvider<
+final onboardingViewModelProvider = AutoDisposeAsyncNotifierProvider<
     OnboardingViewModel, OnboardingState>.internal(
   OnboardingViewModel.new,
-  name: r'onboardingControllerProvider',
+  name: r'onboardingViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$onboardingControllerHash,
+      : _$onboardingViewModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$OnboardingController = AutoDisposeAsyncNotifier<OnboardingState>;
+typedef _$OnboardingViewModel = AutoDisposeAsyncNotifier<OnboardingState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
