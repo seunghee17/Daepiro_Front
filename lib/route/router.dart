@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
-import '../presentation/community/community_main_screen.dart';
+import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/home/home_screen.dart';
 import '../presentation/information/information_screen.dart';
 import '../presentation/login/login_screen.dart';
