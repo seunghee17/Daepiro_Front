@@ -42,8 +42,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                               children: [
                                 Text(
                                   '위급/긴급 재난',
-                                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
-                                ),
+                                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
                                 Spacer(),
                                 PrimaryFilledButton(
                                     onPressed: null,
@@ -51,8 +50,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                     pressedColor: DaepiroColorStyle.o_50,
                                     borderRadius: 4.0,
                                     child: primaryFilledButtonWidget(),
-                                    verticalPadding: 0.0
-                                )
+                                    verticalPadding: 0.0)
                               ],
                             ),
                             Text(
@@ -73,24 +71,18 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                                 selected.remove(index); // 이미 선택된 아이템을 다시 탭하면 제거
                                               } else {
                                                 selected.add(index); // 아직 선택되지 않은 아이템을 탭하면 추가
-                                              }
-                                            });
+                                              }});
                                           },
-                                          child: disasterItem(isTapped)
-                                      );
-                                    }
-                                )
-                            ),
+                                          child: disasterItem(isTapped));
+                                    })),
                             SizedBox(height: 24),
                             Text(
                               '일반 재난',
-                              style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
-                            ),
+                              style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
                             SizedBox(height: 4),
                             Text(
                               '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
-                              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
-                            ),
+                              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),),
                             SizedBox(height: 12),
                             Wrap(
                               spacing: 8,
@@ -105,9 +97,8 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                             selectedSub.remove(index);
                                           } else {
                                             selectedSub.add(index);
-                                          }
-                                        });
-                                      },
+                                          }});
+                                        },
                                       child: disasterItem(isTapped),
                                     );
                                   }
@@ -137,7 +128,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 2),
+              padding: EdgeInsets.symmetric(vertical: 4),
               child: SvgPicture.asset(
                   'assets/icons/alram.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)
@@ -272,7 +263,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
               padding: EdgeInsets.symmetric(vertical: 5),
               child: TextButton(
                   onPressed: (){
-                    dialog(context);
+                    remindDialog(context);
                   },
                   child: Text(
                     '다음에 설정하기',
@@ -285,7 +276,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
     );
   }
 
-  void dialog(BuildContext context) {
+  void remindDialog(BuildContext context) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -304,16 +295,19 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
               ],
             ),
             contentPadding:EdgeInsets.fromLTRB(20, 4, 20, 24) ,
-            content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    '전체 유형의 재난 문자가 수신되며\n해당 설정은 마이페이지에서 변경 가능합니다.',
-                    style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_500),
-                  ),
-                ]
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      '전체 유형의 재난 문자가 수신되며\n해당 설정은 마이페이지에서 변경 가능합니다.',
+                      style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_500),
+                    ),
+                  ]
+              ),
             ),
             actions: <Widget>[
               Row(
