@@ -211,16 +211,19 @@ class LoginScreen extends ConsumerWidget {
               ],
             ),
             contentPadding:EdgeInsets.fromLTRB(20, 0, 20, 24) ,
-            content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    '만약 위치 권한을 허용하지 않는다면\n거주지를 기준으로 재난문자가 발송돼요.',
-                    style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
-                  ),
-                ]
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      '만약 위치 권한을 허용하지 않는다면\n거주지를 기준으로 재난문자가 발송돼요.',
+                      style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
+                    ),
+                  ]
+              ),
             ),
             actions: <Widget>[
               Row(

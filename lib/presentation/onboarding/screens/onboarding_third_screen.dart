@@ -239,7 +239,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     'assets/icons/search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
-                  onTap: () => deleteDialog(context, ref, '집', homecontroller, 0),
+                  onTap: () => deleteDialog(context, ref, '집', homecontroller, 0, MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
                       'assets/icons/delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
@@ -317,7 +317,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     'assets/icons/search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
-                  onTap: () => deleteDialog(context, ref, jusoNickController1.text, juso1controller, 1),
+                  onTap: () => deleteDialog(context, ref, jusoNickController1.text, juso1controller, 1, MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
                       'assets/icons/delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
@@ -413,7 +413,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     'assets/icons/search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
-                  onTap: () => deleteDialog(context, ref, jusoNickController2.text, juso2controller, 2),
+                  onTap: () => deleteDialog(context, ref, jusoNickController2.text, juso2controller, 2, MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
                       'assets/icons/delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
@@ -480,20 +480,22 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       backgroundColor: DaepiroColorStyle.g_600,
       pressedColor: DaepiroColorStyle.g_600,
       verticalPadding: 8,
-      horizontalPadding: 16,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-              'assets/icons/home.svg',
-              colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
-          ),
-          SizedBox(width: 2,),
-          Text(
-            '집',
-            style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.white),
-          ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+                'assets/icons/home.svg',
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
+            ),
+            SizedBox(width: 2,),
+            Text(
+              '집',
+              style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.white),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -551,7 +553,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       WidgetRef ref,
       String locationNickName,
       TextEditingController controller,
-      int index
+      int index,
+      double width
   ) {
     showDialog(
         context: context,
@@ -588,16 +591,19 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               ],
             ),
             contentPadding: EdgeInsets.fromLTRB(20, 8, 20, 24),
-            content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    '지역을 삭제하시겠습니까?',
-                    style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
-                  ),
-                ]
+            content: Container(
+              width: width,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      '지역을 삭제하시겠습니까?',
+                      style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+                    ),
+                  ]
+              ),
             ),
             actions: <Widget>[
               Row(
