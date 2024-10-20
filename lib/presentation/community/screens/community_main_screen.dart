@@ -46,6 +46,7 @@ class CommunityMainScreen extends ConsumerWidget {
                   ),
                   Expanded(
                       child: TabBarView(
+                        physics: NeverScrollableScrollPhysics(),
                         children: [
                           CommunityDisasterScreen(),
                           Text('동네동네')

@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -114,6 +115,12 @@ final goRouteProvider = Provider((ref) {
                 GoRoute(
                   path: '/community',
                   builder: (context, state) => const CommunityMainScreen(),
+                  routes: [
+                    GoRoute(
+                      path: '/rule',
+                      builder: (context, state) => const CommunityRuleScreen(),
+                    ),
+                  ]
                 ),
               ],
             ),

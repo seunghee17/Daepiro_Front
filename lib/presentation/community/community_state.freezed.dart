@@ -9,7 +9,6 @@ part of 'community_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
