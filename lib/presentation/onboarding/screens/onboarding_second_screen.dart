@@ -56,31 +56,37 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
 
   void updateNickState() async {
     var newNickLength = nicknameController.text.length;
+
+    if (newNickLength != _nicknameLength) {
+      setState(() {
+        _nicknameLength = newNickLength;
+      });
+    }
     var newState = 'NORMAL';
     var newCaution = false;
     var isAvailable = await ref.read(onboardingViewModelProvider.notifier).checkNickName(nicknameController.text);
-
-    if(newNickLength > 10) {
-      newState = 'OVER_LENGTH_NICK';
-      newCaution = true;
-    } else if(newNickLength > 1) {
-      newState = 'NORMAL';
-      newCaution = false;
-    } else if( !isAvailable!) {
-      newState = 'SAME';
-      newCaution = true;
-    } else if(!_checkForSpecialCharacter(nicknameController.text)) {
+    if (!_checkForSpecialCharacter(nicknameController.text)) {
       newState = 'ERRORCHARACTER';
       newCaution = true;
     }
-    if (newCaution != cautionNick || _nicknameLength != newNickLength) {
+    if (newNickLength > 10) {
+      newState = 'OVER_LENGTH_NICK';
+      newCaution = true;
+    }
+    if (!isAvailable!) {
+      newState = 'SAME';
+      newCaution = true;
+    }
+
+    if (newCaution != cautionNick) {
       setState(() {
-        _nicknameLength = newNickLength;
         cautionNick = newCaution;
         ref.read(onboardingViewModelProvider.notifier).setNickState(newState);
       });
     }
   }
+
+
 
   bool _checkForEnglish(String text) {
     final pattern = RegExp(r'[a-zA-Z0-9\p{P}]');

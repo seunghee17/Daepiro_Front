@@ -101,11 +101,15 @@ class LoginScreen extends ConsumerWidget {
                         ),
                         SizedBox(height: 8),
                         if(Platform.isIOS)
-                          LoginButton(
-                            DaepiroColorStyle.black,
-                                () async {
-                            },
-                            AppleWidget(),
+                          Column(
+                            children: [
+                              LoginButton(
+                                DaepiroColorStyle.black,
+                                    () async {
+                                },
+                                AppleWidget()),
+                              SizedBox(height: 41)
+                            ],
                           )
                       ],
                     ),
