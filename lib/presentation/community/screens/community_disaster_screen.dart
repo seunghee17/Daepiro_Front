@@ -1,8 +1,10 @@
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
+import 'package:daepiro/presentation/widgets/button/secondary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../community_view_model.dart';
 
@@ -22,9 +24,12 @@ class CommunityDisasterScreen extends ConsumerWidget {
                   children: [
                     SizedBox(height: 20),
                     GestureDetector(
-                        onTap: (){},
+                        onTap: (){
+                          GoRouter.of(context).push('/community/rule');
+                        },
                         child: ruleContainer()
                     ),
+
                   ],
                 ),
               )
@@ -62,6 +67,19 @@ class CommunityDisasterScreen extends ConsumerWidget {
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
             ),
             SizedBox(width: 12)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget twoButtonContainer() {
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Row(
+          children: [
+            //SecondaryFilledButton(onPressed: onPressed, radius: radius, child: child, backgroundColor: backgroundColor)
           ],
         ),
       ),

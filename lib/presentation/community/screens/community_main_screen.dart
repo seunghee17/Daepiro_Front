@@ -49,7 +49,7 @@ class CommunityMainScreen extends ConsumerWidget {
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           CommunityDisasterScreen(),
-                          Text('동네동네')
+                          CommunityTownScreen()
                         ],
                       )
                   )

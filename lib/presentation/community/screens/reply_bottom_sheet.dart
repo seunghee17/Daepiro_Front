@@ -67,10 +67,12 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
         padding: EdgeInsets.symmetric(vertical: 19),
         child: Row(
           children: [
-            SvgPicture.asset('assets/icons/photo.svg',
-                width: 28,
-                height: 28,
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_800, BlendMode.srcIn)
+            GestureDetector( //갤러리 열러야함
+              child: SvgPicture.asset('assets/icons/photo.svg',
+                  width: 28,
+                  height: 28,
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_800, BlendMode.srcIn)
+              ),
             ),
             SizedBox(width: 12),
             TextField(
