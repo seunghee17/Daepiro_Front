@@ -22,12 +22,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     );
     _controller.forward();
     checkAuth().then((isAuthenticated) {
-      Future.delayed(Duration(seconds: 5), () {  // 최소 5초간 스플래시 화면 표시
-        if (isAuthenticated) {
-          GoRouter.of(context).replace('/home');
-        } else {
-          GoRouter.of(context).replace('/login');
-        }
+      Future.delayed(Duration(seconds: 5), () {
+        // if (isAuthenticated) {
+        //   GoRouter.of(context).replace('/home');
+        // } else {
+        //   GoRouter.of(context).replace('/login');
+        // }
+        GoRouter.of(context).replace('/login');
       });
     });
   }

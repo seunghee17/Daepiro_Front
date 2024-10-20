@@ -6,7 +6,7 @@ part of 'http_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$httpHash() => r'04478ce44b7c270352abf3efd0734688a5790427';
+String _$httpHash() => r'51302d913f953bc548928238e2fd66874882b48b';
 
 /// See also [http].
 @ProviderFor(http)
@@ -20,7 +20,7 @@ final httpProvider = AutoDisposeProvider<Dio>.internal(
 );
 
 typedef HttpRef = AutoDisposeProviderRef<Dio>;
-String _$httpInterceptorHash() => r'81853f7ab2e0f3711fda55529156028c4daf4543';
+String _$httpInterceptorHash() => r'0fe25e23768b5a6a4f8be36a2bf39c9dc1a0b194';
 
 /// Copied from Dart SDK
 class _SystemHash {

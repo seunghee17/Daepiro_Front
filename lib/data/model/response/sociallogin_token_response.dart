@@ -1,22 +1,52 @@
 class SocialLoginTokenResponse {
-  String accessToken = "";
-  String refreshToken = "";
-  bool isOnboarding = false;
+  int? code;
+  String? message;
+  Data? data;
+  String? path;
+  String? timestamp;
 
   SocialLoginTokenResponse(
-      {required this.accessToken, required this.refreshToken, required this.isOnboarding});
+      {this.code, this.message, this.data, this.path, this.timestamp});
 
   SocialLoginTokenResponse.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    message = json['message'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    path = json['path'];
+    timestamp = json['timestamp'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    data['path'] = this.path;
+    data['timestamp'] = this.timestamp;
+    return data;
+  }
+}
+
+class Data {
+  String? accessToken;
+  String? refreshToken;
+  bool? isCompletedOnboarding;
+
+  Data({this.accessToken, this.refreshToken, this.isCompletedOnboarding});
+
+  Data.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];
     refreshToken = json['refreshToken'];
-    isOnboarding = json['isOnboarding'];
+    isCompletedOnboarding = json['isCompletedOnboarding'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['accessToken'] = this.accessToken;
     data['refreshToken'] = this.refreshToken;
-    data['isOnboarding'] = this.isOnboarding;
+    data['isCompletedOnboarding'] = this.isCompletedOnboarding;
     return data;
   }
 }

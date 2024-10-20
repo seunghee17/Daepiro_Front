@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../DaepiroTheme.dart';
+
 class PrimaryFilledButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final Color backgroundColor;
   final Color pressedColor;
+  final double borderRadius;
   final Color? disabledColor;
   final Widget child;
   final double verticalPadding;
 
   const PrimaryFilledButton({
     Key? key,
-    required this.onPressed,
+    this.onPressed,
     required this.backgroundColor,
     required this.pressedColor,
+    required this.borderRadius,
     this.disabledColor,
     required this.child,
     required this.verticalPadding
@@ -23,26 +27,37 @@ class PrimaryFilledButton extends StatefulWidget {
   _PrimaryFilledButton createState() => _PrimaryFilledButton();
 }
 
-  class _PrimaryFilledButton extends State<PrimaryFilledButton> {
-    //bool isPressed = false;
-    bool isEnabled = true;
-    @override
-    Widget build(BuildContext context) {
-      return ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            overlayColor: widget.pressedColor,
-            backgroundColor: widget.backgroundColor,
-            disabledBackgroundColor: widget.disabledColor ?? widget.backgroundColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)
-            ),
-            elevation: 0.0,
-            shadowColor: Colors.transparent,
-            padding: EdgeInsets.symmetric(vertical: widget.verticalPadding)
-          ),
-          onPressed: widget.onPressed,
-          child: widget.child
-      );
-    }
+class _PrimaryFilledButton extends State<PrimaryFilledButton> {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: widget.onPressed == null
+            ? widget.disabledColor
+            : widget.backgroundColor,
+        disabledBackgroundColor: widget.disabledColor ?? widget.backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+        ),
+        elevation: 1.0,
+        shadowColor: DaepiroColorStyle.black.withOpacity(0.15),
+        padding: EdgeInsets.symmetric(vertical: widget.verticalPadding),
+      ).copyWith(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return widget.disabledColor ?? widget.backgroundColor;
+            }
+            if (states.contains(MaterialState.pressed)) {
+              return widget.pressedColor;
+            }
+            return widget.backgroundColor;
+          },
+        ),
+      ),
+      onPressed: widget.onPressed,
+      child: widget.child,
+    );
   }
+}
 

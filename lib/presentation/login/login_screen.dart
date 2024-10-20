@@ -1,39 +1,52 @@
 import 'dart:io';
-import 'package:daepiro/presentation/login/login_state.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
-import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
-import 'login_controller.dart';
-
+import '../onboarding/screens/permission_screen.dart';
+import '../widgets/button/secondary_filled_button.dart';
+import 'login_view_model.dart';
+import 'login_state.dart';
 
 class LoginScreen extends ConsumerWidget {
-  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncValue = ref.watch(loginControllerProvider);
-    var screenHeight = MediaQuery.of(context).size.height;
+    final controller = ref.watch(loginViewModelProvider);
+    final screenHeight = MediaQuery.of(context).size.height;
 
-    ref.listen<AsyncValue<LoginState>>(loginControllerProvider, (previous, next) {
+    ref.listen<AsyncValue<LoginState>>(loginViewModelProvider, (previous, next) {
       next.whenData((state) {
         if(state.refreshToken != '' && state.refreshToken != '') {
-          if(state.isOnboarding) {
+          if(state.isCompletedOnboarding) {
             GoRouter.of(context).go('/home');
           } else {
-            GoRouter.of(context).push('/onboarding');
+              showModalBottomSheet(
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) {
+                    return PermissionScreen(
+                      onPermissionCheck: () async {
+                        GoRouter.of(context).pop();
+                        var locationGrant = await ref.read(loginViewModelProvider.notifier).checkLocationPermission();
+                        if(!locationGrant) {
+                          locationDialog(context, ref);
+                        } else {
+                          GoRouter.of(context).go('/onboarding');
+                        }
+                      },
+                    );
+                  }
+              );
           }
         }
       });
     });
 
-    return asyncValue.when(
+    return controller.when(
         data: (state) {
           return Scaffold(
             body: Column(
@@ -69,41 +82,40 @@ class LoginScreen extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        PrimaryFilledButton(
-                            onPressed: () async {
-                              String token = await _kakaoLogin();
-                              await ref.read(loginControllerProvider.notifier).getKakaoToken(token);
+                        LoginButton(
+                            Color(0xFFFAE300),
+                            () async {
+                              String token = await ref.read(loginViewModelProvider.notifier).kakaoLogin();
+                              await ref.read(loginViewModelProvider.notifier).getSocialToken('kakao',token);
                             },
-                            backgroundColor: Color(0xFFFAE300),
-                            pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
-                            child: KakaoWidget(),
-                          verticalPadding: 16,
+                          KakaoWidget(),
                         ),
-                        SizedBox(height: screenHeight * 0.009,),
-                        PrimaryFilledButton(
-                            onPressed: () async {
-                              String token = await _naverLogin();
-                              await ref.read(loginControllerProvider.notifier).getNaverToken(token);
-                            },
-                            backgroundColor: Color(0xFF03C75A),
-                            pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
-                            child: NaverWidget(),
-                          verticalPadding: 16,
+                        SizedBox(height: 8),
+                        LoginButton(
+                          Color(0xFF03C75A),
+                              () async {
+                            String token = await ref.read(loginViewModelProvider.notifier).naverLogin();
+                            await ref.read(loginViewModelProvider.notifier).getSocialToken('naver',token);
+                          },
+                          NaverWidget(),
                         ),
-                        SizedBox(height: screenHeight * 0.009,),
+                        SizedBox(height: 8),
                         if(Platform.isIOS)
-                          PrimaryFilledButton(
-                              onPressed: (){},
-                              backgroundColor: DaepiroColorStyle.black,
-                              pressedColor: DaepiroColorStyle.black.withOpacity(0.1),
-                              child: AppleWidget(),
-                            verticalPadding: 16,
-                          ),
+                          Column(
+                            children: [
+                              LoginButton(
+                                DaepiroColorStyle.black,
+                                    () async {
+                                },
+                                AppleWidget()),
+                              SizedBox(height: 41)
+                            ],
+                          )
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.07)
+                SizedBox(height:16)
               ],
             ),
           );
@@ -165,44 +177,103 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Future<String> _kakaoLogin() async {
-    if(await isKakaoTalkInstalled()) {
-      try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
-        print('카카오톡으로 로그인 성공');
-        return token.accessToken;
-      } catch(error) {
-        print('카카오톡으로 로그인 실패: $error');
-        if(error is PlatformException && error.code == 'CANCELED') {
-          return '';
-        }
-        try {
-          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-          print('카카오 계정으로 로그인 성공');
-          return token.accessToken;
-        } catch(error) {
-          print('카카오계정으로 로그인 실패: $error');
-        }
-      }
-    } else {
-      try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        print('카카오 계정으로 로그인 성공');
-        return token.accessToken;
-      } catch(error) {
-        print('카카오계정으로 로그인 실패: $error');
-      }
-    }
-    return '';
+  Widget LoginButton(
+      Color backgroundColor,
+      VoidCallback onPressed,
+      Widget child ) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            overlayColor: DaepiroColorStyle.black.withOpacity(0.1),
+            backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8)
+            ),
+            shadowColor: Colors.transparent,
+            padding: EdgeInsets.symmetric(vertical: 16),
+        ),
+        onPressed: onPressed,
+        child: child
+    );
   }
 
-  Future<String> _naverLogin() async {
-    try {
-      final NaverLoginResult res = await FlutterNaverLogin.logIn();
-      return res.accessToken.toString();
-    } catch(error) {
-      print('네이버 로그인 에러: ${error}');
-    }
-    return '';
+  void locationDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
+                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
+                ),
+              ],
+            ),
+            contentPadding:EdgeInsets.fromLTRB(20, 0, 20, 24) ,
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      '만약 위치 권한을 허용하지 않는다면\n거주지를 기준으로 재난문자가 발송돼요.',
+                      style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
+                    ),
+                  ]
+              ),
+            ),
+            actions: <Widget>[
+              Row(
+                children: [
+                  Expanded(
+                    child: SecondaryFilledButton(
+                        verticalPadding: 12,
+                        onPressed: () {
+                          GoRouter.of(context).pop();
+                          GoRouter.of(context).go('/onboarding');
+                        },
+                        radius: 8,
+                        backgroundColor: DaepiroColorStyle.g_50,
+                        pressedColor:  DaepiroColorStyle.g_75,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          '위치 미허용',
+                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
+                        )
+                    ),
+                  ),
+                  SizedBox(width: 8,),
+                  Expanded(
+                    child: SecondaryFilledButton(
+                        verticalPadding: 12,
+                        onPressed: () async {
+                          await ref.read(loginViewModelProvider.notifier).requestLocationPermission();
+                          GoRouter.of(context).pop();
+                          GoRouter.of(context).go('/onboarding');
+                        },
+                        radius: 8,
+                        backgroundColor: DaepiroColorStyle.g_700,
+                        pressedColor:  DaepiroColorStyle.g_400,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          '위치 허용',
+                          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+                        )
+                    ),
+                  )
+                ],
+              ),
+            ],
+          );
+        }
+    );
   }
+
 }

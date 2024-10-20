@@ -22,21 +22,21 @@ class _LoginService implements LoginService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<TokenResponse> getTokenResponse(
-      {required TokenRequest tokenRequest}) async {
+  Future<RefreshTokenResponse> getTokenResponse(
+      {required RefreshTokenRequest tokenRequest}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(tokenRequest.toJson());
-    final _options = _setStreamType<TokenResponse>(Options(
+    final _options = _setStreamType<RefreshTokenResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/token/refresh',
+          '/v1/auth/refresh',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -46,9 +46,9 @@ class _LoginService implements LoginService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late TokenResponse _value;
+    late RefreshTokenResponse _value;
     try {
-      _value = TokenResponse.fromJson(_result.data!);
+      _value = RefreshTokenResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -57,13 +57,15 @@ class _LoginService implements LoginService {
   }
 
   @override
-  Future<SocialLoginTokenResponse> getNaverTokenResponse(
-      {required TokenRequest tokenRequest}) async {
+  Future<SocialLoginTokenResponse> getSocialLogin({
+    required String platform,
+    required SocialLoginRequest socialLoginRequest,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(tokenRequest.toJson());
+    _data.addAll(socialLoginRequest.toJson());
     final _options = _setStreamType<SocialLoginTokenResponse>(Options(
       method: 'POST',
       headers: _headers,
@@ -71,42 +73,7 @@ class _LoginService implements LoginService {
     )
         .compose(
           _dio.options,
-          '/token/naver',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SocialLoginTokenResponse _value;
-    try {
-      _value = SocialLoginTokenResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<SocialLoginTokenResponse> getKakaoTokenResponse(
-      {required TokenRequest tokenRequest}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(tokenRequest.toJson());
-    final _options = _setStreamType<SocialLoginTokenResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/token/kakao',
+          '/v1/auth/login/${platform}',
           queryParameters: queryParameters,
           data: _data,
         )

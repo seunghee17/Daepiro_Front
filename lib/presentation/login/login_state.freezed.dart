@@ -19,7 +19,10 @@ mixin _$LoginState {
   bool get isLoading => throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
-  bool get isOnboarding => throw _privateConstructorUsedError;
+  bool get isCompletedOnboarding => throw _privateConstructorUsedError;
+  bool get isLoginSuccess => throw _privateConstructorUsedError;
+  bool get isLocationGrant => throw _privateConstructorUsedError;
+  bool get isGrantRequestFinish => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LoginStateCopyWith<LoginState> get copyWith =>
@@ -36,7 +39,10 @@ abstract class $LoginStateCopyWith<$Res> {
       {bool isLoading,
       String accessToken,
       String refreshToken,
-      bool isOnboarding});
+      bool isCompletedOnboarding,
+      bool isLoginSuccess,
+      bool isLocationGrant,
+      bool isGrantRequestFinish});
 }
 
 /// @nodoc
@@ -55,7 +61,10 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
     Object? isLoading = null,
     Object? accessToken = null,
     Object? refreshToken = null,
-    Object? isOnboarding = null,
+    Object? isCompletedOnboarding = null,
+    Object? isLoginSuccess = null,
+    Object? isLocationGrant = null,
+    Object? isGrantRequestFinish = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -70,9 +79,21 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
-      isOnboarding: null == isOnboarding
-          ? _value.isOnboarding
-          : isOnboarding // ignore: cast_nullable_to_non_nullable
+      isCompletedOnboarding: null == isCompletedOnboarding
+          ? _value.isCompletedOnboarding
+          : isCompletedOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoginSuccess: null == isLoginSuccess
+          ? _value.isLoginSuccess
+          : isLoginSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLocationGrant: null == isLocationGrant
+          ? _value.isLocationGrant
+          : isLocationGrant // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isGrantRequestFinish: null == isGrantRequestFinish
+          ? _value.isGrantRequestFinish
+          : isGrantRequestFinish // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -90,7 +111,10 @@ abstract class _$$LoginStateImplCopyWith<$Res>
       {bool isLoading,
       String accessToken,
       String refreshToken,
-      bool isOnboarding});
+      bool isCompletedOnboarding,
+      bool isLoginSuccess,
+      bool isLocationGrant,
+      bool isGrantRequestFinish});
 }
 
 /// @nodoc
@@ -107,7 +131,10 @@ class __$$LoginStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? accessToken = null,
     Object? refreshToken = null,
-    Object? isOnboarding = null,
+    Object? isCompletedOnboarding = null,
+    Object? isLoginSuccess = null,
+    Object? isLocationGrant = null,
+    Object? isGrantRequestFinish = null,
   }) {
     return _then(_$LoginStateImpl(
       isLoading: null == isLoading
@@ -122,9 +149,21 @@ class __$$LoginStateImplCopyWithImpl<$Res>
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
-      isOnboarding: null == isOnboarding
-          ? _value.isOnboarding
-          : isOnboarding // ignore: cast_nullable_to_non_nullable
+      isCompletedOnboarding: null == isCompletedOnboarding
+          ? _value.isCompletedOnboarding
+          : isCompletedOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoginSuccess: null == isLoginSuccess
+          ? _value.isLoginSuccess
+          : isLoginSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLocationGrant: null == isLocationGrant
+          ? _value.isLocationGrant
+          : isLocationGrant // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isGrantRequestFinish: null == isGrantRequestFinish
+          ? _value.isGrantRequestFinish
+          : isGrantRequestFinish // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -137,7 +176,10 @@ class _$LoginStateImpl implements _LoginState {
       {this.isLoading = false,
       this.accessToken = '',
       this.refreshToken = '',
-      this.isOnboarding = false});
+      this.isCompletedOnboarding = false,
+      this.isLoginSuccess = false,
+      this.isLocationGrant = false,
+      this.isGrantRequestFinish = false});
 
   @override
   @JsonKey()
@@ -150,11 +192,20 @@ class _$LoginStateImpl implements _LoginState {
   final String refreshToken;
   @override
   @JsonKey()
-  final bool isOnboarding;
+  final bool isCompletedOnboarding;
+  @override
+  @JsonKey()
+  final bool isLoginSuccess;
+  @override
+  @JsonKey()
+  final bool isLocationGrant;
+  @override
+  @JsonKey()
+  final bool isGrantRequestFinish;
 
   @override
   String toString() {
-    return 'LoginState(isLoading: $isLoading, accessToken: $accessToken, refreshToken: $refreshToken, isOnboarding: $isOnboarding)';
+    return 'LoginState(isLoading: $isLoading, accessToken: $accessToken, refreshToken: $refreshToken, isCompletedOnboarding: $isCompletedOnboarding, isLoginSuccess: $isLoginSuccess, isLocationGrant: $isLocationGrant, isGrantRequestFinish: $isGrantRequestFinish)';
   }
 
   @override
@@ -168,13 +219,26 @@ class _$LoginStateImpl implements _LoginState {
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken) &&
-            (identical(other.isOnboarding, isOnboarding) ||
-                other.isOnboarding == isOnboarding));
+            (identical(other.isCompletedOnboarding, isCompletedOnboarding) ||
+                other.isCompletedOnboarding == isCompletedOnboarding) &&
+            (identical(other.isLoginSuccess, isLoginSuccess) ||
+                other.isLoginSuccess == isLoginSuccess) &&
+            (identical(other.isLocationGrant, isLocationGrant) ||
+                other.isLocationGrant == isLocationGrant) &&
+            (identical(other.isGrantRequestFinish, isGrantRequestFinish) ||
+                other.isGrantRequestFinish == isGrantRequestFinish));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, isLoading, accessToken, refreshToken, isOnboarding);
+      runtimeType,
+      isLoading,
+      accessToken,
+      refreshToken,
+      isCompletedOnboarding,
+      isLoginSuccess,
+      isLocationGrant,
+      isGrantRequestFinish);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +252,10 @@ abstract class _LoginState implements LoginState {
       {final bool isLoading,
       final String accessToken,
       final String refreshToken,
-      final bool isOnboarding}) = _$LoginStateImpl;
+      final bool isCompletedOnboarding,
+      final bool isLoginSuccess,
+      final bool isLocationGrant,
+      final bool isGrantRequestFinish}) = _$LoginStateImpl;
 
   @override
   bool get isLoading;
@@ -197,7 +264,13 @@ abstract class _LoginState implements LoginState {
   @override
   String get refreshToken;
   @override
-  bool get isOnboarding;
+  bool get isCompletedOnboarding;
+  @override
+  bool get isLoginSuccess;
+  @override
+  bool get isLocationGrant;
+  @override
+  bool get isGrantRequestFinish;
   @override
   @JsonKey(ignore: true)
   _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>

@@ -6,7 +6,7 @@ part of 'token_result_usecase.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getTokenResponseHash() => r'ef2702107fb3dbc7afd252a20f77ac1e21c6c454';
+String _$getTokenResponseHash() => r'51f78e45f53d72567d19753da5763baae7cb3a67';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,13 +34,13 @@ class _SystemHash {
 const getTokenResponseProvider = GetTokenResponseFamily();
 
 /// See also [getTokenResponse].
-class GetTokenResponseFamily extends Family<AsyncValue<TokenResponse>> {
+class GetTokenResponseFamily extends Family<AsyncValue<RefreshTokenResponse>> {
   /// See also [getTokenResponse].
   const GetTokenResponseFamily();
 
   /// See also [getTokenResponse].
   GetTokenResponseProvider call({
-    required TokenRequest tokenRequest,
+    required RefreshTokenRequest tokenRequest,
   }) {
     return GetTokenResponseProvider(
       tokenRequest: tokenRequest,
@@ -73,10 +73,10 @@ class GetTokenResponseFamily extends Family<AsyncValue<TokenResponse>> {
 
 /// See also [getTokenResponse].
 class GetTokenResponseProvider
-    extends AutoDisposeFutureProvider<TokenResponse> {
+    extends AutoDisposeFutureProvider<RefreshTokenResponse> {
   /// See also [getTokenResponse].
   GetTokenResponseProvider({
-    required TokenRequest tokenRequest,
+    required RefreshTokenRequest tokenRequest,
   }) : this._internal(
           (ref) => getTokenResponse(
             ref as GetTokenResponseRef,
@@ -104,11 +104,12 @@ class GetTokenResponseProvider
     required this.tokenRequest,
   }) : super.internal();
 
-  final TokenRequest tokenRequest;
+  final RefreshTokenRequest tokenRequest;
 
   @override
   Override overrideWith(
-    FutureOr<TokenResponse> Function(GetTokenResponseRef provider) create,
+    FutureOr<RefreshTokenResponse> Function(GetTokenResponseRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -125,7 +126,7 @@ class GetTokenResponseProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<TokenResponse> createElement() {
+  AutoDisposeFutureProviderElement<RefreshTokenResponse> createElement() {
     return _GetTokenResponseProviderElement(this);
   }
 
@@ -144,18 +145,19 @@ class GetTokenResponseProvider
   }
 }
 
-mixin GetTokenResponseRef on AutoDisposeFutureProviderRef<TokenResponse> {
+mixin GetTokenResponseRef
+    on AutoDisposeFutureProviderRef<RefreshTokenResponse> {
   /// The parameter `tokenRequest` of this provider.
-  TokenRequest get tokenRequest;
+  RefreshTokenRequest get tokenRequest;
 }
 
 class _GetTokenResponseProviderElement
-    extends AutoDisposeFutureProviderElement<TokenResponse>
+    extends AutoDisposeFutureProviderElement<RefreshTokenResponse>
     with GetTokenResponseRef {
   _GetTokenResponseProviderElement(super.provider);
 
   @override
-  TokenRequest get tokenRequest =>
+  RefreshTokenRequest get tokenRequest =>
       (origin as GetTokenResponseProvider).tokenRequest;
 }
 // ignore_for_file: type=lint

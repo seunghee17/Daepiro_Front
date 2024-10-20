@@ -5,14 +5,14 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
-import '../model/request/token_request.dart';
+import '../model/request/refresh_token_request.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 part 'http_provider.g.dart';
 
 @riverpod
 Dio http(HttpRef ref) {
   final options = BaseOptions(
-    baseUrl: 'http://ec2-15-164-253-33.ap-northeast-2.compute.amazonaws.com',
+    baseUrl: 'https://api.daepiro.com',
     headers: {
       'Content-Type': 'application/json',
     }
@@ -40,7 +40,8 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
     onRequest: (options, handler) async {
 
       //헤더주입이 필요없는 api
-      if ((!options.path.contains("/kakao")) && (!options.path.contains("/naver")) && (!options.path.contains('/refresh'))) {
+      if ((!options.path.contains("/kakao")) && (!options.path.contains("/naver"))
+          && (!options.path.contains('/refresh')) && (!options.path.contains('/apple')) && (!options.path.contains('/business'))) {
         String? accessToken = await storage.read(key: 'accessToken');
         if (accessToken != null) {
           options.headers['Authorization'] = 'Bearer $accessToken';
@@ -50,7 +51,7 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
     },
     onError: (DioError error, handler) async {
       //토큰 갱신 요청 실패시 재시도 하지 않음
-      if(error.requestOptions.path.contains('/token/refresh')) {
+      if(error.requestOptions.path.contains('/v1/auth/refresh')) {
         print('토큰 갱신 요청 실패시 재시도 하지 않음:: ');
         handler.next(error);
         return;
@@ -80,8 +81,8 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
         if(refreshToken != null ) {
           try {
             final response = await dio.post(
-                'http://ec2-15-164-253-33.ap-northeast-2.compute.amazonaws.com/token/refresh',
-              data: TokenRequest(token: refreshToken),
+                'http://13.125.2.66/swagger-ui/index.html#/v1/auth/refresh',
+              data: RefreshTokenRequest(refreshToken: refreshToken),
             );
             if(response.statusCode == 200) {
               print('토큰 갱신 성공!!!');
@@ -106,7 +107,7 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
               return handler.resolve(clonedRequest);
             } else {
               //refresh 토큰이 존재하지 않거나 만료되었음 로그인 화면으로 이동해야함
-              //재로그인이 필요함을 언급
+              //재로그인이 필요함을 언급 //저장한 토큰 사라지게 하는 로직 필요
               print('cathch 전');
             }
           } catch(e) {
