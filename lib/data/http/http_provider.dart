@@ -7,12 +7,13 @@ import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 import '../model/request/refresh_token_request.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 part 'http_provider.g.dart';
 
 @riverpod
 Dio http(HttpRef ref) {
   final options = BaseOptions(
-    baseUrl: 'https://api.daepiro.com',
+    baseUrl: dotenv.get('BASE_URL'),
     headers: {
       'Content-Type': 'application/json',
     }

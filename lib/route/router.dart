@@ -117,7 +117,7 @@ final goRouteProvider = Provider((ref) {
                   builder: (context, state) => const CommunityMainScreen(),
                   routes: [
                     GoRoute(
-                      path: '/rule',
+                      path: 'rule',
                       builder: (context, state) => const CommunityRuleScreen(),
                     ),
                   ]

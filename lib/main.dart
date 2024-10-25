@@ -1,12 +1,15 @@
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/route/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  KakaoSdk.init(nativeAppKey: '0786b07056f57dd7e119842166e52498');
+  await dotenv.load(fileName: '.env');
+  String nativeKakaoKey = dotenv.get('KAKAOKEY');
+  KakaoSdk.init(nativeAppKey: nativeKakaoKey);
   runApp(ProviderScope(child: MyApp()));
 }
 
