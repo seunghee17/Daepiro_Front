@@ -298,7 +298,15 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           ),
           SizedBox(height: 10,),
           TextField(
-            onTap: onTap,
+            onTap: () {
+              if(jusoNickController1.text.isEmpty) {
+                setState(() {
+                  errorStateNick1 = 'LENGTH_ERROR';
+                });
+              } else {
+                onTap;
+              }
+            },
             enabled: true,
             readOnly: true,
             focusNode: FocusNode(canRequestFocus: false),
@@ -394,7 +402,15 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       ),
           SizedBox(height: 10,),
           TextField(
-            onTap: onTap,
+            onTap: () {
+              if(jusoNickController2.text.isEmpty) {
+                setState(() {
+                  errorStateNick2 = 'LENGTH_ERROR';
+                });
+              } else {
+                onTap;
+              }
+            },
             enabled: true,
             readOnly: true,
             focusNode: FocusNode(canRequestFocus: false),
