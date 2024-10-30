@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
+import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:daepiro/presentation/widgets/button/secondary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,17 @@ class CommunityDisasterScreen extends ConsumerWidget {
                         child: ruleContainer()
                     ),
                     SizedBox(height: 20),
-                    twoButtonContainer(ref, state.receiveButton, state.AllButton)
+                    twoButtonContainer(ref, state.receiveButton, state.AllButton),
+                    SizedBox(height: 20),
+                    Expanded(
+                      //TODO api나온후 변경해야함
+                        child: ListView.builder(
+                          itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고', '서울시 강남구', '오후 02:30', 4);
+                            }
+                        )
+                    )
                   ],
                 ),
               )
@@ -109,9 +120,171 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  // Widget contentItem() {
-  //
-  // }
+  Widget contentItem(String disasterType, String location, String content, String shortLocation, String timeText, int comments) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              PrimaryFilledButton(
+                  backgroundColor: DaepiroColorStyle.o_50,
+                  pressedColor: DaepiroColorStyle.o_50,
+                  borderRadius: 4,
+                  child: Row(
+                    children: [
+                      Text(
+                        '화재',
+                        style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
+                      )
+                    ],
+                  ),
+                  verticalPadding: 2
+              ),
+              Spacer(),
+              //TODO: 행동요령 페이지 넘어가게 하기
+              GestureDetector(
+                onTap: (){},
+                child: Row(
+                  children: [
+                    Text(
+                      '행동요령',
+                      style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+                    ),
+                    SvgPicture.asset(
+                      'assets/icons/arrow_right',
+                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 12),
+          RichText(
+            text: TextSpan(
+                text: location,
+                style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+                children: [
+                  TextSpan(
+                    text: disasterType,
+                    style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.o_500),
+                  ),
+                  TextSpan(
+                    text: '발생',
+                    style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+                  ),
+                ]
+            ),
+          ),
+          Text(
+            content,
+            style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600),
+          ),
+          SizedBox(height: 12),
+          Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/location',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  '${shortLocation} ∙ ${timeText}',
+                  style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_400),
+                ),
+                Spacer(),
+                SvgPicture.asset(
+                  'assets/icons/community',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                ),
+                SizedBox(width: 2),
+                Text(
+                  '${comments}',
+                  style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_200),
+                )
+              ],
+          ),
+          comments >0 ?
+          replyContainer() : noneReplyContainer()
+        ],
+      ),
+    );
+  }
+
+  Widget replyContainer() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: DaepiroColorStyle.g_50,
+        borderRadius: BorderRadius.circular(12)
+      ),
+      child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Column(
+          children: [
+            replyWidget('사거리에 어쩌구', '5분전', 0),
+            replyWidget('사거리에 어쩌구', '5분전', 3),
+            SizedBox(height: 10),
+            Text(
+              textAlign: TextAlign.center,
+              '더보기',
+              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_600),
+            ),
+            SizedBox(height: 2)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget replyWidget(String content, String timeText, int likeNum) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: DaepiroColorStyle.white,
+        borderRadius: BorderRadius.circular(8)
+      ),
+      child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              content,
+              style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
+            ),
+            SizedBox(height: 8),
+            Row(
+              children: [
+                Text(
+                  content,
+                  style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+                ),
+                Spacer(),
+                Visibility(
+                  visible: likeNum!=0,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/good',
+                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                        ),
+                        SizedBox(width: 2),
+                        Text(
+                          '${likeNum}',
+                          style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_500),
+                        )
+                      ],
+                    )
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    )
+  }
 
   //댓글 존재하지 않을때 ui
   Widget noneReplyContainer() {
