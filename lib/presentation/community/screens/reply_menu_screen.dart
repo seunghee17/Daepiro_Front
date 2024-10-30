@@ -8,11 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../community_view_model.dart';
 
 class ReplyMenuScreen extends ConsumerWidget {
-  final Widget child;
-  const ReplyMenuScreen( {
-    super.key,
-    required this.child,
-  });
+  const ReplyMenuScreen( {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final communityViewModel = ref.watch(communityViewModelProvider);
@@ -20,12 +16,11 @@ class ReplyMenuScreen extends ConsumerWidget {
       children: [
         BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: child,
+            child: Positioned(
+                bottom: 20,
+                child:selectMenu()
+            ),
         ),
-        Positioned(
-            bottom: 20,
-            child:selectMenu()
-        )
       ],
     );
   }
@@ -36,6 +31,7 @@ class ReplyMenuScreen extends ConsumerWidget {
         GestureDetector(
           onTap: (){},
           child: Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               color: DaepiroColorStyle.g_50,
               borderRadius: BorderRadius.circular(8)
@@ -50,6 +46,7 @@ class ReplyMenuScreen extends ConsumerWidget {
         GestureDetector(
           onTap: (){},
             child: Container(
+              width: double.infinity,
               decoration: BoxDecoration(
                   color: DaepiroColorStyle.g_50,
                   borderRadius: BorderRadius.circular(8)

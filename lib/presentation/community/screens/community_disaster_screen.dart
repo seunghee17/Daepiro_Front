@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/community/screens/reply_bottom_sheet.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:daepiro/presentation/widgets/button/secondary_filled_button.dart';
@@ -38,7 +39,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                         child: ListView.builder(
                           itemCount: 5,
                             itemBuilder: (context, index) {
-                              return contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고', '서울시 강남구', '오후 02:30', 4);
+                              return contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고', '서울시 강남구', '오후 02:30', 4, context);
                             }
                         )
                     )
@@ -120,7 +121,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  Widget contentItem(String disasterType, String location, String content, String shortLocation, String timeText, int comments) {
+  Widget contentItem(String disasterType, String location, String content, String shortLocation, String timeText, int comments, BuildContext context) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -206,13 +207,13 @@ class CommunityDisasterScreen extends ConsumerWidget {
               ],
           ),
           comments >0 ?
-          replyContainer() : noneReplyContainer()
+          replyContainer(context) : noneReplyContainer()
         ],
       ),
     );
   }
 
-  Widget replyContainer() {
+  Widget replyContainer(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -226,10 +227,24 @@ class CommunityDisasterScreen extends ConsumerWidget {
             replyWidget('사거리에 어쩌구', '5분전', 0),
             replyWidget('사거리에 어쩌구', '5분전', 3),
             SizedBox(height: 10),
-            Text(
-              textAlign: TextAlign.center,
-              '더보기',
-              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_600),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return ReplyBottomSheet();
+                    }
+                );
+              },
+              child: Row(
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    '더보기',
+                    style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_600),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 2)
           ],
@@ -283,7 +298,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
           ],
         ),
       ),
-    )
+    );
   }
 
   //댓글 존재하지 않을때 ui

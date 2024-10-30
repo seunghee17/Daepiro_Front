@@ -7,5 +7,6 @@ sealed class CommunityState with _$CommunityState {
   factory CommunityState({
     @Default(true) bool receiveButton,
     @Default(false) bool AllButton,
+    @Default(false) bool isCertificateUser,
 }) = _CommunityState;
 }
