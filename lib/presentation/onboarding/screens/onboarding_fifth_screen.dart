@@ -73,20 +73,41 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
   Widget bottomWidget(bool isAllAppPermissionGrant) {
     return Container(
       width: double.infinity,
-      child: PrimaryFilledButton(
-        onPressed: isAllAppPermissionGrant ? () {
-          GoRouter.of(context).push('/onboarding/final');
-        } : null, // 이 부분을 변경하여 콜백이 null이면 버튼 비활성화
-        backgroundColor: DaepiroColorStyle.o_500,
-        pressedColor: DaepiroColorStyle.o_600,
-        disabledColor: DaepiroColorStyle.o_100,
-        borderRadius: 8,
-        child: Text(
-          '다음',
-          style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
-        ),
-        verticalPadding: 12,
-      ),
+      child: Row(
+        children: [
+          Expanded(
+              child: PrimaryFilledButton(
+                  onPressed: GoRouter.of(context).pop,
+                  backgroundColor: DaepiroColorStyle.g_50,
+                  pressedColor: DaepiroColorStyle.g_75,
+                  borderRadius: 8.0,
+                  disabledColor: DaepiroColorStyle.g_50,
+                  child: Text(
+                    '이전',
+                    style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
+                  ),
+                  verticalPadding: 12
+              )
+          ),
+          SizedBox(width: 8),
+          Expanded(
+            child: PrimaryFilledButton(
+              onPressed: isAllAppPermissionGrant ? () {
+                GoRouter.of(context).push('/onboarding/final');
+              } : null, // 이 부분을 변경하여 콜백이 null이면 버튼 비활성화
+              backgroundColor: DaepiroColorStyle.o_500,
+              pressedColor: DaepiroColorStyle.o_600,
+              disabledColor: DaepiroColorStyle.o_100,
+              borderRadius: 8,
+              child: Text(
+                '다음',
+                style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+              ),
+              verticalPadding: 12,
+            ),
+          ),
+        ],
+      )
     );
   }
 
