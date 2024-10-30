@@ -29,7 +29,8 @@ class CommunityDisasterScreen extends ConsumerWidget {
                         },
                         child: ruleContainer()
                     ),
-
+                    SizedBox(height: 20),
+                    twoButtonContainer(ref, state.receiveButton, state.AllButton)
                   ],
                 ),
               )
@@ -73,19 +74,46 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  Widget twoButtonContainer() {
+  Widget twoButtonContainer(WidgetRef ref, bool receiveButton, bool AllButton) {
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20),
         child: Row(
           children: [
-            //SecondaryFilledButton(onPressed: onPressed, radius: radius, child: child, backgroundColor: backgroundColor)
+            SecondaryFilledButton(
+                onPressed: ref.read(communityViewModelProvider.notifier).clickReceiveButton,
+                radius: 99,
+                child: Text(
+                  '수신',
+                  style: DaepiroTextStyle.body_1_m.copyWith(color: receiveButton ? DaepiroColorStyle.white : DaepiroColorStyle.g_600),
+                ),
+                backgroundColor: receiveButton ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50,
+              horizontalPadding: 16,
+              verticalPadding: 6,
+            ),
+            SizedBox(width: 8),
+            SecondaryFilledButton(
+              onPressed: ref.read(communityViewModelProvider.notifier).clickReceiveButton,
+              radius: 99,
+              child: Text(
+                '전체',
+                style: DaepiroTextStyle.body_1_m.copyWith(color: receiveButton ? DaepiroColorStyle.white : DaepiroColorStyle.g_600),
+              ),
+              backgroundColor: receiveButton ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50,
+              horizontalPadding: 16,
+              verticalPadding: 6,
+            )
           ],
         ),
       ),
     );
   }
 
+  // Widget contentItem() {
+  //
+  // }
+
+  //댓글 존재하지 않을때 ui
   Widget noneReplyContainer() {
     return Container(
       width: double.infinity,

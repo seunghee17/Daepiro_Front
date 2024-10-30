@@ -5,6 +5,7 @@ part 'community_state.freezed.dart';
 @freezed
 sealed class CommunityState with _$CommunityState {
   factory CommunityState({
-    @Default(false) bool isError,
+    @Default(true) bool receiveButton,
+    @Default(false) bool AllButton,
 }) = _CommunityState;
 }
