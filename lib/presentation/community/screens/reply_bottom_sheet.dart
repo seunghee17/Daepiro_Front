@@ -351,6 +351,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           //TODO 댓글 삭제 취소 api 연결필요
           onPressed: (){}
       ),
+      duration: const Duration(seconds: 5),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

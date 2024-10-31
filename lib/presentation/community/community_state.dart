@@ -9,5 +9,6 @@ sealed class CommunityState with _$CommunityState {
     @Default(false) bool AllButton,
     @Default(false) bool isCertificateUser,
     @Default(false) bool isDeleteComplete,
+    @Default(null) String? reportType,
 }) = _CommunityState;
 }

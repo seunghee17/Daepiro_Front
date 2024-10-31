@@ -9,7 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../community_view_model.dart';
-
+//재난상황 화면
 class CommunityDisasterScreen extends ConsumerWidget {
   const CommunityDisasterScreen({super.key});
 

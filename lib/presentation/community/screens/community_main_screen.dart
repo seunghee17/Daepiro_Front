@@ -5,7 +5,7 @@ import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+//커뮤니티 메인화면
 class CommunityMainScreen extends ConsumerWidget {
   const CommunityMainScreen({super.key});
 

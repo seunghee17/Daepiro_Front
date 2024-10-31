@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../community_view_model.dart';
-
+//동네생활 화면
 class CommunityTownScreen extends ConsumerWidget {
   const CommunityTownScreen({super.key});
 
