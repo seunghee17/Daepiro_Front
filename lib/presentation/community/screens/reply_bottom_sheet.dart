@@ -57,7 +57,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  Widget replyWidget(WidgetRef ref, bool isCertificateUser, BuildContext context) {
+  Widget replyWidget(WidgetRef ref, bool isCertificateUser, BuildContext context, bool isUser) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -91,7 +91,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
               //TODO 사양보고 다시 설정하기
               GestureDetector(
                 onTap: () {
-                  goToEdit(context);
+                  goToEdit(context, isUser);
                 },
                 child: SvgPicture.asset('assets/icons/moreinfo.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
@@ -124,7 +124,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  Widget reReplyWidget(bool isCertificateUser, BuildContext context) {
+  Widget reReplyWidget(bool isCertificateUser, BuildContext context, bool isUser) {
     return Container(
       child: Row(
         children: [
@@ -166,7 +166,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   //TODO 사양보고 다시 설정하기
                   GestureDetector(
                     onTap: () {
-                      goToEdit(context);
+                      goToEdit(context, isUser);
                     },
                     child: SvgPicture.asset('assets/icons/moreinfo.svg',
                         colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
@@ -292,15 +292,67 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  void goToEdit(BuildContext context) {
+  Widget deleteSuccessDialog() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(8)
+      ),
+      child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Row(
+          children: [
+            Text(
+                '댓글이 삭제되었습니다.',
+              style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+            ),
+            Spacer(),
+            GestureDetector(
+              //TODO 댓글 삭제 취소 api 연결필요
+              onTap: (){},
+              child: Text(
+                '취소',
+                style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //수정 삭제를 위한 blur 화면 띄우는 메소드
+  void goToEdit(BuildContext context, bool isUser) {
     showDialog(
       useSafeArea: false,
         context: context,
         barrierColor: Colors.transparent,
         builder: (context) {
-          return ReplyMenuScreen();
+          return ReplyMenuScreen(isUser: isUser);
         }
     );
+  }
+
+  //댓글 삭제
+  //TODO: isDeleteComplete와 연결시키기
+  void showDeleteSnackbar(BuildContext context) {
+    final snackBar = SnackBar(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      backgroundColor: Colors.black.withOpacity(0.6),
+        behavior: SnackBarBehavior.floating,
+        content: Text(
+          '댓글이 삭제되었습니다.',
+          style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+        ),
+      action: SnackBarAction(
+          label: '취소',
+          textColor: DaepiroColorStyle.white,
+          //TODO 댓글 삭제 취소 api 연결필요
+          onPressed: (){}
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
 }

@@ -8,5 +8,6 @@ sealed class CommunityState with _$CommunityState {
     @Default(true) bool receiveButton,
     @Default(false) bool AllButton,
     @Default(false) bool isCertificateUser,
+    @Default(false) bool isDeleteComplete,
 }) = _CommunityState;
 }
