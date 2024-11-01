@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/screens/reply_menu_screen.dart';
 import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,140 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
+  Widget replyWidget(WidgetRef ref, bool isCertificateUser, BuildContext context, bool isUser) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '김연지',
+                style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_800),
+              ),
+              Visibility(
+                visible: isCertificateUser,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 2),
+                      SvgPicture.asset('assets/icons/certification.svg',
+                          width: 16,
+                          height: 16,
+                          colorFilter: ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)
+                      ),
+                    ],
+                  )
+              ),
+              SizedBox(width: 6),
+              Text(
+                '5분전',
+                style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+              ),
+              Spacer(),
+              //TODO 사양보고 다시 설정하기
+              GestureDetector(
+                onTap: () {
+                  goToEdit(context, isUser);
+                },
+                child: SvgPicture.asset('assets/icons/moreinfo.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 4),
+          Text(
+              '내용내용내용',
+            style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
+          ),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: (){},
+                  child: likeButton(false, 1)
+              ),
+              SizedBox(width: 8),
+              GestureDetector(
+                onTap: (){},
+                  child: replyWriteButton()
+              )
+            ],
+          ),
+          //TODO listview생성해서 대댓글 담아야함
+        ],
+      ),
+    );
+  }
+
+  Widget reReplyWidget(bool isCertificateUser, BuildContext context, bool isUser) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            width: 4,
+            decoration: BoxDecoration(
+              color: DaepiroColorStyle.g_75
+            ),
+          ),
+          SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '김연지',
+                    style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_800),
+                  ),
+                  Visibility(
+                      visible: isCertificateUser,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 2),
+                          SvgPicture.asset('assets/icons/certification.svg',
+                              width: 16,
+                              height: 16,
+                              colorFilter: ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)
+                          ),
+                        ],
+                      )
+                  ),
+                  SizedBox(width: 6),
+                  Text(
+                    '5분전',
+                    style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+                  ),
+                  Spacer(),
+                  //TODO 사양보고 다시 설정하기
+                  GestureDetector(
+                    onTap: () {
+                      goToEdit(context, isUser);
+                    },
+                    child: SvgPicture.asset('assets/icons/moreinfo.svg',
+                        colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 4),
+              Text(
+                '내용내용내용바나나차차',
+                 style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
+              ),
+              SizedBox(height: 12),
+              GestureDetector(
+                onTap: (){},
+                child: likeButton(true, 1)
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
   Widget footerWidget() {
     return Container(
       width: double.infinity,
@@ -95,6 +230,130 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
         ),
       ),
     );
+  }
+
+  Widget likeButton(bool isClick, int likeNum) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isClick ? DaepiroColorStyle.o_50 : DaepiroColorStyle.g_50,
+        borderRadius: BorderRadius.circular(99)
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Row(
+          children: [
+            SvgPicture.asset('assets/icons/good.svg',
+                width: 28,
+                height: 28,
+                colorFilter: ColorFilter.mode(isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300, BlendMode.srcIn)
+            ),
+            SizedBox(width: 2),
+            Text(
+              '좋아요',
+              style: DaepiroTextStyle.caption.copyWith(color: isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300),
+            ),
+            SizedBox(width: 2),
+            Visibility(
+              visible: likeNum>0,
+                child: Text(
+                  '${likeNum}',
+                  style: DaepiroTextStyle.caption.copyWith(color: isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300),
+                ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget replyWriteButton() {
+    return Container(
+      decoration: BoxDecoration(
+          color: DaepiroColorStyle.g_50,
+          borderRadius: BorderRadius.circular(99)
+      ),
+      child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Row(
+          children: [
+            SvgPicture.asset('assets/icons/community.svg',
+                width: 16,
+                height: 16,
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn)
+            ),
+            SizedBox(width: 2),
+            Text(
+              '답글쓰기',
+              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget deleteSuccessDialog() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(8)
+      ),
+      child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Row(
+          children: [
+            Text(
+                '댓글이 삭제되었습니다.',
+              style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+            ),
+            Spacer(),
+            GestureDetector(
+              //TODO 댓글 삭제 취소 api 연결필요
+              onTap: (){},
+              child: Text(
+                '취소',
+                style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //수정 삭제를 위한 blur 화면 띄우는 메소드
+  void goToEdit(BuildContext context, bool isUser) {
+    showDialog(
+      useSafeArea: false,
+        context: context,
+        barrierColor: Colors.transparent,
+        builder: (context) {
+          return ReplyMenuScreen(isUser: isUser);
+        }
+    );
+  }
+
+  //댓글 삭제
+  //TODO: isDeleteComplete와 연결시키기
+  void showDeleteSnackbar(BuildContext context) {
+    final snackBar = SnackBar(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      backgroundColor: Colors.black.withOpacity(0.6),
+        behavior: SnackBarBehavior.floating,
+        content: Text(
+          '댓글이 삭제되었습니다.',
+          style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+        ),
+      action: SnackBarAction(
+          label: '취소',
+          textColor: DaepiroColorStyle.white,
+          //TODO 댓글 삭제 취소 api 연결필요
+          onPressed: (){}
+      ),
+      duration: const Duration(seconds: 5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
 }
