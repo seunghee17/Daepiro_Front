@@ -6,7 +6,7 @@ part of 'http_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$httpHash() => r'51302d913f953bc548928238e2fd66874882b48b';
+String _$httpHash() => r'de935ed004f90bc8134d919710b1066c8be1e556';
 
 /// See also [http].
 @ProviderFor(http)
@@ -92,7 +92,7 @@ class HttpInterceptorProvider extends AutoDisposeProvider<InterceptorsWrapper> {
     Dio dio,
   ) : this._internal(
           (ref) => httpInterceptor(
-            ref as HttpRef,
+            ref as HttpInterceptorRef,
             dio,
           ),
           from: httpInterceptorProvider,
