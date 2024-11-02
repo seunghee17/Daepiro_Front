@@ -38,7 +38,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                       ),
                       SizedBox(height: 16),
                       //TODO 수정하기
-                      reportTypeWidget(state.reportType, true),
+                      //reportTypeWidget(state.reportType, true),
                       SizedBox(height: 16),
                       contentWriteWidget(screenHeight),
                       Text(
