@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -142,6 +143,12 @@ final goRouteProvider = Provider((ref) {
                 GoRoute(
                   path: '/information',
                   builder: (context, state) => const InformationScreen(),
+                  routes: [
+                    GoRoute(
+                      path: 'disasterContents',
+                      builder: (context, state) => const DisasterContentsScreen()
+                    )
+                  ]
                 ),
               ],
             ),

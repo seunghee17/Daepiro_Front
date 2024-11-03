@@ -30,15 +30,11 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
       // width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: DaepiroColorStyle.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: DaepiroColorStyle.black.withOpacity(0.12),
-              blurRadius: 12,
-              offset: const Offset(0, 0),
-            )
-          ]
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          width: 2,
+          color: DaepiroColorStyle.g_50,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
