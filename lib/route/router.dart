@@ -8,6 +8,11 @@ import 'package:go_router/go_router.dart';
 
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/home/home_screen.dart';
+import '../presentation/community/community_main_screen.dart';
+import '../presentation/home/history/disaster_message_detail_screen.dart';
+import '../presentation/home/history/disaster_message_history_screen.dart';
+import '../presentation/home/main/home_screen.dart';
+import '../presentation/home/shelter/around_shelter_screen.dart';
 import '../presentation/information/information_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
@@ -48,7 +53,8 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-      initialLocation: '/splash',
+     initialLocation: '/splash',
+    //initialLocation: '/home',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -102,12 +108,27 @@ final goRouteProvider = Provider((ref) {
           branches:[
             StatefulShellBranch(
               navigatorKey: _homeNavigatorKey,
-                routes: [
-                  GoRoute(
-                      path: '/home',
-                    builder: (context, state) => const HomeScreen(),
-                  ),
-                ],
+              routes: [
+                GoRoute(
+                    path: '/home',
+                    // builder: (context, state) => const HomeScreen(), 왜안되지
+                    builder: (context, state) => HomeScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'disasterMessageHistory',
+                        builder: (context, state) => const DisasterMessageHistoryScreen(),
+                      ),
+                      GoRoute(
+                        path: 'disasterMessageDetail',
+                        builder: (context, state) => const DisasterMessageDetailScreen(),
+                      ),
+                      GoRoute(
+                        path: 'aroundShelter',
+                        builder: (context, state) => const AroundShelterScreen(),
+                      ),
+                    ]
+                ),
+              ],
             ),
             StatefulShellBranch(
               navigatorKey: _communityNavigatorKey,
