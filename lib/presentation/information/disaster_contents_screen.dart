@@ -71,6 +71,31 @@ class DisasterContentsScreen extends StatelessWidget {
                               style: DaepiroTextStyle.body_1_m.copyWith(
                                 color: DaepiroColorStyle.g_300,
                               )
+                          ),
+                          const SizedBox(height: 20),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: DaepiroColorStyle.g_600,
+                              borderRadius: BorderRadius.circular(99)
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '행동요령 확인하기',
+                                  style: DaepiroTextStyle.body_2_m.copyWith(
+                                    color: DaepiroColorStyle.white,
+                                  )
+                                ),
+                                const SizedBox(width: 4),
+                                SvgPicture.asset(
+                                    'assets/icons/icon_arrow_right.svg',
+                                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
