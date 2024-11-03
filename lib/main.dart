@@ -5,9 +5,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: ".env");
   String nativeKakaoKey = dotenv.get('KAKAOKEY');
   KakaoSdk.init(nativeAppKey: nativeKakaoKey);
   runApp(ProviderScope(child: MyApp()));
