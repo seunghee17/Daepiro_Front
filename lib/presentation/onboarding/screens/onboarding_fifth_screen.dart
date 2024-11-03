@@ -209,7 +209,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             ),
             Spacer(),
             SvgPicture.asset(
-                'assets/icons/arrow_right.svg'
+                'assets/icons/icon_arrow_right.svg'
             )
           ],
         ),

@@ -240,12 +240,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 padding: const EdgeInsets.all(16),
                 child: homecontroller.text.isEmpty
                     ? SvgPicture.asset(
-                    'assets/icons/search.svg',
+                    'assets/icons/icon_search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
                   onTap: () => deleteDialog(context, ref, '집', homecontroller, 0, MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
-                      'assets/icons/delete.svg',
+                      'assets/icons/icon_delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
                   ),
                 ),
@@ -327,12 +327,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 padding: const EdgeInsets.all(16),
                 child: juso1controller.text.isEmpty
                     ? SvgPicture.asset(
-                    'assets/icons/search.svg',
+                    'assets/icons/icon_search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
                   onTap: () => deleteDialog(context, ref, jusoNickController1.text, juso1controller, 1, MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
-                      'assets/icons/delete.svg',
+                      'assets/icons/icon_delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
                   ),
                 ),
@@ -432,12 +432,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 padding: const EdgeInsets.all(16),
                 child: juso2controller.text.isEmpty
                     ? SvgPicture.asset(
-                    'assets/icons/search.svg',
+                    'assets/icons/icon_search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
                   onTap: () => deleteDialog(context, ref, jusoNickController2.text, juso2controller, 2, MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
-                      'assets/icons/delete.svg',
+                      'assets/icons/icon_delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
                   ),
                 ),
@@ -508,7 +508,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-                'assets/icons/home.svg',
+                'assets/icons/icon_home.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
             ),
             SizedBox(width: 2,),
@@ -559,7 +559,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-              'assets/icons/location.svg',
+              'assets/icons/icon_location_24.svg',
               colorFilter: ColorFilter.mode(isButtonDisabled ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_100, BlendMode.srcIn)
           ),
           Text(
@@ -602,7 +602,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                          'assets/icons/location.svg',
+                          'assets/icons/icon_location_24.svg',
                           colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
                       ),
                       Text(

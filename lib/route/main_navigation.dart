@@ -80,55 +80,55 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             destinations: [
               NavigationDestination(
                 icon: SvgPicture.asset(
-                  'assets/icons/home.svg',
+                  'assets/icons/icon_home.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
-                  'assets/icons/home.svg',
+                  'assets/icons/icon_home.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '홈',
               ),
               NavigationDestination(
                 icon: SvgPicture.asset(
-                'assets/icons/community.svg',
+                'assets/icons/icon_community.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
               ),
                 selectedIcon: SvgPicture.asset(
-                  'assets/icons/community.svg',
+                  'assets/icons/icon_community.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '커뮤니티',
               ),
               NavigationDestination(
                 icon: SvgPicture.asset(
-                  'assets/icons/info.svg',
+                  'assets/icons/icon_info.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon:  SvgPicture.asset(
-                  'assets/icons/info.svg',
+                  'assets/icons/icon_info.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '재난정보',
               ),
               NavigationDestination(
                 icon: SvgPicture.asset(
-                  'assets/icons/funding.svg',
+                  'assets/icons/icon_funding.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
-                  'assets/icons/funding.svg',
+                  'assets/icons/icon_funding.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '후원',
               ),
               NavigationDestination(
                 icon:SvgPicture.asset(
-                  'assets/icons/mypage.svg',
+                  'assets/icons/icon_mypage.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
-                  'assets/icons/mypage.svg',
+                  'assets/icons/icon_mypage.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '마이페이지',

@@ -48,7 +48,7 @@ class CommunityRuleScreen extends ConsumerWidget {
           children: [
             GestureDetector(
               onTap: GoRouter.of(context).pop,
-              child: SvgPicture.asset('assets/icons/arrow_left.svg',
+              child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)

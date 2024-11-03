@@ -46,7 +46,7 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                           onTap: () {
                             context.pop();
                           },
-                          child: SvgPicture.asset('assets/icons/arrow_left.svg')
+                          child: SvgPicture.asset('assets/icons/icon_arrow_left.svg')
                         ),
                       )
                     ]

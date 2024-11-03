@@ -64,7 +64,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
       width: double.infinity,
       child: Row(
         children: [
-          SvgPicture.asset('assets/icons/arrow_left.svg',
+          SvgPicture.asset('assets/icons/icon_arrow_left.svg',
               width: 24,
               height: 24,
               colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
@@ -101,7 +101,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
               '신고 유형을 선택해주세요 (필수)'
             ),
             Spacer(),
-            SvgPicture.asset('assets/icons/arrow_down.svg',
+            SvgPicture.asset('assets/icons/icon_arrow_down.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)
             ),
           ],

@@ -68,7 +68,7 @@ class LoginScreen extends ConsumerWidget {
                             ),
                             Flexible(
                                 child: SvgPicture.asset(
-                                  'assets/icons/logo.svg',
+                                  'assets/icons/icon_logo.svg',
                                   height: 48,
                                 )
                             )
@@ -133,7 +133,7 @@ class LoginScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/icons/kakao_icon.svg', color: DaepiroColorStyle.black,),
+          SvgPicture.asset('assets/icons/icon_kakao_icon.svg', color: DaepiroColorStyle.black,),
           SizedBox(width: 8),
           Text(
             'Kakao로 로그인',
@@ -150,7 +150,7 @@ class LoginScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/icons/naver_icon.svg'),
+            SvgPicture.asset('assets/icons/icon_naver_icon.svg'),
             SizedBox(width: 8),
             Text(
               'Naver로 로그인',
@@ -167,7 +167,7 @@ class LoginScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/icons/apple_logo.svg', color: DaepiroColorStyle.white,),
+            SvgPicture.asset('assets/icons/icon_apple_logo.svg', color: DaepiroColorStyle.white,),
             SizedBox(width: 8),
             Text(
               'Apple로 로그인',

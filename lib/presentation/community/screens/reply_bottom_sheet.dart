@@ -74,7 +74,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   child: Row(
                     children: [
                       SizedBox(width: 2),
-                      SvgPicture.asset('assets/icons/certification.svg',
+                      SvgPicture.asset('assets/icons/icon_certification.svg',
                           width: 16,
                           height: 16,
                           colorFilter: ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)
@@ -93,7 +93,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 onTap: () {
                   goToEdit(context, isUser);
                 },
-                child: SvgPicture.asset('assets/icons/moreinfo.svg',
+                child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ),
               ),
@@ -149,7 +149,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       child: Row(
                         children: [
                           SizedBox(width: 2),
-                          SvgPicture.asset('assets/icons/certification.svg',
+                          SvgPicture.asset('assets/icons/icon_certification.svg',
                               width: 16,
                               height: 16,
                               colorFilter: ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)
@@ -168,7 +168,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                     onTap: () {
                       goToEdit(context, isUser);
                     },
-                    child: SvgPicture.asset('assets/icons/moreinfo.svg',
+                    child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
                         colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                     ),
                   ),
@@ -203,7 +203,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
         child: Row(
           children: [
             GestureDetector( //갤러리 열러야함
-              child: SvgPicture.asset('assets/icons/photo.svg',
+              child: SvgPicture.asset('assets/icons/icon_photo.svg',
                   width: 28,
                   height: 28,
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_800, BlendMode.srcIn)
@@ -242,7 +242,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
-            SvgPicture.asset('assets/icons/good.svg',
+            SvgPicture.asset('assets/icons/icon_good.svg',
                 width: 28,
                 height: 28,
                 colorFilter: ColorFilter.mode(isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300, BlendMode.srcIn)
@@ -276,7 +276,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
-            SvgPicture.asset('assets/icons/community.svg',
+            SvgPicture.asset('assets/icons/icon_community.svg',
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn)

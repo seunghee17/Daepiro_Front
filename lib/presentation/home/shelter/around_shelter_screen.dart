@@ -40,7 +40,7 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                           padding: EdgeInsets.all(12),
                           margin: EdgeInsets.only(top: 4, bottom: 4, left: 12),
                           child: SvgPicture.asset(
-                            'assets/icons/arrow_left.svg',
+                            'assets/icons/icon_arrow_left.svg',
                           ),
                         ),
                       ),

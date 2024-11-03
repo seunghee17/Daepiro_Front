@@ -64,7 +64,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
         child: Row(
           children: [
             SizedBox(width: 12),
-            SvgPicture.asset('assets/icons/noti.svg',
+            SvgPicture.asset('assets/icons/icon_noti.svg',
               width: 28,
               height: 28,
               colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)
@@ -74,7 +74,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
               style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900)
             ),
             Spacer(),
-            SvgPicture.asset('assets/icons/arrow_right.svg',
+            SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
@@ -153,7 +153,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                       style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
                     ),
                     SvgPicture.asset(
-                      'assets/icons/arrow_right',
+                      'assets/icons/icon_arrow_right',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn),
                     )
                   ],

@@ -66,7 +66,7 @@ class _LocationChipState extends State<LocationChip> {
             Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
               child: SvgPicture.asset(
-                'assets/icons/location.svg',
+                'assets/icons/icon_location_24.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
               ),
             ),
