@@ -9,8 +9,11 @@ sealed class OnboardingState with _$OnboardingState {
     //검색된 주소 목록의 중복을 제거하기 위함
     @Default(<String>{}) Set<String> jusoListState,
     @Default('') String userName,
-    //입력한 실주소
+    //TODO 입력한 실주소 지워질 예정
     @Default(['', '', '']) List<String> inputJusoList,
+    @Default('') String homeJuso,
+    @Default('') String? firstJuso,
+    @Default('') String? secondJuso,
     //입력한 주소 별명
     @Default([]) List<String> inputJusoName,
     //권한 모두 동의 활성화 상태

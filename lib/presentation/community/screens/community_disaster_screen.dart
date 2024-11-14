@@ -1,13 +1,13 @@
 import 'package:daepiro/presentation/community/screens/reply_bottom_sheet.dart';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
-import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
-import 'package:daepiro/presentation/widgets/button/secondary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/primary_filled_button.dart';
+import '../../../cmm/button/secondary_filled_button.dart';
 import '../community_view_model.dart';
 //재난상황 화면
 class CommunityDisasterScreen extends ConsumerWidget {

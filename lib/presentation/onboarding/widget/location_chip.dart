@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../widgets/DaepiroTheme.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 //지역 별명 칩 focusnode 관리로 인해 따로 정의
 class LocationChip extends StatefulWidget {

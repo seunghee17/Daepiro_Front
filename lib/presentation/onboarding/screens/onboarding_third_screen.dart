@@ -6,9 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../../widgets/DaepiroTheme.dart';
-import '../../widgets/button/primary_filled_button.dart';
-import '../../widgets/button/secondary_filled_button.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/primary_filled_button.dart';
+import '../../../cmm/button/secondary_filled_button.dart';
 import '../controller/onboarding_view_model.dart';
 import '../state/onboarding_state.dart';
 
@@ -42,15 +42,15 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
 
     // 초기 상태 설정
     final state = ref.read(onboardingViewModelProvider);
-    if (state.value != null && state.value!.inputJusoList.isNotEmpty) {
-      if (state.value!.inputJusoList.length > 0) {
-        homeController.text = state.value!.inputJusoList[0];
+    if (state.value != null && state.value!.homeJuso.isNotEmpty) {
+      if (state.value!.homeJuso.length > 0) {
+        homeController.text = state.value!.homeJuso;
       }
-      if (state.value!.inputJusoList.length > 1 && juso1Visible) {
-        jusoController1.text = state.value!.inputJusoList[1];
+      if (state.value?.firstJuso != null && juso1Visible) {
+        jusoController1.text = state.value!.firstJuso!;
       }
-      if (state.value!.inputJusoList.length > 2 && juso2Visible) {
-        jusoController2.text = state.value!.inputJusoList[2];
+      if (state.value?.secondJuso != null && juso2Visible) {
+        jusoController2.text = state.value!.secondJuso!;
       }
     }
 
@@ -94,9 +94,9 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     // 상태 변화 리스너 추가: build() 내에서 setState 호출을 피하기 위함
     ref.listen<AsyncValue<OnboardingState>>(onboardingViewModelProvider, (previous, next) {
       next.whenData((data) {
-        if(data.inputJusoList.isNotEmpty) {
-          if(data.inputJusoList.length > 0 && homeController.text != data.inputJusoList[0]) {
-            homeController.text = data.inputJusoList[0];
+        if(data.homeJuso.isNotEmpty) {
+          if(data.firstJuso!.isNotEmpty && homeController.text != data.homeJuso) {
+            homeController.text = data.homeJuso;
           }
           if(data.inputJusoList.length > 1 && juso1Visible && jusoController1.text != data.inputJusoList[1]) {
             jusoController1.text = data.inputJusoList[1];

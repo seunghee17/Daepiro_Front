@@ -1,11 +1,12 @@
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
-import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/primary_filled_button.dart';
 
 class OnboardingSecondScreen extends ConsumerStatefulWidget {
   const OnboardingSecondScreen({super.key});
@@ -35,8 +36,8 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     var newState = 'NONE';
     var newCaution = false;
 
-    if(_checkForEnglish(nameController.text)) {
-      newState = 'ENG_INPUT';
+    if(_checkForNameRule(nameController.text)) {
+      newState = 'WRONG_INPUT';
       newCaution = true;
     } else if(newNameLength > 6) {
       newState = 'OVER_LENGTH_NAME';
@@ -88,8 +89,8 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
 
 
 
-  bool _checkForEnglish(String text) {
-    final pattern = RegExp(r'[a-zA-Z0-9\p{P}]');
+  bool _checkForNameRule(String text) {
+    final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}]', unicode: true);
     return pattern.hasMatch(text);
   }
 
@@ -126,8 +127,8 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                             Text('이름', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
                             SizedBox(height: 8),
                             NameTextField(nameController, _nameLength, cautionName, state.nameState),
-                              if(state.nameState == 'ENG_INPUT')
-                                StateText('ENG_INPUT','*이름은 한글만 입력 가능해요.'),
+                              if(state.nameState == 'WRONG_INPUT')
+                                StateText('WRONG_INPUT','*이름은 한글만 입력 가능해요.'),
                               if(state.nameState == 'OVER_LENGTH_NAME')
                                 StateText('OVER_LENGTH','*최대 6자까지 작성 가능해요.'),
                             SizedBox(height: 16),

@@ -1,9 +1,8 @@
-import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../widgets/DaepiroTheme.dart';
+import '../../../cmm/DaepiroTheme.dart';
 import '../community_view_model.dart';
 
 class CommunityReportScreen extends ConsumerStatefulWidget {

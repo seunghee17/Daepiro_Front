@@ -2,13 +2,13 @@ import 'dart:ffi';
 
 import 'package:daepiro/data/model/request/onboarding_info_request.dart';
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
-import 'package:daepiro/presentation/widgets/button/primary_filled_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../widgets/DaepiroTheme.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/primary_filled_button.dart';
 
 class OnboardingFinalScreen extends ConsumerWidget {
   @override

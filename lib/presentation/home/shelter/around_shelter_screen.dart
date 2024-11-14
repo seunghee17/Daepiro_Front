@@ -1,10 +1,10 @@
 import 'package:daepiro/presentation/home/component/map_direction_item.dart';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/chip/secondary_chip.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/chip/secondary_chip.dart';
 import '../const.dart';
 
 class AroundShelterScreen extends StatefulWidget {

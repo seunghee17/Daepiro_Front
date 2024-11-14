@@ -76,11 +76,33 @@ class OnboardingViewModel extends _$OnboardingViewModel {
     });
   }
 
+  //TODO 개선해야할 로직
   Future<void> addJuso(String jusoString, int index) async {
     final value = state.valueOrNull;
     if(value != null) {
       inputJusoList.insert(index, jusoString);
       state =  state.whenData((value) => value.copyWith(inputJusoList: inputJusoList));
+    }
+  }
+
+  void addHomeJuso(String homeJuso) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(homeJuso: homeJuso));
+    }
+  }
+
+  void addFirstJuso(String firstJuso) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(firstJuso: firstJuso));
+    }
+  }
+
+  void addSecondJuso(String secondJuso) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(secondJuso: secondJuso));
     }
   }
 
@@ -105,7 +127,7 @@ class OnboardingViewModel extends _$OnboardingViewModel {
     return result;
   }
 
-  //주소 삭제
+  //TODO 주소 삭제 삭제될 로직
   Future<void> deleteJuso(TextEditingController controller, int index) async {
     var current = List<String>.from(state.value!.inputJusoList);
     if (current.contains(controller.text)) {
@@ -116,6 +138,27 @@ class OnboardingViewModel extends _$OnboardingViewModel {
       print('삭제할 값을 찾을 수 없습니다.');
     }
     controller.clear();
+  }
+
+  void deleteHomeJuso(TextEditingController controller) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(homeJuso: ''));
+    }
+  }
+
+  void deleteFirstJuso(TextEditingController controller) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(firstJuso: ''));
+    }
+  }
+
+  void deleteSecondJuso(TextEditingController controller) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(secondJuso: ''));
+    }
   }
 
   //검색 결과 초기화

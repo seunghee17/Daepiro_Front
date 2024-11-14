@@ -1,7 +1,7 @@
-import 'dart:ffi';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 class DisasterMesaageHistoryItem extends StatefulWidget {
   final SvgPicture icon;

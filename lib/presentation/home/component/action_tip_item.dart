@@ -1,6 +1,7 @@
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 class ActionTipItem extends StatefulWidget {
   final bool isSelected;

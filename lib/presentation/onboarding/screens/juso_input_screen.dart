@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/DaepiroTheme.dart';
-import '../../widgets/button/secondary_filled_button.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/secondary_filled_button.dart';
 import '../controller/onboarding_view_model.dart';
 
 class JusoInputScreen extends ConsumerStatefulWidget {
@@ -147,7 +147,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                       setState(() {
                                         selected.add(index);
                                       });
-                                      await ref.read(onboardingViewModelProvider.notifier).addJuso(juso, int.parse(widget.index!));
+                                      //await ref.read(onboardingViewModelProvider.notifier).addJuso(juso, int.parse(widget.index!));
                                       await ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
                                       GoRouter.of(context).pop();
                                     }

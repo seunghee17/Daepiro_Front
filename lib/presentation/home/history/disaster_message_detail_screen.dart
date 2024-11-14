@@ -1,11 +1,11 @@
 import 'package:daepiro/presentation/home/const.dart';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/chip/secondary_chip.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/chip/secondary_chip.dart';
 import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
 import '../component/map_direction_item.dart';
