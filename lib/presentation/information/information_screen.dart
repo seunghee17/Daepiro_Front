@@ -19,7 +19,7 @@ class InformationScreen extends StatefulWidget {
 class _InformationScreenState extends State<InformationScreen> {
   final PageController _aroundShelterPageController = PageController(
       initialPage: 0,
-      viewportFraction: 1.0
+      viewportFraction: 0.8
   );
 
   @override
@@ -195,7 +195,7 @@ class _InformationScreenState extends State<InformationScreen> {
                               ExpandablePageView.builder(
                                   controller: _aroundShelterPageController,
                                   scrollDirection: Axis.horizontal,
-                                  padEnds: false,
+                                  // padEnds: false,
                                   itemCount: 5,
                                   itemBuilder: (BuildContext context, int index) {
                                     return Container(
@@ -258,66 +258,78 @@ class _InformationScreenState extends State<InformationScreen> {
                           const SizedBox(height: 32),
                           Row(
                             children: [
-                              Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: DaepiroColorStyle.g_50,
-                                        borderRadius: BorderRadius.circular(12)
-                                    ),
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "응급대처",
-                                            style: DaepiroTextStyle.body_1_b.copyWith(
-                                              color: DaepiroColorStyle.g_800,
+                              GestureDetector(
+                                onTap: () {
+                                  context.push('/information/emergencyResponse');
+                                },
+                                child: Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: DaepiroColorStyle.g_50,
+                                          borderRadius: BorderRadius.circular(12)
+                                      ),
+                                      padding: EdgeInsets.all(15),
+                                      child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "응급대처",
+                                              style: DaepiroTextStyle.body_1_b.copyWith(
+                                                color: DaepiroColorStyle.g_800,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            "응급상황 발생시\n대처방법을 알아두세요.",
-                                            style: DaepiroTextStyle.caption.copyWith(
-                                              color: DaepiroColorStyle.g_400,
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              "응급상황 발생시\n대처방법을 알아두세요.",
+                                              style: DaepiroTextStyle.caption.copyWith(
+                                                color: DaepiroColorStyle.g_400,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 4),
-
-                                        ]
-                                    ),
-                                  )
+                                            const SizedBox(width: 4),
+                                            Image.asset('assets/icons/image_siren.png')
+                                          ]
+                                      ),
+                                    )
+                                ),
                               ),
                               const SizedBox(width: 12),
-                              Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: DaepiroColorStyle.g_50,
-                                        borderRadius: BorderRadius.circular(12)
-                                    ),
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "행동요령",
-                                            style: DaepiroTextStyle.body_1_b.copyWith(
-                                              color: DaepiroColorStyle.g_800,
+                              GestureDetector(
+                                onTap: () {
+                                  context.push('/information/actionTip');
+                                },
+                                child: Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: DaepiroColorStyle.g_50,
+                                          borderRadius: BorderRadius.circular(12)
+                                      ),
+                                      padding: EdgeInsets.all(15),
+                                      child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "행동요령",
+                                              style: DaepiroTextStyle.body_1_b.copyWith(
+                                                color: DaepiroColorStyle.g_800,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            "재난 별 대처 행동요령을\n미리 알아두세요.",
-                                            style: DaepiroTextStyle.caption.copyWith(
-                                              color: DaepiroColorStyle.g_400,
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              "재난 별 대처 행동요령을\n미리 알아두세요.",
+                                              style: DaepiroTextStyle.caption.copyWith(
+                                                color: DaepiroColorStyle.g_400,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                        ]
-                                    ),
-                                  )
+                                            const SizedBox(width: 4),
+                                            Image.asset('assets/icons/image_warning.png')
+                                          ]
+                                      ),
+                                    )
+                                ),
                               ),
                             ],
-                          )
+                          ),
+                          const SizedBox(height: 22)
                         ],
                       ),
                     ),
