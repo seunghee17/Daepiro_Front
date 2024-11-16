@@ -54,7 +54,12 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
                 ),
               ),
               const Spacer(),
-              SvgPicture.asset('assets/icons/icon_copy.svg')
+              SvgPicture.asset(
+                  'assets/icons/icon_copy.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  width: 30,
+                  height: 30
+              )
             ]
           ),
           Text(

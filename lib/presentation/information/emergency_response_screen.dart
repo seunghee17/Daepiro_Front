@@ -57,7 +57,7 @@ class _EmergencyResponseScreen extends State<EmergencyResponseScreen> with Singl
                         ),
                       ),
                       SvgPicture.asset(
-                        'assets/icons/search.svg',
+                        'assets/icons/icon_search.svg',
                         alignment: Alignment.centerRight,
                         colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                       ),

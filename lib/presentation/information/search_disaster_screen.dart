@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/information/component/search_disaster_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -52,7 +53,7 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
                               contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               suffixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(8, 8, 16, 8),
-                                  child: SvgPicture.asset('assets/icons/search.svg')
+                                  child: SvgPicture.asset('assets/icons/icon_search.svg')
                               ),
                               suffixIconColor: DaepiroColorStyle.g_200,
                               hintText: "재난명을 입력해주세요.",
@@ -62,26 +63,18 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
                             ),
                           )
                       )
-                      // Expanded(
-                      //   child: Container(
-                      //     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      //     decoration: BoxDecoration(
-                      //       color: DaepiroColorStyle.g_50,
-                      //       borderRadius: BorderRadius.circular(8)
-                      //     ),
-                      //     child: Row(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       children: [
-                      //
-                      //         SvgPicture.asset(
-                      //           'assets/icons/search.svg',
-                      //           colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
-                      //         )
-                      //       ]
-                      //     ),
-                      //   ),
-                      // )
                     ]
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                  child: Column(
+                    children: [
+                      SearchDisasterType(iconPath: 'assets/icons/icon_disaster_dry.svg', text: "가뭄"),
+                      SearchDisasterType(iconPath: 'assets/icons/icon_disaster_dry.svg', text: "강품"),
+                      SearchDisasterType(iconPath: 'assets/icons/icon_disaster_dry.svg', text: "건조"),
+                    ],
                   ),
                 )
               ],

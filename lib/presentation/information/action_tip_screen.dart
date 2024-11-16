@@ -61,7 +61,7 @@ class _ActionTipScreenState extends State<ActionTipScreen> with SingleTickerProv
                           context.push('/information/searchDisaster');
                         },
                         child: SvgPicture.asset(
-                          'assets/icons/search.svg',
+                          'assets/icons/icon_search.svg',
                           alignment: Alignment.centerRight,
                           colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),
