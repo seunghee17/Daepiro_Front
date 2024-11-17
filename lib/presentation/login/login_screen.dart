@@ -27,6 +27,7 @@ class LoginScreen extends ConsumerWidget {
           } else {
               showModalBottomSheet(
                   enableDrag: false,
+                  isDismissible: false,
                   context: context,
                   builder: (context) {
                     return PermissionScreen(

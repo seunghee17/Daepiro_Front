@@ -54,8 +54,8 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-    // initialLocation: '/splash',
-    initialLocation: '/home',
+     initialLocation: '/splash',
+    //initialLocation: '/home',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [

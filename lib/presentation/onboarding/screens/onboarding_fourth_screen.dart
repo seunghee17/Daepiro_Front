@@ -130,10 +130,8 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 4),
               child: SvgPicture.asset(
-                'assets/icons/icon_alarm.svg',
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                width: 16,
-                height: 16,
+                  'assets/icons/icon_alarm.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)
               ),
             ),
             Text(
@@ -204,7 +202,6 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
           SizedBox(height: 8),
           SvgPicture.asset(
             'assets/icons/icon_alarm.svg',
-            colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
             width: 50,
             height: 50,
           ),

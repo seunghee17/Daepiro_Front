@@ -25,6 +25,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   TextEditingController jusoController2 = TextEditingController();
   TextEditingController jusoNickController1 = TextEditingController();
   TextEditingController jusoNickController2 = TextEditingController();
+  FocusNode jusoFocusNode1 = FocusNode();
+  FocusNode jusoFocusNode2 = FocusNode();
 
   late bool juso1Visible;
   late bool juso2Visible;
@@ -80,6 +82,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     jusoController2.dispose();
     jusoNickController1.dispose();
     jusoNickController2.dispose();
+    jusoFocusNode1.dispose();
+    jusoFocusNode2.dispose();
     super.dispose();
   }
 
@@ -295,10 +299,19 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               });
             },
             ref: ref,
+            focusNode: jusoFocusNode1,
           ),
           SizedBox(height: 10,),
           TextField(
-            onTap: onTap,
+            onTap: () {
+              if(jusoNickController1.text.isEmpty) {
+                setState(() {
+                  errorStateNick1 = 'LENGTH_ERROR';
+                });
+              } else {
+                onTap;
+              }
+            },
             enabled: true,
             readOnly: true,
             focusNode: FocusNode(canRequestFocus: false),
@@ -391,10 +404,19 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           });
         },
         ref: ref,
+        focusNode: jusoFocusNode2,
       ),
           SizedBox(height: 10,),
           TextField(
-            onTap: onTap,
+            onTap: () {
+              if(jusoNickController2.text.isEmpty) {
+                setState(() {
+                  errorStateNick2 = 'LENGTH_ERROR';
+                });
+              } else {
+                onTap;
+              }
+            },
             enabled: true,
             readOnly: true,
             focusNode: FocusNode(canRequestFocus: false),
@@ -518,10 +540,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           if(!juso1visible && !juso2Visible) {
             setState(() {
               juso1Visible = true;
+              FocusScope.of(context).requestFocus(jusoFocusNode1);
             });
           } else if(juso1visible && !juso2Visible){
             setState(() {
               juso2Visible = true;
+              FocusScope.of(context).requestFocus(jusoFocusNode2);
             });
           }
         }

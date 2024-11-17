@@ -10,24 +10,30 @@ class LocationChip extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onValidInput;
   final WidgetRef ref;
+  late final FocusNode focusNode;
 
-  LocationChip({required this.controller, required this.onValidInput , required this.ref});
+  LocationChip({
+    required this.controller,
+    required this.onValidInput ,
+    required this.ref,
+    required this.focusNode
+  });
 
   @override
   _LocationChipState createState() => _LocationChipState();
 }
 
 class _LocationChipState extends State<LocationChip> {
-  FocusNode _focusNode = FocusNode();
   String errorState = 'AVAILABLE';  // 기본 상태
 
   @override
   void initState() {
     super.initState();
     widget.controller.addListener(_validateInput);  // 입력 변화에 따라 상태 검증
-    _focusNode.addListener(() {
-      setState(() {});  // 포커스 변화에 따른 UI 업데이트
-    });
+    // _focusNode.addListener(() {
+    //   setState(() {});  // 포커스 변화에 따른 UI 업데이트
+    // });
+    widget.focusNode = FocusNode();
   }
 
   void _validateInput() {
@@ -42,7 +48,7 @@ class _LocationChipState extends State<LocationChip> {
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    widget.focusNode.dispose();
     widget.controller.removeListener(_validateInput);
     super.dispose();
   }
@@ -52,7 +58,7 @@ class _LocationChipState extends State<LocationChip> {
     return IntrinsicWidth(
       child: Container(
         decoration: BoxDecoration(
-          color: _focusNode.hasFocus ? DaepiroColorStyle.g_400 : DaepiroColorStyle.g_600,
+          color: widget.focusNode.hasFocus ? DaepiroColorStyle.g_400 : DaepiroColorStyle.g_600,
           borderRadius: BorderRadius.circular(99),
         ),
         child: Row(
@@ -69,7 +75,7 @@ class _LocationChipState extends State<LocationChip> {
             SizedBox(width: 2),
             Expanded(
               child: TextField(
-                focusNode: _focusNode,
+                focusNode: widget.focusNode,
                 cursorWidth: 4,
                 cursorColor: DaepiroColorStyle.white,
                 controller: widget.controller,

@@ -183,8 +183,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         Row(
           children: [
             Text(
-              //'${userName.substring(1,3)}님 ',
-              '승희님',
+              '${userName.substring(1,3)}님 ',
               style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
             ),
             SizedBox(width: 8),
