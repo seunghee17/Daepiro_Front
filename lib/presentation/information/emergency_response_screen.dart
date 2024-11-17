@@ -42,7 +42,7 @@ class _EmergencyResponseScreen extends State<EmergencyResponseScreen> with Singl
                           context.pop();
                         },
                         child: SvgPicture.asset(
-                          'assets/icons/arrow_left.svg',
+                          'assets/icons/icon_arrow_left.svg',
                           alignment: Alignment.centerLeft,
                           colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),

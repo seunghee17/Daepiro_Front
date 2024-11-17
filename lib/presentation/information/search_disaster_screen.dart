@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/const/nature_disaster_type.dart';
 import 'package:daepiro/presentation/information/component/search_disaster_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ class SearchDisasterScreen extends StatefulWidget {
 }
 
 class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
+  List<Map<String, String>> searchedDisasterList = List.empty();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +38,7 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
                         onTap: () {
                           context.pop();
                         },
-                        child: SvgPicture.asset('assets/icons/arrow_left.svg')
+                        child: SvgPicture.asset('assets/icons/icon_arrow_left.svg')
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -61,20 +64,34 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
                                 color: DaepiroColorStyle.g_200,
                               ),
                             ),
+                            onChanged: (text) {
+                              setState(() {
+                                if (text.isEmpty) {
+                                  searchedDisasterList = List.empty();
+                                } else {
+                                  searchedDisasterList = searchDisasterList(text);
+                                }
+                              });
+                            },
                           )
                       )
                     ]
                   ),
                 ),
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                  child: Column(
-                    children: [
-                      SearchDisasterType(iconPath: 'assets/icons/icon_disaster_dry.svg', text: "가뭄"),
-                      SearchDisasterType(iconPath: 'assets/icons/icon_disaster_dry.svg', text: "강품"),
-                      SearchDisasterType(iconPath: 'assets/icons/icon_disaster_dry.svg', text: "건조"),
-                    ],
+                Flexible(
+                  child: Container(
+                    color: Colors.white,
+                    padding: searchedDisasterList.isNotEmpty ? EdgeInsets.symmetric(horizontal: 12, vertical: 20) : EdgeInsets.all(0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: searchedDisasterList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SearchDisasterType(
+                          text: searchedDisasterList[index]['type']!,
+                          iconPath: searchedDisasterList[index]['icon']!
+                        );
+                      }
+                    )
                   ),
                 )
               ],
@@ -84,4 +101,10 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
       ),
     );
   }
+}
+
+List<Map<String, String>> searchDisasterList(String text) {
+  return NatureDisasterList.where((item) {
+    return item['type']!.contains(text);
+  }).toList();
 }

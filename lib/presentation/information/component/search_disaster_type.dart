@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SearchDisasterType extends StatelessWidget {
-  final String iconPath;
   final String text;
+  final String iconPath;
 
   const SearchDisasterType({
     Key? key,
-    required this.iconPath,
     required this.text,
+    required this.iconPath,
   }): super(key: key);
 
   @override
@@ -21,8 +21,8 @@ class SearchDisasterType extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(
-              iconPath,
-              colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn),
+            iconPath,
+            colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn),
             width: 36,
             height: 36
           ),

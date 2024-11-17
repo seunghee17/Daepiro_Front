@@ -124,11 +124,11 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               ),
               NavigationDestination(
                 icon:SvgPicture.asset(
-                  'assets/icons/mypage.svg',
+                  'assets/icons/icon_my.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
-                  'assets/icons/mypage.svg',
+                  'assets/icons/icon_my.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '마이페이지',

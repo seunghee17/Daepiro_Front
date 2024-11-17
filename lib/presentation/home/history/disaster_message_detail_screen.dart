@@ -46,7 +46,7 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                           onTap: () {
                             context.pop();
                           },
-                          child: SvgPicture.asset('assets/icons/arrow_left.svg')
+                          child: SvgPicture.asset('assets/icons/icon_arrow_left.svg')
                         ),
                       )
                     ]
@@ -276,17 +276,17 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                                        ),
                                                      ),
                                                      MapDirectionItem(
-                                                       icon: Image.asset('assets/icons/icon_naver_map.png', height: 24, width: 24),
+                                                       icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
                                                        text: "네이버지도 바로가기"
                                                      ),
                                                      const SizedBox(height: 8),
                                                      MapDirectionItem(
-                                                         icon: Image.asset('assets/icons/icon_kakao_map.png', height: 24, width: 24),
+                                                         icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
                                                          text: "카카오맵 바로가기"
                                                      ),
                                                      const SizedBox(height: 8),
                                                      MapDirectionItem(
-                                                         icon: Image.asset('assets/icons/icon_t_map.png', height: 24, width: 24),
+                                                         icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
                                                          text: "티맵 바로가기"
                                                      )
                                                    ],

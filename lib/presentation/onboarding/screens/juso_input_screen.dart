@@ -177,7 +177,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               GoRouter.of(context).pop();
             },
             icon: SvgPicture.asset(
-                'assets/icons/arrow_left.svg',
+                'assets/icons/icon_arrow_left.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn))),
         SizedBox(height: 32),
         Row(
