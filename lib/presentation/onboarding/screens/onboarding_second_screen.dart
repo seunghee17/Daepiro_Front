@@ -191,6 +191,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
               child: PrimaryFilledButton(
                   onPressed: isAvailable ? () async =>   {
                     await ref.read(onboardingViewModelProvider.notifier).updateUserName(nameController.text),
+                    ref.read(onboardingViewModelProvider.notifier).updateNickName(nicknameController.text),
                     GoRouter.of(context).push('/onboarding/second')
                   }: null,
                   backgroundColor: isAvailable? DaepiroColorStyle.o_500 : DaepiroColorStyle.o_100,

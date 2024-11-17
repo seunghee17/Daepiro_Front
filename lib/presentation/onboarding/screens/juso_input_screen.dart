@@ -147,8 +147,15 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                       setState(() {
                                         selected.add(index);
                                       });
-                                      //await ref.read(onboardingViewModelProvider.notifier).addJuso(juso, int.parse(widget.index!));
-                                      await ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
+                                      if(widget.index=='0') {
+                                        ref.read(onboardingViewModelProvider.notifier).addHomeJuso(juso);
+                                        print('여기여기!! ${state.homeJuso}');
+                                      } else if(widget.index =='1') {
+                                        ref.read(onboardingViewModelProvider.notifier).addFirstJuso(juso);
+                                      } else {
+                                        ref.read(onboardingViewModelProvider.notifier).addSecondJuso(juso);
+                                      }
+                                       ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
                                       GoRouter.of(context).pop();
                                     }
                                 ),

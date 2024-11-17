@@ -210,6 +210,7 @@ class LoginScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
+                  textAlign: TextAlign.center,
                   '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
                   style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
                 ),

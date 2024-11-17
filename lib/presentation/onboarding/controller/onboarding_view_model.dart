@@ -2,7 +2,6 @@ import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../state/onboarding_state.dart';
@@ -30,6 +29,13 @@ class OnboardingViewModel extends _$OnboardingViewModel {
     }
   }
 
+  Future<void> updateNickName(String nickName) async {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(userNickName: nickName));
+    }
+  }
+
   Future<void> setNickState(String nickState) async {
     final value = state.valueOrNull;
     if(value != null) {
@@ -46,15 +52,21 @@ class OnboardingViewModel extends _$OnboardingViewModel {
     await ref.read(sendOnboardingInfoUseCaseProvider(onboardingInfoRequest: request).future);
   }
 
-  List<Addresses> parseAddress() {
-    List<Addresses> address = [];
-    for(int i=0; i<state.value!.inputJusoName.length; i++) {
-      address.add({
-        'name': state.value!.inputJusoName[i],
-        'address': inputJusoList[i],
-      } as Addresses);
+  void setJusoNick(String firstNick, String secondNick) {
+    final value = state.valueOrNull;
+    if(value != null) {
+      state =  state.whenData((value) => value.copyWith(firstJusoNick: firstNick, secondJusoNick: secondNick));
     }
-    return address;
+  }
+
+  List<Addresses> parseAddress() {
+    List<String> name = [state.value!.homeJusoNick, state.value!.firstJusoNick, state.value!.secondJusoNick];
+    List<String> address = [state.value!.homeJuso, state.value!.firstJuso, state.value!.secondJuso];
+    List<Addresses> result = [];
+    for(int i=0; i<3; i++) {
+      result.add(Addresses(name: name[i], address: address[i]));
+    }
+    return result;
   }
 
 //검색결과 주소 리스트 반환
@@ -74,15 +86,6 @@ class OnboardingViewModel extends _$OnboardingViewModel {
         return state.value?.copyWith(isError: true) ?? OnboardingState(isError: true);
       }
     });
-  }
-
-  //TODO 개선해야할 로직
-  Future<void> addJuso(String jusoString, int index) async {
-    final value = state.valueOrNull;
-    if(value != null) {
-      inputJusoList.insert(index, jusoString);
-      state =  state.whenData((value) => value.copyWith(inputJusoList: inputJusoList));
-    }
   }
 
   void addHomeJuso(String homeJuso) {
@@ -125,19 +128,6 @@ class OnboardingViewModel extends _$OnboardingViewModel {
       result = false;
     }
     return result;
-  }
-
-  //TODO 주소 삭제 삭제될 로직
-  Future<void> deleteJuso(TextEditingController controller, int index) async {
-    var current = List<String>.from(state.value!.inputJusoList);
-    if (current.contains(controller.text)) {
-      current.insert(index, '');
-      state = state.whenData((value) => value.copyWith(inputJusoList: current));
-      print('삭제 완료: ${controller.text}');
-    } else {
-      print('삭제할 값을 찾을 수 없습니다.');
-    }
-    controller.clear();
   }
 
   void deleteHomeJuso(TextEditingController controller) {
