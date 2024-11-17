@@ -2,7 +2,6 @@ import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'map_direction_item.dart';
 
 class AroundShelterPreview extends StatefulWidget {
@@ -30,15 +29,11 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
       // width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: DaepiroColorStyle.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: DaepiroColorStyle.black.withOpacity(0.12),
-              blurRadius: 12,
-              offset: const Offset(0, 0),
-            )
-          ]
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          width: 2,
+          color: DaepiroColorStyle.g_50,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +54,12 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
                 ),
               ),
               const Spacer(),
-              SvgPicture.asset('assets/icons/icon_copy.svg')
+              SvgPicture.asset(
+                  'assets/icons/icon_copy.svg',
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  width: 30,
+                  height: 30
+              )
             ]
           ),
           Text(
@@ -100,17 +100,17 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
                                 ),
                               ),
                               MapDirectionItem(
-                                  icon: Image.asset('assets/icons/icon_naver_map.png', height: 24, width: 24),
+                                  icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
                                   text: "네이버지도 바로가기"
                               ),
                               const SizedBox(height: 8),
                               MapDirectionItem(
-                                  icon: Image.asset('assets/icons/icon_kakao_map.png', height: 24, width: 24),
+                                  icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
                                   text: "카카오맵 바로가기"
                               ),
                               const SizedBox(height: 8),
                               MapDirectionItem(
-                                  icon: Image.asset('assets/icons/icon_t_map.png', height: 24, width: 24),
+                                  icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
                                   text: "티맵 바로가기"
                               )
                             ],

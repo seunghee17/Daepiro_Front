@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../onboarding/screens/permission_screen.dart';
 import '../widgets/button/secondary_filled_button.dart';
 import 'login_view_model.dart';
@@ -133,7 +134,7 @@ class LoginScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/icons/kakao_icon.svg', color: DaepiroColorStyle.black,),
+          SvgPicture.asset('assets/icons/icon_kakao.svg', color: DaepiroColorStyle.black,),
           SizedBox(width: 8),
           Text(
             'Kakao로 로그인',
@@ -150,7 +151,7 @@ class LoginScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/icons/naver_icon.svg'),
+            SvgPicture.asset('assets/icons/icon_naver.svg'),
             SizedBox(width: 8),
             Text(
               'Naver로 로그인',

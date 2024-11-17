@@ -40,7 +40,7 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                           padding: EdgeInsets.all(12),
                           margin: EdgeInsets.only(top: 4, bottom: 4, left: 12),
                           child: SvgPicture.asset(
-                            'assets/icons/arrow_left.svg',
+                            'assets/icons/icon_arrow_left.svg',
                           ),
                         ),
                       ),
@@ -128,7 +128,12 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                                         ),
                                       ),
                                       const Spacer(),
-                                      SvgPicture.asset('assets/icons/icon_copy.svg')
+                                      SvgPicture.asset(
+                                        'assets/icons/icon_copy.svg',
+                                        colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                                        width: 30,
+                                        height: 30
+                                      )
                                     ]
                                 ),
                                 Text(
@@ -169,17 +174,17 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                                                       ),
                                                     ),
                                                     MapDirectionItem(
-                                                        icon: Image.asset('assets/icons/icon_naver_map.png', height: 24, width: 24),
+                                                        icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
                                                         text: "네이버지도 바로가기"
                                                     ),
                                                     const SizedBox(height: 8),
                                                     MapDirectionItem(
-                                                        icon: Image.asset('assets/icons/icon_kakao_map.png', height: 24, width: 24),
+                                                        icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
                                                         text: "카카오맵 바로가기"
                                                     ),
                                                     const SizedBox(height: 8),
                                                     MapDirectionItem(
-                                                        icon: Image.asset('assets/icons/icon_t_map.png', height: 24, width: 24),
+                                                        icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
                                                         text: "티맵 바로가기"
                                                     )
                                                   ],

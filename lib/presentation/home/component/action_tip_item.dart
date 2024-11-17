@@ -25,8 +25,8 @@ class _ActionTipItemState extends State<ActionTipItem> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           widget.isSelected
-              ? SvgPicture.asset('assets/icons/icon_check_box_on.svg')
-              : SvgPicture.asset('assets/icons/icon_check_box_off.svg'),
+              ? SvgPicture.asset('assets/icons/icon_check_box_enabled.svg', colorFilter: ColorFilter.mode(DaepiroColorStyle.g_500, BlendMode.srcIn), width: 32, height: 32)
+              : SvgPicture.asset('assets/icons/icon_check_box_disabled.svg', colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn), width: 32, height: 32),
           const SizedBox(width: 8),
           Flexible(
             child: Text(

@@ -94,7 +94,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                         hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
                         suffixIcon: Padding(
                           padding: EdgeInsets.all(16),
-                            child: SvgPicture.asset('assets/icons/search.svg',colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn))
+                            child: SvgPicture.asset('assets/icons/icon_search.svg',colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn))
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -177,7 +177,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               GoRouter.of(context).pop();
             },
             icon: SvgPicture.asset(
-                'assets/icons/arrow_left.svg',
+                'assets/icons/icon_arrow_left.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn))),
         SizedBox(height: 32),
         Row(
@@ -230,8 +230,10 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-                widget.type=='집' ? 'assets/icons/home.svg' : 'assets/icons/location.svg',
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
+              widget.type=='집' ? 'assets/icons/icon_home.svg' : 'assets/icons/icon_location.svg',
+              colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
+              width: 16,
+              height: 16,
             ),
             Text(
               widget.type!,
