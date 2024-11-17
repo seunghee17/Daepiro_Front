@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../cmm/DaepiroTheme.dart';
 import '../../cmm/button/secondary_filled_button.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../onboarding/screens/permission_screen.dart';
 import 'login_view_model.dart';
 import 'login_state.dart';
@@ -68,7 +69,7 @@ class LoginScreen extends ConsumerWidget {
                             ),
                             Flexible(
                                 child: SvgPicture.asset(
-                                  'assets/icons/icon_logo.svg',
+                                  'assets/icons/logo.svg',
                                   height: 48,
                                 )
                             )
@@ -133,7 +134,7 @@ class LoginScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/icons/icon_kakao_icon.svg', color: DaepiroColorStyle.black,),
+          SvgPicture.asset('assets/icons/icon_kakao.svg', color: DaepiroColorStyle.black,),
           SizedBox(width: 8),
           Text(
             'Kakao로 로그인',
@@ -150,7 +151,7 @@ class LoginScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/icons/icon_naver_icon.svg'),
+            SvgPicture.asset('assets/icons/icon_naver.svg'),
             SizedBox(width: 8),
             Text(
               'Naver로 로그인',
@@ -167,7 +168,7 @@ class LoginScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/icons/icon_apple_logo.svg', color: DaepiroColorStyle.white,),
+            SvgPicture.asset('assets/icons/apple_logo.svg', color: DaepiroColorStyle.white,),
             SizedBox(width: 8),
             Text(
               'Apple로 로그인',
@@ -210,7 +211,6 @@ class LoginScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  textAlign: TextAlign.center,
                   '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
                   style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
                 ),

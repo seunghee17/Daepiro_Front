@@ -424,7 +424,6 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           });
         },
         ref: ref,
-        //focusNode: jusoFocusNode2,
           focusNode: nickFocusNode2,
       ),
           SizedBox(height: 10,),
@@ -595,8 +594,10 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-              'assets/icons/icon_location_24.svg',
-              colorFilter: ColorFilter.mode(isButtonDisabled ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_100, BlendMode.srcIn)
+            'assets/icons/icon_location.svg',
+            colorFilter: ColorFilter.mode(isButtonDisabled ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_100, BlendMode.srcIn),
+            width: 16,
+            height: 16,
           ),
           Text(
             '지역추가',
@@ -639,8 +640,10 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                          'assets/icons/icon_location_24.svg',
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
+                        'assets/icons/icon_location.svg',
+                        colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
+                        width: 16,
+                        height: 16,
                       ),
                       Text(
                         locationNickName,

@@ -84,7 +84,12 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/icons/icon_good.svg'),
+                    SvgPicture.asset(
+                      'assets/icons/icon_good.svg',
+                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      width: 16,
+                      height: 16,
+                    ),
                     const SizedBox(width: 2),
                     Text(
                       widget.like,
@@ -105,7 +110,12 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/icons/icon_community.svg'),
+                    SvgPicture.asset(
+                      'assets/icons/icon_community.svg',
+                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      width: 16,
+                      height: 16
+                    ),
                     const SizedBox(width: 2),
                     Text(
                       widget.comment,
