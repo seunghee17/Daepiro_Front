@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:daepiro/data/model/request/onboarding_info_request.dart';
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 
@@ -34,14 +32,14 @@ class OnboardingFinalScreen extends ConsumerWidget {
                       child: PrimaryFilledButton(
                           onPressed: () async {
                             final address = ref.read(onboardingViewModelProvider.notifier).parseAddress();
+                            final fcmToken = await ref.read(onboardingViewModelProvider.notifier).getFcmToken();
                             await ref.read(onboardingViewModelProvider.notifier).sendUserInfo(
                                 OnboardingInfoRequest(
                                   realname: state.userName,
                                   nickname: state.userNickName,
                                   addresses: address,
                                   disasterTypes: state.disasterTypes,
-                                  //TODO
-                                  fcmToken: 'ddf'
+                                  fcmToken: fcmToken
                                 )
                             );
                             GoRouter.of(context).go('/home');

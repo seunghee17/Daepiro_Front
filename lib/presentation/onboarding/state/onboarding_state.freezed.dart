@@ -301,7 +301,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
         false,
         false
       ],
-      final List<String> disasterTypes = const []})
+      final List<String> disasterTypes = const ['재난', '재난']})
       : _jusoListState = jusoListState,
         _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
         _disasterTypes = disasterTypes;

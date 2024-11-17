@@ -1,5 +1,6 @@
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
@@ -50,6 +51,11 @@ class OnboardingViewModel extends _$OnboardingViewModel {
 
   Future<void> sendUserInfo(OnboardingInfoRequest request) async {
     await ref.read(sendOnboardingInfoUseCaseProvider(onboardingInfoRequest: request).future);
+  }
+
+  Future<String> getFcmToken() async {
+    String? _fcmToken = await FirebaseMessaging.instance.getToken();
+    return _fcmToken ?? '';
   }
 
   void setJusoNick(String firstNick, String secondNick) {
