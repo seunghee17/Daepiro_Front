@@ -64,7 +64,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
               style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900)
             ),
             Spacer(),
-            SvgPicture.asset('assets/icons/ic_arrow_right.svg',
+            SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
@@ -125,9 +125,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                   borderRadius: 4,
                   child: Row(
                     children: [
-                      Text('화재',
-                        style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
-                      )
+                      Text('화재', style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500))
                     ],
                   ),
                   verticalPadding: 4
@@ -226,8 +224,13 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     context: context,
                     builder: (context) {
                       return ReplyBottomSheet();
-                    }
+                    },
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  enableDrag: false,
+                  isDismissible: false
                 );
+
               },
               child: Row(
                 children: [

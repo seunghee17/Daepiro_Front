@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommunityState {
+//전체와 수신버튼 상태
   bool get receiveButton => throw _privateConstructorUsedError;
-  bool get AllButton => throw _privateConstructorUsedError;
+  bool get AllButton => throw _privateConstructorUsedError; //현재 보여지는 상태
+  bool get isDisasterScreen => throw _privateConstructorUsedError;
   bool get isCertificateUser => throw _privateConstructorUsedError;
   bool get isDeleteComplete => throw _privateConstructorUsedError;
   String? get reportType => throw _privateConstructorUsedError;
@@ -36,6 +38,7 @@ abstract class $CommunityStateCopyWith<$Res> {
   $Res call(
       {bool receiveButton,
       bool AllButton,
+      bool isDisasterScreen,
       bool isCertificateUser,
       bool isDeleteComplete,
       String? reportType});
@@ -56,6 +59,7 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
   $Res call({
     Object? receiveButton = null,
     Object? AllButton = null,
+    Object? isDisasterScreen = null,
     Object? isCertificateUser = null,
     Object? isDeleteComplete = null,
     Object? reportType = freezed,
@@ -68,6 +72,10 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
       AllButton: null == AllButton
           ? _value.AllButton
           : AllButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDisasterScreen: null == isDisasterScreen
+          ? _value.isDisasterScreen
+          : isDisasterScreen // ignore: cast_nullable_to_non_nullable
               as bool,
       isCertificateUser: null == isCertificateUser
           ? _value.isCertificateUser
@@ -96,6 +104,7 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
   $Res call(
       {bool receiveButton,
       bool AllButton,
+      bool isDisasterScreen,
       bool isCertificateUser,
       bool isDeleteComplete,
       String? reportType});
@@ -114,6 +123,7 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
   $Res call({
     Object? receiveButton = null,
     Object? AllButton = null,
+    Object? isDisasterScreen = null,
     Object? isCertificateUser = null,
     Object? isDeleteComplete = null,
     Object? reportType = freezed,
@@ -126,6 +136,10 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
       AllButton: null == AllButton
           ? _value.AllButton
           : AllButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDisasterScreen: null == isDisasterScreen
+          ? _value.isDisasterScreen
+          : isDisasterScreen // ignore: cast_nullable_to_non_nullable
               as bool,
       isCertificateUser: null == isCertificateUser
           ? _value.isCertificateUser
@@ -147,18 +161,24 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
 
 class _$CommunityStateImpl implements _CommunityState {
   _$CommunityStateImpl(
-      {this.receiveButton = true,
-      this.AllButton = false,
+      {this.receiveButton = false,
+      this.AllButton = true,
+      this.isDisasterScreen = true,
       this.isCertificateUser = false,
       this.isDeleteComplete = false,
       this.reportType = null});
 
+//전체와 수신버튼 상태
   @override
   @JsonKey()
   final bool receiveButton;
   @override
   @JsonKey()
   final bool AllButton;
+//현재 보여지는 상태
+  @override
+  @JsonKey()
+  final bool isDisasterScreen;
   @override
   @JsonKey()
   final bool isCertificateUser;
@@ -171,7 +191,7 @@ class _$CommunityStateImpl implements _CommunityState {
 
   @override
   String toString() {
-    return 'CommunityState(receiveButton: $receiveButton, AllButton: $AllButton, isCertificateUser: $isCertificateUser, isDeleteComplete: $isDeleteComplete, reportType: $reportType)';
+    return 'CommunityState(receiveButton: $receiveButton, AllButton: $AllButton, isDisasterScreen: $isDisasterScreen, isCertificateUser: $isCertificateUser, isDeleteComplete: $isDeleteComplete, reportType: $reportType)';
   }
 
   @override
@@ -183,6 +203,8 @@ class _$CommunityStateImpl implements _CommunityState {
                 other.receiveButton == receiveButton) &&
             (identical(other.AllButton, AllButton) ||
                 other.AllButton == AllButton) &&
+            (identical(other.isDisasterScreen, isDisasterScreen) ||
+                other.isDisasterScreen == isDisasterScreen) &&
             (identical(other.isCertificateUser, isCertificateUser) ||
                 other.isCertificateUser == isCertificateUser) &&
             (identical(other.isDeleteComplete, isDeleteComplete) ||
@@ -193,7 +215,7 @@ class _$CommunityStateImpl implements _CommunityState {
 
   @override
   int get hashCode => Object.hash(runtimeType, receiveButton, AllButton,
-      isCertificateUser, isDeleteComplete, reportType);
+      isDisasterScreen, isCertificateUser, isDeleteComplete, reportType);
 
   @JsonKey(ignore: true)
   @override
@@ -207,14 +229,17 @@ abstract class _CommunityState implements CommunityState {
   factory _CommunityState(
       {final bool receiveButton,
       final bool AllButton,
+      final bool isDisasterScreen,
       final bool isCertificateUser,
       final bool isDeleteComplete,
       final String? reportType}) = _$CommunityStateImpl;
 
-  @override
+  @override //전체와 수신버튼 상태
   bool get receiveButton;
   @override
   bool get AllButton;
+  @override //현재 보여지는 상태
+  bool get isDisasterScreen;
   @override
   bool get isCertificateUser;
   @override

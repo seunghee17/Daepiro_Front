@@ -18,4 +18,8 @@ class CommunityViewModel extends _$CommunityViewModel {
     bool current = state.value!.AllButton;
     state = state.whenData((value) => value.copyWith(AllButton: !current, receiveButton: current));
   }
+
+  void changeScreenState(bool isdisasterScreen) {
+    state = state.whenData((value) => value.copyWith(isDisasterScreen : isdisasterScreen));
+  }
 }

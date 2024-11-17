@@ -22,22 +22,23 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     final communityViewModel = ref.watch(communityViewModelProvider);
     return communityViewModel.when(
         data: (state) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+          return Container(
+            decoration: BoxDecoration(
+              color: DaepiroColorStyle.white,
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 headerWidget(),
-                Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          //댓글들 담아야함
-                        ],
-                      ),
-                    )
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        footerWidget()
+                      ],
+                    ),
+                  )
                 ),
-
               ],
             ),
           );
@@ -47,13 +48,47 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
   }
 
   Widget headerWidget() {
-    return Container(
-      child: Row(
-        children: [
-          Text('댓글',
-            style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
-          )
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Container(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Opacity(
+                  opacity: 0.0,
+                  child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+                Expanded(
+                  child: Text('댓글',
+                    textAlign: TextAlign.center,
+                    style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
+                  ),
+                ),
+                SizedBox(width: 20)
+              ],
+            ),
+            SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+                color: DaepiroColorStyle.g_50
+              ),
+              width: double.infinity,
+              height: 1,
+            )
+          ],
+        ),
       ),
     );
   }
