@@ -36,10 +36,12 @@ class OnboardingFinalScreen extends ConsumerWidget {
                             final address = ref.read(onboardingViewModelProvider.notifier).parseAddress();
                             await ref.read(onboardingViewModelProvider.notifier).sendUserInfo(
                                 OnboardingInfoRequest(
-                                  realname: state.nameState,
-                                  nickname: state.nicknameState,
+                                  realname: state.userName,
+                                  nickname: state.userNickName,
                                   addresses: address,
-                                  disasterTypes: state.disasterTypes
+                                  disasterTypes: state.disasterTypes,
+                                  //TODO
+                                  fcmToken: 'ddf'
                                 )
                             );
                             GoRouter.of(context).go('/home');
