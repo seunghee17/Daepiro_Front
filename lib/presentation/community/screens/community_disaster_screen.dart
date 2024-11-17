@@ -16,41 +16,31 @@ class CommunityDisasterScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final communityViewModel = ref.watch(communityViewModelProvider);
-    return Expanded(
-      child: communityViewModel.when(
-          data: (state) {
-            return Padding(
+    return communityViewModel.when(
+        data: (state) {
+          return SingleChildScrollView(
+            child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    GestureDetector(
-                        onTap: (){
-                          GoRouter.of(context).push('/community/rule');
-                        },
-                        child: ruleContainer()
-                    ),
-                    SizedBox(height: 20),
-                    twoButtonContainer(ref, state.receiveButton, state.AllButton),
-                    SizedBox(height: 20),
-                    Expanded(
-                      //TODO api나온후 변경해야함
-                        child: ListView.builder(
-                          itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고', '서울시 강남구', '오후 02:30', 4, context);
-                            }
-                        )
-                    )
-                  ],
-                ),
-              )
-            );
-          },
-          error: (error, stack) => Text('에러: ${error}'),
-          loading: () => const CircularProgressIndicator())
-    );
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  GestureDetector(
+                      onTap: (){
+                        GoRouter.of(context).push('/community/rule');
+                      },
+                      child: ruleContainer()
+                  ),
+                  twoButtonContainer(ref, state.AllButton, state.receiveButton),
+                  ...List.generate( 5,(index) =>
+                      contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고', '서울시 강남구', '오후 02:30', 5, context)
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+        error: (error, stack) => Text('에러: ${error}'),
+        loading: () => const CircularProgressIndicator());
   }
   
   Widget ruleContainer() {
@@ -74,7 +64,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
               style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900)
             ),
             Spacer(),
-            SvgPicture.asset('assets/icons/icon_arrow_right.svg',
+            SvgPicture.asset('assets/icons/ic_arrow_right.svg',
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
@@ -86,20 +76,20 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  Widget twoButtonContainer(WidgetRef ref, bool receiveButton, bool AllButton) {
+  Widget twoButtonContainer(WidgetRef ref, bool allButton, bool receiveButton) {
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20),
         child: Row(
           children: [
             SecondaryFilledButton(
-                onPressed: ref.read(communityViewModelProvider.notifier).clickReceiveButton,
+                onPressed: ref.read(communityViewModelProvider.notifier).clickAllButton,
                 radius: 99,
                 child: Text(
-                  '수신',
-                  style: DaepiroTextStyle.body_1_m.copyWith(color: receiveButton ? DaepiroColorStyle.white : DaepiroColorStyle.g_600),
+                  '전체',
+                  style: DaepiroTextStyle.body_1_m.copyWith(color: allButton ? DaepiroColorStyle.white : DaepiroColorStyle.g_600),
                 ),
-                backgroundColor: receiveButton ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50,
+                backgroundColor: allButton ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50,
               horizontalPadding: 16,
               verticalPadding: 6,
             ),
@@ -108,7 +98,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
               onPressed: ref.read(communityViewModelProvider.notifier).clickReceiveButton,
               radius: 99,
               child: Text(
-                '전체',
+                '수신',
                 style: DaepiroTextStyle.body_1_m.copyWith(color: receiveButton ? DaepiroColorStyle.white : DaepiroColorStyle.g_600),
               ),
               backgroundColor: receiveButton ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50,
@@ -125,6 +115,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
     return Container(
       width: double.infinity,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -134,13 +125,12 @@ class CommunityDisasterScreen extends ConsumerWidget {
                   borderRadius: 4,
                   child: Row(
                     children: [
-                      Text(
-                        '화재',
+                      Text('화재',
                         style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
                       )
                     ],
                   ),
-                  verticalPadding: 2
+                  verticalPadding: 4
               ),
               Spacer(),
               //TODO: 행동요령 페이지 넘어가게 하기
@@ -153,7 +143,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                       style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
                     ),
                     SvgPicture.asset(
-                      'assets/icons/icon_arrow_right',
+                      'assets/icons/icon_arrow_right.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn),
                     )
                   ],
@@ -178,6 +168,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                 ]
             ),
           ),
+          SizedBox(height: 4),
           Text(
             content,
             style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600),
@@ -186,7 +177,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
           Row(
               children: [
                 SvgPicture.asset(
-                  'assets/icons/location',
+                  'assets/icons/icon_location_24.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn),
                 ),
                 SizedBox(width: 4),
@@ -196,7 +187,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                 ),
                 Spacer(),
                 SvgPicture.asset(
-                  'assets/icons/community',
+                  'assets/icons/icon_community.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                 ),
                 SizedBox(width: 2),
@@ -206,8 +197,9 @@ class CommunityDisasterScreen extends ConsumerWidget {
                 )
               ],
           ),
-          comments >0 ?
-          replyContainer(context) : noneReplyContainer()
+          SizedBox(height: 20),
+          comments >0 ? replyContainer(context) : noneReplyContainer(),
+          SizedBox(height: 36)
         ],
       ),
     );
@@ -225,6 +217,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
         child: Column(
           children: [
             replyWidget('사거리에 어쩌구', '5분전', 0),
+            SizedBox(height: 8),
             replyWidget('사거리에 어쩌구', '5분전', 3),
             SizedBox(height: 10),
             GestureDetector(
@@ -238,15 +231,17 @@ class CommunityDisasterScreen extends ConsumerWidget {
               },
               child: Row(
                 children: [
+                  Spacer(),
                   Text(
                     textAlign: TextAlign.center,
                     '더보기',
                     style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_600),
                   ),
+                  Spacer()
                 ],
               ),
             ),
-            SizedBox(height: 2)
+            SizedBox(height: 10),
           ],
         ),
       ),
@@ -273,7 +268,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  content,
+                  timeText,
                   style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
                 ),
                 Spacer(),
@@ -282,7 +277,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     child: Row(
                       children: [
                         SvgPicture.asset(
-                          'assets/icons/good',
+                          'assets/icons/icon_good.svg',
                           colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                         ),
                         SizedBox(width: 2),

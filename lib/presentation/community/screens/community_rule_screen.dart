@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
 //공지사항 페이지
 class CommunityRuleScreen extends ConsumerWidget {

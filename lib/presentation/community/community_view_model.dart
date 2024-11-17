@@ -11,11 +11,11 @@ class CommunityViewModel extends _$CommunityViewModel {
 
   void clickReceiveButton() {
     bool current = state.value!.receiveButton;
-    state = state.whenData((value) => value.copyWith(receiveButton: !current));
+    state = state.whenData((value) => value.copyWith(receiveButton: !current, AllButton: current));
   }
 
   void clickAllButton() {
     bool current = state.value!.AllButton;
-    state = state.whenData((value) => value.copyWith(AllButton: !current));
+    state = state.whenData((value) => value.copyWith(AllButton: !current, receiveButton: current));
   }
 }

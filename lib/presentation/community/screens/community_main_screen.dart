@@ -50,7 +50,7 @@ class CommunityMainScreen extends ConsumerWidget {
                   ),
                   Expanded(
                       child: TabBarView(
-                        physics: NeverScrollableScrollPhysics(),
+                        //physics: NeverScrollableScrollPhysics(),
                         children: [
                           CommunityDisasterScreen(),
                           CommunityTownScreen()
