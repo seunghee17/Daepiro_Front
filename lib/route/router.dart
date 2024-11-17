@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/information/action_tip_screen.dart';
+import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
 import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_screen.dart';

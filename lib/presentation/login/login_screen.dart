@@ -133,7 +133,7 @@ class LoginScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/icons/kakao_icon.svg', color: DaepiroColorStyle.black,),
+          SvgPicture.asset('assets/icons/icon_kakao.svg', color: DaepiroColorStyle.black,),
           SizedBox(width: 8),
           Text(
             'Kakao로 로그인',
@@ -150,7 +150,7 @@ class LoginScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/icons/naver_icon.svg'),
+            SvgPicture.asset('assets/icons/icon_naver.svg'),
             SizedBox(width: 8),
             Text(
               'Naver로 로그인',
