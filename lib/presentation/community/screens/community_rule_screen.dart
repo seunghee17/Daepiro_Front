@@ -50,17 +50,29 @@ class CommunityRuleScreen extends ConsumerWidget {
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)
               ),
             ),
-            Text('공지사항',
-            textAlign: TextAlign.center,
-            style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800))
+            Expanded(
+              child: Text(
+                  '공지사항',
+                  textAlign: TextAlign.center,
+                  style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)
+              ),
+            ),
+            Opacity(
+              opacity: 0.0,
+              child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+                width: 24,
+                height: 24,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
 
   Widget bodyWidget() {
     return Column(
@@ -77,6 +89,7 @@ class CommunityRuleScreen extends ConsumerWidget {
         style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_800),),
         SizedBox(height: 24),
         Container(
+          width: double.infinity,
           decoration: BoxDecoration(
             color: DaepiroColorStyle.g_50,
             borderRadius: BorderRadius.circular(12)
@@ -84,6 +97,7 @@ class CommunityRuleScreen extends ConsumerWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 16),
                 Text('공지사항 타이틀',
