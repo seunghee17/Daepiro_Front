@@ -22,7 +22,6 @@ Future<void> main() async {
 class MyApp extends ConsumerWidget {
   MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouteProvider);
@@ -34,8 +33,5 @@ class MyApp extends ConsumerWidget {
         scaffoldBackgroundColor: DaepiroColorStyle.white,
       ),
     );
-
-
   }
-
 }
