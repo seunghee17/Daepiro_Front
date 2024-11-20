@@ -22,7 +22,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   #kakao login
-  kakao_flutter_sdk_user: ^1.9.5
+  kakao_flutter_sdk_user: ^1.9.6
   #naver login
   flutter_naver_login: ^1.8.0
   #화면 이동 패키지
@@ -52,11 +52,13 @@ dependencies:
   permission_handler: ^11.3.1
   expandable_page_view: ^1.0.17
   smooth_page_indicator: ^1.0.0+2
+  #Firebase
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.5
 
   # 종석 공부용
   provider: 6.0.5
-  firebase_core: ^3.8.0
-  firebase_messaging: ^15.1.5
+
 
 dev_dependencies:
   flutter_test:

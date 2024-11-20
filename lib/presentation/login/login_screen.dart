@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../cmm/DaepiroTheme.dart';
 import '../../cmm/button/secondary_filled_button.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../onboarding/screens/permission_screen.dart';
 import 'login_view_model.dart';
 import 'login_state.dart';
@@ -69,7 +68,7 @@ class LoginScreen extends ConsumerWidget {
                             ),
                             Flexible(
                                 child: SvgPicture.asset(
-                                  'assets/icons/logo.svg',
+                                  'assets/icons/icon_logo_small.svg',
                                   height: 48,
                                 )
                             )

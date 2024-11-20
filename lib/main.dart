@@ -10,12 +10,12 @@ import 'cmm/DaepiroTheme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   await dotenv.load(fileName: ".env");
   String nativeKakaoKey = dotenv.get('KAKAOKEY');
   KakaoSdk.init(nativeAppKey: nativeKakaoKey);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ProviderScope(child: MyApp()));
 }
 
