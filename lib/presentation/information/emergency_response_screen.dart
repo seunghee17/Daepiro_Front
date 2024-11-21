@@ -91,77 +91,91 @@ class _EmergencyResponseScreen extends State<EmergencyResponseScreen> with Singl
                     ],
                   ),
                 ),
-                ExpandablePageView(
-                  controller: _responsePageController,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (index) {
+                Expanded(
+                  child: ExpandablePageView(
+                    controller: _responsePageController,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index) {
 
-                  },
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  width: 2,
-                                  color: DaepiroColorStyle.g_50,
+                    },
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: DaepiroColorStyle.g_50,
+                                  ),
                                 ),
-                              ),
-                              padding: const EdgeInsets.all(16),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.o_500,
-                                          borderRadius: BorderRadius.circular(4)
-                                      ),
-                                      child: Text(
-                                          'STEP 01',
-                                          style: DaepiroTextStyle.body_2_m.copyWith(
-                                            color: DaepiroColorStyle.white,
+                                padding: const EdgeInsets.all(16),
+                                child: Expanded(
+                                  child: Stack(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                              color: DaepiroColorStyle.o_500,
+                                              borderRadius: BorderRadius.circular(4)
+                                          ),
+                                          child: Text(
+                                            'STEP 01',
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.white,
+                                            )
                                           )
+                                        )
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                          'assets/icons/image_sample.jpg',
+                                          fit: BoxFit.cover
+                                        )
+                                      )
+                                    ],
+                                  ),
+                                )
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                              decoration: BoxDecoration(
+                                  color: DaepiroColorStyle.g_50,
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      '반응의 확인',
+                                      style: DaepiroTextStyle.body_1_b.copyWith(
+                                        color: DaepiroColorStyle.g_700,
+                                      )
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                      '양쪽 어깨를 두드리며, 환자의 의식과 반응 확인',
+                                      style: DaepiroTextStyle.body_2_m.copyWith(
+                                        color: DaepiroColorStyle.g_600,
                                       )
                                   )
                                 ],
-                              )
-                          ),
-                          const SizedBox(height: 12),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                            decoration: BoxDecoration(
-                                color: DaepiroColorStyle.g_50,
-                                borderRadius: BorderRadius.circular(8)
+                              ),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    '반응의 확인',
-                                    style: DaepiroTextStyle.body_1_b.copyWith(
-                                      color: DaepiroColorStyle.g_700,
-                                    )
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                    '양쪽 어깨를 두드리며, 환자의 의식과 반응 확인',
-                                    style: DaepiroTextStyle.body_2_m.copyWith(
-                                      color: DaepiroColorStyle.g_600,
-                                    )
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Center(

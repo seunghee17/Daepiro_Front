@@ -1,6 +1,7 @@
 import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
 import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
+import 'package:daepiro/presentation/information/search_disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
@@ -54,8 +55,8 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-     initialLocation: '/splash',
-    //initialLocation: '/home',
+     // initialLocation: '/splash',
+    initialLocation: '/home',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -162,6 +163,10 @@ final goRouteProvider = Provider((ref) {
                     GoRoute(
                         path: 'searchDisaster',
                         builder: (context, state) => SearchDisasterScreen()
+                    ),
+                    GoRoute(
+                        path: 'searchDisasterContents',
+                        builder: (context, state) => SearchDisasterContentsScreen()
                     ),
                   ]
                 ),
