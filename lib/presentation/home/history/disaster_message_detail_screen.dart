@@ -20,7 +20,7 @@ class DisasterMessageDetailScreen extends StatefulWidget {
 class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScreen> {
   final PageController _aroundShelterPageController = PageController(
     initialPage: 0,
-    viewportFraction: 1.0
+    viewportFraction: 0.9
   );
   int _selectedActionTipType = 0;
   int _selectedDisasterType = 0;
@@ -239,66 +239,70 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                 ],
                               ),
                             ),
-                            ExpandablePageView.builder(
-                                controller: _aroundShelterPageController,
-                                scrollDirection: Axis.horizontal,
-                                padEnds: false,
-                                itemCount: 5,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding: EdgeInsets.only(top: 16, bottom: 20, left: 20),
-                                    child: AroundShelterPreview(
-                                     name: "강남구 보건소 지하 1층",
-                                     distinct: 250,
-                                     address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",
-                                     onClickDirection: () {
-                                       showDialog(
-                                           context: context,
-                                           builder: (BuildContext context) {
-                                             return Dialog(
-                                               shape: RoundedRectangleBorder(
-                                                 borderRadius: BorderRadius.circular(12)
-                                               ),
-                                               backgroundColor: DaepiroColorStyle.white,
-                                               child: Container(
-                                                 padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                                                 child: Column(
-                                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                                   mainAxisSize: MainAxisSize.min,
-                                                   children: [
-                                                     Container(
-                                                       padding: EdgeInsets.symmetric(vertical: 24),
-                                                       child: Text(
-                                                         "대피소 길찾기 바로가기",
-                                                         style: DaepiroTextStyle.body_1_b.copyWith(
-                                                           color: DaepiroColorStyle.g_900,
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: ExpandablePageView.builder(
+                                  controller: _aroundShelterPageController,
+                                  scrollDirection: Axis.horizontal,
+                                  padEnds: false,
+                                  itemCount: 5,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Container(
+                                      padding: const EdgeInsets.only(top: 16, bottom: 20),
+                                      margin: const EdgeInsets.only(right: 8),
+                                      child: AroundShelterPreview(
+                                       name: "강남구 보건소 지하 1층",
+                                       distinct: 250,
+                                       address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",
+                                       onClickDirection: () {
+                                         showDialog(
+                                             context: context,
+                                             builder: (BuildContext context) {
+                                               return Dialog(
+                                                 shape: RoundedRectangleBorder(
+                                                   borderRadius: BorderRadius.circular(12)
+                                                 ),
+                                                 backgroundColor: DaepiroColorStyle.white,
+                                                 child: Container(
+                                                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                                                   child: Column(
+                                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                                     mainAxisSize: MainAxisSize.min,
+                                                     children: [
+                                                       Container(
+                                                         padding: EdgeInsets.symmetric(vertical: 24),
+                                                         child: Text(
+                                                           "대피소 길찾기 바로가기",
+                                                           style: DaepiroTextStyle.body_1_b.copyWith(
+                                                             color: DaepiroColorStyle.g_900,
+                                                           ),
                                                          ),
                                                        ),
-                                                     ),
-                                                     MapDirectionItem(
-                                                       icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
-                                                       text: "네이버지도 바로가기"
-                                                     ),
-                                                     const SizedBox(height: 8),
-                                                     MapDirectionItem(
-                                                         icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
-                                                         text: "카카오맵 바로가기"
-                                                     ),
-                                                     const SizedBox(height: 8),
-                                                     MapDirectionItem(
-                                                         icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
-                                                         text: "티맵 바로가기"
-                                                     )
-                                                   ],
+                                                       MapDirectionItem(
+                                                         icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
+                                                         text: "네이버지도 바로가기"
+                                                       ),
+                                                       const SizedBox(height: 8),
+                                                       MapDirectionItem(
+                                                           icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
+                                                           text: "카카오맵 바로가기"
+                                                       ),
+                                                       const SizedBox(height: 8),
+                                                       MapDirectionItem(
+                                                           icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
+                                                           text: "티맵 바로가기"
+                                                       )
+                                                     ],
+                                                   ),
                                                  ),
-                                               ),
-                                             );
-                                           }
-                                       );
-                                     },
-                                    ),
-                                  );
-                                }
+                                               );
+                                             }
+                                         );
+                                       },
+                                      ),
+                                    );
+                                  }
+                              ),
                             ),
                           ],
                         )

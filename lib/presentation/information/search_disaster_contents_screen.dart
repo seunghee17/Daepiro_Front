@@ -4,8 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
-import '../widgets/DaepiroTheme.dart';
+import '../../cmm/DaepiroTheme.dart';
 
 class SearchDisasterContentsScreen extends StatefulWidget {
   const SearchDisasterContentsScreen({super.key});

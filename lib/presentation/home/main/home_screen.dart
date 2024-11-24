@@ -105,7 +105,12 @@ class HomeScreen extends StatelessWidget {
                                                                         child: Row(
                                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                                           children: [
-                                                                            SvgPicture.asset('assets/icons/icon_location.svg'),
+                                                                            SvgPicture.asset(
+                                                                              'assets/icons/icon_location.svg',
+                                                                              colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                                                              width: 16,
+                                                                              height: 16,
+                                                                            ),
                                                                             const SizedBox(width: 4),
                                                                             Text(
                                                                               "현위치",

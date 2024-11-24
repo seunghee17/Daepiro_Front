@@ -4,7 +4,6 @@ import 'package:daepiro/data/model/response/sociallogin_token_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-
 import '../../model/request/social_login_request.dart';
 part 'login_service.g.dart';
 

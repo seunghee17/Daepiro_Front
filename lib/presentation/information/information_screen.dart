@@ -19,7 +19,7 @@ class InformationScreen extends StatefulWidget {
 class _InformationScreenState extends State<InformationScreen> {
   final PageController _aroundShelterPageController = PageController(
       initialPage: 0,
-      viewportFraction: 0.8
+      viewportFraction: 0.9
   );
 
   @override
@@ -195,11 +195,12 @@ class _InformationScreenState extends State<InformationScreen> {
                               ExpandablePageView.builder(
                                   controller: _aroundShelterPageController,
                                   scrollDirection: Axis.horizontal,
-                                  // padEnds: false,
+                                  padEnds: false,
                                   itemCount: 5,
                                   itemBuilder: (BuildContext context, int index) {
                                     return Container(
                                       padding: EdgeInsets.only(top: 16),
+                                      margin: EdgeInsets.only(right: 8),
                                       child: AroundShelterPreview(
                                         name: "강남구 보건소 지하 1층",
                                         distinct: 250,
