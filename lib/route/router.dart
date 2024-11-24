@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../presentation/community/screens/community_main_screen.dart';
+import '../presentation/community/screens/community_town_detail_screen.dart';
 import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
@@ -66,6 +67,14 @@ final goRouteProvider = Provider((ref) {
       GoRoute(
         path: '/login',
         builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+          path: '/community_rule',
+          builder: (context, state) => CommunityRuleScreen()
+      ),
+      GoRoute(
+          path: '/community_town_detail',
+          builder: (context, state) => CommunityTownDetailScreen()
       ),
       GoRoute(
         path: '/onboarding',
@@ -137,12 +146,6 @@ final goRouteProvider = Provider((ref) {
                 GoRoute(
                   path: '/community',
                   builder: (context, state) => const CommunityMainScreen(),
-                  routes: [
-                    GoRoute(
-                      path: 'rule',
-                      builder: (context, state) => const CommunityRuleScreen(),
-                    ),
-                  ]
                 ),
               ],
             ),

@@ -210,7 +210,10 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             ),
             Spacer(),
             SvgPicture.asset(
-                'assets/icons/icon_arrow_right.svg'
+                'assets/icons/icon_arrow_right.svg',
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
             )
           ],
         ),
