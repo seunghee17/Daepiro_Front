@@ -2,8 +2,6 @@ import 'package:daepiro/presentation/home/component/information_contents_preview
 import 'package:daepiro/presentation/home/component/popular_post_preview.dart';
 import 'package:daepiro/presentation/home/const.dart';
 import 'package:daepiro/presentation/home/main/home_view_model.dart';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
-import 'package:daepiro/presentation/widgets/chip/secondary_chip.dart';
 import 'package:daepiro/presentation/home/component/disaster_mesaage_history_preview.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +10,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/chip/secondary_chip.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key});

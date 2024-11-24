@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../widgets/DaepiroTheme.dart';
+import '../../cmm/DaepiroTheme.dart';
 
 class EmergencyResponseScreen extends StatefulWidget {
   const EmergencyResponseScreen({super.key});

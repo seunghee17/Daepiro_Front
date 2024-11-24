@@ -1,6 +1,7 @@
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 class InformationContentsPreview extends StatefulWidget {
   final String imagePath;

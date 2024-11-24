@@ -9,14 +9,18 @@ sealed class OnboardingState with _$OnboardingState {
     //검색된 주소 목록의 중복을 제거하기 위함
     @Default(<String>{}) Set<String> jusoListState,
     @Default('') String userName,
-    //입력한 실주소
-    @Default(['', '', '']) List<String> inputJusoList,
+    @Default('') String userNickName,
+    @Default('') String homeJuso,
+    @Default('') String firstJuso,
+    @Default('') String secondJuso,
     //입력한 주소 별명
-    @Default([]) List<String> inputJusoName,
+    @Default('집') String homeJusoNick,
+    @Default('') String firstJusoNick,
+    @Default('') String secondJusoNick,
     //권한 모두 동의 활성화 상태
     @Default(false) bool isAllAppPermissionGrant,
     //체크박스의 활성화상태
     @Default([false, false, false, false, false]) List<bool> isAppPermissionCheckboxState,
-    @Default([]) List<String> disasterTypes
+    @Default(['재난', '재난']) List<String> disasterTypes
 }) = _OnboardingState;
 }

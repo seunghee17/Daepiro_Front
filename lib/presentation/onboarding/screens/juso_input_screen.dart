@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/DaepiroTheme.dart';
-import '../../widgets/button/secondary_filled_button.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/secondary_filled_button.dart';
 import '../controller/onboarding_view_model.dart';
 
 class JusoInputScreen extends ConsumerStatefulWidget {
@@ -147,8 +147,15 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                       setState(() {
                                         selected.add(index);
                                       });
-                                      await ref.read(onboardingViewModelProvider.notifier).addJuso(juso, int.parse(widget.index!));
-                                      await ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
+                                      if(widget.index=='0') {
+                                        ref.read(onboardingViewModelProvider.notifier).addHomeJuso(juso);
+                                        print('여기여기!! ${state.homeJuso}');
+                                      } else if(widget.index =='1') {
+                                        ref.read(onboardingViewModelProvider.notifier).addFirstJuso(juso);
+                                      } else {
+                                        ref.read(onboardingViewModelProvider.notifier).addSecondJuso(juso);
+                                      }
+                                       ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
                                       GoRouter.of(context).pop();
                                     }
                                 ),
@@ -230,10 +237,8 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              widget.type=='집' ? 'assets/icons/icon_home.svg' : 'assets/icons/icon_location.svg',
-              colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
-              width: 16,
-              height: 16,
+                widget.type=='집' ? 'assets/icons/icon_home.svg' : 'assets/icons/icon_location_24.svg',
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)
             ),
             Text(
               widget.type!,

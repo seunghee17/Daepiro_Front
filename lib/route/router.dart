@@ -3,14 +3,15 @@ import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_screen.dart';
+import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-
-import '../presentation/community/community_main_screen.dart';
+import '../presentation/community/screens/community_main_screen.dart';
+import '../presentation/community/screens/community_town_detail_screen.dart';
 import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
@@ -67,6 +68,14 @@ final goRouteProvider = Provider((ref) {
       GoRoute(
         path: '/login',
         builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+          path: '/community_rule',
+          builder: (context, state) => CommunityRuleScreen()
+      ),
+      GoRoute(
+          path: '/community_town_detail',
+          builder: (context, state) => CommunityTownDetailScreen()
       ),
       GoRoute(
         path: '/onboarding',

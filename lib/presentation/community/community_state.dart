@@ -5,6 +5,13 @@ part 'community_state.freezed.dart';
 @freezed
 sealed class CommunityState with _$CommunityState {
   factory CommunityState({
-    @Default(false) bool isError,
+    //전체와 수신버튼 상태
+    @Default(false) bool receiveButton,
+    @Default(true) bool AllButton,
+    //현재 보여지는 상태
+    @Default(true) bool isDisasterScreen,
+    @Default(false) bool isCertificateUser,
+    @Default(false) bool isDeleteComplete,
+    @Default(null) String? reportType,
 }) = _CommunityState;
 }

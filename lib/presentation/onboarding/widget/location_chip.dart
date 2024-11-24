@@ -3,14 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../widgets/DaepiroTheme.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 //지역 별명 칩 focusnode 관리로 인해 따로 정의
 class LocationChip extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onValidInput;
   final WidgetRef ref;
-  late final FocusNode focusNode;
+  final FocusNode focusNode;
 
   LocationChip({
     required this.controller,
@@ -30,10 +31,6 @@ class _LocationChipState extends State<LocationChip> {
   void initState() {
     super.initState();
     widget.controller.addListener(_validateInput);  // 입력 변화에 따라 상태 검증
-    // _focusNode.addListener(() {
-    //   setState(() {});  // 포커스 변화에 따른 UI 업데이트
-    // });
-    widget.focusNode = FocusNode();
   }
 
   void _validateInput() {
@@ -48,7 +45,6 @@ class _LocationChipState extends State<LocationChip> {
 
   @override
   void dispose() {
-    widget.focusNode.dispose();
     widget.controller.removeListener(_validateInput);
     super.dispose();
   }
@@ -66,10 +62,8 @@ class _LocationChipState extends State<LocationChip> {
             Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
               child: SvgPicture.asset(
-                'assets/icons/icon_location.svg',
+                'assets/icons/icon_location_24.svg',
                 colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
-                width: 16,
-                height: 16,
               ),
             ),
             SizedBox(width: 2),

@@ -21,10 +21,14 @@ mixin _$OnboardingState {
   String get nicknameState =>
       throw _privateConstructorUsedError; //검색된 주소 목록의 중복을 제거하기 위함
   Set<String> get jusoListState => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError; //입력한 실주소
-  List<String> get inputJusoList =>
-      throw _privateConstructorUsedError; //입력한 주소 별명
-  List<String> get inputJusoName =>
+  String get userName => throw _privateConstructorUsedError;
+  String get userNickName => throw _privateConstructorUsedError;
+  String get homeJuso => throw _privateConstructorUsedError;
+  String get firstJuso => throw _privateConstructorUsedError;
+  String get secondJuso => throw _privateConstructorUsedError; //입력한 주소 별명
+  String get homeJusoNick => throw _privateConstructorUsedError;
+  String get firstJusoNick => throw _privateConstructorUsedError;
+  String get secondJusoNick =>
       throw _privateConstructorUsedError; //권한 모두 동의 활성화 상태
   bool get isAllAppPermissionGrant =>
       throw _privateConstructorUsedError; //체크박스의 활성화상태
@@ -49,8 +53,13 @@ abstract class $OnboardingStateCopyWith<$Res> {
       String nicknameState,
       Set<String> jusoListState,
       String userName,
-      List<String> inputJusoList,
-      List<String> inputJusoName,
+      String userNickName,
+      String homeJuso,
+      String firstJuso,
+      String secondJuso,
+      String homeJusoNick,
+      String firstJusoNick,
+      String secondJusoNick,
       bool isAllAppPermissionGrant,
       List<bool> isAppPermissionCheckboxState,
       List<String> disasterTypes});
@@ -74,8 +83,13 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? nicknameState = null,
     Object? jusoListState = null,
     Object? userName = null,
-    Object? inputJusoList = null,
-    Object? inputJusoName = null,
+    Object? userNickName = null,
+    Object? homeJuso = null,
+    Object? firstJuso = null,
+    Object? secondJuso = null,
+    Object? homeJusoNick = null,
+    Object? firstJusoNick = null,
+    Object? secondJusoNick = null,
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
     Object? disasterTypes = null,
@@ -101,14 +115,34 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
-      inputJusoList: null == inputJusoList
-          ? _value.inputJusoList
-          : inputJusoList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      inputJusoName: null == inputJusoName
-          ? _value.inputJusoName
-          : inputJusoName // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      userNickName: null == userNickName
+          ? _value.userNickName
+          : userNickName // ignore: cast_nullable_to_non_nullable
+              as String,
+      homeJuso: null == homeJuso
+          ? _value.homeJuso
+          : homeJuso // ignore: cast_nullable_to_non_nullable
+              as String,
+      firstJuso: null == firstJuso
+          ? _value.firstJuso
+          : firstJuso // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondJuso: null == secondJuso
+          ? _value.secondJuso
+          : secondJuso // ignore: cast_nullable_to_non_nullable
+              as String,
+      homeJusoNick: null == homeJusoNick
+          ? _value.homeJusoNick
+          : homeJusoNick // ignore: cast_nullable_to_non_nullable
+              as String,
+      firstJusoNick: null == firstJusoNick
+          ? _value.firstJusoNick
+          : firstJusoNick // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondJusoNick: null == secondJusoNick
+          ? _value.secondJusoNick
+          : secondJusoNick // ignore: cast_nullable_to_non_nullable
+              as String,
       isAllAppPermissionGrant: null == isAllAppPermissionGrant
           ? _value.isAllAppPermissionGrant
           : isAllAppPermissionGrant // ignore: cast_nullable_to_non_nullable
@@ -139,8 +173,13 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       String nicknameState,
       Set<String> jusoListState,
       String userName,
-      List<String> inputJusoList,
-      List<String> inputJusoName,
+      String userNickName,
+      String homeJuso,
+      String firstJuso,
+      String secondJuso,
+      String homeJusoNick,
+      String firstJusoNick,
+      String secondJusoNick,
       bool isAllAppPermissionGrant,
       List<bool> isAppPermissionCheckboxState,
       List<String> disasterTypes});
@@ -162,8 +201,13 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? nicknameState = null,
     Object? jusoListState = null,
     Object? userName = null,
-    Object? inputJusoList = null,
-    Object? inputJusoName = null,
+    Object? userNickName = null,
+    Object? homeJuso = null,
+    Object? firstJuso = null,
+    Object? secondJuso = null,
+    Object? homeJusoNick = null,
+    Object? firstJusoNick = null,
+    Object? secondJusoNick = null,
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
     Object? disasterTypes = null,
@@ -189,14 +233,34 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
-      inputJusoList: null == inputJusoList
-          ? _value._inputJusoList
-          : inputJusoList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      inputJusoName: null == inputJusoName
-          ? _value._inputJusoName
-          : inputJusoName // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      userNickName: null == userNickName
+          ? _value.userNickName
+          : userNickName // ignore: cast_nullable_to_non_nullable
+              as String,
+      homeJuso: null == homeJuso
+          ? _value.homeJuso
+          : homeJuso // ignore: cast_nullable_to_non_nullable
+              as String,
+      firstJuso: null == firstJuso
+          ? _value.firstJuso
+          : firstJuso // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondJuso: null == secondJuso
+          ? _value.secondJuso
+          : secondJuso // ignore: cast_nullable_to_non_nullable
+              as String,
+      homeJusoNick: null == homeJusoNick
+          ? _value.homeJusoNick
+          : homeJusoNick // ignore: cast_nullable_to_non_nullable
+              as String,
+      firstJusoNick: null == firstJusoNick
+          ? _value.firstJusoNick
+          : firstJusoNick // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondJusoNick: null == secondJusoNick
+          ? _value.secondJusoNick
+          : secondJusoNick // ignore: cast_nullable_to_non_nullable
+              as String,
       isAllAppPermissionGrant: null == isAllAppPermissionGrant
           ? _value.isAllAppPermissionGrant
           : isAllAppPermissionGrant // ignore: cast_nullable_to_non_nullable
@@ -222,8 +286,13 @@ class _$OnboardingStateImpl implements _OnboardingState {
       this.nicknameState = 'NONE',
       final Set<String> jusoListState = const <String>{},
       this.userName = '',
-      final List<String> inputJusoList = const ['', '', ''],
-      final List<String> inputJusoName = const [],
+      this.userNickName = '',
+      this.homeJuso = '',
+      this.firstJuso = '',
+      this.secondJuso = '',
+      this.homeJusoNick = '집',
+      this.firstJusoNick = '',
+      this.secondJusoNick = '',
       this.isAllAppPermissionGrant = false,
       final List<bool> isAppPermissionCheckboxState = const [
         false,
@@ -232,10 +301,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
         false,
         false
       ],
-      final List<String> disasterTypes = const []})
+      final List<String> disasterTypes = const ['재난', '재난']})
       : _jusoListState = jusoListState,
-        _inputJusoList = inputJusoList,
-        _inputJusoName = inputJusoName,
         _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
         _disasterTypes = disasterTypes;
 
@@ -262,28 +329,28 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final String userName;
-//입력한 실주소
-  final List<String> _inputJusoList;
-//입력한 실주소
   @override
   @JsonKey()
-  List<String> get inputJusoList {
-    if (_inputJusoList is EqualUnmodifiableListView) return _inputJusoList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_inputJusoList);
-  }
-
-//입력한 주소 별명
-  final List<String> _inputJusoName;
+  final String userNickName;
+  @override
+  @JsonKey()
+  final String homeJuso;
+  @override
+  @JsonKey()
+  final String firstJuso;
+  @override
+  @JsonKey()
+  final String secondJuso;
 //입력한 주소 별명
   @override
   @JsonKey()
-  List<String> get inputJusoName {
-    if (_inputJusoName is EqualUnmodifiableListView) return _inputJusoName;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_inputJusoName);
-  }
-
+  final String homeJusoNick;
+  @override
+  @JsonKey()
+  final String firstJusoNick;
+  @override
+  @JsonKey()
+  final String secondJusoNick;
 //권한 모두 동의 활성화 상태
   @override
   @JsonKey()
@@ -311,7 +378,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
 
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, inputJusoList: $inputJusoList, inputJusoName: $inputJusoName, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
   }
 
   @override
@@ -328,10 +395,20 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 .equals(other._jusoListState, _jusoListState) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
-            const DeepCollectionEquality()
-                .equals(other._inputJusoList, _inputJusoList) &&
-            const DeepCollectionEquality()
-                .equals(other._inputJusoName, _inputJusoName) &&
+            (identical(other.userNickName, userNickName) ||
+                other.userNickName == userNickName) &&
+            (identical(other.homeJuso, homeJuso) ||
+                other.homeJuso == homeJuso) &&
+            (identical(other.firstJuso, firstJuso) ||
+                other.firstJuso == firstJuso) &&
+            (identical(other.secondJuso, secondJuso) ||
+                other.secondJuso == secondJuso) &&
+            (identical(other.homeJusoNick, homeJusoNick) ||
+                other.homeJusoNick == homeJusoNick) &&
+            (identical(other.firstJusoNick, firstJusoNick) ||
+                other.firstJusoNick == firstJusoNick) &&
+            (identical(other.secondJusoNick, secondJusoNick) ||
+                other.secondJusoNick == secondJusoNick) &&
             (identical(
                     other.isAllAppPermissionGrant, isAllAppPermissionGrant) ||
                 other.isAllAppPermissionGrant == isAllAppPermissionGrant) &&
@@ -350,8 +427,13 @@ class _$OnboardingStateImpl implements _OnboardingState {
       nicknameState,
       const DeepCollectionEquality().hash(_jusoListState),
       userName,
-      const DeepCollectionEquality().hash(_inputJusoList),
-      const DeepCollectionEquality().hash(_inputJusoName),
+      userNickName,
+      homeJuso,
+      firstJuso,
+      secondJuso,
+      homeJusoNick,
+      firstJusoNick,
+      secondJusoNick,
       isAllAppPermissionGrant,
       const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
       const DeepCollectionEquality().hash(_disasterTypes));
@@ -371,8 +453,13 @@ abstract class _OnboardingState implements OnboardingState {
       final String nicknameState,
       final Set<String> jusoListState,
       final String userName,
-      final List<String> inputJusoList,
-      final List<String> inputJusoName,
+      final String userNickName,
+      final String homeJuso,
+      final String firstJuso,
+      final String secondJuso,
+      final String homeJusoNick,
+      final String firstJusoNick,
+      final String secondJusoNick,
       final bool isAllAppPermissionGrant,
       final List<bool> isAppPermissionCheckboxState,
       final List<String> disasterTypes}) = _$OnboardingStateImpl;
@@ -387,10 +474,20 @@ abstract class _OnboardingState implements OnboardingState {
   Set<String> get jusoListState;
   @override
   String get userName;
-  @override //입력한 실주소
-  List<String> get inputJusoList;
+  @override
+  String get userNickName;
+  @override
+  String get homeJuso;
+  @override
+  String get firstJuso;
+  @override
+  String get secondJuso;
   @override //입력한 주소 별명
-  List<String> get inputJusoName;
+  String get homeJusoNick;
+  @override
+  String get firstJusoNick;
+  @override
+  String get secondJusoNick;
   @override //권한 모두 동의 활성화 상태
   bool get isAllAppPermissionGrant;
   @override //체크박스의 활성화상태

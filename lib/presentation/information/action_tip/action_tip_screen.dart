@@ -1,12 +1,11 @@
-import 'package:daepiro/presentation/home/component/action_tip_item.dart';
 import 'package:daepiro/presentation/information/component/action_tip_bottom_sheet.dart';
 import 'package:daepiro/presentation/information/component/disaster_type.dart';
-import 'package:daepiro/presentation/widgets/chip/secondary_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/DaepiroTheme.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 class ActionTipScreen extends StatefulWidget {
   const ActionTipScreen({super.key});

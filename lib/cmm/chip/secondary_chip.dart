@@ -1,6 +1,5 @@
-import 'dart:ffi';
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
+import '../DaepiroTheme.dart';
 
 class SecondaryChip extends StatefulWidget {
   final bool isSelected;

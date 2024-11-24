@@ -3,9 +3,10 @@ class OnboardingInfoRequest {
   String? nickname;
   List<Addresses>? addresses;
   List<String>? disasterTypes;
+  String? fcmToken;
 
   OnboardingInfoRequest(
-      {this.realname, this.nickname, this.addresses, this.disasterTypes});
+      {this.realname, this.nickname, this.addresses, this.disasterTypes, this.fcmToken});
 
   OnboardingInfoRequest.fromJson(Map<String, dynamic> json) {
     realname = json['realname'];
@@ -17,6 +18,7 @@ class OnboardingInfoRequest {
       });
     }
     disasterTypes = json['disasterTypes'].cast<String>();
+    disasterTypes = json['fcmToken'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +29,7 @@ class OnboardingInfoRequest {
       data['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
     }
     data['disasterTypes'] = this.disasterTypes;
+    data['fcmToken'] = this.fcmToken;
     return data;
   }
 }

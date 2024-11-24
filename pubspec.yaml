@@ -22,7 +22,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   #kakao login
-  kakao_flutter_sdk_user: ^1.9.5
+  kakao_flutter_sdk_user: ^1.9.6
   #naver login
   flutter_naver_login: ^1.8.0
   #화면 이동 패키지
@@ -40,18 +40,25 @@ dependencies:
   riverpod_annotation: ^2.3.5
   riverpod_generator: ^2.4.0
   logger: ^2.4.0
+  #api 응답 로그 띄우는 용도
   pretty_dio_logger: ^1.4.0
   lottie: ^3.1.2
+  #svg content
   flutter_svg: ^2.0.10+1
+  #private key
   flutter_dotenv: ^5.1.0
   fluttertoast: ^8.2.8
   percent_indicator: ^4.2.3
   permission_handler: ^11.3.1
   expandable_page_view: ^1.0.17
   smooth_page_indicator: ^1.0.0+2
+  #Firebase
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.5
 
   # 종석 공부용
   provider: 6.0.5
+
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +88,7 @@ flutter:
   assets:
     - assets/lottie/splash.json
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

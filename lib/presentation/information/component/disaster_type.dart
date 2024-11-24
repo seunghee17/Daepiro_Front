@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../widgets/DaepiroTheme.dart';
+
+import '../../../cmm/DaepiroTheme.dart';
 
 class DisasterType extends StatefulWidget {
   final String iconPath;

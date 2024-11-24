@@ -31,27 +31,26 @@ class _PrimaryFilledButton extends State<PrimaryFilledButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: widget.onPressed == null
-            ? widget.disabledColor
-            : widget.backgroundColor,
-        disabledBackgroundColor: widget.disabledColor ?? widget.backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+          ),
         ),
-        elevation: 1.0,
-        shadowColor: DaepiroColorStyle.black.withOpacity(0.15),
-        padding: EdgeInsets.symmetric(vertical: widget.verticalPadding),
-      ).copyWith(
+        elevation: MaterialStateProperty.all(1.0),
+        shadowColor: MaterialStateProperty.all(DaepiroColorStyle.black.withOpacity(0.15)),
+        padding: MaterialStateProperty.all(
+          EdgeInsets.symmetric(vertical: widget.verticalPadding),
+        ),
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
-              return widget.disabledColor ?? widget.backgroundColor;
+              return widget.disabledColor ?? widget.backgroundColor;  // 비활성화 상태 색상
             }
             if (states.contains(MaterialState.pressed)) {
-              return widget.pressedColor;
+              return widget.pressedColor;  // 눌렀을 때의 색상
             }
-            return widget.backgroundColor;
+            return widget.backgroundColor;  // 기본 색상
           },
         ),
       ),

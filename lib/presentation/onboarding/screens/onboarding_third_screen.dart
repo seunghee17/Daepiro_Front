@@ -5,10 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-
-import '../../widgets/DaepiroTheme.dart';
-import '../../widgets/button/primary_filled_button.dart';
-import '../../widgets/button/secondary_filled_button.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/primary_filled_button.dart';
+import '../../../cmm/button/secondary_filled_button.dart';
 import '../controller/onboarding_view_model.dart';
 import '../state/onboarding_state.dart';
 
@@ -25,8 +24,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   TextEditingController jusoController2 = TextEditingController();
   TextEditingController jusoNickController1 = TextEditingController();
   TextEditingController jusoNickController2 = TextEditingController();
-  FocusNode jusoFocusNode1 = FocusNode();
-  FocusNode jusoFocusNode2 = FocusNode();
+  FocusNode nickFocusNode1 = FocusNode();
+  FocusNode nickFocusNode2 = FocusNode();
 
   late bool juso1Visible;
   late bool juso2Visible;
@@ -42,15 +41,15 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
 
     // 초기 상태 설정
     final state = ref.read(onboardingViewModelProvider);
-    if (state.value != null && state.value!.inputJusoList.isNotEmpty) {
-      if (state.value!.inputJusoList.length > 0) {
-        homeController.text = state.value!.inputJusoList[0];
+    if (state.value != null && state.value!.homeJuso.isNotEmpty) {
+      if (state.value!.homeJuso.length > 0) {
+        homeController.text = state.value!.homeJuso;
       }
-      if (state.value!.inputJusoList.length > 1 && juso1Visible) {
-        jusoController1.text = state.value!.inputJusoList[1];
+      if (state.value?.firstJuso != null && juso1Visible) {
+        jusoController1.text = state.value!.firstJuso;
       }
-      if (state.value!.inputJusoList.length > 2 && juso2Visible) {
-        jusoController2.text = state.value!.inputJusoList[2];
+      if (state.value?.secondJuso != null && juso2Visible) {
+        jusoController2.text = state.value!.secondJuso;
       }
     }
 
@@ -82,8 +81,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     jusoController2.dispose();
     jusoNickController1.dispose();
     jusoNickController2.dispose();
-    jusoFocusNode1.dispose();
-    jusoFocusNode2.dispose();
+    nickFocusNode1.dispose();
+    nickFocusNode2.dispose();
     super.dispose();
   }
 
@@ -94,15 +93,15 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     // 상태 변화 리스너 추가: build() 내에서 setState 호출을 피하기 위함
     ref.listen<AsyncValue<OnboardingState>>(onboardingViewModelProvider, (previous, next) {
       next.whenData((data) {
-        if(data.inputJusoList.isNotEmpty) {
-          if(data.inputJusoList.length > 0 && homeController.text != data.inputJusoList[0]) {
-            homeController.text = data.inputJusoList[0];
+        if(data.homeJuso.isNotEmpty) {
+          if(data.homeJuso.isNotEmpty) {
+            homeController.text = data.homeJuso;
           }
-          if(data.inputJusoList.length > 1 && juso1Visible && jusoController1.text != data.inputJusoList[1]) {
-            jusoController1.text = data.inputJusoList[1];
+          if(data.firstJuso != null && juso1Visible) {
+            jusoController1.text = data.firstJuso;
           }
-          if(data.inputJusoList.length > 2 && juso2Visible && jusoController2.text != data.inputJusoList[2]) {
-            jusoController2.text = data.inputJusoList[2];
+          if(data.secondJuso != null && juso2Visible) {
+            jusoController2.text = data.secondJuso;
           }
         } else {
           homeController.clear();
@@ -128,15 +127,15 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                           child: Column(
                             children: [
                               if(juso2Visible)
-                                InputLocationAddress2(jusoController2, jusoNickController2, () => GoRouter.of(context).push('/onboarding/juso/${jusoNickController2.text}/2'), ref),
+                                InputLocationAddress2(jusoController2, jusoNickController2, ref),
                               if(juso1Visible)
-                                InputLocationAddress1(jusoController1, jusoNickController1, () => GoRouter.of(context).push('/onboarding/juso/${jusoNickController1.text}/1'), ref),
+                                InputLocationAddress1(jusoController1, jusoNickController1, ref),
                               InputHomeAddress(homeController, () => GoRouter.of(context).push('/onboarding/juso/집/0'), context, ref, juso1Visible, juso2Visible)
                             ],
                           ),
                         ),
                     ),
-                    bottomWidget(context, state.inputJusoList.length),
+                    bottomWidget(context, state.homeJuso, state.homeJuso.isNotEmpty),
                     SizedBox(height: 16),
                   ],
                 ),
@@ -243,7 +242,17 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     'assets/icons/icon_search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
-                  onTap: () => deleteDialog(context, ref, '집', homecontroller, 0, MediaQuery.of(context).size.width * 0.8),
+                  onTap: () {
+                    deleteDialog(
+                        context,
+                        ref,
+                        '집',
+                        homecontroller,
+                            null,
+                            () => ref.read(onboardingViewModelProvider.notifier).deleteHomeJuso(homecontroller),
+                        MediaQuery.of(context).size.width * 0.8
+                    );
+                  },
                   child: SvgPicture.asset(
                       'assets/icons/icon_delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
@@ -284,7 +293,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   }
 
   //특정 지역 칩 + 텍스트필드 지역 1
-  Widget InputLocationAddress1(TextEditingController juso1controller,TextEditingController jusoNickController1, VoidCallback onTap, WidgetRef ref) {
+  Widget InputLocationAddress1(TextEditingController juso1controller,TextEditingController jusoNickController1, WidgetRef ref) {
     bool isError = errorStateNick1 != 'AVAILABLE';
     return Container(
       width: double.infinity,
@@ -299,7 +308,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               });
             },
             ref: ref,
-            focusNode: jusoFocusNode1,
+            focusNode: nickFocusNode1,
           ),
           SizedBox(height: 10,),
           TextField(
@@ -309,7 +318,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                   errorStateNick1 = 'LENGTH_ERROR';
                 });
               } else {
-                onTap;
+                GoRouter.of(context).push('/onboarding/juso/${jusoNickController1.text}/1');
               }
             },
             enabled: true,
@@ -330,7 +339,18 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     'assets/icons/icon_search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
-                  onTap: () => deleteDialog(context, ref, jusoNickController1.text, juso1controller, 1, MediaQuery.of(context).size.width * 0.8),
+                  onTap: () => deleteDialog(
+                      context,
+                      ref,
+                      jusoNickController1.text,
+                      juso1controller, jusoNickController1,
+                      () {
+                        ref.read(onboardingViewModelProvider.notifier).deleteFirstJuso(juso1controller);
+                        setState(() {
+                          juso1Visible = false;
+                        });
+                      },
+                      MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
                       'assets/icons/icon_delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
@@ -389,7 +409,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   }
 
   //특정 지역 칩 + 텍스트필드 지역 2
-  Widget InputLocationAddress2(TextEditingController juso2controller,TextEditingController jusoNickController2, VoidCallback onTap, WidgetRef ref) {
+  Widget InputLocationAddress2(TextEditingController juso2controller,TextEditingController jusoNickController2, WidgetRef ref) {
     bool isError = errorStateNick2 != 'AVAILABLE';
     return Container(
       width: double.infinity,
@@ -404,7 +424,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           });
         },
         ref: ref,
-        focusNode: jusoFocusNode2,
+          focusNode: nickFocusNode2,
       ),
           SizedBox(height: 10,),
           TextField(
@@ -414,7 +434,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                   errorStateNick2 = 'LENGTH_ERROR';
                 });
               } else {
-                onTap;
+                GoRouter.of(context).push('/onboarding/juso/${jusoNickController2.text}/2');
               }
             },
             enabled: true,
@@ -435,7 +455,18 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     'assets/icons/icon_search.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ) : GestureDetector(
-                  onTap: () => deleteDialog(context, ref, jusoNickController2.text, juso2controller, 2, MediaQuery.of(context).size.width * 0.8),
+                  onTap: () => deleteDialog(
+                      context,
+                      ref,
+                      jusoNickController2.text,
+                      juso2controller, jusoNickController2,
+                      () {
+                        ref.read(onboardingViewModelProvider.notifier).deleteFirstJuso(juso2controller);
+                        setState(() {
+                          juso2Visible = false;
+                        });
+                      },
+                      MediaQuery.of(context).size.width * 0.8),
                   child: SvgPicture.asset(
                       'assets/icons/icon_delete.svg',
                       colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
@@ -537,15 +568,19 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         if(!isButtonDisabled) {
           null;
         } else {
-          if(!juso1visible && !juso2Visible) {
+          if((!juso1visible && !juso2Visible) || (!juso1Visible && juso2Visible)) {
             setState(() {
               juso1Visible = true;
-              FocusScope.of(context).requestFocus(jusoFocusNode1);
+            });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              FocusScope.of(context).requestFocus(nickFocusNode1);
             });
           } else if(juso1visible && !juso2Visible){
             setState(() {
               juso2Visible = true;
-              FocusScope.of(context).requestFocus(jusoFocusNode2);
+            });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              FocusScope.of(context).requestFocus(nickFocusNode2);
             });
           }
         }
@@ -579,7 +614,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       WidgetRef ref,
       String locationNickName,
       TextEditingController controller,
-      int index,
+      TextEditingController? nickController,
+      VoidCallback onDelete,
       double width
   ) {
     showDialog(
@@ -657,7 +693,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          await ref.read(onboardingViewModelProvider.notifier).deleteJuso(controller, index);
+                          onDelete();
+                          nickController?.clear();
                           controller.clear();
                           GoRouter.of(context).pop();
                         },
@@ -679,7 +716,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     );
   }
 
-  Widget bottomWidget(BuildContext context, int isLength) {
+  Widget bottomWidget(BuildContext context, String homeJuso, bool isAvailable) {
     return Container(
         width: double.infinity,
         child: Row(
@@ -687,7 +724,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             Expanded(
                 child: PrimaryFilledButton(
                     onPressed: GoRouter.of(context).pop,
-                    backgroundColor: isLength >=1 ? DaepiroColorStyle.g_50 : DaepiroColorStyle.g_50,
+                    backgroundColor: DaepiroColorStyle.g_50,
                     pressedColor: DaepiroColorStyle.g_75,
                     borderRadius: 8.0,
                     child: Text(
@@ -700,11 +737,13 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             SizedBox(width: 8),
             Expanded(
                 child: PrimaryFilledButton(
-                    onPressed: () =>   GoRouter.of(context).push('/onboarding/third'),
-                    backgroundColor: DaepiroColorStyle.o_500,
+                    onPressed: isAvailable ? () async => {
+                      ref.read(onboardingViewModelProvider.notifier).setJusoNick(jusoNickController1.text, jusoNickController2.text),
+                      GoRouter.of(context).push('/onboarding/third')
+                  }: null,
+                    backgroundColor: isAvailable ? DaepiroColorStyle.o_500 : DaepiroColorStyle.o_100,
                     pressedColor: DaepiroColorStyle.o_600,
                     borderRadius: 8.0,
-                    disabledColor: DaepiroColorStyle.o_500,
                     child: Text(
                       '다음',
                       style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),

@@ -13,7 +13,13 @@ part 'login_view_model.g.dart';
 @riverpod
 class LoginViewModel extends _$LoginViewModel {
   final storage = FlutterSecureStorage();
-  List<Permission> permission = [Permission.location, Permission.notification, Permission.camera, Permission.storage];
+  List<Permission> permission = [
+    Permission.location,
+    Permission.notification,
+    Permission.camera,
+    Permission.storage
+  ];
+
   @override
   //로그인 할려는 화면에 들어왔기에 이미 토큰은 유효하지 않음
   FutureOr<LoginState> build() async {
@@ -22,18 +28,22 @@ class LoginViewModel extends _$LoginViewModel {
 
   Future<LoginState> _initState() async {
     storage.deleteAll();
-    return LoginState(isLoading: false, accessToken: '', refreshToken: '', isCompletedOnboarding: false);
+    return LoginState(
+        isLoading: false,
+        accessToken: '',
+        refreshToken: '',
+        isCompletedOnboarding: false);
   }
 
   Future<void> getSocialToken(String platform, String token) async {
     final value = state.valueOrNull;
-    if(value != null) {
-      if(!value.isLoading) {
+    if (value != null) {
+      if (!value.isLoading) {
         state = AsyncValue.data(value.copyWith(isLoading: true));
         final result = await ref.read(GetSocialTokenResponseProvider(
-          platform: platform,
-            tokenRequest: SocialLoginRequest(socialToken: token)).future
-        );
+                platform: platform,
+                tokenRequest: SocialLoginRequest(socialToken: token))
+            .future);
         storage.write(key: 'accessToken', value: result.data?.accessToken);
         storage.write(key: 'refreshToken', value: result.data?.refreshToken);
         state = AsyncValue.data(value.copyWith(
@@ -41,30 +51,28 @@ class LoginViewModel extends _$LoginViewModel {
             accessToken: result.data?.accessToken ?? '',
             refreshToken: result.data?.refreshToken ?? '',
             isCompletedOnboarding: result.data?.isCompletedOnboarding ?? false,
-            isLoginSuccess: true
-           )
-        );
+            isLoginSuccess: true));
       }
     }
   }
 
   Future<String> kakaoLogin() async {
-    if(await isKakaoTalkInstalled()) {
+    if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공');
         print('카카오!!${token.accessToken}');
         return token.accessToken;
-      } catch(error) {
+      } catch (error) {
         print('카카오톡으로 로그인 실패: $error');
-        if(error is PlatformException && error.code == 'CANCELED') {
+        if (error is PlatformException && error.code == 'CANCELED') {
           return '';
         }
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           print('카카오!!${token.accessToken}');
           return token.accessToken;
-        } catch(error) {
+        } catch (error) {
           print('카카오계정으로 로그인 실패: $error');
         }
       }
@@ -73,7 +81,7 @@ class LoginViewModel extends _$LoginViewModel {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         print('카카오!!${token.accessToken}');
         return token.accessToken;
-      } catch(error) {
+      } catch (error) {
         print('카카오계정으로 로그인 실패: $error');
       }
     }
@@ -84,7 +92,7 @@ class LoginViewModel extends _$LoginViewModel {
     try {
       final NaverLoginResult res = await FlutterNaverLogin.logIn();
       return res.accessToken.toString();
-    } catch(error) {
+    } catch (error) {
       print('네이버 로그인 에러: ${error}');
     }
     return '';
@@ -92,7 +100,7 @@ class LoginViewModel extends _$LoginViewModel {
 
   Future<bool> checkLocationPermission() async {
     var status = await Permission.location.status;
-    if(status.isGranted) {
+    if (status.isGranted) {
       return true;
     } else {
       return false;
@@ -103,4 +111,3 @@ class LoginViewModel extends _$LoginViewModel {
     await Permission.location.request();
   }
 }
-

@@ -9,7 +9,6 @@ part of 'community_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
@@ -17,7 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommunityState {
-  bool get isError => throw _privateConstructorUsedError;
+//전체와 수신버튼 상태
+  bool get receiveButton => throw _privateConstructorUsedError;
+  bool get AllButton => throw _privateConstructorUsedError; //현재 보여지는 상태
+  bool get isDisasterScreen => throw _privateConstructorUsedError;
+  bool get isCertificateUser => throw _privateConstructorUsedError;
+  bool get isDeleteComplete => throw _privateConstructorUsedError;
+  String? get reportType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityStateCopyWith<CommunityState> get copyWith =>
@@ -30,7 +35,13 @@ abstract class $CommunityStateCopyWith<$Res> {
           CommunityState value, $Res Function(CommunityState) then) =
       _$CommunityStateCopyWithImpl<$Res, CommunityState>;
   @useResult
-  $Res call({bool isError});
+  $Res call(
+      {bool receiveButton,
+      bool AllButton,
+      bool isDisasterScreen,
+      bool isCertificateUser,
+      bool isDeleteComplete,
+      String? reportType});
 }
 
 /// @nodoc
@@ -46,13 +57,38 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isError = null,
+    Object? receiveButton = null,
+    Object? AllButton = null,
+    Object? isDisasterScreen = null,
+    Object? isCertificateUser = null,
+    Object? isDeleteComplete = null,
+    Object? reportType = freezed,
   }) {
     return _then(_value.copyWith(
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
+      receiveButton: null == receiveButton
+          ? _value.receiveButton
+          : receiveButton // ignore: cast_nullable_to_non_nullable
               as bool,
+      AllButton: null == AllButton
+          ? _value.AllButton
+          : AllButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDisasterScreen: null == isDisasterScreen
+          ? _value.isDisasterScreen
+          : isDisasterScreen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCertificateUser: null == isCertificateUser
+          ? _value.isCertificateUser
+          : isCertificateUser // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDeleteComplete: null == isDeleteComplete
+          ? _value.isDeleteComplete
+          : isDeleteComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reportType: freezed == reportType
+          ? _value.reportType
+          : reportType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -65,7 +101,13 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
       __$$CommunityStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isError});
+  $Res call(
+      {bool receiveButton,
+      bool AllButton,
+      bool isDisasterScreen,
+      bool isCertificateUser,
+      bool isDeleteComplete,
+      String? reportType});
 }
 
 /// @nodoc
@@ -79,13 +121,38 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isError = null,
+    Object? receiveButton = null,
+    Object? AllButton = null,
+    Object? isDisasterScreen = null,
+    Object? isCertificateUser = null,
+    Object? isDeleteComplete = null,
+    Object? reportType = freezed,
   }) {
     return _then(_$CommunityStateImpl(
-      isError: null == isError
-          ? _value.isError
-          : isError // ignore: cast_nullable_to_non_nullable
+      receiveButton: null == receiveButton
+          ? _value.receiveButton
+          : receiveButton // ignore: cast_nullable_to_non_nullable
               as bool,
+      AllButton: null == AllButton
+          ? _value.AllButton
+          : AllButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDisasterScreen: null == isDisasterScreen
+          ? _value.isDisasterScreen
+          : isDisasterScreen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCertificateUser: null == isCertificateUser
+          ? _value.isCertificateUser
+          : isCertificateUser // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDeleteComplete: null == isDeleteComplete
+          ? _value.isDeleteComplete
+          : isDeleteComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reportType: freezed == reportType
+          ? _value.reportType
+          : reportType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -93,15 +160,38 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CommunityStateImpl implements _CommunityState {
-  _$CommunityStateImpl({this.isError = false});
+  _$CommunityStateImpl(
+      {this.receiveButton = false,
+      this.AllButton = true,
+      this.isDisasterScreen = true,
+      this.isCertificateUser = false,
+      this.isDeleteComplete = false,
+      this.reportType = null});
 
+//전체와 수신버튼 상태
   @override
   @JsonKey()
-  final bool isError;
+  final bool receiveButton;
+  @override
+  @JsonKey()
+  final bool AllButton;
+//현재 보여지는 상태
+  @override
+  @JsonKey()
+  final bool isDisasterScreen;
+  @override
+  @JsonKey()
+  final bool isCertificateUser;
+  @override
+  @JsonKey()
+  final bool isDeleteComplete;
+  @override
+  @JsonKey()
+  final String? reportType;
 
   @override
   String toString() {
-    return 'CommunityState(isError: $isError)';
+    return 'CommunityState(receiveButton: $receiveButton, AllButton: $AllButton, isDisasterScreen: $isDisasterScreen, isCertificateUser: $isCertificateUser, isDeleteComplete: $isDeleteComplete, reportType: $reportType)';
   }
 
   @override
@@ -109,11 +199,23 @@ class _$CommunityStateImpl implements _CommunityState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CommunityStateImpl &&
-            (identical(other.isError, isError) || other.isError == isError));
+            (identical(other.receiveButton, receiveButton) ||
+                other.receiveButton == receiveButton) &&
+            (identical(other.AllButton, AllButton) ||
+                other.AllButton == AllButton) &&
+            (identical(other.isDisasterScreen, isDisasterScreen) ||
+                other.isDisasterScreen == isDisasterScreen) &&
+            (identical(other.isCertificateUser, isCertificateUser) ||
+                other.isCertificateUser == isCertificateUser) &&
+            (identical(other.isDeleteComplete, isDeleteComplete) ||
+                other.isDeleteComplete == isDeleteComplete) &&
+            (identical(other.reportType, reportType) ||
+                other.reportType == reportType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isError);
+  int get hashCode => Object.hash(runtimeType, receiveButton, AllButton,
+      isDisasterScreen, isCertificateUser, isDeleteComplete, reportType);
 
   @JsonKey(ignore: true)
   @override
@@ -124,10 +226,26 @@ class _$CommunityStateImpl implements _CommunityState {
 }
 
 abstract class _CommunityState implements CommunityState {
-  factory _CommunityState({final bool isError}) = _$CommunityStateImpl;
+  factory _CommunityState(
+      {final bool receiveButton,
+      final bool AllButton,
+      final bool isDisasterScreen,
+      final bool isCertificateUser,
+      final bool isDeleteComplete,
+      final String? reportType}) = _$CommunityStateImpl;
 
+  @override //전체와 수신버튼 상태
+  bool get receiveButton;
   @override
-  bool get isError;
+  bool get AllButton;
+  @override //현재 보여지는 상태
+  bool get isDisasterScreen;
+  @override
+  bool get isCertificateUser;
+  @override
+  bool get isDeleteComplete;
+  @override
+  String? get reportType;
   @override
   @JsonKey(ignore: true)
   _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>

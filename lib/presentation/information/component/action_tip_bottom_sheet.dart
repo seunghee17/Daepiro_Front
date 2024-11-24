@@ -1,9 +1,9 @@
-import 'package:daepiro/presentation/widgets/DaepiroTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/chip/secondary_chip.dart';
 import '../../home/component/action_tip_item.dart';
-import '../../widgets/chip/secondary_chip.dart';
 
 class ActionTipBottomSheet extends StatefulWidget {
   final String disasterType;

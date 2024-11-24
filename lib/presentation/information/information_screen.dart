@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import '../../cmm/DaepiroTheme.dart';
+import '../../cmm/chip/secondary_chip.dart';
 import '../home/component/around_shelter_preview.dart';
 import '../home/component/map_direction_item.dart';
 import '../home/const.dart';
-import '../widgets/DaepiroTheme.dart';
-import '../widgets/chip/secondary_chip.dart';
 
 class InformationScreen extends StatefulWidget {
   const InformationScreen({super.key});
