@@ -11,30 +11,24 @@ class CommunityRuleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityViewModelProvider);
+    final communityViewModel = ref.watch(communityNotifierProvider);
     return Scaffold(
       body: SafeArea(
-        child: communityViewModel.when(
-            data: (state) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    headerWidget(context),
-                    Expanded(
-                        child: SingleChildScrollView(
-                          child: bodyWidget(),
-                        )),
-                    bottomWidget(),
-                    SizedBox(height: 20)
-                  ],
-                ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()
-        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              headerWidget(context),
+              Expanded(
+                  child: SingleChildScrollView(
+                    child: bodyWidget(),
+                  )),
+              bottomWidget(),
+              SizedBox(height: 20)
+            ],
+          ),
+        )
       )
     );
   }

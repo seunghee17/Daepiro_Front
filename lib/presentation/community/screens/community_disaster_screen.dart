@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/community/community_view_model.dart';
 import 'package:daepiro/presentation/community/screens/reply_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 import '../../../cmm/button/secondary_filled_button.dart';
-import '../community_view_model.dart';
 
 //재난상황 화면
 class CommunityDisasterScreen extends ConsumerWidget {
@@ -16,32 +16,26 @@ class CommunityDisasterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityViewModelProvider);
-    return communityViewModel.when(
-        data: (state) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  GestureDetector(
-                      onTap: () {
-                        GoRouter.of(context).push('/community_rule');
-                      },
-                      child: ruleContainer()),
-                  twoButtonContainer(ref, state.AllButton, state.receiveButton),
-                  ...List.generate(
-                      5,
-                      (index) => contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고',
-                          '서울시 강남구', '오후 02:30', 5, context))
-                ],
-              ),
-            ),
-          );
-        },
-        error: (error, stack) => Text('에러: ${error}'),
-        loading: () => const CircularProgressIndicator());
+    final communityViewModel = ref.watch(communityNotifierProvider);
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            GestureDetector(
+                onTap: () {
+                  GoRouter.of(context).push('/community_rule');
+                },
+                child: ruleContainer()),
+            twoButtonContainer(ref, communityViewModel.AllButton, communityViewModel.receiveButton),
+            ...List.generate(5,
+                    (index) => contentItem('화재', '서울시 강남구 동작동', '어쩌고저쩌고',
+                    '서울시 강남구', '오후 02:30', 5, context))
+          ],
+        ),
+      ),
+    );
   }
 
   Widget ruleContainer() {
@@ -84,7 +78,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
           children: [
             SecondaryFilledButton(
               onPressed:
-                  ref.read(communityViewModelProvider.notifier).clickAllButton,
+                  ref.read(communityNotifierProvider.notifier).clickAllButton,
               radius: 99,
               child: Text(
                 '전체',
@@ -101,7 +95,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
             SizedBox(width: 8),
             SecondaryFilledButton(
               onPressed: ref
-                  .read(communityViewModelProvider.notifier)
+                  .read(communityNotifierProvider.notifier)
                   .clickReceiveButton,
               radius: 99,
               child: Text(
@@ -363,6 +357,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
   void showReplyBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        useRootNavigator: true,
         builder: (context) {
           final height = MediaQuery.of(context).size.height * 0.8;
           return Container(

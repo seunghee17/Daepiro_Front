@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/community/community_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
-import '../community_view_model.dart';
 
 //동네생활 화면
 class CommunityTownScreen extends ConsumerWidget {
@@ -20,35 +20,30 @@ class CommunityTownScreen extends ConsumerWidget {
     typeData.add(TypeModel(false, '교통'));
     typeData.add(TypeModel(false, '치안'));
     typeData.add(TypeModel(false, '기타'));
-    final communityViewModel = ref.watch(communityViewModelProvider);
+    final communityViewModel = ref.watch(communityNotifierProvider);
     return Scaffold(
-        body: communityViewModel.when(
-            data: (state) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20),
-                      headerWidget(context),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: typeRadioButton(typeData),
-                      ),
-                      ...List.generate(
-                          5,
-                          (index) => listItemWidget(() {
-                                GoRouter.of(context)
-                                    .push('/community_town_detail');
-                              }))
-                    ],
-                  ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                headerWidget(context),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: typeRadioButton(typeData),
                 ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()));
+                ...List.generate(
+                    5,
+                        (index) => listItemWidget(() {
+                      GoRouter.of(context)
+                          .push('/community_town_detail');
+                    }))
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget headerWidget(BuildContext context) {

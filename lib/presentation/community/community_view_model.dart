@@ -1,25 +1,24 @@
 import 'package:daepiro/presentation/community/community_state.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'community_view_model.g.dart';
+final communityNotifierProvider = StateNotifierProvider<CommunityViewModel, CommunityState>((ref) {
+  return CommunityViewModel(CommunityState());
+});
 
-@riverpod
-class CommunityViewModel extends _$CommunityViewModel {
-  FutureOr<CommunityState> build() async {
-    return CommunityState();
-  }
+class CommunityViewModel extends StateNotifier<CommunityState> {
+  CommunityViewModel(super.state);
 
   void clickReceiveButton() {
-    bool current = state.value!.receiveButton;
-    state = state.whenData((value) => value.copyWith(receiveButton: !current, AllButton: current));
+    bool current = state.receiveButton;
+    state = state.copyWith(receiveButton: current);
   }
 
   void clickAllButton() {
-    bool current = state.value!.AllButton;
-    state = state.whenData((value) => value.copyWith(AllButton: !current, receiveButton: current));
+    bool current = state.AllButton;
+    state = state.copyWith(AllButton: !current, receiveButton: current);
   }
 
   void changeScreenState(bool isdisasterScreen) {
-    state = state.whenData((value) => value.copyWith(isDisasterScreen : isdisasterScreen));
+    state = state.copyWith(isDisasterScreen : isdisasterScreen);
   }
 }

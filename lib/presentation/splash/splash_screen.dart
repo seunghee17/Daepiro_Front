@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         // } else {
         //   GoRouter.of(context).replace('/login');
         // }
-        GoRouter.of(context).replace('/home');
+        GoRouter.of(context).replace('/community');
       });
     });
   }

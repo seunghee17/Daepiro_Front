@@ -18,15 +18,13 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final communityViewModel = ref.watch(communityViewModelProvider);
-    return communityViewModel.when(
-      data: (state) {
-        return Container(
-          child: Column(
-            children: [
-              headerWidget(),
-              Expanded(
-                  child: SingleChildScrollView(
+    final communityViewModel = ref.watch(communityNotifierProvider);
+    return Container(
+      child: Column(
+        children: [
+          headerWidget(),
+          Expanded(
+              child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -37,12 +35,8 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   ),
                 ),
               ))
-            ],
-          ),
-        );
-      },
-      error: (error, state) => Center(child: Text('error: ${error}')),
-      loading: () => const Center(child: CircularProgressIndicator()),
+        ],
+      ),
     );
   }
 
