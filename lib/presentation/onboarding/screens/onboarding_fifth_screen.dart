@@ -17,39 +17,33 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingViewModelProvider);
+    final state = ref.watch(onboardingStateNotifierProvider);
     return Scaffold(
       body: SafeArea(
-        child: state.when(
-            data: (state) {
-              return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 48,),
-                    headerWidget(),
-                    SizedBox(height: 36),
-                    allAgreeWidget(state.isAllAppPermissionGrant, ref),
-                    SizedBox(height: 16),
-                    Expanded(
-                        child: ListView.builder(
-                            itemCount: 5,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
-                            }
-                        )
-                    ),
-                    bottomWidget(state.isAllAppPermissionGrant),
-                    SizedBox(height: 28)
-                  ],
-                ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()
-        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 48,),
+              headerWidget(),
+              SizedBox(height: 36),
+              allAgreeWidget(state.isAllAppPermissionGrant, ref),
+              SizedBox(height: 16),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: 5,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
+                      }
+                  )
+              ),
+              bottomWidget(state.isAllAppPermissionGrant),
+              SizedBox(height: 28)
+            ],
+          ),
+        )
       ),
     );
   }
@@ -117,7 +111,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: ref.read(onboardingViewModelProvider.notifier).updateAllAgreeState,
+        onPressed: ref.read(onboardingStateNotifierProvider.notifier).updateAllAgreeState,
         style: ElevatedButton.styleFrom(
             backgroundColor: DaepiroColorStyle.g_50,
             overlayColor: Colors.transparent,
@@ -150,7 +144,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
                 value: isAllPermissionGrant,
                 onChanged: (value) {
-                  ref.read(onboardingViewModelProvider.notifier).updateAllAgreeState();
+                  ref.read(onboardingStateNotifierProvider.notifier).updateAllAgreeState();
                 }),
             SizedBox(width: 8,),
             Text(
@@ -168,7 +162,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: () => ref.read(onboardingViewModelProvider.notifier).updateEachPermissionState(index),
+        onPressed: () => ref.read(onboardingStateNotifierProvider.notifier).updateEachPermissionState(index),
         style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.white,
             overlayColor: Colors.transparent,
@@ -201,7 +195,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
                 value:isPermissionCheckboxState[index],
                 onChanged: (value) {
-                 ref.read(onboardingViewModelProvider.notifier).updateEachPermissionState(index);
+                 ref.read(onboardingStateNotifierProvider.notifier).updateEachPermissionState(index);
                 }),
             SizedBox(width: 8,),
             Text(

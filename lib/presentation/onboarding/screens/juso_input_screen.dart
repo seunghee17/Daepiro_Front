@@ -19,6 +19,7 @@ class JusoInputScreen extends ConsumerStatefulWidget {
 class JusoInputState extends ConsumerState<JusoInputScreen> {
   final TextEditingController jusoController = new TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final FocusNode focusNode = FocusNode();
   Set<int> selected = Set();
   int currentPage = 1;
   bool isLoading = false;
@@ -27,7 +28,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
   void initState() {
     super.initState();
     Future(() {
-      ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
+      ref.read(onboardingStateNotifierProvider.notifier).initSearchHistory();
     });
     jusoController.addListener(updateList);
     scrollController.addListener(() {
@@ -42,7 +43,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
       setState(() {
         currentPage = 1;
       });
-      ref.read(onboardingViewModelProvider.notifier).getJusoList(jusoController.text, currentPage, false);
+      await ref.read(onboardingStateNotifierProvider.notifier).getJusoList(jusoController.text, currentPage, false, ref);
     }
   }
 
@@ -52,10 +53,10 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         isLoading = true;
         currentPage++;
       });
-      await ref.read(onboardingViewModelProvider.notifier).getJusoList(
+      await ref.read(onboardingStateNotifierProvider.notifier).getJusoList(
         jusoController.text,
         currentPage,
-        true
+        true, ref
       );
       setState(() {
         isLoading = false;
@@ -65,111 +66,106 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingViewModelProvider);
+    final state = ref.watch(onboardingStateNotifierProvider);
     return Scaffold(
       body: SafeArea(
-        child: state.when(
-            data: (state) {
-              return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 16),
-                    headerWidget(state.userName),
-                    SizedBox(height: 24),
-                    TextField(
-                      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-                      controller: jusoController,
-                      style: DaepiroTextStyle.body_1_m.copyWith(
-                          color: DaepiroColorStyle.g_900,
-                          decorationThickness: 0
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        isDense: true,
-                        contentPadding: EdgeInsets.all(16),
-                        fillColor: DaepiroColorStyle.g_50,
-                        hintText: '동/읍/면/리',
-                        hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
-                        suffixIcon: Padding(
-                          padding: EdgeInsets.all(16),
-                            child: SvgPicture.asset('assets/icons/icon_search.svg',colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn))
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1.5,
-                                color: DaepiroColorStyle.g_75
-                            )
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      '검색결과',
-                      style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_400),
-                    ),
-                    SizedBox(height: 8),
-                    if(state.isError)
-                      searchErrorWidget(),
-                    if(!state.isError)
-                      Expanded(
-                        child: ListView.builder(
-                            controller: scrollController,
-                            itemCount: state.jusoListState.length+1,
-                            itemBuilder: (context, index) {
-                              if(index == state.jusoListState.length)
-                                return Container();
-                              var jusoList = state.jusoListState.toList();
-                              var juso = jusoList[index].toString();
-                              bool isTapped = selected.contains(index);
-                              return Container(
-                                child: ListTile(
-                                    tileColor: isTapped ? DaepiroColorStyle.g_50 : DaepiroColorStyle.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        side: BorderSide(color: DaepiroColorStyle.white)
-                                    ),
-                                    title: Text(
-                                      juso,
-                                      style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
-                                    ),
-                                    onTap: () async {
-                                      setState(() {
-                                        selected.add(index);
-                                      });
-                                      if(widget.index=='0') {
-                                        ref.read(onboardingViewModelProvider.notifier).addHomeJuso(juso);
-                                        print('여기여기!! ${state.homeJuso}');
-                                      } else if(widget.index =='1') {
-                                        ref.read(onboardingViewModelProvider.notifier).addFirstJuso(juso);
-                                      } else {
-                                        ref.read(onboardingViewModelProvider.notifier).addSecondJuso(juso);
-                                      }
-                                       ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
-                                      GoRouter.of(context).pop();
-                                    }
-                                ),
-                              );
-                            }
-                        ),
-                      )
-                  ],
-                ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()
-        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 16),
+              headerWidget(state.userName),
+              SizedBox(height: 24),
+              // TextField(
+              //   onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+              //   controller: jusoController,
+              //   style: DaepiroTextStyle.body_1_m.copyWith(
+              //       color: DaepiroColorStyle.g_900,
+              //       decorationThickness: 0
+              //   ),
+              //   decoration: InputDecoration(
+              //     filled: true,
+              //     isDense: true,
+              //     contentPadding: EdgeInsets.all(16),
+              //     fillColor: DaepiroColorStyle.g_50,
+              //     hintText: '동/읍/면/리',
+              //     hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
+              //     suffixIcon: Padding(
+              //       padding: EdgeInsets.all(16),
+              //         //TODO 삭제 버튼이 조건적으로 있어야함
+              //         child: SvgPicture.asset('assets/icons/icon_search.svg',colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn))
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //         borderRadius: BorderRadius.all(Radius.circular(4)),
+              //         borderSide: BorderSide(
+              //             width: 1.5,
+              //             color: DaepiroColorStyle.g_75
+              //         )
+              //     ),
+              //     enabledBorder: OutlineInputBorder(
+              //         borderRadius: BorderRadius.all(Radius.circular(4)),
+              //         borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
+              //     ),
+              //     border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.all(Radius.circular(4)),
+              //         borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
+              //     ),
+              //   ),
+              // ),
+              SizedBox(height: 16),
+              Text(
+                '검색결과',
+                style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_400),
+              ),
+              SizedBox(height: 8),
+              if(state.isError)
+                searchErrorWidget(),
+              if(!state.isError)
+                Expanded(
+                  child: ListView.builder(
+                      controller: scrollController,
+                      itemCount: state.jusoListState.length+1,
+                      itemBuilder: (context, index) {
+                        if(index == state.jusoListState.length)
+                          return Container();
+                        var jusoList = state.jusoListState.toList();
+                        var juso = jusoList[index].toString();
+                        bool isTapped = selected.contains(index);
+                        return Container(
+                          child: ListTile(
+                              tileColor: isTapped ? DaepiroColorStyle.g_50 : DaepiroColorStyle.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(color: DaepiroColorStyle.white)
+                              ),
+                              title: Text(
+                                juso,
+                                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+                              ),
+                              onTap: () async {
+                                setState(() {
+                                  selected.add(index);
+                                });
+                                if(widget.index=='0') {
+                                  ref.read(onboardingStateNotifierProvider.notifier).addHomeJuso(juso);
+                                  print('여기여기!! ${state.homeJuso}');
+                                } else if(widget.index =='1') {
+                                  ref.read(onboardingStateNotifierProvider.notifier).addFirstJuso(juso);
+                                } else {
+                                  ref.read(onboardingStateNotifierProvider.notifier).addSecondJuso(juso);
+                                }
+                                ref.read(onboardingStateNotifierProvider.notifier).initSearchHistory();
+                                GoRouter.of(context).pop();
+                              }
+                          ),
+                        );
+                      }
+                  ),
+                )
+            ],
+          ),
+        )
       ),
     );
   }
@@ -248,6 +244,75 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         ),
       )
     );
+  }
+
+  Widget jusoInputTextField() {
+    return Stack(
+      children: [
+        TextField(
+          onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+          controller: jusoController,
+          style: DaepiroTextStyle.body_1_m.copyWith(
+              color: DaepiroColorStyle.g_900,
+              decorationThickness: 0
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            isDense: true,
+            contentPadding: EdgeInsets.all(16),
+            fillColor: DaepiroColorStyle.g_50,
+            hintText: '동/읍/면/리',
+            hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
+            // suffixIcon: Padding(
+            //     padding: EdgeInsets.all(16),
+            //     //TODO 삭제 버튼이 조건적으로 있어야함
+            //     child: SvgPicture.asset('assets/icons/icon_search.svg',colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn))
+            // ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderSide: BorderSide(
+                    width: 1.5,
+                    color: DaepiroColorStyle.g_75
+                )
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
+            ),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
+            ),
+          ),
+        ),
+        // Positioned(
+        //   right: 16,
+        //     bottom: 16,
+        //     top: 16,
+        //     child: textfieldIcon
+        // )
+      ],
+    );
+  }
+
+  Widget textfieldIcon(TextEditingController controller) {
+    if(controller.text.length > 0) {
+      return SvgPicture.asset(
+          'assets/icons/icon_close.svg',
+          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
+      );
+    } else if(focusNode.hasFocus) {
+      //포커스있을떼
+      return SvgPicture.asset(
+          'assets/icons/icon_search.svg',
+          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
+      );
+    } else {
+      return SvgPicture.asset(
+          'assets/icons/icon_search.svg',
+          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
+      );
+    }
   }
 
 }

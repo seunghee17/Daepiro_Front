@@ -1,13 +1,14 @@
-import 'dart:io';
-
 import 'package:daepiro/presentation/onboarding/state/permission_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'permission_view_model.g.dart';
+final permissionStateNotifierProvider = StateNotifierProvider<PermissionViewModel, PermissionState>((ref) {
+  return PermissionViewModel(PermissionState());
+});
 
-@riverpod
-class PermissionViewModel extends _$PermissionViewModel {
+class PermissionViewModel extends StateNotifier<PermissionState> {
+
   //이미지 권한의 경우 버전별 분기처리 필요
   List<Permission> permission = [
     Permission.location,
@@ -16,38 +17,36 @@ class PermissionViewModel extends _$PermissionViewModel {
     Permission.photos
   ];
 
+  PermissionViewModel(super.state);
+
   @override
   FutureOr<PermissionState> build() async {
     return PermissionState();
   }
 
   void updateAllAgreeState() {
-    bool current = state.value!.isAllPermissionGrant;
+    bool current = state.isAllPermissionGrant;
     List<bool> updateList = [false,false,false,false];
     for(int i=0; i<4; i++) {
       updateList[i] = !current;
     }
-    state =  state.whenData((value) => value.copyWith(
+    state = state.copyWith(
         isAllPermissionGrant: !current,
-        isPermissionCheckboxState: updateList
-    ));
+        isPermissionCheckboxState: updateList,
+    );
   }
 
   void updateEachPermissionState(int index) {
-    var current = List<bool>.from(state.value!.isPermissionCheckboxState);
+    var current = List<bool>.from(state.isPermissionCheckboxState);
     current[index] = !current[index];
-    state =  state.whenData((value) => value.copyWith(
-        isPermissionCheckboxState: current
-    ));
+    state = state.copyWith(isPermissionCheckboxState: current);
     bool allChecked = current.every((checked) => checked);
-    state =  state.whenData((value) => value.copyWith(
-        isAllPermissionGrant: allChecked
-    ));
+    state = state.copyWith(isAllPermissionGrant: allChecked);
   }
 
   Future<void> permissionRequest() async {
     for(int i=0; i<4; i++) {
-      if(state.value!.isPermissionCheckboxState[i]) {
+      if(state.isPermissionCheckboxState[i]) {
         await permission[i].request();
       }
     }

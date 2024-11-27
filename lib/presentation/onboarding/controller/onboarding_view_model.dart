@@ -2,55 +2,52 @@ import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../state/onboarding_state.dart';
-part 'onboarding_view_model.g.dart';
 
-@riverpod
-class OnboardingViewModel extends _$OnboardingViewModel {
+final onboardingStateNotifierProvider = StateNotifierProvider<OnboardingViewModel, OnboardingState>((ref) {
+  return OnboardingViewModel(OnboardingState());
+});
+
+class OnboardingViewModel extends StateNotifier<OnboardingState> {
   List<String> inputJusoList = [];
 
-  FutureOr<OnboardingState> build() async {
-    return OnboardingState(nameState: 'NONE', nicknameState: 'NONE');
+  OnboardingViewModel(super.state);
+
+  void setNameState(String nameState) {
+    state = state.copyWith(nameState: nameState);
   }
 
-  Future<void> setNameState(String nameState) async {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(nameState: nameState));
-    }
+  void updateUserName(String name) {
+    state = state.copyWith(userName: name);
   }
 
-  Future<void> updateUserName(String name) async {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(userName: name));
-    }
+  void updateNickName(String nickName) {
+    state = state.copyWith(userNickName: nickName);
   }
 
-  Future<void> updateNickName(String nickName) async {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(userNickName: nickName));
-    }
+  void setNickState(String nickState) {
+    state = state.copyWith(nicknameState: nickState);
   }
 
-  Future<void> setNickState(String nickState) async {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(nicknameState: nickState));
-    }
+  Future<bool> checkNickName(String nickname, WidgetRef ref) async {
+    final result = await ref.read(checkNickNameProvider(CheckNickNameUseCase(nickName: nickname)).future);
+    return result.data?.isAvailable ?? false;
   }
 
-  Future<bool?> checkNickName(String nickname) async {
-    final result = await ref.read(checkNickNameProvider(nickName: nickname).future);
-    return result.data?.isAvailable;
-  }
-
-  Future<void> sendUserInfo(OnboardingInfoRequest request) async {
-    await ref.read(sendOnboardingInfoUseCaseProvider(onboardingInfoRequest: request).future);
+  Future<void> sendUserInfo(WidgetRef ref) async {
+    final address = parseAddress();
+    final fcmToken = await getFcmToken();
+    await ref.read(onboardingInfoProvider(
+        OnboardingSendinfoUseCase(onboardingInfoRequest: OnboardingInfoRequest(
+            realname: state.userName,
+            nickname: state.userNickName,
+            addresses: address,
+            disasterTypes: state.disasterTypes,
+            fcmToken: fcmToken,
+        ))).future);
   }
 
   Future<String> getFcmToken() async {
@@ -59,60 +56,66 @@ class OnboardingViewModel extends _$OnboardingViewModel {
   }
 
   void setJusoNick(String firstNick, String secondNick) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(firstJusoNick: firstNick, secondJusoNick: secondNick));
-    }
+    state = state.copyWith(firstJusoNick: firstNick, secondJusoNick: secondNick);
   }
 
   List<Addresses> parseAddress() {
-    List<String> name = [state.value!.homeJusoNick, state.value!.firstJusoNick, state.value!.secondJusoNick];
-    List<String> address = [state.value!.homeJuso, state.value!.firstJuso, state.value!.secondJuso];
     List<Addresses> result = [];
-    for(int i=0; i<3; i++) {
-      result.add(Addresses(name: name[i], address: address[i]));
+    List<String> jusoNickName = [
+      state.homeJusoNick,
+      state.firstJusoNick,
+      state.secondJusoNick
+    ];
+    List<String> address = [state.homeJuso, state.firstJuso, state.secondJuso];
+    for (int i = 0; i < 3; i++) {
+      if (jusoNickName[i] != '' && address[i] != '') {
+        result.add(Addresses(name: jusoNickName[i], address: address[i]));
+      }
     }
     return result;
   }
 
 //검색결과 주소 리스트 반환
-  Future<void> getJusoList(String inputJuso, int currentPage, bool append) async {
-    state = await AsyncValue.guard(() async {
-      try {
-        final result = await ref
-            .read(getjusoListProvider(inputJuso: inputJuso, currentPage: currentPage).future);
-        final currentList = state.value?.jusoListState ?? <String>{};
-        final updateList = append ? currentList.union(result.toSet()) : result.toSet();
-        return state.value?.copyWith(
-          jusoListState: updateList,
-          isError: false,
-        ) ?? OnboardingState(jusoListState: updateList);
-
-      } catch (e) {
-        return state.value?.copyWith(isError: true) ?? OnboardingState(isError: true);
-      }
-    });
+  Future<void> getJusoList(
+      String inputJuso, int currentPage, bool append, WidgetRef ref) async {
+    // state = await AsyncValue.guard(() async {
+    //   try {
+    //     final result = await ref.read(jusoResultProvider(
+    //             JusoListUseCase(inputJuso: inputJuso, currentPage: currentPage))
+    //         .future);
+    //     final currentList = state.value?.jusoListState ?? <String>{};
+    //     final updateList =
+    //         append ? currentList.union(result.toSet()) : result.toSet();
+    //     return state.value?.copyWith(
+    //           jusoListState: updateList,
+    //           isError: false,
+    //         ) ??
+    //         OnboardingState(jusoListState: updateList);
+    //   } catch (e) {
+    //     return state.value?.copyWith(isError: true) ??
+    //         OnboardingState(isError: true);
+    //   }
+    // });
+    final result = await ref.read(jusoResultProvider(JusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
+    final currentList = state.jusoListState;
+    try {
+      final updateList = append ? currentList.union(result.toSet()) : result.toSet();
+      state = state.copyWith(jusoListState: updateList, isError: false);
+    } catch(e) {
+      state = state.copyWith(isError: true);
+    }
   }
 
   void addHomeJuso(String homeJuso) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(homeJuso: homeJuso));
-    }
+    state = state.copyWith(homeJuso: homeJuso);
   }
 
   void addFirstJuso(String firstJuso) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(firstJuso: firstJuso));
-    }
+    state = state.copyWith(firstJuso: firstJuso);
   }
 
   void addSecondJuso(String secondJuso) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(secondJuso: secondJuso));
-    }
+    state = state.copyWith(secondJuso: secondJuso);
   }
 
   //지역 추가 칩 상태 업데이트를 위해
@@ -121,14 +124,13 @@ class OnboardingViewModel extends _$OnboardingViewModel {
       TextEditingController jusoController1,
       TextEditingController jusoController2,
       bool juso1visible,
-      bool juso2visible
-  ) {
+      bool juso2visible) {
     bool result = false;
-    if(!juso1visible && !juso2visible && homecontroller.text.length>1) {
+    if (!juso1visible && !juso2visible && homecontroller.text.length > 1) {
       result = true;
-    } else if(juso1visible && jusoController1.text.length>1) {
+    } else if (juso1visible && jusoController1.text.length > 1) {
       result = true;
-    } else if(juso2visible && jusoController2.text.length>1) {
+    } else if (juso2visible && jusoController2.text.length > 1) {
       result = true;
     } else {
       result = false;
@@ -136,35 +138,27 @@ class OnboardingViewModel extends _$OnboardingViewModel {
     return result;
   }
 
-  void deleteHomeJuso(TextEditingController controller) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(homeJuso: ''));
-    }
+  void deleteHomeJuso() {
+    state = state.copyWith(homeJuso: '');
   }
 
-  void deleteFirstJuso(TextEditingController controller) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(firstJuso: ''));
-    }
+  void deleteFirstJuso() {
+    state = state.copyWith(firstJuso: '');
   }
 
-  void deleteSecondJuso(TextEditingController controller) {
-    final value = state.valueOrNull;
-    if(value != null) {
-      state =  state.whenData((value) => value.copyWith(secondJuso: ''));
-    }
+  void deleteSecondJuso() {
+    state = state.copyWith(secondJuso: '');
   }
 
   //검색 결과 초기화
-  Future<void> initSearchHistory() async {
-    state = state.whenData((value) => value.copyWith(jusoListState: Set<String>()));
+  void initSearchHistory() {
+    state = state.copyWith(jusoListState: Set<String>());
   }
 
   //집 주소 입력 여부 검증
-  String checkHomeControllerState(TextEditingController homeController, bool juso1visible, bool juso2visible) {
-    if((juso1visible || juso2visible) && homeController.text.isEmpty) {
+  String checkHomeControllerState(TextEditingController homeController,
+      bool juso1visible, bool juso2visible) {
+    if ((juso1visible || juso2visible) && homeController.text.isEmpty) {
       return 'LENGTH_ERROR';
     } else {
       return 'AVAILABLE';
@@ -173,11 +167,11 @@ class OnboardingViewModel extends _$OnboardingViewModel {
 
   //주소 별명 오류검증
   String checklocationControllerState(TextEditingController nickController) {
-    if(nickController.text.isEmpty) {
+    if (nickController.text.isEmpty) {
       return 'LENGTH_ERROR';
-    } else if(nickController.text.length>8) {
+    } else if (nickController.text.length > 8) {
       return 'OVERFLOW_ERROR';
-    } else if(!checkForSpecialCharacter(nickController.text)) {
+    } else if (!checkForSpecialCharacter(nickController.text)) {
       return 'NOT_TYPE';
     } else {
       return 'AVAILABLE';
@@ -192,29 +186,22 @@ class OnboardingViewModel extends _$OnboardingViewModel {
 
   //필수 권한 모두 동의
   void updateAllAgreeState() {
-    bool current = state.value!.isAllAppPermissionGrant;
-    List<bool> updateList = [false, false, false, false, false];
-    for(int i=0; i<5; i++) {
-      updateList[i] = !current;
+    bool currentGrantState = state.isAllAppPermissionGrant;
+    List<bool> updateGrantList = [false, false, false, false, false];
+    for (int i = 0; i < 5; i++) {
+      updateGrantList[i] = !currentGrantState;
     }
-    state =  state.whenData((value) => value.copyWith(
-        isAllAppPermissionGrant: !current,
-        isAppPermissionCheckboxState: updateList
-    ));
+    state = state.copyWith(
+        isAllAppPermissionGrant: !currentGrantState,
+        isAppPermissionCheckboxState: updateGrantList);
   }
 
   //개별 권한 동의
   void updateEachPermissionState(int index) {
-    var current = List<bool>.from(state.value!.isAppPermissionCheckboxState);
-    current[index] = !current[index];
-    state =  state.whenData((value) => value.copyWith(
-        isAppPermissionCheckboxState: current
-    ));
-    bool allChecked = current.every((checked) => checked);
-    state =  state.whenData((value) => value.copyWith(
-        isAllAppPermissionGrant: allChecked
-    ));
+    var permissionState = List<bool>.from(state.isAppPermissionCheckboxState);
+    permissionState[index] = !permissionState[index];
+    state = state.copyWith(isAppPermissionCheckboxState: permissionState);
+    bool allChecked = permissionState.every((checked) => checked);
+    state = state.copyWith(isAllAppPermissionGrant: allChecked);
   }
-
-
 }
