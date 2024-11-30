@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:daepiro/presentation/onboarding/state/permission_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final permissionStateNotifierProvider = StateNotifierProvider<PermissionViewModel, PermissionState>((ref) {
   return PermissionViewModel(PermissionState());
@@ -18,11 +19,6 @@ class PermissionViewModel extends StateNotifier<PermissionState> {
   ];
 
   PermissionViewModel(super.state);
-
-  @override
-  FutureOr<PermissionState> build() async {
-    return PermissionState();
-  }
 
   void updateAllAgreeState() {
     bool current = state.isAllPermissionGrant;

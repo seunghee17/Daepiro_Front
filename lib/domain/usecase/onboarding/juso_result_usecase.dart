@@ -1,8 +1,6 @@
-import 'package:daepiro/data/repositoryimpl/juso_repository_impl.dart';
 import 'package:daepiro/domain/repository/juso_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//part 'juso_result_usecase.g.dart';
 
 final jusoResultProvider = FutureProvider.family<List<String>, JusoListUseCase>((ref, request) async {
   final repository = ref.watch(jusoRepositoryProvider);

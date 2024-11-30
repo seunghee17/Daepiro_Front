@@ -1,5 +1,5 @@
 import 'package:daepiro/domain/repository/onboarding_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/model/response/nickname_check_response.dart';
 
 final checkNickNameProvider = FutureProvider.family<NicknameCheckResponse, CheckNickNameUseCase>((ref, request) async {

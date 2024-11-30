@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storge;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 import '../model/request/refresh_token_request.dart';
