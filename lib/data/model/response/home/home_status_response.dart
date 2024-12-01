@@ -41,7 +41,7 @@ class Data {
   Data({this.isOccurred});
 
   Data.fromJson(Map<String, dynamic> json) {
-    isOccurred = json['isAvailable'];
+    isOccurred = json['isOccurred'];
   }
 
   Map<String, dynamic> toJson() {
