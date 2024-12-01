@@ -358,15 +358,15 @@ class CommunityDisasterScreen extends ConsumerWidget {
     showModalBottomSheet(
         context: context,
         useRootNavigator: true,
+        backgroundColor: Colors.transparent,
         builder: (context) {
           final height = MediaQuery.of(context).size.height * 0.8;
           return Container(
             height: height,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10))),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: Colors.white
+            ),
             child: ReplyBottomSheet(),
           );
         },
