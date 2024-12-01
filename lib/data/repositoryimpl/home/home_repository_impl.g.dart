@@ -1,27 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'community_view_model.dart';
+part of 'home_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$communityViewModelHash() =>
-    r'8dccf1b4f49e7213b5b17baacf0af70edd582bc6';
+String _$homeRepositoryHash() => r'cceecd8bef423585a4037531bb2a9cb7661687e8';
 
-/// See also [CommunityViewModel].
-@ProviderFor(CommunityViewModel)
-final communityViewModelProvider = AutoDisposeAsyncNotifierProvider<
-    CommunityViewModel, CommunityState>.internal(
-  CommunityViewModel.new,
-  name: r'communityViewModelProvider',
+/// See also [homeRepository].
+@ProviderFor(homeRepository)
+final homeRepositoryProvider = AutoDisposeProvider<HomeRepository>.internal(
+  homeRepository,
+  name: r'homeRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$communityViewModelHash,
+      : _$homeRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CommunityViewModel = AutoDisposeAsyncNotifier<CommunityState>;
+typedef HomeRepositoryRef = AutoDisposeProviderRef<HomeRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,27 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'community_view_model.dart';
+part of 'home_status_usecase.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$communityViewModelHash() =>
-    r'8dccf1b4f49e7213b5b17baacf0af70edd582bc6';
+String _$getHomeStatusUseCaseHash() =>
+    r'78f51447351861a0dbef3ac7fd3c814bfea21a15';
 
-/// See also [CommunityViewModel].
-@ProviderFor(CommunityViewModel)
-final communityViewModelProvider = AutoDisposeAsyncNotifierProvider<
-    CommunityViewModel, CommunityState>.internal(
-  CommunityViewModel.new,
-  name: r'communityViewModelProvider',
+/// See also [getHomeStatusUseCase].
+@ProviderFor(getHomeStatusUseCase)
+final getHomeStatusUseCaseProvider =
+    AutoDisposeFutureProvider<HomeStatusResponse>.internal(
+  getHomeStatusUseCase,
+  name: r'getHomeStatusUseCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$communityViewModelHash,
+      : _$getHomeStatusUseCaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CommunityViewModel = AutoDisposeAsyncNotifier<CommunityState>;
+typedef GetHomeStatusUseCaseRef
+    = AutoDisposeFutureProviderRef<HomeStatusResponse>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
