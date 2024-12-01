@@ -21,104 +21,97 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingViewModelProvider);
     return Scaffold(
       body: SafeArea(
-        child: state.when(
-            data: (state) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    headerWidget(),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 24),
-                            Row(
-                              children: [
-                                Text(
-                                  '위급/긴급 재난',
-                                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
-                                Spacer(),
-                                PrimaryFilledButton(
-                                    onPressed: null,
-                                    backgroundColor: DaepiroColorStyle.o_50,
-                                    pressedColor: DaepiroColorStyle.o_50,
-                                    borderRadius: 4.0,
-                                    child: primaryFilledButtonWidget(),
-                                    verticalPadding: 0.0)
-                              ],
-                            ),
-                            Text(
-                              '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
-                              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
-                            ),
-                            SizedBox(height: 12),
-                            Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: List.generate(
-                                    6, (index) {
-                                      bool isTapped = selected.contains(index);
-                                      return GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (isTapped) {
-                                                selected.remove(index); // 이미 선택된 아이템을 다시 탭하면 제거
-                                              } else {
-                                                selected.add(index); // 아직 선택되지 않은 아이템을 탭하면 추가
-                                              }});
-                                          },
-                                          child: disasterItem(isTapped));
-                                    })),
-                            SizedBox(height: 24),
-                            Text(
-                              '일반 재난',
-                              style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
-                            SizedBox(height: 4),
-                            Text(
-                              '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
-                              style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),),
-                            SizedBox(height: 12),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: List.generate(
-                                  15, (index) {
-                                    bool isTapped = selectedSub.contains(index);
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          if(isTapped) {
-                                            selectedSub.remove(index);
-                                          } else {
-                                            selectedSub.add(index);
-                                          }});
-                                        },
-                                      child: disasterItem(isTapped),
-                                    );
-                                  }
-                              ),
-                            ),
-                          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              headerWidget(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Text(
+                            '위급/긴급 재난',
+                            style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
+                          Spacer(),
+                          PrimaryFilledButton(
+                              onPressed: null,
+                              backgroundColor: DaepiroColorStyle.o_50,
+                              pressedColor: DaepiroColorStyle.o_50,
+                              borderRadius: 4.0,
+                              child: primaryFilledButtonWidget(),
+                              verticalPadding: 0.0)
+                        ],
+                      ),
+                      Text(
+                        '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                        style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
+                      ),
+                      SizedBox(height: 12),
+                      Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: List.generate(
+                              6, (index) {
+                            bool isTapped = selected.contains(index);
+                            return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (isTapped) {
+                                      selected.remove(index); // 이미 선택된 아이템을 다시 탭하면 제거
+                                    } else {
+                                      selected.add(index); // 아직 선택되지 않은 아이템을 탭하면 추가
+                                    }});
+                                },
+                                child: disasterItem(isTapped));
+                          })),
+                      SizedBox(height: 24),
+                      Text(
+                        '일반 재난',
+                        style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
+                      SizedBox(height: 4),
+                      Text(
+                        '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
+                        style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),),
+                      SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: List.generate(
+                            15, (index) {
+                          bool isTapped = selectedSub.contains(index);
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if(isTapped) {
+                                  selectedSub.remove(index);
+                                } else {
+                                  selectedSub.add(index);
+                                }});
+                            },
+                            child: disasterItem(isTapped),
+                          );
+                        }
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10,),
-                    bottomWidget(context),
-                  ],
+                    ],
+                  ),
                 ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()
+              ),
+              SizedBox(height: 10,),
+              bottomWidget(context),
+            ],
+          ),
+        )
         ),
-      ),
-    );
+      );
   }
 
   Widget primaryFilledButtonWidget() {

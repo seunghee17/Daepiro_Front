@@ -1,9 +1,9 @@
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
-import '../community_view_model.dart';
 
 class CommunityReportScreen extends ConsumerStatefulWidget {
   @override
@@ -17,45 +17,40 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    final communityViewModel = ref.watch(communityViewModelProvider);
-    return communityViewModel.when(
-        data: (state) {
-          return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+    final communityViewModel = ref.watch(communityDisasterProvider);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          headerWidget(),
+          SizedBox(height: 20),
+          SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                headerWidget(),
-                SizedBox(height: 20),
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '어떤 점이 불편하셨나요?',
-                        style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
-                      ),
-                      SizedBox(height: 16),
-                      //TODO 수정하기
-                      //reportTypeWidget(state.reportType, true),
-                      SizedBox(height: 16),
-                      contentWriteWidget(screenHeight),
-                      Text(
-                        '연락받을 메일 주소',
-                        style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
-                      ),
-                      SizedBox(height: 8),
-                      mailWriteWidget(),
-                      SizedBox(height: 16)
-                    ],
-                  ),
+                Text(
+                  '어떤 점이 불편하셨나요?',
+                  style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                 ),
+                SizedBox(height: 16),
+                //TODO 수정하기
+                //reportTypeWidget(state.reportType, true),
+                SizedBox(height: 16),
+                contentWriteWidget(screenHeight),
+                Text(
+                  '연락받을 메일 주소',
+                  style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+                ),
+                SizedBox(height: 8),
+                mailWriteWidget(),
+                SizedBox(height: 16)
               ],
             ),
-          );
-        },
-        error: (error, state) => Center(child: Text('error: ${error}')),
-        loading: () => const Center(child: CircularProgressIndicator()),);
+          ),
+        ],
+      ),
+    );
   }
 
   Widget headerWidget() {

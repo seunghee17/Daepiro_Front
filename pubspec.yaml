@@ -37,8 +37,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   retrofit_generator: ^8.1.2
   freezed: ^2.5.2
-  riverpod_annotation: ^2.3.5
-  riverpod_generator: ^2.4.0
+
   logger: ^2.4.0
   #api 응답 로그 띄우는 용도
   pretty_dio_logger: ^1.4.0
@@ -47,6 +46,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   #private key
   flutter_dotenv: ^5.1.0
+
   fluttertoast: ^8.2.8
   percent_indicator: ^4.2.3
   permission_handler: ^11.3.1
@@ -58,6 +58,8 @@ dependencies:
 
   # 종석 공부용
   provider: 6.0.5
+  photo_manager: ^3.6.3
+  photo_manager_image_provider: ^2.2.0
 
 
 dev_dependencies:

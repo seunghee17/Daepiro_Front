@@ -1,3 +1,5 @@
+import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
+import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
 import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
 import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
@@ -11,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../presentation/community/screens/community_main_screen.dart';
-import '../presentation/community/screens/community_town_detail_screen.dart';
+import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
@@ -41,11 +43,12 @@ final FlutterSecureStorage storage = FlutterSecureStorage();
 //중간에 토큰 만료시 로직은 개선해야함
 Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
   String current = state.uri.path;
-  if(current != '/splash') {
+  if (current != '/splash') {
     await Future.delayed(Duration(seconds: 3));
     String? accessToken = await storage.read(key: 'accessToken');
     String? refreshToken = await storage.read(key: 'refreshToken');
-    if((accessToken == null && refreshToken == null) || accessToken == "" && refreshToken == "") {
+    if ((accessToken == null && refreshToken == null) ||
+        accessToken == "" && refreshToken == "") {
       return '/login';
     }
     return '/home';
@@ -56,8 +59,8 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-     // initialLocation: '/splash',
-    initialLocation: '/home',
+     initialLocation: '/splash',
+    //initialLocation: '/home',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -78,38 +81,46 @@ final goRouteProvider = Provider((ref) {
           builder: (context, state) => CommunityTownDetailScreen()
       ),
       GoRoute(
-        path: '/onboarding',
-        builder: (context, state) => const OnboardingFirstScreen(),
-        routes: [
-          GoRoute(
-              path: 'first',
-            builder: (context, state) => const OnboardingSecondScreen()
-          ),
-          GoRoute(
-              path: 'second',
-              builder: (context, state) => const OnboardingThirdScreen()
-          ),
-          GoRoute(
-              path: 'juso/:type/:index',
-              builder: (context, state) {
-                final type = state.pathParameters['type'];
-                final index = state.pathParameters['index'];
-                return JusoInputScreen(type: type, index: index);
-              }
-          ),
-          GoRoute(
-              path: 'third',
-              builder: (context, state) => OnboardingFourthScreen()
-          ),
-          GoRoute(
-              path: 'fourth',
-              builder: (context, state) => OnboardingFifthScreen()
-          ),
-          GoRoute(
-              path: 'final',
-              builder: (context, state) => OnboardingFinalScreen()
-          ),
-        ]
+          path: '/album_choice',
+          builder: (context, state) => AlbumChoiceScreen()
+      ),
+      GoRoute(
+          path: '/album_screen',
+          builder: (context, state) => AlbumScreen()
+      ),
+      GoRoute(
+          path: '/onboarding',
+          builder: (context, state) => const OnboardingFirstScreen(),
+          routes: [
+            GoRoute(
+                path: 'first',
+                builder: (context, state) => const OnboardingSecondScreen()
+            ),
+            GoRoute(
+                path: 'second',
+                builder: (context, state) => const OnboardingThirdScreen()
+            ),
+            GoRoute(
+                path: 'juso/:type/:index',
+                builder: (context, state) {
+                  final type = state.pathParameters['type'];
+                  final index = state.pathParameters['index'];
+                  return JusoInputScreen(type: type, index: index);
+                }
+            ),
+            GoRoute(
+                path: 'third',
+                builder: (context, state) => OnboardingFourthScreen()
+            ),
+            GoRoute(
+                path: 'fourth',
+                builder: (context, state) => OnboardingFifthScreen()
+            ),
+            GoRoute(
+                path: 'final',
+                builder: (context, state) => OnboardingFinalScreen()
+            ),
+          ]
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -158,8 +169,8 @@ final goRouteProvider = Provider((ref) {
                   builder: (context, state) => InformationScreen(),
                   routes: [
                     GoRoute(
-                      path: 'disasterContents',
-                      builder: (context, state) => DisasterContentsScreen()
+                        path: 'disasterContents',
+                        builder: (context, state) => DisasterContentsScreen()
                     ),
                     GoRoute(
                         path: 'actionTip',
@@ -172,10 +183,6 @@ final goRouteProvider = Provider((ref) {
                     GoRoute(
                         path: 'searchDisaster',
                         builder: (context, state) => SearchDisasterScreen()
-                    ),
-                    GoRoute(
-                        path: 'searchDisasterContents',
-                        builder: (context, state) => SearchDisasterContentsScreen()
                     ),
                   ]
                 ),

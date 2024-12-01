@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-
 import '../../model/request/onboarding_info_request.dart';
 import '../../model/response/nickname_check_response.dart';
 import '../../model/response/onboarding_info_response.dart';

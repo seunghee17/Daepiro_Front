@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
-import '../community_view_model.dart';
 
 //수정하기 & 삭제하기
 class ReplyMenuScreen extends ConsumerWidget {
@@ -16,7 +16,7 @@ class ReplyMenuScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityViewModelProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return Stack(
       children: [
         BackdropFilter(

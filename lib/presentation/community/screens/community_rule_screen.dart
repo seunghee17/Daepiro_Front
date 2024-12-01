@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,30 +11,24 @@ class CommunityRuleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityViewModelProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return Scaffold(
       body: SafeArea(
-        child: communityViewModel.when(
-            data: (state) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    headerWidget(context),
-                    Expanded(
-                        child: SingleChildScrollView(
-                          child: bodyWidget(),
-                        )),
-                    bottomWidget(),
-                    SizedBox(height: 20)
-                  ],
-                ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()
-        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              headerWidget(context),
+              Expanded(
+                  child: SingleChildScrollView(
+                    child: bodyWidget(),
+                  )),
+              bottomWidget(),
+              SizedBox(height: 20)
+            ],
+          ),
+        )
       )
     );
   }
