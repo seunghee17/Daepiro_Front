@@ -40,34 +40,34 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     juso2Visible = false;
 
     // 초기 상태 설정
-    final state = ref.read(onboardingViewModelProvider);
-    if (state.value != null && state.value!.homeJuso.isNotEmpty) {
-      if (state.value!.homeJuso.length > 0) {
-        homeController.text = state.value!.homeJuso;
+    final state = ref.read(onboardingStateNotifierProvider);
+    if (state.homeJuso.isNotEmpty) {
+      if (state.homeJuso.length > 0) {
+        homeController.text = state.homeJuso;
       }
-      if (state.value?.firstJuso != null && juso1Visible) {
-        jusoController1.text = state.value!.firstJuso;
+      if (state.firstJuso != '' && juso1Visible) {
+        jusoController1.text = state.firstJuso;
       }
-      if (state.value?.secondJuso != null && juso2Visible) {
-        jusoController2.text = state.value!.secondJuso;
+      if (state.secondJuso != '' && juso2Visible) {
+        jusoController2.text = state.secondJuso;
       }
     }
 
     // 검색 기록 초기화
     Future(() {
-      ref.read(onboardingViewModelProvider.notifier).initSearchHistory();
+      ref.read(onboardingStateNotifierProvider.notifier).initSearchHistory();
     });
 
     // 별명 입력 시 오류 상태 자동 업데이트 리스너 추가
     jusoNickController1.addListener(() {
-      String newState = ref.read(onboardingViewModelProvider.notifier).checklocationControllerState(jusoNickController1);
+      String newState = ref.read(onboardingStateNotifierProvider.notifier).checklocationControllerState(jusoNickController1);
       setState(() {
         errorStateNick1 = newState;
       });
     });
 
     jusoNickController2.addListener(() {
-      String newState = ref.read(onboardingViewModelProvider.notifier).checklocationControllerState(jusoNickController2);
+      String newState = ref.read(onboardingStateNotifierProvider.notifier).checklocationControllerState(jusoNickController2);
       setState(() {
         errorStateNick2 = newState;
       });
@@ -88,64 +88,71 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onboardingViewModelProvider);
+    final state = ref.watch(onboardingStateNotifierProvider);
 
     // 상태 변화 리스너 추가: build() 내에서 setState 호출을 피하기 위함
-    ref.listen<AsyncValue<OnboardingState>>(onboardingViewModelProvider, (previous, next) {
-      next.whenData((data) {
-        if(data.homeJuso.isNotEmpty) {
-          if(data.homeJuso.isNotEmpty) {
-            homeController.text = data.homeJuso;
-          }
-          if(data.firstJuso != null && juso1Visible) {
-            jusoController1.text = data.firstJuso;
-          }
-          if(data.secondJuso != null && juso2Visible) {
-            jusoController2.text = data.secondJuso;
-          }
-        } else {
-          homeController.clear();
-          jusoController1.clear();
-          jusoController2.clear();
-        }
-      });
-    });
+    // ref.listen<AsyncValue<OnboardingState>>(onboardingStateNotifierProvider, (previous, next) {
+    //   next.whenData((data) {
+    //     if(data.homeJuso.isNotEmpty) {
+    //       if(data.homeJuso.isNotEmpty) {
+    //         homeController.text = data.homeJuso;
+    //       }
+    //       if(data.firstJuso != null && juso1Visible) {
+    //         jusoController1.text = data.firstJuso;
+    //       }
+    //       if(data.secondJuso != null && juso2Visible) {
+    //         jusoController2.text = data.secondJuso;
+    //       }
+    //     } else {
+    //       homeController.clear();
+    //       jusoController1.clear();
+    //       jusoController2.clear();
+    //     }
+    //   });
+    // });
+    if(state.homeJuso.isNotEmpty) {
+      if(state.homeJuso.isNotEmpty) {
+        homeController.text = state.homeJuso;
+      }
+      if(state.firstJuso != '' && juso1Visible) {
+        jusoController1.text = state.firstJuso;
+      }
+      if(state.secondJuso != '' && juso2Visible) {
+        jusoController2.text = state.secondJuso;
+      }
+    } else {
+      homeController.clear();
+      jusoController1.clear();
+      jusoController2.clear();
+    }
 
     return Scaffold(
       body: SafeArea(
-        child: state.when(
-            data: (state) {
-              return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    header(),
-                    SizedBox(height: 24),
-                    Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              if(juso2Visible)
-                                InputLocationAddress2(jusoController2, jusoNickController2, ref),
-                              if(juso1Visible)
-                                InputLocationAddress1(jusoController1, jusoNickController1, ref),
-                              InputHomeAddress(homeController, () => GoRouter.of(context).push('/onboarding/juso/집/0'), context, ref, juso1Visible, juso2Visible)
-                            ],
-                          ),
-                        ),
-                    ),
-                    bottomWidget(context, state.homeJuso, state.homeJuso.isNotEmpty),
-                    SizedBox(height: 16),
-                  ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              header(),
+              SizedBox(height: 24),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if(juso2Visible)
+                        InputLocationAddress2(jusoController2, jusoNickController2, ref),
+                      if(juso1Visible)
+                        InputLocationAddress1(jusoController1, jusoNickController1, ref),
+                      InputHomeAddress(homeController, () => GoRouter.of(context).push('/onboarding/juso/집/0'), context, ref, juso1Visible, juso2Visible)
+                    ],
+                  ),
                 ),
-              );
-            },
-            error: (error, stack) => Text('에러: ${error}'),
-            loading: () => const CircularProgressIndicator()
-        ),
-      ),
-    );
+              ),
+              bottomWidget(context, state.homeJuso, state.homeJuso.isNotEmpty),
+              SizedBox(height: 16),
+            ],
+          ),
+        )));
   }
 
   //화면의 최상단 영역
@@ -212,7 +219,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       bool juso1visible,
       bool juso2visible
       ) {
-    String errorState = ref.watch(onboardingViewModelProvider.notifier).checkHomeControllerState(homeController, juso1visible, juso2visible);
+    String errorState = ref.watch(onboardingStateNotifierProvider.notifier).checkHomeControllerState(homeController, juso1visible, juso2visible);
     bool isError = errorState == 'LENGTH_ERROR' ? true : false;
     return Container(
       width: double.infinity,
@@ -249,7 +256,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         '집',
                         homecontroller,
                             null,
-                            () => ref.read(onboardingViewModelProvider.notifier).deleteHomeJuso(homecontroller),
+                            () => ref.read(onboardingStateNotifierProvider.notifier).deleteHomeJuso(),
                         MediaQuery.of(context).size.width * 0.8
                     );
                   },
@@ -312,6 +319,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           ),
           SizedBox(height: 10,),
           TextField(
+            style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
               if(jusoNickController1.text.isEmpty) {
                 setState(() {
@@ -345,7 +353,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                       jusoNickController1.text,
                       juso1controller, jusoNickController1,
                       () {
-                        ref.read(onboardingViewModelProvider.notifier).deleteFirstJuso(juso1controller);
+                        ref.read(onboardingStateNotifierProvider.notifier).deleteFirstJuso();
                         setState(() {
                           juso1Visible = false;
                         });
@@ -428,6 +436,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       ),
           SizedBox(height: 10,),
           TextField(
+            style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
               if(jusoNickController2.text.isEmpty) {
                 setState(() {
@@ -461,7 +470,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                       jusoNickController2.text,
                       juso2controller, jusoNickController2,
                       () {
-                        ref.read(onboardingViewModelProvider.notifier).deleteFirstJuso(juso2controller);
+                        ref.read(onboardingStateNotifierProvider.notifier).deleteFirstJuso();
                         setState(() {
                           juso2Visible = false;
                         });
@@ -562,7 +571,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       bool juso1visible,
       bool juso2visible
   ) {
-    bool isButtonDisabled =  ref.watch(onboardingViewModelProvider.notifier).checkPlusChipState(homecontroller, jusoController1, jusoController2, juso1visible, juso2visible);
+    bool isButtonDisabled =  ref.watch(onboardingStateNotifierProvider.notifier).checkPlusChipState(homecontroller, jusoController1, jusoController2, juso1visible, juso2visible);
     return SecondaryFilledButton(
       onPressed: () {
         if(!isButtonDisabled) {
@@ -738,7 +747,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             Expanded(
                 child: PrimaryFilledButton(
                     onPressed: isAvailable ? () async => {
-                      ref.read(onboardingViewModelProvider.notifier).setJusoNick(jusoNickController1.text, jusoNickController2.text),
+                      ref.read(onboardingStateNotifierProvider.notifier).setJusoNick(jusoNickController1.text, jusoNickController2.text),
                       GoRouter.of(context).push('/onboarding/third')
                   }: null,
                     backgroundColor: isAvailable ? DaepiroColorStyle.o_500 : DaepiroColorStyle.o_100,

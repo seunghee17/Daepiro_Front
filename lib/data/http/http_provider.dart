@@ -2,16 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storge;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 import '../model/request/refresh_token_request.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-part 'http_provider.g.dart';
 
-@riverpod
-Dio http(HttpRef ref) {
+final dioProvider = Provider<Dio>((ref) {
   final options = BaseOptions(
       baseUrl: dotenv.get('BASE_URL'),
       headers: {
@@ -19,7 +16,7 @@ Dio http(HttpRef ref) {
       }
   );
   final Dio dio = Dio(options);
-  dio.interceptors.add( PrettyDioLogger(
+  dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
       responseBody: true,
@@ -28,18 +25,16 @@ Dio http(HttpRef ref) {
       maxWidth: 90,
       enabled: kDebugMode
   ));
-
-  dio.interceptors.add(httpInterceptor(ref, dio));
+  dio.interceptors.add(ref.watch(interceptorProvider(dio)));
   return dio;
-}
+});
 
-@riverpod
-InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
+
+final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio) {
   final storage = storge.FlutterSecureStorage();
 
   return InterceptorsWrapper(
     onRequest: (options, handler) async {
-
       //헤더주입이 필요없는 api
       if ((!options.path.contains("/kakao")) && (!options.path.contains("/naver"))
           && (!options.path.contains('/refresh')) && (!options.path.contains('/apple')) && (!options.path.contains('/business'))) {
@@ -120,4 +115,4 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
     },
     onResponse: (options, handler) => handler.next(options),
   );
-}
+});

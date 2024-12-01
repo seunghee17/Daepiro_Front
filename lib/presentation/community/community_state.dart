@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../data/model/request/album_model.dart';
+
 part 'community_state.freezed.dart';
 
 @freezed
@@ -13,5 +15,8 @@ sealed class CommunityState with _$CommunityState {
     @Default(false) bool isCertificateUser,
     @Default(false) bool isDeleteComplete,
     @Default(null) String? reportType,
-}) = _CommunityState;
+    @Default([]) List<AlbumModel> albums,
+    @Default(0) int currentAlbumIndex,
+    @Default([]) List<AlbumModel> selectAlbums,
+  }) = _CommunityState;
 }

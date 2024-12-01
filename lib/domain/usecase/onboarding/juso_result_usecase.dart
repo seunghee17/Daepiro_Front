@@ -1,10 +1,15 @@
-import 'package:daepiro/data/repositoryimpl/juso_repository_impl.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:daepiro/domain/repository/juso_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'juso_result_usecase.g.dart';
 
-@riverpod
-Future<List<String>> getjusoList(GetjusoListRef ref, {required String inputJuso, required int currentPage}) async {
+final getJusoListUseCaseProvider = FutureProvider.family<List<String>, GetJusoListUseCase>((ref, request) async {
   final repository = ref.watch(jusoRepositoryProvider);
-  return await repository.getjusoList(inputJuso: inputJuso, currentPage: currentPage);
+  return await repository.getjusoList(inputJuso: request.inputJuso, currentPage: request.currentPage);
+});
+
+class GetJusoListUseCase {
+  final String inputJuso;
+  final int currentPage;
+
+  GetJusoListUseCase({required this.inputJuso, required this.currentPage});
 }

@@ -9,17 +9,16 @@ part 'login_service.g.dart';
 
 @RestApi()
 abstract class LoginService {
-  factory LoginService(Dio dio, {String baseUrl}) = _LoginService;
+  factory LoginService(Dio dio) = _LoginService;
 
-  @POST('/v1/auth/refresh')
-  Future<RefreshTokenResponse> getTokenResponse({
-    @Body() required RefreshTokenRequest tokenRequest
-  });
+  // @POST('/v1/auth/refresh')
+  // Future<RefreshTokenResponse> getTokenResponse({
+  //   @Body() required RefreshTokenRequest tokenRequest
+  // });
 
   @POST('/v1/auth/login/{platform}')
   Future<SocialLoginTokenResponse> getSocialLogin({
     @Path('platform') required String platform,
     @Body() required SocialLoginRequest socialLoginRequest
   });
-
 }

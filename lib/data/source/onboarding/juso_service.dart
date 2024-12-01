@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-
 import '../../model/response/jusolist_response.dart';
-
 part 'juso_service.g.dart';
 
 @RestApi(baseUrl: "https://business.juso.go.kr/addrlink/")

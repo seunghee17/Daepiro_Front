@@ -1,9 +1,5 @@
-import 'package:daepiro/data/model/response/jusolist_response.dart';
 import 'package:daepiro/data/source/onboarding/juso_service.dart';
 import 'package:daepiro/domain/repository/juso_repository.dart';
-import 'package:dio/dio.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'juso_repository_impl.g.dart';
 
 class JusoRepositoryImpl extends JusoRepository {
   JusoRepositoryImpl({required JusoService service}) : _service = service;
@@ -24,12 +20,4 @@ class JusoRepositoryImpl extends JusoRepository {
       rethrow;
     }
   }
-
-
-}
-
-@riverpod
-JusoRepository jusoRepository(JusoRepositoryRef ref) {
-  final dio = Dio();
-  return JusoRepositoryImpl(service: JusoService(dio));
 }
