@@ -33,15 +33,15 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   Future<bool> checkNickName(String nickname, WidgetRef ref) async {
-    final result = await ref.read(checkNickNameProvider(CheckNickNameUseCase(nickName: nickname)).future);
+    final result = await ref.read(checkNickNameUseCaseProvider(CheckNickNameUseCase(nickName: nickname)).future);
     return result.data?.isAvailable ?? false;
   }
 
   Future<void> sendUserInfo(WidgetRef ref) async {
     final address = parseAddress();
     final fcmToken = await getFcmToken();
-    await ref.read(onboardingInfoProvider(
-        OnboardingSendinfoUseCase(onboardingInfoRequest: OnboardingInfoRequest(
+    await ref.read(sendonboardingInfoUseCaseProvider(
+        SendOnboardinginfoUseCase(onboardingInfoRequest: OnboardingInfoRequest(
             realname: state.userName,
             nickname: state.userNickName,
             addresses: address,
@@ -78,7 +78,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 //검색결과 주소 리스트 반환
   Future<void> getJusoList(
       String inputJuso, int currentPage, bool append, WidgetRef ref) async {
-    final result = await ref.read(jusoResultProvider(JusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
+    final result = await ref.read(getJusoListUseCaseProvider(GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
     final currentList = state.jusoListState;
     try {
       final updateList = append ? currentList.union(result.toSet()) : result.toSet();

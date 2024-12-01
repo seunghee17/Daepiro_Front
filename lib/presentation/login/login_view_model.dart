@@ -27,7 +27,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
   Future<void> fetchSocialToken(String platform, String token, WidgetRef ref) async {
     state = state.copyWith(isLoading: true);
     try {
-      final response = await ref.read(getSocialTokenUsecaseProvider(SocialTokenRequestUseCase(platform: platform, tokenRequest: SocialLoginRequest(socialToken: token))).future);
+      final response = await ref.read(getSocialTokenUsecaseProvider(GetSocialTokenUseCase(platform: platform, tokenRequest: SocialLoginRequest(socialToken: token))).future);
       state = state.copyWith(
           isLoading: false,
           accessToken: response.data?.accessToken?? '',

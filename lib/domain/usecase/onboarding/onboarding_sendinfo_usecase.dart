@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../data/model/response/onboarding_info_response.dart';
 
-final onboardingInfoProvider = FutureProvider.family<OnboardingInfoResponse, OnboardingSendinfoUseCase>((ref, request) async {
+final sendonboardingInfoUseCaseProvider = FutureProvider.family<OnboardingInfoResponse, SendOnboardinginfoUseCase>((ref, request) async {
   final repository = await ref.watch(onboardingRepositoryProvider);
   return await repository.sendOnboardingInfoData(onboardingInfoRequest: request.onboardingInfoRequest);
 });
 
-class OnboardingSendinfoUseCase {
+class SendOnboardinginfoUseCase {
   final OnboardingInfoRequest onboardingInfoRequest;
-  OnboardingSendinfoUseCase({required this.onboardingInfoRequest});
+  SendOnboardinginfoUseCase({required this.onboardingInfoRequest});
 }

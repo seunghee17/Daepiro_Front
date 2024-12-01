@@ -3,14 +3,14 @@ import 'package:daepiro/data/model/response/sociallogin_token_response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../repository/login_repository.dart';
 
-final getSocialTokenUsecaseProvider = FutureProvider.family<SocialLoginTokenResponse, SocialTokenRequestUseCase>((ref, request) async {
+final getSocialTokenUsecaseProvider = FutureProvider.family<SocialLoginTokenResponse, GetSocialTokenUseCase>((ref, request) async {
   final repository = ref.watch(loginRepositoryProvider);
   return await repository.getSocialLogin(platform: request.platform, socialLoginRequest: request.tokenRequest);
 });
 
-class SocialTokenRequestUseCase {
+class GetSocialTokenUseCase {
   final String platform;
   final SocialLoginRequest tokenRequest;
 
-  SocialTokenRequestUseCase({required this.platform, required this.tokenRequest});
+  GetSocialTokenUseCase({required this.platform, required this.tokenRequest});
 }
