@@ -1,10 +1,14 @@
-import 'package:flutter/cupertino.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'home_view_model.g.dart';
+import 'package:daepiro/presentation/home/main/home_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-@riverpod
 // class HomeViewModel extends ChangeNotifier {
-class HomeViewModel extends _$HomeViewModel {
+final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
+  return HomeViewModel();
+});
+
+class HomeViewModel extends StateNotifier<HomeState> {
+  HomeViewModel() : super(HomeState());
+
   int _selectedPopularPostCategory = 0;
   int get selectedPopularPostCategory => _selectedPopularPostCategory;
 

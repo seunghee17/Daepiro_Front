@@ -3,9 +3,6 @@ import 'dart:ffi';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/domain/repository/home_repository.dart';
-import 'package:dio/dio.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'home_repository_impl.g.dart';
 
 class HomeRepositoryImpl extends HomeRepository {
   HomeRepositoryImpl({required HomeService service}) : _service = service;
@@ -22,10 +19,4 @@ class HomeRepositoryImpl extends HomeRepository {
     }
   }
 
-}
-
-@riverpod
-HomeRepository homeRepository(HomeRepositoryRef ref) {
-  final dio = Dio();
-  return HomeRepositoryImpl(service: HomeService(dio));
 }

@@ -1,10 +1,13 @@
-
-import 'package:daepiro/data/model/request/social_login_request.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
-import 'package:daepiro/data/model/response/sociallogin_token_response.dart';
+import 'package:daepiro/data/source/home/home_service.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/repositoryimpl/home/home_repository_impl.dart';
 
-import '../../data/model/request/refresh_token_request.dart';
-import '../../data/model/response/refresh_token_response.dart';
+final homeRepositoryProvider = Provider<HomeRepository>((ref) {
+  final dio = Dio();
+  return HomeRepositoryImpl(service: HomeService(dio));
+});
 
 abstract class HomeRepository {
   Future<HomeStatusResponse> getHomeStatus();
