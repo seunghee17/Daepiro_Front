@@ -3,6 +3,7 @@ import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.
 import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
 import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
+import 'package:daepiro/presentation/information/search_disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
@@ -31,12 +32,10 @@ import 'main_navigation.dart';
 
 //navigatorstate로 접근할 수 있게 해주어 앱내 화면이동 가능
 //루트 네비게이터와 별도의 네비게이션 키를 설정하는 부분
-final rootNavigatorKey = GlobalKey<NavigatorState>();
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-final _communityNavigatorKey = GlobalKey<NavigatorState>(
-    debugLabel: 'community');
-final _informationNavigatorKey = GlobalKey<NavigatorState>(
-    debugLabel: 'information');
+final _communityNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'community');
+final _informationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'information');
 final _sponsorNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sponsor');
 final _mypageNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'mypage');
 final FlutterSecureStorage storage = FlutterSecureStorage();
@@ -60,14 +59,14 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-    initialLocation: '/splash',
+     initialLocation: '/splash',
     //initialLocation: '/home',
-    navigatorKey: rootNavigatorKey,
+    navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
-        path: '/splash',
-        builder: (context, state) => SplashScreen(),
+          path: '/splash',
+        builder: (context, state) =>  SplashScreen(),
       ),
       GoRoute(
         path: '/login',
@@ -127,47 +126,45 @@ final goRouteProvider = Provider((ref) {
         builder: (context, state, navigationShell) {
           return MainNavigation(navigationShell: navigationShell);
         },
-        parentNavigatorKey: rootNavigatorKey,
-        branches: [
-          StatefulShellBranch(
-            navigatorKey: _homeNavigatorKey,
-            routes: [
-              GoRoute(
-                  path: '/home',
-                  // builder: (context, state) => const HomeScreen(), 왜안되지
-                  builder: (context, state) => HomeScreen(),
-                  routes: [
-                    GoRoute(
-                      path: 'disasterMessageHistory',
-                      builder: (context,
-                          state) => const DisasterMessageHistoryScreen(),
-                    ),
-                    GoRoute(
-                      path: 'disasterMessageDetail',
-                      builder: (context,
-                          state) => const DisasterMessageDetailScreen(),
-                    ),
-                    GoRoute(
-                      path: 'aroundShelter',
-                      builder: (context, state) => const AroundShelterScreen(),
-                    ),
-                  ]
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _communityNavigatorKey,
-            routes: [
-              GoRoute(
-                path: '/community',
-                builder: (context, state) => const CommunityMainScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _informationNavigatorKey,
-            routes: [
-              GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+          branches:[
+            StatefulShellBranch(
+              navigatorKey: _homeNavigatorKey,
+              routes: [
+                GoRoute(
+                    path: '/home',
+                    // builder: (context, state) => const HomeScreen(), 왜안되지
+                    builder: (context, state) => HomeScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'disasterMessageHistory',
+                        builder: (context, state) => const DisasterMessageHistoryScreen(),
+                      ),
+                      GoRoute(
+                        path: 'disasterMessageDetail',
+                        builder: (context, state) => const DisasterMessageDetailScreen(),
+                      ),
+                      GoRoute(
+                        path: 'aroundShelter',
+                        builder: (context, state) => const AroundShelterScreen(),
+                      ),
+                    ]
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _communityNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: '/community',
+                  builder: (context, state) => const CommunityMainScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _informationNavigatorKey,
+              routes: [
+                GoRoute(
                   path: '/information',
                   builder: (context, state) => InformationScreen(),
                   routes: [
@@ -188,28 +185,28 @@ final goRouteProvider = Provider((ref) {
                         builder: (context, state) => SearchDisasterScreen()
                     ),
                   ]
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _sponsorNavigatorKey,
-            routes: [
-              GoRoute(
-                path: '/sponsor',
-                builder: (context, state) => const SponsorScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _mypageNavigatorKey,
-            routes: [
-              GoRoute(
-                path: '/mypage',
-                builder: (context, state) => const MypageScreen(),
-              ),
-            ],
-          ),
-        ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _sponsorNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: '/sponsor',
+                  builder: (context, state) => const SponsorScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _mypageNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: '/mypage',
+                  builder: (context, state) => const MypageScreen(),
+                ),
+              ],
+            ),
+          ],
       )
     ],
   );
