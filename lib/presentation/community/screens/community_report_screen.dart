@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/button/primary_filled_button.dart';
 
 class CommunityReportScreen extends ConsumerStatefulWidget {
   @override
@@ -20,7 +21,6 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     final communityViewModel = ref.watch(communityDisasterProvider);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -28,31 +28,34 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               headerWidget(),
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20),
-                    Text(
-                      '어떤 점이 불편하셨나요?',
-                      style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
-                    ),
-                    SizedBox(height: 16),
-                    //TODO 신고유형 추가하기
-                    reportTypeWidget('신고', false),
-                    SizedBox(height: 16),
-                    contentWriteWidget(screenHeight),
-                    SizedBox(height: 16),
-                    Text(
-                      '연락받을 메일 주소',
-                      style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
-                    ),
-                    SizedBox(height: 8),
-                    mailWriteWidget(),
-                    SizedBox(height: 16)
-                  ],
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20),
+                      Text(
+                        '어떤 점이 불편하셨나요?',
+                        style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+                      ),
+                      SizedBox(height: 16),
+                      //TODO 신고유형 추가하기
+                      reportTypeWidget('신고', false),
+                      SizedBox(height: 16),
+                      contentWriteWidget(screenHeight),
+                      SizedBox(height: 16),
+                      Text(
+                        '연락받을 메일 주소',
+                        style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+                      ),
+                      SizedBox(height: 8),
+                      mailWriteWidget(),
+                      SizedBox(height: 20)
+                    ],
+                  ),
                 ),
               ),
+              footerWidget()
             ],
           ),
         ),
@@ -168,6 +171,8 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     return Container(
       width: double.infinity,
       child: TextField(
+        style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+        cursorColor: DaepiroColorStyle.g_900,
         controller: mailEditingController,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         decoration: InputDecoration(
@@ -177,29 +182,101 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
           hintText: '메일 주소를 입력해주세요',
           hintStyle: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8))
+            borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8))
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 1.5,
+              color: DaepiroColorStyle.g_75,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
         ),
       ),
     );
   }
 
-  // Widget footerWidget() {
-  //   return Column(
-  //     children: [
-  //       SizedBox(height: 20),
-  //       PrimaryFilledButton(
-  //           backgroundColor: backgroundColor,
-  //           pressedColor: pressedColor,
-  //           borderRadius: borderRadius,
-  //           child: child,
-  //           verticalPadding: verticalPadding
-  //       ),
-  //       SizedBox(height: 16)
-  //     ],
-  //   );
-  // }
+  Widget footerWidget() {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: PrimaryFilledButton(
+          backgroundColor: DaepiroColorStyle.g_700,
+          pressedColor: DaepiroColorStyle.g_600,
+          borderRadius: 8,
+          child: Text(
+            '접수하기',
+            style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+          ),
+          verticalPadding: 12
+      ),
+    );
+  }
+
+  void deSelectReportTypeDialog(BuildContext context) {
+    showDialog(
+        context: context, 
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 3), () {
+            GoRouter.of(context).pop();
+          });
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            contentPadding: EdgeInsets.symmetric(vertical: 20),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/icon_warning',
+                colorFilter: ColorFilter.mode(
+                    DaepiroColorStyle.r_200, BlendMode.srcIn)),
+                SizedBox(height: 8),
+                Text(
+                  '신고 유형을 선택해주세요',
+                  style: DaepiroTextStyle.body_1_b
+                      .copyWith(color: DaepiroColorStyle.g_900),
+                )
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+  void successReportDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 3), () {
+            GoRouter.of(context).pop();
+          });
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            contentPadding: EdgeInsets.symmetric(vertical: 24),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '신고가 정상적으로 접수되었습니다',
+                  style: DaepiroTextStyle.body_1_b
+                      .copyWith(color: DaepiroColorStyle.g_900),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  '신고 유형을 선택해주세요',
+                  style: DaepiroTextStyle.body_1_m
+                      .copyWith(color: DaepiroColorStyle.g_500),
+                )
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+
 }
