@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,7 @@ class CommunityRuleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityNotifierProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(

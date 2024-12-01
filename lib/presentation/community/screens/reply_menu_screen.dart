@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,7 +16,7 @@ class ReplyMenuScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityNotifierProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return Stack(
       children: [
         BackdropFilter(

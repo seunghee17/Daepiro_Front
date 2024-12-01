@@ -1,11 +1,11 @@
-import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../cmm/DaepiroTheme.dart';
+import '../../../../cmm/DaepiroTheme.dart';
 
 //동네생활 화면
 class CommunityTownScreen extends ConsumerWidget {
@@ -20,7 +20,7 @@ class CommunityTownScreen extends ConsumerWidget {
     typeData.add(TypeModel(false, '교통'));
     typeData.add(TypeModel(false, '치안'));
     typeData.add(TypeModel(false, '기타'));
-    final communityViewModel = ref.watch(communityNotifierProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return Scaffold(
         body: SingleChildScrollView(
           child: Padding(

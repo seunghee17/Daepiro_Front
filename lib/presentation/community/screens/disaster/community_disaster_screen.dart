@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/reply_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../cmm/DaepiroTheme.dart';
-import '../../../cmm/button/primary_filled_button.dart';
-import '../../../cmm/button/secondary_filled_button.dart';
+import '../../../../cmm/DaepiroTheme.dart';
+import '../../../../cmm/button/primary_filled_button.dart';
+import '../../../../cmm/button/secondary_filled_button.dart';
 
 //재난상황 화면
 class CommunityDisasterScreen extends ConsumerWidget {
@@ -16,7 +16,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityNotifierProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -78,7 +78,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
           children: [
             SecondaryFilledButton(
               onPressed:
-                  ref.read(communityNotifierProvider.notifier).clickAllButton,
+                  ref.read(communityDisasterProvider.notifier).clickAllButton,
               radius: 99,
               child: Text(
                 '전체',
@@ -95,7 +95,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
             SizedBox(width: 8),
             SecondaryFilledButton(
               onPressed: ref
-                  .read(communityNotifierProvider.notifier)
+                  .read(communityDisasterProvider.notifier)
                   .clickReceiveButton,
               radius: 99,
               child: Text(

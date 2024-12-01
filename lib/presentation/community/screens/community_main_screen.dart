@@ -1,6 +1,6 @@
-import 'package:daepiro/presentation/community/community_view_model.dart';
-import 'package:daepiro/presentation/community/screens/community_disaster_screen.dart';
-import 'package:daepiro/presentation/community/screens/community_town_screen.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/screens/disaster/community_disaster_screen.dart';
+import 'package:daepiro/presentation/community/screens/town/community_town_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ class CommunityMainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(communityNotifierProvider);
+    final state = ref.watch(communityDisasterProvider);
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
@@ -24,9 +24,9 @@ class CommunityMainScreen extends ConsumerWidget {
                 DefaultTabController.of(context);
                 tabController.addListener(() {
                   if (tabController.index == 1) {
-                    ref.read(communityNotifierProvider.notifier).changeScreenState(false);
+                    ref.read(communityDisasterProvider.notifier).changeScreenState(false);
                   } else {
-                    ref.read(communityNotifierProvider.notifier).changeScreenState(true);
+                    ref.read(communityDisasterProvider.notifier).changeScreenState(true);
                   }
                 });
                 return Column(

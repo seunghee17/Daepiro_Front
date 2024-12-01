@@ -23,6 +23,9 @@ mixin _$CommunityState {
   bool get isCertificateUser => throw _privateConstructorUsedError;
   bool get isDeleteComplete => throw _privateConstructorUsedError;
   String? get reportType => throw _privateConstructorUsedError;
+  List<AlbumModel> get albums => throw _privateConstructorUsedError;
+  int get currentAlbumIndex => throw _privateConstructorUsedError;
+  List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityStateCopyWith<CommunityState> get copyWith =>
@@ -41,7 +44,10 @@ abstract class $CommunityStateCopyWith<$Res> {
       bool isDisasterScreen,
       bool isCertificateUser,
       bool isDeleteComplete,
-      String? reportType});
+      String? reportType,
+      List<AlbumModel> albums,
+      int currentAlbumIndex,
+      List<AlbumModel> selectAlbums});
 }
 
 /// @nodoc
@@ -63,6 +69,9 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
     Object? isCertificateUser = null,
     Object? isDeleteComplete = null,
     Object? reportType = freezed,
+    Object? albums = null,
+    Object? currentAlbumIndex = null,
+    Object? selectAlbums = null,
   }) {
     return _then(_value.copyWith(
       receiveButton: null == receiveButton
@@ -89,6 +98,18 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
               as String?,
+      albums: null == albums
+          ? _value.albums
+          : albums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
+      currentAlbumIndex: null == currentAlbumIndex
+          ? _value.currentAlbumIndex
+          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      selectAlbums: null == selectAlbums
+          ? _value.selectAlbums
+          : selectAlbums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
     ) as $Val);
   }
 }
@@ -107,7 +128,10 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
       bool isDisasterScreen,
       bool isCertificateUser,
       bool isDeleteComplete,
-      String? reportType});
+      String? reportType,
+      List<AlbumModel> albums,
+      int currentAlbumIndex,
+      List<AlbumModel> selectAlbums});
 }
 
 /// @nodoc
@@ -127,6 +151,9 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
     Object? isCertificateUser = null,
     Object? isDeleteComplete = null,
     Object? reportType = freezed,
+    Object? albums = null,
+    Object? currentAlbumIndex = null,
+    Object? selectAlbums = null,
   }) {
     return _then(_$CommunityStateImpl(
       receiveButton: null == receiveButton
@@ -153,6 +180,18 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
               as String?,
+      albums: null == albums
+          ? _value._albums
+          : albums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
+      currentAlbumIndex: null == currentAlbumIndex
+          ? _value.currentAlbumIndex
+          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      selectAlbums: null == selectAlbums
+          ? _value._selectAlbums
+          : selectAlbums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
     ));
   }
 }
@@ -166,7 +205,12 @@ class _$CommunityStateImpl implements _CommunityState {
       this.isDisasterScreen = true,
       this.isCertificateUser = false,
       this.isDeleteComplete = false,
-      this.reportType = null});
+      this.reportType = null,
+      final List<AlbumModel> albums = const [],
+      this.currentAlbumIndex = 0,
+      final List<AlbumModel> selectAlbums = const []})
+      : _albums = albums,
+        _selectAlbums = selectAlbums;
 
 //전체와 수신버튼 상태
   @override
@@ -188,10 +232,30 @@ class _$CommunityStateImpl implements _CommunityState {
   @override
   @JsonKey()
   final String? reportType;
+  final List<AlbumModel> _albums;
+  @override
+  @JsonKey()
+  List<AlbumModel> get albums {
+    if (_albums is EqualUnmodifiableListView) return _albums;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_albums);
+  }
+
+  @override
+  @JsonKey()
+  final int currentAlbumIndex;
+  final List<AlbumModel> _selectAlbums;
+  @override
+  @JsonKey()
+  List<AlbumModel> get selectAlbums {
+    if (_selectAlbums is EqualUnmodifiableListView) return _selectAlbums;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectAlbums);
+  }
 
   @override
   String toString() {
-    return 'CommunityState(receiveButton: $receiveButton, AllButton: $AllButton, isDisasterScreen: $isDisasterScreen, isCertificateUser: $isCertificateUser, isDeleteComplete: $isDeleteComplete, reportType: $reportType)';
+    return 'CommunityState(receiveButton: $receiveButton, AllButton: $AllButton, isDisasterScreen: $isDisasterScreen, isCertificateUser: $isCertificateUser, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
   }
 
   @override
@@ -210,12 +274,26 @@ class _$CommunityStateImpl implements _CommunityState {
             (identical(other.isDeleteComplete, isDeleteComplete) ||
                 other.isDeleteComplete == isDeleteComplete) &&
             (identical(other.reportType, reportType) ||
-                other.reportType == reportType));
+                other.reportType == reportType) &&
+            const DeepCollectionEquality().equals(other._albums, _albums) &&
+            (identical(other.currentAlbumIndex, currentAlbumIndex) ||
+                other.currentAlbumIndex == currentAlbumIndex) &&
+            const DeepCollectionEquality()
+                .equals(other._selectAlbums, _selectAlbums));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, receiveButton, AllButton,
-      isDisasterScreen, isCertificateUser, isDeleteComplete, reportType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      receiveButton,
+      AllButton,
+      isDisasterScreen,
+      isCertificateUser,
+      isDeleteComplete,
+      reportType,
+      const DeepCollectionEquality().hash(_albums),
+      currentAlbumIndex,
+      const DeepCollectionEquality().hash(_selectAlbums));
 
   @JsonKey(ignore: true)
   @override
@@ -232,7 +310,10 @@ abstract class _CommunityState implements CommunityState {
       final bool isDisasterScreen,
       final bool isCertificateUser,
       final bool isDeleteComplete,
-      final String? reportType}) = _$CommunityStateImpl;
+      final String? reportType,
+      final List<AlbumModel> albums,
+      final int currentAlbumIndex,
+      final List<AlbumModel> selectAlbums}) = _$CommunityStateImpl;
 
   @override //전체와 수신버튼 상태
   bool get receiveButton;
@@ -246,6 +327,12 @@ abstract class _CommunityState implements CommunityState {
   bool get isDeleteComplete;
   @override
   String? get reportType;
+  @override
+  List<AlbumModel> get albums;
+  @override
+  int get currentAlbumIndex;
+  @override
+  List<AlbumModel> get selectAlbums;
   @override
   @JsonKey(ignore: true)
   _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>

@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_view_model.dart';
+import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +17,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    final communityViewModel = ref.watch(communityNotifierProvider);
+    final communityViewModel = ref.watch(communityDisasterProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(

@@ -78,24 +78,6 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 //검색결과 주소 리스트 반환
   Future<void> getJusoList(
       String inputJuso, int currentPage, bool append, WidgetRef ref) async {
-    // state = await AsyncValue.guard(() async {
-    //   try {
-    //     final result = await ref.read(jusoResultProvider(
-    //             JusoListUseCase(inputJuso: inputJuso, currentPage: currentPage))
-    //         .future);
-    //     final currentList = state.value?.jusoListState ?? <String>{};
-    //     final updateList =
-    //         append ? currentList.union(result.toSet()) : result.toSet();
-    //     return state.value?.copyWith(
-    //           jusoListState: updateList,
-    //           isError: false,
-    //         ) ??
-    //         OnboardingState(jusoListState: updateList);
-    //   } catch (e) {
-    //     return state.value?.copyWith(isError: true) ??
-    //         OnboardingState(isError: true);
-    //   }
-    // });
     final result = await ref.read(jusoResultProvider(JusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
     final currentList = state.jusoListState;
     try {
