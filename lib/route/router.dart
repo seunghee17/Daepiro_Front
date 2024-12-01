@@ -1,9 +1,9 @@
 import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
+import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
 import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
 import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
-import 'package:daepiro/presentation/information/search_disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
@@ -87,6 +87,10 @@ final goRouteProvider = Provider((ref) {
       GoRoute(
           path: '/album_screen',
           builder: (context, state) => AlbumScreen()
+      ),
+      GoRoute(
+          path: '/community_report_screen',
+          builder: (context, state) => CommunityReportScreen()
       ),
       GoRoute(
           path: '/onboarding',

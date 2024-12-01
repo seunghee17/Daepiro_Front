@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
 
 class ReplyBottomSheet extends ConsumerStatefulWidget {
@@ -19,25 +18,27 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final communityViewModel = ref.watch(communityDisasterProvider);
-    return Container(
-      child: Column(
-        children: [
-          headerWidget(),
-          Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      replyWidget(ref, true, context, true),
-                      reReplyWidget(true, context, true)
-                    ],
+    return Scaffold(
+      body: Container(
+        child: Column(
+          children: [
+            headerWidget(),
+            Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        replyWidget(ref, true, context, true),
+                        reReplyWidget(true, context, true)
+                      ],
+                    ),
                   ),
-                ),
-              )
-          ),
-          footerWidget()
-        ],
+                )
+            ),
+            footerWidget()
+          ],
+        ),
       ),
     );
   }
@@ -91,8 +92,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  Widget replyWidget(WidgetRef ref, bool isCertificateUser,
-      BuildContext context, bool isUser) {
+  Widget replyWidget(WidgetRef ref, bool isCertificateUser, BuildContext context, bool isUser) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -218,8 +218,12 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
                     SizedBox(height: 12),
-                    GestureDetector(onTap: () {}, child: likeButton(true, 1)),
-                    Spacer()
+                    Row(
+                      children: [
+                        GestureDetector(onTap: () {}, child: likeButton(true, 1)),
+                        Spacer()
+                      ],
+                    ),
                   ],
                 )
               ),
@@ -254,57 +258,59 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             // SizedBox(width: 12),
             Expanded(
               //TODO: 1000자 제한 추가하기
-              child: Stack(
-                children: [
-                  TextField(
-                    cursorColor: DaepiroColorStyle.g_900,
-                    onTapOutside: (event) =>
-                        FocusManager.instance.primaryFocus?.unfocus(),
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.g_900),
-                    decoration: InputDecoration(
-                      filled: true,
-                      isDense: true,
-                      hintText: '댓글을 작성해주세요.',
-                      fillColor: DaepiroColorStyle.g_50,
-                      hintStyle: DaepiroTextStyle.body_2_m
-                          .copyWith(color: DaepiroColorStyle.g_200),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      disabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1.5,
-                          color: DaepiroColorStyle.g_75,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: DaepiroColorStyle.g_50
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        maxLines: null,
+                        cursorColor: DaepiroColorStyle.g_900,
+                        onTapOutside: (event) =>
+                            FocusManager.instance.primaryFocus?.unfocus(),
+                        style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
+                        decoration: InputDecoration(
+                          filled: true,
+                          isDense: true,
+                          hintText: '댓글을 작성해주세요.',
+                          fillColor: DaepiroColorStyle.g_50,
+                          hintStyle: DaepiroTextStyle.body_2_m
+                              .copyWith(color: DaepiroColorStyle.g_200),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          disabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
                     ),
-                  ),
-                  Positioned(
-                      right: 0,
-                      child: TextButton(
-                        onPressed: (){},
-                        style: TextButton.styleFrom(
+                    SizedBox(width: 12),
+                    TextButton(
+                      onPressed: (){},
+                      style: TextButton.styleFrom(
                           padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(1)
+                              borderRadius: BorderRadius.circular(1)
                           ),
                           overlayColor: Colors.transparent
-                        ),
-                        child: Text('등록', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
-                      )
-                  )
-                ],
+                      ),
+                      child: Text('등록', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
+                    )
+                  ],
+                ),
               )
             ),
             SizedBox(width: 20)
