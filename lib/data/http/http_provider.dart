@@ -13,24 +13,24 @@ part 'http_provider.g.dart';
 @riverpod
 Dio http(HttpRef ref) {
   final options = BaseOptions(
-    baseUrl: dotenv.get('BASE_URL'),
-    headers: {
-      'Content-Type': 'application/json',
-    }
+      baseUrl: dotenv.get('BASE_URL'),
+      headers: {
+        'Content-Type': 'application/json',
+      }
   );
- final Dio dio = Dio(options);
- dio.interceptors.add( PrettyDioLogger(
-   requestHeader: true,
-   requestBody: true,
-   responseBody: true,
-   responseHeader: false,
-   error: true,
-   maxWidth: 90,
-   enabled: kDebugMode
- ));
+  final Dio dio = Dio(options);
+  dio.interceptors.add( PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      maxWidth: 90,
+      enabled: kDebugMode
+  ));
 
- dio.interceptors.add(httpInterceptor(ref, dio));
- return dio;
+  dio.interceptors.add(httpInterceptor(ref, dio));
+  return dio;
 }
 
 @riverpod
@@ -61,11 +61,11 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
       if(error.response?.statusCode == 500) {
         Fluttertoast.showToast(
             msg: '서버 오류가 발생했습니다. 넘버원 서버팀에 문의해주세요.',
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 5,
-          backgroundColor: Colors.black,
-          textColor: Colors.white
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.black,
+            textColor: Colors.white
         );
       } else {
         Fluttertoast.showToast(
@@ -82,7 +82,7 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
         if(refreshToken != null ) {
           try {
             final response = await dio.post(
-                'http://13.125.2.66/swagger-ui/index.html#/v1/auth/refresh',
+              'http://13.125.2.66/swagger-ui/index.html#/v1/auth/refresh',
               data: RefreshTokenRequest(refreshToken: refreshToken),
             );
             if(response.statusCode == 200) {
@@ -96,14 +96,14 @@ InterceptorsWrapper httpInterceptor(HttpRef ref, Dio dio) {
               //원래 요청을 재시도
               error.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
               final opts = Options(
-                method: error.requestOptions.method,
-                headers: error.requestOptions.headers
+                  method: error.requestOptions.method,
+                  headers: error.requestOptions.headers
               );
               final clonedRequest = await dio.request(
-                error.requestOptions.path,
-                options: opts,
-                data: error.requestOptions.data,
-                queryParameters: error.requestOptions.queryParameters
+                  error.requestOptions.path,
+                  options: opts,
+                  data: error.requestOptions.data,
+                  queryParameters: error.requestOptions.queryParameters
               );
               return handler.resolve(clonedRequest);
             } else {

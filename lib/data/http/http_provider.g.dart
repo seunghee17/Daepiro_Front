@@ -92,7 +92,7 @@ class HttpInterceptorProvider extends AutoDisposeProvider<InterceptorsWrapper> {
     Dio dio,
   ) : this._internal(
           (ref) => httpInterceptor(
-            ref as HttpInterceptorRef,
+            ref as HttpRef,
             dio,
           ),
           from: httpInterceptorProvider,
