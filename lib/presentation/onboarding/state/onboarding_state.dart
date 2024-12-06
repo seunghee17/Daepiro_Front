@@ -4,8 +4,10 @@ part 'onboarding_state.freezed.dart';
 sealed class OnboardingState with _$OnboardingState {
   factory OnboardingState({
     @Default(false) bool isError,
-    @Default('NONE') String nameState,
-    @Default('NONE') String nicknameState,
+    @Default('') String nameState,
+    @Default('') String nicknameState,
+    @Default(false) bool completeSetName,
+    @Default(false) bool completeSetNickName,
     //검색된 주소 목록의 중복을 제거하기 위함
     @Default(<String>{}) Set<String> jusoListState,
     @Default('') String userName,
