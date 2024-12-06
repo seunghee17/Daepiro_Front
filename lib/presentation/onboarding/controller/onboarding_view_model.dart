@@ -16,8 +16,14 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   OnboardingViewModel(super.state);
 
-  void setNameState(String nameState) {
-    state = state.copyWith(nameState: nameState);
+  void setNameState(String name) {
+    if(_checkForNameRule(name)) {
+      state = state.copyWith(nameState: '*이름은 한글만 입력 가능해요.' , completeSetName: false);
+    } else if(name.length >6) {
+      state = state.copyWith(nameState: '*최대 6자까지 작성 가능해요.', completeSetName: false);
+    } else if(name.length <=6 && !_checkForNameRule(name) && name != '') {
+      state = state.copyWith(nameState: '', completeSetName: true);
+    }
   }
 
   void updateUserName(String name) {
@@ -28,11 +34,40 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     state = state.copyWith(userNickName: nickName);
   }
 
-  void setNickState(String nickState) {
-    state = state.copyWith(nicknameState: nickState);
+  Future<void> setNickNameState(String nickName, WidgetRef ref) async {
+    if(nickName.length >10) {
+      state = state.copyWith(nicknameState: '*최대 10글자만 입력 가능합니다.', completeSetNickName: false);
+    } else if(!_checkForSpecialCharacter(nickName)) {
+      state = state.copyWith(nicknameState: '*닉네임은 한글/영문/숫자만 입력 가능해요.', completeSetNickName: false);
+    } else if(!await _checkNickName(nickName, ref)) {
+      //현재 닉네임이 중복됨
+      state = state.copyWith(nicknameState: '*이미 사용 중인 닉네임이에요.', completeSetNickName: false);
+    } else {
+      state = state.copyWith(nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
+    }
   }
 
-  Future<bool> checkNickName(String nickname, WidgetRef ref) async {
+  bool getProceedState() {
+    if(state.completeSetName && state.completeSetNickName) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //특수문자 판단용
+  bool _checkForSpecialCharacter(String text) {
+    final regex = RegExp(r'[^가-힣a-zA-Z0-9]');
+    return !regex.hasMatch(text);
+  }
+
+  //영문 판단용
+  bool _checkForNameRule(String text) {
+    final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}]', unicode: true);
+    return pattern.hasMatch(text);
+  }
+
+  Future<bool> _checkNickName(String nickname, WidgetRef ref) async {
     final result = await ref.read(checkNickNameUseCaseProvider(CheckNickNameUseCase(nickName: nickname)).future);
     return result.data?.isAvailable ?? false;
   }

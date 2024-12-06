@@ -17,84 +17,11 @@ class OnboardingSecondScreen extends ConsumerStatefulWidget {
 class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController nicknameController = new TextEditingController();
-  int _nameLength = 0;
-  int _nicknameLength = 0;
-  bool cautionName = false;
-  bool cautionNick = false;
 
   @override
   void initState() {
     super.initState();
     ref.read(onboardingStateNotifierProvider);
-    nameController.addListener(updateNameState);
-    nicknameController.addListener(updateNickState);
-  }
-
-  void updateNameState() {
-    var newNameLength = nameController.text.length;
-    var newState = 'NONE';
-    var newCaution = false;
-
-    if (_checkForNameRule(nameController.text)) {
-      newState = 'WRONG_INPUT';
-      newCaution = true;
-    } else if (newNameLength > 6) {
-      newState = 'OVER_LENGTH_NAME';
-      newCaution = true;
-    } else if (newNameLength > 1) {
-      newState = 'NORMAL';
-      newCaution = false;
-    }
-    if (newCaution != cautionName || _nameLength != newNameLength) {
-      setState(() {
-        _nameLength = newNameLength;
-        cautionName = newCaution;
-        ref.read(onboardingStateNotifierProvider.notifier).setNameState(newState);
-      });
-    }
-  }
-
-  void updateNickState() async {
-    var newNickLength = nicknameController.text.length;
-
-    if (newNickLength != _nicknameLength) {
-      setState(() {
-        _nicknameLength = newNickLength;
-      });
-    }
-    var newState = 'NORMAL';
-    var newCaution = false;
-    var isAvailable = await ref.read(onboardingStateNotifierProvider.notifier).checkNickName(nicknameController.text, ref);
-    if (!_checkForSpecialCharacter(nicknameController.text)) {
-      newState = 'ERRORCHARACTER';
-      newCaution = true;
-    }
-    if (newNickLength > 10) {
-      newState = 'OVER_LENGTH_NICK';
-      newCaution = true;
-    }
-    if (!isAvailable) {
-      newState = 'SAME';
-      newCaution = true;
-    }
-
-    if (newCaution != cautionNick) {
-      setState(() {
-        cautionNick = newCaution;
-        ref.read(onboardingStateNotifierProvider.notifier).setNickState(newState);
-      });
-    }
-  }
-
-
-  bool _checkForNameRule(String text) {
-    final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}]', unicode: true);
-    return pattern.hasMatch(text);
-  }
-
-  bool _checkForSpecialCharacter(String text) {
-    final regex = RegExp(r'[^가-힣a-zA-Z0-9]');
-    return !regex.hasMatch(text);
   }
 
   @override
@@ -104,7 +31,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
         .of(context)
         .viewInsets
         .bottom;
-    bool canProceed = state.nameState == 'NORMAL' && state.nicknameState == 'NORMAL';
+    //bool canProceed = state.nameState == 'NORMAL' && state.nicknameState == 'NORMAL';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -125,12 +52,9 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                   Text('이름', style: DaepiroTextStyle.h6.copyWith(
                       color: DaepiroColorStyle.g_900)),
                   SizedBox(height: 8),
-                  NameTextField(nameController, _nameLength, cautionName,
-                      state.nameState),
-                  if(state.nameState == 'WRONG_INPUT')
-                    StateText('WRONG_INPUT', '*이름은 한글만 입력 가능해요.'),
-                  if(state.nameState == 'OVER_LENGTH_NAME')
-                    StateText('OVER_LENGTH', '*최대 6자까지 작성 가능해요.'),
+                  NameTextField(nameController, state.nameState, ref),
+                  if(state.nameState != '')
+                    namestateText(state.nameState),
                   SizedBox(height: 16),
                   Text(
                     '닉네임',
@@ -138,18 +62,9 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                         color: DaepiroColorStyle.g_900),
                   ),
                   SizedBox(height: 8),
-                  NickNameTextField(nicknameController, _nicknameLength, cautionNick, ''),
-                  if(state.nicknameState == 'OVER_LENGTH_NICK')
-                    StateText('OVER_LENGTH', '*최대 10글자만 입력 가능합니다.'),
-                  if(state.nicknameState == 'NORMAL' &&
-                      state.nicknameState != 'NONE' &&
-                      state.nicknameState != 'SAME' &&
-                      state.nicknameState != 'ERRORCHARACTER')
-                    StateText('NORMAL', '*사용 가능한 닉네임 입니다.'),
-                  if(state.nicknameState == 'SAME')
-                    StateText('NORMAL', '*이미 사용 중인 닉네임이에요.'),
-                  if(state.nicknameState == 'ERRORCHARACTER')
-                    StateText('ERRORCHARACTER', '*닉네임은 한글/영문/숫자만 입력 가능해요.'),
+                  nickNameTextField(nicknameController, state.nicknameState),
+                  if(state.nicknameState != '')
+                    nickNamestateText(state.nicknameState)
                 ],
               ),
             ),
@@ -157,7 +72,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
           Padding(
             padding: EdgeInsets.only(bottom: keyboardHeight),
             // 키보드 높이만큼 하단 패딩 추가
-            child: BottomWidget(context, canProceed),
+            child: BottomWidget(context, ref.read(onboardingStateNotifierProvider.notifier).getProceedState()),
           ),
           SizedBox(height: 16)
         ],
@@ -245,8 +160,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   }
 
   //이름 입력란
-  Widget NameTextField(TextEditingController controller, int length,
-      bool isCaution, String nameState) {
+  Widget NameTextField(TextEditingController controller, String nameState, WidgetRef ref) {
     return Stack(
       children: [
         TextField(
@@ -269,37 +183,31 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(
                     width: 1.5,
-                    color: isCaution ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_100
+                    color: nameState != '' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_100
                 )),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
             ),
+            suffixIcon: Text('${controller.text.length}/6', style: DaepiroTextStyle.body_1_m.copyWith(
+                color: controller.text.length > 6 ? DaepiroColorStyle
+                    .r_300 : DaepiroColorStyle.g_200)),
           ),
-        ),
-        Positioned(
-            right: 16,
-            top: 16,
-            bottom: 16,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('${length}/6', style: DaepiroTextStyle.body_1_m.copyWith(
-                    color: nameState == 'OVER_LENGTH_NAME' ? DaepiroColorStyle
-                        .r_300 : DaepiroColorStyle.g_200)),
-              ],
-            )
+          onChanged: (text) {
+            ref.read(onboardingStateNotifierProvider.notifier).setNameState(text);
+            setState(() {});
+          },
         ),
       ],
     );
   }
 
   //닉네임 입력란
-  Widget NickNameTextField(TextEditingController _controller, int length, bool isCaution, String state) {
+  Widget nickNameTextField(TextEditingController controller, String nickNameState) {
     return Stack(
       children: [
         TextField(
-          controller: _controller,
+          controller: controller,
           onTapOutside: (event) =>
               FocusManager.instance.primaryFocus?.unfocus(),
           style: DaepiroTextStyle.body_1_m.copyWith(
@@ -318,47 +226,64 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(
                     width: 1.5,
-                    color: isCaution
-                        ? DaepiroColorStyle.r_300
-                        : DaepiroColorStyle.g_100
+                    color: setBorderColor(nickNameState)
                 )
             ),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
             ),
+            suffixIcon: Text('${controller.text.length}/10', style: DaepiroTextStyle.body_1_m.copyWith(
+                color: controller.text.length > 10 ? DaepiroColorStyle.r_300
+                    : DaepiroColorStyle.g_200)),
           ),
-        ),
-        Positioned(
-            right: 16,
-            top: 16,
-            bottom: 16,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('${length}/10', style: DaepiroTextStyle.body_1_m.copyWith(
-                    color: state == 'OVER_LENGTH_NICK'
-                        ? DaepiroColorStyle.r_300
-                        : DaepiroColorStyle.g_200)),
-              ],
-            )
+          onChanged: (text) async {
+            await ref.read(onboardingStateNotifierProvider.notifier).setNickNameState(text, ref);
+            setState(() {});
+          },
         ),
       ],
     );
   }
 
-  Widget StateText(String state, String textData) {
+  Color setBorderColor(String nickNameState) {
+    if(nickNameState == '') {
+      return DaepiroColorStyle.g_100;
+    } else if(nickNameState != '*사용 가능한 닉네임 입니다.') {
+      return DaepiroColorStyle.r_300;
+    } else {
+      return DaepiroColorStyle.g_100;
+    }
+  }
+
+  Widget nickNamestateText(String nickNameState) {
     return Container(
       child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Spacer(),
             Text(
-                textData,
+                nickNameState,
                 style: DaepiroTextStyle.body_2_m.copyWith(
-                    color: state == 'NORMAL'
+                    color: nickNameState == '*사용 가능한 닉네임 입니다.'
                         ? DaepiroColorStyle.gre_400
                         : DaepiroColorStyle.r_300)
+            ),
+          ]
+      ),
+    );
+  }
+
+  Widget namestateText(String nickNameState) {
+    return Container(
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Spacer(),
+            Text(
+                nickNameState,
+                style: DaepiroTextStyle.body_2_m.copyWith(
+                    color: DaepiroColorStyle.r_300)
             ),
           ]
       ),
