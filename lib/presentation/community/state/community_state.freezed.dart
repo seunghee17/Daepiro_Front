@@ -17,15 +17,21 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CommunityState {
 //전체와 수신버튼 상태
-  bool get receiveButton => throw _privateConstructorUsedError;
-  bool get AllButton => throw _privateConstructorUsedError; //현재 보여지는 상태
+// @Default(false) bool receiveButton,
+// @Default(true) bool AllButton,
+//현재 보여지는 상태
   bool get isDisasterScreen => throw _privateConstructorUsedError;
-  bool get isCertificateUser => throw _privateConstructorUsedError;
   bool get isDeleteComplete => throw _privateConstructorUsedError;
-  String? get reportType => throw _privateConstructorUsedError;
+  String? get reportType => throw _privateConstructorUsedError; //갤러리 관련 상태 변수
   List<AlbumModel> get albums => throw _privateConstructorUsedError;
   int get currentAlbumIndex => throw _privateConstructorUsedError;
-  List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
+  List<AlbumModel> get selectAlbums =>
+      throw _privateConstructorUsedError; //커뮤니티 유형별 데이터 상태
+  List<Data> get allDisasterResponse => throw _privateConstructorUsedError;
+  List<Data> get receivedDisasterResponse => throw _privateConstructorUsedError;
+  int get listLength => throw _privateConstructorUsedError; //재난상황 로드 상태
+  bool get isLoading => throw _privateConstructorUsedError; //재난상황 커뮤니티 타입
+  String get disasterCommunityType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityStateCopyWith<CommunityState> get copyWith =>
@@ -39,15 +45,17 @@ abstract class $CommunityStateCopyWith<$Res> {
       _$CommunityStateCopyWithImpl<$Res, CommunityState>;
   @useResult
   $Res call(
-      {bool receiveButton,
-      bool AllButton,
-      bool isDisasterScreen,
-      bool isCertificateUser,
+      {bool isDisasterScreen,
       bool isDeleteComplete,
       String? reportType,
       List<AlbumModel> albums,
       int currentAlbumIndex,
-      List<AlbumModel> selectAlbums});
+      List<AlbumModel> selectAlbums,
+      List<Data> allDisasterResponse,
+      List<Data> receivedDisasterResponse,
+      int listLength,
+      bool isLoading,
+      String disasterCommunityType});
 }
 
 /// @nodoc
@@ -63,32 +71,22 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiveButton = null,
-    Object? AllButton = null,
     Object? isDisasterScreen = null,
-    Object? isCertificateUser = null,
     Object? isDeleteComplete = null,
     Object? reportType = freezed,
     Object? albums = null,
     Object? currentAlbumIndex = null,
     Object? selectAlbums = null,
+    Object? allDisasterResponse = null,
+    Object? receivedDisasterResponse = null,
+    Object? listLength = null,
+    Object? isLoading = null,
+    Object? disasterCommunityType = null,
   }) {
     return _then(_value.copyWith(
-      receiveButton: null == receiveButton
-          ? _value.receiveButton
-          : receiveButton // ignore: cast_nullable_to_non_nullable
-              as bool,
-      AllButton: null == AllButton
-          ? _value.AllButton
-          : AllButton // ignore: cast_nullable_to_non_nullable
-              as bool,
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCertificateUser: null == isCertificateUser
-          ? _value.isCertificateUser
-          : isCertificateUser // ignore: cast_nullable_to_non_nullable
               as bool,
       isDeleteComplete: null == isDeleteComplete
           ? _value.isDeleteComplete
@@ -110,6 +108,26 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.selectAlbums
           : selectAlbums // ignore: cast_nullable_to_non_nullable
               as List<AlbumModel>,
+      allDisasterResponse: null == allDisasterResponse
+          ? _value.allDisasterResponse
+          : allDisasterResponse // ignore: cast_nullable_to_non_nullable
+              as List<Data>,
+      receivedDisasterResponse: null == receivedDisasterResponse
+          ? _value.receivedDisasterResponse
+          : receivedDisasterResponse // ignore: cast_nullable_to_non_nullable
+              as List<Data>,
+      listLength: null == listLength
+          ? _value.listLength
+          : listLength // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      disasterCommunityType: null == disasterCommunityType
+          ? _value.disasterCommunityType
+          : disasterCommunityType // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -123,15 +141,17 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool receiveButton,
-      bool AllButton,
-      bool isDisasterScreen,
-      bool isCertificateUser,
+      {bool isDisasterScreen,
       bool isDeleteComplete,
       String? reportType,
       List<AlbumModel> albums,
       int currentAlbumIndex,
-      List<AlbumModel> selectAlbums});
+      List<AlbumModel> selectAlbums,
+      List<Data> allDisasterResponse,
+      List<Data> receivedDisasterResponse,
+      int listLength,
+      bool isLoading,
+      String disasterCommunityType});
 }
 
 /// @nodoc
@@ -145,32 +165,22 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiveButton = null,
-    Object? AllButton = null,
     Object? isDisasterScreen = null,
-    Object? isCertificateUser = null,
     Object? isDeleteComplete = null,
     Object? reportType = freezed,
     Object? albums = null,
     Object? currentAlbumIndex = null,
     Object? selectAlbums = null,
+    Object? allDisasterResponse = null,
+    Object? receivedDisasterResponse = null,
+    Object? listLength = null,
+    Object? isLoading = null,
+    Object? disasterCommunityType = null,
   }) {
     return _then(_$CommunityStateImpl(
-      receiveButton: null == receiveButton
-          ? _value.receiveButton
-          : receiveButton // ignore: cast_nullable_to_non_nullable
-              as bool,
-      AllButton: null == AllButton
-          ? _value.AllButton
-          : AllButton // ignore: cast_nullable_to_non_nullable
-              as bool,
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCertificateUser: null == isCertificateUser
-          ? _value.isCertificateUser
-          : isCertificateUser // ignore: cast_nullable_to_non_nullable
               as bool,
       isDeleteComplete: null == isDeleteComplete
           ? _value.isDeleteComplete
@@ -192,6 +202,26 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value._selectAlbums
           : selectAlbums // ignore: cast_nullable_to_non_nullable
               as List<AlbumModel>,
+      allDisasterResponse: null == allDisasterResponse
+          ? _value._allDisasterResponse
+          : allDisasterResponse // ignore: cast_nullable_to_non_nullable
+              as List<Data>,
+      receivedDisasterResponse: null == receivedDisasterResponse
+          ? _value._receivedDisasterResponse
+          : receivedDisasterResponse // ignore: cast_nullable_to_non_nullable
+              as List<Data>,
+      listLength: null == listLength
+          ? _value.listLength
+          : listLength // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      disasterCommunityType: null == disasterCommunityType
+          ? _value.disasterCommunityType
+          : disasterCommunityType // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -200,39 +230,38 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
 
 class _$CommunityStateImpl implements _CommunityState {
   _$CommunityStateImpl(
-      {this.receiveButton = false,
-      this.AllButton = true,
-      this.isDisasterScreen = true,
-      this.isCertificateUser = false,
+      {this.isDisasterScreen = true,
       this.isDeleteComplete = false,
       this.reportType = null,
       final List<AlbumModel> albums = const [],
       this.currentAlbumIndex = 0,
-      final List<AlbumModel> selectAlbums = const []})
+      final List<AlbumModel> selectAlbums = const [],
+      final List<Data> allDisasterResponse = const [],
+      final List<Data> receivedDisasterResponse = const [],
+      this.listLength = 0,
+      this.isLoading = true,
+      this.disasterCommunityType = 'all'})
       : _albums = albums,
-        _selectAlbums = selectAlbums;
+        _selectAlbums = selectAlbums,
+        _allDisasterResponse = allDisasterResponse,
+        _receivedDisasterResponse = receivedDisasterResponse;
 
 //전체와 수신버튼 상태
-  @override
-  @JsonKey()
-  final bool receiveButton;
-  @override
-  @JsonKey()
-  final bool AllButton;
+// @Default(false) bool receiveButton,
+// @Default(true) bool AllButton,
 //현재 보여지는 상태
   @override
   @JsonKey()
   final bool isDisasterScreen;
   @override
   @JsonKey()
-  final bool isCertificateUser;
-  @override
-  @JsonKey()
   final bool isDeleteComplete;
   @override
   @JsonKey()
   final String? reportType;
+//갤러리 관련 상태 변수
   final List<AlbumModel> _albums;
+//갤러리 관련 상태 변수
   @override
   @JsonKey()
   List<AlbumModel> get albums {
@@ -253,9 +282,43 @@ class _$CommunityStateImpl implements _CommunityState {
     return EqualUnmodifiableListView(_selectAlbums);
   }
 
+//커뮤니티 유형별 데이터 상태
+  final List<Data> _allDisasterResponse;
+//커뮤니티 유형별 데이터 상태
+  @override
+  @JsonKey()
+  List<Data> get allDisasterResponse {
+    if (_allDisasterResponse is EqualUnmodifiableListView)
+      return _allDisasterResponse;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allDisasterResponse);
+  }
+
+  final List<Data> _receivedDisasterResponse;
+  @override
+  @JsonKey()
+  List<Data> get receivedDisasterResponse {
+    if (_receivedDisasterResponse is EqualUnmodifiableListView)
+      return _receivedDisasterResponse;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_receivedDisasterResponse);
+  }
+
+  @override
+  @JsonKey()
+  final int listLength;
+//재난상황 로드 상태
+  @override
+  @JsonKey()
+  final bool isLoading;
+//재난상황 커뮤니티 타입
+  @override
+  @JsonKey()
+  final String disasterCommunityType;
+
   @override
   String toString() {
-    return 'CommunityState(receiveButton: $receiveButton, AllButton: $AllButton, isDisasterScreen: $isDisasterScreen, isCertificateUser: $isCertificateUser, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
+    return 'CommunityState(isDisasterScreen: $isDisasterScreen, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, disasterCommunityType: $disasterCommunityType)';
   }
 
   @override
@@ -263,14 +326,8 @@ class _$CommunityStateImpl implements _CommunityState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CommunityStateImpl &&
-            (identical(other.receiveButton, receiveButton) ||
-                other.receiveButton == receiveButton) &&
-            (identical(other.AllButton, AllButton) ||
-                other.AllButton == AllButton) &&
             (identical(other.isDisasterScreen, isDisasterScreen) ||
                 other.isDisasterScreen == isDisasterScreen) &&
-            (identical(other.isCertificateUser, isCertificateUser) ||
-                other.isCertificateUser == isCertificateUser) &&
             (identical(other.isDeleteComplete, isDeleteComplete) ||
                 other.isDeleteComplete == isDeleteComplete) &&
             (identical(other.reportType, reportType) ||
@@ -279,21 +336,33 @@ class _$CommunityStateImpl implements _CommunityState {
             (identical(other.currentAlbumIndex, currentAlbumIndex) ||
                 other.currentAlbumIndex == currentAlbumIndex) &&
             const DeepCollectionEquality()
-                .equals(other._selectAlbums, _selectAlbums));
+                .equals(other._selectAlbums, _selectAlbums) &&
+            const DeepCollectionEquality()
+                .equals(other._allDisasterResponse, _allDisasterResponse) &&
+            const DeepCollectionEquality().equals(
+                other._receivedDisasterResponse, _receivedDisasterResponse) &&
+            (identical(other.listLength, listLength) ||
+                other.listLength == listLength) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.disasterCommunityType, disasterCommunityType) ||
+                other.disasterCommunityType == disasterCommunityType));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      receiveButton,
-      AllButton,
       isDisasterScreen,
-      isCertificateUser,
       isDeleteComplete,
       reportType,
       const DeepCollectionEquality().hash(_albums),
       currentAlbumIndex,
-      const DeepCollectionEquality().hash(_selectAlbums));
+      const DeepCollectionEquality().hash(_selectAlbums),
+      const DeepCollectionEquality().hash(_allDisasterResponse),
+      const DeepCollectionEquality().hash(_receivedDisasterResponse),
+      listLength,
+      isLoading,
+      disasterCommunityType);
 
   @JsonKey(ignore: true)
   @override
@@ -305,34 +374,43 @@ class _$CommunityStateImpl implements _CommunityState {
 
 abstract class _CommunityState implements CommunityState {
   factory _CommunityState(
-      {final bool receiveButton,
-      final bool AllButton,
-      final bool isDisasterScreen,
-      final bool isCertificateUser,
+      {final bool isDisasterScreen,
       final bool isDeleteComplete,
       final String? reportType,
       final List<AlbumModel> albums,
       final int currentAlbumIndex,
-      final List<AlbumModel> selectAlbums}) = _$CommunityStateImpl;
+      final List<AlbumModel> selectAlbums,
+      final List<Data> allDisasterResponse,
+      final List<Data> receivedDisasterResponse,
+      final int listLength,
+      final bool isLoading,
+      final String disasterCommunityType}) = _$CommunityStateImpl;
 
   @override //전체와 수신버튼 상태
-  bool get receiveButton;
-  @override
-  bool get AllButton;
-  @override //현재 보여지는 상태
+// @Default(false) bool receiveButton,
+// @Default(true) bool AllButton,
+//현재 보여지는 상태
   bool get isDisasterScreen;
-  @override
-  bool get isCertificateUser;
   @override
   bool get isDeleteComplete;
   @override
   String? get reportType;
-  @override
+  @override //갤러리 관련 상태 변수
   List<AlbumModel> get albums;
   @override
   int get currentAlbumIndex;
   @override
   List<AlbumModel> get selectAlbums;
+  @override //커뮤니티 유형별 데이터 상태
+  List<Data> get allDisasterResponse;
+  @override
+  List<Data> get receivedDisasterResponse;
+  @override
+  int get listLength;
+  @override //재난상황 로드 상태
+  bool get isLoading;
+  @override //재난상황 커뮤니티 타입
+  String get disasterCommunityType;
   @override
   @JsonKey(ignore: true)
   _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>

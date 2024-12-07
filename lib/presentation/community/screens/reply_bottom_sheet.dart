@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/reply_menu_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

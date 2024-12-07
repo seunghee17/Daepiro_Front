@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/disaster/community_disaster_screen.dart';
 import 'package:daepiro/presentation/community/screens/town/community_town_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,11 +32,9 @@ class CommunityMainScreen extends ConsumerWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: changeHeader(state.isDisasterScreen)
-                    ),
+                    communityHeader(state.isDisasterScreen),
                     TabBar(
+                      padding: EdgeInsets.zero,
                       splashFactory: NoSplash.splashFactory,
                       indicator: UnderlineTabIndicator(
                         borderSide: BorderSide(
@@ -74,9 +72,12 @@ class CommunityMainScreen extends ConsumerWidget {
         child: Row(
       children: [
         SizedBox(width: 20),
-        Text(
-          '커뮤니티',
-          style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          child: Text(
+            '커뮤니티',
+            style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
+          ),
         )
       ],
     ));
@@ -84,37 +85,43 @@ class CommunityMainScreen extends ConsumerWidget {
 
   Widget townHeaderWidget() {
     return Container(
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: (){},
-            child: Row(
-              children: [
-                Text('강남구',
-                  style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
-                ),
-                SizedBox(width: 4),
-                SvgPicture.asset(
-                    'assets/icons/icon_arrow_down.svg',
-                    width: 20,
-                    height: 20,
-                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
-              ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: (){},
+              child: Row(
+                children: [
+                  Text('강남구',
+                    style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
+                  ),
+                  SizedBox(width: 4),
+                  SvgPicture.asset(
+                      'assets/icons/icon_arrow_down.svg',
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                ],
+              ),
             ),
-          ),
-          Spacer(),
-          TextButton(
-              onPressed: (){},
-              child: Text(
-                '글쓰기',
-                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),
-              )
-          )
-        ],
+            Spacer(),
+            TextButton(
+                onPressed: (){},
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                ),
+                child: Text(
+                  '글쓰기',
+                  style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),
+                )
+            )
+          ],
+        ),
       ),
     );
   }
-  Widget changeHeader(bool tabState) {
+  Widget communityHeader(bool tabState) {
     if(tabState) {
       return disasterHeaderWidget();
     } else {
