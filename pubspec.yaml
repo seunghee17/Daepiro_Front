@@ -60,6 +60,7 @@ dependencies:
   provider: 6.0.5
   photo_manager: ^3.6.3
   photo_manager_image_provider: ^2.2.0
+  intl: ^0.20.1
 
 
 dev_dependencies:
