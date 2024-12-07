@@ -9,10 +9,11 @@ import '../../domain/usecase/login/social_login_usecase.dart';
 import 'login_state.dart';
 
 final loginStateNotifierProvider = StateNotifierProvider<LoginViewModel, LoginState>((ref) {
-  return LoginViewModel();
+  return LoginViewModel(ref);
 });
 
 class LoginViewModel extends StateNotifier<LoginState> {
+  final Ref ref;
   final FlutterSecureStorage storage = FlutterSecureStorage();
 
   List<Permission> permission = [
@@ -21,10 +22,10 @@ class LoginViewModel extends StateNotifier<LoginState> {
     Permission.camera,
     Permission.storage
   ];
-  LoginViewModel() : super(LoginState());
+  LoginViewModel(this.ref) : super(LoginState());
 
   // 상태를 관리하는 ViewModel 또는 Notifier에서
-  Future<void> fetchSocialToken(String platform, String token, WidgetRef ref) async {
+  Future<void> fetchSocialToken(String platform, String token) async {
     state = state.copyWith(isLoading: true);
     try {
       final response = await ref.read(getSocialTokenUsecaseProvider(GetSocialTokenUseCase(platform: platform, tokenRequest: SocialLoginRequest(socialToken: token))).future);

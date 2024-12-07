@@ -48,7 +48,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
       await ref.read(onboardingStateNotifierProvider.notifier).getJusoList(
           jusoController.text,
           currentPage,
-          true, ref
+          true
       );
       setState(() {
         isLoading = false;
@@ -242,7 +242,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
           ),
           onChanged: (text) async {
             await ref.read(onboardingStateNotifierProvider.notifier)
-                .getJusoList(controller.text, 0, false, ref);
+                .getJusoList(controller.text, 0, false);
             setState(() {});
           },
           focusNode: focusNode,

@@ -9,13 +9,15 @@ import '../state/onboarding_state.dart';
 
 final onboardingStateNotifierProvider =
     StateNotifierProvider<OnboardingViewModel, OnboardingState>((ref) {
-  return OnboardingViewModel(OnboardingState());
+  return OnboardingViewModel(ref);
 });
 
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
+  final Ref ref;
   List<String> inputJusoList = [];
 
-  OnboardingViewModel(super.state);
+  //OnboardingViewModel(super.state);
+  OnboardingViewModel(this.ref) : super(OnboardingState());
 
   void setNameState(String name) {
     if (_checkForNameRule(name)) {
@@ -37,7 +39,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     state = state.copyWith(userNickName: nickName);
   }
 
-  Future<void> setNickNameState(String nickName, WidgetRef ref) async {
+  Future<void> setNickNameState(String nickName) async {
     if (nickName.length > 10) {
       state = state.copyWith(
           nicknameState: '*최대 10글자만 입력 가능합니다.', completeSetNickName: false);
@@ -45,7 +47,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
       state = state.copyWith(
           nicknameState: '*닉네임은 한글/영문/숫자만 입력 가능해요.',
           completeSetNickName: false);
-    } else if (!await _checkNickName(nickName, ref)) {
+    } else if (!await _checkNickName(nickName)) {
       //현재 닉네임이 중복됨
       state = state.copyWith(
           nicknameState: '*이미 사용 중인 닉네임이에요.', completeSetNickName: false);
@@ -75,14 +77,14 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     return pattern.hasMatch(text);
   }
 
-  Future<bool> _checkNickName(String nickname, WidgetRef ref) async {
+  Future<bool> _checkNickName(String nickname) async {
     final result = await ref.read(
         checkNickNameUseCaseProvider(CheckNickNameUseCase(nickName: nickname))
             .future);
     return result.data?.isAvailable ?? false;
   }
 
-  Future<void> sendUserInfo(WidgetRef ref) async {
+  Future<void> sendUserInfo() async {
     final address = parseAddress();
     final fcmToken = await getFcmToken();
     await ref.read(sendonboardingInfoUseCaseProvider(SendOnboardinginfoUseCase(
@@ -123,7 +125,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
 //검색결과 주소 리스트 반환
   Future<void> getJusoList(
-      String inputJuso, int currentPage, bool append, WidgetRef ref) async {
+      String inputJuso, int currentPage, bool append) async {
     final result = await ref.read(getJusoListUseCaseProvider(
             GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage))
         .future);
