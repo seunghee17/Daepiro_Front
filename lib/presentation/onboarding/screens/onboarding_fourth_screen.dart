@@ -41,15 +41,10 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                             '위급/긴급 재난',
                             style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),),
                           Spacer(),
-                          PrimaryFilledButton(
-                              onPressed: null,
-                              backgroundColor: DaepiroColorStyle.o_50,
-                              pressedColor: DaepiroColorStyle.o_50,
-                              borderRadius: 4.0,
-                              child: primaryFilledButtonWidget(),
-                              verticalPadding: 0.0)
+                          primaryFilledButtonWidget(),
                         ],
                       ),
+                      SizedBox(height: 4,),
                       Text(
                         '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
                         style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
@@ -115,17 +110,20 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
   }
 
   Widget primaryFilledButtonWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: Container(
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: DaepiroColorStyle.o_50
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
         child: Row(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 4),
-              child: SvgPicture.asset(
-                  'assets/icons/icon_alarm.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)
-              ),
+            SvgPicture.asset(
+                'assets/icons/icon_alarm.svg',
+                width: 16,
+                height: 16,
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)
             ),
             Text(
               '수신권장',

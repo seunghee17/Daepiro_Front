@@ -152,13 +152,13 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         SizedBox(height: 32),
         Row(
           children: [
-            if(userName.length >=4)
+            if(userName.length >=3)
               Text(
                 '${userName.substring(1, 3)}님 ',
                 style: DaepiroTextStyle.h5.copyWith(
                     color: DaepiroColorStyle.g_900),
               ),
-            if(userName.length <4)
+            if(userName.length <3)
               Text(
                 '${userName}님 ',
                 style: DaepiroTextStyle.h5.copyWith(
