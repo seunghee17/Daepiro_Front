@@ -78,7 +78,7 @@ class LoginScreen extends ConsumerWidget {
                     Color(0xFFFAE300),
                         () async {
                       String token = await ref.read(loginStateNotifierProvider.notifier).kakaoLogin();
-                      await ref.read(loginStateNotifierProvider.notifier).fetchSocialToken('kakao', token, ref);
+                      await ref.read(loginStateNotifierProvider.notifier).fetchSocialToken('kakao', token);
                     },
                     KakaoWidget(),
                   ),
@@ -87,7 +87,7 @@ class LoginScreen extends ConsumerWidget {
                     Color(0xFF03C75A),
                         () async {
                       String token = await ref.read(loginStateNotifierProvider.notifier).naverLogin();
-                      await ref.read(loginStateNotifierProvider.notifier).fetchSocialToken('naver', token, ref);
+                      await ref.read(loginStateNotifierProvider.notifier).fetchSocialToken('naver', token);
                     },
                     NaverWidget(),
                   ),
