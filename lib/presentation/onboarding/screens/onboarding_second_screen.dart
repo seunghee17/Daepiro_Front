@@ -205,7 +205,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                   borderSide:
                       BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
               suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Text('${controller.text.length}/6',
                     style: DaepiroTextStyle.body_1_m.copyWith(
                         color: controller.text.length > 6
@@ -251,7 +251,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                   borderSide:
                       BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
               suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Text('${controller.text.length}/10',
                     style: DaepiroTextStyle.body_1_m.copyWith(
                         color: controller.text.length > 10
