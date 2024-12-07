@@ -10,6 +10,5 @@ final getJusoListUseCaseProvider = FutureProvider.family<List<String>, GetJusoLi
 class GetJusoListUseCase {
   final String inputJuso;
   final int currentPage;
-
   GetJusoListUseCase({required this.inputJuso, required this.currentPage});
 }
