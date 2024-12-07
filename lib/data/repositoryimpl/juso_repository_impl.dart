@@ -9,8 +9,12 @@ class JusoRepositoryImpl extends JusoRepository {
   Future<List<String>> getjusoList({required String inputJuso, required int currentPage}) async {
     try {
       final jusoResponse = await _service.getJusoList(keyword: inputJuso, currentPage: currentPage);
+      final results = jusoResponse.results;
       Set<String> jusoList = Set();
-      for (var juso in jusoResponse.results!.juso!) {
+      if(results == null || results.juso == null) {
+        return [];
+      }
+      for (var juso in results.juso!) {
         String formattedJuso = "${juso.siNm} ${juso.sggNm} ${juso.emdNm}"; // 도로명 주소와 지번 주소를 조합
         jusoList.add(formattedJuso);
       }

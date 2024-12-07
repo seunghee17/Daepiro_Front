@@ -7,7 +7,8 @@ import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../state/onboarding_state.dart';
 
-final onboardingStateNotifierProvider = StateNotifierProvider<OnboardingViewModel, OnboardingState>((ref) {
+final onboardingStateNotifierProvider =
+    StateNotifierProvider<OnboardingViewModel, OnboardingState>((ref) {
   return OnboardingViewModel(OnboardingState());
 });
 
@@ -17,11 +18,13 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   OnboardingViewModel(super.state);
 
   void setNameState(String name) {
-    if(_checkForNameRule(name)) {
-      state = state.copyWith(nameState: '*이름은 한글만 입력 가능해요.' , completeSetName: false);
-    } else if(name.length >6) {
-      state = state.copyWith(nameState: '*최대 6자까지 작성 가능해요.', completeSetName: false);
-    } else if(name.length <=6 && !_checkForNameRule(name) && name != '') {
+    if (_checkForNameRule(name)) {
+      state = state.copyWith(
+          nameState: '*이름은 한글만 입력 가능해요.', completeSetName: false);
+    } else if (name.length > 6) {
+      state = state.copyWith(
+          nameState: '*최대 6자까지 작성 가능해요.', completeSetName: false);
+    } else if (name.length <= 6 && !_checkForNameRule(name) && name != '') {
       state = state.copyWith(nameState: '', completeSetName: true);
     }
   }
@@ -35,20 +38,25 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   Future<void> setNickNameState(String nickName, WidgetRef ref) async {
-    if(nickName.length >10) {
-      state = state.copyWith(nicknameState: '*최대 10글자만 입력 가능합니다.', completeSetNickName: false);
-    } else if(!_checkForSpecialCharacter(nickName)) {
-      state = state.copyWith(nicknameState: '*닉네임은 한글/영문/숫자만 입력 가능해요.', completeSetNickName: false);
-    } else if(!await _checkNickName(nickName, ref)) {
+    if (nickName.length > 10) {
+      state = state.copyWith(
+          nicknameState: '*최대 10글자만 입력 가능합니다.', completeSetNickName: false);
+    } else if (!_checkForSpecialCharacter(nickName)) {
+      state = state.copyWith(
+          nicknameState: '*닉네임은 한글/영문/숫자만 입력 가능해요.',
+          completeSetNickName: false);
+    } else if (!await _checkNickName(nickName, ref)) {
       //현재 닉네임이 중복됨
-      state = state.copyWith(nicknameState: '*이미 사용 중인 닉네임이에요.', completeSetNickName: false);
+      state = state.copyWith(
+          nicknameState: '*이미 사용 중인 닉네임이에요.', completeSetNickName: false);
     } else {
-      state = state.copyWith(nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
+      state = state.copyWith(
+          nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
     }
   }
 
   bool getProceedState() {
-    if(state.completeSetName && state.completeSetNickName) {
+    if (state.completeSetName && state.completeSetNickName) {
       return true;
     } else {
       return false;
@@ -68,21 +76,23 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   Future<bool> _checkNickName(String nickname, WidgetRef ref) async {
-    final result = await ref.read(checkNickNameUseCaseProvider(CheckNickNameUseCase(nickName: nickname)).future);
+    final result = await ref.read(
+        checkNickNameUseCaseProvider(CheckNickNameUseCase(nickName: nickname))
+            .future);
     return result.data?.isAvailable ?? false;
   }
 
   Future<void> sendUserInfo(WidgetRef ref) async {
     final address = parseAddress();
     final fcmToken = await getFcmToken();
-    await ref.read(sendonboardingInfoUseCaseProvider(
-        SendOnboardinginfoUseCase(onboardingInfoRequest: OnboardingInfoRequest(
-            realname: state.userName,
-            nickname: state.userNickName,
-            addresses: address,
-            disasterTypes: state.disasterTypes,
-            fcmToken: fcmToken,
-        ))).future);
+    await ref.read(sendonboardingInfoUseCaseProvider(SendOnboardinginfoUseCase(
+        onboardingInfoRequest: OnboardingInfoRequest(
+      realname: state.userName,
+      nickname: state.userNickName,
+      addresses: address,
+      disasterTypes: state.disasterTypes,
+      fcmToken: fcmToken,
+    ))).future);
   }
 
   Future<String> getFcmToken() async {
@@ -91,7 +101,8 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   void setJusoNick(String firstNick, String secondNick) {
-    state = state.copyWith(firstJusoNick: firstNick, secondJusoNick: secondNick);
+    state =
+        state.copyWith(firstJusoNick: firstNick, secondJusoNick: secondNick);
   }
 
   List<Addresses> parseAddress() {
@@ -113,12 +124,15 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 //검색결과 주소 리스트 반환
   Future<void> getJusoList(
       String inputJuso, int currentPage, bool append, WidgetRef ref) async {
-    final result = await ref.read(getJusoListUseCaseProvider(GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
+    final result = await ref.read(getJusoListUseCaseProvider(
+            GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage))
+        .future);
     final currentList = state.jusoListState;
     try {
-      final updateList = append ? currentList.union(result.toSet()) : result.toSet();
+      final updateList =
+          append ? currentList.union(result.toSet()) : result.toSet();
       state = state.copyWith(jusoListState: updateList, isError: false);
-    } catch(e) {
+    } catch (e) {
       state = state.copyWith(isError: true);
     }
   }
@@ -160,45 +174,54 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   void deleteFirstJuso() {
-    state = state.copyWith(firstJuso: '');
+    state = state.copyWith(firstJuso: '', isJuso1Visible: false);
   }
 
   void deleteSecondJuso() {
-    state = state.copyWith(secondJuso: '');
+    state = state.copyWith(secondJuso: '', isJuso2Visible: false);
   }
 
-  //검색 결과 초기화
+  //주소 검색 결과 초기화
   void initSearchHistory() {
     state = state.copyWith(jusoListState: Set<String>());
   }
 
-  //집 주소 입력 여부 검증
-  String checkHomeControllerState(TextEditingController homeController,
-      bool juso1visible, bool juso2visible) {
-    if ((juso1visible || juso2visible) && homeController.text.isEmpty) {
-      return 'LENGTH_ERROR';
+  void setVisibleState(int index, bool value) {
+    if (index == 1) {
+      state = state.copyWith(isJuso1Visible: value);
     } else {
-      return 'AVAILABLE';
+      state = state.copyWith(isJuso2Visible: value);
     }
   }
 
   //주소 별명 오류검증
-  String checklocationControllerState(TextEditingController nickController) {
+  void checklocationControllerState(
+      TextEditingController nickController, int index) {
     if (nickController.text.isEmpty) {
-      return 'LENGTH_ERROR';
+      if (index == 1) {
+        state = state.copyWith(firstJusoState: '*별명 설정은 필수입니다.');
+      } else {
+        state = state.copyWith(secondJusoState: '*별명 설정은 필수입니다.');
+      }
     } else if (nickController.text.length > 8) {
-      return 'OVERFLOW_ERROR';
-    } else if (!checkForSpecialCharacter(nickController.text)) {
-      return 'NOT_TYPE';
+      if (index == 1) {
+        state = state.copyWith(firstJusoState: '*최대 8자까지 작성 가능해요.');
+      } else {
+        state = state.copyWith(secondJusoState: '*별명은 한글/영문/숫자만 가능합니다.');
+      }
+    } else if (!_checkForSpecialCharacter(nickController.text)) {
+      if (index == 1) {
+        state = state.copyWith(firstJusoState: '*별명은 한글/영문/숫자만 가능합니다.');
+      } else {
+        state = state.copyWith(secondJusoState: '*별명은 한글/영문/숫자만 가능합니다.');
+      }
     } else {
-      return 'AVAILABLE';
+      if (index == 1) {
+        state = state.copyWith(firstJusoState: 'Possible');
+      } else {
+        state = state.copyWith(secondJusoState: 'Possible');
+      }
     }
-  }
-
-  //특수문자 검증용 정규식
-  bool checkForSpecialCharacter(String text) {
-    final regex = RegExp(r'[^가-힣a-zA-Z0-9]');
-    return !regex.hasMatch(text);
   }
 
   //필수 권한 모두 동의

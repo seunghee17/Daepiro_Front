@@ -1,4 +1,3 @@
-import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,15 +8,17 @@ import '../../../cmm/DaepiroTheme.dart';
 //지역 별명 칩 focusnode 관리로 인해 따로 정의
 class LocationChip extends StatefulWidget {
   final TextEditingController controller;
-  final VoidCallback onValidInput;
+  final ValueChanged<String>? onChanged;
   final WidgetRef ref;
   final FocusNode focusNode;
+  final int index;
 
   LocationChip({
     required this.controller,
-    required this.onValidInput ,
+    required this.onChanged,
     required this.ref,
-    required this.focusNode
+    required this.focusNode,
+    required this.index,
   });
 
   @override
@@ -25,27 +26,9 @@ class LocationChip extends StatefulWidget {
 }
 
 class _LocationChipState extends State<LocationChip> {
-  String errorState = 'AVAILABLE';  // 기본 상태
-
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.addListener(_validateInput);  // 입력 변화에 따라 상태 검증
-  }
-
-  void _validateInput() {
-    // 입력 값을 확인하고 유효하면 콜백을 호출하여 부모에서 상태를 변경
-    final errorState = widget.ref.read(onboardingStateNotifierProvider.notifier)
-        .checklocationControllerState(widget.controller);
-
-    if (errorState == 'AVAILABLE') {
-      widget.onValidInput();
-    }
-  }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_validateInput);
     super.dispose();
   }
 
@@ -54,7 +37,9 @@ class _LocationChipState extends State<LocationChip> {
     return IntrinsicWidth(
       child: Container(
         decoration: BoxDecoration(
-          color: widget.focusNode.hasFocus ? DaepiroColorStyle.g_400 : DaepiroColorStyle.g_600,
+          color: widget.focusNode.hasFocus
+              ? DaepiroColorStyle.g_400
+              : DaepiroColorStyle.g_600,
           borderRadius: BorderRadius.circular(99),
         ),
         child: Row(
@@ -63,7 +48,8 @@ class _LocationChipState extends State<LocationChip> {
               padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
               child: SvgPicture.asset(
                 'assets/icons/icon_location_24.svg',
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
+                colorFilter:
+                    ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
               ),
             ),
             SizedBox(width: 2),
@@ -71,10 +57,13 @@ class _LocationChipState extends State<LocationChip> {
               child: TextField(
                 focusNode: widget.focusNode,
                 cursorWidth: 4,
+                onChanged: widget.onChanged,
                 cursorColor: DaepiroColorStyle.white,
                 controller: widget.controller,
-                onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-                style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.white),
+                onTapOutside: (event) =>
+                    FocusManager.instance.primaryFocus?.unfocus(),
+                style: DaepiroTextStyle.body_2_b
+                    .copyWith(color: DaepiroColorStyle.white),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   isDense: true,
