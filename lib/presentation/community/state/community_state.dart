@@ -2,15 +2,13 @@ import 'package:daepiro/data/model/response/disaster_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../data/model/request/album_model.dart';
+import '../../../data/model/response/disaster_reply_response.dart';
 
 part 'community_state.freezed.dart';
 
 @freezed
 sealed class CommunityState with _$CommunityState {
   factory CommunityState({
-    //전체와 수신버튼 상태
-    // @Default(false) bool receiveButton,
-    // @Default(true) bool AllButton,
     //현재 보여지는 상태
     @Default(true) bool isDisasterScreen,
 
@@ -27,8 +25,13 @@ sealed class CommunityState with _$CommunityState {
 
     //재난상황 로드 상태
     @Default(true) bool isLoading,
+    //재난상황 댓글 로드 상태
+    @Default(true) bool isReplyLoading,
 
     //재난상황 커뮤니티 타입
-    @Default('all') String disasterCommunityType
+    @Default('all') String disasterCommunityType,
+
+    //재난상황 댓글 상태
+    @Default([]) List<Reply> disasterReplyList
   }) = _CommunityState;
 }

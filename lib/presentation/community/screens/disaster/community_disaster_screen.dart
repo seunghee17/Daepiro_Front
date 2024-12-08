@@ -272,7 +272,8 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     comment[index].likeCount ?? 0)),
             SizedBox(height: 10),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                await ref.read(communityDisasterProvider.notifier).getReplyData();
                 showReplyBottomSheet(context);
               },
               child: Row(

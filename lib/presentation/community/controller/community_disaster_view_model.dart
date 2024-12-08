@@ -1,12 +1,9 @@
+import 'package:daepiro/domain/usecase/community/community_disaster_reply_usecase.dart';
 import 'package:daepiro/presentation/community/state/community_state.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:provider/provider.dart';
-
 import '../../../data/model/request/album_model.dart';
-import '../../../data/model/response/disaster_response.dart';
+import '../../../domain/usecase/community/community_disaster_delete_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_received_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_usecase.dart';
 
@@ -154,5 +151,21 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
 
   void setLoadingState(bool value) {
     state = state.copyWith(isLoading: value);
+  }
+
+  Future<void> getReplyData() async {
+    state = state.copyWith(isReplyLoading: true);
+    final result = await ref.read(getCommunityDisasterReplyUseCaseProvider.future);
+    state = state.copyWith(disasterReplyList: result, isReplyLoading: false);
+  }
+
+  Future<void> deleteReply(int commentId) async {
+    await ref.read(
+        getDisasterDeleteUseCaseProvider(CommunityDisasterDeleteUsecase(commentId: commentId)).future);
+    await getReplyData();
+  }
+
+  void setDeleteState(bool value) {
+    state = state.copyWith(isDeleteComplete: value);
   }
 }

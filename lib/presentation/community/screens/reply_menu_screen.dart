@@ -12,8 +12,9 @@ import '../../../cmm/button/secondary_filled_button.dart';
 //수정하기 & 삭제하기
 class ReplyMenuScreen extends ConsumerWidget {
   final bool isUser;
+  final int commentId;
 
-  const ReplyMenuScreen({super.key, required this.isUser});
+  const ReplyMenuScreen({super.key, required this.isUser, required this.commentId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,12 +28,12 @@ class ReplyMenuScreen extends ConsumerWidget {
             left: 0,
             right: 0,
             bottom: 20,
-            child: isUser ? editMenu(context, ref) : reportMenu(context)),
+            child: isUser ? editMenu(context, ref, commentId) : reportMenu(context)),
       ],
     );
   }
 
-  Widget editMenu(BuildContext context, WidgetRef ref) {
+  Widget editMenu(BuildContext context, WidgetRef ref, int commentId) {
     return Column(
       children: [
         GestureDetector(
@@ -60,7 +61,7 @@ class ReplyMenuScreen extends ConsumerWidget {
         GestureDetector(
             onTap: () {
               GoRouter.of(context).pop;
-              deleteDialog(context, ref);
+              deleteDialog(context, ref, commentId);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -103,7 +104,7 @@ class ReplyMenuScreen extends ConsumerWidget {
         ));
   }
 
-  void deleteDialog(BuildContext context, WidgetRef ref) {
+  void deleteDialog(BuildContext context, WidgetRef ref, int commentId) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -129,7 +130,8 @@ class ReplyMenuScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          GoRouter.of(context).pop();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_50,
@@ -148,7 +150,11 @@ class ReplyMenuScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          GoRouter.of(context).pop();
+                          await ref.read(communityDisasterProvider.notifier).deleteReply(commentId);
+                          //ref.read(communityDisasterProvider.notifier).setDeleteState(true);
+                          showDeleteSnackbar(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_700,
@@ -166,5 +172,25 @@ class ReplyMenuScreen extends ConsumerWidget {
           );
         }
     );
+  }
+
+  void showDeleteSnackbar(BuildContext context) {
+    final snackBar = SnackBar(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      backgroundColor: Colors.black.withOpacity(0.6),
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        '댓글이 삭제되었습니다.',
+        style:
+        DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+      ),
+      action: SnackBarAction(
+          label: '취소',
+          textColor: DaepiroColorStyle.white,
+          //TODO 댓글 삭제 취소 api 연결필요
+          onPressed: () {}),
+      duration: const Duration(seconds: 5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

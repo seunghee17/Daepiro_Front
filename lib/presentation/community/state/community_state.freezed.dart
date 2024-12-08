@@ -16,9 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommunityState {
-//전체와 수신버튼 상태
-// @Default(false) bool receiveButton,
-// @Default(true) bool AllButton,
 //현재 보여지는 상태
   bool get isDisasterScreen => throw _privateConstructorUsedError;
   bool get isDeleteComplete => throw _privateConstructorUsedError;
@@ -30,8 +27,11 @@ mixin _$CommunityState {
   List<Data> get allDisasterResponse => throw _privateConstructorUsedError;
   List<Data> get receivedDisasterResponse => throw _privateConstructorUsedError;
   int get listLength => throw _privateConstructorUsedError; //재난상황 로드 상태
-  bool get isLoading => throw _privateConstructorUsedError; //재난상황 커뮤니티 타입
-  String get disasterCommunityType => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError; //재난상황 댓글 로드 상태
+  bool get isReplyLoading => throw _privateConstructorUsedError; //재난상황 커뮤니티 타입
+  String get disasterCommunityType =>
+      throw _privateConstructorUsedError; //재난상황 댓글 상태
+  List<Reply> get disasterReplyList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityStateCopyWith<CommunityState> get copyWith =>
@@ -55,7 +55,9 @@ abstract class $CommunityStateCopyWith<$Res> {
       List<Data> receivedDisasterResponse,
       int listLength,
       bool isLoading,
-      String disasterCommunityType});
+      bool isReplyLoading,
+      String disasterCommunityType,
+      List<Reply> disasterReplyList});
 }
 
 /// @nodoc
@@ -81,7 +83,9 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
     Object? receivedDisasterResponse = null,
     Object? listLength = null,
     Object? isLoading = null,
+    Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
+    Object? disasterReplyList = null,
   }) {
     return _then(_value.copyWith(
       isDisasterScreen: null == isDisasterScreen
@@ -124,10 +128,18 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isReplyLoading: null == isReplyLoading
+          ? _value.isReplyLoading
+          : isReplyLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       disasterCommunityType: null == disasterCommunityType
           ? _value.disasterCommunityType
           : disasterCommunityType // ignore: cast_nullable_to_non_nullable
               as String,
+      disasterReplyList: null == disasterReplyList
+          ? _value.disasterReplyList
+          : disasterReplyList // ignore: cast_nullable_to_non_nullable
+              as List<Reply>,
     ) as $Val);
   }
 }
@@ -151,7 +163,9 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
       List<Data> receivedDisasterResponse,
       int listLength,
       bool isLoading,
-      String disasterCommunityType});
+      bool isReplyLoading,
+      String disasterCommunityType,
+      List<Reply> disasterReplyList});
 }
 
 /// @nodoc
@@ -175,7 +189,9 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
     Object? receivedDisasterResponse = null,
     Object? listLength = null,
     Object? isLoading = null,
+    Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
+    Object? disasterReplyList = null,
   }) {
     return _then(_$CommunityStateImpl(
       isDisasterScreen: null == isDisasterScreen
@@ -218,10 +234,18 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isReplyLoading: null == isReplyLoading
+          ? _value.isReplyLoading
+          : isReplyLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       disasterCommunityType: null == disasterCommunityType
           ? _value.disasterCommunityType
           : disasterCommunityType // ignore: cast_nullable_to_non_nullable
               as String,
+      disasterReplyList: null == disasterReplyList
+          ? _value._disasterReplyList
+          : disasterReplyList // ignore: cast_nullable_to_non_nullable
+              as List<Reply>,
     ));
   }
 }
@@ -240,15 +264,15 @@ class _$CommunityStateImpl implements _CommunityState {
       final List<Data> receivedDisasterResponse = const [],
       this.listLength = 0,
       this.isLoading = true,
-      this.disasterCommunityType = 'all'})
+      this.isReplyLoading = true,
+      this.disasterCommunityType = 'all',
+      final List<Reply> disasterReplyList = const []})
       : _albums = albums,
         _selectAlbums = selectAlbums,
         _allDisasterResponse = allDisasterResponse,
-        _receivedDisasterResponse = receivedDisasterResponse;
+        _receivedDisasterResponse = receivedDisasterResponse,
+        _disasterReplyList = disasterReplyList;
 
-//전체와 수신버튼 상태
-// @Default(false) bool receiveButton,
-// @Default(true) bool AllButton,
 //현재 보여지는 상태
   @override
   @JsonKey()
@@ -311,14 +335,29 @@ class _$CommunityStateImpl implements _CommunityState {
   @override
   @JsonKey()
   final bool isLoading;
+//재난상황 댓글 로드 상태
+  @override
+  @JsonKey()
+  final bool isReplyLoading;
 //재난상황 커뮤니티 타입
   @override
   @JsonKey()
   final String disasterCommunityType;
+//재난상황 댓글 상태
+  final List<Reply> _disasterReplyList;
+//재난상황 댓글 상태
+  @override
+  @JsonKey()
+  List<Reply> get disasterReplyList {
+    if (_disasterReplyList is EqualUnmodifiableListView)
+      return _disasterReplyList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_disasterReplyList);
+  }
 
   @override
   String toString() {
-    return 'CommunityState(isDisasterScreen: $isDisasterScreen, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, disasterCommunityType: $disasterCommunityType)';
+    return 'CommunityState(isDisasterScreen: $isDisasterScreen, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList)';
   }
 
   @override
@@ -345,8 +384,12 @@ class _$CommunityStateImpl implements _CommunityState {
                 other.listLength == listLength) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isReplyLoading, isReplyLoading) ||
+                other.isReplyLoading == isReplyLoading) &&
             (identical(other.disasterCommunityType, disasterCommunityType) ||
-                other.disasterCommunityType == disasterCommunityType));
+                other.disasterCommunityType == disasterCommunityType) &&
+            const DeepCollectionEquality()
+                .equals(other._disasterReplyList, _disasterReplyList));
   }
 
   @override
@@ -362,7 +405,9 @@ class _$CommunityStateImpl implements _CommunityState {
       const DeepCollectionEquality().hash(_receivedDisasterResponse),
       listLength,
       isLoading,
-      disasterCommunityType);
+      isReplyLoading,
+      disasterCommunityType,
+      const DeepCollectionEquality().hash(_disasterReplyList));
 
   @JsonKey(ignore: true)
   @override
@@ -384,12 +429,11 @@ abstract class _CommunityState implements CommunityState {
       final List<Data> receivedDisasterResponse,
       final int listLength,
       final bool isLoading,
-      final String disasterCommunityType}) = _$CommunityStateImpl;
+      final bool isReplyLoading,
+      final String disasterCommunityType,
+      final List<Reply> disasterReplyList}) = _$CommunityStateImpl;
 
-  @override //전체와 수신버튼 상태
-// @Default(false) bool receiveButton,
-// @Default(true) bool AllButton,
-//현재 보여지는 상태
+  @override //현재 보여지는 상태
   bool get isDisasterScreen;
   @override
   bool get isDeleteComplete;
@@ -409,8 +453,12 @@ abstract class _CommunityState implements CommunityState {
   int get listLength;
   @override //재난상황 로드 상태
   bool get isLoading;
+  @override //재난상황 댓글 로드 상태
+  bool get isReplyLoading;
   @override //재난상황 커뮤니티 타입
   String get disasterCommunityType;
+  @override //재난상황 댓글 상태
+  List<Reply> get disasterReplyList;
   @override
   @JsonKey(ignore: true)
   _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>
