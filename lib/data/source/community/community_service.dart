@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
+import '../../model/request/community_disaster_edit_request.dart';
+import '../../model/response/community_disaster_edit_response.dart';
 import '../../model/response/disaster_reply_delete_response.dart';
 import '../../model/response/disaster_response.dart';
 
@@ -22,4 +24,10 @@ abstract class CommunityService {
   Future<DeleteReplyResponse> deleteReply({
     @Path('commentId') required int commentId,
   });
+
+  @PUT('/v1/disastersituations/comments/{commentId}')
+  Future<CommunityDisasterEditResponse> editReply({
+    @Path('commentId') required int commentId,
+    @Body() required CommunityDisasterEditRequest communityDisasterEditRequest
+});
 }

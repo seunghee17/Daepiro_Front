@@ -14,7 +14,8 @@ class ReplyMenuScreen extends ConsumerWidget {
   final bool isUser;
   final int commentId;
 
-  const ReplyMenuScreen({super.key, required this.isUser, required this.commentId});
+  const ReplyMenuScreen(
+      {super.key, required this.isUser, required this.commentId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +29,8 @@ class ReplyMenuScreen extends ConsumerWidget {
             left: 0,
             right: 0,
             bottom: 20,
-            child: isUser ? editMenu(context, ref, commentId) : reportMenu(context)),
+            child: isUser ? editMenu(context, ref, commentId) : reportMenu(
+                context)),
       ],
     );
   }
@@ -60,7 +62,9 @@ class ReplyMenuScreen extends ConsumerWidget {
         SizedBox(height: 7),
         GestureDetector(
             onTap: () {
-              GoRouter.of(context).pop;
+              GoRouter
+                  .of(context)
+                  .pop;
               deleteDialog(context, ref, commentId);
             },
             child: Padding(
@@ -150,11 +154,12 @@ class ReplyMenuScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          await ref.read(communityDisasterProvider.notifier).deleteReply(commentId);
+                          await ref.read(communityDisasterProvider.notifier)
+                              .deleteReply(commentId);
                           //ref.read(communityDisasterProvider.notifier).setDeleteState(true);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                           showDeleteSnackbar(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_700,
@@ -175,22 +180,47 @@ class ReplyMenuScreen extends ConsumerWidget {
   }
 
   void showDeleteSnackbar(BuildContext context) {
-    final snackBar = SnackBar(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      backgroundColor: Colors.black.withOpacity(0.6),
-      behavior: SnackBarBehavior.floating,
-      content: Text(
-        '댓글이 삭제되었습니다.',
-        style:
-        DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 50.0,
+        left: 20.0,
+        right: 20.0,
+        child: Material(
+          elevation: 8.0,
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.black.withOpacity(0.6),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '댓글이 삭제되었습니다.',
+                    style: DaepiroTextStyle.body_2_m
+                        .copyWith(color: DaepiroColorStyle.white),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // TODO: 댓글 삭제 취소 API 연결 필요
+                  },
+                  child: Text(
+                    '취소',
+                    style: DaepiroTextStyle.body_2_m
+                        .copyWith(color: DaepiroColorStyle.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      action: SnackBarAction(
-          label: '취소',
-          textColor: DaepiroColorStyle.white,
-          //TODO 댓글 삭제 취소 api 연결필요
-          onPressed: () {}),
-      duration: const Duration(seconds: 5),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    overlay.insert(overlayEntry);
+    Future.delayed(const Duration(seconds: 5), () {
+      overlayEntry.remove();
+    });
   }
+
 }

@@ -395,11 +395,6 @@ class CommunityDisasterScreen extends ConsumerWidget {
           final height = MediaQuery.of(context).size.height * 0.8;
           return Container(
             height: height,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                color: Colors.white),
             child: ReplyBottomSheet(),
           );
         },

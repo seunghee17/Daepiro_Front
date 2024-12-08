@@ -1,3 +1,5 @@
+import 'package:daepiro/data/model/request/community_disaster_edit_request.dart';
+import 'package:daepiro/data/model/response/community_disaster_edit_response.dart';
 import 'package:daepiro/data/model/response/disaster_reply_delete_response.dart';
 import 'package:daepiro/data/model/response/disaster_reply_response.dart';
 import 'package:daepiro/data/model/response/disaster_response.dart';
@@ -60,5 +62,20 @@ class CommunityRepositoryImpl implements CommunityRepository {
   @override
   Future<DeleteReplyResponse> deleteReply(int commentId) async {
     return await _service.deleteReply(commentId: commentId);
+  }
+
+  @override
+  Future<CommunityDisasterEditResponse> editReply({required int commentId, required CommunityDisasterEditRequest communityDisasterEditRequest}) async {
+    try {
+      final response = await _service.editReply(commentId: commentId, communityDisasterEditRequest: communityDisasterEditRequest);
+      if(response.code != 1000) {
+        throw Exception('Error occur ${response.code}');
+      } else {
+        return response;
+      }
+    }catch(e) {
+      print('재난 상황 편집 로드 오류 ${e}');
+      rethrow;
+    }
   }
 }

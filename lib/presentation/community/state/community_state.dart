@@ -31,7 +31,13 @@ sealed class CommunityState with _$CommunityState {
     //재난상황 커뮤니티 타입
     @Default('all') String disasterCommunityType,
 
+    //동네생활 커뮤니티 타입
+    @Default('ALL') String townCommunityType,
+
     //재난상황 댓글 상태
-    @Default([]) List<Reply> disasterReplyList
+    @Default([]) List<Reply> disasterReplyList,
+
+    //신고 유형
+    @Default('') String reporyType
   }) = _CommunityState;
 }
