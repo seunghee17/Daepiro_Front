@@ -19,30 +19,35 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(communityDisasterProvider);
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            headerWidget(),
-            Expanded(
-                child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    if (viewModel.isLoading)
-                      Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    else
-                      replyListWidget(ref, viewModel.disasterReplyList)
-                  ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        )
+      ),
+      child: Column(
+        children: [
+          headerWidget(),
+          Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      if (viewModel.isLoading)
+                        Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      else
+                        replyListWidget(ref, viewModel.disasterReplyList)
+                    ],
+                  ),
                 ),
-              ),
-            )),
-            footerWidget(),
-          ],
-        ),
+              )),
+          footerWidget(),
+        ],
       ),
     );
   }

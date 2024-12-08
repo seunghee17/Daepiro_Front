@@ -1,8 +1,10 @@
+import 'package:daepiro/domain/usecase/community/community_disaster_edit_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_disaster_reply_usecase.dart';
 import 'package:daepiro/presentation/community/state/community_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 import '../../../data/model/request/album_model.dart';
+import '../../../data/model/request/community_disaster_edit_request.dart';
 import '../../../domain/usecase/community/community_disaster_delete_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_received_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_usecase.dart';
@@ -163,6 +165,11 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
     await ref.read(
         getDisasterDeleteUseCaseProvider(CommunityDisasterDeleteUsecase(commentId: commentId)).future);
     await getReplyData();
+  }
+
+  Future<void> editReply(int commentId, CommunityDisasterEditRequest communityDisasterEditRequest) async {
+    await ref.read(
+        getCommunityDisasterEditUseCaseProvider(CommunityDisasterEditUsecase(commentId: commentId, communityDisasterEditRequest: communityDisasterEditRequest)).future);
   }
 
   void setDeleteState(bool value) {

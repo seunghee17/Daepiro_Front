@@ -19,7 +19,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    final communityViewModel = ref.watch(communityDisasterProvider);
+    final viewModel = ref.watch(communityDisasterProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -40,7 +40,10 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                       ),
                       SizedBox(height: 16),
                       //TODO 신고유형 추가하기
-                      reportTypeWidget('신고', false),
+                      GestureDetector(
+                        onTap: (){},
+                          child: reportTypeWidget('신고')
+                      ),
                       SizedBox(height: 16),
                       contentWriteWidget(screenHeight),
                       SizedBox(height: 16),
@@ -95,22 +98,18 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     );
   }
 
-  Widget reportTypeWidget(String? reportType, bool isTouch) {
+  Widget reportTypeWidget(String reportType) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         color: DaepiroColorStyle.g_50,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isTouch ? DaepiroColorStyle.g_100 : Colors.transparent,
-          width: 1.5
-        )
       ),
       child: Padding(
           padding: EdgeInsets.all(16),
         child: Row(
           children: [
-            reportType == null ?
+            reportType == 'NONE' ?
             Text(
               '신고 유형을 선택해주세요 (필수)',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_300),
@@ -201,16 +200,19 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
 
   Widget footerWidget() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: PrimaryFilledButton(
-          backgroundColor: DaepiroColorStyle.g_700,
-          pressedColor: DaepiroColorStyle.g_600,
-          borderRadius: 8,
-          child: Text(
-            '접수하기',
-            style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
-          ),
-          verticalPadding: 12
+        padding: EdgeInsets.symmetric(vertical: 16),
+      child: Container(
+        width: double.infinity,
+        child: PrimaryFilledButton(
+            backgroundColor: DaepiroColorStyle.g_700,
+            pressedColor: DaepiroColorStyle.g_600,
+            borderRadius: 8,
+            child: Text(
+              '접수하기',
+              style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
+            ),
+            verticalPadding: 12
+        ),
       ),
     );
   }
@@ -275,6 +277,88 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
             ),
           );
         }
+    );
+  }
+
+  // void showBottomSheet(BuildContext context) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       useRootNavigator: true,
+  //       backgroundColor: Colors.transparent,
+  //       builder: (context) {
+  //         final height = MediaQuery.of(context).size.height * 0.5;
+  //         return Container(
+  //           height: height,
+  //           child: ,
+  //         );
+  //       },
+  //     isScrollControlled: true,
+  //     enableDrag: false,
+  //     isDismissible: true
+  //   );
+  // }
+
+  Widget reportType() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          )
+      ),
+      child: Column(
+        children: [
+          reportBoottmHeaderWidget()
+        ],
+      ),
+    );
+  }
+
+  Widget reportBoottmHeaderWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Container(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(width: 16),
+                Opacity(
+                  opacity: 0.0,
+                  child: SvgPicture.asset(
+                    'assets/icons/icon_close.svg',
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '신고 유형',
+                    textAlign: TextAlign.center,
+                    style: DaepiroTextStyle.body_1_b
+                        .copyWith(color: DaepiroColorStyle.g_900),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: SvgPicture.asset('assets/icons/icon_close.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(
+                          DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
+            Container(
+              decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+              width: double.infinity,
+              height: 1,
+            )
+          ],
+        ),
+      ),
     );
   }
 

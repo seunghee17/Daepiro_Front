@@ -120,6 +120,43 @@ class _CommunityService implements CommunityService {
     return _value;
   }
 
+  @override
+  Future<CommunityDisasterEditResponse> editReply({
+    required int commentId,
+    required CommunityDisasterEditRequest communityDisasterEditRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(communityDisasterEditRequest.toJson());
+    final _options = _setStreamType<CommunityDisasterEditResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/disastersituations/comments/${commentId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityDisasterEditResponse _value;
+    try {
+      _value = CommunityDisasterEditResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

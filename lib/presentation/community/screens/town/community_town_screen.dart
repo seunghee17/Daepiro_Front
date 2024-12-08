@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,118 +16,110 @@ class CommunityTownScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //TODO 추후 state & viewmodel 단으로 이동해야하는 코드
     List<TypeModel> typeData = [];
-    typeData.add(TypeModel(true, '전체'));
-    typeData.add(TypeModel(false, '일상'));
-    typeData.add(TypeModel(false, '교통'));
-    typeData.add(TypeModel(false, '치안'));
-    typeData.add(TypeModel(false, '기타'));
-    final communityViewModel = ref.watch(communityDisasterProvider);
+    typeData.add(TypeModel(true, '전체', 'ALL'));
+    typeData.add(TypeModel(false, '일상', 'LIFE'));
+    typeData.add(TypeModel(false, '교통', 'TRAFFIC'));
+    typeData.add(TypeModel(false, '치안', 'SAFE'));
+    typeData.add(TypeModel(false, '기타', 'OTHER'));
+    final viewModel = ref.watch(communityTownProvider);
     return Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                headerWidget(context),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: typeRadioButton(typeData),
-                ),
-                ...List.generate(
-                    5,
-                        (index) => listItemWidget(() {
-                      GoRouter.of(context)
-                          .push('/community_town_detail');
-                    }))
-              ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            GestureDetector(
+                onTap: () {
+                  GoRouter.of(context).push('/community_rule');
+                },
+                child: ruleContainer()),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: typeRadioButton(viewModel.townCommunityType, ref),
             ),
-          ),
-        ));
+            ...List.generate(
+                5,
+                (index) => listItemWidget(() {
+                      GoRouter.of(context).push('/community_town_detail');
+                    }))
+          ],
+        ),
+      ),
+    ));
   }
 
-  Widget headerWidget(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SvgPicture.asset('assets/icons/icon_noti.svg',
-            width: 28,
-            height: 28,
-            colorFilter:
-                ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
-        SizedBox(width: 8),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              GoRouter.of(context).push('/community_rule');
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: DaepiroColorStyle.o_50),
-              child: Row(
-                children: [
-                  SizedBox(width: 12),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text('대피로 커뮤니티 이용수칙',
-                        style: DaepiroTextStyle.body_2_m
-                            .copyWith(color: DaepiroColorStyle.g_900)),
-                  ),
-                  Spacer(),
-                  SvgPicture.asset('assets/icons/icon_arrow_right.svg',
-                      width: 16,
-                      height: 16,
-                      colorFilter: ColorFilter.mode(
-                          DaepiroColorStyle.g_900, BlendMode.srcIn)),
-                  SizedBox(width: 12),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
+  Widget ruleContainer() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: DaepiroColorStyle.o_50),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 13),
+        child: Row(
+          children: [
+            SizedBox(width: 12),
+            SvgPicture.asset('assets/icons/icon_noti.svg',
+                width: 28,
+                height: 28,
+                colorFilter:
+                    ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
+            SizedBox(width: 6),
+            Text('대피로 커뮤니티 이용수칙',
+                style: DaepiroTextStyle.body_2_m
+                    .copyWith(color: DaepiroColorStyle.g_900)),
+            Spacer(),
+            SvgPicture.asset('assets/icons/icon_arrow_right.svg',
+                width: 16,
+                height: 16,
+                colorFilter:
+                    ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+            SizedBox(width: 12)
+          ],
+        ),
+      ),
     );
   }
 
   //글 유형 타입 radio button
-  Widget typeRadioButton(List<TypeModel> list) {
+  Widget typeRadioButton(String typeState, WidgetRef ref) {
     return Container(
       height: 36,
-      child: ListView.builder(
-          itemCount: list.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return new InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () {
-                //TODO 상태관리 구축후 탭이벤트 구축
-              },
-              child: typeItem(list[index]),
-            );
-          }),
+      child: Row(
+        children: [
+          typeItem('ALL', typeState, '전체', ref),
+          typeItem('LIFE', typeState, '일상', ref),
+          typeItem('TRAFFIC', typeState, '교통', ref),
+          typeItem('SAFE', typeState, '치안', ref),
+          typeItem('OTHER', typeState, '기타', ref)
+        ],
+      )
     );
   }
 
-  Widget typeItem(TypeModel _item) {
+  Widget typeItem(String type, String typeState, String realText, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(99),
-            color: _item.isSelected
-                ? DaepiroColorStyle.g_600
-                : DaepiroColorStyle.g_50),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-          child: Text(
-            _item.text,
-            style: _item.isSelected
-                ? DaepiroTextStyle.body_1_m.copyWith(color: Colors.white)
-                : DaepiroTextStyle.body_1_m
-                    .copyWith(color: DaepiroColorStyle.g_600),
+      child: GestureDetector(
+        onTap: () async {
+          await ref.read(communityTownProvider.notifier).selectButton(type);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(99),
+              color: typeState == type
+                  ? DaepiroColorStyle.g_600
+                  : DaepiroColorStyle.g_50),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            child: Text(
+              realText,
+              style: typeState == type
+                  ? DaepiroTextStyle.body_1_m.copyWith(color: Colors.white)
+                  : DaepiroTextStyle.body_1_m
+                      .copyWith(color: DaepiroColorStyle.g_600),
+            ),
           ),
         ),
       ),
@@ -234,6 +227,7 @@ class CommunityTownScreen extends ConsumerWidget {
 class TypeModel {
   bool isSelected;
   final String text;
+  final String type;
 
-  TypeModel(this.isSelected, this.text);
+  TypeModel(this.isSelected, this.text, this.type);
 }

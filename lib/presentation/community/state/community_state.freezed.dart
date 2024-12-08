@@ -30,8 +30,12 @@ mixin _$CommunityState {
   bool get isLoading => throw _privateConstructorUsedError; //재난상황 댓글 로드 상태
   bool get isReplyLoading => throw _privateConstructorUsedError; //재난상황 커뮤니티 타입
   String get disasterCommunityType =>
+      throw _privateConstructorUsedError; //동네생활 커뮤니티 타입
+  String get townCommunityType =>
       throw _privateConstructorUsedError; //재난상황 댓글 상태
-  List<Reply> get disasterReplyList => throw _privateConstructorUsedError;
+  List<Reply> get disasterReplyList =>
+      throw _privateConstructorUsedError; //신고 유형
+  String get reporyType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityStateCopyWith<CommunityState> get copyWith =>
@@ -57,7 +61,9 @@ abstract class $CommunityStateCopyWith<$Res> {
       bool isLoading,
       bool isReplyLoading,
       String disasterCommunityType,
-      List<Reply> disasterReplyList});
+      String townCommunityType,
+      List<Reply> disasterReplyList,
+      String reporyType});
 }
 
 /// @nodoc
@@ -85,7 +91,9 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
     Object? isLoading = null,
     Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
+    Object? townCommunityType = null,
     Object? disasterReplyList = null,
+    Object? reporyType = null,
   }) {
     return _then(_value.copyWith(
       isDisasterScreen: null == isDisasterScreen
@@ -136,10 +144,18 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.disasterCommunityType
           : disasterCommunityType // ignore: cast_nullable_to_non_nullable
               as String,
+      townCommunityType: null == townCommunityType
+          ? _value.townCommunityType
+          : townCommunityType // ignore: cast_nullable_to_non_nullable
+              as String,
       disasterReplyList: null == disasterReplyList
           ? _value.disasterReplyList
           : disasterReplyList // ignore: cast_nullable_to_non_nullable
               as List<Reply>,
+      reporyType: null == reporyType
+          ? _value.reporyType
+          : reporyType // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -165,7 +181,9 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
       bool isLoading,
       bool isReplyLoading,
       String disasterCommunityType,
-      List<Reply> disasterReplyList});
+      String townCommunityType,
+      List<Reply> disasterReplyList,
+      String reporyType});
 }
 
 /// @nodoc
@@ -191,7 +209,9 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
+    Object? townCommunityType = null,
     Object? disasterReplyList = null,
+    Object? reporyType = null,
   }) {
     return _then(_$CommunityStateImpl(
       isDisasterScreen: null == isDisasterScreen
@@ -242,10 +262,18 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value.disasterCommunityType
           : disasterCommunityType // ignore: cast_nullable_to_non_nullable
               as String,
+      townCommunityType: null == townCommunityType
+          ? _value.townCommunityType
+          : townCommunityType // ignore: cast_nullable_to_non_nullable
+              as String,
       disasterReplyList: null == disasterReplyList
           ? _value._disasterReplyList
           : disasterReplyList // ignore: cast_nullable_to_non_nullable
               as List<Reply>,
+      reporyType: null == reporyType
+          ? _value.reporyType
+          : reporyType // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -266,7 +294,9 @@ class _$CommunityStateImpl implements _CommunityState {
       this.isLoading = true,
       this.isReplyLoading = true,
       this.disasterCommunityType = 'all',
-      final List<Reply> disasterReplyList = const []})
+      this.townCommunityType = 'ALL',
+      final List<Reply> disasterReplyList = const [],
+      this.reporyType = ''})
       : _albums = albums,
         _selectAlbums = selectAlbums,
         _allDisasterResponse = allDisasterResponse,
@@ -343,6 +373,10 @@ class _$CommunityStateImpl implements _CommunityState {
   @override
   @JsonKey()
   final String disasterCommunityType;
+//동네생활 커뮤니티 타입
+  @override
+  @JsonKey()
+  final String townCommunityType;
 //재난상황 댓글 상태
   final List<Reply> _disasterReplyList;
 //재난상황 댓글 상태
@@ -355,9 +389,14 @@ class _$CommunityStateImpl implements _CommunityState {
     return EqualUnmodifiableListView(_disasterReplyList);
   }
 
+//신고 유형
+  @override
+  @JsonKey()
+  final String reporyType;
+
   @override
   String toString() {
-    return 'CommunityState(isDisasterScreen: $isDisasterScreen, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList)';
+    return 'CommunityState(isDisasterScreen: $isDisasterScreen, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, townCommunityType: $townCommunityType, disasterReplyList: $disasterReplyList, reporyType: $reporyType)';
   }
 
   @override
@@ -388,8 +427,12 @@ class _$CommunityStateImpl implements _CommunityState {
                 other.isReplyLoading == isReplyLoading) &&
             (identical(other.disasterCommunityType, disasterCommunityType) ||
                 other.disasterCommunityType == disasterCommunityType) &&
+            (identical(other.townCommunityType, townCommunityType) ||
+                other.townCommunityType == townCommunityType) &&
             const DeepCollectionEquality()
-                .equals(other._disasterReplyList, _disasterReplyList));
+                .equals(other._disasterReplyList, _disasterReplyList) &&
+            (identical(other.reporyType, reporyType) ||
+                other.reporyType == reporyType));
   }
 
   @override
@@ -407,7 +450,9 @@ class _$CommunityStateImpl implements _CommunityState {
       isLoading,
       isReplyLoading,
       disasterCommunityType,
-      const DeepCollectionEquality().hash(_disasterReplyList));
+      townCommunityType,
+      const DeepCollectionEquality().hash(_disasterReplyList),
+      reporyType);
 
   @JsonKey(ignore: true)
   @override
@@ -431,7 +476,9 @@ abstract class _CommunityState implements CommunityState {
       final bool isLoading,
       final bool isReplyLoading,
       final String disasterCommunityType,
-      final List<Reply> disasterReplyList}) = _$CommunityStateImpl;
+      final String townCommunityType,
+      final List<Reply> disasterReplyList,
+      final String reporyType}) = _$CommunityStateImpl;
 
   @override //현재 보여지는 상태
   bool get isDisasterScreen;
@@ -457,8 +504,12 @@ abstract class _CommunityState implements CommunityState {
   bool get isReplyLoading;
   @override //재난상황 커뮤니티 타입
   String get disasterCommunityType;
+  @override //동네생활 커뮤니티 타입
+  String get townCommunityType;
   @override //재난상황 댓글 상태
   List<Reply> get disasterReplyList;
+  @override //신고 유형
+  String get reporyType;
   @override
   @JsonKey(ignore: true)
   _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>
