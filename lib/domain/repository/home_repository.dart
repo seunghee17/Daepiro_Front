@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
@@ -14,4 +15,5 @@ final homeRepositoryProvider = Provider<HomeRepository>((ref) {
 abstract class HomeRepository {
   Future<HomeStatusResponse> getHomeStatus();
   Future<HomeDisasterHistoryResponse> getHomeDisasterHistory();
+  Future<HomeDisasterFeedResponse> getHomeDisasterFeed();
 }
