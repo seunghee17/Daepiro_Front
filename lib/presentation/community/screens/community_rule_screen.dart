@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

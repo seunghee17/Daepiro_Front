@@ -16,19 +16,28 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$OnboardingState {
+//주소 검색 오류 상태
   bool get isError => throw _privateConstructorUsedError;
   String get nameState => throw _privateConstructorUsedError;
-  String get nicknameState =>
+  String get nicknameState => throw _privateConstructorUsedError;
+  bool get completeSetName => throw _privateConstructorUsedError;
+  bool get completeSetNickName =>
       throw _privateConstructorUsedError; //검색된 주소 목록의 중복을 제거하기 위함
   Set<String> get jusoListState => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
-  String get userNickName => throw _privateConstructorUsedError;
+  String get userNickName => throw _privateConstructorUsedError; //입력한 주소값
   String get homeJuso => throw _privateConstructorUsedError;
   String get firstJuso => throw _privateConstructorUsedError;
   String get secondJuso => throw _privateConstructorUsedError; //입력한 주소 별명
   String get homeJusoNick => throw _privateConstructorUsedError;
   String get firstJusoNick => throw _privateConstructorUsedError;
   String get secondJusoNick =>
+      throw _privateConstructorUsedError; //주소 별명 입력 오류 상태
+  String get firstJusoState => throw _privateConstructorUsedError;
+  String get secondJusoState =>
+      throw _privateConstructorUsedError; //주소 입력 텍스트 필드 visible 상태
+  bool get isJuso1Visible => throw _privateConstructorUsedError;
+  bool get isJuso2Visible =>
       throw _privateConstructorUsedError; //권한 모두 동의 활성화 상태
   bool get isAllAppPermissionGrant =>
       throw _privateConstructorUsedError; //체크박스의 활성화상태
@@ -51,6 +60,8 @@ abstract class $OnboardingStateCopyWith<$Res> {
       {bool isError,
       String nameState,
       String nicknameState,
+      bool completeSetName,
+      bool completeSetNickName,
       Set<String> jusoListState,
       String userName,
       String userNickName,
@@ -60,6 +71,10 @@ abstract class $OnboardingStateCopyWith<$Res> {
       String homeJusoNick,
       String firstJusoNick,
       String secondJusoNick,
+      String firstJusoState,
+      String secondJusoState,
+      bool isJuso1Visible,
+      bool isJuso2Visible,
       bool isAllAppPermissionGrant,
       List<bool> isAppPermissionCheckboxState,
       List<String> disasterTypes});
@@ -81,6 +96,8 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? isError = null,
     Object? nameState = null,
     Object? nicknameState = null,
+    Object? completeSetName = null,
+    Object? completeSetNickName = null,
     Object? jusoListState = null,
     Object? userName = null,
     Object? userNickName = null,
@@ -90,6 +107,10 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? homeJusoNick = null,
     Object? firstJusoNick = null,
     Object? secondJusoNick = null,
+    Object? firstJusoState = null,
+    Object? secondJusoState = null,
+    Object? isJuso1Visible = null,
+    Object? isJuso2Visible = null,
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
     Object? disasterTypes = null,
@@ -107,6 +128,14 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.nicknameState
           : nicknameState // ignore: cast_nullable_to_non_nullable
               as String,
+      completeSetName: null == completeSetName
+          ? _value.completeSetName
+          : completeSetName // ignore: cast_nullable_to_non_nullable
+              as bool,
+      completeSetNickName: null == completeSetNickName
+          ? _value.completeSetNickName
+          : completeSetNickName // ignore: cast_nullable_to_non_nullable
+              as bool,
       jusoListState: null == jusoListState
           ? _value.jusoListState
           : jusoListState // ignore: cast_nullable_to_non_nullable
@@ -143,6 +172,22 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.secondJusoNick
           : secondJusoNick // ignore: cast_nullable_to_non_nullable
               as String,
+      firstJusoState: null == firstJusoState
+          ? _value.firstJusoState
+          : firstJusoState // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondJusoState: null == secondJusoState
+          ? _value.secondJusoState
+          : secondJusoState // ignore: cast_nullable_to_non_nullable
+              as String,
+      isJuso1Visible: null == isJuso1Visible
+          ? _value.isJuso1Visible
+          : isJuso1Visible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isJuso2Visible: null == isJuso2Visible
+          ? _value.isJuso2Visible
+          : isJuso2Visible // ignore: cast_nullable_to_non_nullable
+              as bool,
       isAllAppPermissionGrant: null == isAllAppPermissionGrant
           ? _value.isAllAppPermissionGrant
           : isAllAppPermissionGrant // ignore: cast_nullable_to_non_nullable
@@ -171,6 +216,8 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       {bool isError,
       String nameState,
       String nicknameState,
+      bool completeSetName,
+      bool completeSetNickName,
       Set<String> jusoListState,
       String userName,
       String userNickName,
@@ -180,6 +227,10 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       String homeJusoNick,
       String firstJusoNick,
       String secondJusoNick,
+      String firstJusoState,
+      String secondJusoState,
+      bool isJuso1Visible,
+      bool isJuso2Visible,
       bool isAllAppPermissionGrant,
       List<bool> isAppPermissionCheckboxState,
       List<String> disasterTypes});
@@ -199,6 +250,8 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? isError = null,
     Object? nameState = null,
     Object? nicknameState = null,
+    Object? completeSetName = null,
+    Object? completeSetNickName = null,
     Object? jusoListState = null,
     Object? userName = null,
     Object? userNickName = null,
@@ -208,6 +261,10 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? homeJusoNick = null,
     Object? firstJusoNick = null,
     Object? secondJusoNick = null,
+    Object? firstJusoState = null,
+    Object? secondJusoState = null,
+    Object? isJuso1Visible = null,
+    Object? isJuso2Visible = null,
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
     Object? disasterTypes = null,
@@ -225,6 +282,14 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value.nicknameState
           : nicknameState // ignore: cast_nullable_to_non_nullable
               as String,
+      completeSetName: null == completeSetName
+          ? _value.completeSetName
+          : completeSetName // ignore: cast_nullable_to_non_nullable
+              as bool,
+      completeSetNickName: null == completeSetNickName
+          ? _value.completeSetNickName
+          : completeSetNickName // ignore: cast_nullable_to_non_nullable
+              as bool,
       jusoListState: null == jusoListState
           ? _value._jusoListState
           : jusoListState // ignore: cast_nullable_to_non_nullable
@@ -261,6 +326,22 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value.secondJusoNick
           : secondJusoNick // ignore: cast_nullable_to_non_nullable
               as String,
+      firstJusoState: null == firstJusoState
+          ? _value.firstJusoState
+          : firstJusoState // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondJusoState: null == secondJusoState
+          ? _value.secondJusoState
+          : secondJusoState // ignore: cast_nullable_to_non_nullable
+              as String,
+      isJuso1Visible: null == isJuso1Visible
+          ? _value.isJuso1Visible
+          : isJuso1Visible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isJuso2Visible: null == isJuso2Visible
+          ? _value.isJuso2Visible
+          : isJuso2Visible // ignore: cast_nullable_to_non_nullable
+              as bool,
       isAllAppPermissionGrant: null == isAllAppPermissionGrant
           ? _value.isAllAppPermissionGrant
           : isAllAppPermissionGrant // ignore: cast_nullable_to_non_nullable
@@ -282,8 +363,10 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
 class _$OnboardingStateImpl implements _OnboardingState {
   _$OnboardingStateImpl(
       {this.isError = false,
-      this.nameState = 'NONE',
-      this.nicknameState = 'NONE',
+      this.nameState = '',
+      this.nicknameState = '',
+      this.completeSetName = false,
+      this.completeSetNickName = false,
       final Set<String> jusoListState = const <String>{},
       this.userName = '',
       this.userNickName = '',
@@ -293,6 +376,10 @@ class _$OnboardingStateImpl implements _OnboardingState {
       this.homeJusoNick = '집',
       this.firstJusoNick = '',
       this.secondJusoNick = '',
+      this.firstJusoState = '*별명 설정은 필수입니다.',
+      this.secondJusoState = '*별명 설정은 필수입니다.',
+      this.isJuso1Visible = false,
+      this.isJuso2Visible = false,
       this.isAllAppPermissionGrant = false,
       final List<bool> isAppPermissionCheckboxState = const [
         false,
@@ -306,6 +393,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
         _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
         _disasterTypes = disasterTypes;
 
+//주소 검색 오류 상태
   @override
   @JsonKey()
   final bool isError;
@@ -315,6 +403,12 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final String nicknameState;
+  @override
+  @JsonKey()
+  final bool completeSetName;
+  @override
+  @JsonKey()
+  final bool completeSetNickName;
 //검색된 주소 목록의 중복을 제거하기 위함
   final Set<String> _jusoListState;
 //검색된 주소 목록의 중복을 제거하기 위함
@@ -332,6 +426,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final String userNickName;
+//입력한 주소값
   @override
   @JsonKey()
   final String homeJuso;
@@ -351,6 +446,20 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final String secondJusoNick;
+//주소 별명 입력 오류 상태
+  @override
+  @JsonKey()
+  final String firstJusoState;
+  @override
+  @JsonKey()
+  final String secondJusoState;
+//주소 입력 텍스트 필드 visible 상태
+  @override
+  @JsonKey()
+  final bool isJuso1Visible;
+  @override
+  @JsonKey()
+  final bool isJuso2Visible;
 //권한 모두 동의 활성화 상태
   @override
   @JsonKey()
@@ -378,7 +487,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
 
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, jusoListState: $jusoListState, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, jusoListState: $jusoListState, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
   }
 
   @override
@@ -391,6 +500,10 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 other.nameState == nameState) &&
             (identical(other.nicknameState, nicknameState) ||
                 other.nicknameState == nicknameState) &&
+            (identical(other.completeSetName, completeSetName) ||
+                other.completeSetName == completeSetName) &&
+            (identical(other.completeSetNickName, completeSetNickName) ||
+                other.completeSetNickName == completeSetNickName) &&
             const DeepCollectionEquality()
                 .equals(other._jusoListState, _jusoListState) &&
             (identical(other.userName, userName) ||
@@ -409,6 +522,14 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 other.firstJusoNick == firstJusoNick) &&
             (identical(other.secondJusoNick, secondJusoNick) ||
                 other.secondJusoNick == secondJusoNick) &&
+            (identical(other.firstJusoState, firstJusoState) ||
+                other.firstJusoState == firstJusoState) &&
+            (identical(other.secondJusoState, secondJusoState) ||
+                other.secondJusoState == secondJusoState) &&
+            (identical(other.isJuso1Visible, isJuso1Visible) ||
+                other.isJuso1Visible == isJuso1Visible) &&
+            (identical(other.isJuso2Visible, isJuso2Visible) ||
+                other.isJuso2Visible == isJuso2Visible) &&
             (identical(
                     other.isAllAppPermissionGrant, isAllAppPermissionGrant) ||
                 other.isAllAppPermissionGrant == isAllAppPermissionGrant) &&
@@ -420,23 +541,30 @@ class _$OnboardingStateImpl implements _OnboardingState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isError,
-      nameState,
-      nicknameState,
-      const DeepCollectionEquality().hash(_jusoListState),
-      userName,
-      userNickName,
-      homeJuso,
-      firstJuso,
-      secondJuso,
-      homeJusoNick,
-      firstJusoNick,
-      secondJusoNick,
-      isAllAppPermissionGrant,
-      const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
-      const DeepCollectionEquality().hash(_disasterTypes));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        isError,
+        nameState,
+        nicknameState,
+        completeSetName,
+        completeSetNickName,
+        const DeepCollectionEquality().hash(_jusoListState),
+        userName,
+        userNickName,
+        homeJuso,
+        firstJuso,
+        secondJuso,
+        homeJusoNick,
+        firstJusoNick,
+        secondJusoNick,
+        firstJusoState,
+        secondJusoState,
+        isJuso1Visible,
+        isJuso2Visible,
+        isAllAppPermissionGrant,
+        const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
+        const DeepCollectionEquality().hash(_disasterTypes)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -451,6 +579,8 @@ abstract class _OnboardingState implements OnboardingState {
       {final bool isError,
       final String nameState,
       final String nicknameState,
+      final bool completeSetName,
+      final bool completeSetNickName,
       final Set<String> jusoListState,
       final String userName,
       final String userNickName,
@@ -460,23 +590,31 @@ abstract class _OnboardingState implements OnboardingState {
       final String homeJusoNick,
       final String firstJusoNick,
       final String secondJusoNick,
+      final String firstJusoState,
+      final String secondJusoState,
+      final bool isJuso1Visible,
+      final bool isJuso2Visible,
       final bool isAllAppPermissionGrant,
       final List<bool> isAppPermissionCheckboxState,
       final List<String> disasterTypes}) = _$OnboardingStateImpl;
 
-  @override
+  @override //주소 검색 오류 상태
   bool get isError;
   @override
   String get nameState;
   @override
   String get nicknameState;
+  @override
+  bool get completeSetName;
+  @override
+  bool get completeSetNickName;
   @override //검색된 주소 목록의 중복을 제거하기 위함
   Set<String> get jusoListState;
   @override
   String get userName;
   @override
   String get userNickName;
-  @override
+  @override //입력한 주소값
   String get homeJuso;
   @override
   String get firstJuso;
@@ -488,6 +626,14 @@ abstract class _OnboardingState implements OnboardingState {
   String get firstJusoNick;
   @override
   String get secondJusoNick;
+  @override //주소 별명 입력 오류 상태
+  String get firstJusoState;
+  @override
+  String get secondJusoState;
+  @override //주소 입력 텍스트 필드 visible 상태
+  bool get isJuso1Visible;
+  @override
+  bool get isJuso2Visible;
   @override //권한 모두 동의 활성화 상태
   bool get isAllAppPermissionGrant;
   @override //체크박스의 활성화상태

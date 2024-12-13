@@ -1,12 +1,12 @@
-import 'package:daepiro/presentation/community/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/reply_menu_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
+import '../../../data/model/response/disaster_reply_response.dart';
 
 class ReplyBottomSheet extends ConsumerStatefulWidget {
   @override
@@ -18,8 +18,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final communityViewModel = ref.watch(communityDisasterProvider);
+    final viewModel = ref.watch(communityDisasterProvider);
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        )
+      ),
       child: Column(
         children: [
           headerWidget(),
@@ -29,14 +36,17 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      replyWidget(ref, true, context, true),
-                      reReplyWidget(true, context, true)
+                      if (viewModel.isLoading)
+                        Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      else
+                        replyListWidget(ref, viewModel.disasterReplyList)
                     ],
                   ),
                 ),
-              )
-          ),
-          footerWidget()
+              )),
+          footerWidget(),
         ],
       ),
     );
@@ -69,8 +79,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 ),
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: SvgPicture.asset(
-                      'assets/icons/icon_close.svg',
+                  child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
                       colorFilter: ColorFilter.mode(
@@ -91,8 +100,22 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  Widget replyWidget(WidgetRef ref, bool isCertificateUser,
-      BuildContext context, bool isUser) {
+  Widget replyListWidget(WidgetRef ref, List<Reply> list) {
+    return Container(
+      child: Column(
+        children: [
+          if (list.length != 0)
+            ...List.generate(list.length, (index) {
+              return replyWidget(ref, context, list[index]);
+            })
+          else
+            noReplyWidget()
+        ],
+      ),
+    );
+  }
+
+  Widget replyWidget(WidgetRef ref, BuildContext context, Reply reply) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -106,7 +129,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                     .copyWith(color: DaepiroColorStyle.g_800),
               ),
               Visibility(
-                  visible: isCertificateUser,
+                  visible: true,
                   child: Row(
                     children: [
                       SizedBox(width: 2),
@@ -119,16 +142,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   )),
               SizedBox(width: 6),
               Text(
-                '5분전',
+                ref
+                    .read(communityDisasterProvider.notifier)
+                    .parseCommentTime(reply.time!),
                 style: DaepiroTextStyle.caption
                     .copyWith(color: DaepiroColorStyle.g_300),
               ),
               Spacer(),
-              //TODO 사양보고 다시 설정하기
               GestureDetector(
-                onTap: () {
-                  goToEdit(context, isUser);
-                },
+                onTap: () => goToAdditional(context, reply.isMine!, reply.id!),
                 child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
                     colorFilter: ColorFilter.mode(
                         DaepiroColorStyle.g_200, BlendMode.srcIn)),
@@ -137,14 +159,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           ),
           SizedBox(height: 4),
           Text(
-            '내용내용내용',
+            reply.content!,
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_900),
           ),
           SizedBox(height: 12),
           Row(
             children: [
-              GestureDetector(onTap: () {}, child: likeButton(false, 1)),
+              GestureDetector(
+                  onTap: () {}, child: likeButton(false, reply.likeCount!)),
               SizedBox(width: 8),
               GestureDetector(onTap: () {}, child: replyWriteButton())
             ],
@@ -155,9 +178,10 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  Widget reReplyWidget(bool isCertificateUser, BuildContext context, bool isUser) {
+  Widget reReplyWidget(
+      bool isCertificateUser, BuildContext context, bool isUser) {
     return Container(
-      child: IntrinsicHeight (
+      child: IntrinsicHeight(
         child: Row(
           children: [
             Align(
@@ -172,57 +196,64 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
               flex: 20,
               child: Padding(
                   padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          '김연지',
-                          style: DaepiroTextStyle.caption
-                              .copyWith(color: DaepiroColorStyle.g_800),
-                        ),
-                        Visibility(
-                            visible: isCertificateUser,
-                            child: Row(
-                              children: [
-                                SizedBox(width: 2),
-                                SvgPicture.asset(
-                                    'assets/icons/icon_certification.svg',
-                                    width: 16,
-                                    height: 16,
-                                    colorFilter: ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)),
-                              ],
-                            )),
-                        SizedBox(width: 6),
-                        Text(
-                          '5분전',
-                          style: DaepiroTextStyle.caption
-                              .copyWith(color: DaepiroColorStyle.g_300),
-                        ),
-                        Flexible(child: Container()),
-                        GestureDetector(
-                            onTap: () {
-                              goToEdit(context, isUser);
-                            },
-                            child: SvgPicture.asset(
-                                'assets/icons/icon_moreinfo.svg',
-                                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn))),
-        
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      '내용내용내용바나나차차',
-                      style: DaepiroTextStyle.body_2_m
-                          .copyWith(color: DaepiroColorStyle.g_900),
-                    ),
-                    SizedBox(height: 12),
-                    GestureDetector(onTap: () {}, child: likeButton(true, 1)),
-                    Spacer()
-                  ],
-                )
-              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '김연지',
+                            style: DaepiroTextStyle.caption
+                                .copyWith(color: DaepiroColorStyle.g_800),
+                          ),
+                          Visibility(
+                              visible: isCertificateUser,
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 2),
+                                  SvgPicture.asset(
+                                      'assets/icons/icon_certification.svg',
+                                      width: 16,
+                                      height: 16,
+                                      colorFilter: ColorFilter.mode(
+                                          DaepiroColorStyle.o_300,
+                                          BlendMode.srcIn)),
+                                ],
+                              )),
+                          SizedBox(width: 6),
+                          Text(
+                            '5분전',
+                            style: DaepiroTextStyle.caption
+                                .copyWith(color: DaepiroColorStyle.g_300),
+                          ),
+                          Flexible(child: Container()),
+                          GestureDetector(
+                              onTap: () {
+                                //goToAdditional(context, isUser, );
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/icons/icon_moreinfo.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      DaepiroColorStyle.g_200,
+                                      BlendMode.srcIn))),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        '내용내용내용바나나차차',
+                        style: DaepiroTextStyle.body_2_m
+                            .copyWith(color: DaepiroColorStyle.g_900),
+                      ),
+                      SizedBox(height: 12),
+                      Row(
+                        children: [
+                          GestureDetector(
+                              onTap: () {}, child: likeButton(true, 1)),
+                          Spacer()
+                        ],
+                      ),
+                    ],
+                  )),
             )
           ],
         ),
@@ -253,60 +284,61 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             // ),
             // SizedBox(width: 12),
             Expanded(
-              //TODO: 1000자 제한 추가하기
-              child: Stack(
+                //TODO: 1000자 제한 추가하기
+                child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: DaepiroColorStyle.g_50),
+              child: Row(
                 children: [
-                  TextField(
-                    cursorColor: DaepiroColorStyle.g_900,
-                    onTapOutside: (event) =>
-                        FocusManager.instance.primaryFocus?.unfocus(),
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.g_900),
-                    decoration: InputDecoration(
-                      filled: true,
-                      isDense: true,
-                      hintText: '댓글을 작성해주세요.',
-                      fillColor: DaepiroColorStyle.g_50,
-                      hintStyle: DaepiroTextStyle.body_2_m
-                          .copyWith(color: DaepiroColorStyle.g_200),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      disabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1.5,
-                          color: DaepiroColorStyle.g_75,
+                  Expanded(
+                    child: TextField(
+                      maxLines: null,
+                      cursorColor: DaepiroColorStyle.g_900,
+                      onTapOutside: (event) =>
+                          FocusManager.instance.primaryFocus?.unfocus(),
+                      style: DaepiroTextStyle.body_2_m
+                          .copyWith(color: DaepiroColorStyle.g_900),
+                      decoration: InputDecoration(
+                        filled: true,
+                        isDense: true,
+                        hintText: '댓글을 작성해주세요.',
+                        fillColor: DaepiroColorStyle.g_50,
+                        hintStyle: DaepiroTextStyle.body_2_m
+                            .copyWith(color: DaepiroColorStyle.g_200),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        disabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
                       ),
                     ),
                   ),
-                  Positioned(
-                      right: 0,
-                      child: TextButton(
-                        onPressed: (){},
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(1)
-                          ),
-                          overlayColor: Colors.transparent
-                        ),
-                        child: Text('등록', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
-                      )
+                  SizedBox(width: 12),
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1)),
+                        overlayColor: Colors.transparent),
+                    child: Text('등록',
+                        style: DaepiroTextStyle.body_2_m
+                            .copyWith(color: DaepiroColorStyle.g_600)),
                   )
                 ],
-              )
-            ),
+              ),
+            )),
             SizedBox(width: 20)
           ],
         ),
@@ -333,7 +365,9 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             Text(
               '좋아요',
               style: DaepiroTextStyle.caption.copyWith(
-                  color: isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300),
+                  color: isClick
+                      ? DaepiroColorStyle.o_400
+                      : DaepiroColorStyle.g_300),
             ),
             SizedBox(width: 2),
             Visibility(
@@ -341,7 +375,9 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
               child: Text(
                 '${likeNum}',
                 style: DaepiroTextStyle.caption.copyWith(
-                    color: isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300),
+                    color: isClick
+                        ? DaepiroColorStyle.o_400
+                        : DaepiroColorStyle.g_300),
               ),
             )
           ],
@@ -428,35 +464,13 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
   }
 
   //수정 삭제를 위한 blur 화면 띄우는 메소드
-  void goToEdit(BuildContext context, bool isUser) {
+  void goToAdditional(BuildContext context, bool isUser, int commentId) {
     showDialog(
         useSafeArea: false,
         context: context,
         barrierColor: Colors.black.withOpacity(0.6),
         builder: (context) {
-          return ReplyMenuScreen(isUser: isUser);
+          return ReplyMenuScreen(isUser: isUser, commentId: commentId,);
         });
-  }
-
-  //댓글 삭제
-  //TODO: isDeleteComplete와 연결시키기
-  void showDeleteSnackbar(BuildContext context) {
-    final snackBar = SnackBar(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      backgroundColor: Colors.black.withOpacity(0.6),
-      behavior: SnackBarBehavior.floating,
-      content: Text(
-        '댓글이 삭제되었습니다.',
-        style:
-            DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.white),
-      ),
-      action: SnackBarAction(
-          label: '취소',
-          textColor: DaepiroColorStyle.white,
-          //TODO 댓글 삭제 취소 api 연결필요
-          onPressed: () {}),
-      duration: const Duration(seconds: 5),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
