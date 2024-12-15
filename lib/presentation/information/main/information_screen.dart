@@ -1,5 +1,5 @@
 import 'package:daepiro/presentation/information/component/disaster_contents_main_item.dart';
-import 'package:daepiro/presentation/information/information_view_model.dart';
+import 'package:daepiro/presentation/information/main/information_view_model.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,11 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../../cmm/DaepiroTheme.dart';
-import '../../cmm/chip/secondary_chip.dart';
-import '../home/component/around_shelter_preview.dart';
-import '../home/component/map_direction_item.dart';
-import '../home/const.dart';
+import '../../../cmm/DaepiroTheme.dart';
+import '../../../cmm/chip/secondary_chip.dart';
+import '../../home/component/around_shelter_preview.dart';
+import '../../home/component/map_direction_item.dart';
+import '../../home/const.dart';
 
 class InformationScreen extends ConsumerWidget {
   InformationScreen({super.key});
@@ -114,11 +114,11 @@ class InformationScreen extends ConsumerWidget {
                                     children: [
                                       DisasterContentsMainItem(
                                           type: "실시간 뉴스",
-                                          title: viewModel.contentsList?[i].title ?? "",
-                                          source: viewModel.contentsList?[i].source ?? "",
-                                          date: viewModel.contentsList?[i].publishedAt ?? "",
-                                          thumbnailUrl: viewModel.contentsList?[i].thumbnailUrl ?? "",
-                                          bodyUrl: viewModel.contentsList?[i].bodyUrl ?? ""
+                                          title: viewModel.contentsList[i].title ?? "",
+                                          source: viewModel.contentsList[i].source ?? "",
+                                          date: viewModel.contentsList[i].publishedAt ?? "",
+                                          thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
+                                          bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
                                       ),
                                     ],
                                   )

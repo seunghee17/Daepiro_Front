@@ -6,7 +6,7 @@ part 'information_state.freezed.dart';
 sealed class InformationState with _$InformationState {
   factory InformationState({
     @Default(false) bool isLoading,
-    @Default([]) List<Contents> contentsList,
+    @Default([]) List<Contents> contentsList,    // 메인 재난콘텐츠 목록
     @Default(0) int selectedAroundShelterType,
 
   }) = _InformationState;

@@ -66,14 +66,14 @@ class Contents {
   int? likeCount;
 
   Contents(
-      this.title,
-      this.thumbnailUrl,
-      this.bodyUrl,
-      this.source,
-      this.publishedAt,
-      this.viewCount,
-      this.likeCount
-    );
+    this.title,
+    this.thumbnailUrl,
+    this.bodyUrl,
+    this.source,
+    this.publishedAt,
+    this.viewCount,
+    this.likeCount
+  );
 
   Contents.fromJson(Map<String, dynamic> json) {
     title = json['title'];

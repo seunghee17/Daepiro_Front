@@ -15,6 +15,10 @@ abstract class InformationService {
 
   // 재난콘텐츠 목록 조회
   @GET('/v1/disastercontents/list/{sortType}')
-  Future<DisasterContentsListResponse> getDisasterContentsList();
+  Future<DisasterContentsListResponse> getDisasterContentsList({
+    @Path("sortType") required String sortType,
+    // @Query("cursor") String cursor = "",
+    @Query("size") required String size
+  });
 
 }

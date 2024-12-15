@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$InformationState {
   bool get isLoading => throw _privateConstructorUsedError;
-  List<Contents> get contentsList => throw _privateConstructorUsedError;
+  List<Contents> get contentsList =>
+      throw _privateConstructorUsedError; // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -138,6 +139,7 @@ class _$InformationStateImpl implements _InformationState {
     return EqualUnmodifiableListView(_contentsList);
   }
 
+// 메인 재난콘텐츠 목록
   @override
   @JsonKey()
   final int selectedAroundShelterType;
@@ -186,7 +188,7 @@ abstract class _InformationState implements InformationState {
   bool get isLoading;
   @override
   List<Contents> get contentsList;
-  @override
+  @override // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType;
   @override
   @JsonKey(ignore: true)

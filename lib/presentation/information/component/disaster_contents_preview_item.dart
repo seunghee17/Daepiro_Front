@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
+import '../../const/utils.dart';
 
 class DisasterContentsItem extends StatelessWidget {
   final String title;
@@ -38,15 +39,16 @@ class DisasterContentsItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  imagePath,
-                  width: 72,
-                  height: 72,
-                  fit: BoxFit.cover,
+              if (imagePath.isNotEmpty)
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.network(
+                      imagePath,
+                      width: 72,
+                      height: 72,
+                      fit: BoxFit.cover,
+                    )
                 )
-              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -62,7 +64,7 @@ class DisasterContentsItem extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  date,
+                  formatDateToDot(date),
                   style: DaepiroTextStyle.caption.copyWith(
                       color: DaepiroColorStyle.g_300
                   ),

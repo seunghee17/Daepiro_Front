@@ -2,7 +2,7 @@ import 'package:daepiro/presentation/community/screens/album/album_choice_screen
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
 import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
-import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
+import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response_screen.dart';
 import 'package:daepiro/presentation/information/search_disaster_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
@@ -18,7 +18,7 @@ import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
 import '../presentation/home/shelter/around_shelter_screen.dart';
-import '../presentation/information/information_screen.dart';
+import '../presentation/information/main/information_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
 import '../presentation/onboarding/screens/onboarding_fifth_screen.dart';

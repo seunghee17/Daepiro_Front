@@ -55,9 +55,16 @@ class _InformationService implements InformationService {
   }
 
   @override
-  Future<DisasterContentsListResponse> getDisasterContentsList() async {
+  Future<DisasterContentsListResponse> getDisasterContentsList({
+    required String sortType,
+    String cursor = "",
+    String size = "",
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'cursor': cursor,
+      r'size': size,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<DisasterContentsListResponse>(Options(
@@ -67,7 +74,7 @@ class _InformationService implements InformationService {
     )
         .compose(
           _dio.options,
-          '/v1/disastercontents/list/{sortType}',
+          '/v1/disastercontents/list/${sortType}',
           queryParameters: queryParameters,
           data: _data,
         )

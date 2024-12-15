@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
@@ -47,7 +48,7 @@ class DisasterContentsMainItem extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          "$date / $source",
+          "${formatDateToHyphen(date)} · $source",
           style: DaepiroTextStyle.caption.copyWith(
             color: DaepiroColorStyle.g_400,
           ),

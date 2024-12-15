@@ -21,9 +21,15 @@ class InformationRepositoryImpl extends InformationRepository {
   }
 
   @override
-  Future<DisasterContentsListResponse> getDisasterContentsList() async {
+  Future<DisasterContentsListResponse> getDisasterContentsList({
+    required String sortType,
+    required String size
+  }) async {
     try {
-      final response = await _service.getDisasterContentsList();
+      final response = await _service.getDisasterContentsList(
+        sortType: sortType,
+        size: size
+      );
       return response;
     } catch(e) {
       print('재난콘텐츠 목록 조회 오류 ${e.toString()}');

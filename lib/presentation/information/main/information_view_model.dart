@@ -1,4 +1,4 @@
-import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
+import 'package:daepiro/domain/usecase/information/get_disaster_contents_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/get_disaster_contents_usecase.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
