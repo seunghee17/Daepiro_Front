@@ -5,7 +5,7 @@ import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/http/http_provider.dart';
-import '../../data/repositoryimpl/home/home_repository_impl.dart';
+import '../../data/repositoryimpl/home_repository_impl.dart';
 
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
   final http = ref.watch(dioProvider);

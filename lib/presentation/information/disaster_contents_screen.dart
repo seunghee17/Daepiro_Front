@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/information/component/disaster_contents_item.dart';
+import 'package:daepiro/presentation/information/component/disaster_contents_preview_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

@@ -1,18 +1,20 @@
-import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
-import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
-import 'package:daepiro/data/model/response/home/home_status_response.dart';
+import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
+import 'package:daepiro/data/model/response/information/disaster_contents_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-part 'home_service.g.dart';
+part 'information_service.g.dart';
 
 @RestApi()
-abstract class HomeService {
-  factory HomeService(Dio dio, {String baseUrl}) = _HomeService;
+abstract class InformationService {
+  factory InformationService(Dio dio, {String baseUrl}) = _InformationService;
 
-  // 현재 재난 발생 유무 조회
+  // 정보 메인화면 재난콘텐츠 조회
   @GET('/v1/disastercontents/home')
-  Future<HomeStatusResponse> getHomeStatus();
+  Future<DisasterContentsResponse> getDisasterContents();
 
+  // 재난콘텐츠 목록 조회
+  @GET('/v1/disastercontents/list/{sortType}')
+  Future<DisasterContentsListResponse> getDisasterContentsList();
 
 }

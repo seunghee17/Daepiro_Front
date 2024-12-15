@@ -1,11 +1,11 @@
-class DisasterContentsResponse {
+class DisasterContentsListResponse {
   int? code;
   String? message;
   Data? data;
   String? path;
   String? timestamp;
 
-  DisasterContentsResponse(
+  DisasterContentsListResponse(
       this.code,
       this.message,
       this.data,
@@ -13,7 +13,7 @@ class DisasterContentsResponse {
       this.timestamp
   );
 
-  DisasterContentsResponse.fromJson(Map<String, dynamic> json) {
+  DisasterContentsListResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -35,11 +35,16 @@ class DisasterContentsResponse {
 }
 
 class Data {
+  int? nextCursor;
   List<Contents>? contents;
 
-  Data({this.contents,});
+  Data({
+    this.contents,
+    this.nextCursor
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
+    nextCursor = json['nextCursor'];
     if (json['contents'] != null) {
       contents = (json['contents'] as List)
           .map((item) => Contents.fromJson(item))
@@ -49,6 +54,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['nextCursor'] = this.nextCursor;
     if (this.contents != null) {
       data['contents'] = this.contents!.map((item) => item.toJson()).toList();
     }
