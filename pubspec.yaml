@@ -55,6 +55,8 @@ dependencies:
   #Firebase
   firebase_core: ^3.8.0
   firebase_messaging: ^15.1.5
+  #gps
+  geolocator: ^9.0.0
 
   # 종석 공부용
   provider: 6.0.5

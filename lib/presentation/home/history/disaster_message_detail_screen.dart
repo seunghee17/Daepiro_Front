@@ -254,6 +254,8 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                        name: "강남구 보건소 지하 1층",
                                        distinct: 250,
                                        address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",
+                                       latitude: 0,
+                                       longitude: 0,
                                        onClickDirection: () {
                                          showDialog(
                                              context: context,

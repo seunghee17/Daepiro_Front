@@ -164,15 +164,12 @@ class InformationScreen extends ConsumerWidget {
                                             // context.push('/home/aroundShelter');
                                           },
                                           child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   "더보기",
-                                                  style: DaepiroTextStyle
-                                                      .body_2_m.copyWith(
-                                                    color: DaepiroColorStyle
-                                                        .o_400,
+                                                  style: DaepiroTextStyle.body_2_m.copyWith(
+                                                    color: DaepiroColorStyle.o_400,
                                                   ),
                                                 ),
                                                 SvgPicture.asset(
@@ -210,74 +207,52 @@ class InformationScreen extends ConsumerWidget {
                                   scrollDirection: Axis.horizontal,
                                   padEnds: false,
                                   itemCount: 5,
-                                  itemBuilder: (BuildContext context,
-                                      int index) {
+                                  itemBuilder: (BuildContext context, int index) {
                                     return Container(
                                       padding: EdgeInsets.only(top: 16),
                                       margin: EdgeInsets.only(right: 8),
                                       child: AroundShelterPreview(
-                                        name: "강남구 보건소 지하 1층",
-                                        distinct: 250,
-                                        address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",
+                                        name: viewModel.shelterList[index].name ?? "",
+                                        distinct: viewModel.shelterList[index].distance ?? 0,
+                                        address: viewModel.shelterList[index].address ?? "",
+                                        latitude: viewModel.shelterList[index].latitude ?? 0,
+                                        longitude: viewModel.shelterList[index].longitude ?? 0,
                                         onClickDirection: () {
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return Dialog(
                                                   shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius
-                                                          .circular(12)
+                                                      borderRadius: BorderRadius.circular(12)
                                                   ),
                                                   backgroundColor: DaepiroColorStyle
                                                       .white,
                                                   child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        left: 20,
-                                                        right: 20,
-                                                        bottom: 16),
+                                                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .center,
-                                                      mainAxisSize: MainAxisSize
-                                                          .min,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      mainAxisSize: MainAxisSize.min,
                                                       children: [
                                                         Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                              vertical: 24),
+                                                          padding: EdgeInsets.symmetric(vertical: 24),
                                                           child: Text(
                                                             "대피소 길찾기 바로가기",
-                                                            style: DaepiroTextStyle
-                                                                .body_1_b
-                                                                .copyWith(
-                                                              color: DaepiroColorStyle
-                                                                  .g_900,
-                                                            ),
+                                                            style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900,),
                                                           ),
                                                         ),
                                                         MapDirectionItem(
-                                                            icon: Image.asset(
-                                                                'assets/icons/image_naver_map.png',
-                                                                height: 24,
-                                                                width: 24),
+                                                            icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
                                                             text: "네이버지도 바로가기"
                                                         ),
                                                         const SizedBox(
                                                             height: 8),
                                                         MapDirectionItem(
-                                                            icon: Image.asset(
-                                                                'assets/icons/image_kakao_map.png',
-                                                                height: 24,
-                                                                width: 24),
-                                                            text: "카카오맵 바로가기"
+                                                            icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24), text: "카카오맵 바로가기"
                                                         ),
                                                         const SizedBox(
                                                             height: 8),
                                                         MapDirectionItem(
-                                                            icon: Image.asset(
-                                                                'assets/icons/image_t_map.png',
-                                                                height: 24,
-                                                                width: 24),
+                                                            icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
                                                             text: "티맵 바로가기"
                                                         )
                                                       ],

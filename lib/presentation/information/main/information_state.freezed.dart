@@ -20,6 +20,7 @@ mixin _$InformationState {
   List<Contents> get contentsList =>
       throw _privateConstructorUsedError; // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType => throw _privateConstructorUsedError;
+  List<Shelters> get shelterList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $InformationStateCopyWith<InformationState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $InformationStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       List<Contents> contentsList,
-      int selectedAroundShelterType});
+      int selectedAroundShelterType,
+      List<Shelters> shelterList});
 }
 
 /// @nodoc
@@ -54,6 +56,7 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
     Object? isLoading = null,
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
+    Object? shelterList = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -68,6 +71,10 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
           ? _value.selectedAroundShelterType
           : selectedAroundShelterType // ignore: cast_nullable_to_non_nullable
               as int,
+      shelterList: null == shelterList
+          ? _value.shelterList
+          : shelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
     ) as $Val);
   }
 }
@@ -83,7 +90,8 @@ abstract class _$$InformationStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       List<Contents> contentsList,
-      int selectedAroundShelterType});
+      int selectedAroundShelterType,
+      List<Shelters> shelterList});
 }
 
 /// @nodoc
@@ -100,6 +108,7 @@ class __$$InformationStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
+    Object? shelterList = null,
   }) {
     return _then(_$InformationStateImpl(
       isLoading: null == isLoading
@@ -114,6 +123,10 @@ class __$$InformationStateImplCopyWithImpl<$Res>
           ? _value.selectedAroundShelterType
           : selectedAroundShelterType // ignore: cast_nullable_to_non_nullable
               as int,
+      shelterList: null == shelterList
+          ? _value._shelterList
+          : shelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
     ));
   }
 }
@@ -124,8 +137,10 @@ class _$InformationStateImpl implements _InformationState {
   _$InformationStateImpl(
       {this.isLoading = false,
       final List<Contents> contentsList = const [],
-      this.selectedAroundShelterType = 0})
-      : _contentsList = contentsList;
+      this.selectedAroundShelterType = 0,
+      final List<Shelters> shelterList = const []})
+      : _contentsList = contentsList,
+        _shelterList = shelterList;
 
   @override
   @JsonKey()
@@ -143,10 +158,18 @@ class _$InformationStateImpl implements _InformationState {
   @override
   @JsonKey()
   final int selectedAroundShelterType;
+  final List<Shelters> _shelterList;
+  @override
+  @JsonKey()
+  List<Shelters> get shelterList {
+    if (_shelterList is EqualUnmodifiableListView) return _shelterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_shelterList);
+  }
 
   @override
   String toString() {
-    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType)';
+    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, shelterList: $shelterList)';
   }
 
   @override
@@ -160,7 +183,9 @@ class _$InformationStateImpl implements _InformationState {
                 .equals(other._contentsList, _contentsList) &&
             (identical(other.selectedAroundShelterType,
                     selectedAroundShelterType) ||
-                other.selectedAroundShelterType == selectedAroundShelterType));
+                other.selectedAroundShelterType == selectedAroundShelterType) &&
+            const DeepCollectionEquality()
+                .equals(other._shelterList, _shelterList));
   }
 
   @override
@@ -168,7 +193,8 @@ class _$InformationStateImpl implements _InformationState {
       runtimeType,
       isLoading,
       const DeepCollectionEquality().hash(_contentsList),
-      selectedAroundShelterType);
+      selectedAroundShelterType,
+      const DeepCollectionEquality().hash(_shelterList));
 
   @JsonKey(ignore: true)
   @override
@@ -182,7 +208,8 @@ abstract class _InformationState implements InformationState {
   factory _InformationState(
       {final bool isLoading,
       final List<Contents> contentsList,
-      final int selectedAroundShelterType}) = _$InformationStateImpl;
+      final int selectedAroundShelterType,
+      final List<Shelters> shelterList}) = _$InformationStateImpl;
 
   @override
   bool get isLoading;
@@ -190,6 +217,8 @@ abstract class _InformationState implements InformationState {
   List<Contents> get contentsList;
   @override // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType;
+  @override
+  List<Shelters> get shelterList;
   @override
   @JsonKey(ignore: true)
   _$$InformationStateImplCopyWith<_$InformationStateImpl> get copyWith =>

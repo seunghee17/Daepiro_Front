@@ -9,15 +9,19 @@ class AroundShelterPreview extends StatefulWidget {
   final String name;
   final int distinct;
   final String address;
+  final double latitude;
+  final double longitude;
   final VoidCallback onClickDirection;
 
   const AroundShelterPreview({
-    Key? key,
+    super.key,
     required this.name,
     required this.distinct,
     required this.address,
+    required this.latitude,
+    required this.longitude,
     required this.onClickDirection
-  }): super(key: key);
+  });
 
   @override
   State<AroundShelterPreview> createState() => _AroundShelterPreviewState();

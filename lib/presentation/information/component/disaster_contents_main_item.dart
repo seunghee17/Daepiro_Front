@@ -23,46 +23,50 @@ class DisasterContentsMainItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
-          decoration: BoxDecoration(
-              color: DaepiroColorStyle.o_50,
-              borderRadius: BorderRadius.circular(4)
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+            decoration: BoxDecoration(
+                color: DaepiroColorStyle.o_50,
+                borderRadius: BorderRadius.circular(4)
+            ),
+            child: Text(
+                type,
+                style: DaepiroTextStyle.caption.copyWith(
+                  color: DaepiroColorStyle.o_500,
+                )
+            ),
           ),
-          child: Text(
-              type,
-              style: DaepiroTextStyle.caption.copyWith(
-                color: DaepiroColorStyle.o_500,
+          const SizedBox(height: 12),
+          Text(
+              title,
+              style: DaepiroTextStyle.h6.copyWith(
+                color: DaepiroColorStyle.g_800,
               )
           ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-            title,
-            style: DaepiroTextStyle.h6.copyWith(
-              color: DaepiroColorStyle.g_800,
-            )
-        ),
-        const SizedBox(height: 12),
-        Text(
-          "${formatDateToHyphen(date)} · $source",
-          style: DaepiroTextStyle.caption.copyWith(
-            color: DaepiroColorStyle.g_400,
+          const SizedBox(height: 12),
+          Text(
+            "${formatDateToHyphen(date)} · $source",
+            style: DaepiroTextStyle.caption.copyWith(
+              color: DaepiroColorStyle.g_400,
+            ),
           ),
-        ),
-        const SizedBox(height: 12),
-        ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              thumbnailUrl,
-              width: double.infinity,
-              fit: BoxFit.cover
+          const SizedBox(height: 12),
+          if (thumbnailUrl.isNotEmpty)
+            ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  thumbnailUrl,
+                  width: double.infinity,
+                  fit: BoxFit.cover
+                )
             )
-        )
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,3 +1,6 @@
+import 'package:daepiro/data/model/request/register_user_location_request.dart';
+import 'package:daepiro/data/model/response/basic_response.dart';
+import 'package:daepiro/data/model/response/information/around_shelter_list_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_response.dart';
 import 'package:dio/dio.dart';
@@ -19,6 +22,18 @@ abstract class InformationService {
     @Path("sortType") required String sortType,
     // @Query("cursor") String cursor = "",
     @Query("size") required String size
+  });
+
+  // 사용자 위치 등록
+  @POST('/v1/users/gps')
+  Future<BasicResponse> registerUserLocation({
+    @Body() required RegisterUserLocationRequest body
+  });
+
+  // 주변대피소 조회
+  @GET('/v1/shelters/{type}')
+  Future<AroundShelterListResponse> getAroundShelterList({
+    @Path("type") required String type
   });
 
 }
