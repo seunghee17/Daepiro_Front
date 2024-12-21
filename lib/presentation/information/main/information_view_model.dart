@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:daepiro/domain/usecase/information/get_around_shelter_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/get_disaster_contents_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/get_disaster_contents_usecase.dart';
@@ -5,6 +7,8 @@ import 'package:daepiro/domain/usecase/information/register_user_location_usecas
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:logger/logger.dart';
 
 final informationStateNotifierProvider = StateNotifierProvider<InformationViewModel, InformationState>((ref) {
   return InformationViewModel(ref);
@@ -29,15 +33,23 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
     if (isEnableLocation) {
       permission = await Geolocator.checkPermission();
-      if (permission != LocationPermission.denied || permission != LocationPermission.deniedForever) {
-        Position location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      if (permission != LocationPermission.denied ||
+          permission != LocationPermission.deniedForever) {
+        Position location = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
         registerUserLocation(
             latitude: location.latitude.toString(),
             longitude: location.longitude.toString()
         );
+
+        state = state.copyWith(
+            latitude: location.latitude,
+            longitude: location.longitude
+        );
+      } else {
+        // 위치 비활성화
+
       }
-    } else {
-      // 위치 비활성화
     }
   }
 

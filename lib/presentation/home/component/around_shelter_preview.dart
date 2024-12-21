@@ -5,29 +5,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import 'map_direction_item.dart';
 
-class AroundShelterPreview extends StatefulWidget {
+class AroundShelterPreview extends StatelessWidget {
   final String name;
   final int distinct;
   final String address;
-  final double latitude;
-  final double longitude;
-  final VoidCallback onClickDirection;
+  final double startLatitude;
+  final double startLongitude;
+  final double endLatitude;
+  final double endLongitude;
 
   const AroundShelterPreview({
     super.key,
     required this.name,
     required this.distinct,
     required this.address,
-    required this.latitude,
-    required this.longitude,
-    required this.onClickDirection
+    required this.startLatitude,
+    required this.startLongitude,
+    required this.endLatitude,
+    required this.endLongitude,
   });
 
-  @override
-  State<AroundShelterPreview> createState() => _AroundShelterPreviewState();
-}
-
-class _AroundShelterPreviewState extends State<AroundShelterPreview> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,31 +41,31 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: [
-              Text(
-                widget.name,
-                style: DaepiroTextStyle.body_1_b.copyWith(
-                  color: DaepiroColorStyle.g_900,
+              children: [
+                Text(
+                  name,
+                  style: DaepiroTextStyle.body_1_b.copyWith(
+                    color: DaepiroColorStyle.g_900,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                "${widget.distinct}m",
-                style: DaepiroTextStyle.body_2_m.copyWith(
-                  color: DaepiroColorStyle.o_500,
+                const SizedBox(width: 8),
+                Text(
+                  "${distinct}m",
+                  style: DaepiroTextStyle.body_2_m.copyWith(
+                    color: DaepiroColorStyle.o_500,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              SvgPicture.asset(
-                  'assets/icons/icon_copy.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
-                  width: 30,
-                  height: 30
-              )
-            ]
+                const Spacer(),
+                SvgPicture.asset(
+                    'assets/icons/icon_copy.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                    width: 30,
+                    height: 30
+                )
+              ]
           ),
           Text(
-            widget.address,
+            address,
             style: DaepiroTextStyle.body_2_m.copyWith(
               color: DaepiroColorStyle.g_500,
             ),
@@ -105,19 +102,28 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
                                 ),
                               ),
                               MapDirectionItem(
-                                  icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
-                                  text: "네이버지도 바로가기"
+                                type: "naver",
+                                startLatitude: startLatitude,
+                                startLongitude: startLongitude,
+                                endLatitude: endLatitude,
+                                endLongitude: endLongitude,
                               ),
                               const SizedBox(height: 8),
                               MapDirectionItem(
-                                  icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
-                                  text: "카카오맵 바로가기"
+                                type: "kakao",
+                                startLatitude: startLatitude,
+                                startLongitude: startLongitude,
+                                endLatitude: endLatitude,
+                                endLongitude: endLongitude,
                               ),
                               const SizedBox(height: 8),
                               MapDirectionItem(
-                                  icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
-                                  text: "티맵 바로가기"
-                              )
+                                type: "tmap",
+                                startLatitude: startLatitude,
+                                startLongitude: startLongitude,
+                                endLatitude: endLatitude,
+                                endLongitude: endLongitude,
+                              ),
                             ],
                           ),
                         ),
@@ -140,4 +146,5 @@ class _AroundShelterPreviewState extends State<AroundShelterPreview> {
       ),
     );
   }
+
 }

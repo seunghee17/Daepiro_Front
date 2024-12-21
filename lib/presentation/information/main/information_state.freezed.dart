@@ -20,7 +20,10 @@ mixin _$InformationState {
   List<Contents> get contentsList =>
       throw _privateConstructorUsedError; // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType => throw _privateConstructorUsedError;
-  List<Shelters> get shelterList => throw _privateConstructorUsedError;
+  List<Shelters> get shelterList =>
+      throw _privateConstructorUsedError; // 주변 대피소 리스트
+  double get latitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $InformationStateCopyWith<InformationState> get copyWith =>
@@ -37,7 +40,9 @@ abstract class $InformationStateCopyWith<$Res> {
       {bool isLoading,
       List<Contents> contentsList,
       int selectedAroundShelterType,
-      List<Shelters> shelterList});
+      List<Shelters> shelterList,
+      double latitude,
+      double longitude});
 }
 
 /// @nodoc
@@ -57,6 +62,8 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
     Object? shelterList = null,
+    Object? latitude = null,
+    Object? longitude = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -75,6 +82,14 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
           ? _value.shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -91,7 +106,9 @@ abstract class _$$InformationStateImplCopyWith<$Res>
       {bool isLoading,
       List<Contents> contentsList,
       int selectedAroundShelterType,
-      List<Shelters> shelterList});
+      List<Shelters> shelterList,
+      double latitude,
+      double longitude});
 }
 
 /// @nodoc
@@ -109,6 +126,8 @@ class __$$InformationStateImplCopyWithImpl<$Res>
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
     Object? shelterList = null,
+    Object? latitude = null,
+    Object? longitude = null,
   }) {
     return _then(_$InformationStateImpl(
       isLoading: null == isLoading
@@ -127,6 +146,14 @@ class __$$InformationStateImplCopyWithImpl<$Res>
           ? _value._shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -138,7 +165,9 @@ class _$InformationStateImpl implements _InformationState {
       {this.isLoading = false,
       final List<Contents> contentsList = const [],
       this.selectedAroundShelterType = 0,
-      final List<Shelters> shelterList = const []})
+      final List<Shelters> shelterList = const [],
+      this.latitude = 0,
+      this.longitude = 0})
       : _contentsList = contentsList,
         _shelterList = shelterList;
 
@@ -167,9 +196,17 @@ class _$InformationStateImpl implements _InformationState {
     return EqualUnmodifiableListView(_shelterList);
   }
 
+// 주변 대피소 리스트
+  @override
+  @JsonKey()
+  final double latitude;
+  @override
+  @JsonKey()
+  final double longitude;
+
   @override
   String toString() {
-    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, shelterList: $shelterList)';
+    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, shelterList: $shelterList, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -185,7 +222,11 @@ class _$InformationStateImpl implements _InformationState {
                     selectedAroundShelterType) ||
                 other.selectedAroundShelterType == selectedAroundShelterType) &&
             const DeepCollectionEquality()
-                .equals(other._shelterList, _shelterList));
+                .equals(other._shelterList, _shelterList) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude));
   }
 
   @override
@@ -194,7 +235,9 @@ class _$InformationStateImpl implements _InformationState {
       isLoading,
       const DeepCollectionEquality().hash(_contentsList),
       selectedAroundShelterType,
-      const DeepCollectionEquality().hash(_shelterList));
+      const DeepCollectionEquality().hash(_shelterList),
+      latitude,
+      longitude);
 
   @JsonKey(ignore: true)
   @override
@@ -209,7 +252,9 @@ abstract class _InformationState implements InformationState {
       {final bool isLoading,
       final List<Contents> contentsList,
       final int selectedAroundShelterType,
-      final List<Shelters> shelterList}) = _$InformationStateImpl;
+      final List<Shelters> shelterList,
+      final double latitude,
+      final double longitude}) = _$InformationStateImpl;
 
   @override
   bool get isLoading;
@@ -219,6 +264,10 @@ abstract class _InformationState implements InformationState {
   int get selectedAroundShelterType;
   @override
   List<Shelters> get shelterList;
+  @override // 주변 대피소 리스트
+  double get latitude;
+  @override
+  double get longitude;
   @override
   @JsonKey(ignore: true)
   _$$InformationStateImplCopyWith<_$InformationStateImpl> get copyWith =>

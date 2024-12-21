@@ -173,19 +173,28 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                                                         ),
                                                       ),
                                                     ),
-                                                    MapDirectionItem(
-                                                        icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
-                                                        text: "네이버지도 바로가기"
+                                                    const MapDirectionItem(
+                                                      type: "naver",
+                                                      startLatitude: 0,
+                                                      startLongitude: 0,
+                                                      endLatitude: 0,
+                                                      endLongitude: 0,
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    MapDirectionItem(
-                                                        icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
-                                                        text: "카카오맵 바로가기"
+                                                    const MapDirectionItem(
+                                                      type: "kakao",
+                                                      startLatitude: 0,
+                                                      startLongitude: 0,
+                                                      endLatitude: 0,
+                                                      endLongitude: 0,
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    MapDirectionItem(
-                                                        icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
-                                                        text: "티맵 바로가기"
+                                                    const MapDirectionItem(
+                                                      type: "tmap",
+                                                      startLatitude: 0,
+                                                      startLongitude: 0,
+                                                      endLatitude: 0,
+                                                      endLongitude: 0,
                                                     )
                                                   ],
                                                 ),

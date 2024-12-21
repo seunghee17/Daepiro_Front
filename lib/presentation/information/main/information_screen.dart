@@ -215,53 +215,10 @@ class InformationScreen extends ConsumerWidget {
                                         name: viewModel.shelterList[index].name ?? "",
                                         distinct: viewModel.shelterList[index].distance ?? 0,
                                         address: viewModel.shelterList[index].address ?? "",
-                                        latitude: viewModel.shelterList[index].latitude ?? 0,
-                                        longitude: viewModel.shelterList[index].longitude ?? 0,
-                                        onClickDirection: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(12)
-                                                  ),
-                                                  backgroundColor: DaepiroColorStyle
-                                                      .white,
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Container(
-                                                          padding: EdgeInsets.symmetric(vertical: 24),
-                                                          child: Text(
-                                                            "대피소 길찾기 바로가기",
-                                                            style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900,),
-                                                          ),
-                                                        ),
-                                                        MapDirectionItem(
-                                                            icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
-                                                            text: "네이버지도 바로가기"
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 8),
-                                                        MapDirectionItem(
-                                                            icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24), text: "카카오맵 바로가기"
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 8),
-                                                        MapDirectionItem(
-                                                            icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
-                                                            text: "티맵 바로가기"
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                          );
-                                        },
+                                        startLatitude: viewModel.latitude,
+                                        startLongitude: viewModel.longitude,
+                                        endLatitude: viewModel.shelterList[index].latitude ?? 0,
+                                        endLongitude: viewModel.shelterList[index].longitude ?? 0
                                       ),
                                     );
                                   }
