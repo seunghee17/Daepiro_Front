@@ -30,6 +30,7 @@ class OnboardingFinalScreen extends ConsumerWidget {
                 child: PrimaryFilledButton(
                     onPressed: () async {
                       await ref.read(onboardingStateNotifierProvider.notifier).sendUserInfo();
+                      await ref.read(onboardingStateNotifierProvider.notifier).storeUserAdresses();
                       GoRouter.of(context).go('/home');
                     },
                     backgroundColor: DaepiroColorStyle.o_500,

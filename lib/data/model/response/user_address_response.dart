@@ -1,20 +1,20 @@
-class OnboardingInfoResponse {
+class UserAddressResponse {
   int? code;
   String? message;
-  List<Adress>? data;
+  List<StoreAdress>? data;
   String? path;
   String? timestamp;
 
-  OnboardingInfoResponse(
+  UserAddressResponse(
       {this.code, this.message, this.data, this.path, this.timestamp});
 
-  OnboardingInfoResponse.fromJson(Map<String, dynamic> json) {
+  UserAddressResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Adress>[];
+      data = <StoreAdress>[];
       json['data'].forEach((v) {
-        data!.add(new Adress.fromJson(v));
+        data!.add(new StoreAdress.fromJson(v));
       });
     }
     path = json['path'];
@@ -34,14 +34,14 @@ class OnboardingInfoResponse {
   }
 }
 
-class Adress {
+class StoreAdress {
   int? addressId;
   String? fullAddress;
   String? shortAddress;
 
-  Adress({this.addressId, this.fullAddress, this.shortAddress});
+  StoreAdress({this.addressId, this.fullAddress, this.shortAddress});
 
-  Adress.fromJson(Map<String, dynamic> json) {
+  StoreAdress.fromJson(Map<String, dynamic> json) {
     addressId = json['addressId'];
     fullAddress = json['fullAddress'];
     shortAddress = json['shortAddress'];

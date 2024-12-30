@@ -1,8 +1,11 @@
+import 'package:daepiro/data/model/response/user_address_response.dart';
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
+import 'package:daepiro/domain/usecase/onboarding/user_adresses_usecase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../state/onboarding_state.dart';
@@ -14,9 +17,9 @@ final onboardingStateNotifierProvider =
 
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
   final Ref ref;
+  final FlutterSecureStorage storage = FlutterSecureStorage();
   List<String> inputJusoList = [];
-
-  //OnboardingViewModel(super.state);
+  
   OnboardingViewModel(this.ref) : super(OnboardingState());
 
   void setNameState(String name) {
@@ -92,9 +95,21 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
       realname: state.userName,
       nickname: state.userNickName,
       addresses: address,
-      disasterTypes: state.disasterTypes,
+      disasterTypes: ['지진', '화재', '태풍'], //TODO 추후 실 재난유형으로 수정해야함 null을 보내면 안됨
       fcmToken: fcmToken,
     ))).future);
+  }
+
+  //보낸 주소 정보 받아서 로컬에 저장 주소를 처음 저장함 로컬에
+  Future<void> storeUserAdresses() async {
+    final userAddresses = await ref.read(userAddressUseCaseProvider(
+        UserAddressUseCase()).future);
+    if(userAddresses.length >0) {
+      for(int i=0; i<userAddresses.length; i++) {
+        await storage.write(key: 'fullAddress_$i', value: userAddresses[i].fullAddress);
+        await storage.write(key: 'shortAddress_$i', value: userAddresses[i].shortAddress);
+      }
+    }
   }
 
   Future<String> getFcmToken() async {
