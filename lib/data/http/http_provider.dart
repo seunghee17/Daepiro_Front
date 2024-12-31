@@ -1,3 +1,4 @@
+import 'package:daepiro/data/http/tokenErrorViewModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storge;
@@ -7,6 +8,8 @@ import 'package:riverpod/riverpod.dart';
 import '../model/request/refresh_token_request.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../model/response/refresh_token_response.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final options = BaseOptions(
@@ -37,7 +40,7 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
     onRequest: (options, handler) async {
       //헤더주입이 필요없는 api
       if ((!options.path.contains("/kakao")) && (!options.path.contains("/naver"))
-          && (!options.path.contains('/refresh')) && (!options.path.contains('/apple')) && (!options.path.contains('/business'))) {
+          && (!options.path.contains('/apple')) && (!options.path.contains('/business'))) {
         String? accessToken = await storage.read(key: 'accessToken');
         if (accessToken != null) {
           options.headers['Authorization'] = 'Bearer $accessToken';
@@ -45,15 +48,15 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
       }
       handler.next(options);
     },
-    onError: (DioError error, handler) async {
+    onError: (DioException exception, handler) async {
       //토큰 갱신 요청 실패시 재시도 하지 않음
-      if(error.requestOptions.path.contains('/v1/auth/refresh')) {
+      if(exception.requestOptions.path.contains('/v1/auth/refresh')) {
         print('토큰 갱신 요청 실패시 재시도 하지 않음:: ');
-        handler.next(error);
+        handler.next(exception);
         return;
       }
       //네트워크 에러 처리
-      if(error.response?.statusCode == 500) {
+      if(exception.response?.statusCode == 500) {
         Fluttertoast.showToast(
             msg: '서버 오류가 발생했습니다. 넘버원 서버팀에 문의해주세요.',
             toastLength: Toast.LENGTH_LONG,
@@ -64,7 +67,7 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
         );
       } else {
         Fluttertoast.showToast(
-            msg: '네트워크 에러 ${error.response?.statusCode} 발생',
+            msg: '네트워크 에러 ${exception.response?.statusCode} 발생',
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
@@ -72,46 +75,55 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
             textColor: Colors.white
         );
       }
-      if(error.response?.statusCode == 401) {
+      if(exception.response?.statusCode == 401) {
         String? refreshToken = await storage.read(key: 'refreshToken');
         if(refreshToken != null ) {
           try {
             final response = await dio.post(
-              'http://13.125.2.66/swagger-ui/index.html#/v1/auth/refresh',
+              '${dotenv.get('BASE_URL')}/v1/auth/refresh',
               data: RefreshTokenRequest(refreshToken: refreshToken),
             );
-            if(response.statusCode == 200) {
+            final responseData = response.data as Map<String, dynamic>;
+            final refreshTokenResponse = RefreshTokenResponse.fromJson(responseData);
+            if(refreshTokenResponse.code == 1000) {
               print('토큰 갱신 성공!!!');
-              //토큰 재발급에 성공
-              String newAccessToken = response.data['accessToken'];
-              String newRefreshToken = response.data['refreshToken'];
+
+              String newAccessToken = refreshTokenResponse.data?.accessToken ?? '';
+              String newRefreshToken = refreshTokenResponse.data?.refreshToken ?? '';
               await storage.write(key: 'accessToken', value: newAccessToken);
               await storage.write(key: 'refreshToken', value: newRefreshToken);
 
               //원래 요청을 재시도
-              error.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
+              exception.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
               final opts = Options(
-                  method: error.requestOptions.method,
-                  headers: error.requestOptions.headers
+                method: exception.requestOptions.method,
+                headers: {
+                  ...exception.requestOptions.headers,
+                  'Authorization': 'Bearer $newAccessToken',
+                }
               );
               final clonedRequest = await dio.request(
-                  error.requestOptions.path,
-                  options: opts,
-                  data: error.requestOptions.data,
-                  queryParameters: error.requestOptions.queryParameters
+                  exception.requestOptions.path,
+                options: opts,
+                data: exception.requestOptions.data,
+                queryParameters: exception.requestOptions.queryParameters
               );
-              return handler.resolve(clonedRequest);
+              handler.resolve(clonedRequest);
+              return;
             } else {
               //refresh 토큰이 존재하지 않거나 만료되었음 로그인 화면으로 이동해야함
-              //재로그인이 필요함을 언급 //저장한 토큰 사라지게 하는 로직 필요
-              print('cathch 전');
+              ref.read(errorNotifierProvider.notifier).addError(exception);
+              //저장된 토큰 있다면 리셋 잠시만 비활성화
+              await storage.write(key: 'accessToken', value: '');
+              await storage.write(key: 'refreshToken', value: '');
             }
           } catch(e) {
-            print('Error refreshing token: $e');
+            print('토큰 갱신중 에러가 발생함: $e');
+            ref.read(errorNotifierProvider.notifier).addError(exception);
           }
         }
       }
-      handler.next(error);
+      handler.next(exception);
     },
     onResponse: (options, handler) => handler.next(options),
   );
