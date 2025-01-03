@@ -58,9 +58,13 @@ dependencies:
 
   # 종석 공부용
   provider: 6.0.5
+
   photo_manager: ^3.6.3
   photo_manager_image_provider: ^2.2.0
   intl: ^0.20.1
+
+  #디바이스 버전 확인용
+  device_info_plus: ^11.2.0
 
 
 dev_dependencies:
