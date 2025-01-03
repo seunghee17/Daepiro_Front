@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/request/register_user_location_request.dart';
 import 'package:daepiro/data/model/response/basic_response.dart';
+import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_response.dart';
 import 'package:daepiro/data/source/information/information_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,11 @@ abstract class InformationRepository {
     required String size
   });
 
+  Future<DisasterContentsListResponse> searchDisasterContents({
+    required String keyword,
+    required String size
+  });
+
   Future<BasicResponse> registerUserLocation({
     required RegisterUserLocationRequest body
   });
@@ -29,4 +35,6 @@ abstract class InformationRepository {
     required String type
   });
 
+  Future<BehaviorListResponse> getBehaviorList({required String type});
+  Future<BehaviorListResponse> searchDisasterType({required String keyword});
 }

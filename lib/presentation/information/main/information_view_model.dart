@@ -1,30 +1,44 @@
-import 'dart:math';
-
 import 'package:daepiro/domain/usecase/information/get_around_shelter_list_usecase.dart';
-import 'package:daepiro/domain/usecase/information/get_disaster_contents_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/get_disaster_contents_usecase.dart';
 import 'package:daepiro/domain/usecase/information/register_user_location_usecase.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:logger/logger.dart';
 
 final informationStateNotifierProvider = StateNotifierProvider<InformationViewModel, InformationState>((ref) {
   return InformationViewModel(ref);
 });
 
 class InformationViewModel extends StateNotifier<InformationState> {
+  final StateNotifierProviderRef<InformationViewModel, InformationState> ref;
+
   InformationViewModel(this.ref) : super(InformationState()) {
     getDisasterContents();
-
     getCurrentLocation();
+
   }
 
-  final StateNotifierProviderRef<InformationViewModel, InformationState> ref;
 
   void selectAroundShelterType(int index) {
     state = state.copyWith(selectedAroundShelterType: index);
+
+    if (index == 0) {
+      state = state.copyWith(
+          shelterList: state.temperatureShelterList
+      );
+    } else if (index == 1) {
+      state = state.copyWith(
+          shelterList: state.earthquakeShelterList
+      );
+    } else if (index == 2) {
+      state = state.copyWith(
+          shelterList: state.tsunamiShelterList
+      );
+    } else if (index == 3) {
+      state = state.copyWith(
+          shelterList: state.civilShelterList
+      );
+    }
   }
 
   Future<void> getCurrentLocation() async {
@@ -81,9 +95,24 @@ class InformationViewModel extends StateNotifier<InformationState> {
           )).future
       );
 
-      state = state.copyWith(
-          shelterList: response.data?.shelters ?? []
-      );
+      if (type == "temperature") {
+        state = state.copyWith(
+            temperatureShelterList: response.data?.shelters ?? []
+        );
+        selectAroundShelterType(0);
+      } else if (type == "earthquake") {
+        state = state.copyWith(
+            earthquakeShelterList: response.data?.shelters ?? []
+        );
+      } else if (type == "tsunami") {
+        state = state.copyWith(
+            tsunamiShelterList: response.data?.shelters ?? []
+        );
+      } else if (type == "civil") {
+        state = state.copyWith(
+            civilShelterList: response.data?.shelters ?? []
+        );
+      }
 
     } catch (error) {
       print('주변 대피소 조회 에러: $error');
@@ -104,7 +133,9 @@ class InformationViewModel extends StateNotifier<InformationState> {
       );
 
       getAroundShelterList(type: "temperature");
-
+      getAroundShelterList(type: "earthquake");
+      getAroundShelterList(type: "tsunami");
+      getAroundShelterList(type: "civil");
 
     } catch (error) {
       print('사용자 위치 등록 에러: $error');

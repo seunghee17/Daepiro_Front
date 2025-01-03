@@ -1,10 +1,11 @@
+import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
 import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
-import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
-import 'package:daepiro/presentation/information/emergency_response_screen.dart';
-import 'package:daepiro/presentation/information/search_disaster_screen.dart';
+import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
+import 'package:daepiro/presentation/information/contents/search_disaster_contents_screen.dart';
+import 'package:daepiro/presentation/information/behavior_tip/search/search_disaster_type_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
@@ -18,6 +19,7 @@ import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
 import '../presentation/home/shelter/around_shelter_screen.dart';
+import '../presentation/information/behavior_tip/behavior_tips_screen.dart';
 import '../presentation/information/main/information_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
@@ -177,16 +179,22 @@ final goRouteProvider = Provider((ref) {
                         builder: (context, state) => DisasterContentsScreen()
                     ),
                     GoRoute(
-                        path: 'actionTip',
-                        builder: (context, state) => ActionTipScreen()
+                        path: 'searchDisasterContents',
+                        builder: (context, state) => SearchDisasterContentsScreen()
+                    ),
+                    GoRoute(
+                        path: 'behaviorTips',
+                        builder: (context, state) => BehaviorTipsScreen()
                     ),
                     GoRoute(
                         path: 'emergencyResponse',
                         builder: (context, state) => EmergencyResponseScreen()
                     ),
                     GoRoute(
-                        path: 'searchDisaster',
-                        builder: (context, state) => SearchDisasterScreen()
+                        path: 'searchDisasterType',
+                        builder: (context, state) => SearchDisasterTypeScreen(
+                          behaviorList: state.extra as List<Behavior>
+                        )
                     ),
                   ]
                 ),

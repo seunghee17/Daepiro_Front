@@ -1,10 +1,10 @@
-import 'package:daepiro/presentation/const/nature_disaster_type.dart';
+import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
 import 'package:daepiro/presentation/information/component/search_disaster_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../cmm/DaepiroTheme.dart';
+import '../../../cmm/DaepiroTheme.dart';
 
 class SearchDisasterContentsScreen extends StatefulWidget {
   const SearchDisasterContentsScreen({super.key});
@@ -86,7 +86,7 @@ class _SearchDisasterContentsScreenState extends State<SearchDisasterContentsScr
                       itemCount: searchedDisasterContentsList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return SearchDisasterType(
-                          text: searchedDisasterContentsList[index]['type']!,
+                          text: searchedDisasterContentsList[index]['name']!,
                           iconPath: searchedDisasterContentsList[index]['icon']!
                         );
                       }
@@ -103,7 +103,7 @@ class _SearchDisasterContentsScreenState extends State<SearchDisasterContentsScr
 }
 
 List<Map<String, String>> searchDisasterList(String text) {
-  return NatureDisasterList.where((item) {
-    return item['type']!.contains(text);
+  return EmergencyDisasterList.where((item) {
+    return item['name']!.contains(text);
   }).toList();
 }

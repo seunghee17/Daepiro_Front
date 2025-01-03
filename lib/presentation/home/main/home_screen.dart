@@ -1,6 +1,6 @@
 import 'package:daepiro/presentation/home/component/information_contents_preview.dart';
 import 'package:daepiro/presentation/home/component/popular_post_preview.dart';
-import 'package:daepiro/presentation/home/const.dart';
+import 'package:daepiro/presentation/const/const.dart';
 import 'package:daepiro/presentation/home/main/home_view_model.dart';
 import 'package:daepiro/presentation/home/component/disaster_mesaage_history_preview.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';

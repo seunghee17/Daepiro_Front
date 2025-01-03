@@ -135,7 +135,7 @@ class DisasterContentsScreen extends ConsumerWidget {
                 //           const SizedBox(height: 20),
                 //           GestureDetector(
                 //             onTap: () {
-                //               context.push('/information/actionTip');
+                //               context.push('/information/behaviorTips');
                 //             },
                 //             child: Container(
                 //               padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),

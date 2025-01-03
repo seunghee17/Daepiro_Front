@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
-import '../const.dart';
+import '../../const/const.dart';
 
 class AroundShelterScreen extends StatefulWidget {
   const AroundShelterScreen({super.key});

@@ -11,8 +11,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../home/component/around_shelter_preview.dart';
-import '../../home/component/map_direction_item.dart';
-import '../../home/const.dart';
+import '../../const/const.dart';
 
 class InformationScreen extends ConsumerWidget {
   InformationScreen({super.key});
@@ -28,9 +27,7 @@ class InformationScreen extends ConsumerWidget {
     final viewModel = ref.watch(informationStateNotifierProvider);
 
     ref.listen<InformationState>(informationStateNotifierProvider, (previous, next) {
-      if (next.isLoading) {
-        viewModel.contentsList;
-      }
+
     });
 
     return MaterialApp(
@@ -74,57 +71,55 @@ class InformationScreen extends ConsumerWidget {
                                     context.push('/information/disasterContents');
                                   },
                                   child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           "더보기",
-                                          style: DaepiroTextStyle.body_2_m
-                                              .copyWith(
+                                          style: DaepiroTextStyle.body_2_m.copyWith(
                                             color: DaepiroColorStyle.o_400,
                                           ),
                                         ),
-                                        SvgPicture.asset(
-                                            'assets/icons/icon_arrow_right.svg')
+                                        SvgPicture.asset('assets/icons/icon_arrow_right.svg')
                                       ]
                                   ),
                                 )
                               ]
                           ),
                           const SizedBox(height: 12),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                width: 2,
-                                color: DaepiroColorStyle.g_50,
+                          if (viewModel.contentsList.isNotEmpty)
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  width: 2,
+                                  color: DaepiroColorStyle.g_50,
+                                ),
+                              ),
+                              child: ExpandablePageView(
+                                controller: _disasterContentPageController,
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index) {
+                                  // _homeViewModel.selectPopularPostCategory(index);
+                                },
+                                children: [
+                                  for (int i=0;i<viewModel.contentsList!.length;i++)
+                                    Column(
+                                      children: [
+                                        DisasterContentsMainItem(
+                                            type: "실시간 뉴스",
+                                            title: viewModel.contentsList[i].title ?? "",
+                                            source: viewModel.contentsList[i].source ?? "",
+                                            date: viewModel.contentsList[i].publishedAt ?? "",
+                                            thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
+                                            bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
+                                        ),
+                                      ],
+                                    )
+                                ],
                               ),
                             ),
-                            child: ExpandablePageView(
-                              controller: _disasterContentPageController,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (index) {
-                                // _homeViewModel.selectPopularPostCategory(index);
-                              },
-                              children: [
-                                for (int i=0;i<viewModel.contentsList!.length;i++)
-                                  Column(
-                                    children: [
-                                      DisasterContentsMainItem(
-                                          type: "실시간 뉴스",
-                                          title: viewModel.contentsList[i].title ?? "",
-                                          source: viewModel.contentsList[i].source ?? "",
-                                          date: viewModel.contentsList[i].publishedAt ?? "",
-                                          thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
-                                          bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
-                                      ),
-                                    ],
-                                  )
-                              ],
-                            ),
-                          ),
                           const SizedBox(height: 12),
                           Center(
                             child: SmoothPageIndicator(
@@ -145,8 +140,7 @@ class InformationScreen extends ConsumerWidget {
                             children: [
                               Container(
                                 child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Text(
                                         "주변 대피소",
@@ -172,8 +166,7 @@ class InformationScreen extends ConsumerWidget {
                                                     color: DaepiroColorStyle.o_400,
                                                   ),
                                                 ),
-                                                SvgPicture.asset(
-                                                    'assets/icons/icon_arrow_right.svg')
+                                                SvgPicture.asset('assets/icons/icon_arrow_right.svg')
                                               ]
                                           ),
                                         ),
@@ -185,8 +178,7 @@ class InformationScreen extends ConsumerWidget {
                               Container(
                                 child: Row(
                                   children: [
-                                    for (int index = 0; index <
-                                        Const.disasterTypeList.length; index++)
+                                    for (int index = 0; index < Const.disasterTypeList.length; index++)
                                       Row(
                                         children: [
                                           SecondaryChip(
@@ -194,6 +186,11 @@ class InformationScreen extends ConsumerWidget {
                                               text: Const.disasterTypeList[index],
                                               onPressed: () {
                                                 ref.read(informationStateNotifierProvider.notifier).selectAroundShelterType(index);
+                                                _aroundShelterPageController.animateToPage(
+                                                    0,
+                                                    duration: const Duration(milliseconds: 1),
+                                                    curve: Curves.easeIn
+                                                );
                                               }
                                           ),
                                           const SizedBox(width: 8)
@@ -202,110 +199,99 @@ class InformationScreen extends ConsumerWidget {
                                   ],
                                 ),
                               ),
-                              ExpandablePageView.builder(
-                                  controller: _aroundShelterPageController,
-                                  scrollDirection: Axis.horizontal,
-                                  padEnds: false,
-                                  itemCount: 5,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return Container(
-                                      padding: EdgeInsets.only(top: 16),
-                                      margin: EdgeInsets.only(right: 8),
-                                      child: AroundShelterPreview(
-                                        name: viewModel.shelterList[index].name ?? "",
-                                        distinct: viewModel.shelterList[index].distance ?? 0,
-                                        address: viewModel.shelterList[index].address ?? "",
-                                        startLatitude: viewModel.latitude,
-                                        startLongitude: viewModel.longitude,
-                                        endLatitude: viewModel.shelterList[index].latitude ?? 0,
-                                        endLongitude: viewModel.shelterList[index].longitude ?? 0
-                                      ),
-                                    );
-                                  }
-                              ),
+                              if (viewModel.shelterList.isNotEmpty)
+                                ExpandablePageView.builder(
+                                    controller: _aroundShelterPageController,
+                                    scrollDirection: Axis.horizontal,
+                                    padEnds: false,
+                                    itemCount: viewModel.shelterList.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Container(
+                                        padding: const EdgeInsets.only(top: 16),
+                                        margin: const EdgeInsets.only(right: 8),
+                                        child: AroundShelterPreview(
+                                          name: viewModel.shelterList[index].name ?? "",
+                                          distinct: viewModel.shelterList[index].distance ?? 0,
+                                          address: viewModel.shelterList[index].address ?? "",
+                                          startLatitude: viewModel.latitude,
+                                          startLongitude: viewModel.longitude,
+                                          endLatitude: viewModel.shelterList[index].latitude ?? 0,
+                                          endLongitude: viewModel.shelterList[index].longitude ?? 0
+                                        ),
+                                      );
+                                    }
+                                )
                             ],
                           ),
                           const SizedBox(height: 32),
                           Row(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  context.push(
-                                      '/information/emergencyResponse');
-                                },
-                                child: Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.g_50,
-                                          borderRadius: BorderRadius.circular(
-                                              12)
-                                      ),
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            Text(
-                                              "응급대처",
-                                              style: DaepiroTextStyle.body_1_b
-                                                  .copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.push('/information/emergencyResponse');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: DaepiroColorStyle.g_50,
+                                        borderRadius: BorderRadius.circular(12)),
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "응급대처",
+                                            style: DaepiroTextStyle.body_1_b.copyWith(
+                                              color: DaepiroColorStyle.g_800,
                                             ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              "응급상황 발생시\n대처방법을 알아두세요.",
-                                              style: DaepiroTextStyle.caption
-                                                  .copyWith(
-                                                color: DaepiroColorStyle.g_400,
-                                              ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            "응급상황 발생시\n대처방법을 알아두세요.",
+                                            style: DaepiroTextStyle.caption.copyWith(
+                                              color: DaepiroColorStyle.g_400,
                                             ),
-                                            const SizedBox(width: 4),
-                                            Image.asset(
-                                                'assets/icons/image_siren.png')
-                                          ]
-                                      ),
-                                    )
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Image.asset('assets/icons/image_siren.png')
+                                        ]
+                                    ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              GestureDetector(
-                                onTap: () {
-                                  context.push('/information/actionTip');
-                                },
-                                child: Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.g_50,
-                                          borderRadius: BorderRadius.circular(
-                                              12)
-                                      ),
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            Text(
-                                              "행동요령",
-                                              style: DaepiroTextStyle.body_1_b
-                                                  .copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.push('/information/behaviorTips');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: DaepiroColorStyle.g_50,
+                                        borderRadius: BorderRadius.circular(12)),
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "행동요령",
+                                            style: DaepiroTextStyle.body_1_b.copyWith(
+                                              color: DaepiroColorStyle.g_800,
                                             ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              "재난 별 대처 행동요령을\n미리 알아두세요.",
-                                              style: DaepiroTextStyle.caption
-                                                  .copyWith(
-                                                color: DaepiroColorStyle.g_400,
-                                              ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            "재난 별 대처 행동요령을\n미리 알아두세요.",
+                                            style: DaepiroTextStyle.caption.copyWith(
+                                              color: DaepiroColorStyle.g_400,
                                             ),
-                                            const SizedBox(width: 4),
-                                            Image.asset(
-                                                'assets/icons/image_warning.png')
-                                          ]
-                                      ),
-                                    )
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Image.asset(
+                                              'assets/icons/image_warning.png')
+                                        ]
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],

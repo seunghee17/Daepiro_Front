@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
-import 'action_tip_bottom_sheet.dart';
+import 'behavior_tip_bottom_sheet.dart';
 
 class SearchDisasterType extends StatelessWidget {
   final String text;
@@ -19,16 +18,16 @@ class SearchDisasterType extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet(
-            isScrollControlled: true,
-            useSafeArea: true,
-            context: context,
-            builder: (context) {
-              return ActionTipBottomSheet(
-                disasterType: '가뭄',
-              );
-            }
-        );
+        // showModalBottomSheet(
+        //     isScrollControlled: true,
+        //     useSafeArea: true,
+        //     context: context,
+        //     builder: (context) {
+        //       return BehaviorTipBottomSheet(
+        //         name: '가뭄',
+        //       );
+        //     }
+        // );
       },
       child: Container(
         color: DaepiroColorStyle.white,

@@ -1,20 +1,26 @@
-import 'package:daepiro/presentation/const/nature_disaster_type.dart';
+import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
+import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
 import 'package:daepiro/presentation/information/component/search_disaster_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import '../../../../cmm/DaepiroTheme.dart';
 
-import '../../cmm/DaepiroTheme.dart';
+class SearchDisasterTypeScreen extends StatefulWidget {
+  final List<Behavior> behaviorList;
 
-class SearchDisasterScreen extends StatefulWidget {
-  const SearchDisasterScreen({super.key});
+  const SearchDisasterTypeScreen({
+    super.key,
+    required this.behaviorList
+  });
 
   @override
-  State<SearchDisasterScreen> createState() => _SearchDisasterScreenState();
+  State<SearchDisasterTypeScreen> createState() => _SearchDisasterTypeScreenState();
 }
 
-class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
+class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
   List<Map<String, String>> searchedDisasterList = List.empty();
 
   @override
@@ -87,7 +93,7 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
                       itemCount: searchedDisasterList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return SearchDisasterType(
-                          text: searchedDisasterList[index]['type']!,
+                          text: searchedDisasterList[index]['name']!,
                           iconPath: searchedDisasterList[index]['icon']!
                         );
                       }
@@ -103,8 +109,10 @@ class _SearchDisasterScreenState extends State<SearchDisasterScreen> {
   }
 }
 
-List<Map<String, String>> searchDisasterList(String text) {
-  return NatureDisasterList.where((item) {
-    return item['type']!.contains(text);
+List<Map<String, String>> searchDisasterList(
+    String text
+    ) {
+  return EmergencyDisasterList.where((item) {
+    return item['name']!.contains(text);
   }).toList();
 }

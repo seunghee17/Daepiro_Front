@@ -22,6 +22,14 @@ mixin _$InformationState {
   int get selectedAroundShelterType => throw _privateConstructorUsedError;
   List<Shelters> get shelterList =>
       throw _privateConstructorUsedError; // 주변 대피소 리스트
+  List<Shelters> get temperatureShelterList =>
+      throw _privateConstructorUsedError; // 주변 대피소 리스트(전체)
+  List<Shelters> get earthquakeShelterList =>
+      throw _privateConstructorUsedError; // 주변 대피소 리스트(지진)
+  List<Shelters> get tsunamiShelterList =>
+      throw _privateConstructorUsedError; // 주변 대피소 리스트(수해)
+  List<Shelters> get civilShelterList =>
+      throw _privateConstructorUsedError; // 주변 대피소 리스트(전쟁)
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
 
@@ -41,6 +49,10 @@ abstract class $InformationStateCopyWith<$Res> {
       List<Contents> contentsList,
       int selectedAroundShelterType,
       List<Shelters> shelterList,
+      List<Shelters> temperatureShelterList,
+      List<Shelters> earthquakeShelterList,
+      List<Shelters> tsunamiShelterList,
+      List<Shelters> civilShelterList,
       double latitude,
       double longitude});
 }
@@ -62,6 +74,10 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
     Object? shelterList = null,
+    Object? temperatureShelterList = null,
+    Object? earthquakeShelterList = null,
+    Object? tsunamiShelterList = null,
+    Object? civilShelterList = null,
     Object? latitude = null,
     Object? longitude = null,
   }) {
@@ -81,6 +97,22 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
       shelterList: null == shelterList
           ? _value.shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      temperatureShelterList: null == temperatureShelterList
+          ? _value.temperatureShelterList
+          : temperatureShelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      earthquakeShelterList: null == earthquakeShelterList
+          ? _value.earthquakeShelterList
+          : earthquakeShelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      tsunamiShelterList: null == tsunamiShelterList
+          ? _value.tsunamiShelterList
+          : tsunamiShelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      civilShelterList: null == civilShelterList
+          ? _value.civilShelterList
+          : civilShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
       latitude: null == latitude
           ? _value.latitude
@@ -107,6 +139,10 @@ abstract class _$$InformationStateImplCopyWith<$Res>
       List<Contents> contentsList,
       int selectedAroundShelterType,
       List<Shelters> shelterList,
+      List<Shelters> temperatureShelterList,
+      List<Shelters> earthquakeShelterList,
+      List<Shelters> tsunamiShelterList,
+      List<Shelters> civilShelterList,
       double latitude,
       double longitude});
 }
@@ -126,6 +162,10 @@ class __$$InformationStateImplCopyWithImpl<$Res>
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
     Object? shelterList = null,
+    Object? temperatureShelterList = null,
+    Object? earthquakeShelterList = null,
+    Object? tsunamiShelterList = null,
+    Object? civilShelterList = null,
     Object? latitude = null,
     Object? longitude = null,
   }) {
@@ -145,6 +185,22 @@ class __$$InformationStateImplCopyWithImpl<$Res>
       shelterList: null == shelterList
           ? _value._shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      temperatureShelterList: null == temperatureShelterList
+          ? _value._temperatureShelterList
+          : temperatureShelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      earthquakeShelterList: null == earthquakeShelterList
+          ? _value._earthquakeShelterList
+          : earthquakeShelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      tsunamiShelterList: null == tsunamiShelterList
+          ? _value._tsunamiShelterList
+          : tsunamiShelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      civilShelterList: null == civilShelterList
+          ? _value._civilShelterList
+          : civilShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
       latitude: null == latitude
           ? _value.latitude
@@ -166,10 +222,18 @@ class _$InformationStateImpl implements _InformationState {
       final List<Contents> contentsList = const [],
       this.selectedAroundShelterType = 0,
       final List<Shelters> shelterList = const [],
+      final List<Shelters> temperatureShelterList = const [],
+      final List<Shelters> earthquakeShelterList = const [],
+      final List<Shelters> tsunamiShelterList = const [],
+      final List<Shelters> civilShelterList = const [],
       this.latitude = 0,
       this.longitude = 0})
       : _contentsList = contentsList,
-        _shelterList = shelterList;
+        _shelterList = shelterList,
+        _temperatureShelterList = temperatureShelterList,
+        _earthquakeShelterList = earthquakeShelterList,
+        _tsunamiShelterList = tsunamiShelterList,
+        _civilShelterList = civilShelterList;
 
   @override
   @JsonKey()
@@ -197,6 +261,54 @@ class _$InformationStateImpl implements _InformationState {
   }
 
 // 주변 대피소 리스트
+  final List<Shelters> _temperatureShelterList;
+// 주변 대피소 리스트
+  @override
+  @JsonKey()
+  List<Shelters> get temperatureShelterList {
+    if (_temperatureShelterList is EqualUnmodifiableListView)
+      return _temperatureShelterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_temperatureShelterList);
+  }
+
+// 주변 대피소 리스트(전체)
+  final List<Shelters> _earthquakeShelterList;
+// 주변 대피소 리스트(전체)
+  @override
+  @JsonKey()
+  List<Shelters> get earthquakeShelterList {
+    if (_earthquakeShelterList is EqualUnmodifiableListView)
+      return _earthquakeShelterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_earthquakeShelterList);
+  }
+
+// 주변 대피소 리스트(지진)
+  final List<Shelters> _tsunamiShelterList;
+// 주변 대피소 리스트(지진)
+  @override
+  @JsonKey()
+  List<Shelters> get tsunamiShelterList {
+    if (_tsunamiShelterList is EqualUnmodifiableListView)
+      return _tsunamiShelterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tsunamiShelterList);
+  }
+
+// 주변 대피소 리스트(수해)
+  final List<Shelters> _civilShelterList;
+// 주변 대피소 리스트(수해)
+  @override
+  @JsonKey()
+  List<Shelters> get civilShelterList {
+    if (_civilShelterList is EqualUnmodifiableListView)
+      return _civilShelterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_civilShelterList);
+  }
+
+// 주변 대피소 리스트(전쟁)
   @override
   @JsonKey()
   final double latitude;
@@ -206,7 +318,7 @@ class _$InformationStateImpl implements _InformationState {
 
   @override
   String toString() {
-    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, shelterList: $shelterList, latitude: $latitude, longitude: $longitude)';
+    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, shelterList: $shelterList, temperatureShelterList: $temperatureShelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -223,6 +335,14 @@ class _$InformationStateImpl implements _InformationState {
                 other.selectedAroundShelterType == selectedAroundShelterType) &&
             const DeepCollectionEquality()
                 .equals(other._shelterList, _shelterList) &&
+            const DeepCollectionEquality().equals(
+                other._temperatureShelterList, _temperatureShelterList) &&
+            const DeepCollectionEquality()
+                .equals(other._earthquakeShelterList, _earthquakeShelterList) &&
+            const DeepCollectionEquality()
+                .equals(other._tsunamiShelterList, _tsunamiShelterList) &&
+            const DeepCollectionEquality()
+                .equals(other._civilShelterList, _civilShelterList) &&
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
@@ -236,6 +356,10 @@ class _$InformationStateImpl implements _InformationState {
       const DeepCollectionEquality().hash(_contentsList),
       selectedAroundShelterType,
       const DeepCollectionEquality().hash(_shelterList),
+      const DeepCollectionEquality().hash(_temperatureShelterList),
+      const DeepCollectionEquality().hash(_earthquakeShelterList),
+      const DeepCollectionEquality().hash(_tsunamiShelterList),
+      const DeepCollectionEquality().hash(_civilShelterList),
       latitude,
       longitude);
 
@@ -253,6 +377,10 @@ abstract class _InformationState implements InformationState {
       final List<Contents> contentsList,
       final int selectedAroundShelterType,
       final List<Shelters> shelterList,
+      final List<Shelters> temperatureShelterList,
+      final List<Shelters> earthquakeShelterList,
+      final List<Shelters> tsunamiShelterList,
+      final List<Shelters> civilShelterList,
       final double latitude,
       final double longitude}) = _$InformationStateImpl;
 
@@ -265,6 +393,14 @@ abstract class _InformationState implements InformationState {
   @override
   List<Shelters> get shelterList;
   @override // 주변 대피소 리스트
+  List<Shelters> get temperatureShelterList;
+  @override // 주변 대피소 리스트(전체)
+  List<Shelters> get earthquakeShelterList;
+  @override // 주변 대피소 리스트(지진)
+  List<Shelters> get tsunamiShelterList;
+  @override // 주변 대피소 리스트(수해)
+  List<Shelters> get civilShelterList;
+  @override // 주변 대피소 리스트(전쟁)
   double get latitude;
   @override
   double get longitude;

@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,20 +6,20 @@ import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../home/component/action_tip_item.dart';
 
-class ActionTipBottomSheet extends StatefulWidget {
-  final String disasterType;
+class BehaviorTipBottomSheet extends StatefulWidget {
+  final Behavior behavior;
 
-  const ActionTipBottomSheet({
-    Key? key,
-    required this.disasterType
-  }): super(key: key);
+  const BehaviorTipBottomSheet({
+    super.key,
+    required this.behavior
+  });
 
   @override
-  State<ActionTipBottomSheet> createState() => _ActionTipBottomSheetState();
+  State<BehaviorTipBottomSheet> createState() => _BehaviorTipBottomSheetState();
 }
 
-class _ActionTipBottomSheetState extends State<ActionTipBottomSheet> {
-  String selectedCategory = "실내";
+class _BehaviorTipBottomSheetState extends State<BehaviorTipBottomSheet> {
+  int selectedDisasterTypeIdx = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _ActionTipBottomSheetState extends State<ActionTipBottomSheet> {
                 children: [
                   Align(
                     child: Text(
-                        widget.disasterType,
+                        widget.behavior.name ?? "",
                         style: DaepiroTextStyle.body_1_b.copyWith(
                           color: DaepiroColorStyle.g_900,
                         )
@@ -65,47 +66,32 @@ class _ActionTipBottomSheetState extends State<ActionTipBottomSheet> {
                 children: [
                   Row(
                     children: [
-                      const SizedBox(width: 8),
-                      SecondaryChip(
-                          isSelected: selectedCategory == "실내",
-                          text: "실내",
-                          onPressed: () {
-                            setState(() {
-                              selectedCategory = "실내";
-                            });
-                          }
-                      ),
-                      const SizedBox(width: 8),
-                      SecondaryChip(
-                          isSelected: selectedCategory == "실외",
-                          text: "실외",
-                          onPressed: () {
-                            setState(() {
-                              selectedCategory = "실외";
-                            });
-                          }
-                      ),
-                      const SizedBox(width: 8),
-                      SecondaryChip(
-                          isSelected: selectedCategory == "기타",
-                          text: "기타",
-                          onPressed: () {
-                            setState(() {
-                              selectedCategory = "기타";
-                            });
-                          }
-                      )
+                      for (int i=0;i<widget.behavior.tips!.length;i++)
+                        Row(
+                          children: [
+                            const SizedBox(width: 8),
+                            SecondaryChip(
+                                isSelected: selectedDisasterTypeIdx == i,
+                                text: widget.behavior.tips![i].filter ?? "",
+                                onPressed: () {
+                                  setState(() {
+                                    selectedDisasterTypeIdx = i;
+                                  });
+                                }
+                            ),
+                          ],
+                        )
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 16),
+                    padding: const EdgeInsets.only(top: 16),
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: 2,
+                      itemCount: widget.behavior.tips?[selectedDisasterTypeIdx].tips?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                         return ActionTipItem(
-                            isSelected: true,
-                            text: "튼튼한 탁자 아래에 들어가 몸을 보호하세용..${index}"
+                            isSelected: false,
+                            text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index] ?? ""
                         );
                       }
                     ),

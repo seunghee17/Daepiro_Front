@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/home/const.dart';
+import 'package:daepiro/presentation/const/const.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

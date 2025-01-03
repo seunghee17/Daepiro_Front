@@ -1,0 +1,38 @@
+class Const {
+  static List popularPostCategoryList = ["전체", "일상", "교통", "치안", "기타"];
+  static List registeredLocationList = ["전체", "집", "위치1", "위치2"];
+  static List actionTipsList = ["실내", "실외", "기타"];
+  static List disasterTypeList = ["전체", "지진", "수해", "전쟁"];
+
+  // 심폐소생술, 응급처치, 소화기, 하임리히
+  static List<List<List<String>>> emergencyResponseList = [
+    [
+      ["Step 01", "assets/icons/image_emergency_response_sample_01.png", "반응의 확인", "양쪽 어깨를 두드리며, 환자의 의식과 반응 확인"],
+      ["Step 02", "assets/icons/image_emergency_response_sample_01.png", "119 신고 및 도움 요청", "구체적으로 사람을 지목해 119 신고 및 주변 자동심장충격기(AED) 요청"],
+      ["Step 03", "assets/icons/image_emergency_response_sample_01.png", "호훕 확인", "환자의 얼굴과 가슴을 10초 내로 관찰해 호흡 확인 후 호흡이 없거나 비정상적이면 즉시 심폐소생술 준비"],
+      ["Step 04", "assets/icons/image_emergency_response_sample_01.png", "가슴압박 30회", "환자의 가슴 압박점을 찾아 깍지 낀 두 손의 손바닥 뒤꿈치로 압박 실시(분당 100~200회, 약 5cm 깊이)"],
+      ["Step 05", "assets/icons/image_emergency_response_sample_01.png", "인공호흡 2회", "환자의 가슴이 올라올 정도로 1초 동안 숨 불어넣기(가슴압박 : 인공호흡 = 30:2)"],
+    ],
+    [
+      ["화상", "assets/icons/image_emergency_response_sample_01.png", "반응의 확인", "양쪽 어깨를 두드리며, 환자의 의식과 반응 확인"],
+      ["열사병", "assets/icons/image_emergency_response_sample_01.png", "119 신고 및 도움 요청", "구체적으로 사람을 지목해 119 신고 및 주변 자동심장충격기(AED) 요청"],
+      ["벌에게 쏘였을 때", "assets/icons/image_emergency_response_sample_01.png", "호훕 확인", "환자의 얼굴과 가슴을 10초 내로 관찰해 호흡 확인 후 호흡이 없거나 비정상적이면 즉시 심폐소생술 준비"],
+      ["뱀에게 물렸을 때", "assets/icons/image_emergency_response_sample_01.png", "가슴압박 30회", "환자의 가슴 압박점을 찾아 깍지 낀 두 손의 손바닥 뒤꿈치로 압박 실시(분당 100~200회, 약 5cm 깊이)"],
+      ["개에게 물렸을 때", "assets/icons/image_emergency_response_sample_01.png", "인공호흡 2회", "환자의 가슴이 올라올 정도로 1초 동안 숨 불어넣기(가슴압박 : 인공호흡 = 30:2)"],
+    ],
+    [
+      ["Step 01", "assets/icons/image_emergency_response_sample_01.png", "반응의 확인", "양쪽 어깨를 두드리며, 환자의 의식과 반응 확인"],
+      ["Step 02", "assets/icons/image_emergency_response_sample_01.png", "119 신고 및 도움 요청", "구체적으로 사람을 지목해 119 신고 및 주변 자동심장충격기(AED) 요청"],
+      ["Step 03", "assets/icons/image_emergency_response_sample_01.png", "호훕 확인", "환자의 얼굴과 가슴을 10초 내로 관찰해 호흡 확인 후 호흡이 없거나 비정상적이면 즉시 심폐소생술 준비"],
+      ["Step 04", "assets/icons/image_emergency_response_sample_01.png", "가슴압박 30회", "환자의 가슴 압박점을 찾아 깍지 낀 두 손의 손바닥 뒤꿈치로 압박 실시(분당 100~200회, 약 5cm 깊이)"],
+    ],
+    [
+      ["Step 01", "assets/icons/image_emergency_response_sample_01.png", "반응의 확인", "양쪽 어깨를 두드리며, 환자의 의식과 반응 확인"],
+      ["Step 02", "assets/icons/image_emergency_response_sample_01.png", "119 신고 및 도움 요청", "구체적으로 사람을 지목해 119 신고 및 주변 자동심장충격기(AED) 요청"],
+      ["Step 03", "assets/icons/image_emergency_response_sample_01.png", "호훕 확인", "환자의 얼굴과 가슴을 10초 내로 관찰해 호흡 확인 후 호흡이 없거나 비정상적이면 즉시 심폐소생술 준비"],
+      ["Step 04", "assets/icons/image_emergency_response_sample_01.png", "가슴압박 30회", "환자의 가슴 압박점을 찾아 깍지 낀 두 손의 손바닥 뒤꿈치로 압박 실시(분당 100~200회, 약 5cm 깊이)"],
+    ]
+  ];
+
+
+}

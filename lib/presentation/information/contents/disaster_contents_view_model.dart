@@ -7,11 +7,12 @@ final disasterContentsStateNotifierProvider = StateNotifierProvider<DisasterCont
 });
 
 class DisasterContentsViewModel extends StateNotifier<DisasterContentsState> {
+  final StateNotifierProviderRef<DisasterContentsViewModel, DisasterContentsState> ref;
+
   DisasterContentsViewModel(this.ref) : super(DisasterContentsState()) {
     getDisasterContentsList();
   }
 
-  final StateNotifierProviderRef<DisasterContentsViewModel, DisasterContentsState> ref;
 
   // 재난콘텐츠 목록 조회
   Future<void> getDisasterContentsList({
