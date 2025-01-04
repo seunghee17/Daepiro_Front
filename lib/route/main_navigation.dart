@@ -1,31 +1,38 @@
+import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../cmm/DaepiroTheme.dart';
 
-
-class MainNavigation extends StatelessWidget {
+class MainNavigation extends ConsumerStatefulWidget {
   const MainNavigation({
     Key? key,
     required this.navigationShell,
-  }) : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
+  }) : super(key: key);
 
   final StatefulNavigationShell navigationShell;
 
+  @override
+  _MainNavigationState createState() => _MainNavigationState();
+}
 
-  void _goBranch(int index) {
-    if(index != navigationShell.currentIndex) {
-      navigationShell.goBranch(index);
-    }
-  }
+class _MainNavigationState extends ConsumerState<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
     return ScaffoldWithNavigationBar(
-      body: navigationShell,
-      currentIndex: navigationShell.currentIndex,
-      onDestinationSelected: _goBranch,
+      body: widget.navigationShell,
+      currentIndex: widget.navigationShell.currentIndex,
+      onDestinationSelected: (index) async {
+        if(index != widget.navigationShell.currentIndex) {
+          widget.navigationShell.goBranch(index);
+          if(index==1) {
+            await ref.read(communityDisasterProvider.notifier).reloadData();
+          }
+        }
+      },
     );
   }
 }
