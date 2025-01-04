@@ -21,7 +21,7 @@ class SearchDisasterTypeScreen extends StatefulWidget {
 }
 
 class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
-  List<Map<String, String>> searchedDisasterList = List.empty();
+  List<Behavior> searchedDisasterList = List.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
                                 if (text.isEmpty) {
                                   searchedDisasterList = List.empty();
                                 } else {
-                                  searchedDisasterList = searchDisasterList(text);
+                                  searchedDisasterList = searchDisasterList(text: text);
                                 }
                               });
                             },
@@ -93,8 +93,8 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
                       itemCount: searchedDisasterList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return SearchDisasterType(
-                          text: searchedDisasterList[index]['name']!,
-                          iconPath: searchedDisasterList[index]['icon']!
+                          name: searchedDisasterList[index].name!,
+                          behaviorList: widget.behaviorList
                         );
                       }
                     )
@@ -107,12 +107,13 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
       ),
     );
   }
-}
 
-List<Map<String, String>> searchDisasterList(
-    String text
-    ) {
-  return EmergencyDisasterList.where((item) {
-    return item['name']!.contains(text);
-  }).toList();
+  List<Behavior> searchDisasterList({
+    required String text
+  }) {
+    return widget.behaviorList.where((item) {
+      return item.name!.contains(text);
+    }).toList();
+  }
+
 }

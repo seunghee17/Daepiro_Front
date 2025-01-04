@@ -86,8 +86,8 @@ class _SearchDisasterContentsScreenState extends State<SearchDisasterContentsScr
                       itemCount: searchedDisasterContentsList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return SearchDisasterType(
-                          text: searchedDisasterContentsList[index]['name']!,
-                          iconPath: searchedDisasterContentsList[index]['icon']!
+                          name: searchedDisasterContentsList[index]['name']!,
+                          behaviorList: [],
                         );
                       }
                     )

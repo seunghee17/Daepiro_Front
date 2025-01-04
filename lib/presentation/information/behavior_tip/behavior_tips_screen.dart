@@ -175,7 +175,6 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                             );
                                           },
                                           child: DisasterType(
-                                              type: "emergency",
                                               name: viewModel.emergencyBehaviorList[index].name ?? ""
                                           ),
                                         );
@@ -240,7 +239,6 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                             );
                                           },
                                           child: DisasterType(
-                                              type: "common",
                                               name: viewModel.commonBehaviorList[index].name ?? ""
                                           ),
                                         );
