@@ -18,7 +18,6 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
   }
 
-
   void selectAroundShelterType(int index) {
     state = state.copyWith(selectedAroundShelterType: index);
 

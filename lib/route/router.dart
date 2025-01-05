@@ -4,7 +4,7 @@ import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.
 import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
-import 'package:daepiro/presentation/information/contents/search_disaster_contents_screen.dart';
+import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/behavior_tip/search/search_disaster_type_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
