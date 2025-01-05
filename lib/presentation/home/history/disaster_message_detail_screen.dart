@@ -1,4 +1,4 @@
-import 'package:daepiro/presentation/home/const.dart';
+import 'package:daepiro/presentation/const/const.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -197,7 +197,7 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                       },
                                       child: GestureDetector(
                                         onTap: () {
-                                          context.push('/home/aroundShelter');
+                                          // context.push('/home/aroundShelter');
                                         },
                                         child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,52 +254,11 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                        name: "강남구 보건소 지하 1층",
                                        distinct: 250,
                                        address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",
-                                       onClickDirection: () {
-                                         showDialog(
-                                             context: context,
-                                             builder: (BuildContext context) {
-                                               return Dialog(
-                                                 shape: RoundedRectangleBorder(
-                                                   borderRadius: BorderRadius.circular(12)
-                                                 ),
-                                                 backgroundColor: DaepiroColorStyle.white,
-                                                 child: Container(
-                                                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                                                   child: Column(
-                                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                                     mainAxisSize: MainAxisSize.min,
-                                                     children: [
-                                                       Container(
-                                                         padding: EdgeInsets.symmetric(vertical: 24),
-                                                         child: Text(
-                                                           "대피소 길찾기 바로가기",
-                                                           style: DaepiroTextStyle.body_1_b.copyWith(
-                                                             color: DaepiroColorStyle.g_900,
-                                                           ),
-                                                         ),
-                                                       ),
-                                                       MapDirectionItem(
-                                                         icon: Image.asset('assets/icons/image_naver_map.png', height: 24, width: 24),
-                                                         text: "네이버지도 바로가기"
-                                                       ),
-                                                       const SizedBox(height: 8),
-                                                       MapDirectionItem(
-                                                           icon: Image.asset('assets/icons/image_kakao_map.png', height: 24, width: 24),
-                                                           text: "카카오맵 바로가기"
-                                                       ),
-                                                       const SizedBox(height: 8),
-                                                       MapDirectionItem(
-                                                           icon: Image.asset('assets/icons/image_t_map.png', height: 24, width: 24),
-                                                           text: "티맵 바로가기"
-                                                       )
-                                                     ],
-                                                   ),
-                                                 ),
-                                               );
-                                             }
-                                         );
-                                       },
-                                      ),
+                                       startLatitude: 0,
+                                       startLongitude: 0,
+                                       endLatitude: 0,
+                                       endLongitude: 0
+                                      )
                                     );
                                   }
                               ),

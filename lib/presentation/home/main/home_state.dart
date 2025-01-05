@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'home_state.freezed.dart';
 
@@ -8,3 +9,4 @@ sealed class HomeState with _$HomeState {
     @Default(false) bool isOccurred,
   }) = _HomeState;
 }
+
