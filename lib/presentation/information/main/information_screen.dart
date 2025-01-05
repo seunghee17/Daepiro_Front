@@ -1,6 +1,7 @@
 import 'package:daepiro/presentation/information/component/disaster_contents_main_item.dart';
 import 'package:daepiro/presentation/information/main/information_view_model.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
+import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -155,7 +156,18 @@ class InformationScreen extends ConsumerWidget {
                                         },
                                         child: GestureDetector(
                                           onTap: () {
-                                            // context.push('/home/aroundShelter');
+                                            context.push(
+                                              '/information/aroundShelter',
+                                              extra: AroundShelterExtra(
+                                                latitude: viewModel.latitude,
+                                                longitude: viewModel.longitude,
+                                                address: viewModel.myLocation,
+                                                temperatureShelterList: viewModel.temperatureShelterList,
+                                                earthquakeShelterList: viewModel.earthquakeShelterList,
+                                                tsunamiShelterList: viewModel.temperatureShelterList,
+                                                civilShelterList: viewModel.civilShelterList
+                                              )
+                                            );
                                           },
                                           child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,7 +241,7 @@ class InformationScreen extends ConsumerWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    context.push('/information/emergencyResponse');
+                                    context.push('/emergencyResponse');
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -263,7 +275,7 @@ class InformationScreen extends ConsumerWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    context.push('/information/behaviorTips');
+                                    context.push('/behaviorTips');
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

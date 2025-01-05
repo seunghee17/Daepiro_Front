@@ -18,12 +18,32 @@ class EmergencyResponseScreen extends ConsumerStatefulWidget {
 
 class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> with SingleTickerProviderStateMixin {
   final PageController _responsePageController = PageController(initialPage: 0);
+  var selectedTabIndex = 0;
+
   late final TabController _tabController = TabController(
     length: 4,
     vsync: this,
     initialIndex: 0,
     animationDuration: const Duration(milliseconds: 500),
   );
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {
+          selectedTabIndex = _tabController.index;
+          _responsePageController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 1),
+              curve: Curves.easeIn
+          );
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +108,9 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
 
                   },
                   children: [
-                    for (int i=0;i<Const.emergencyResponseList[_tabController.index].length;i++)
+                    for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
                       ItemEmergencyResponse(
-                          tabIndex: _tabController.index,
+                          tabIndex: selectedTabIndex,
                           pageIndex: i
                       )
                   ],
@@ -99,7 +119,7 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                 Center(
                   child: SmoothPageIndicator(
                     controller: _responsePageController,
-                    count: 5,
+                    count: Const.emergencyResponseList[selectedTabIndex].length,
                     effect: const ExpandingDotsEffect(
                         dotColor: DaepiroColorStyle.g_75,
                         activeDotColor: DaepiroColorStyle.g_300,
@@ -115,36 +135,46 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: DaepiroColorStyle.g_50,
-                              borderRadius: BorderRadius.circular(8)
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          child: Center(
-                            child: Text(
-                                '이전',
-                                style: DaepiroTextStyle.body_1_b.copyWith(
-                                  color: DaepiroColorStyle.g_700,
-                                )
+                        child: GestureDetector(
+                          onTap: () {
+                            _responsePageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: DaepiroColorStyle.g_50,
+                                borderRadius: BorderRadius.circular(8)
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            child: Center(
+                              child: Text(
+                                  '이전',
+                                  style: DaepiroTextStyle.body_1_b.copyWith(
+                                    color: DaepiroColorStyle.g_700,
+                                  )
+                              ),
                             ),
                           ),
                         )
                       ),
                       const SizedBox(width: 8),
                       Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: DaepiroColorStyle.o_500,
-                                borderRadius: BorderRadius.circular(8)
-                            ),
-                            padding: EdgeInsets.symmetric(vertical: 12),
-                            child: Center(
-                              child: Text(
-                                  '다음',
-                                  style: DaepiroTextStyle.body_1_b.copyWith(
-                                    color: DaepiroColorStyle.white,
-                                  )
+                          child: GestureDetector(
+                            onTap: () {
+                              _responsePageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: DaepiroColorStyle.o_500,
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              child: Center(
+                                child: Text(
+                                    '다음',
+                                    style: DaepiroTextStyle.body_1_b.copyWith(
+                                      color: DaepiroColorStyle.white,
+                                    )
+                                ),
                               ),
                             ),
                           )

@@ -74,7 +74,7 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                       GestureDetector(
                         onTap: () {
                           context.push(
-                            '/information/searchDisasterType',
+                            '/searchDisasterType',
                             extra: viewModel.emergencyBehaviorList + viewModel.commonBehaviorList
                           );
                         },

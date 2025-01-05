@@ -197,7 +197,7 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                       },
                                       child: GestureDetector(
                                         onTap: () {
-                                          context.push('/home/aroundShelter');
+                                          // context.push('/home/aroundShelter');
                                         },
                                         child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,

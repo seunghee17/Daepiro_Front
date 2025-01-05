@@ -114,6 +114,8 @@ class InformationViewModel extends StateNotifier<InformationState> {
         );
       }
 
+      state = state.copyWith(myLocation: response.data?.myLocation ?? "");
+
     } catch (error) {
       print('주변 대피소 조회 에러: $error');
     }
