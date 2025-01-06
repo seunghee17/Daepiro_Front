@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/secondary_filled_button.dart';
 
@@ -13,13 +12,23 @@ import '../../../cmm/button/secondary_filled_button.dart';
 class ReplyMenuScreen extends ConsumerWidget {
   final bool isUser;
   final int commentId;
+  final VoidCallback onCancel;
+  final VoidCallback setDeleteState;
+  final VoidCallback setChildCommentState;
+  final bool isChildCommentState;
 
-  const ReplyMenuScreen(
-      {super.key, required this.isUser, required this.commentId});
+  const ReplyMenuScreen({
+    super.key,
+    required this.isUser,
+    required this.commentId,
+    required this.onCancel,
+    required this.setDeleteState,
+    required this.setChildCommentState,
+    required this.isChildCommentState,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityDisasterProvider);
     return Stack(
       children: [
         BackdropFilter(
@@ -29,17 +38,30 @@ class ReplyMenuScreen extends ConsumerWidget {
             left: 0,
             right: 0,
             bottom: 20,
-            child: isUser ? editMenu(context, ref, commentId) : reportMenu(
-                context)),
+            child: isUser
+                ? editMenu(context, ref, commentId, onCancel, setDeleteState, setChildCommentState, isChildCommentState)
+                : reportMenu(context)),
       ],
     );
   }
 
-  Widget editMenu(BuildContext context, WidgetRef ref, int commentId) {
+  Widget editMenu(
+    BuildContext context,
+    WidgetRef ref,
+    int commentId,
+    VoidCallback onCancel,
+    VoidCallback setDeleteState,
+      VoidCallback setChildCommentState,
+      bool isChildCommentState,
+  ) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            ref.read(communityDisasterProvider.notifier).setEditState(true);
+            ref.read(communityDisasterProvider.notifier).setReplyId(commentId);
+            GoRouter.of(context).pop();
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
@@ -62,10 +84,9 @@ class ReplyMenuScreen extends ConsumerWidget {
         SizedBox(height: 7),
         GestureDetector(
             onTap: () {
-              GoRouter
-                  .of(context)
-                  .pop;
-              deleteDialog(context, ref, commentId);
+              GoRouter.of(context).pop();
+              isChildCommentState ? deleteDialog(context, ref, commentId, onCancel, setDeleteState, setChildCommentState)
+              : deleteDialog(context, ref, commentId, onCancel, setDeleteState, null);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -108,7 +129,8 @@ class ReplyMenuScreen extends ConsumerWidget {
         ));
   }
 
-  void deleteDialog(BuildContext context, WidgetRef ref, int commentId) {
+  void deleteDialog(BuildContext context, WidgetRef ref, int commentId,
+      VoidCallback onCancel, VoidCallback setDeleteState, VoidCallback? setChildCommentState) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -134,7 +156,7 @@ class ReplyMenuScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          Navigator.pop(context);
+                          setChildCommentState;
                           Navigator.pop(context);
                         },
                         radius: 8,
@@ -154,12 +176,12 @@ class ReplyMenuScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          await ref.read(communityDisasterProvider.notifier)
-                              .deleteReply(commentId);
-                          //ref.read(communityDisasterProvider.notifier).setDeleteState(true);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          showDeleteSnackbar(context);
+                          GoRouter.of(context).pop();
+                          showDeleteSnackbar(
+                            context,
+                            onCancel,
+                            setDeleteState,
+                          );
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_700,
@@ -175,13 +197,15 @@ class ReplyMenuScreen extends ConsumerWidget {
               ),
             ],
           );
-        }
-    );
+        });
   }
 
-  void showDeleteSnackbar(BuildContext context) {
+  void showDeleteSnackbar(BuildContext context, VoidCallback onCancel,
+      VoidCallback setDeleteState) {
+    setDeleteState();
     final overlay = Overlay.of(context);
-    final overlayEntry = OverlayEntry(
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         bottom: 50.0,
         left: 20.0,
@@ -203,7 +227,8 @@ class ReplyMenuScreen extends ConsumerWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // TODO: 댓글 삭제 취소 API 연결 필요
+                    onCancel();
+                    overlayEntry.remove();
                   },
                   child: Text(
                     '취소',
@@ -219,8 +244,9 @@ class ReplyMenuScreen extends ConsumerWidget {
     );
     overlay.insert(overlayEntry);
     Future.delayed(const Duration(seconds: 5), () {
-      overlayEntry.remove();
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
     });
   }
-
 }

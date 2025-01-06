@@ -1,4 +1,3 @@
-import 'package:daepiro/data/model/response/user_address_response.dart';
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/user_adresses_usecase.dart';
@@ -100,7 +99,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     ))).future);
   }
 
-  //보낸 주소 정보 받아서 로컬에 저장 주소를 처음 저장함 로컬에
+  //보낸 주소 정보 받아서 로컬에 저장 주소를 처음 저장하는 부분
   Future<void> storeUserAdresses() async {
     final userAddresses = await ref.read(userAddressUseCaseProvider(
         UserAddressUseCase()).future);

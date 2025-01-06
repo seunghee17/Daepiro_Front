@@ -1,17 +1,20 @@
+import 'package:daepiro/data/model/request/community_comment_post_request.dart';
 import 'package:daepiro/domain/usecase/community/community_disaster_edit_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_disaster_reply_usecase.dart';
+import 'package:daepiro/domain/usecase/community/community_reply_like_usecase.dart';
 import 'package:daepiro/presentation/community/state/community_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 import '../../../data/model/request/album_model.dart';
 import '../../../data/model/request/community_disaster_edit_request.dart';
+import '../../../domain/usecase/community/community_comment_write_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_delete_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_received_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_usecase.dart';
 
 final communityDisasterProvider =
     StateNotifierProvider<CommunityDisasterViewModel, CommunityState>((ref) {
-      return CommunityDisasterViewModel(ref);
+  return CommunityDisasterViewModel(ref);
 });
 
 class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
@@ -25,7 +28,7 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
     try {
       await getReceivedDisasterResponse();
       await getAllDisasterResponse();
-    } catch(e) {
+    } catch (e) {
       print('error initialization: $e');
     } finally {
       state = state.copyWith(isLoading: false);
@@ -34,6 +37,9 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
 
   void changeScreenState(bool isdisasterScreen) {
     state = state.copyWith(isDisasterScreen: isdisasterScreen);
+    if(state.isDisasterScreen) {
+      reloadData();
+    }
   }
 
   //이미지 접근권한 확인
@@ -82,25 +88,25 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
   }
 
   Future<void> getAllDisasterResponse() async {
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(
       getCommunityAllDisasterUseCaseProvider.future,
     );
-    state =
-        state.copyWith(allDisasterResponse: result, listLength: result.length);
-    if(result.length >0) {
-      state = state.copyWith(isLoading: false);
-    }
+    state = state.copyWith(
+        allDisasterResponse: result,
+        listLength: result.length,
+        isLoading: false);
   }
 
   Future<void> getReceivedDisasterResponse() async {
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(
       getCommunityReceivedDisasterUseCaseProvider.future,
     );
     state = state.copyWith(
-        receivedDisasterResponse: result, listLength: result.length);
-    if(result.length>0) {
-      state = state.copyWith(isLoading: false);
-    }
+        receivedDisasterResponse: result,
+        listLength: result.length,
+        isLoading: false);
   }
 
   Future<void> selectButton(String type) async {
@@ -109,6 +115,29 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
       await getAllDisasterResponse();
     } else {
       await getReceivedDisasterResponse();
+    }
+  }
+
+  Future<void> getReloadDisasterData() async {
+    try {
+      final type = state.disasterCommunityType;
+      if (type == 'all') {
+        await getAllDisasterResponse();
+      } else {
+        await getReceivedDisasterResponse();
+      }
+    } catch (e) {
+      print('재난상황 재로드 오류발생 CommunityDisasterViewModel: $e');
+    }
+  }
+
+  Future<void> reloadData() async {
+    try {
+      if (state.selectSituaionId != null)
+        await getReplyData(state.selectSituaionId!);
+      await getReloadDisasterData();
+    } catch (e) {
+      print('Error reloading data: $e');
     }
   }
 
@@ -144,7 +173,7 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
   }
 
   String parseTitle(String title, String type) {
-    if(!title.contains(type)) {
+    if (!title.contains(type)) {
       return title;
     }
     int typeIndex = title.indexOf(type);
@@ -155,24 +184,132 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
     state = state.copyWith(isLoading: value);
   }
 
-  Future<void> getReplyData() async {
+  Future<void> getReplyData(int situationId) async {
     state = state.copyWith(isReplyLoading: true);
-    final result = await ref.read(getCommunityDisasterReplyUseCaseProvider.future);
-    state = state.copyWith(disasterReplyList: result, isReplyLoading: false);
+    final result = await ref.read(getCommunityDisasterReplyUseCaseProvider(
+            CommunityDisasterReplyUsecase(situationId: situationId))
+        .future);
+    state = state.copyWith(
+      disasterReplyList: result,
+      isReplyLoading: false,
+      selectSituaionId: situationId,
+    );
   }
 
-  Future<void> deleteReply(int commentId) async {
+  Future<void> setComment(String message) async {
+    await ref
+        .read(communityCommentWriteUseCaseProvider(CommunityCommentWriteUsecase(
+            communityCommentPostRequest: CommunityCommentPostRequest(
+      body: message,
+      articleId: state.selectSituaionId,
+    ))).future);
+    await reloadData();
+  }
+
+  //대댓글 작성
+  Future<void> setReplyComment(String message, int parentCommentId) async {
+    await ref
+        .read(communityCommentWriteUseCaseProvider(CommunityCommentWriteUsecase(
+        communityCommentPostRequest: CommunityCommentPostRequest(
+          body: message,
+          parentCommentId: parentCommentId,
+          articleId: state.selectSituaionId,
+        ))).future);
+    await reloadData();
+  }
+
+  Future<void> deleteReply() async {
+    if(state.isChildCommentState && state.deleteChildCommentId!=0) {
+      //대댓글을 삭제하려고함
+      await ref.read(getDisasterDeleteUseCaseProvider(
+          CommunityDisasterDeleteUsecase(id: state.deleteChildCommentId))
+          .future);
+    } else if(state.deleteCommentId !=0) {
+      await ref.read(getDisasterDeleteUseCaseProvider(
+          CommunityDisasterDeleteUsecase(id: state.deleteCommentId))
+          .future);
+    }
+    setDeleteState(0);
+    await reloadData();
+  }
+
+  Future<void> editReply(String body) async {
+    if(state.isChildCommentState) {
+      await ref.read(getCommunityDisasterEditUseCaseProvider(
+          CommunityDisasterEditUsecase(
+              id: state.editChildCommentId,
+              communityDisasterEditRequest: CommunityDisasterEditRequest(body: body)))
+          .future);
+    } else {
+      await ref.read(getCommunityDisasterEditUseCaseProvider(
+          CommunityDisasterEditUsecase(
+              id: state.editCommentId,
+              communityDisasterEditRequest:
+              CommunityDisasterEditRequest(body: body)))
+          .future);
+    }
+    await reloadData();
+  }
+
+  void setDeleteState(int commentId) {
+    if(state.isChildCommentState) {
+      state = state.copyWith(
+        deleteChildCommentId: commentId,
+      );
+      if(commentId ==0) {
+        //삭제를 취소하려는 동작임
+        state = state.copyWith(
+          isChildCommentState: false,
+        );
+      }
+    } else {
+      state = state.copyWith(
+        deleteCommentId: commentId,
+      );
+    }
+  }
+
+  void setEditState(bool value) {
+    if(state.isChildCommentState) {
+      state = state.copyWith(
+        isEditChildCommentState: value,
+      );
+    } else {
+      state = state.copyWith(
+        isEditState: value,
+      );
+    }
+  }
+
+  void setReplyId(int commentId) {
+    if(state.isChildCommentState) {
+      state = state.copyWith(editChildCommentId: commentId);
+    } else {
+      state = state.copyWith(editCommentId: commentId);
+    }
+  }
+
+  void setParentCommentId(int parentCommentId) {
+    //답글작성할때 필요
+    state = state.copyWith(parentCommentId: parentCommentId);
+  }
+
+  void clearDisasterReplyData() {
+    state = state.copyWith(selectSituaionId: null, disasterReplyList: []);
+  }
+
+  Future<void> replyLike(int id) async {
     await ref.read(
-        getDisasterDeleteUseCaseProvider(CommunityDisasterDeleteUsecase(commentId: commentId)).future);
-    await getReplyData();
+        communityReplyLikeUseCaseProvider(CommunityReplyLikeUseCase(id: id))
+            .future);
+    await reloadData();
   }
 
-  Future<void> editReply(int commentId, CommunityDisasterEditRequest communityDisasterEditRequest) async {
-    await ref.read(
-        getCommunityDisasterEditUseCaseProvider(CommunityDisasterEditUsecase(commentId: commentId, communityDisasterEditRequest: communityDisasterEditRequest)).future);
+  void setSelectSituationId(int situationId) {
+    state = state.copyWith(selectSituaionId: situationId);
   }
 
-  void setDeleteState(bool value) {
-    state = state.copyWith(isDeleteComplete: value);
+  void setChildCommentState(bool value) {
+    state = state.copyWith(isChildCommentState: value);
   }
 }

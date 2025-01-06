@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../cmm/DaepiroTheme.dart';
+import '../../../../data/model/response/community_dongnae_content_response.dart';
 
 //동네생활 화면
 class CommunityTownScreen extends ConsumerWidget {
@@ -20,33 +21,54 @@ class CommunityTownScreen extends ConsumerWidget {
     typeData.add(TypeModel(false, '교통', 'TRAFFIC'));
     typeData.add(TypeModel(false, '치안', 'SAFE'));
     typeData.add(TypeModel(false, '기타', 'OTHER'));
-    final viewModel = ref.watch(communityTownProvider);
+    final state = ref.watch(communityTownProvider);
+    final scrollController = ScrollController();
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
+        final viewModel = ref.read(communityTownProvider.notifier);
+        if (state.isDongNaeHasMore && !state.isDongNaeLoading) {
+          viewModel.loadContent(state.townCommunityType);
+        }
+      }
+    });
+
     return Scaffold(
         body: SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            GestureDetector(
-                onTap: () {
-                  GoRouter.of(context).push('/community_rule');
-                },
-                child: ruleContainer()),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: typeRadioButton(viewModel.townCommunityType, ref),
-            ),
-            ...List.generate(
-                5,
-                (index) => listItemWidget(() {
+          controller: scrollController,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push('/community_rule');
+                  },
+                  child: ruleContainer()),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: typeRadioButton(state.townCommunityType, ref)),
+                if(state.isDongNaeContentEmpty && !state.isDongNaeLoading)
+                  //없을때 로직
+                  Container()
+                else
+                  ...state.contentList.map((content) {
+                    return listItemWidget(() async {
+                      await ref.read(communityTownProvider.notifier).getContentDetail(content.id!);
                       GoRouter.of(context).push('/community_town_detail');
-                    }))
-          ],
+                    }, content, ref);
+                  }).toList(),
+                if(state.isDongNaeLoading)
+                  Center(
+                    child: CircularProgressIndicator(),
+                  )
+              ],
+            ),
+          ),
         ),
-      ),
-    ));
+    );
   }
 
   Widget ruleContainer() {
@@ -84,20 +106,20 @@ class CommunityTownScreen extends ConsumerWidget {
   //글 유형 타입 radio button
   Widget typeRadioButton(String typeState, WidgetRef ref) {
     return Container(
-      height: 36,
-      child: Row(
-        children: [
-          typeItem('ALL', typeState, '전체', ref),
-          typeItem('LIFE', typeState, '일상', ref),
-          typeItem('TRAFFIC', typeState, '교통', ref),
-          typeItem('SAFE', typeState, '치안', ref),
-          typeItem('OTHER', typeState, '기타', ref)
-        ],
-      )
-    );
+        height: 36,
+        child: Row(
+          children: [
+            typeItem('ALL', typeState, '전체', ref),
+            typeItem('LIFE', typeState, '일상', ref),
+            typeItem('TRAFFIC', typeState, '교통', ref),
+            typeItem('SAFE', typeState, '치안', ref),
+            typeItem('OTHER', typeState, '기타', ref)
+          ],
+        ));
   }
 
-  Widget typeItem(String type, String typeState, String realText, WidgetRef ref) {
+  Widget typeItem(
+      String type, String typeState, String realText, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: GestureDetector(
@@ -126,7 +148,11 @@ class CommunityTownScreen extends ConsumerWidget {
   }
 
   //리스트 아이템 위젯
-  Widget listItemWidget(VoidCallback event) {
+  Widget listItemWidget(
+    VoidCallback event,
+      Content content,
+      WidgetRef ref
+  ) {
     return GestureDetector(
       onTap: event,
       child: Padding(
@@ -144,13 +170,13 @@ class CommunityTownScreen extends ConsumerWidget {
                       children: [typeChip(), SizedBox(height: 12)],
                     )),
                 Text(
-                  '새로운 카페 오픈했네요',
+                  content.title ?? '',
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 ),
                 SizedBox(height: 2),
                 Text(
-                  '어쩌구저쩌구 바나나푸딩',
+                  content.body ?? '',
                   style: DaepiroTextStyle.body_2_m
                       .copyWith(color: DaepiroColorStyle.g_500),
                 ),
@@ -158,13 +184,13 @@ class CommunityTownScreen extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      '김연지',
+                      content.authorUser?.nickname ?? '',
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_800),
                     ),
                     SizedBox(width: 2),
                     Visibility(
-                      visible: true,
+                      visible: content.authorUser?.isVerified ?? false,
                       child: SvgPicture.asset(
                           'assets/icons/icon_certification.svg',
                           width: 16,
@@ -173,7 +199,8 @@ class CommunityTownScreen extends ConsumerWidget {
                               DaepiroColorStyle.o_300, BlendMode.srcIn)),
                     ),
                     SizedBox(width: 6),
-                    Text('5분전',
+                    Text(
+                        ref.read(communityTownProvider.notifier).parseCommentTime(content.createdAt ?? ''),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300)),
                     Spacer(),
@@ -183,7 +210,7 @@ class CommunityTownScreen extends ConsumerWidget {
                         colorFilter: ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
                     SizedBox(width: 2),
-                    Text('1',
+                    Text(content.likeCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
                     SizedBox(width: 4),
@@ -193,7 +220,7 @@ class CommunityTownScreen extends ConsumerWidget {
                         colorFilter: ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
                     SizedBox(width: 2),
-                    Text('1',
+                    Text(content.commentCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
                   ],

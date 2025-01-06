@@ -65,15 +65,6 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
             backgroundColor: Colors.black,
             textColor: Colors.white
         );
-      } else {
-        Fluttertoast.showToast(
-            msg: '네트워크 에러 ${exception.response?.statusCode} 발생',
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.black,
-            textColor: Colors.white
-        );
       }
       if(exception.response?.statusCode == 401) {
         String? refreshToken = await storage.read(key: 'refreshToken');

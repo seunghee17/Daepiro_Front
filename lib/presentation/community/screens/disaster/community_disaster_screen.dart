@@ -1,19 +1,17 @@
 import 'package:daepiro/data/model/response/disaster_response.dart';
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
-import 'package:daepiro/presentation/community/screens/reply_bottom_sheet.dart';
+import 'package:daepiro/presentation/community/screens/disaster/reply_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../cmm/button/primary_filled_button.dart';
 import '../../../../cmm/button/secondary_filled_button.dart';
 
 //재난상황 화면
 class CommunityDisasterScreen extends ConsumerWidget {
-  const CommunityDisasterScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -228,23 +226,28 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     .copyWith(color: DaepiroColorStyle.g_400),
               ),
               Spacer(),
-              SvgPicture.asset(
-                'assets/icons/icon_community.svg',
-                colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
-              ),
-              SizedBox(width: 2),
-              Text(
-                '${content.commentCount}',
-                style: DaepiroTextStyle.caption
-                    .copyWith(color: DaepiroColorStyle.g_200),
-              )
+              if(content.commentCount! > 0)
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/icon_community.svg',
+                      colorFilter:
+                      ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                    ),
+                    SizedBox(width: 2),
+                    Text(
+                      '${content.commentCount}',
+                      style: DaepiroTextStyle.caption
+                          .copyWith(color: DaepiroColorStyle.g_200),
+                    )
+                  ],
+                )
             ],
           ),
           SizedBox(height: 20),
           content.comments?.length !=0
-              ? replyContainer(context, content.comments ?? [], ref)
-              : noneReplyContainer(),
+              ? replyContainer(context, content.comments ?? [], ref , content.id!)
+              : noneReplyContainer(ref, context, content.id!),
           SizedBox(height: 36)
         ],
       ),
@@ -252,7 +255,11 @@ class CommunityDisasterScreen extends ConsumerWidget {
   }
 
   Widget replyContainer(
-      BuildContext context, List<Comments> comment, WidgetRef ref) {
+      BuildContext context,
+      List<Comments> comment,
+      WidgetRef ref,
+      int situationId,
+      ) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -264,17 +271,20 @@ class CommunityDisasterScreen extends ConsumerWidget {
           children: [
             ...List.generate(
                 comment.length,
-                (index) => replyWidget(
-                    comment[index].content ?? '',
-                    ref
-                        .read(communityDisasterProvider.notifier)
-                        .parseCommentTime(comment[index].time ?? ''),
-                    comment[index].likeCount ?? 0)),
-            SizedBox(height: 10),
+                (index) => Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: replyWidget(
+                      comment[index].content ?? '',
+                      ref
+                          .read(communityDisasterProvider.notifier)
+                          .parseCommentTime(comment[index].time ?? ''),
+                      comment[index].likeCount ?? 0),)
+            ),
+            SizedBox(height: 2),
             GestureDetector(
               onTap: () async {
-                await ref.read(communityDisasterProvider.notifier).getReplyData();
-                showReplyBottomSheet(context);
+                await ref.read(communityDisasterProvider.notifier).getReplyData(situationId);
+                showReplyBottomSheet(context, situationId);
               },
               child: Row(
                 children: [
@@ -346,8 +356,8 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  //댓글 존재하지 않을때 ui
-  Widget noneReplyContainer() {
+  //댓글 존재하지 않을때 댓글창
+  Widget noneReplyContainer(WidgetRef ref, BuildContext context, int id) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -366,17 +376,23 @@ class CommunityDisasterScreen extends ConsumerWidget {
                 style: DaepiroTextStyle.caption
                     .copyWith(color: DaepiroColorStyle.g_600)),
             SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                color: DaepiroColorStyle.g_500,
-                borderRadius: BorderRadius.all(Radius.circular(99)),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                child: Text(
-                  '댓글 달기',
-                  style: DaepiroTextStyle.caption
-                      .copyWith(color: DaepiroColorStyle.white),
+            GestureDetector(
+              onTap: () async {
+                ref.read(communityDisasterProvider.notifier).setSelectSituationId(id);
+                showReplyBottomSheet(context, id);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: DaepiroColorStyle.g_500,
+                  borderRadius: BorderRadius.all(Radius.circular(99)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  child: Text(
+                    '댓글 달기',
+                    style: DaepiroTextStyle.caption
+                        .copyWith(color: DaepiroColorStyle.white),
+                  ),
                 ),
               ),
             )
@@ -386,7 +402,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  void showReplyBottomSheet(BuildContext context) {
+  void showReplyBottomSheet(BuildContext context, int situationId) {
     showModalBottomSheet(
         context: context,
         useRootNavigator: true,
@@ -395,7 +411,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
           final height = MediaQuery.of(context).size.height * 0.8;
           return Container(
             height: height,
-            child: ReplyBottomSheet(),
+            child: ReplyBottomSheet(situationId: situationId),
           );
         },
         isScrollControlled: true,

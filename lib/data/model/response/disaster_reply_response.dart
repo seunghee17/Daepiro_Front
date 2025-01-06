@@ -41,6 +41,10 @@ class Reply {
   String? content;
   int? likeCount;
   bool? isMine;
+  bool? isDeleted;
+  bool? isModified;
+  bool? isVerified;
+  List<ChildComments>? childComments;
 
   Reply(
       {this.id,
@@ -48,7 +52,11 @@ class Reply {
         this.time,
         this.content,
         this.likeCount,
-        this.isMine});
+        this.isMine,
+        this.isDeleted,
+        this.isModified,
+        this.isVerified,
+        this.childComments});
 
   Reply.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,6 +65,15 @@ class Reply {
     content = json['content'];
     likeCount = json['likeCount'];
     isMine = json['isMine'];
+    isDeleted = json['isDeleted'];
+    isModified = json['isModified'];
+    isVerified = json['isVerified'];
+    if (json['childComments'] != null) {
+      childComments = <ChildComments>[];
+      json['childComments'].forEach((v) {
+        childComments!.add(new ChildComments.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +84,63 @@ class Reply {
     data['content'] = this.content;
     data['likeCount'] = this.likeCount;
     data['isMine'] = this.isMine;
+    data['isDeleted'] = this.isDeleted;
+    data['isModified'] = this.isModified;
+    data['isVerified'] = this.isVerified;
+    if (this.childComments != null) {
+      data['childComments'] =
+          this.childComments!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ChildComments {
+  int? id;
+  String? name;
+  String? time;
+  String? content;
+  int? likeCount;
+  bool? isMine;
+  bool? isDeleted;
+  bool? isModified;
+  bool? isVerified;
+
+  ChildComments(
+      {this.id,
+        this.name,
+        this.time,
+        this.content,
+        this.likeCount,
+        this.isMine,
+        this.isDeleted,
+        this.isModified,
+        this.isVerified,
+      });
+
+  ChildComments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    time = json['time'];
+    content = json['content'];
+    likeCount = json['likeCount'];
+    isMine = json['isMine'];
+    isDeleted = json['isDeleted'];
+    isModified = json['isModified'];
+    isVerified = json['isVerified'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['time'] = this.time;
+    data['content'] = this.content;
+    data['likeCount'] = this.likeCount;
+    data['isMine'] = this.isMine;
+    data['isDeleted'] = this.isDeleted;
+    data['isModified'] = this.isModified;
+    data['isVerified'] = this.isVerified;
     return data;
   }
 }

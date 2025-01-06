@@ -1,15 +1,15 @@
 class CommunityDisasterEditRequest {
-  String? content;
+  String? body;
 
-  CommunityDisasterEditRequest({this.content});
+  CommunityDisasterEditRequest({this.body});
 
   CommunityDisasterEditRequest.fromJson(Map<String, dynamic> json) {
-    content = json['content'];
+    body = json['body'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['content'] = this.content;
+    data['body'] = this.body;
     return data;
   }
 }

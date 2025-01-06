@@ -1,10 +1,13 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:daepiro/presentation/community/screens/disaster/community_disaster_screen.dart';
+import 'package:daepiro/presentation/community/screens/town/community_town_address_menu_screen.dart';
 import 'package:daepiro/presentation/community/screens/town/community_town_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
 //커뮤니티 메인화면
@@ -14,6 +17,7 @@ class CommunityMainScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(communityDisasterProvider);
+    final townState = ref.watch(communityTownProvider);
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
@@ -32,7 +36,7 @@ class CommunityMainScreen extends ConsumerWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    communityHeader(state.isDisasterScreen),
+                    communityHeader(state.isDisasterScreen, townState.selectTown, context),
                     TabBar(
                       padding: EdgeInsets.zero,
                       splashFactory: NoSplash.splashFactory,
@@ -83,17 +87,19 @@ class CommunityMainScreen extends ConsumerWidget {
     ));
   }
 
-  Widget townHeaderWidget() {
+  Widget townHeaderWidget(String address, BuildContext context) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         child: Row(
           children: [
             GestureDetector(
-              onTap: (){},
+              onTap: () {
+                goToMenu(context);
+              },
               child: Row(
                 children: [
-                  Text('강남구',
+                  Text(address,
                     style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
                   ),
                   SizedBox(width: 4),
@@ -107,7 +113,9 @@ class CommunityMainScreen extends ConsumerWidget {
             ),
             Spacer(),
             TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  GoRouter.of(context).go('/community_town_writing');
+                },
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
@@ -121,11 +129,21 @@ class CommunityMainScreen extends ConsumerWidget {
       ),
     );
   }
-  Widget communityHeader(bool tabState) {
+  Widget communityHeader(bool tabState, String address, BuildContext context) {
     if(tabState) {
       return disasterHeaderWidget();
     } else {
-      return townHeaderWidget();
+      return townHeaderWidget(address,context);
     }
+  }
+
+  void goToMenu(BuildContext context) {
+    showDialog(
+      useSafeArea: false,
+        context: context,
+        barrierColor: Colors.black.withOpacity(0.6),
+        builder: (context) {
+          return CommunityTownAddressMenuScreen();
+        });
   }
 }

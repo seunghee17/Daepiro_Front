@@ -6,12 +6,12 @@ import '../../repository/community_repository.dart';
 
 final getCommunityDisasterEditUseCaseProvider = FutureProvider.family<CommunityDisasterEditResponse, CommunityDisasterEditUsecase>((ref, request) async {
   final repository = ref.watch(communityRepositoryProvider);
-  return await repository.editReply(commentId: request.commentId, communityDisasterEditRequest: request.communityDisasterEditRequest);
+  return await repository.editReply(id: request.id, communityDisasterEditRequest: request.communityDisasterEditRequest);
 });
 
 class CommunityDisasterEditUsecase {
-  final int commentId;
+  final int id;
   final CommunityDisasterEditRequest communityDisasterEditRequest;
 
-  CommunityDisasterEditUsecase({required this.commentId, required this.communityDisasterEditRequest});
+  CommunityDisasterEditUsecase({required this.id, required this.communityDisasterEditRequest});
 }

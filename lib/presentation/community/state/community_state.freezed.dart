@@ -16,13 +16,26 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommunityState {
+//---------------------------------------------------------
+// 재난상황
+//---------------------------------------------------------
 //현재 보여지는 상태
   bool get isDisasterScreen => throw _privateConstructorUsedError;
-  bool get isDeleteComplete => throw _privateConstructorUsedError;
-  String? get reportType => throw _privateConstructorUsedError; //갤러리 관련 상태 변수
-  List<AlbumModel> get albums => throw _privateConstructorUsedError;
-  int get currentAlbumIndex => throw _privateConstructorUsedError;
-  List<AlbumModel> get selectAlbums =>
+  int? get selectSituaionId =>
+      throw _privateConstructorUsedError; //대댓글 작성시 필요한 부모 댓글 id
+  int get parentCommentId =>
+      throw _privateConstructorUsedError; //대댓글을 선택한지에 대한 여부
+  dynamic get isChildCommentState =>
+      throw _privateConstructorUsedError; //moreinfo를 누를때부터 true로 활성화됨
+  int get deleteChildCommentId => throw _privateConstructorUsedError;
+  int get editChildCommentId => throw _privateConstructorUsedError; //2
+  bool get isEditChildCommentState => throw _privateConstructorUsedError; //1
+//댓글 삭제를 위해 필요한 데이터
+  int get deleteCommentId =>
+      throw _privateConstructorUsedError; //댓글 수정을 위한 상태 데이터
+  bool get isEditState => throw _privateConstructorUsedError;
+  int get editCommentId => throw _privateConstructorUsedError;
+  String? get reportType =>
       throw _privateConstructorUsedError; //커뮤니티 유형별 데이터 상태
   List<Data> get allDisasterResponse => throw _privateConstructorUsedError;
   List<Data> get receivedDisasterResponse => throw _privateConstructorUsedError;
@@ -30,12 +43,33 @@ mixin _$CommunityState {
   bool get isLoading => throw _privateConstructorUsedError; //재난상황 댓글 로드 상태
   bool get isReplyLoading => throw _privateConstructorUsedError; //재난상황 커뮤니티 타입
   String get disasterCommunityType =>
-      throw _privateConstructorUsedError; //동네생활 커뮤니티 타입
-  String get townCommunityType =>
       throw _privateConstructorUsedError; //재난상황 댓글 상태
   List<Reply> get disasterReplyList =>
       throw _privateConstructorUsedError; //신고 유형
-  String get reporyType => throw _privateConstructorUsedError;
+  String get reporyType =>
+      throw _privateConstructorUsedError; //---------------------------------------------------------
+// 동네생활
+//---------------------------------------------------------
+//동네생활 게시글 상세조회
+  ContentDetail get contentDetail =>
+      throw _privateConstructorUsedError; //동네생활 컨텐츠 리스트
+  Set<Content> get contentList =>
+      throw _privateConstructorUsedError; //동네생활 커뮤니티 타입
+  String get townCommunityType =>
+      throw _privateConstructorUsedError; //동네생활 로딩 상태
+  bool get isDongNaeLoading =>
+      throw _privateConstructorUsedError; //동네생활 컨텐츠 더있는가
+  bool get isDongNaeHasMore => throw _privateConstructorUsedError;
+  bool get isDongNaeContentEmpty =>
+      throw _privateConstructorUsedError; //동네생활 선택한 동네
+  String get selectTown => throw _privateConstructorUsedError;
+  String get selectLongTownAddress => throw _privateConstructorUsedError;
+  List<String> get townLongAddressList => throw _privateConstructorUsedError;
+  List<String> get townList =>
+      throw _privateConstructorUsedError; //갤러리 관련 상태 변수
+  List<AlbumModel> get albums => throw _privateConstructorUsedError;
+  int get currentAlbumIndex => throw _privateConstructorUsedError;
+  List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityStateCopyWith<CommunityState> get copyWith =>
@@ -50,20 +84,37 @@ abstract class $CommunityStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isDisasterScreen,
-      bool isDeleteComplete,
+      int? selectSituaionId,
+      int parentCommentId,
+      dynamic isChildCommentState,
+      int deleteChildCommentId,
+      int editChildCommentId,
+      bool isEditChildCommentState,
+      int deleteCommentId,
+      bool isEditState,
+      int editCommentId,
       String? reportType,
-      List<AlbumModel> albums,
-      int currentAlbumIndex,
-      List<AlbumModel> selectAlbums,
       List<Data> allDisasterResponse,
       List<Data> receivedDisasterResponse,
       int listLength,
       bool isLoading,
       bool isReplyLoading,
       String disasterCommunityType,
-      String townCommunityType,
       List<Reply> disasterReplyList,
-      String reporyType});
+      String reporyType,
+      ContentDetail contentDetail,
+      Set<Content> contentList,
+      String townCommunityType,
+      bool isDongNaeLoading,
+      bool isDongNaeHasMore,
+      bool isDongNaeContentEmpty,
+      String selectTown,
+      String selectLongTownAddress,
+      List<String> townLongAddressList,
+      List<String> townList,
+      List<AlbumModel> albums,
+      int currentAlbumIndex,
+      List<AlbumModel> selectAlbums});
 }
 
 /// @nodoc
@@ -80,46 +131,83 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
   @override
   $Res call({
     Object? isDisasterScreen = null,
-    Object? isDeleteComplete = null,
+    Object? selectSituaionId = freezed,
+    Object? parentCommentId = null,
+    Object? isChildCommentState = freezed,
+    Object? deleteChildCommentId = null,
+    Object? editChildCommentId = null,
+    Object? isEditChildCommentState = null,
+    Object? deleteCommentId = null,
+    Object? isEditState = null,
+    Object? editCommentId = null,
     Object? reportType = freezed,
-    Object? albums = null,
-    Object? currentAlbumIndex = null,
-    Object? selectAlbums = null,
     Object? allDisasterResponse = null,
     Object? receivedDisasterResponse = null,
     Object? listLength = null,
     Object? isLoading = null,
     Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
-    Object? townCommunityType = null,
     Object? disasterReplyList = null,
     Object? reporyType = null,
+    Object? contentDetail = null,
+    Object? contentList = null,
+    Object? townCommunityType = null,
+    Object? isDongNaeLoading = null,
+    Object? isDongNaeHasMore = null,
+    Object? isDongNaeContentEmpty = null,
+    Object? selectTown = null,
+    Object? selectLongTownAddress = null,
+    Object? townLongAddressList = null,
+    Object? townList = null,
+    Object? albums = null,
+    Object? currentAlbumIndex = null,
+    Object? selectAlbums = null,
   }) {
     return _then(_value.copyWith(
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
               as bool,
-      isDeleteComplete: null == isDeleteComplete
-          ? _value.isDeleteComplete
-          : isDeleteComplete // ignore: cast_nullable_to_non_nullable
+      selectSituaionId: freezed == selectSituaionId
+          ? _value.selectSituaionId
+          : selectSituaionId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      parentCommentId: null == parentCommentId
+          ? _value.parentCommentId
+          : parentCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      isChildCommentState: freezed == isChildCommentState
+          ? _value.isChildCommentState
+          : isChildCommentState // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      deleteChildCommentId: null == deleteChildCommentId
+          ? _value.deleteChildCommentId
+          : deleteChildCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      editChildCommentId: null == editChildCommentId
+          ? _value.editChildCommentId
+          : editChildCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      isEditChildCommentState: null == isEditChildCommentState
+          ? _value.isEditChildCommentState
+          : isEditChildCommentState // ignore: cast_nullable_to_non_nullable
               as bool,
+      deleteCommentId: null == deleteCommentId
+          ? _value.deleteCommentId
+          : deleteCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      isEditState: null == isEditState
+          ? _value.isEditState
+          : isEditState // ignore: cast_nullable_to_non_nullable
+              as bool,
+      editCommentId: null == editCommentId
+          ? _value.editCommentId
+          : editCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
       reportType: freezed == reportType
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
               as String?,
-      albums: null == albums
-          ? _value.albums
-          : albums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
-      currentAlbumIndex: null == currentAlbumIndex
-          ? _value.currentAlbumIndex
-          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectAlbums: null == selectAlbums
-          ? _value.selectAlbums
-          : selectAlbums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
       allDisasterResponse: null == allDisasterResponse
           ? _value.allDisasterResponse
           : allDisasterResponse // ignore: cast_nullable_to_non_nullable
@@ -144,10 +232,6 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.disasterCommunityType
           : disasterCommunityType // ignore: cast_nullable_to_non_nullable
               as String,
-      townCommunityType: null == townCommunityType
-          ? _value.townCommunityType
-          : townCommunityType // ignore: cast_nullable_to_non_nullable
-              as String,
       disasterReplyList: null == disasterReplyList
           ? _value.disasterReplyList
           : disasterReplyList // ignore: cast_nullable_to_non_nullable
@@ -156,6 +240,58 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.reporyType
           : reporyType // ignore: cast_nullable_to_non_nullable
               as String,
+      contentDetail: null == contentDetail
+          ? _value.contentDetail
+          : contentDetail // ignore: cast_nullable_to_non_nullable
+              as ContentDetail,
+      contentList: null == contentList
+          ? _value.contentList
+          : contentList // ignore: cast_nullable_to_non_nullable
+              as Set<Content>,
+      townCommunityType: null == townCommunityType
+          ? _value.townCommunityType
+          : townCommunityType // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDongNaeLoading: null == isDongNaeLoading
+          ? _value.isDongNaeLoading
+          : isDongNaeLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDongNaeHasMore: null == isDongNaeHasMore
+          ? _value.isDongNaeHasMore
+          : isDongNaeHasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDongNaeContentEmpty: null == isDongNaeContentEmpty
+          ? _value.isDongNaeContentEmpty
+          : isDongNaeContentEmpty // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectTown: null == selectTown
+          ? _value.selectTown
+          : selectTown // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectLongTownAddress: null == selectLongTownAddress
+          ? _value.selectLongTownAddress
+          : selectLongTownAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      townLongAddressList: null == townLongAddressList
+          ? _value.townLongAddressList
+          : townLongAddressList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      townList: null == townList
+          ? _value.townList
+          : townList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      albums: null == albums
+          ? _value.albums
+          : albums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
+      currentAlbumIndex: null == currentAlbumIndex
+          ? _value.currentAlbumIndex
+          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      selectAlbums: null == selectAlbums
+          ? _value.selectAlbums
+          : selectAlbums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
     ) as $Val);
   }
 }
@@ -170,20 +306,37 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isDisasterScreen,
-      bool isDeleteComplete,
+      int? selectSituaionId,
+      int parentCommentId,
+      dynamic isChildCommentState,
+      int deleteChildCommentId,
+      int editChildCommentId,
+      bool isEditChildCommentState,
+      int deleteCommentId,
+      bool isEditState,
+      int editCommentId,
       String? reportType,
-      List<AlbumModel> albums,
-      int currentAlbumIndex,
-      List<AlbumModel> selectAlbums,
       List<Data> allDisasterResponse,
       List<Data> receivedDisasterResponse,
       int listLength,
       bool isLoading,
       bool isReplyLoading,
       String disasterCommunityType,
-      String townCommunityType,
       List<Reply> disasterReplyList,
-      String reporyType});
+      String reporyType,
+      ContentDetail contentDetail,
+      Set<Content> contentList,
+      String townCommunityType,
+      bool isDongNaeLoading,
+      bool isDongNaeHasMore,
+      bool isDongNaeContentEmpty,
+      String selectTown,
+      String selectLongTownAddress,
+      List<String> townLongAddressList,
+      List<String> townList,
+      List<AlbumModel> albums,
+      int currentAlbumIndex,
+      List<AlbumModel> selectAlbums});
 }
 
 /// @nodoc
@@ -198,46 +351,82 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isDisasterScreen = null,
-    Object? isDeleteComplete = null,
+    Object? selectSituaionId = freezed,
+    Object? parentCommentId = null,
+    Object? isChildCommentState = freezed,
+    Object? deleteChildCommentId = null,
+    Object? editChildCommentId = null,
+    Object? isEditChildCommentState = null,
+    Object? deleteCommentId = null,
+    Object? isEditState = null,
+    Object? editCommentId = null,
     Object? reportType = freezed,
-    Object? albums = null,
-    Object? currentAlbumIndex = null,
-    Object? selectAlbums = null,
     Object? allDisasterResponse = null,
     Object? receivedDisasterResponse = null,
     Object? listLength = null,
     Object? isLoading = null,
     Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
-    Object? townCommunityType = null,
     Object? disasterReplyList = null,
     Object? reporyType = null,
+    Object? contentDetail = null,
+    Object? contentList = null,
+    Object? townCommunityType = null,
+    Object? isDongNaeLoading = null,
+    Object? isDongNaeHasMore = null,
+    Object? isDongNaeContentEmpty = null,
+    Object? selectTown = null,
+    Object? selectLongTownAddress = null,
+    Object? townLongAddressList = null,
+    Object? townList = null,
+    Object? albums = null,
+    Object? currentAlbumIndex = null,
+    Object? selectAlbums = null,
   }) {
     return _then(_$CommunityStateImpl(
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
               as bool,
-      isDeleteComplete: null == isDeleteComplete
-          ? _value.isDeleteComplete
-          : isDeleteComplete // ignore: cast_nullable_to_non_nullable
+      selectSituaionId: freezed == selectSituaionId
+          ? _value.selectSituaionId
+          : selectSituaionId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      parentCommentId: null == parentCommentId
+          ? _value.parentCommentId
+          : parentCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      isChildCommentState: freezed == isChildCommentState
+          ? _value.isChildCommentState!
+          : isChildCommentState,
+      deleteChildCommentId: null == deleteChildCommentId
+          ? _value.deleteChildCommentId
+          : deleteChildCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      editChildCommentId: null == editChildCommentId
+          ? _value.editChildCommentId
+          : editChildCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      isEditChildCommentState: null == isEditChildCommentState
+          ? _value.isEditChildCommentState
+          : isEditChildCommentState // ignore: cast_nullable_to_non_nullable
               as bool,
+      deleteCommentId: null == deleteCommentId
+          ? _value.deleteCommentId
+          : deleteCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      isEditState: null == isEditState
+          ? _value.isEditState
+          : isEditState // ignore: cast_nullable_to_non_nullable
+              as bool,
+      editCommentId: null == editCommentId
+          ? _value.editCommentId
+          : editCommentId // ignore: cast_nullable_to_non_nullable
+              as int,
       reportType: freezed == reportType
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
               as String?,
-      albums: null == albums
-          ? _value._albums
-          : albums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
-      currentAlbumIndex: null == currentAlbumIndex
-          ? _value.currentAlbumIndex
-          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectAlbums: null == selectAlbums
-          ? _value._selectAlbums
-          : selectAlbums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
       allDisasterResponse: null == allDisasterResponse
           ? _value._allDisasterResponse
           : allDisasterResponse // ignore: cast_nullable_to_non_nullable
@@ -262,10 +451,6 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value.disasterCommunityType
           : disasterCommunityType // ignore: cast_nullable_to_non_nullable
               as String,
-      townCommunityType: null == townCommunityType
-          ? _value.townCommunityType
-          : townCommunityType // ignore: cast_nullable_to_non_nullable
-              as String,
       disasterReplyList: null == disasterReplyList
           ? _value._disasterReplyList
           : disasterReplyList // ignore: cast_nullable_to_non_nullable
@@ -274,6 +459,58 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value.reporyType
           : reporyType // ignore: cast_nullable_to_non_nullable
               as String,
+      contentDetail: null == contentDetail
+          ? _value.contentDetail
+          : contentDetail // ignore: cast_nullable_to_non_nullable
+              as ContentDetail,
+      contentList: null == contentList
+          ? _value._contentList
+          : contentList // ignore: cast_nullable_to_non_nullable
+              as Set<Content>,
+      townCommunityType: null == townCommunityType
+          ? _value.townCommunityType
+          : townCommunityType // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDongNaeLoading: null == isDongNaeLoading
+          ? _value.isDongNaeLoading
+          : isDongNaeLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDongNaeHasMore: null == isDongNaeHasMore
+          ? _value.isDongNaeHasMore
+          : isDongNaeHasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDongNaeContentEmpty: null == isDongNaeContentEmpty
+          ? _value.isDongNaeContentEmpty
+          : isDongNaeContentEmpty // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectTown: null == selectTown
+          ? _value.selectTown
+          : selectTown // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectLongTownAddress: null == selectLongTownAddress
+          ? _value.selectLongTownAddress
+          : selectLongTownAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      townLongAddressList: null == townLongAddressList
+          ? _value._townLongAddressList
+          : townLongAddressList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      townList: null == townList
+          ? _value._townList
+          : townList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      albums: null == albums
+          ? _value._albums
+          : albums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
+      currentAlbumIndex: null == currentAlbumIndex
+          ? _value.currentAlbumIndex
+          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      selectAlbums: null == selectAlbums
+          ? _value._selectAlbums
+          : selectAlbums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumModel>,
     ));
   }
 }
@@ -283,59 +520,90 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
 class _$CommunityStateImpl implements _CommunityState {
   _$CommunityStateImpl(
       {this.isDisasterScreen = true,
-      this.isDeleteComplete = false,
+      this.selectSituaionId = null,
+      this.parentCommentId = 0,
+      this.isChildCommentState = false,
+      this.deleteChildCommentId = 0,
+      this.editChildCommentId = 0,
+      this.isEditChildCommentState = false,
+      this.deleteCommentId = 0,
+      this.isEditState = false,
+      this.editCommentId = 0,
       this.reportType = null,
-      final List<AlbumModel> albums = const [],
-      this.currentAlbumIndex = 0,
-      final List<AlbumModel> selectAlbums = const [],
       final List<Data> allDisasterResponse = const [],
       final List<Data> receivedDisasterResponse = const [],
       this.listLength = 0,
       this.isLoading = true,
       this.isReplyLoading = true,
       this.disasterCommunityType = 'all',
-      this.townCommunityType = 'ALL',
       final List<Reply> disasterReplyList = const [],
-      this.reporyType = ''})
-      : _albums = albums,
-        _selectAlbums = selectAlbums,
-        _allDisasterResponse = allDisasterResponse,
+      this.reporyType = '',
+      this.contentDetail = const ContentDetail(),
+      final Set<Content> contentList = const <Content>{},
+      this.townCommunityType = 'ALL',
+      this.isDongNaeLoading = true,
+      this.isDongNaeHasMore = true,
+      this.isDongNaeContentEmpty = true,
+      this.selectTown = '',
+      this.selectLongTownAddress = '',
+      final List<String> townLongAddressList = const [],
+      final List<String> townList = const [],
+      final List<AlbumModel> albums = const [],
+      this.currentAlbumIndex = 0,
+      final List<AlbumModel> selectAlbums = const []})
+      : _allDisasterResponse = allDisasterResponse,
         _receivedDisasterResponse = receivedDisasterResponse,
-        _disasterReplyList = disasterReplyList;
+        _disasterReplyList = disasterReplyList,
+        _contentList = contentList,
+        _townLongAddressList = townLongAddressList,
+        _townList = townList,
+        _albums = albums,
+        _selectAlbums = selectAlbums;
 
+//---------------------------------------------------------
+// 재난상황
+//---------------------------------------------------------
 //현재 보여지는 상태
   @override
   @JsonKey()
   final bool isDisasterScreen;
   @override
   @JsonKey()
-  final bool isDeleteComplete;
+  final int? selectSituaionId;
+//대댓글 작성시 필요한 부모 댓글 id
+  @override
+  @JsonKey()
+  final int parentCommentId;
+//대댓글을 선택한지에 대한 여부
+  @override
+  @JsonKey()
+  final dynamic isChildCommentState;
+//moreinfo를 누를때부터 true로 활성화됨
+  @override
+  @JsonKey()
+  final int deleteChildCommentId;
+  @override
+  @JsonKey()
+  final int editChildCommentId;
+//2
+  @override
+  @JsonKey()
+  final bool isEditChildCommentState;
+//1
+//댓글 삭제를 위해 필요한 데이터
+  @override
+  @JsonKey()
+  final int deleteCommentId;
+//댓글 수정을 위한 상태 데이터
+  @override
+  @JsonKey()
+  final bool isEditState;
+  @override
+  @JsonKey()
+  final int editCommentId;
   @override
   @JsonKey()
   final String? reportType;
-//갤러리 관련 상태 변수
-  final List<AlbumModel> _albums;
-//갤러리 관련 상태 변수
-  @override
-  @JsonKey()
-  List<AlbumModel> get albums {
-    if (_albums is EqualUnmodifiableListView) return _albums;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_albums);
-  }
-
-  @override
-  @JsonKey()
-  final int currentAlbumIndex;
-  final List<AlbumModel> _selectAlbums;
-  @override
-  @JsonKey()
-  List<AlbumModel> get selectAlbums {
-    if (_selectAlbums is EqualUnmodifiableListView) return _selectAlbums;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectAlbums);
-  }
-
 //커뮤니티 유형별 데이터 상태
   final List<Data> _allDisasterResponse;
 //커뮤니티 유형별 데이터 상태
@@ -373,10 +641,6 @@ class _$CommunityStateImpl implements _CommunityState {
   @override
   @JsonKey()
   final String disasterCommunityType;
-//동네생활 커뮤니티 타입
-  @override
-  @JsonKey()
-  final String townCommunityType;
 //재난상황 댓글 상태
   final List<Reply> _disasterReplyList;
 //재난상황 댓글 상태
@@ -393,10 +657,91 @@ class _$CommunityStateImpl implements _CommunityState {
   @override
   @JsonKey()
   final String reporyType;
+//---------------------------------------------------------
+// 동네생활
+//---------------------------------------------------------
+//동네생활 게시글 상세조회
+  @override
+  @JsonKey()
+  final ContentDetail contentDetail;
+//동네생활 컨텐츠 리스트
+  final Set<Content> _contentList;
+//동네생활 컨텐츠 리스트
+  @override
+  @JsonKey()
+  Set<Content> get contentList {
+    if (_contentList is EqualUnmodifiableSetView) return _contentList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_contentList);
+  }
+
+//동네생활 커뮤니티 타입
+  @override
+  @JsonKey()
+  final String townCommunityType;
+//동네생활 로딩 상태
+  @override
+  @JsonKey()
+  final bool isDongNaeLoading;
+//동네생활 컨텐츠 더있는가
+  @override
+  @JsonKey()
+  final bool isDongNaeHasMore;
+  @override
+  @JsonKey()
+  final bool isDongNaeContentEmpty;
+//동네생활 선택한 동네
+  @override
+  @JsonKey()
+  final String selectTown;
+  @override
+  @JsonKey()
+  final String selectLongTownAddress;
+  final List<String> _townLongAddressList;
+  @override
+  @JsonKey()
+  List<String> get townLongAddressList {
+    if (_townLongAddressList is EqualUnmodifiableListView)
+      return _townLongAddressList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_townLongAddressList);
+  }
+
+  final List<String> _townList;
+  @override
+  @JsonKey()
+  List<String> get townList {
+    if (_townList is EqualUnmodifiableListView) return _townList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_townList);
+  }
+
+//갤러리 관련 상태 변수
+  final List<AlbumModel> _albums;
+//갤러리 관련 상태 변수
+  @override
+  @JsonKey()
+  List<AlbumModel> get albums {
+    if (_albums is EqualUnmodifiableListView) return _albums;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_albums);
+  }
+
+  @override
+  @JsonKey()
+  final int currentAlbumIndex;
+  final List<AlbumModel> _selectAlbums;
+  @override
+  @JsonKey()
+  List<AlbumModel> get selectAlbums {
+    if (_selectAlbums is EqualUnmodifiableListView) return _selectAlbums;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectAlbums);
+  }
 
   @override
   String toString() {
-    return 'CommunityState(isDisasterScreen: $isDisasterScreen, isDeleteComplete: $isDeleteComplete, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, townCommunityType: $townCommunityType, disasterReplyList: $disasterReplyList, reporyType: $reporyType)';
+    return 'CommunityState(isDisasterScreen: $isDisasterScreen, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reporyType: $reporyType, contentDetail: $contentDetail, contentList: $contentList, townCommunityType: $townCommunityType, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, isDongNaeContentEmpty: $isDongNaeContentEmpty, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
   }
 
   @override
@@ -406,15 +751,27 @@ class _$CommunityStateImpl implements _CommunityState {
             other is _$CommunityStateImpl &&
             (identical(other.isDisasterScreen, isDisasterScreen) ||
                 other.isDisasterScreen == isDisasterScreen) &&
-            (identical(other.isDeleteComplete, isDeleteComplete) ||
-                other.isDeleteComplete == isDeleteComplete) &&
+            (identical(other.selectSituaionId, selectSituaionId) ||
+                other.selectSituaionId == selectSituaionId) &&
+            (identical(other.parentCommentId, parentCommentId) ||
+                other.parentCommentId == parentCommentId) &&
+            const DeepCollectionEquality()
+                .equals(other.isChildCommentState, isChildCommentState) &&
+            (identical(other.deleteChildCommentId, deleteChildCommentId) ||
+                other.deleteChildCommentId == deleteChildCommentId) &&
+            (identical(other.editChildCommentId, editChildCommentId) ||
+                other.editChildCommentId == editChildCommentId) &&
+            (identical(
+                    other.isEditChildCommentState, isEditChildCommentState) ||
+                other.isEditChildCommentState == isEditChildCommentState) &&
+            (identical(other.deleteCommentId, deleteCommentId) ||
+                other.deleteCommentId == deleteCommentId) &&
+            (identical(other.isEditState, isEditState) ||
+                other.isEditState == isEditState) &&
+            (identical(other.editCommentId, editCommentId) ||
+                other.editCommentId == editCommentId) &&
             (identical(other.reportType, reportType) ||
                 other.reportType == reportType) &&
-            const DeepCollectionEquality().equals(other._albums, _albums) &&
-            (identical(other.currentAlbumIndex, currentAlbumIndex) ||
-                other.currentAlbumIndex == currentAlbumIndex) &&
-            const DeepCollectionEquality()
-                .equals(other._selectAlbums, _selectAlbums) &&
             const DeepCollectionEquality()
                 .equals(other._allDisasterResponse, _allDisasterResponse) &&
             const DeepCollectionEquality().equals(
@@ -427,32 +784,72 @@ class _$CommunityStateImpl implements _CommunityState {
                 other.isReplyLoading == isReplyLoading) &&
             (identical(other.disasterCommunityType, disasterCommunityType) ||
                 other.disasterCommunityType == disasterCommunityType) &&
-            (identical(other.townCommunityType, townCommunityType) ||
-                other.townCommunityType == townCommunityType) &&
             const DeepCollectionEquality()
                 .equals(other._disasterReplyList, _disasterReplyList) &&
             (identical(other.reporyType, reporyType) ||
-                other.reporyType == reporyType));
+                other.reporyType == reporyType) &&
+            (identical(other.contentDetail, contentDetail) ||
+                other.contentDetail == contentDetail) &&
+            const DeepCollectionEquality()
+                .equals(other._contentList, _contentList) &&
+            (identical(other.townCommunityType, townCommunityType) ||
+                other.townCommunityType == townCommunityType) &&
+            (identical(other.isDongNaeLoading, isDongNaeLoading) ||
+                other.isDongNaeLoading == isDongNaeLoading) &&
+            (identical(other.isDongNaeHasMore, isDongNaeHasMore) ||
+                other.isDongNaeHasMore == isDongNaeHasMore) &&
+            (identical(other.isDongNaeContentEmpty, isDongNaeContentEmpty) ||
+                other.isDongNaeContentEmpty == isDongNaeContentEmpty) &&
+            (identical(other.selectTown, selectTown) ||
+                other.selectTown == selectTown) &&
+            (identical(other.selectLongTownAddress, selectLongTownAddress) ||
+                other.selectLongTownAddress == selectLongTownAddress) &&
+            const DeepCollectionEquality()
+                .equals(other._townLongAddressList, _townLongAddressList) &&
+            const DeepCollectionEquality().equals(other._townList, _townList) &&
+            const DeepCollectionEquality().equals(other._albums, _albums) &&
+            (identical(other.currentAlbumIndex, currentAlbumIndex) ||
+                other.currentAlbumIndex == currentAlbumIndex) &&
+            const DeepCollectionEquality()
+                .equals(other._selectAlbums, _selectAlbums));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isDisasterScreen,
-      isDeleteComplete,
-      reportType,
-      const DeepCollectionEquality().hash(_albums),
-      currentAlbumIndex,
-      const DeepCollectionEquality().hash(_selectAlbums),
-      const DeepCollectionEquality().hash(_allDisasterResponse),
-      const DeepCollectionEquality().hash(_receivedDisasterResponse),
-      listLength,
-      isLoading,
-      isReplyLoading,
-      disasterCommunityType,
-      townCommunityType,
-      const DeepCollectionEquality().hash(_disasterReplyList),
-      reporyType);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        isDisasterScreen,
+        selectSituaionId,
+        parentCommentId,
+        const DeepCollectionEquality().hash(isChildCommentState),
+        deleteChildCommentId,
+        editChildCommentId,
+        isEditChildCommentState,
+        deleteCommentId,
+        isEditState,
+        editCommentId,
+        reportType,
+        const DeepCollectionEquality().hash(_allDisasterResponse),
+        const DeepCollectionEquality().hash(_receivedDisasterResponse),
+        listLength,
+        isLoading,
+        isReplyLoading,
+        disasterCommunityType,
+        const DeepCollectionEquality().hash(_disasterReplyList),
+        reporyType,
+        contentDetail,
+        const DeepCollectionEquality().hash(_contentList),
+        townCommunityType,
+        isDongNaeLoading,
+        isDongNaeHasMore,
+        isDongNaeContentEmpty,
+        selectTown,
+        selectLongTownAddress,
+        const DeepCollectionEquality().hash(_townLongAddressList),
+        const DeepCollectionEquality().hash(_townList),
+        const DeepCollectionEquality().hash(_albums),
+        currentAlbumIndex,
+        const DeepCollectionEquality().hash(_selectAlbums)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -465,33 +862,64 @@ class _$CommunityStateImpl implements _CommunityState {
 abstract class _CommunityState implements CommunityState {
   factory _CommunityState(
       {final bool isDisasterScreen,
-      final bool isDeleteComplete,
+      final int? selectSituaionId,
+      final int parentCommentId,
+      final dynamic isChildCommentState,
+      final int deleteChildCommentId,
+      final int editChildCommentId,
+      final bool isEditChildCommentState,
+      final int deleteCommentId,
+      final bool isEditState,
+      final int editCommentId,
       final String? reportType,
-      final List<AlbumModel> albums,
-      final int currentAlbumIndex,
-      final List<AlbumModel> selectAlbums,
       final List<Data> allDisasterResponse,
       final List<Data> receivedDisasterResponse,
       final int listLength,
       final bool isLoading,
       final bool isReplyLoading,
       final String disasterCommunityType,
-      final String townCommunityType,
       final List<Reply> disasterReplyList,
-      final String reporyType}) = _$CommunityStateImpl;
+      final String reporyType,
+      final ContentDetail contentDetail,
+      final Set<Content> contentList,
+      final String townCommunityType,
+      final bool isDongNaeLoading,
+      final bool isDongNaeHasMore,
+      final bool isDongNaeContentEmpty,
+      final String selectTown,
+      final String selectLongTownAddress,
+      final List<String> townLongAddressList,
+      final List<String> townList,
+      final List<AlbumModel> albums,
+      final int currentAlbumIndex,
+      final List<AlbumModel> selectAlbums}) = _$CommunityStateImpl;
 
-  @override //현재 보여지는 상태
+  @override //---------------------------------------------------------
+// 재난상황
+//---------------------------------------------------------
+//현재 보여지는 상태
   bool get isDisasterScreen;
   @override
-  bool get isDeleteComplete;
+  int? get selectSituaionId;
+  @override //대댓글 작성시 필요한 부모 댓글 id
+  int get parentCommentId;
+  @override //대댓글을 선택한지에 대한 여부
+  dynamic get isChildCommentState;
+  @override //moreinfo를 누를때부터 true로 활성화됨
+  int get deleteChildCommentId;
+  @override
+  int get editChildCommentId;
+  @override //2
+  bool get isEditChildCommentState;
+  @override //1
+//댓글 삭제를 위해 필요한 데이터
+  int get deleteCommentId;
+  @override //댓글 수정을 위한 상태 데이터
+  bool get isEditState;
+  @override
+  int get editCommentId;
   @override
   String? get reportType;
-  @override //갤러리 관련 상태 변수
-  List<AlbumModel> get albums;
-  @override
-  int get currentAlbumIndex;
-  @override
-  List<AlbumModel> get selectAlbums;
   @override //커뮤니티 유형별 데이터 상태
   List<Data> get allDisasterResponse;
   @override
@@ -504,12 +932,39 @@ abstract class _CommunityState implements CommunityState {
   bool get isReplyLoading;
   @override //재난상황 커뮤니티 타입
   String get disasterCommunityType;
-  @override //동네생활 커뮤니티 타입
-  String get townCommunityType;
   @override //재난상황 댓글 상태
   List<Reply> get disasterReplyList;
   @override //신고 유형
   String get reporyType;
+  @override //---------------------------------------------------------
+// 동네생활
+//---------------------------------------------------------
+//동네생활 게시글 상세조회
+  ContentDetail get contentDetail;
+  @override //동네생활 컨텐츠 리스트
+  Set<Content> get contentList;
+  @override //동네생활 커뮤니티 타입
+  String get townCommunityType;
+  @override //동네생활 로딩 상태
+  bool get isDongNaeLoading;
+  @override //동네생활 컨텐츠 더있는가
+  bool get isDongNaeHasMore;
+  @override
+  bool get isDongNaeContentEmpty;
+  @override //동네생활 선택한 동네
+  String get selectTown;
+  @override
+  String get selectLongTownAddress;
+  @override
+  List<String> get townLongAddressList;
+  @override
+  List<String> get townList;
+  @override //갤러리 관련 상태 변수
+  List<AlbumModel> get albums;
+  @override
+  int get currentAlbumIndex;
+  @override
+  List<AlbumModel> get selectAlbums;
   @override
   @JsonKey(ignore: true)
   _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>

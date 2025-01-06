@@ -28,7 +28,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingStateNotifierProvider);
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    //bool canProceed = state.nameState == 'NORMAL' && state.nicknameState == 'NORMAL';
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SafeArea(

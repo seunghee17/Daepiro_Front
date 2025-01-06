@@ -55,7 +55,8 @@ class _CommunityService implements CommunityService {
   }
 
   @override
-  Future<DisasterReplyResponse> getDisasterReply() async {
+  Future<DisasterReplyResponse> getDisasterReply(
+      {required String situationId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -67,7 +68,7 @@ class _CommunityService implements CommunityService {
     )
         .compose(
           _dio.options,
-          '/v1/disastersituations/comments/1032',
+          '/v1/disastersituations/comments/${situationId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -88,7 +89,43 @@ class _CommunityService implements CommunityService {
   }
 
   @override
-  Future<DeleteReplyResponse> deleteReply({required int commentId}) async {
+  Future<CommunityCommentPostResponse> setComment(
+      {required CommunityCommentPostRequest
+          communityCommentPostRequest}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(communityCommentPostRequest.toJson());
+    final _options = _setStreamType<CommunityCommentPostResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/comments',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityCommentPostResponse _value;
+    try {
+      _value = CommunityCommentPostResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<DeleteReplyResponse> deleteReply({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -100,7 +137,7 @@ class _CommunityService implements CommunityService {
     )
         .compose(
           _dio.options,
-          '/v1/disastersituations/comments/${commentId}',
+          '/v1/comments/${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -122,7 +159,7 @@ class _CommunityService implements CommunityService {
 
   @override
   Future<CommunityDisasterEditResponse> editReply({
-    required int commentId,
+    required int id,
     required CommunityDisasterEditRequest communityDisasterEditRequest,
   }) async {
     final _extra = <String, dynamic>{};
@@ -137,7 +174,7 @@ class _CommunityService implements CommunityService {
     )
         .compose(
           _dio.options,
-          '/v1/disastersituations/comments/${commentId}',
+          '/v1/comments/${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -150,6 +187,160 @@ class _CommunityService implements CommunityService {
     late CommunityDisasterEditResponse _value;
     try {
       _value = CommunityDisasterEditResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CommunityDongnaeContentResponse> dongNaeContent({
+    required String type,
+    String? category,
+    required String status,
+    required String address,
+    required int page,
+    required int size,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'type': type,
+      r'category': category,
+      r'status': status,
+      r'address': address,
+      r'page': page,
+      r'size': size,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CommunityDongnaeContentResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/articles',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityDongnaeContentResponse _value;
+    try {
+      _value = CommunityDongnaeContentResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CommunityDongNaeDetailContentResponse> dongNaeDetailContent(
+      {required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options =
+        _setStreamType<CommunityDongNaeDetailContentResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/v1/articles/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityDongNaeDetailContentResponse _value;
+    try {
+      _value = CommunityDongNaeDetailContentResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CommunityReplyLikeResponse> communityReplyLike(
+      {required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CommunityReplyLikeResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/comments/${id}/like',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityReplyLikeResponse _value;
+    try {
+      _value = CommunityReplyLikeResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CommunityReplyReportResponse> communityReplyReport({
+    required int id,
+    required CommunityReplyReportRequest communityReplyReportRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(communityReplyReportRequest.toJson());
+    final _options = _setStreamType<CommunityReplyReportResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/comments/${id}/report',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityReplyReportResponse _value;
+    try {
+      _value = CommunityReplyReportResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

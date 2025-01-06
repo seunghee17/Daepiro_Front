@@ -14,6 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
+import '../presentation/community/screens/town/community_town_writing_screen.dart';
 import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
@@ -60,7 +61,6 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 final goRouteProvider = Provider((ref) {
   return GoRouter(
      initialLocation: '/splash',
-    //initialLocation: '/home',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -91,6 +91,10 @@ final goRouteProvider = Provider((ref) {
       GoRoute(
           path: '/community_report_screen',
           builder: (context, state) => CommunityReportScreen()
+      ),
+      GoRoute(
+          path: '/community_town_writing',
+        builder: (context, state) => CommunityTownWritingScreen()
       ),
       GoRoute(
           path: '/onboarding',
@@ -137,7 +141,6 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                     path: '/home',
-                    // builder: (context, state) => const HomeScreen(), 왜안되지
                     builder: (context, state) => HomeScreen(),
                     routes: [
                       GoRoute(
@@ -161,7 +164,7 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                   path: '/community',
-                  builder: (context, state) => const CommunityMainScreen(),
+                  builder: (context, state) => const CommunityMainScreen()
                 ),
               ],
             ),
