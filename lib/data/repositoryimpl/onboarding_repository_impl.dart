@@ -33,12 +33,13 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   @override
   Future<List<StoreAdress>> getUserAddress() async {
     try {
-      final addressResponse = await _service.getUserAddress();
-      if(addressResponse.data != null) {
-        return addressResponse.data ?? [];
-      } else {
-        return [];
-      }
+      // final addressResponse = await _service.getUserAddress();
+      // if(addressResponse.data != null) {
+      //   return addressResponse.data ?? [];
+      // } else {
+      //   return [];
+      // }
+      return[];
     } catch (e) {
       print('사용자 주소 정보 가져오는중 오류 발생');
       rethrow;

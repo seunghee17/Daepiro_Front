@@ -65,6 +65,8 @@ dependencies:
 
   #디바이스 버전 확인용
   device_info_plus: ^11.2.0
+  flutter_local_notifications: ^18.0.1
+  sign_in_with_apple: ^6.1.4
 
 
 dev_dependencies:

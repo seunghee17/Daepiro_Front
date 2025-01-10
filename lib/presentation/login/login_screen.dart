@@ -28,7 +28,9 @@ class LoginScreen extends ConsumerWidget {
               return PermissionScreen(
                 onPermissionCheck: () async {
                   GoRouter.of(context).pop();
-                  var locationGrant = await ref.read(loginStateNotifierProvider.notifier).checkLocationPermission();
+                  var locationGrant = await ref
+                      .read(loginStateNotifierProvider.notifier)
+                      .checkLocationPermission();
                   if (!locationGrant) {
                     locationDialog(context, ref);
                   } else {
@@ -61,9 +63,9 @@ class LoginScreen extends ConsumerWidget {
                       SizedBox(height: 8),
                       Flexible(
                           child: SvgPicture.asset(
-                            'assets/icons/icon_logo_small.svg',
-                            height: 48,
-                          ))
+                        'assets/icons/icon_logo_small.svg',
+                        height: 48,
+                      ))
                     ],
                   ),
                 ),
@@ -76,18 +78,20 @@ class LoginScreen extends ConsumerWidget {
                 children: [
                   LoginButton(
                     Color(0xFFFAE300),
-                        () async {
-                      String token = await ref.read(loginStateNotifierProvider.notifier).kakaoLogin();
-                      await ref.read(loginStateNotifierProvider.notifier).fetchSocialToken('kakao', token);
+                    () async {
+                      await ref
+                          .read(loginStateNotifierProvider.notifier)
+                          .kakaoLogin();
                     },
                     KakaoWidget(),
                   ),
                   SizedBox(height: 8),
                   LoginButton(
                     Color(0xFF03C75A),
-                        () async {
-                      String token = await ref.read(loginStateNotifierProvider.notifier).naverLogin();
-                      await ref.read(loginStateNotifierProvider.notifier).fetchSocialToken('naver', token);
+                    () async {
+                      await ref
+                          .read(loginStateNotifierProvider.notifier)
+                          .naverLogin();
                     },
                     NaverWidget(),
                   ),
@@ -95,8 +99,11 @@ class LoginScreen extends ConsumerWidget {
                   if (Platform.isIOS)
                     Column(
                       children: [
-                        LoginButton(DaepiroColorStyle.black, () async {},
-                            AppleWidget()),
+                        LoginButton(DaepiroColorStyle.black, () async {
+                          await ref
+                              .read(loginStateNotifierProvider.notifier)
+                              .appleLogin();
+                        }, AppleWidget()),
                         SizedBox(height: 41)
                       ],
                     )

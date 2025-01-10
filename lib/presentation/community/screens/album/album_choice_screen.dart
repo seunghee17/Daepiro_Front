@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,13 +11,13 @@ class AlbumChoiceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(communityDisasterProvider);
+    final state = ref.watch(communityTownProvider);
     return Scaffold(
       body: ListView.builder(
         itemCount: state.albums.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
-              ref.read(communityDisasterProvider.notifier).setCurrentAlbumIndex(index);
+              ref.read(communityTownProvider.notifier).setCurrentAlbumIndex(index);
               GoRouter.of(context).go('/album_screen');
             },
             child: Row(

@@ -33,7 +33,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
 
     if (state.deleteCommentId != 0 && !state.isChildCommentState) {
       Future.delayed(const Duration(seconds: 5), () async {
-        if (state.deleteCommentId != 0 ) {
+        if (state.deleteCommentId != 0) {
           await ref.read(communityDisasterProvider.notifier).deleteReply();
         }
       });
@@ -41,7 +41,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
 
     if (state.deleteChildCommentId != 0 && state.isChildCommentState) {
       Future.delayed(const Duration(seconds: 5), () async {
-        if (state.deleteChildCommentId != 0 ) {
+        if (state.deleteChildCommentId != 0) {
           await ref.read(communityDisasterProvider.notifier).deleteReply();
         }
       });
@@ -50,7 +50,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     if (state.isEditState) {
       //일반 댓글 편집 상태임
       focusNode.requestFocus();
-    } else if(state.editChildCommentId != 0) {
+    } else if (state.editChildCommentId != 0) {
       focusNode.requestFocus();
     }
 
@@ -101,27 +101,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: state.isEditState
-                  ? footerWidget(
-                      replyController,
-                      widget.situationId ?? 0,
-                      state.isEditState,
-                      state.editCommentId,
-                      focusNode,
-                      state.parentCommentId,
-                      state.isChildCommentState,
-                      state.isEditChildCommentState,
-                    )
-                  : footerWidget(
-                      replyController,
-                      widget.situationId ?? 0,
-                      state.isEditState,
-                      null,
-                      focusNode,
-                      state.parentCommentId,
-                      state.isChildCommentState,
-                      state.isEditChildCommentState,
-                    )),
+              child: footerWidget(
+                replyController,
+                widget.situationId ?? 0,
+                state.isEditState,
+                focusNode,
+                state.parentCommentId,
+                state.isChildCommentState,
+                state.isEditChildCommentState,
+              ))
         ],
       ),
     );
@@ -262,10 +250,11 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 SizedBox(width: 6),
                 Visibility(
                   visible: reply.isModified ?? false,
-                    child: Text('수정됨 · ',
-                      style: DaepiroTextStyle.caption
-                          .copyWith(color: DaepiroColorStyle.g_300),
-                    ),
+                  child: Text(
+                    '수정됨 · ',
+                    style: DaepiroTextStyle.caption
+                        .copyWith(color: DaepiroColorStyle.g_300),
+                  ),
                 ),
                 Text(
                   ref
@@ -277,7 +266,8 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 Spacer(),
                 GestureDetector(
                   onTap: () {
-                    goToAdditional(context, reply.isMine!, reply.id!, ref, isChildCommentState);
+                    goToAdditional(context, reply.isMine!, reply.id!, ref,
+                        isChildCommentState);
                   },
                   child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
                       colorFilter: ColorFilter.mode(
@@ -306,7 +296,9 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                     onTap: () {
                       //답글 쓰기 클릭시 로직
                       //parentid 지정
-                      ref.read(communityDisasterProvider.notifier).setChildCommentState(true);
+                      ref
+                          .read(communityDisasterProvider.notifier)
+                          .setChildCommentState(true);
                       ref
                           .read(communityDisasterProvider.notifier)
                           .setParentCommentId(reply.id!);
@@ -468,7 +460,6 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       TextEditingController controller,
       int articleId,
       bool isEditState,
-      int? id,
       FocusNode replyFocusNode,
       int parentCommentId,
       bool isChildCommentState,
@@ -754,9 +745,9 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       .read(communityDisasterProvider.notifier)
                       .setDeleteState(commentId),
                   setChildCommentState: () => ref
-                  .read(communityDisasterProvider.notifier).setChildCommentState(false),
-                  isChildCommentState: isChildCommentState
-              ));
+                      .read(communityDisasterProvider.notifier)
+                      .setChildCommentState(false),
+                  isChildCommentState: isChildCommentState));
         });
   }
 }

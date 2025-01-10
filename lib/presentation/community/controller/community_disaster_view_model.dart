@@ -2,7 +2,7 @@ import 'package:daepiro/data/model/request/community_comment_post_request.dart';
 import 'package:daepiro/domain/usecase/community/community_disaster_edit_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_disaster_reply_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_reply_like_usecase.dart';
-import 'package:daepiro/presentation/community/state/community_state.dart';
+import 'package:daepiro/presentation/community/state/community_disaster_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 import '../../../data/model/request/album_model.dart';
@@ -13,14 +13,15 @@ import '../../../domain/usecase/community/community_disaster_received_usecase.da
 import '../../../domain/usecase/community/community_disaster_usecase.dart';
 
 final communityDisasterProvider =
-    StateNotifierProvider<CommunityDisasterViewModel, CommunityState>((ref) {
+    StateNotifierProvider<CommunityDisasterViewModel, CommunityDisasterState>(
+        (ref) {
   return CommunityDisasterViewModel(ref);
 });
 
-class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
+class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
   final Ref ref;
 
-  CommunityDisasterViewModel(this.ref) : super(CommunityState()) {
+  CommunityDisasterViewModel(this.ref) : super(CommunityDisasterState()) {
     _initState();
   }
 
@@ -37,54 +38,9 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
 
   void changeScreenState(bool isdisasterScreen) {
     state = state.copyWith(isDisasterScreen: isdisasterScreen);
-    if(state.isDisasterScreen) {
+    if (state.isDisasterScreen) {
       reloadData();
     }
-  }
-
-  //이미지 접근권한 확인
-  Future<void> checkPermission() async {
-    await PhotoManager.requestPermissionExtend().then((ps) {
-      if (ps.isAuth) {
-        getAlbums();
-      } else {
-        PhotoManager.openSetting();
-      }
-    });
-  }
-
-  Future<void> getAlbums() async {
-    try {
-      List<AlbumModel> newAlbums = [];
-      var paths = await PhotoManager.getAssetPathList(type: RequestType.image);
-      for (var asset in paths) {
-        var images = await asset.getAssetListRange(start: 0, end: 10000);
-        if (images.isNotEmpty) {
-          var album =
-              AlbumModel(id: asset.id, name: asset.name, images: images);
-          newAlbums.add(album);
-        }
-      }
-      state = state.copyWith(albums: newAlbums);
-    } catch (e) {
-      print('에러 발생 $e');
-    }
-  }
-
-  void addSelectedAlbum(AlbumModel photo) {
-    if (!state.selectAlbums.contains(photo)) {
-      state = state.copyWith(selectAlbums: [...state.selectAlbums, photo]);
-    }
-  }
-
-  void deselectPhoto(AlbumModel photo) {
-    state = state.copyWith(
-        selectAlbums:
-            state.selectAlbums.where((p) => p.id != photo.id).toList());
-  }
-
-  void setCurrentAlbumIndex(int index) {
-    state = state.copyWith(currentAlbumIndex: index);
   }
 
   Future<void> getAllDisasterResponse() async {
@@ -210,23 +166,23 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
   Future<void> setReplyComment(String message, int parentCommentId) async {
     await ref
         .read(communityCommentWriteUseCaseProvider(CommunityCommentWriteUsecase(
-        communityCommentPostRequest: CommunityCommentPostRequest(
-          body: message,
-          parentCommentId: parentCommentId,
-          articleId: state.selectSituaionId,
-        ))).future);
+            communityCommentPostRequest: CommunityCommentPostRequest(
+      body: message,
+      parentCommentId: parentCommentId,
+      articleId: state.selectSituaionId,
+    ))).future);
     await reloadData();
   }
 
   Future<void> deleteReply() async {
-    if(state.isChildCommentState && state.deleteChildCommentId!=0) {
+    if (state.isChildCommentState && state.deleteChildCommentId != 0) {
       //대댓글을 삭제하려고함
       await ref.read(getDisasterDeleteUseCaseProvider(
-          CommunityDisasterDeleteUsecase(id: state.deleteChildCommentId))
+              CommunityDisasterDeleteUsecase(id: state.deleteChildCommentId))
           .future);
-    } else if(state.deleteCommentId !=0) {
+    } else if (state.deleteCommentId != 0) {
       await ref.read(getDisasterDeleteUseCaseProvider(
-          CommunityDisasterDeleteUsecase(id: state.deleteCommentId))
+              CommunityDisasterDeleteUsecase(id: state.deleteCommentId))
           .future);
     }
     setDeleteState(0);
@@ -234,29 +190,30 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
   }
 
   Future<void> editReply(String body) async {
-    if(state.isChildCommentState) {
+    if (state.isChildCommentState) {
       await ref.read(getCommunityDisasterEditUseCaseProvider(
-          CommunityDisasterEditUsecase(
-              id: state.editChildCommentId,
-              communityDisasterEditRequest: CommunityDisasterEditRequest(body: body)))
+              CommunityDisasterEditUsecase(
+                  id: state.editChildCommentId,
+                  communityDisasterEditRequest:
+                      CommunityDisasterEditRequest(body: body)))
           .future);
     } else {
       await ref.read(getCommunityDisasterEditUseCaseProvider(
-          CommunityDisasterEditUsecase(
-              id: state.editCommentId,
-              communityDisasterEditRequest:
-              CommunityDisasterEditRequest(body: body)))
+              CommunityDisasterEditUsecase(
+                  id: state.editCommentId,
+                  communityDisasterEditRequest:
+                      CommunityDisasterEditRequest(body: body)))
           .future);
     }
     await reloadData();
   }
 
   void setDeleteState(int commentId) {
-    if(state.isChildCommentState) {
+    if (state.isChildCommentState) {
       state = state.copyWith(
         deleteChildCommentId: commentId,
       );
-      if(commentId ==0) {
+      if (commentId == 0) {
         //삭제를 취소하려는 동작임
         state = state.copyWith(
           isChildCommentState: false,
@@ -270,7 +227,7 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
   }
 
   void setEditState(bool value) {
-    if(state.isChildCommentState) {
+    if (state.isChildCommentState) {
       state = state.copyWith(
         isEditChildCommentState: value,
       );
@@ -282,7 +239,7 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityState> {
   }
 
   void setReplyId(int commentId) {
-    if(state.isChildCommentState) {
+    if (state.isChildCommentState) {
       state = state.copyWith(editChildCommentId: commentId);
     } else {
       state = state.copyWith(editCommentId: commentId);

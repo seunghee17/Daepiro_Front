@@ -1,21 +1,17 @@
 import 'package:daepiro/data/model/response/disaster_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../data/model/request/album_model.dart';
-import '../../../data/model/response/community_dongnae_content_detail_response.dart';
-import '../../../data/model/response/community_dongnae_content_response.dart';
 import '../../../data/model/response/disaster_reply_response.dart';
 
-part 'community_state.freezed.dart';
+part 'community_disaster_state.freezed.dart';
 
 @freezed
-sealed class CommunityState with _$CommunityState {
-  factory CommunityState({
+sealed class CommunityDisasterState with _$CommunityDisasterState {
+  factory CommunityDisasterState({
 //---------------------------------------------------------
 // 재난상황
 //---------------------------------------------------------
     //현재 보여지는 상태
     @Default(true) bool isDisasterScreen,
-
     @Default(null) int? selectSituaionId,
 
     //대댓글 작성시 필요한 부모 댓글 id
@@ -53,34 +49,5 @@ sealed class CommunityState with _$CommunityState {
 
     //신고 유형
     @Default('') String reporyType,
-
-//---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
-    //동네생활 게시글 상세조회
-    @Default(ContentDetail()) ContentDetail contentDetail,
-
-    //동네생활 컨텐츠 리스트
-    @Default(<Content>{}) Set<Content> contentList,
-    //동네생활 커뮤니티 타입
-    @Default('ALL') String townCommunityType,
-    //동네생활 로딩 상태
-    @Default(true) bool isDongNaeLoading,
-    //동네생활 컨텐츠 더있는가
-    @Default(true) bool isDongNaeHasMore,
-    @Default(true) bool isDongNaeContentEmpty,
-    //동네생활 선택한 동네
-    @Default('') String selectTown,
-    @Default('') String selectLongTownAddress,
-    @Default([]) List<String> townLongAddressList,
-    @Default([]) List<String> townList,
-
-
-
-    //갤러리 관련 상태 변수
-    @Default([]) List<AlbumModel> albums,
-    @Default(0) int currentAlbumIndex,
-    @Default([]) List<AlbumModel> selectAlbums,
-
-  }) = _CommunityState;
+  }) = _CommunityDisasterState;
 }

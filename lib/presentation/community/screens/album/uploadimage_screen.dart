@@ -1,4 +1,5 @@
 import 'package:daepiro/cmm/DaepiroTheme.dart';
+import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +20,7 @@ class Uploadimage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext contextm, WidgetRef ref) {
-    final state = ref.watch(communityDisasterProvider);
+    final state = ref.watch(communityTownProvider);
     return Stack(
       children: [
         AssetEntityImage(entity, fit: fit, isOriginal: false),
@@ -37,13 +38,13 @@ class Uploadimage extends ConsumerWidget {
                   }
                   return null;
                 }),
-                value: ref.watch(communityDisasterProvider.select((state) =>
+                value: ref.watch(communityTownProvider.select((state) =>
                     state.selectAlbums.contains(photo))),
                 onChanged: (bool? value) {
                   if (value == true && state.selectAlbums.length <= 3) {
-                    ref.read(communityDisasterProvider.notifier).addSelectedAlbum(photo);
+                    ref.read(communityTownProvider.notifier).addSelectedAlbum(photo);
                   } else {
-                    ref.read(communityDisasterProvider.notifier).deselectPhoto(photo);
+                    ref.read(communityTownProvider.notifier).deselectPhoto(photo);
                   }
                 }
             )
@@ -58,7 +59,7 @@ class AlbumScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(communityDisasterProvider);
+    final state = ref.watch(communityTownProvider);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

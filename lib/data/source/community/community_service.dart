@@ -12,6 +12,7 @@ import '../../model/response/community_dongnae_content_detail_response.dart';
 import '../../model/response/community_dongnae_content_response.dart';
 import '../../model/response/community_reply_like_response.dart';
 import '../../model/response/community_reply_report_response.dart';
+import '../../model/response/community_town_like_response.dart';
 import '../../model/response/disaster_reply_delete_response.dart';
 import '../../model/response/disaster_response.dart';
 
@@ -68,4 +69,8 @@ abstract class CommunityService {
       {@Path('id') required int id,
       @Body()
       required CommunityReplyReportRequest communityReplyReportRequest});
+
+  //게시글 좋아요
+  @PUT('/v1/articles/{id}/like')
+  Future<CommunityTownLikeResponse> communityTown({ @Path('id') required int id});
 }

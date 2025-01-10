@@ -25,49 +25,52 @@ class CommunityTownScreen extends ConsumerWidget {
     final scrollController = ScrollController();
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
         final viewModel = ref.read(communityTownProvider.notifier);
         if (state.isDongNaeHasMore && !state.isDongNaeLoading) {
-          viewModel.loadContent(state.townCommunityType);
+          viewModel.loadContent();
         }
       }
     });
 
     return Scaffold(
-        body: SingleChildScrollView(
-          controller: scrollController,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                GestureDetector(
+      body: SingleChildScrollView(
+        controller: scrollController,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              GestureDetector(
                   onTap: () {
                     GoRouter.of(context).push('/community_rule');
                   },
                   child: ruleContainer()),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: typeRadioButton(state.townCommunityType, ref)),
-                if(state.isDongNaeContentEmpty && !state.isDongNaeLoading)
-                  //없을때 로직
-                  Container()
-                else
-                  ...state.contentList.map((content) {
-                    return listItemWidget(() async {
-                      await ref.read(communityTownProvider.notifier).getContentDetail(content.id!);
-                      GoRouter.of(context).push('/community_town_detail');
-                    }, content, ref);
-                  }).toList(),
-                if(state.isDongNaeLoading)
-                  Center(
-                    child: CircularProgressIndicator(),
-                  )
-              ],
-            ),
+              if (state.isDongNaeContentEmpty && !state.isDongNaeLoading)
+                //없을때 로직
+                Container()
+              else
+                ...state.contentList.map((content) {
+                  return listItemWidget(() async {
+                    await ref
+                        .read(communityTownProvider.notifier)
+                        .getContentDetail(content.id!);
+                    GoRouter.of(context).push('/community_town_detail');
+                  }, content, ref);
+                }).toList(),
+              if (state.isDongNaeLoading)
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+            ],
           ),
         ),
+      ),
     );
   }
 
@@ -148,11 +151,7 @@ class CommunityTownScreen extends ConsumerWidget {
   }
 
   //리스트 아이템 위젯
-  Widget listItemWidget(
-    VoidCallback event,
-      Content content,
-      WidgetRef ref
-  ) {
+  Widget listItemWidget(VoidCallback event, Content content, WidgetRef ref) {
     return GestureDetector(
       onTap: event,
       child: Padding(
@@ -200,7 +199,9 @@ class CommunityTownScreen extends ConsumerWidget {
                     ),
                     SizedBox(width: 6),
                     Text(
-                        ref.read(communityTownProvider.notifier).parseCommentTime(content.createdAt ?? ''),
+                        ref
+                            .read(communityTownProvider.notifier)
+                            .parseCommentTime(content.createdAt ?? ''),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300)),
                     Spacer(),

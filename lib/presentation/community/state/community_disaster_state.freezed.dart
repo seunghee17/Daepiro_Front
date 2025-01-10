@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'community_state.dart';
+part of 'community_disaster_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CommunityState {
+mixin _$CommunityDisasterState {
 //---------------------------------------------------------
 // 재난상황
 //---------------------------------------------------------
@@ -46,41 +46,18 @@ mixin _$CommunityState {
       throw _privateConstructorUsedError; //재난상황 댓글 상태
   List<Reply> get disasterReplyList =>
       throw _privateConstructorUsedError; //신고 유형
-  String get reporyType =>
-      throw _privateConstructorUsedError; //---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
-//동네생활 게시글 상세조회
-  ContentDetail get contentDetail =>
-      throw _privateConstructorUsedError; //동네생활 컨텐츠 리스트
-  Set<Content> get contentList =>
-      throw _privateConstructorUsedError; //동네생활 커뮤니티 타입
-  String get townCommunityType =>
-      throw _privateConstructorUsedError; //동네생활 로딩 상태
-  bool get isDongNaeLoading =>
-      throw _privateConstructorUsedError; //동네생활 컨텐츠 더있는가
-  bool get isDongNaeHasMore => throw _privateConstructorUsedError;
-  bool get isDongNaeContentEmpty =>
-      throw _privateConstructorUsedError; //동네생활 선택한 동네
-  String get selectTown => throw _privateConstructorUsedError;
-  String get selectLongTownAddress => throw _privateConstructorUsedError;
-  List<String> get townLongAddressList => throw _privateConstructorUsedError;
-  List<String> get townList =>
-      throw _privateConstructorUsedError; //갤러리 관련 상태 변수
-  List<AlbumModel> get albums => throw _privateConstructorUsedError;
-  int get currentAlbumIndex => throw _privateConstructorUsedError;
-  List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
+  String get reporyType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CommunityStateCopyWith<CommunityState> get copyWith =>
+  $CommunityDisasterStateCopyWith<CommunityDisasterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CommunityStateCopyWith<$Res> {
-  factory $CommunityStateCopyWith(
-          CommunityState value, $Res Function(CommunityState) then) =
-      _$CommunityStateCopyWithImpl<$Res, CommunityState>;
+abstract class $CommunityDisasterStateCopyWith<$Res> {
+  factory $CommunityDisasterStateCopyWith(CommunityDisasterState value,
+          $Res Function(CommunityDisasterState) then) =
+      _$CommunityDisasterStateCopyWithImpl<$Res, CommunityDisasterState>;
   @useResult
   $Res call(
       {bool isDisasterScreen,
@@ -101,26 +78,14 @@ abstract class $CommunityStateCopyWith<$Res> {
       bool isReplyLoading,
       String disasterCommunityType,
       List<Reply> disasterReplyList,
-      String reporyType,
-      ContentDetail contentDetail,
-      Set<Content> contentList,
-      String townCommunityType,
-      bool isDongNaeLoading,
-      bool isDongNaeHasMore,
-      bool isDongNaeContentEmpty,
-      String selectTown,
-      String selectLongTownAddress,
-      List<String> townLongAddressList,
-      List<String> townList,
-      List<AlbumModel> albums,
-      int currentAlbumIndex,
-      List<AlbumModel> selectAlbums});
+      String reporyType});
 }
 
 /// @nodoc
-class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
-    implements $CommunityStateCopyWith<$Res> {
-  _$CommunityStateCopyWithImpl(this._value, this._then);
+class _$CommunityDisasterStateCopyWithImpl<$Res,
+        $Val extends CommunityDisasterState>
+    implements $CommunityDisasterStateCopyWith<$Res> {
+  _$CommunityDisasterStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -149,19 +114,6 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
     Object? disasterCommunityType = null,
     Object? disasterReplyList = null,
     Object? reporyType = null,
-    Object? contentDetail = null,
-    Object? contentList = null,
-    Object? townCommunityType = null,
-    Object? isDongNaeLoading = null,
-    Object? isDongNaeHasMore = null,
-    Object? isDongNaeContentEmpty = null,
-    Object? selectTown = null,
-    Object? selectLongTownAddress = null,
-    Object? townLongAddressList = null,
-    Object? townList = null,
-    Object? albums = null,
-    Object? currentAlbumIndex = null,
-    Object? selectAlbums = null,
   }) {
     return _then(_value.copyWith(
       isDisasterScreen: null == isDisasterScreen
@@ -240,68 +192,17 @@ class _$CommunityStateCopyWithImpl<$Res, $Val extends CommunityState>
           ? _value.reporyType
           : reporyType // ignore: cast_nullable_to_non_nullable
               as String,
-      contentDetail: null == contentDetail
-          ? _value.contentDetail
-          : contentDetail // ignore: cast_nullable_to_non_nullable
-              as ContentDetail,
-      contentList: null == contentList
-          ? _value.contentList
-          : contentList // ignore: cast_nullable_to_non_nullable
-              as Set<Content>,
-      townCommunityType: null == townCommunityType
-          ? _value.townCommunityType
-          : townCommunityType // ignore: cast_nullable_to_non_nullable
-              as String,
-      isDongNaeLoading: null == isDongNaeLoading
-          ? _value.isDongNaeLoading
-          : isDongNaeLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDongNaeHasMore: null == isDongNaeHasMore
-          ? _value.isDongNaeHasMore
-          : isDongNaeHasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDongNaeContentEmpty: null == isDongNaeContentEmpty
-          ? _value.isDongNaeContentEmpty
-          : isDongNaeContentEmpty // ignore: cast_nullable_to_non_nullable
-              as bool,
-      selectTown: null == selectTown
-          ? _value.selectTown
-          : selectTown // ignore: cast_nullable_to_non_nullable
-              as String,
-      selectLongTownAddress: null == selectLongTownAddress
-          ? _value.selectLongTownAddress
-          : selectLongTownAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      townLongAddressList: null == townLongAddressList
-          ? _value.townLongAddressList
-          : townLongAddressList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      townList: null == townList
-          ? _value.townList
-          : townList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      albums: null == albums
-          ? _value.albums
-          : albums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
-      currentAlbumIndex: null == currentAlbumIndex
-          ? _value.currentAlbumIndex
-          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectAlbums: null == selectAlbums
-          ? _value.selectAlbums
-          : selectAlbums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$CommunityStateImplCopyWith<$Res>
-    implements $CommunityStateCopyWith<$Res> {
-  factory _$$CommunityStateImplCopyWith(_$CommunityStateImpl value,
-          $Res Function(_$CommunityStateImpl) then) =
-      __$$CommunityStateImplCopyWithImpl<$Res>;
+abstract class _$$CommunityDisasterStateImplCopyWith<$Res>
+    implements $CommunityDisasterStateCopyWith<$Res> {
+  factory _$$CommunityDisasterStateImplCopyWith(
+          _$CommunityDisasterStateImpl value,
+          $Res Function(_$CommunityDisasterStateImpl) then) =
+      __$$CommunityDisasterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -323,28 +224,17 @@ abstract class _$$CommunityStateImplCopyWith<$Res>
       bool isReplyLoading,
       String disasterCommunityType,
       List<Reply> disasterReplyList,
-      String reporyType,
-      ContentDetail contentDetail,
-      Set<Content> contentList,
-      String townCommunityType,
-      bool isDongNaeLoading,
-      bool isDongNaeHasMore,
-      bool isDongNaeContentEmpty,
-      String selectTown,
-      String selectLongTownAddress,
-      List<String> townLongAddressList,
-      List<String> townList,
-      List<AlbumModel> albums,
-      int currentAlbumIndex,
-      List<AlbumModel> selectAlbums});
+      String reporyType});
 }
 
 /// @nodoc
-class __$$CommunityStateImplCopyWithImpl<$Res>
-    extends _$CommunityStateCopyWithImpl<$Res, _$CommunityStateImpl>
-    implements _$$CommunityStateImplCopyWith<$Res> {
-  __$$CommunityStateImplCopyWithImpl(
-      _$CommunityStateImpl _value, $Res Function(_$CommunityStateImpl) _then)
+class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
+    extends _$CommunityDisasterStateCopyWithImpl<$Res,
+        _$CommunityDisasterStateImpl>
+    implements _$$CommunityDisasterStateImplCopyWith<$Res> {
+  __$$CommunityDisasterStateImplCopyWithImpl(
+      _$CommunityDisasterStateImpl _value,
+      $Res Function(_$CommunityDisasterStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -369,21 +259,8 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
     Object? disasterCommunityType = null,
     Object? disasterReplyList = null,
     Object? reporyType = null,
-    Object? contentDetail = null,
-    Object? contentList = null,
-    Object? townCommunityType = null,
-    Object? isDongNaeLoading = null,
-    Object? isDongNaeHasMore = null,
-    Object? isDongNaeContentEmpty = null,
-    Object? selectTown = null,
-    Object? selectLongTownAddress = null,
-    Object? townLongAddressList = null,
-    Object? townList = null,
-    Object? albums = null,
-    Object? currentAlbumIndex = null,
-    Object? selectAlbums = null,
   }) {
-    return _then(_$CommunityStateImpl(
+    return _then(_$CommunityDisasterStateImpl(
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
@@ -459,66 +336,14 @@ class __$$CommunityStateImplCopyWithImpl<$Res>
           ? _value.reporyType
           : reporyType // ignore: cast_nullable_to_non_nullable
               as String,
-      contentDetail: null == contentDetail
-          ? _value.contentDetail
-          : contentDetail // ignore: cast_nullable_to_non_nullable
-              as ContentDetail,
-      contentList: null == contentList
-          ? _value._contentList
-          : contentList // ignore: cast_nullable_to_non_nullable
-              as Set<Content>,
-      townCommunityType: null == townCommunityType
-          ? _value.townCommunityType
-          : townCommunityType // ignore: cast_nullable_to_non_nullable
-              as String,
-      isDongNaeLoading: null == isDongNaeLoading
-          ? _value.isDongNaeLoading
-          : isDongNaeLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDongNaeHasMore: null == isDongNaeHasMore
-          ? _value.isDongNaeHasMore
-          : isDongNaeHasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDongNaeContentEmpty: null == isDongNaeContentEmpty
-          ? _value.isDongNaeContentEmpty
-          : isDongNaeContentEmpty // ignore: cast_nullable_to_non_nullable
-              as bool,
-      selectTown: null == selectTown
-          ? _value.selectTown
-          : selectTown // ignore: cast_nullable_to_non_nullable
-              as String,
-      selectLongTownAddress: null == selectLongTownAddress
-          ? _value.selectLongTownAddress
-          : selectLongTownAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      townLongAddressList: null == townLongAddressList
-          ? _value._townLongAddressList
-          : townLongAddressList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      townList: null == townList
-          ? _value._townList
-          : townList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      albums: null == albums
-          ? _value._albums
-          : albums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
-      currentAlbumIndex: null == currentAlbumIndex
-          ? _value.currentAlbumIndex
-          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectAlbums: null == selectAlbums
-          ? _value._selectAlbums
-          : selectAlbums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$CommunityStateImpl implements _CommunityState {
-  _$CommunityStateImpl(
+class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
+  _$CommunityDisasterStateImpl(
       {this.isDisasterScreen = true,
       this.selectSituaionId = null,
       this.parentCommentId = 0,
@@ -537,28 +362,10 @@ class _$CommunityStateImpl implements _CommunityState {
       this.isReplyLoading = true,
       this.disasterCommunityType = 'all',
       final List<Reply> disasterReplyList = const [],
-      this.reporyType = '',
-      this.contentDetail = const ContentDetail(),
-      final Set<Content> contentList = const <Content>{},
-      this.townCommunityType = 'ALL',
-      this.isDongNaeLoading = true,
-      this.isDongNaeHasMore = true,
-      this.isDongNaeContentEmpty = true,
-      this.selectTown = '',
-      this.selectLongTownAddress = '',
-      final List<String> townLongAddressList = const [],
-      final List<String> townList = const [],
-      final List<AlbumModel> albums = const [],
-      this.currentAlbumIndex = 0,
-      final List<AlbumModel> selectAlbums = const []})
+      this.reporyType = ''})
       : _allDisasterResponse = allDisasterResponse,
         _receivedDisasterResponse = receivedDisasterResponse,
-        _disasterReplyList = disasterReplyList,
-        _contentList = contentList,
-        _townLongAddressList = townLongAddressList,
-        _townList = townList,
-        _albums = albums,
-        _selectAlbums = selectAlbums;
+        _disasterReplyList = disasterReplyList;
 
 //---------------------------------------------------------
 // 재난상황
@@ -657,98 +464,17 @@ class _$CommunityStateImpl implements _CommunityState {
   @override
   @JsonKey()
   final String reporyType;
-//---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
-//동네생활 게시글 상세조회
-  @override
-  @JsonKey()
-  final ContentDetail contentDetail;
-//동네생활 컨텐츠 리스트
-  final Set<Content> _contentList;
-//동네생활 컨텐츠 리스트
-  @override
-  @JsonKey()
-  Set<Content> get contentList {
-    if (_contentList is EqualUnmodifiableSetView) return _contentList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_contentList);
-  }
-
-//동네생활 커뮤니티 타입
-  @override
-  @JsonKey()
-  final String townCommunityType;
-//동네생활 로딩 상태
-  @override
-  @JsonKey()
-  final bool isDongNaeLoading;
-//동네생활 컨텐츠 더있는가
-  @override
-  @JsonKey()
-  final bool isDongNaeHasMore;
-  @override
-  @JsonKey()
-  final bool isDongNaeContentEmpty;
-//동네생활 선택한 동네
-  @override
-  @JsonKey()
-  final String selectTown;
-  @override
-  @JsonKey()
-  final String selectLongTownAddress;
-  final List<String> _townLongAddressList;
-  @override
-  @JsonKey()
-  List<String> get townLongAddressList {
-    if (_townLongAddressList is EqualUnmodifiableListView)
-      return _townLongAddressList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_townLongAddressList);
-  }
-
-  final List<String> _townList;
-  @override
-  @JsonKey()
-  List<String> get townList {
-    if (_townList is EqualUnmodifiableListView) return _townList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_townList);
-  }
-
-//갤러리 관련 상태 변수
-  final List<AlbumModel> _albums;
-//갤러리 관련 상태 변수
-  @override
-  @JsonKey()
-  List<AlbumModel> get albums {
-    if (_albums is EqualUnmodifiableListView) return _albums;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_albums);
-  }
-
-  @override
-  @JsonKey()
-  final int currentAlbumIndex;
-  final List<AlbumModel> _selectAlbums;
-  @override
-  @JsonKey()
-  List<AlbumModel> get selectAlbums {
-    if (_selectAlbums is EqualUnmodifiableListView) return _selectAlbums;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectAlbums);
-  }
 
   @override
   String toString() {
-    return 'CommunityState(isDisasterScreen: $isDisasterScreen, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reporyType: $reporyType, contentDetail: $contentDetail, contentList: $contentList, townCommunityType: $townCommunityType, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, isDongNaeContentEmpty: $isDongNaeContentEmpty, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
+    return 'CommunityDisasterState(isDisasterScreen: $isDisasterScreen, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reporyType: $reporyType)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CommunityStateImpl &&
+            other is _$CommunityDisasterStateImpl &&
             (identical(other.isDisasterScreen, isDisasterScreen) ||
                 other.isDisasterScreen == isDisasterScreen) &&
             (identical(other.selectSituaionId, selectSituaionId) ||
@@ -787,31 +513,7 @@ class _$CommunityStateImpl implements _CommunityState {
             const DeepCollectionEquality()
                 .equals(other._disasterReplyList, _disasterReplyList) &&
             (identical(other.reporyType, reporyType) ||
-                other.reporyType == reporyType) &&
-            (identical(other.contentDetail, contentDetail) ||
-                other.contentDetail == contentDetail) &&
-            const DeepCollectionEquality()
-                .equals(other._contentList, _contentList) &&
-            (identical(other.townCommunityType, townCommunityType) ||
-                other.townCommunityType == townCommunityType) &&
-            (identical(other.isDongNaeLoading, isDongNaeLoading) ||
-                other.isDongNaeLoading == isDongNaeLoading) &&
-            (identical(other.isDongNaeHasMore, isDongNaeHasMore) ||
-                other.isDongNaeHasMore == isDongNaeHasMore) &&
-            (identical(other.isDongNaeContentEmpty, isDongNaeContentEmpty) ||
-                other.isDongNaeContentEmpty == isDongNaeContentEmpty) &&
-            (identical(other.selectTown, selectTown) ||
-                other.selectTown == selectTown) &&
-            (identical(other.selectLongTownAddress, selectLongTownAddress) ||
-                other.selectLongTownAddress == selectLongTownAddress) &&
-            const DeepCollectionEquality()
-                .equals(other._townLongAddressList, _townLongAddressList) &&
-            const DeepCollectionEquality().equals(other._townList, _townList) &&
-            const DeepCollectionEquality().equals(other._albums, _albums) &&
-            (identical(other.currentAlbumIndex, currentAlbumIndex) ||
-                other.currentAlbumIndex == currentAlbumIndex) &&
-            const DeepCollectionEquality()
-                .equals(other._selectAlbums, _selectAlbums));
+                other.reporyType == reporyType));
   }
 
   @override
@@ -835,32 +537,19 @@ class _$CommunityStateImpl implements _CommunityState {
         isReplyLoading,
         disasterCommunityType,
         const DeepCollectionEquality().hash(_disasterReplyList),
-        reporyType,
-        contentDetail,
-        const DeepCollectionEquality().hash(_contentList),
-        townCommunityType,
-        isDongNaeLoading,
-        isDongNaeHasMore,
-        isDongNaeContentEmpty,
-        selectTown,
-        selectLongTownAddress,
-        const DeepCollectionEquality().hash(_townLongAddressList),
-        const DeepCollectionEquality().hash(_townList),
-        const DeepCollectionEquality().hash(_albums),
-        currentAlbumIndex,
-        const DeepCollectionEquality().hash(_selectAlbums)
+        reporyType
       ]);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>
-      __$$CommunityStateImplCopyWithImpl<_$CommunityStateImpl>(
-          this, _$identity);
+  _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
+      get copyWith => __$$CommunityDisasterStateImplCopyWithImpl<
+          _$CommunityDisasterStateImpl>(this, _$identity);
 }
 
-abstract class _CommunityState implements CommunityState {
-  factory _CommunityState(
+abstract class _CommunityDisasterState implements CommunityDisasterState {
+  factory _CommunityDisasterState(
       {final bool isDisasterScreen,
       final int? selectSituaionId,
       final int parentCommentId,
@@ -879,20 +568,7 @@ abstract class _CommunityState implements CommunityState {
       final bool isReplyLoading,
       final String disasterCommunityType,
       final List<Reply> disasterReplyList,
-      final String reporyType,
-      final ContentDetail contentDetail,
-      final Set<Content> contentList,
-      final String townCommunityType,
-      final bool isDongNaeLoading,
-      final bool isDongNaeHasMore,
-      final bool isDongNaeContentEmpty,
-      final String selectTown,
-      final String selectLongTownAddress,
-      final List<String> townLongAddressList,
-      final List<String> townList,
-      final List<AlbumModel> albums,
-      final int currentAlbumIndex,
-      final List<AlbumModel> selectAlbums}) = _$CommunityStateImpl;
+      final String reporyType}) = _$CommunityDisasterStateImpl;
 
   @override //---------------------------------------------------------
 // 재난상황
@@ -936,37 +612,8 @@ abstract class _CommunityState implements CommunityState {
   List<Reply> get disasterReplyList;
   @override //신고 유형
   String get reporyType;
-  @override //---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
-//동네생활 게시글 상세조회
-  ContentDetail get contentDetail;
-  @override //동네생활 컨텐츠 리스트
-  Set<Content> get contentList;
-  @override //동네생활 커뮤니티 타입
-  String get townCommunityType;
-  @override //동네생활 로딩 상태
-  bool get isDongNaeLoading;
-  @override //동네생활 컨텐츠 더있는가
-  bool get isDongNaeHasMore;
-  @override
-  bool get isDongNaeContentEmpty;
-  @override //동네생활 선택한 동네
-  String get selectTown;
-  @override
-  String get selectLongTownAddress;
-  @override
-  List<String> get townLongAddressList;
-  @override
-  List<String> get townList;
-  @override //갤러리 관련 상태 변수
-  List<AlbumModel> get albums;
-  @override
-  int get currentAlbumIndex;
-  @override
-  List<AlbumModel> get selectAlbums;
   @override
   @JsonKey(ignore: true)
-  _$$CommunityStateImplCopyWith<_$CommunityStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
