@@ -34,7 +34,7 @@ class LoginScreen extends ConsumerWidget {
                   if (!locationGrant) {
                     locationDialog(context, ref);
                   } else {
-                    GoRouter.of(context).go('/onboarding');
+                    GoRouter.of(context).go('/home');
                   }
                 },
               );

@@ -1,25 +1,29 @@
+import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
 import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
-import 'package:daepiro/presentation/information/action_tip/action_tip_screen.dart';
-import 'package:daepiro/presentation/information/disaster_contents_screen.dart';
-import 'package:daepiro/presentation/information/emergency_response_screen.dart';
-import 'package:daepiro/presentation/information/search_disaster_screen.dart';
+import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
+import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
+import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_screen.dart';
+import 'package:daepiro/presentation/information/behavior_tip/search/search_disaster_type_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_rule_screen.dart';
+import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import '../data/model/response/information/around_shelter_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/community/screens/town/community_town_writing_screen.dart';
 import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
-import '../presentation/home/shelter/around_shelter_screen.dart';
-import '../presentation/information/information_screen.dart';
+import '../presentation/information/behavior_tip/behavior_tips_screen.dart';
+import '../presentation/information/main/information_screen.dart';
+import '../presentation/information/shelter/around_shelter_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/mypage_screen.dart';
 import '../presentation/onboarding/screens/onboarding_fifth_screen.dart';
@@ -93,10 +97,6 @@ final goRouteProvider = Provider((ref) {
           builder: (context, state) => CommunityReportScreen()
       ),
       GoRoute(
-          path: '/community_town_writing',
-        builder: (context, state) => CommunityTownWritingScreen()
-      ),
-      GoRoute(
           path: '/onboarding',
           builder: (context, state) => const OnboardingFirstScreen(),
           routes: [
@@ -130,6 +130,21 @@ final goRouteProvider = Provider((ref) {
             ),
           ]
       ),
+      GoRoute(
+          path: '/behaviorTips',
+          builder: (context, state) => BehaviorTipsScreen()
+      ),
+      GoRoute(
+          path: '/emergencyResponse',
+          builder: (context, state) => EmergencyResponseScreen()
+      ),
+      GoRoute(
+          path: '/searchDisasterType',
+          builder: (context, state) => SearchDisasterTypeScreen(
+              behaviorList: state.extra as List<Behavior>
+          )
+      ),
+
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainNavigation(navigationShell: navigationShell);
@@ -141,6 +156,7 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                     path: '/home',
+                    // builder: (context, state) => const HomeScreen(), 왜안되지
                     builder: (context, state) => HomeScreen(),
                     routes: [
                       GoRoute(
@@ -164,7 +180,7 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                   path: '/community',
-                  builder: (context, state) => const CommunityMainScreen()
+                  builder: (context, state) => const CommunityMainScreen(),
                 ),
               ],
             ),
@@ -180,17 +196,16 @@ final goRouteProvider = Provider((ref) {
                         builder: (context, state) => DisasterContentsScreen()
                     ),
                     GoRoute(
-                        path: 'actionTip',
-                        builder: (context, state) => ActionTipScreen()
+                        path: 'searchDisasterContents',
+                        builder: (context, state) => SearchDisasterContentsScreen()
                     ),
                     GoRoute(
-                        path: 'emergencyResponse',
-                        builder: (context, state) => EmergencyResponseScreen()
+                      path: 'aroundShelter',
+                      builder: (context, state) => AroundShelterScreen(
+                        extra: state.extra as AroundShelterExtra
+                      ),
                     ),
-                    GoRoute(
-                        path: 'searchDisaster',
-                        builder: (context, state) => SearchDisasterScreen()
-                    ),
+
                   ]
                 ),
               ],

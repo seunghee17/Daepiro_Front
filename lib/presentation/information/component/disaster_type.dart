@@ -1,23 +1,16 @@
+import 'package:daepiro/presentation/const/common_disaster_list.dart';
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
 
-class DisasterType extends StatefulWidget {
-  final String iconPath;
-  final String text;
+class DisasterType extends StatelessWidget {
+  final String name;
 
-  DisasterType({
-    Key? key,
-    required this.iconPath,
-    required this.text,
-  }): super(key: key);
-
-  @override
-  State<DisasterType> createState() => _DisasterTypeState();
-}
-
-class _DisasterTypeState extends State<DisasterType> {
+  const DisasterType({
+    super.key,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +25,19 @@ class _DisasterTypeState extends State<DisasterType> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(7),
+            padding: const EdgeInsets.all(7),
             decoration: const BoxDecoration(
               color: DaepiroColorStyle.g_50,
               shape: BoxShape.circle,
             ),
-            child: SvgPicture.asset('assets/icons/icon_disaster_sample.svg', height: 36, width: 36),
+            child: SvgPicture.asset(findDisasterIconByName(name: name), height: 36, width: 36),
           ),
           const SizedBox(height: 4),
           Text(
-            widget.text,
+            name,
             style: DaepiroTextStyle.body_2_m.copyWith(
                 color: DaepiroColorStyle.g_500
             ),

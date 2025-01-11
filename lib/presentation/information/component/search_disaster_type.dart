@@ -1,19 +1,21 @@
+import 'package:daepiro/presentation/const/common_disaster_list.dart';
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
-import 'action_tip_bottom_sheet.dart';
+import '../../../data/model/response/information/behavior_list_response.dart';
+import 'behavior_tip_bottom_sheet.dart';
 
 class SearchDisasterType extends StatelessWidget {
-  final String text;
-  final String iconPath;
+  final String name;
+  final List<Behavior> behaviorList;
 
   const SearchDisasterType({
-    Key? key,
-    required this.text,
-    required this.iconPath,
-  }): super(key: key);
+    super.key,
+    required this.name,
+    required this.behaviorList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,8 @@ class SearchDisasterType extends StatelessWidget {
             useSafeArea: true,
             context: context,
             builder: (context) {
-              return ActionTipBottomSheet(
-                disasterType: '가뭄',
+              return BehaviorTipBottomSheet(
+                behavior: behaviorList.firstWhere((item) => item.name == name)
               );
             }
         );
@@ -37,7 +39,7 @@ class SearchDisasterType extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              iconPath,
+              findDisasterIconByName(name: name),
               colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn),
               width: 36,
               height: 36
@@ -45,7 +47,7 @@ class SearchDisasterType extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                text,
+                name,
                 style: DaepiroTextStyle.body_1_m.copyWith(
                     color: DaepiroColorStyle.g_900
                 ),

@@ -38,7 +38,7 @@ dependencies:
   retrofit_generator: ^8.1.2
   freezed: ^2.5.2
 
-  logger: ^2.4.0
+  logger: ^2.5.0
   #api 응답 로그 띄우는 용도
   pretty_dio_logger: ^1.4.0
   lottie: ^3.1.2
@@ -52,9 +52,15 @@ dependencies:
   permission_handler: ^11.3.1
   expandable_page_view: ^1.0.17
   smooth_page_indicator: ^1.0.0+2
+
   #Firebase
   firebase_core: ^3.8.0
   firebase_messaging: ^15.1.5
+
+  #gps
+  geolocator: ^9.0.1
+  geocoding: ^3.0.0
+  device_apps: ^2.1.0
 
   # 종석 공부용
   provider: 6.0.5
@@ -62,6 +68,7 @@ dependencies:
   photo_manager: ^3.6.3
   photo_manager_image_provider: ^2.2.0
   intl: ^0.20.1
+  url_launcher: ^6.3.1
 
   #디바이스 버전 확인용
   device_info_plus: ^11.2.0
