@@ -65,7 +65,9 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         child: Row(
           children: [
             GestureDetector(
-              onTap: () => GoRouter.of(context).pop,
+              onTap: () {
+
+              }, //TODO 상태변수 초기화
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
@@ -227,6 +229,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
       child: Padding(
         padding: EdgeInsets.fromLTRB(12, 12, 0, 12),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Checkbox(
                 visualDensity: VisualDensity.compact,

@@ -14,7 +14,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import '../data/model/response/information/around_shelter_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/community/screens/town/community_town_writing_screen.dart';
@@ -97,6 +96,10 @@ final goRouteProvider = Provider((ref) {
           builder: (context, state) => CommunityReportScreen()
       ),
       GoRoute(
+        path: '/community_town_writing',
+        builder: (context, state) => CommunityTownWritingScreen()
+      ),
+      GoRoute(
           path: '/onboarding',
           builder: (context, state) => const OnboardingFirstScreen(),
           routes: [
@@ -169,7 +172,7 @@ final goRouteProvider = Provider((ref) {
                       ),
                       GoRoute(
                         path: 'aroundShelter',
-                        builder: (context, state) => const AroundShelterScreen(),
+                        builder: (context, state) => AroundShelterScreen( extra: state.extra as AroundShelterExtra),
                       ),
                     ]
                 ),
