@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
-import 'package:daepiro/presentation/information/component/search_disaster_type.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_state.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +17,7 @@ class SearchDisasterContentsScreen extends ConsumerWidget {
     final viewModel = ref.watch(searchDisasterContentsStateNotifierProvider);
     List<Map<String, String>> searchedDisasterContentsList = List.empty();
     var search = "";
-아 잠만
+
     ref.listen<SearchDisasterContentsState>(searchDisasterContentsStateNotifierProvider, (previous, next) {
       if (next.isLoading) {
 

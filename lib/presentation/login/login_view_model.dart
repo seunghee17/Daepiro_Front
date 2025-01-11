@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../domain/usecase/login/social_login_usecase.dart';
 import 'login_state.dart';
 
-final loginStateNotifierProvider = StateNotifierProvider<LoginViewModel, LoginState>((ref) {
+final loginStateNotifierProvider =
+    StateNotifierProvider<LoginViewModel, LoginState>((ref) {
   return LoginViewModel(ref);
 });
 
@@ -22,20 +24,24 @@ class LoginViewModel extends StateNotifier<LoginState> {
     Permission.camera,
     Permission.storage
   ];
+
   LoginViewModel(this.ref) : super(LoginState());
 
   // 상태를 관리하는 ViewModel 또는 Notifier에서
   Future<void> fetchSocialToken(String platform, String token) async {
     state = state.copyWith(isLoading: true);
     try {
-      final response = await ref.read(getSocialTokenUsecaseProvider(GetSocialTokenUseCase(platform: platform, tokenRequest: SocialLoginRequest(socialToken: token))).future);
+      final response = await ref.read(getSocialTokenUsecaseProvider(
+              GetSocialTokenUseCase(
+                  platform: platform,
+                  tokenRequest: SocialLoginRequest(socialToken: token)))
+          .future);
       state = state.copyWith(
           isLoading: false,
-          accessToken: response.data?.accessToken?? '',
+          accessToken: response.data?.accessToken ?? '',
           refreshToken: response.data?.refreshToken ?? '',
           isCompletedOnboarding: response.data?.isCompletedOnboarding ?? false,
-          isLoginSuccess: true
-      );
+          isLoginSuccess: true);
       await storage.write(key: 'accessToken', value: state.accessToken);
       await storage.write(key: 'refreshToken', value: state.refreshToken);
     } catch (error) {
@@ -44,23 +50,22 @@ class LoginViewModel extends StateNotifier<LoginState> {
     }
   }
 
-
-  Future<String> kakaoLogin() async {
+  Future<void> kakaoLogin() async {
     if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공');
         print('카카오!!${token.accessToken}');
-        return token.accessToken;
+        await fetchSocialToken('kakao', token.accessToken);
       } catch (error) {
         print('카카오톡으로 로그인 실패: $error');
         if (error is PlatformException && error.code == 'CANCELED') {
-          return '';
+          return;
         }
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           print('카카오!!${token.accessToken}');
-          return token.accessToken;
+          await fetchSocialToken('kakao', token.accessToken);
         } catch (error) {
           print('카카오계정으로 로그인 실패: $error');
         }
@@ -69,22 +74,36 @@ class LoginViewModel extends StateNotifier<LoginState> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         print('카카오!!${token.accessToken}');
-        return token.accessToken;
+        await fetchSocialToken('kakao', token.accessToken);
       } catch (error) {
         print('카카오계정으로 로그인 실패: $error');
       }
     }
-    return '';
+    return;
   }
 
-  Future<String> naverLogin() async {
+  Future<void> naverLogin() async {
     try {
-      final NaverLoginResult res = await FlutterNaverLogin.logIn();
-      return res.accessToken.toString();
+      await FlutterNaverLogin.logIn();
+      NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
+      await fetchSocialToken('naver', accessToken.accessToken);
     } catch (error) {
       print('네이버 로그인 에러: ${error}');
     }
-    return '';
+    return;
+  }
+
+  Future<void> appleLogin() async {
+    try {
+      final result = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ]);
+      await fetchSocialToken('apple', result.identityToken ?? '');
+    } catch (e) {
+      print('애플로그인 시도중 error 발생 $e');
+      return;
+    }
   }
 
   Future<bool> checkLocationPermission() async {

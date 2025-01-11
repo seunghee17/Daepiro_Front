@@ -1,34 +1,50 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:daepiro/presentation/onboarding/state/permission_state.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-final permissionStateNotifierProvider = StateNotifierProvider<PermissionViewModel, PermissionState>((ref) {
+final permissionStateNotifierProvider =
+    StateNotifierProvider<PermissionViewModel, PermissionState>((ref) {
   return PermissionViewModel(PermissionState());
 });
 
 class PermissionViewModel extends StateNotifier<PermissionState> {
-
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   //이미지 권한의 경우 버전별 분기처리 필요
   List<Permission> permission = [
     Permission.location,
     Permission.notification,
     Permission.camera,
-    Permission.photos
   ];
+
+  Future<List<Permission>> setVersionPermisson() async {
+    if(Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      if(info.version.sdkInt >= 33) {
+        permission.add(Permission.photos);
+      } else {
+        permission.add(Permission.storage);
+      }
+    } else {
+      //ios의 경우
+      permission.add(Permission.photos);
+    }
+    return permission;
+  }
 
   PermissionViewModel(super.state);
 
   void updateAllAgreeState() {
     bool current = state.isAllPermissionGrant;
-    List<bool> updateList = [false,false,false,false];
-    for(int i=0; i<4; i++) {
+    List<bool> updateList = [false, false, false, false];
+    for (int i = 0; i < 4; i++) {
       updateList[i] = !current;
     }
     state = state.copyWith(
-        isAllPermissionGrant: !current,
-        isPermissionCheckboxState: updateList,
+      isAllPermissionGrant: !current,
+      isPermissionCheckboxState: updateList,
     );
   }
 
@@ -41,8 +57,9 @@ class PermissionViewModel extends StateNotifier<PermissionState> {
   }
 
   Future<void> permissionRequest() async {
-    for(int i=0; i<4; i++) {
-      if(state.isPermissionCheckboxState[i]) {
+    for (int i = 0; i < 4; i++) {
+      if (state.isPermissionCheckboxState[i]) {
+        await setVersionPermisson();
         await permission[i].request();
       }
     }

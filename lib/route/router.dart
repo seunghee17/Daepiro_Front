@@ -1,4 +1,3 @@
-import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
 import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
@@ -17,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import '../data/model/response/information/around_shelter_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
+import '../presentation/community/screens/town/community_town_writing_screen.dart';
 import '../presentation/home/history/disaster_message_detail_screen.dart';
 import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
@@ -64,7 +64,6 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 final goRouteProvider = Provider((ref) {
   return GoRouter(
      initialLocation: '/splash',
-    // initialLocation: '/home',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -95,6 +94,10 @@ final goRouteProvider = Provider((ref) {
       GoRoute(
           path: '/community_report_screen',
           builder: (context, state) => CommunityReportScreen()
+      ),
+      GoRoute(
+        path: '/community_town_writing',
+        builder: (context, state) => CommunityTownWritingScreen()
       ),
       GoRoute(
           path: '/onboarding',

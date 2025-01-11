@@ -6,11 +6,11 @@ final getDisasterDeleteUseCaseProvider =
     FutureProvider.family<DeleteReplyResponse, CommunityDisasterDeleteUsecase>(
         (ref, request) async {
   final repository = await ref.watch(communityRepositoryProvider);
-  return await repository.deleteReply(request.commentId);
+  return await repository.deleteReply(request.id);
 });
 
 class CommunityDisasterDeleteUsecase {
-  final int commentId;
+  final int id;
 
-  CommunityDisasterDeleteUsecase({required this.commentId});
+  CommunityDisasterDeleteUsecase({required this.id});
 }
