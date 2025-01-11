@@ -164,8 +164,8 @@ class LoginScreen extends ConsumerWidget {
         children: [
           SvgPicture.asset(
             'assets/icons/apple_logo.svg',
-            color: DaepiroColorStyle.white,
-          ),
+          colorFilter:
+          ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)),
           SizedBox(width: 8),
           Text(
             'Apple로 로그인',

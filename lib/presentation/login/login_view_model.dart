@@ -84,8 +84,9 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   Future<void> naverLogin() async {
     try {
-      final NaverLoginResult res = await FlutterNaverLogin.logIn();
-      await fetchSocialToken('naver', res.accessToken.toString());
+      await FlutterNaverLogin.logIn();
+      NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
+      await fetchSocialToken('naver', accessToken.accessToken);
     } catch (error) {
       print('네이버 로그인 에러: ${error}');
     }

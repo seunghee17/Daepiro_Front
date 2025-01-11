@@ -381,6 +381,58 @@ class _CommunityService implements CommunityService {
     return _value;
   }
 
+  @override
+  Future<CommunityArticleWritingResponse> setArticleData({
+    required String articleType,
+    required String articleCategory,
+    required String title,
+    required String body,
+    required bool visibility,
+    required double longitude,
+    required double latitude,
+    required List<MultipartFile> attachFileList,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'articleType': articleType,
+      r'articleCategory': articleCategory,
+      r'title': title,
+      r'body': body,
+      r'visibility': visibility,
+      r'longitude': longitude,
+      r'latitude': latitude,
+    };
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files
+        .addAll(attachFileList.map((i) => MapEntry('attachFileList', i)));
+    final _options = _setStreamType<CommunityArticleWritingResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/articles',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityArticleWritingResponse _value;
+    try {
+      _value = CommunityArticleWritingResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

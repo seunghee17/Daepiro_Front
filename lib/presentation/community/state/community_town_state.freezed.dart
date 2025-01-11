@@ -52,7 +52,10 @@ mixin _$CommunityTownState {
       throw _privateConstructorUsedError; //댓글 수정을 위한 상태 데이터
   bool get isEditState => throw _privateConstructorUsedError;
   int get editCommentId => throw _privateConstructorUsedError;
-  String? get reportType => throw _privateConstructorUsedError; //갤러리 관련 상태 변수
+  String? get reportType => throw _privateConstructorUsedError; //위치 공개 여부 변수
+  bool get isVisible => throw _privateConstructorUsedError;
+  double get latitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError; //갤러리 관련 상태 변수
   List<AlbumModel> get albums => throw _privateConstructorUsedError;
   int get currentAlbumIndex => throw _privateConstructorUsedError;
   List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
@@ -92,6 +95,9 @@ abstract class $CommunityTownStateCopyWith<$Res> {
       bool isEditState,
       int editCommentId,
       String? reportType,
+      bool isVisible,
+      double latitude,
+      double longitude,
       List<AlbumModel> albums,
       int currentAlbumIndex,
       List<AlbumModel> selectAlbums});
@@ -133,6 +139,9 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
     Object? isEditState = null,
     Object? editCommentId = null,
     Object? reportType = freezed,
+    Object? isVisible = null,
+    Object? latitude = null,
+    Object? longitude = null,
     Object? albums = null,
     Object? currentAlbumIndex = null,
     Object? selectAlbums = null,
@@ -230,6 +239,18 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
               as String?,
+      isVisible: null == isVisible
+          ? _value.isVisible
+          : isVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
       albums: null == albums
           ? _value.albums
           : albums // ignore: cast_nullable_to_non_nullable
@@ -278,6 +299,9 @@ abstract class _$$CommunityTownStateImplCopyWith<$Res>
       bool isEditState,
       int editCommentId,
       String? reportType,
+      bool isVisible,
+      double latitude,
+      double longitude,
       List<AlbumModel> albums,
       int currentAlbumIndex,
       List<AlbumModel> selectAlbums});
@@ -317,6 +341,9 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
     Object? isEditState = null,
     Object? editCommentId = null,
     Object? reportType = freezed,
+    Object? isVisible = null,
+    Object? latitude = null,
+    Object? longitude = null,
     Object? albums = null,
     Object? currentAlbumIndex = null,
     Object? selectAlbums = null,
@@ -413,6 +440,18 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
               as String?,
+      isVisible: null == isVisible
+          ? _value.isVisible
+          : isVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
       albums: null == albums
           ? _value._albums
           : albums // ignore: cast_nullable_to_non_nullable
@@ -456,6 +495,9 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
       this.isEditState = false,
       this.editCommentId = 0,
       this.reportType = null,
+      this.isVisible = false,
+      this.latitude = 0.0,
+      this.longitude = 0.0,
       final List<AlbumModel> albums = const [],
       this.currentAlbumIndex = 0,
       final List<AlbumModel> selectAlbums = const []})
@@ -588,6 +630,16 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final String? reportType;
+//위치 공개 여부 변수
+  @override
+  @JsonKey()
+  final bool isVisible;
+  @override
+  @JsonKey()
+  final double latitude;
+  @override
+  @JsonKey()
+  final double longitude;
 //갤러리 관련 상태 변수
   final List<AlbumModel> _albums;
 //갤러리 관련 상태 변수
@@ -613,7 +665,7 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
 
   @override
   String toString() {
-    return 'CommunityTownState(contentDetail: $contentDetail, townReplyList: $townReplyList, selectContentId: $selectContentId, contentList: $contentList, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, isDongNaeContentEmpty: $isDongNaeContentEmpty, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, townCommunityType: $townCommunityType, townCategory: $townCategory, TownReplyList: $TownReplyList, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
+    return 'CommunityTownState(contentDetail: $contentDetail, townReplyList: $townReplyList, selectContentId: $selectContentId, contentList: $contentList, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, isDongNaeContentEmpty: $isDongNaeContentEmpty, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, townCommunityType: $townCommunityType, townCategory: $townCategory, TownReplyList: $TownReplyList, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, isVisible: $isVisible, latitude: $latitude, longitude: $longitude, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
   }
 
   @override
@@ -667,6 +719,12 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
                 other.editCommentId == editCommentId) &&
             (identical(other.reportType, reportType) ||
                 other.reportType == reportType) &&
+            (identical(other.isVisible, isVisible) ||
+                other.isVisible == isVisible) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
             const DeepCollectionEquality().equals(other._albums, _albums) &&
             (identical(other.currentAlbumIndex, currentAlbumIndex) ||
                 other.currentAlbumIndex == currentAlbumIndex) &&
@@ -700,6 +758,9 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
         isEditState,
         editCommentId,
         reportType,
+        isVisible,
+        latitude,
+        longitude,
         const DeepCollectionEquality().hash(_albums),
         currentAlbumIndex,
         const DeepCollectionEquality().hash(_selectAlbums)
@@ -738,6 +799,9 @@ abstract class _CommunityTownState implements CommunityTownState {
       final bool isEditState,
       final int editCommentId,
       final String? reportType,
+      final bool isVisible,
+      final double latitude,
+      final double longitude,
       final List<AlbumModel> albums,
       final int currentAlbumIndex,
       final List<AlbumModel> selectAlbums}) = _$CommunityTownStateImpl;
@@ -792,6 +856,12 @@ abstract class _CommunityTownState implements CommunityTownState {
   int get editCommentId;
   @override
   String? get reportType;
+  @override //위치 공개 여부 변수
+  bool get isVisible;
+  @override
+  double get latitude;
+  @override
+  double get longitude;
   @override //갤러리 관련 상태 변수
   List<AlbumModel> get albums;
   @override

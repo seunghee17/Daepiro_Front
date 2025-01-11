@@ -6,6 +6,7 @@ import 'package:retrofit/http.dart';
 
 import '../../model/request/community_disaster_edit_request.dart';
 import '../../model/request/community_reply_report_request.dart';
+import '../../model/response/community_article_write_response.dart';
 import '../../model/response/community_comment_post_response.dart';
 import '../../model/response/community_disaster_edit_response.dart';
 import '../../model/response/community_dongnae_content_detail_response.dart';
@@ -72,5 +73,18 @@ abstract class CommunityService {
 
   //게시글 좋아요
   @PUT('/v1/articles/{id}/like')
-  Future<CommunityTownLikeResponse> communityTown({ @Path('id') required int id});
+  Future<CommunityTownLikeResponse> communityTown(
+      {@Path('id') required int id});
+
+  @POST('/v1/articles')
+  Future<CommunityArticleWritingResponse> setArticleData({
+    @Query('articleType') required String articleType,
+    @Query('articleCategory') required String articleCategory,
+    @Query('title') required String title,
+    @Query('body') required String body,
+    @Query('visibility') required bool visibility,
+    @Query('longitude') required double longitude,
+    @Query('latitude') required double latitude,
+    @Part(name: 'attachFileList') required List<MultipartFile> attachFileList,
+  });
 }

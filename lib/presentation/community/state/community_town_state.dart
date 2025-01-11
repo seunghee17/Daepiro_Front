@@ -54,6 +54,11 @@ sealed class CommunityTownState with _$CommunityTownState {
     @Default(0) int editCommentId,
     @Default(null) String? reportType,
 
+    //위치 공개 여부 변수
+    @Default(false) bool isVisible,
+    @Default(0.0) double latitude,
+    @Default(0.0) double longitude,
+
     //갤러리 관련 상태 변수
     @Default([]) List<AlbumModel> albums,
     @Default(0) int currentAlbumIndex,
