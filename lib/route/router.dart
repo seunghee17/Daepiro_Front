@@ -13,7 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import '../data/model/response/information/around_shelter_list_response.dart';
+import '../data/model/response/information/behavior_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/community/screens/town/community_town_writing_screen.dart';
