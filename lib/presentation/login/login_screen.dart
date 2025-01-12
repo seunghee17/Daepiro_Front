@@ -163,7 +163,7 @@ class LoginScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            'assets/icons/apple_logo.svg',
+            'assets/icons/icon_apple_logo.svg',
           colorFilter:
           ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)),
           SizedBox(width: 8),
