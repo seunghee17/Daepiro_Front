@@ -6,17 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import '../../../../data/model/request/album_model.dart';
-import '../../controller/community_disaster_view_model.dart';
 
 //이미지 개별 이미지
 class Uploadimage extends ConsumerWidget {
-  //final void Function()? onTap;
+  final void Function()? onTap;
   final AssetEntity entity;
   final BoxFit fit;
   final AlbumModel photo;
 
   const Uploadimage(
-      {super.key, required this.entity, required this.fit, required this.photo});
+      {super.key, required this.entity, required this.fit, required this.photo, required this.onTap});
 
   @override
   Widget build(BuildContext contextm, WidgetRef ref) {
@@ -80,9 +79,9 @@ class AlbumScreen extends ConsumerWidget {
                           entity: state
                               .albums[state.currentAlbumIndex].images![index],
                           fit: BoxFit.cover,
-                          // onTap: () {
-                          //   print('눌림');
-                          // },
+                          onTap: () {
+                            print('눌림');
+                          },
                         photo: state.albums[state.currentAlbumIndex],
                           ))
                   : Container())

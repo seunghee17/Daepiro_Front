@@ -241,6 +241,7 @@ class CommunityTownWritingState
                 GestureDetector(
                   onTap: () async {
                     await ref.read(communityTownProvider.notifier).checkPermission();
+                    GoRouter.of(context).push('/album_choice');
                   },
                   child: Container(
                     width: 118,

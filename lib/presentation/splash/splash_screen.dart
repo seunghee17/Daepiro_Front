@@ -28,7 +28,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
         if (isAuthenticated) {
           bool isOnboardingComplete = await _checkOnboardingComplete(ref);
           if(isOnboardingComplete) {
-            GoRouter.of(context).replace('/home');
+            GoRouter.of(context).replace('/community');
           } else {
             GoRouter.of(context).replace('/onboarding');
           }

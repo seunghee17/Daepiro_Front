@@ -127,11 +127,11 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   //이미지 접근권한 확인
   Future<void> checkPermission() async {
-    await PhotoManager.requestPermissionExtend().then((ps) {
+    await PhotoManager.requestPermissionExtend().then((ps) async {
       if (ps.isAuth) {
-        getAlbums();
+        await getAlbums();
       } else {
-        PhotoManager.openSetting();
+        await PhotoManager.openSetting();
       }
     });
   }
