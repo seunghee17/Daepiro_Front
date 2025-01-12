@@ -7,11 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../cmm/DaepiroTheme.dart';
-import '../../../../cmm/button/primary_filled_button.dart';
 import '../../../../cmm/button/secondary_filled_button.dart';
+import '../../../const/common_disaster_list.dart';
+import '../../../const/emergency_disaster_list.dart';
 
 //재난상황 화면
 class CommunityDisasterScreen extends ConsumerWidget {
+  List<Map<String, String>> totalList = [
+    ...CommonDisasterList,
+    ...EmergencyDisasterList
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,11 +101,15 @@ class CommunityDisasterScreen extends ConsumerWidget {
           children: [
             SecondaryFilledButton(
               onPressed: () async {
-                ref.read(communityDisasterProvider.notifier).setLoadingState(true);
+                ref
+                    .read(communityDisasterProvider.notifier)
+                    .setLoadingState(true);
                 await ref
                     .read(communityDisasterProvider.notifier)
                     .selectButton('all');
-                ref.read(communityDisasterProvider.notifier).setLoadingState(false);
+                ref
+                    .read(communityDisasterProvider.notifier)
+                    .setLoadingState(false);
               },
               radius: 99,
               child: Text(
@@ -119,11 +128,15 @@ class CommunityDisasterScreen extends ConsumerWidget {
             SizedBox(width: 8),
             SecondaryFilledButton(
               onPressed: () async {
-                ref.read(communityDisasterProvider.notifier).setLoadingState(true);
+                ref
+                    .read(communityDisasterProvider.notifier)
+                    .setLoadingState(true);
                 await ref
                     .read(communityDisasterProvider.notifier)
                     .selectButton('received');
-                ref.read(communityDisasterProvider.notifier).setLoadingState(false);
+                ref
+                    .read(communityDisasterProvider.notifier)
+                    .setLoadingState(false);
               },
               radius: 99,
               child: Text(
@@ -153,18 +166,37 @@ class CommunityDisasterScreen extends ConsumerWidget {
         children: [
           Row(
             children: [
-              PrimaryFilledButton(
-                  backgroundColor: DaepiroColorStyle.o_50,
-                  pressedColor: DaepiroColorStyle.o_50,
-                  borderRadius: 4,
+              Container(
+                decoration: BoxDecoration(
+                  color: DaepiroColorStyle.o_50,
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
                   child: Row(
                     children: [
-                      Text(content.type ?? '미입력',
-                          style: DaepiroTextStyle.caption
-                              .copyWith(color: DaepiroColorStyle.o_500))
+                      SvgPicture.asset(
+                          CommonDisasterList.firstWhere(
+                                (item) => item['name'] == content.type,
+                                orElse: () => {}, // 값이 없을 때 빈 Map 반환
+                              )['icon'] ??
+                              "assets/icons/icon_emergency_02.svg",
+                          width: 16,
+                          height: 16,
+                          colorFilter: ColorFilter.mode(
+                              DaepiroColorStyle.o_500, BlendMode.srcIn)),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        content.type ?? '미입력',
+                        style: DaepiroTextStyle.caption
+                            .copyWith(color: DaepiroColorStyle.o_500),
+                      )
                     ],
                   ),
-                  verticalPadding: 4),
+                ),
+              ),
               Spacer(),
               //TODO: 행동요령 페이지 넘어가게 하기
               GestureDetector(
@@ -189,7 +221,9 @@ class CommunityDisasterScreen extends ConsumerWidget {
           SizedBox(height: 12),
           RichText(
             text: TextSpan(
-                text: ref.read(communityDisasterProvider.notifier).parseTitle(content.title!, content.type!),
+                text: ref
+                    .read(communityDisasterProvider.notifier)
+                    .parseTitle(content.title!, content.type!),
                 style: DaepiroTextStyle.h6
                     .copyWith(color: DaepiroColorStyle.g_900),
                 children: [
@@ -226,13 +260,13 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     .copyWith(color: DaepiroColorStyle.g_400),
               ),
               Spacer(),
-              if(content.commentCount! > 0)
+              if (content.commentCount! > 0)
                 Row(
                   children: [
                     SvgPicture.asset(
                       'assets/icons/icon_community.svg',
-                      colorFilter:
-                      ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                          DaepiroColorStyle.g_200, BlendMode.srcIn),
                     ),
                     SizedBox(width: 2),
                     Text(
@@ -245,8 +279,9 @@ class CommunityDisasterScreen extends ConsumerWidget {
             ],
           ),
           SizedBox(height: 20),
-          content.comments?.length !=0
-              ? replyContainer(context, content.comments ?? [], ref , content.id!)
+          content.comments?.length != 0
+              ? replyContainer(
+                  context, content.comments ?? [], ref, content.id!)
               : noneReplyContainer(ref, context, content.id!),
           SizedBox(height: 36)
         ],
@@ -255,11 +290,11 @@ class CommunityDisasterScreen extends ConsumerWidget {
   }
 
   Widget replyContainer(
-      BuildContext context,
-      List<Comments> comment,
-      WidgetRef ref,
-      int situationId,
-      ) {
+    BuildContext context,
+    List<Comments> comment,
+    WidgetRef ref,
+    int situationId,
+  ) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -272,18 +307,20 @@ class CommunityDisasterScreen extends ConsumerWidget {
             ...List.generate(
                 comment.length,
                 (index) => Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: replyWidget(
-                      comment[index].content ?? '',
-                      ref
-                          .read(communityDisasterProvider.notifier)
-                          .parseCommentTime(comment[index].time ?? ''),
-                      comment[index].likeCount ?? 0),)
-            ),
+                      padding: EdgeInsets.only(bottom: 8),
+                      child: replyWidget(
+                          comment[index].content ?? '',
+                          ref
+                              .read(communityDisasterProvider.notifier)
+                              .parseCommentTime(comment[index].time ?? ''),
+                          comment[index].likeCount ?? 0),
+                    )),
             SizedBox(height: 2),
             GestureDetector(
               onTap: () async {
-                await ref.read(communityDisasterProvider.notifier).getReplyData(situationId);
+                await ref
+                    .read(communityDisasterProvider.notifier)
+                    .getReplyData(situationId);
                 showReplyBottomSheet(context, situationId);
               },
               child: Row(
@@ -378,7 +415,9 @@ class CommunityDisasterScreen extends ConsumerWidget {
             SizedBox(height: 10),
             GestureDetector(
               onTap: () async {
-                ref.read(communityDisasterProvider.notifier).setSelectSituationId(id);
+                ref
+                    .read(communityDisasterProvider.notifier)
+                    .setSelectSituationId(id);
                 showReplyBottomSheet(context, id);
               },
               child: Container(

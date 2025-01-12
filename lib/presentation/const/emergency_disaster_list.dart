@@ -32,7 +32,7 @@ const List<Map<String, String>> EmergencyDisasterList = [
     "icon": "assets/icons/icon_nature_disaster_13.svg",
   },
   {
-    "name": "화생방사고",
+    "name": "화생방",
     "icon": "assets/icons/icon_emergency_01.svg",
   }
 ];
