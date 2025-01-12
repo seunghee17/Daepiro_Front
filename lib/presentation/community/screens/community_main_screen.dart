@@ -114,7 +114,7 @@ class CommunityMainScreen extends ConsumerWidget {
             Spacer(),
             TextButton(
                 onPressed: (){
-                  GoRouter.of(context).go('/community_town_writing');
+                  GoRouter.of(context).push('/community_town_writing');
                 },
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.transparent),

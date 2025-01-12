@@ -14,11 +14,32 @@ class CommunityTownWritingScreen extends ConsumerStatefulWidget {
 }
 
 //동네생활 글쓰기 화면
-class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen> {
-  bool isTouched = false;
+class CommunityTownWritingState
+    extends ConsumerState<CommunityTownWritingScreen> {
+  bool isCompleteEnabled = false;
   bool isWritingContainerPress = false;
   TextEditingController titleTextController = TextEditingController();
   TextEditingController contentTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    titleTextController.addListener(_updateCompleteButtonState);
+    contentTextController.addListener(_updateCompleteButtonState);
+  }
+
+  void _updateCompleteButtonState() {
+    // 제목과 내용이 비어있지 않은지 확인
+    final isTitleNotEmpty = titleTextController.text.isNotEmpty;
+    final isContentNotEmpty = contentTextController.text.isNotEmpty;
+
+    // 버튼 상태 변경
+    if (isCompleteEnabled != (isTitleNotEmpty && isContentNotEmpty)) {
+      setState(() {
+        isCompleteEnabled = isTitleNotEmpty && isContentNotEmpty;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +57,20 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               Expanded(
                   child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     writingTypeWidget(state.townCategory),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     titleTextField(titleTextController),
-                    SizedBox(height: 16,),
+                    SizedBox(
+                      height: 16,
+                    ),
                     contentTextField(contentTextController),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     photoWidget(),
                     SizedBox(height: 20)
                   ],
@@ -65,8 +93,9 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
           children: [
             GestureDetector(
               onTap: () {
-
-              }, //TODO 상태변수 초기화
+                ref.read(communityTownProvider.notifier).clearWritingState();
+                GoRouter.of(context).pop();
+              },
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
@@ -82,11 +111,15 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               ),
             ),
             GestureDetector(
-                onTap: () {}, //TODO 활성화 조건에 따른 완료 처리
+                onTap: () {
+                  //ref.read(communityTownProvider.notifier).setArticle(titleTextController.text, contentTextController.text, attachFileList)
+                },
                 child: Text(
-                  '완료', //TODO 색상 수정해야함
-                  style: DaepiroTextStyle.body_1_m
-                      .copyWith(color: titleTextController.text.length >0 && contentTextController.text.length > 0 ? DaepiroColorStyle.o_500 : DaepiroColorStyle.g_100),
+                  '완료',
+                  style: DaepiroTextStyle.body_1_m.copyWith(
+                      color: isCompleteEnabled
+                          ? DaepiroColorStyle.o_500
+                          : DaepiroColorStyle.g_100),
                 )),
           ],
         ),
@@ -98,7 +131,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
     //일상, 교통 등등이 매개변수
     return InkWell(
       onTap: () {
-        showCategoryBottomSheet(context, isTouched, isWritingContainerPress);
+        showCategoryBottomSheet(context, isWritingContainerPress);
         setState(() {
           isWritingContainerPress = true;
         });
@@ -109,9 +142,10 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
             color: DaepiroColorStyle.g_50,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              width: 1.5,
-              color: isWritingContainerPress ? DaepiroColorStyle.g_75 : DaepiroColorStyle.g_50
-            )),
+                width: 1.5,
+                color: isWritingContainerPress
+                    ? DaepiroColorStyle.g_75
+                    : DaepiroColorStyle.g_50)),
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Row(
@@ -129,8 +163,8 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                     ),
               Spacer(),
               SvgPicture.asset('assets/icons/icon_arrow_down.svg',
-                  colorFilter:
-                      ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                  colorFilter: ColorFilter.mode(
+                      DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ],
           ),
         ),
@@ -145,24 +179,21 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         controller: controller,
         maxLength: 38,
         cursorColor: DaepiroColorStyle.g_900,
-        onTapOutside: (event) =>
-            FocusManager.instance.primaryFocus?.unfocus(),
+        onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
         decoration: InputDecoration(
           counterText: '',
           isDense: true,
           hintText: '제목을 입력하세요.',
-          hintStyle: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_75),
+          hintStyle:
+              DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_75),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: DaepiroColorStyle.g_75)
-          ),
+              borderSide: BorderSide(color: DaepiroColorStyle.g_75)),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: DaepiroColorStyle.g_75)
-          ),
+              borderSide: BorderSide(color: DaepiroColorStyle.g_75)),
           border: UnderlineInputBorder(
-              borderSide: BorderSide(color: DaepiroColorStyle.g_75)
-          ),
+              borderSide: BorderSide(color: DaepiroColorStyle.g_75)),
         ),
       ),
     );
@@ -177,22 +208,18 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         maxLength: 38,
         cursorColor: DaepiroColorStyle.g_900,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-        style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
+        style:
+            DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
         decoration: InputDecoration(
           counterText: '',
           isDense: true,
           hintText: '동네생활과 관련된 이야기를 주민들과 나누세요.',
-          hintStyle: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_200),
+          hintStyle: DaepiroTextStyle.body_2_m
+              .copyWith(color: DaepiroColorStyle.g_200),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide.none
-          ),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide.none
-          ),
-          border: const OutlineInputBorder(
-              borderSide: BorderSide.none
-          ),
+          enabledBorder: const OutlineInputBorder(borderSide: BorderSide.none),
+          focusedBorder: const OutlineInputBorder(borderSide: BorderSide.none),
+          border: const OutlineInputBorder(borderSide: BorderSide.none),
         ),
       ),
     );
@@ -204,8 +231,34 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('사진/동영상',
-          style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900)),
-          SizedBox(height: 8)
+              style: DaepiroTextStyle.body_1_m
+                  .copyWith(color: DaepiroColorStyle.g_900)),
+          SizedBox(height: 8),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    await ref.read(communityTownProvider.notifier).checkPermission();
+                  },
+                  child: Container(
+                    width: 118,
+                    height: 118,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(width: 1.5, color: DaepiroColorStyle.g_75),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset('assets/icons/icon_photo.svg',
+                          width: 34, height: 34),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -217,47 +270,50 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         await ref.read(communityTownProvider.notifier).setVisibleState();
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: DaepiroColorStyle.g_50,
-        overlayColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        shadowColor: Colors.transparent,
-        elevation: 0.0
-      ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(12, 12, 0, 12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Checkbox(
-                visualDensity: VisualDensity.compact,
-                side: BorderSide(color: Colors.transparent),
-                activeColor: DaepiroColorStyle.g_500,
-                checkColor: DaepiroColorStyle.white,
-                fillColor: MaterialStateProperty.resolveWith((state) {
-                  if(!state.contains(MaterialState.selected)) {
-                    return DaepiroColorStyle.g_100;
-                  }
-                  return null;
-                }),
-                value: isVisible,
-                onChanged: (value) async {
-                  await ref.read(communityTownProvider.notifier).setVisibleState();
-                }),
-            SizedBox(width: 8),
-            Text(
-              '현위치를 표시하겠어요?',
-              style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
-            )
-          ],
-        ),
+          backgroundColor: DaepiroColorStyle.g_50,
+          padding: EdgeInsets.symmetric(vertical: 12),
+          overlayColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          shadowColor: Colors.transparent,
+          elevation: 0.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 12,
+          ),
+          Checkbox(
+              visualDensity: VisualDensity.compact,
+              side: BorderSide(color: Colors.transparent),
+              activeColor: DaepiroColorStyle.g_500,
+              checkColor: DaepiroColorStyle.white,
+              fillColor: MaterialStateProperty.resolveWith((state) {
+                if (!state.contains(MaterialState.selected)) {
+                  return DaepiroColorStyle.g_100;
+                }
+                return null;
+              }),
+              value: isVisible,
+              onChanged: (value) async {
+                await ref
+                    .read(communityTownProvider.notifier)
+                    .setVisibleState();
+              }),
+          SizedBox(width: 8),
+          Text(
+            '현위치를 표시하겠어요?',
+            style: DaepiroTextStyle.body_1_m
+                .copyWith(color: DaepiroColorStyle.g_800),
+          )
+        ],
       ),
     );
   }
 
   //카테고리 선택 바텀시트
-  void showCategoryBottomSheet(BuildContext context, bool isTouched, bool isWritingContainerPress) {
+  void showCategoryBottomSheet(
+      BuildContext context, bool isWritingContainerPress) {
     showModalBottomSheet(
         context: context,
         useRootNavigator: true,
@@ -266,7 +322,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
             children: [
               Container(
                 child: Column(
-                  children: [categoryItemWidget(isTouched, isWritingContainerPress)],
+                  children: [categoryItemWidget(isWritingContainerPress)],
                 ),
               ),
             ],
@@ -276,7 +332,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
   //바텀시트 내부 위젯
-  Widget categoryItemWidget(bool isTouched, bool isWritingContainerPress) {
+  Widget categoryItemWidget(bool isWritingContainerPress) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -354,9 +410,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                   ),
                 ),
                 GestureDetector(
-                  onTap: ()=>
-                    GoRouter.of(context).pop()
-                  ,
+                  onTap: () => GoRouter.of(context).pop(),
                   child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
@@ -383,17 +437,15 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: isTouched ? DaepiroColorStyle.white : DaepiroColorStyle.g_50,
+          backgroundColor: DaepiroColorStyle.white,
+          overlayColor: DaepiroColorStyle.g_50,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
         ),
         onPressed: () {
-          ref
-              .read(communityTownProvider.notifier)
-              .setCategoryState(category);
+          ref.read(communityTownProvider.notifier).setCategoryState(category);
           setState(() {
-            isTouched = !isTouched;
             isWritingContainerPress = !isWritingContainerPress;
           });
           GoRouter.of(context).pop();

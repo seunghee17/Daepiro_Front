@@ -110,18 +110,6 @@ class CommunityTownDetailState
               ),
             ),
           ),
-          //TextEditingController controller,
-          //       FocusNode focusNode,
-          //       BuildContext context,
-          //       bool isEditState,
-          //       bool isChildCommentState,
-          //       int parentCommentId,
-          //       bool isEditChildCommentState
-          // Padding(
-          //   padding: EdgeInsets.only(
-          //       bottom: MediaQuery.of(context).viewInsets.bottom),
-          //   child: footerWidget(replyController, focusNode, context, state.isEditState, state.isChildCommentState, state.parentCommentId, state.isEditChildCommentState)
-          // )
           footerWidget(
               replyController,
               focusNode,

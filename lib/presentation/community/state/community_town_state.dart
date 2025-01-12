@@ -31,7 +31,7 @@ sealed class CommunityTownState with _$CommunityTownState {
     @Default([]) List<String> townLongAddressList,
     @Default([]) List<String> townList,
     @Default('ALL') String townCommunityType,
-    //동네생활 카테고리
+    //동네생활 글쓰기 카테고리
     @Default('전체') String townCategory,
 
     //동네생활 댓글 상태

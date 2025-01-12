@@ -4,9 +4,9 @@ import 'package:daepiro/domain/usecase/community/community_dongnae_content_useca
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:photo_manager/photo_manager.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import '../../../data/model/request/album_model.dart';
 import '../../../data/model/request/community_comment_post_request.dart';
 import '../../../data/model/request/community_disaster_edit_request.dart';
@@ -26,8 +26,6 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   final Ref ref;
   final FlutterSecureStorage storage = FlutterSecureStorage();
   int _currentPage = 0;
-  Location location = new Location();
-  late PermissionStatus _permissionGranted;
 
   CommunityTownViewModel(this.ref) : super(CommunityTownState()) {
     _initState();
@@ -322,7 +320,8 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   ) async {
     await ref.read(setCommunityArticleWritingUseCaseProvider(
             CommunityArticleWritingUseCase(
-                articleCategory: ContentCategory.getNamedByCategory(state.townCategory),
+                articleCategory:
+                    ContentCategory.getNamedByCategory(state.townCategory),
                 title: title,
                 body: body,
                 visibility: state.isVisible,
@@ -334,23 +333,30 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<void> setVisibleState() async {
     bool value = state.isVisible;
-    state = state.copyWith(
-        isVisible: !value
-    );
-    if(state.isVisible) {
+    state = state.copyWith(isVisible: !value);
+    if (state.isVisible) {
       await getUserLocation();
     }
   }
 
+  void clearWritingState() {
+    state = state.copyWith(
+      isVisible: false,
+      townCategory: '전체',
+    );
+  }
+
   Future<void> getUserLocation() async {
-    _permissionGranted = await location.hasPermission();
-    if(_permissionGranted == PermissionStatus.granted) {
-      await location.getLocation().then((value) {
-        state = state.copyWith(
-          latitude: value.latitude!,
-          longitude: value.longitude!
-        );
-      });
+    var status = await Permission.location.status;
+    if (status.isGranted) {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      state = state.copyWith(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      );
+    } else {
+      await Permission.location.request();
     }
   }
 }
