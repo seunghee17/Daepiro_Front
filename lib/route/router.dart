@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
 import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
@@ -9,6 +10,8 @@ import 'package:daepiro/presentation/community/screens/community_rule_screen.dar
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
+import 'package:daepiro/presentation/sponsor/cheer_screen.dart';
+import 'package:daepiro/presentation/sponsor/sponsor_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -63,7 +66,8 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-     initialLocation: '/splash',
+     // initialLocation: '/splash',
+     initialLocation: '/login',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -147,6 +151,16 @@ final goRouteProvider = Provider((ref) {
               behaviorList: state.extra as List<Behavior>
           )
       ),
+      GoRoute(
+        path: '/sponsorDetail',
+        builder: (context, state) => SponsorDetailScreen(
+            extra: state.extra as Sponsor
+        ),
+      ),
+      GoRoute(
+        path: '/cheer',
+        builder: (context, state) => CheerScreen(),
+      ),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -214,8 +228,9 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                   path: '/sponsor',
-                  builder: (context, state) => const SponsorScreen(),
+                  builder: (context, state) => SponsorScreen(),
                 ),
+
               ],
             ),
             StatefulShellBranch(

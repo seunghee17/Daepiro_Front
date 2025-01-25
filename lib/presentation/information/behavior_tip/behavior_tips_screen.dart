@@ -109,147 +109,145 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(20,20,20,0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.g_50,
-                                          borderRadius: BorderRadius.circular(8)
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              '수신권장',
-                                              style: DaepiroTextStyle.caption.copyWith(
-                                                color: DaepiroColorStyle.o_500,
-                                              )
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                              '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
-                                              style: DaepiroTextStyle.caption.copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                              )
-                                          )
-                                        ],
-                                      ),
+                  child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(20,20,20,0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                    decoration: BoxDecoration(
+                                        color: DaepiroColorStyle.g_50,
+                                        borderRadius: BorderRadius.circular(8)
                                     ),
-                                  ],
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            '수신권장',
+                                            style: DaepiroTextStyle.caption.copyWith(
+                                              color: DaepiroColorStyle.o_500,
+                                            )
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                            '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                                            style: DaepiroTextStyle.caption.copyWith(
+                                              color: DaepiroColorStyle.g_800,
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(20,20,20,20),
+                                child: GridView.builder(
+                                    itemCount: viewModel.emergencyBehaviorList.length,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 8,
+                                        crossAxisSpacing: 8
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              useSafeArea: true,
+                                              context: context,
+                                              builder: (context) {
+                                                return BehaviorTipBottomSheet(
+                                                  behavior: viewModel.emergencyBehaviorList[index],
+                                                );
+                                              }
+                                          );
+                                        },
+                                        child: DisasterType(
+                                            name: viewModel.emergencyBehaviorList[index].name ?? ""
+                                        ),
+                                      );
+                                    }
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.fromLTRB(20,20,20,20),
-                                  child: GridView.builder(
-                                      itemCount: viewModel.emergencyBehaviorList.length,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          mainAxisSpacing: 8,
-                                          crossAxisSpacing: 8
-                                      ),
-                                      itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                useSafeArea: true,
-                                                context: context,
-                                                builder: (context) {
-                                                  return BehaviorTipBottomSheet(
-                                                    behavior: viewModel.emergencyBehaviorList[index],
-                                                  );
-                                                }
-                                            );
-                                          },
-                                          child: DisasterType(
-                                              name: viewModel.emergencyBehaviorList[index].name ?? ""
-                                          ),
-                                        );
-                                      }
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(20,20,20,0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.g_50,
-                                          borderRadius: BorderRadius.circular(8)
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
-                                              style: DaepiroTextStyle.caption.copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                              )
-                                          )
-                                        ],
-                                      ),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(20,20,20,0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                    decoration: BoxDecoration(
+                                        color: DaepiroColorStyle.g_50,
+                                        borderRadius: BorderRadius.circular(8)
                                     ),
-                                  ],
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
+                                            style: DaepiroTextStyle.caption.copyWith(
+                                              color: DaepiroColorStyle.g_800,
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(20,20,20,20),
+                                child: GridView.builder(
+                                    itemCount: viewModel.commonBehaviorList.length,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 8,
+                                        crossAxisSpacing: 8
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              useSafeArea: true,
+                                              context: context,
+                                              builder: (context) {
+                                                return BehaviorTipBottomSheet(
+                                                  behavior: viewModel.commonBehaviorList[index],
+                                                );
+                                              }
+                                          );
+                                        },
+                                        child: DisasterType(
+                                            name: viewModel.commonBehaviorList[index].name ?? ""
+                                        ),
+                                      );
+                                    }
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.fromLTRB(20,20,20,20),
-                                  child: GridView.builder(
-                                      itemCount: viewModel.commonBehaviorList.length,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          mainAxisSpacing: 8,
-                                          crossAxisSpacing: 8
-                                      ),
-                                      itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                useSafeArea: true,
-                                                context: context,
-                                                builder: (context) {
-                                                  return BehaviorTipBottomSheet(
-                                                    behavior: viewModel.commonBehaviorList[index],
-                                                  );
-                                                }
-                                            );
-                                          },
-                                          child: DisasterType(
-                                              name: viewModel.commonBehaviorList[index].name ?? ""
-                                          ),
-                                        );
-                                      }
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                        ]
-                    ),
+                            )
+                          ],
+                        )
+                      ]
                   ),
                 )
               ],

@@ -36,7 +36,7 @@ mixin _$CommunityTownState {
   List<String> get townLongAddressList => throw _privateConstructorUsedError;
   List<String> get townList => throw _privateConstructorUsedError;
   String get townCommunityType =>
-      throw _privateConstructorUsedError; //동네생활 카테고리
+      throw _privateConstructorUsedError; //동네생활 글쓰기 카테고리
   String get townCategory => throw _privateConstructorUsedError; //동네생활 댓글 상태
   List<CommentData> get TownReplyList =>
       throw _privateConstructorUsedError; //대댓글 작성시 필요한 부모 댓글 id
@@ -581,7 +581,7 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final String townCommunityType;
-//동네생활 카테고리
+//동네생활 글쓰기 카테고리
   @override
   @JsonKey()
   final String townCategory;
@@ -833,7 +833,7 @@ abstract class _CommunityTownState implements CommunityTownState {
   List<String> get townList;
   @override
   String get townCommunityType;
-  @override //동네생활 카테고리
+  @override //동네생활 글쓰기 카테고리
   String get townCategory;
   @override //동네생활 댓글 상태
   List<CommentData> get TownReplyList;

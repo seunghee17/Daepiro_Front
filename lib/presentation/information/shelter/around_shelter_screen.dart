@@ -43,34 +43,32 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
             color: DaepiroColorStyle.white,
             child: Column(
               children: [
-                Container(
-                  child: Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          GoRouter.of(context).pop();
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.all(12),
-                          margin: EdgeInsets.only(top: 4, bottom: 4, left: 12),
-                          child: SvgPicture.asset(
-                            'assets/icons/icon_arrow_left.svg',
-                          ),
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        GoRouter.of(context).pop();
+                      },
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.all(12),
+                        margin: EdgeInsets.only(top: 4, bottom: 4, left: 12),
+                        child: SvgPicture.asset(
+                          'assets/icons/icon_arrow_left.svg',
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 14),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "주변 대피소 목록",
-                          style: DaepiroTextStyle.h6.copyWith(
-                            color: DaepiroColorStyle.g_800,
-                          ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 14),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "주변 대피소 목록",
+                        style: DaepiroTextStyle.h6.copyWith(
+                          color: DaepiroColorStyle.g_800,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Container(
