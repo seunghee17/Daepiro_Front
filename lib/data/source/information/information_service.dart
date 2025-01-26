@@ -13,10 +13,6 @@ part 'information_service.g.dart';
 abstract class InformationService {
   factory InformationService(Dio dio, {String baseUrl}) = _InformationService;
 
-  // 정보 메인화면 재난콘텐츠 조회
-  @GET('/v1/disastercontents/home')
-  Future<DisasterContentsResponse> getDisasterContents();
-
   // 재난콘텐츠 목록 조회
   @GET('/v1/disastercontents/list/{sortType}')
   Future<DisasterContentsListResponse> getDisasterContentsList({

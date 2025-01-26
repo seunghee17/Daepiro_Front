@@ -1,6 +1,5 @@
 import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
 class DisasterContentsMainItem extends StatelessWidget {
@@ -12,18 +11,19 @@ class DisasterContentsMainItem extends StatelessWidget {
   final String bodyUrl;
 
   const DisasterContentsMainItem({
-    Key? key,
+    super.key,
     required this.type,
     required this.title,
     required this.source,
     required this.date,
     required this.thumbnailUrl,
     required this.bodyUrl
-  }): super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(16),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,6 +62,7 @@ class DisasterContentsMainItem extends StatelessWidget {
                 child: Image.network(
                   thumbnailUrl,
                   width: double.infinity,
+                  height: 180,
                   fit: BoxFit.cover
                 )
             )

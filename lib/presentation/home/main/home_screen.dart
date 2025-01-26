@@ -417,7 +417,7 @@ class HomeScreen extends ConsumerWidget {
                                                 },
                                                 children: [
                                                   for (int i=0;i<3;i++)
-                                                    Column(
+                                                    const Column(
                                                       children: [
                                                         InformationContentsPreview(
                                                             imagePath: 'assets/icons/image_sample.jpg',
@@ -440,7 +440,7 @@ class HomeScreen extends ConsumerWidget {
                                                 child: SmoothPageIndicator(
                                                   controller: _infoContentsPageController,
                                                   count: 3,
-                                                  effect: ExpandingDotsEffect(
+                                                  effect: const ExpandingDotsEffect(
                                                       dotColor: DaepiroColorStyle.g_75,
                                                       activeDotColor: DaepiroColorStyle.g_300,
                                                       dotHeight: 6,

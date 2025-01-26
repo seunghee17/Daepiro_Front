@@ -169,4 +169,80 @@ class CheerScreen extends ConsumerWidget {
       ),
     );
   }
+
+  Widget editMenu(
+      BuildContext context,
+      WidgetRef ref,
+      int commentId,
+      VoidCallback onCancel,
+      VoidCallback setDeleteState,
+      VoidCallback setChildCommentState,
+      bool isChildCommentState,
+      bool isDisasterScreen,
+      ) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            // if (isDisasterScreen) {
+            //   ref.read(communityDisasterProvider.notifier).setEditState(true);
+            //   ref
+            //       .read(communityDisasterProvider.notifier)
+            //       .setReplyId(commentId);
+            // } else {
+            //   ref.read(communityTownProvider.notifier).setEditState(true);
+            //   ref.read(communityTownProvider.notifier).setReplyId(commentId);
+            // }
+            GoRouter.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: DaepiroColorStyle.g_50,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  '수정하기',
+                  textAlign: TextAlign.center,
+                  style: DaepiroTextStyle.body_1_b
+                      .copyWith(color: DaepiroColorStyle.g_700),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 7),
+        GestureDetector(
+            onTap: () {
+              GoRouter.of(context).pop();
+              // isChildCommentState
+              //     ? deleteDialog(context, ref, commentId, onCancel,
+              //     setDeleteState, setChildCommentState)
+              //     : deleteDialog(
+              //     context, ref, commentId, onCancel, setDeleteState, null);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: DaepiroColorStyle.g_50,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    '삭제하기',
+                    textAlign: TextAlign.center,
+                    style: DaepiroTextStyle.body_1_b
+                        .copyWith(color: DaepiroColorStyle.g_700),
+                  ),
+                ),
+              ),
+            ))
+      ],
+    );
+  }
 }

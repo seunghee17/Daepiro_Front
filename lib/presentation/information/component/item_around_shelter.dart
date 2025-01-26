@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../home/component/map_direction_item.dart';
 
@@ -49,11 +51,16 @@ class ItemAroundShelter extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    SvgPicture.asset(
+                    GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: address));
+                      },
+                      child: SvgPicture.asset(
                         'assets/icons/icon_copy.svg',
-                        colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                         width: 30,
                         height: 30
+                      ),
                     )
                   ]
               ),
@@ -86,7 +93,7 @@ class ItemAroundShelter extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.symmetric(vertical: 24),
+                                    padding: const EdgeInsets.symmetric(vertical: 24),
                                     child: Text(
                                       "대피소 길찾기 바로가기",
                                       style: DaepiroTextStyle.body_1_b.copyWith(

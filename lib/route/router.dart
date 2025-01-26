@@ -146,6 +146,20 @@ final goRouteProvider = Provider((ref) {
           builder: (context, state) => EmergencyResponseScreen()
       ),
       GoRoute(
+          path: '/disasterContents',
+          builder: (context, state) => DisasterContentsScreen()
+      ),
+      GoRoute(
+          path: '/searchDisasterContents',
+          builder: (context, state) => SearchDisasterContentsScreen()
+      ),
+      GoRoute(
+        path: '/aroundShelter',
+        builder: (context, state) => AroundShelterScreen(
+            extra: state.extra as AroundShelterExtra
+        ),
+      ),
+      GoRoute(
           path: '/searchDisasterType',
           builder: (context, state) => SearchDisasterTypeScreen(
               behaviorList: state.extra as List<Behavior>
@@ -204,20 +218,7 @@ final goRouteProvider = Provider((ref) {
                   path: '/information',
                   builder: (context, state) => InformationScreen(),
                   routes: [
-                    GoRoute(
-                        path: 'disasterContents',
-                        builder: (context, state) => DisasterContentsScreen()
-                    ),
-                    GoRoute(
-                        path: 'searchDisasterContents',
-                        builder: (context, state) => SearchDisasterContentsScreen()
-                    ),
-                    GoRoute(
-                      path: 'aroundShelter',
-                      builder: (context, state) => AroundShelterScreen(
-                        extra: state.extra as AroundShelterExtra
-                      ),
-                    ),
+
 
                   ]
                 ),

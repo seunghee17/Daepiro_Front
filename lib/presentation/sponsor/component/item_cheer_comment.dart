@@ -56,11 +56,16 @@ class ItemCheerComment extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SvgPicture.asset(
-                      'assets/icons/icon_more2.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn),
+                    GestureDetector(
+                      onTap: () {
+
+                      },
+                      child: SvgPicture.asset(
+                        'assets/icons/icon_more2.svg',
+                        width: 24,
+                        height: 24,
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn),
+                      ),
                     )
                   ],
                 ),

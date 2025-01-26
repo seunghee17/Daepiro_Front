@@ -1,5 +1,5 @@
 import 'package:daepiro/domain/usecase/information/get_around_shelter_list_usecase.dart';
-import 'package:daepiro/domain/usecase/information/get_disaster_contents_usecase.dart';
+import 'package:daepiro/domain/usecase/information/get_disaster_contents_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/register_user_location_usecase.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,20 +66,26 @@ class InformationViewModel extends StateNotifier<InformationState> {
     }
   }
 
-  // 재난콘텐츠 조회
-  Future<void> getDisasterContents() async {
+  // 재난콘텐츠 목록 조회
+  Future<void> getDisasterContents({
+    String sortType = "latest",
+    String size = "7"
+  }) async {
     try {
       final response = await ref.read(
-          getDisasterContentsUseCaseProvider(GetDisasterContentsUseCase()).future
+          getDisasterContentsListUseCaseProvider(GetDisasterContentsListUseCase(
+              sortType: sortType,
+              size: size
+          )).future
       );
 
       state = state.copyWith(
-        contentsList: response.data?.contents ?? []
+        contentsList: response.data?.contents ?? [],
+        isLoadingContents: false
       );
 
     } catch (error) {
-      print('재난콘텐츠 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
+      print('재난콘텐츠 목록 조회 에러: $error');
     }
   }
 
@@ -113,7 +119,10 @@ class InformationViewModel extends StateNotifier<InformationState> {
         );
       }
 
-      state = state.copyWith(myLocation: response.data?.myLocation ?? "");
+      state = state.copyWith(
+        myLocation: response.data?.myLocation ?? "",
+        isLoadingShelters: false
+      );
 
     } catch (error) {
       print('주변 대피소 조회 에러: $error');
