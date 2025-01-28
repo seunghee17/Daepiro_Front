@@ -39,11 +39,11 @@ class InformationScreen extends ConsumerWidget {
             height: MediaQuery.of(context).size.height,
             color: DaepiroColorStyle.white,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Container(
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "재난 정보",
@@ -69,7 +69,7 @@ class InformationScreen extends ConsumerWidget {
                                 const Spacer(),
                                 GestureDetector(
                                   onTap: () {
-                                    context.push('/information/disasterContents');
+                                    context.push('/disasterContents');
                                   },
                                   child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,40 +87,42 @@ class InformationScreen extends ConsumerWidget {
                               ]
                           ),
                           const SizedBox(height: 12),
-                          if (viewModel.contentsList.isNotEmpty)
+                          if (viewModel.isLoadingContents)
                             Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  width: 2,
-                                  color: DaepiroColorStyle.g_50,
+                                padding: const EdgeInsets.symmetric(vertical: 48),
+                                child: const Center(child: CircularProgressIndicator())
+                            )
+                          else
+                            if (viewModel.contentsList.isNotEmpty)
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: DaepiroColorStyle.g_50,
+                                  ),
+                                ),
+                                child: ExpandablePageView(
+                                  controller: _disasterContentPageController,
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    for (int i=0;i<viewModel.contentsList!.length;i++)
+                                      Column(
+                                        children: [
+                                          DisasterContentsMainItem(
+                                              type: "실시간 뉴스",
+                                              title: viewModel.contentsList[i].title ?? "",
+                                              source: viewModel.contentsList[i].source ?? "",
+                                              date: viewModel.contentsList[i].publishedAt ?? "",
+                                              thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
+                                              bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
+                                          ),
+                                        ],
+                                      )
+                                  ],
                                 ),
                               ),
-                              child: ExpandablePageView(
-                                controller: _disasterContentPageController,
-                                scrollDirection: Axis.horizontal,
-                                onPageChanged: (index) {
-                                  // _homeViewModel.selectPopularPostCategory(index);
-                                },
-                                children: [
-                                  for (int i=0;i<viewModel.contentsList!.length;i++)
-                                    Column(
-                                      children: [
-                                        DisasterContentsMainItem(
-                                            type: "실시간 뉴스",
-                                            title: viewModel.contentsList[i].title ?? "",
-                                            source: viewModel.contentsList[i].source ?? "",
-                                            date: viewModel.contentsList[i].publishedAt ?? "",
-                                            thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
-                                            bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
-                                        ),
-                                      ],
-                                    )
-                                ],
-                              ),
-                            ),
                           const SizedBox(height: 12),
                           Center(
                             child: SmoothPageIndicator(
@@ -139,100 +141,102 @@ class InformationScreen extends ConsumerWidget {
                           const SizedBox(height: 32),
                           Column(
                             children: [
-                              Container(
-                                child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "주변 대피소",
-                                        style: DaepiroTextStyle.h6.copyWith(
-                                          color: DaepiroColorStyle.g_900,
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "주변 대피소",
+                                      style: DaepiroTextStyle.h6.copyWith(
+                                        color: DaepiroColorStyle.g_900,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // context.push('/home/disasterMessageHistory');
+                                      },
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          context.push(
+                                            '/aroundShelter',
+                                            extra: AroundShelterExtra(
+                                              latitude: viewModel.latitude,
+                                              longitude: viewModel.longitude,
+                                              address: viewModel.myLocation,
+                                              temperatureShelterList: viewModel.temperatureShelterList,
+                                              earthquakeShelterList: viewModel.earthquakeShelterList,
+                                              tsunamiShelterList: viewModel.temperatureShelterList,
+                                              civilShelterList: viewModel.civilShelterList
+                                            )
+                                          );
+                                        },
+                                        child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "더보기",
+                                                style: DaepiroTextStyle.body_2_m.copyWith(
+                                                  color: DaepiroColorStyle.o_400,
+                                                ),
+                                              ),
+                                              SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                            ]
                                         ),
                                       ),
-                                      const Spacer(),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // context.push('/home/disasterMessageHistory');
-                                        },
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            context.push(
-                                              '/information/aroundShelter',
-                                              extra: AroundShelterExtra(
-                                                latitude: viewModel.latitude,
-                                                longitude: viewModel.longitude,
-                                                address: viewModel.myLocation,
-                                                temperatureShelterList: viewModel.temperatureShelterList,
-                                                earthquakeShelterList: viewModel.earthquakeShelterList,
-                                                tsunamiShelterList: viewModel.temperatureShelterList,
-                                                civilShelterList: viewModel.civilShelterList
-                                              )
-                                            );
-                                          },
-                                          child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "더보기",
-                                                  style: DaepiroTextStyle.body_2_m.copyWith(
-                                                    color: DaepiroColorStyle.o_400,
-                                                  ),
-                                                ),
-                                                SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                              ]
-                                          ),
-                                        ),
-                                      )
-                                    ]
-                                ),
+                                    )
+                                  ]
                               ),
                               const SizedBox(height: 12),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    for (int index = 0; index < Const.disasterTypeList.length; index++)
-                                      Row(
-                                        children: [
-                                          SecondaryChip(
-                                              isSelected: index == viewModel.selectedAroundShelterType,
-                                              text: Const.disasterTypeList[index],
-                                              onPressed: () {
-                                                ref.read(informationStateNotifierProvider.notifier).selectAroundShelterType(index);
-                                                _aroundShelterPageController.animateToPage(
-                                                    0,
-                                                    duration: const Duration(milliseconds: 1),
-                                                    curve: Curves.easeIn
-                                                );
-                                              }
-                                          ),
-                                          const SizedBox(width: 8)
-                                        ],
-                                      )
-                                  ],
-                                ),
-                              ),
-                              if (viewModel.shelterList.isNotEmpty)
-                                ExpandablePageView.builder(
-                                    controller: _aroundShelterPageController,
-                                    scrollDirection: Axis.horizontal,
-                                    padEnds: false,
-                                    itemCount: viewModel.shelterList.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return Container(
-                                        padding: const EdgeInsets.only(top: 16),
-                                        margin: const EdgeInsets.only(right: 8),
-                                        child: AroundShelterPreview(
-                                          name: viewModel.shelterList[index].name ?? "",
-                                          distinct: viewModel.shelterList[index].distance ?? 0,
-                                          address: viewModel.shelterList[index].address ?? "",
-                                          startLatitude: viewModel.latitude,
-                                          startLongitude: viewModel.longitude,
-                                          endLatitude: viewModel.shelterList[index].latitude ?? 0,
-                                          endLongitude: viewModel.shelterList[index].longitude ?? 0
+                              Row(
+                                children: [
+                                  for (int index = 0; index < Const.disasterTypeList.length; index++)
+                                    Row(
+                                      children: [
+                                        SecondaryChip(
+                                            isSelected: index == viewModel.selectedAroundShelterType,
+                                            text: Const.disasterTypeList[index],
+                                            onPressed: () {
+                                              ref.read(informationStateNotifierProvider.notifier).selectAroundShelterType(index);
+                                              _aroundShelterPageController.animateToPage(
+                                                  0,
+                                                  duration: const Duration(milliseconds: 1),
+                                                  curve: Curves.easeIn
+                                              );
+                                            }
                                         ),
-                                      );
-                                    }
+                                        const SizedBox(width: 8)
+                                      ],
+                                    )
+                                ],
+                              ),
+                              if (viewModel.isLoadingShelters)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 48),
+                                  child: const Center(child: CircularProgressIndicator())
                                 )
+                              else
+                                if (viewModel.shelterList.isNotEmpty)
+                                  ExpandablePageView.builder(
+                                      controller: _aroundShelterPageController,
+                                      scrollDirection: Axis.horizontal,
+                                      padEnds: false,
+                                      itemCount: viewModel.shelterList.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return Container(
+                                          padding: const EdgeInsets.only(top: 16),
+                                          margin: const EdgeInsets.only(right: 8),
+                                          child: AroundShelterPreview(
+                                            name: viewModel.shelterList[index].name ?? "",
+                                            distinct: viewModel.shelterList[index].distance ?? 0,
+                                            address: viewModel.shelterList[index].address ?? "",
+                                            startLatitude: viewModel.latitude,
+                                            startLongitude: viewModel.longitude,
+                                            endLatitude: viewModel.shelterList[index].latitude ?? 0,
+                                            endLongitude: viewModel.shelterList[index].longitude ?? 0
+                                          ),
+                                        );
+                                      }
+                                  )
                             ],
                           ),
                           const SizedBox(height: 32),
@@ -247,7 +251,7 @@ class InformationScreen extends ConsumerWidget {
                                     decoration: BoxDecoration(
                                         color: DaepiroColorStyle.g_50,
                                         borderRadius: BorderRadius.circular(12)),
-                                    padding: EdgeInsets.all(15),
+                                    padding: const EdgeInsets.all(15),
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -264,8 +268,8 @@ class InformationScreen extends ConsumerWidget {
                                               color: DaepiroColorStyle.g_400,
                                             ),
                                           ),
-                                          const SizedBox(width: 4),
-                                          Image.asset('assets/icons/image_siren.png')
+                                          const SizedBox(height: 4),
+                                          Image.asset('assets/icons/image_siren.png', width: double.infinity, height: 55, fit: BoxFit.cover)
                                         ]
                                     ),
                                   ),
@@ -281,7 +285,7 @@ class InformationScreen extends ConsumerWidget {
                                     decoration: BoxDecoration(
                                         color: DaepiroColorStyle.g_50,
                                         borderRadius: BorderRadius.circular(12)),
-                                    padding: EdgeInsets.all(15),
+                                    padding: const EdgeInsets.all(15),
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -298,9 +302,8 @@ class InformationScreen extends ConsumerWidget {
                                               color: DaepiroColorStyle.g_400,
                                             ),
                                           ),
-                                          const SizedBox(width: 4),
-                                          Image.asset(
-                                              'assets/icons/image_warning.png')
+                                          const SizedBox(height: 4),
+                                          Image.asset('assets/icons/image_warning.png', width: double.infinity, height: 55, fit: BoxFit.cover)
                                         ]
                                     ),
                                   ),

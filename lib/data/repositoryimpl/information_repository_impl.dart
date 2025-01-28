@@ -13,17 +13,6 @@ class InformationRepositoryImpl extends InformationRepository {
   final InformationService _service;
 
   @override
-  Future<DisasterContentsResponse> getDisasterContents() async {
-    try {
-      final response = await _service.getDisasterContents();
-      return response;
-    } catch(e) {
-      print('재난콘텐츠 조회 오류 ${e.toString()}');
-      rethrow;
-    }
-  }
-
-  @override
   Future<DisasterContentsListResponse> getDisasterContentsList({
     required String sortType,
     required String size

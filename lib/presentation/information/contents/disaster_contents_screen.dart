@@ -55,7 +55,7 @@ class DisasterContentsScreen extends ConsumerWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.push('/information/searchDisasterContents');
+                          context.push('/searchDisasterContents');
                         },
                         child: SvgPicture.asset(
                           'assets/icons/icon_search.svg',

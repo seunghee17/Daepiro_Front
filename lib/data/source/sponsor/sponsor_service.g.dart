@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'information_service.dart';
+part of 'sponsor_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'information_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _InformationService implements InformationService {
-  _InformationService(
+class _SponsorService implements SponsorService {
+  _SponsorService(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
@@ -22,22 +22,19 @@ class _InformationService implements InformationService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<DisasterContentsListResponse> getDisasterContentsList({
-    required String sortType,
-    required String size,
-  }) async {
+  Future<SponsorListResponse> getSponsorList() async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'size': size};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<DisasterContentsListResponse>(Options(
+    final _options = _setStreamType<SponsorListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/v1/disastercontents/list/${sortType}',
+          '/v1/sponsors/articles',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -47,9 +44,9 @@ class _InformationService implements InformationService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late DisasterContentsListResponse _value;
+    late SponsorListResponse _value;
     try {
-      _value = DisasterContentsListResponse.fromJson(_result.data!);
+      _value = SponsorListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -58,22 +55,19 @@ class _InformationService implements InformationService {
   }
 
   @override
-  Future<DisasterContentsListResponse> searchDisasterContents({
-    required String keyword,
-    required String size,
-  }) async {
+  Future<CheerCommentResponse> getCheerCommentList() async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'size': size};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<DisasterContentsListResponse>(Options(
+    final _options = _setStreamType<CheerCommentResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/v1/disastercontents/search/${keyword}',
+          '/v1/sponsors/cheering',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -83,9 +77,9 @@ class _InformationService implements InformationService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late DisasterContentsListResponse _value;
+    late CheerCommentResponse _value;
     try {
-      _value = DisasterContentsListResponse.fromJson(_result.data!);
+      _value = CheerCommentResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -94,8 +88,40 @@ class _InformationService implements InformationService {
   }
 
   @override
-  Future<BasicResponse> registerUserLocation(
-      {required RegisterUserLocationRequest body}) async {
+  Future<CheerKeywordResponse> getCheerKeywordList() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CheerKeywordResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/sponsors/messages',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CheerKeywordResponse _value;
+    try {
+      _value = CheerKeywordResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BasicResponse> writeCheer({required CheerRequest body}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -108,7 +134,7 @@ class _InformationService implements InformationService {
     )
         .compose(
           _dio.options,
-          '/v1/users/gps',
+          '/v1/sponsors/cheering',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -129,20 +155,23 @@ class _InformationService implements InformationService {
   }
 
   @override
-  Future<AroundShelterListResponse> getAroundShelterList(
-      {required String type}) async {
+  Future<BasicResponse> modifyCheer({
+    required String id,
+    required CheerRequest body,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<AroundShelterListResponse>(Options(
-      method: 'GET',
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<BasicResponse>(Options(
+      method: 'PUT',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/v1/shelters/${type}',
+          '/v1/sponsors/cheering/${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -152,76 +181,9 @@ class _InformationService implements InformationService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AroundShelterListResponse _value;
+    late BasicResponse _value;
     try {
-      _value = AroundShelterListResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BehaviorListResponse> getBehaviorList({required String type}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BehaviorListResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/v1/behaviourtips/list/${type}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BehaviorListResponse _value;
-    try {
-      _value = BehaviorListResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BehaviorListResponse> searchDisasterType(
-      {required String keyword}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BehaviorListResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/v1/behaviourtips/search/${keyword}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BehaviorListResponse _value;
-    try {
-      _value = BehaviorListResponse.fromJson(_result.data!);
+      _value = BasicResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

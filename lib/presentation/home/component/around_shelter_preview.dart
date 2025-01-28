@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
@@ -56,11 +57,16 @@ class AroundShelterPreview extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                SvgPicture.asset(
-                    'assets/icons/icon_copy.svg',
-                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
-                    width: 30,
-                    height: 30
+                GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(text: address));
+                  },
+                  child: SvgPicture.asset(
+                      'assets/icons/icon_copy.svg',
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                      width: 30,
+                      height: 30
+                  ),
                 )
               ]
           ),
@@ -87,13 +93,13 @@ class AroundShelterPreview extends StatelessWidget {
                         ),
                         backgroundColor: DaepiroColorStyle.white,
                         child: Container(
-                          padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(vertical: 24),
+                                padding: const EdgeInsets.symmetric(vertical: 24),
                                 child: Text(
                                   "대피소 길찾기 바로가기",
                                   style: DaepiroTextStyle.body_1_b.copyWith(

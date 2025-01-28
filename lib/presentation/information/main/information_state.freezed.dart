@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$InformationState {
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoadingContents => throw _privateConstructorUsedError;
+  bool get isLoadingShelters => throw _privateConstructorUsedError;
   List<Contents> get contentsList =>
       throw _privateConstructorUsedError; // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType => throw _privateConstructorUsedError;
@@ -46,7 +47,8 @@ abstract class $InformationStateCopyWith<$Res> {
       _$InformationStateCopyWithImpl<$Res, InformationState>;
   @useResult
   $Res call(
-      {bool isLoading,
+      {bool isLoadingContents,
+      bool isLoadingShelters,
       List<Contents> contentsList,
       int selectedAroundShelterType,
       String myLocation,
@@ -72,7 +74,8 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? isLoadingContents = null,
+    Object? isLoadingShelters = null,
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
     Object? myLocation = null,
@@ -85,9 +88,13 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
     Object? longitude = null,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      isLoadingContents: null == isLoadingContents
+          ? _value.isLoadingContents
+          : isLoadingContents // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingShelters: null == isLoadingShelters
+          ? _value.isLoadingShelters
+          : isLoadingShelters // ignore: cast_nullable_to_non_nullable
               as bool,
       contentsList: null == contentsList
           ? _value.contentsList
@@ -142,7 +149,8 @@ abstract class _$$InformationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading,
+      {bool isLoadingContents,
+      bool isLoadingShelters,
       List<Contents> contentsList,
       int selectedAroundShelterType,
       String myLocation,
@@ -166,7 +174,8 @@ class __$$InformationStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? isLoadingContents = null,
+    Object? isLoadingShelters = null,
     Object? contentsList = null,
     Object? selectedAroundShelterType = null,
     Object? myLocation = null,
@@ -179,9 +188,13 @@ class __$$InformationStateImplCopyWithImpl<$Res>
     Object? longitude = null,
   }) {
     return _then(_$InformationStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      isLoadingContents: null == isLoadingContents
+          ? _value.isLoadingContents
+          : isLoadingContents // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingShelters: null == isLoadingShelters
+          ? _value.isLoadingShelters
+          : isLoadingShelters // ignore: cast_nullable_to_non_nullable
               as bool,
       contentsList: null == contentsList
           ? _value._contentsList
@@ -231,7 +244,8 @@ class __$$InformationStateImplCopyWithImpl<$Res>
 
 class _$InformationStateImpl implements _InformationState {
   _$InformationStateImpl(
-      {this.isLoading = false,
+      {this.isLoadingContents = true,
+      this.isLoadingShelters = true,
       final List<Contents> contentsList = const [],
       this.selectedAroundShelterType = 0,
       this.myLocation = "",
@@ -251,7 +265,10 @@ class _$InformationStateImpl implements _InformationState {
 
   @override
   @JsonKey()
-  final bool isLoading;
+  final bool isLoadingContents;
+  @override
+  @JsonKey()
+  final bool isLoadingShelters;
   final List<Contents> _contentsList;
   @override
   @JsonKey()
@@ -335,7 +352,7 @@ class _$InformationStateImpl implements _InformationState {
 
   @override
   String toString() {
-    return 'InformationState(isLoading: $isLoading, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, myLocation: $myLocation, shelterList: $shelterList, temperatureShelterList: $temperatureShelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList, latitude: $latitude, longitude: $longitude)';
+    return 'InformationState(isLoadingContents: $isLoadingContents, isLoadingShelters: $isLoadingShelters, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, myLocation: $myLocation, shelterList: $shelterList, temperatureShelterList: $temperatureShelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -343,8 +360,10 @@ class _$InformationStateImpl implements _InformationState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InformationStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
+            (identical(other.isLoadingContents, isLoadingContents) ||
+                other.isLoadingContents == isLoadingContents) &&
+            (identical(other.isLoadingShelters, isLoadingShelters) ||
+                other.isLoadingShelters == isLoadingShelters) &&
             const DeepCollectionEquality()
                 .equals(other._contentsList, _contentsList) &&
             (identical(other.selectedAroundShelterType,
@@ -371,7 +390,8 @@ class _$InformationStateImpl implements _InformationState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      isLoading,
+      isLoadingContents,
+      isLoadingShelters,
       const DeepCollectionEquality().hash(_contentsList),
       selectedAroundShelterType,
       myLocation,
@@ -393,7 +413,8 @@ class _$InformationStateImpl implements _InformationState {
 
 abstract class _InformationState implements InformationState {
   factory _InformationState(
-      {final bool isLoading,
+      {final bool isLoadingContents,
+      final bool isLoadingShelters,
       final List<Contents> contentsList,
       final int selectedAroundShelterType,
       final String myLocation,
@@ -406,7 +427,9 @@ abstract class _InformationState implements InformationState {
       final double longitude}) = _$InformationStateImpl;
 
   @override
-  bool get isLoading;
+  bool get isLoadingContents;
+  @override
+  bool get isLoadingShelters;
   @override
   List<Contents> get contentsList;
   @override // 메인 재난콘텐츠 목록

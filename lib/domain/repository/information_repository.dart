@@ -15,8 +15,6 @@ final informationRepositoryProvider = Provider<InformationRepository>((ref) {
 });
 
 abstract class InformationRepository {
-  Future<DisasterContentsResponse> getDisasterContents();
-
   Future<DisasterContentsListResponse> getDisasterContentsList({
     required String sortType,
     required String size
