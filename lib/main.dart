@@ -20,8 +20,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   SettingFCM().initNotification();
-  // String? _fcmToken = await FirebaseMessaging.instance.getToken();
-  // print('토큰토큰 $_fcmToken');
+  String? _fcmToken = await FirebaseMessaging.instance.getToken();
+  print('토큰토큰 $_fcmToken');
 
   runApp(ProviderScope(child: MyApp()));
 }
