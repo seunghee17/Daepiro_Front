@@ -40,6 +40,22 @@ String calculateDaysDiff(String date) {
   }
 }
 
+// "2024-12-15T18:08:00" 형식의 String을 n분 전 형태로 변환
+String timeAgo(String date) {
+  DateTime past = DateTime.parse(date).toLocal();
+  Duration difference = DateTime.now().difference(past);
+
+  if (difference.inMinutes < 1) {
+    return "방금전";
+  } else if (difference.inMinutes < 60) {
+    return "${difference.inMinutes}분전";
+  } else if (difference.inHours < 24) {
+    return "${difference.inHours}시간전";
+  } else {
+    return "${difference.inDays}일전";
+  }
+}
+
 // 재난명으로 아이콘 찾기
 String findDisasterIconByName({
   required String name

@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,12 +8,16 @@ class ItemCheerComment extends StatelessWidget {
   final String name;
   final String date;
   final String contents;
+  final VoidCallback onClickMenu;
+  final bool isMine;
 
   const ItemCheerComment({
     super.key,
     required this.name,
     required this.date,
     required this.contents,
+    required this.onClickMenu,
+    required this.isMine,
   });
 
   @override
@@ -21,7 +26,7 @@ class ItemCheerComment extends StatelessWidget {
       margin: const EdgeInsets.only(right: 20, top: 0, left: 20, bottom: 12),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: DaepiroColorStyle.white,
+          color: (isMine && timeAgo(date) == "방금전") ? DaepiroColorStyle.o_50 : DaepiroColorStyle.white,
           boxShadow: [
             BoxShadow(
               color: DaepiroColorStyle.black.withOpacity(0.08),
@@ -50,7 +55,7 @@ class ItemCheerComment extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "$name · $date",
+                        "$name · ${timeAgo(date)}",
                         style: DaepiroTextStyle.caption.copyWith(
                           color: DaepiroColorStyle.g_900,
                         ),
@@ -58,7 +63,7 @@ class ItemCheerComment extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-
+                        onClickMenu();
                       },
                       child: SvgPicture.asset(
                         'assets/icons/icon_more2.svg',

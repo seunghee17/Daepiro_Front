@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/const/utils.dart';
+import 'package:daepiro/presentation/sponsor/cheer_comment_menu.dart';
 import 'package:daepiro/presentation/sponsor/component/item_cheer_comment.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_state.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_view_model.dart';
@@ -10,18 +11,48 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../cmm/DaepiroTheme.dart';
+import '../community/screens/reply_menu_screen.dart';
 import 'component/item_sponsor_preview.dart';
 
-class CheerScreen extends ConsumerWidget {
-  CheerScreen({super.key});
+class CheerScreen extends ConsumerStatefulWidget {
+  const CheerScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(sponsorStateNotifierProvider);
+  _CheerScreenState createState() => _CheerScreenState();
+}
 
-    ref.listen<SponsorState>(sponsorStateNotifierProvider, (previous, next) {
+class _CheerScreenState extends ConsumerState<CheerScreen> {
+  final TextEditingController textEditingController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+  bool isFocused = false;
 
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(() {
+      setState(() {
+        isFocused = focusNode.hasFocus;
+      });
     });
+
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(() {
+      setState(() {
+        isFocused = focusNode.hasFocus;
+      });
+    });
+    textEditingController.removeListener(() {});
+    textEditingController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(sponsorStateNotifierProvider);
 
     return MaterialApp(
       home: SafeArea(
@@ -29,7 +60,17 @@ class CheerScreen extends ConsumerWidget {
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: DaepiroColorStyle.white,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFFFFC7B4), // 연한 핑크색
+                  Colors.white, // 흰색
+                ],
+                stops: [0, 0.3], // 30%에서 색이 변경됨
+              ),
+            ),
             child: Column(
                 children: [
                   Stack(
@@ -61,28 +102,28 @@ class CheerScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/icons/image_sample.jpg',
+                        'assets/icons/sponsor_heart.gif',
                         width: 178,
                         height: 178,
                         fit: BoxFit.cover,
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "응원이 필요한 이웃에게\n따뜻한 한마디를 전달해보세요",
-                        style: DaepiroTextStyle.h6.copyWith(
-                          color: DaepiroColorStyle.g_900,
-                        ),
-                        textAlign: TextAlign.center
+                          "응원이 필요한 이웃에게\n따뜻한 한마디를 전달해보세요",
+                          style: DaepiroTextStyle.h6.copyWith(
+                            color: DaepiroColorStyle.g_900,
+                          ),
+                          textAlign: TextAlign.center
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        "메시지는 후원 페이지 상단 배너에 노출돼요.",
-                        style: DaepiroTextStyle.body_2_m.copyWith(
-                          color: DaepiroColorStyle.g_400,
-                        ),
-                        textAlign: TextAlign.center
+                          "메시지는 후원 페이지 상단 배너에 노출돼요.",
+                          style: DaepiroTextStyle.body_2_m.copyWith(
+                            color: DaepiroColorStyle.g_400,
+                          ),
+                          textAlign: TextAlign.center
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 16),
                     ],
                   ),
                   Expanded(
@@ -91,12 +132,23 @@ class CheerScreen extends ConsumerWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
+                              if (index == 0)
+                                const SizedBox(height: 12),
                               GestureDetector(
                                 onTap: () {},
                                 child: ItemCheerComment(
                                     name: viewModel.cheerCommentList[index].author ?? "",
                                     date: viewModel.cheerCommentList[index].time ?? "",
                                     contents: viewModel.cheerCommentList[index].content ?? "",
+                                    onClickMenu: () {
+                                      showCommentMenu(
+                                          context,
+                                          ref,
+                                          viewModel.cheerCommentList[index].isMine ?? false,
+                                          viewModel.cheerCommentList[index].id ?? 0
+                                      );
+                                    },
+                                    isMine: viewModel.cheerCommentList[index].isMine ?? false
                                 ),
                               ),
                               const SizedBox(height: 12)
@@ -114,13 +166,18 @@ class CheerScreen extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     decoration: BoxDecoration(
                         color: DaepiroColorStyle.g_50,
-                        borderRadius: BorderRadius.circular(12)
+                        borderRadius: BorderRadius.circular(12),
+                        border: isFocused
+                          ? Border.all(color: DaepiroColorStyle.g_75, width: 1.5)
+                          : Border.all(color: Colors.transparent),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: textEditingController,
+                            focusNode: focusNode,
                             maxLength: 10,
                             style: DaepiroTextStyle.body_2_m.copyWith(
                               color: DaepiroColorStyle.g_900,
@@ -137,17 +194,21 @@ class CheerScreen extends ConsumerWidget {
                               hintStyle: DaepiroTextStyle.body_2_m.copyWith(
                                 color: DaepiroColorStyle.g_200,
                               ),
-                              counterText: ""
+                              counterText: "",
                             ),
                             onChanged: (text) {
-
+                              // textEditingController.text = text;
                             },
                           ),
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
                           onTap: () {
-
+                            if (textEditingController.text.isNotEmpty) {
+                              ref.read(sponsorStateNotifierProvider.notifier).writeCheerMessage(textEditingController.text);
+                              textEditingController.clear();
+                              FocusScope.of(context).unfocus();
+                            }
                           },
                           child: Container(
                             padding: const EdgeInsets.only(right: 16),
@@ -170,79 +231,33 @@ class CheerScreen extends ConsumerWidget {
     );
   }
 
-  Widget editMenu(
+  void showCommentMenu(
       BuildContext context,
       WidgetRef ref,
-      int commentId,
-      VoidCallback onCancel,
-      VoidCallback setDeleteState,
-      VoidCallback setChildCommentState,
-      bool isChildCommentState,
-      bool isDisasterScreen,
+      bool isMine,
+      int id,
       ) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () {
-            // if (isDisasterScreen) {
-            //   ref.read(communityDisasterProvider.notifier).setEditState(true);
-            //   ref
-            //       .read(communityDisasterProvider.notifier)
-            //       .setReplyId(commentId);
-            // } else {
-            //   ref.read(communityTownProvider.notifier).setEditState(true);
-            //   ref.read(communityTownProvider.notifier).setReplyId(commentId);
-            // }
-            GoRouter.of(context).pop();
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: DaepiroColorStyle.g_50,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  '수정하기',
-                  textAlign: TextAlign.center,
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_700),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 7),
-        GestureDetector(
-            onTap: () {
-              GoRouter.of(context).pop();
-              // isChildCommentState
-              //     ? deleteDialog(context, ref, commentId, onCancel,
-              //     setDeleteState, setChildCommentState)
-              //     : deleteDialog(
-              //     context, ref, commentId, onCancel, setDeleteState, null);
+    showDialog(
+        useSafeArea: false,
+        context: context,
+        barrierColor: Colors.black.withOpacity(0.6),
+        builder: (context) {
+          return CheerCommentMenu(
+            isMine: isMine,
+            id: id,
+            onCancel: () {
+              // ref.read(sponsorStateNotifierProvider.notifier).setDeleteState(0)
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: DaepiroColorStyle.g_50,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    '삭제하기',
-                    textAlign: TextAlign.center,
-                    style: DaepiroTextStyle.body_1_b
-                        .copyWith(color: DaepiroColorStyle.g_700),
-                  ),
-                ),
-              ),
-            ))
-      ],
+            setDeleteState: () {
+              // ref.read(sponsorStateNotifierProvider.notifier)
+              //     .setDeleteState(id)
+            },
+            setChildCommentState: () => {
+              // ref.read(sponsorStateNotifierProvider.notifier)
+              //     .setChildCommentState(false)
+            },
+          );
+        }
     );
   }
 }

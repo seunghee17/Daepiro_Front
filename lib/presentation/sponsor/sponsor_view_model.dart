@@ -57,6 +57,10 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
           writeCheerUsecaseProvider(WriteCheerUsecase(content: message)).future
       );
 
+      if (response.code == 1000) {
+        getCheerCommentList();
+      }
+
       // state = state.copyWith(
       //     cheerCommentList: response.data ?? []
       // );
