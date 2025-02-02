@@ -6,23 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../cmm/DaepiroTheme.dart';
-import '../../../cmm/button/secondary_filled_button.dart';
+import '../../../../cmm/DaepiroTheme.dart';
+import '../../../../cmm/button/secondary_filled_button.dart';
 
 class CheerCommentMenu extends ConsumerWidget {
   final bool isMine;
   final int id;
   final VoidCallback onCancel;
-  final VoidCallback setDeleteState;
-  final VoidCallback setChildCommentState;
+  final VoidCallback onClickDelete;
 
   const CheerCommentMenu({
     super.key,
     required this.isMine,
     required this.id,
     required this.onCancel,
-    required this.setDeleteState,
-    required this.setChildCommentState,
+    required this.onClickDelete,
   });
 
   @override
@@ -39,14 +37,13 @@ class CheerCommentMenu extends ConsumerWidget {
             bottom: 20,
             child: isMine
                 ? editMenu(
-                    context,
-                    ref,
-                    id,
-                    onCancel,
-                    setDeleteState,
-                    setChildCommentState,
-                    state.isDisasterScreen)
-                : reportMenu(context)),
+                context,
+                ref,
+                id,
+                onCancel,
+                onClickDelete,
+                false
+            ) : reportMenu(context)),
       ],
     );
   }
@@ -57,7 +54,6 @@ class CheerCommentMenu extends ConsumerWidget {
     int id,
     VoidCallback onCancel,
     VoidCallback setDeleteState,
-    VoidCallback setChildCommentState,
     bool isDisasterScreen,
   ) {
     return Column(
@@ -87,8 +83,9 @@ class CheerCommentMenu extends ConsumerWidget {
                 child: Text(
                   '수정하기',
                   textAlign: TextAlign.center,
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_700),
+                  style: DaepiroTextStyle.body_1_b.copyWith(
+                      color: DaepiroColorStyle.g_700
+                  ),
                 ),
               ),
             ),
@@ -97,7 +94,8 @@ class CheerCommentMenu extends ConsumerWidget {
         const SizedBox(height: 7),
         GestureDetector(
             onTap: () {
-              GoRouter.of(context).pop();
+              context.pop();
+              deleteDialog(context, ref, id, onCancel, setDeleteState);
               // isChildCommentState
               //     ? deleteDialog(context, ref, id, onCancel,
               //         setDeleteState, setChildCommentState)
@@ -153,23 +151,24 @@ class CheerCommentMenu extends ConsumerWidget {
       WidgetRef ref,
       int id,
       VoidCallback onCancel,
-      VoidCallback setDeleteState,
-      VoidCallback? setChildCommentState) {
+      VoidCallback onClickDelete,
+  ) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 24),
+            titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   '댓글을 삭제하시겠습니까?',
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_900),
+                  style: DaepiroTextStyle.body_1_b.copyWith(
+                      color: DaepiroColorStyle.g_900
+                  ),
                 )
               ],
             ),
@@ -178,33 +177,32 @@ class CheerCommentMenu extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: SecondaryFilledButton(
-                        verticalPadding: 12,
-                        onPressed: () {
-                          setChildCommentState;
-                          Navigator.pop(context);
-                        },
-                        radius: 8,
-                        backgroundColor: DaepiroColorStyle.g_50,
-                        pressedColor: DaepiroColorStyle.g_75,
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          '그만두기',
-                          style: DaepiroTextStyle.body_1_b
-                              .copyWith(color: DaepiroColorStyle.g_700),
-                        )),
+                      verticalPadding: 12,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      radius: 8,
+                      backgroundColor: DaepiroColorStyle.g_50,
+                      pressedColor: DaepiroColorStyle.g_75,
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        '그만두기',
+                        style: DaepiroTextStyle.body_1_b.copyWith(
+                            color: DaepiroColorStyle.g_700
+                        ),
+                      )
+                    ),
                   ),
-                  SizedBox(
-                    width: 8,
-                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
-                          GoRouter.of(context).pop();
+                          context.pop();
                           showDeleteSnackbar(
                             context,
                             onCancel,
-                            setDeleteState,
+                            onClickDelete,
                           );
                         },
                         radius: 8,
@@ -213,8 +211,9 @@ class CheerCommentMenu extends ConsumerWidget {
                         child: Text(
                           textAlign: TextAlign.center,
                           '삭제하기',
-                          style: DaepiroTextStyle.body_1_b
-                              .copyWith(color: DaepiroColorStyle.white),
+                          style: DaepiroTextStyle.body_1_b.copyWith(
+                              color: DaepiroColorStyle.white
+                          ),
                         )),
                   )
                 ],
@@ -224,9 +223,12 @@ class CheerCommentMenu extends ConsumerWidget {
         });
   }
 
-  void showDeleteSnackbar(BuildContext context, VoidCallback onCancel,
-      VoidCallback setDeleteState) {
-    setDeleteState();
+  void showDeleteSnackbar(
+      BuildContext context,
+      VoidCallback onCancel,
+      VoidCallback onClickDelete
+    ) {
+    onClickDelete();
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(

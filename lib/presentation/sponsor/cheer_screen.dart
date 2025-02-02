@@ -1,5 +1,5 @@
 import 'package:daepiro/presentation/const/utils.dart';
-import 'package:daepiro/presentation/sponsor/cheer_comment_menu.dart';
+import 'package:daepiro/presentation/sponsor/component/cheer_comment_menu.dart';
 import 'package:daepiro/presentation/sponsor/component/item_cheer_comment.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_state.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_view_model.dart';
@@ -235,8 +235,8 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
       BuildContext context,
       WidgetRef ref,
       bool isMine,
-      int id,
-      ) {
+      int id
+    ) {
     showDialog(
         useSafeArea: false,
         context: context,
@@ -248,13 +248,9 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
             onCancel: () {
               // ref.read(sponsorStateNotifierProvider.notifier).setDeleteState(0)
             },
-            setDeleteState: () {
+            onClickDelete: () {
               // ref.read(sponsorStateNotifierProvider.notifier)
               //     .setDeleteState(id)
-            },
-            setChildCommentState: () => {
-              // ref.read(sponsorStateNotifierProvider.notifier)
-              //     .setChildCommentState(false)
             },
           );
         }

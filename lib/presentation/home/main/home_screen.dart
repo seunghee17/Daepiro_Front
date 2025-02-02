@@ -16,7 +16,7 @@ import '../../../cmm/chip/secondary_chip.dart';
 import 'home_state.dart';
 
 class HomeScreen extends ConsumerWidget {
-  HomeScreen({Key? key});
+  HomeScreen({super.key});
 
   final PageController _popularPostPageController = PageController(initialPage: 0);
   final PageController _infoContentsPageController = PageController(initialPage: 0);
@@ -43,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 4, bottom: 4, left: 20, right: 12),
+                        padding: const EdgeInsets.only(top: 4, bottom: 4, left: 20, right: 12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -54,7 +54,7 @@ class HomeScreen extends ConsumerWidget {
                               child: SvgPicture.asset('assets/icons/icon_logo_small.svg'),
                             ),
                             Container(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: SvgPicture.asset('assets/icons/icon_alarm.svg')
                             ),
                           ],
@@ -65,7 +65,7 @@ class HomeScreen extends ConsumerWidget {
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(top: 4, left: 20, right: 20, bottom: 20),
+                                  padding: const EdgeInsets.only(top: 4, left: 20, right: 20, bottom: 20),
                                   child: Column(
                                     children: [
                                       Container(
@@ -81,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
                                               alignment: Alignment.bottomRight,
                                             ),
                                             Container(
-                                              padding: EdgeInsets.only(top: 26, left: 16, bottom: 16, right: 16),
+                                              padding: const EdgeInsets.only(top: 26, left: 16, bottom: 16, right: 16),
                                               alignment: Alignment.topLeft,
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,13 +105,13 @@ class HomeScreen extends ConsumerWidget {
                                                                   borderRadius: BorderRadius.circular(8),
                                                                 ),
                                                                 child: Container(
-                                                                  padding: EdgeInsets.all(8),
+                                                                  padding: const EdgeInsets.all(8),
                                                                   child: Row(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                                     children: [
                                                                       SvgPicture.asset(
                                                                         'assets/icons/icon_location.svg',
-                                                                        colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                                                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
                                                                         width: 16,
                                                                         height: 16,
                                                                       ),
@@ -142,13 +142,13 @@ class HomeScreen extends ConsumerWidget {
                                                                   borderRadius: BorderRadius.circular(8),
                                                                 ),
                                                                 child: Container(
-                                                                  padding: EdgeInsets.all(8),
+                                                                  padding: const EdgeInsets.all(8),
                                                                   child: Row(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                                     children: [
                                                                       SvgPicture.asset(
                                                                         'assets/icons/icon_weather.svg',
-                                                                        colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                                                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
                                                                         width: 16,
                                                                         height: 16,
                                                                       ),
@@ -231,13 +231,13 @@ class HomeScreen extends ConsumerWidget {
                                                 title: "서울시 성북구 쌍문동 호우 발생",
                                                 date: "2024.8.11 14:24"
                                             ),
-                                            SizedBox(height: 8),
+                                            const SizedBox(height: 8),
                                             DisasterHistoryPreview(
                                                 icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
                                                 title: "서울시 성북구 쌍문동 호우 발생2",
                                                 date: "2024.8.11 14:24"
                                             ),
-                                            SizedBox(height: 8),
+                                            const SizedBox(height: 8),
                                             DisasterHistoryPreview(
                                                 icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
                                                 title: "서울시 성북구 쌍문동 호우 발생3",
@@ -356,7 +356,7 @@ class HomeScreen extends ConsumerWidget {
                                               child: SmoothPageIndicator(
                                                 controller: _popularPostPageController,
                                                 count: Const.popularPostCategoryList.length,
-                                                effect: ExpandingDotsEffect(
+                                                effect: const ExpandingDotsEffect(
                                                     dotColor: DaepiroColorStyle.g_75,
                                                     activeDotColor: DaepiroColorStyle.g_300,
                                                     dotHeight: 6,
@@ -452,7 +452,34 @@ class HomeScreen extends ConsumerWidget {
                                               )
                                             ],
                                           )
-                                      )
+                                      ),
+                                      const SizedBox(height: 28),
+                                      Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "추천 후원",
+                                              style: DaepiroTextStyle.h6.copyWith(
+                                                color: DaepiroColorStyle.g_900,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "더보기",
+                                                    style: DaepiroTextStyle.body_2_m.copyWith(
+                                                      color: DaepiroColorStyle.o_400,
+                                                    ),
+                                                  ),
+                                                  SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                                ]
+                                            )
+                                          ]
+                                      ),
+                                      const SizedBox(height: 12),
+
                                     ],
                                   ),
                                 )

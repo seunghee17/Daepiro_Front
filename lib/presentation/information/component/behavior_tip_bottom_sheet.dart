@@ -32,36 +32,36 @@ class _BehaviorTipBottomSheetState extends State<BehaviorTipBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Stack(
                 children: [
                   Align(
+                    alignment: Alignment.center,
                     child: Text(
                         widget.behavior.name ?? "",
                         style: DaepiroTextStyle.body_1_b.copyWith(
                           color: DaepiroColorStyle.g_900,
                         )
                     ),
-                    alignment: Alignment.center,
                   ),
                   Align(
+                    alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: SvgPicture.asset(
                         'assets/icons/icon_close.svg',
-                        colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                       ),
                     ),
-                    alignment: Alignment.centerRight,
                   ),
                 ],
               ),
             ),
-            Divider(height: 1,color: DaepiroColorStyle.g_50),
+            const Divider(height: 1,color: DaepiroColorStyle.g_50),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
               child: Column(
                 children: [
                   Row(
@@ -90,7 +90,6 @@ class _BehaviorTipBottomSheetState extends State<BehaviorTipBottomSheet> {
                       itemCount: widget.behavior.tips?[selectedDisasterTypeIdx].tips?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                         return ActionTipItem(
-                            isSelected: false,
                             text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index] ?? ""
                         );
                       }

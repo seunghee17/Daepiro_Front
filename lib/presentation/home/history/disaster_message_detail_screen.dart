@@ -151,23 +151,18 @@ class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScree
                                     ),
                                     const SizedBox(height: 16),
                                     ActionTipItem(
-                                        isSelected: true,
                                         text: "튼튼한 탁자 아래에 들어가 몸을 보호하셨"
                                     ),
                                     ActionTipItem(
-                                        isSelected: false,
                                         text: "튼튼한 탁자 아래에 들어가 몸을 보호하셨나요튼튼한 탁자 아래에 들어가 몸을 보호하셨"
                                     ),
                                     ActionTipItem(
-                                        isSelected: true,
                                         text: "튼튼한 탁자 아래에 들어가 몸을 보호하??"
                                     ),
                                     ActionTipItem(
-                                        isSelected: true,
                                         text: "튼튼한 탁자 아래에 들어가 몸을 보호하??"
                                     ),
                                     ActionTipItem(
-                                        isSelected: false,
                                         text: "튼튼한 탁자 아래에 들어가 몸을 보호하??"
                                     ),
                                   ],
