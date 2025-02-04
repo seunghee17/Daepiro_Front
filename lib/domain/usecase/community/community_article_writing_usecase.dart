@@ -2,12 +2,12 @@ import 'package:daepiro/domain/repository/community_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/model/response/community_article_write_response.dart';
+import '../../../data/model/response/community/community_article_write_response.dart';
 
 final setCommunityArticleWritingUseCaseProvider =
 FutureProvider.family<CommunityArticleWritingResponse, CommunityArticleWritingUseCase>(
     (ref, request) async {
-      final repository = await ref.watch(communityRepositoryProvider);
+      final repository = await ref.watch(communityWritingRepositoryProvider);
       return await repository.setArticleData(
           articleCategory: request.articleCategory,
           title: request.title,

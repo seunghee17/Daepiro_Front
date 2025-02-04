@@ -21,7 +21,6 @@ mixin _$PermissionState {
       throw _privateConstructorUsedError; //체크박스의 활성화상태
   List<bool> get isPermissionCheckboxState =>
       throw _privateConstructorUsedError;
-  bool get isModalShowing => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PermissionStateCopyWith<PermissionState> get copyWith =>
@@ -34,10 +33,7 @@ abstract class $PermissionStateCopyWith<$Res> {
           PermissionState value, $Res Function(PermissionState) then) =
       _$PermissionStateCopyWithImpl<$Res, PermissionState>;
   @useResult
-  $Res call(
-      {bool isAllPermissionGrant,
-      List<bool> isPermissionCheckboxState,
-      bool isModalShowing});
+  $Res call({bool isAllPermissionGrant, List<bool> isPermissionCheckboxState});
 }
 
 /// @nodoc
@@ -55,7 +51,6 @@ class _$PermissionStateCopyWithImpl<$Res, $Val extends PermissionState>
   $Res call({
     Object? isAllPermissionGrant = null,
     Object? isPermissionCheckboxState = null,
-    Object? isModalShowing = null,
   }) {
     return _then(_value.copyWith(
       isAllPermissionGrant: null == isAllPermissionGrant
@@ -66,10 +61,6 @@ class _$PermissionStateCopyWithImpl<$Res, $Val extends PermissionState>
           ? _value.isPermissionCheckboxState
           : isPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
               as List<bool>,
-      isModalShowing: null == isModalShowing
-          ? _value.isModalShowing
-          : isModalShowing // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
@@ -82,10 +73,7 @@ abstract class _$$PermissionStateImplCopyWith<$Res>
       __$$PermissionStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isAllPermissionGrant,
-      List<bool> isPermissionCheckboxState,
-      bool isModalShowing});
+  $Res call({bool isAllPermissionGrant, List<bool> isPermissionCheckboxState});
 }
 
 /// @nodoc
@@ -101,7 +89,6 @@ class __$$PermissionStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isAllPermissionGrant = null,
     Object? isPermissionCheckboxState = null,
-    Object? isModalShowing = null,
   }) {
     return _then(_$PermissionStateImpl(
       isAllPermissionGrant: null == isAllPermissionGrant
@@ -112,10 +99,6 @@ class __$$PermissionStateImplCopyWithImpl<$Res>
           ? _value._isPermissionCheckboxState
           : isPermissionCheckboxState // ignore: cast_nullable_to_non_nullable
               as List<bool>,
-      isModalShowing: null == isModalShowing
-          ? _value.isModalShowing
-          : isModalShowing // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -130,8 +113,7 @@ class _$PermissionStateImpl implements _PermissionState {
         false,
         false,
         false
-      ],
-      this.isModalShowing = false})
+      ]})
       : _isPermissionCheckboxState = isPermissionCheckboxState;
 
 //권한 모두 동의 활성화 상태
@@ -151,12 +133,8 @@ class _$PermissionStateImpl implements _PermissionState {
   }
 
   @override
-  @JsonKey()
-  final bool isModalShowing;
-
-  @override
   String toString() {
-    return 'PermissionState(isAllPermissionGrant: $isAllPermissionGrant, isPermissionCheckboxState: $isPermissionCheckboxState, isModalShowing: $isModalShowing)';
+    return 'PermissionState(isAllPermissionGrant: $isAllPermissionGrant, isPermissionCheckboxState: $isPermissionCheckboxState)';
   }
 
   @override
@@ -167,17 +145,12 @@ class _$PermissionStateImpl implements _PermissionState {
             (identical(other.isAllPermissionGrant, isAllPermissionGrant) ||
                 other.isAllPermissionGrant == isAllPermissionGrant) &&
             const DeepCollectionEquality().equals(
-                other._isPermissionCheckboxState, _isPermissionCheckboxState) &&
-            (identical(other.isModalShowing, isModalShowing) ||
-                other.isModalShowing == isModalShowing));
+                other._isPermissionCheckboxState, _isPermissionCheckboxState));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isAllPermissionGrant,
-      const DeepCollectionEquality().hash(_isPermissionCheckboxState),
-      isModalShowing);
+  int get hashCode => Object.hash(runtimeType, isAllPermissionGrant,
+      const DeepCollectionEquality().hash(_isPermissionCheckboxState));
 
   @JsonKey(ignore: true)
   @override
@@ -190,15 +163,12 @@ class _$PermissionStateImpl implements _PermissionState {
 abstract class _PermissionState implements PermissionState {
   factory _PermissionState(
       {final bool isAllPermissionGrant,
-      final List<bool> isPermissionCheckboxState,
-      final bool isModalShowing}) = _$PermissionStateImpl;
+      final List<bool> isPermissionCheckboxState}) = _$PermissionStateImpl;
 
   @override //권한 모두 동의 활성화 상태
   bool get isAllPermissionGrant;
   @override //체크박스의 활성화상태
   List<bool> get isPermissionCheckboxState;
-  @override
-  bool get isModalShowing;
   @override
   @JsonKey(ignore: true)
   _$$PermissionStateImplCopyWith<_$PermissionStateImpl> get copyWith =>

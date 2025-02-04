@@ -26,11 +26,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
     checkAuth().then((isAuthenticated) {
       Future.delayed(Duration(seconds: 5), () async {
         if (isAuthenticated) {
-          bool isOnboardingComplete = await _checkOnboardingComplete(ref);
-          if(isOnboardingComplete) {
-            GoRouter.of(context).replace('/community');
-          } else {
-            GoRouter.of(context).replace('/onboarding');
+          try {
+            bool isOnboardingComplete = await _checkOnboardingComplete(ref);
+            if(isOnboardingComplete) {
+              GoRouter.of(context).replace('/mypage');
+            } else {
+              GoRouter.of(context).replace('/onboarding');
+            }
+          } catch(e) {
+            GoRouter.of(context).replace('/login');
           }
         } else {
           GoRouter.of(context).replace('/login');
@@ -56,13 +60,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   }
 
   Future<bool> _checkOnboardingComplete(WidgetRef ref) async {
-    await ref.read(onboardingStateNotifierProvider.notifier).storeUserAdresses();
-    String? address = await storage.read(key: 'fullAddress_0');
-    if(address == null) {
-      return false;
-    } else {
-      return true;
+    try {
+      await ref.read(onboardingStateNotifierProvider.notifier).storeUserAdresses();
+      String? address = await storage.read(key: 'fullAddress_0');
+      if(address == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch(e) {
+      rethrow;
     }
+
   }
 
   @override

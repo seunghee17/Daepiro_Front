@@ -14,12 +14,14 @@ import 'login_view_model.dart';
 class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.read(loginStateNotifierProvider.notifier);
     final screenHeight = MediaQuery.of(context).size.height;
 
     ref.listen<LoginState>(loginStateNotifierProvider, (previous, next) {
-      if (next.refreshToken.isNotEmpty && next.isCompletedOnboarding) {
+      if (next.isLoginSuccess && next.isCompletedOnboarding) {
+        viewModel.setFcmToken();
         GoRouter.of(context).go('/home');
-      } else if (next.refreshToken.isNotEmpty && !next.isCompletedOnboarding) {
+      } else if (next.isLoginSuccess && !next.isCompletedOnboarding) {
         showModalBottomSheet(
             enableDrag: false,
             isDismissible: false,
@@ -197,7 +199,7 @@ class LoginScreen extends ConsumerWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
+            backgroundColor: DaepiroColorStyle.white,
             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
               mainAxisSize: MainAxisSize.min,

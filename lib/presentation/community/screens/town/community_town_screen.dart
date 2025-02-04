@@ -6,33 +6,47 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../cmm/DaepiroTheme.dart';
-import '../../../../data/model/response/community_dongnae_content_response.dart';
+import '../../../../data/model/response/community/community_dongnae_content_response.dart';
+
+class CommunityTownScreen extends ConsumerStatefulWidget {
+  @override
+  CommunityTownState createState() => CommunityTownState();
+}
 
 //동네생활 화면
-class CommunityTownScreen extends ConsumerWidget {
-  CommunityTownScreen({super.key});
+class CommunityTownState extends ConsumerState<CommunityTownScreen> {
+  final scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    //TODO 추후 state & viewmodel 단으로 이동해야하는 코드
-    List<TypeModel> typeData = [];
-    typeData.add(TypeModel(true, '전체', 'ALL'));
-    typeData.add(TypeModel(false, '일상', 'LIFE'));
-    typeData.add(TypeModel(false, '교통', 'TRAFFIC'));
-    typeData.add(TypeModel(false, '치안', 'SAFE'));
-    typeData.add(TypeModel(false, '기타', 'OTHER'));
-    final state = ref.watch(communityTownProvider);
-    final scrollController = ScrollController();
+  void initState() {
+    super.initState();
+    scrollController.addListener(_onScroll);
+  }
 
-    scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent - 200) {
-        final viewModel = ref.read(communityTownProvider.notifier);
-        if (state.isDongNaeHasMore && !state.isDongNaeLoading) {
-          viewModel.loadContent();
-        }
+  @override
+  void dispose() {
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+
+  void _onScroll() {
+    final state = ref.read(communityTownProvider);
+    final viewModel = ref.read(communityTownProvider.notifier);
+
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 200) {
+      if (state.isDongNaeHasMore && !state.isDongNaeLoading) {
+        viewModel.loadContent();
       }
-    });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final state = ref.watch(communityTownProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -50,19 +64,20 @@ class CommunityTownScreen extends ConsumerWidget {
                   child: ruleContainer()),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: typeRadioButton(state.townCommunityType, ref)),
-              if (state.isDongNaeContentEmpty && !state.isDongNaeLoading)
-                //없을때 로직
-                Container()
-              else
-                ...state.contentList.map((content) {
+                  child: typeRadioButton(state.townCategory, ref)),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: state.contentList.length,
+                  itemBuilder: (context, index) {
+                  final content = state.contentList[index];
                   return listItemWidget(() async {
-                    await ref
-                        .read(communityTownProvider.notifier)
-                        .getContentDetail(content.id!);
-                    GoRouter.of(context).push('/community_town_detail');
-                  }, content, ref);
-                }).toList(),
+                        await ref.read(communityTownProvider.notifier).getContentDetail(content.id!);
+                        GoRouter.of(context).push('/community_town_detail');
+                      },
+                  content, ref);
+                  }
+              ),
               if (state.isDongNaeLoading)
                 Center(
                   child: CircularProgressIndicator(),
@@ -107,39 +122,38 @@ class CommunityTownScreen extends ConsumerWidget {
   }
 
   //글 유형 타입 radio button
-  Widget typeRadioButton(String typeState, WidgetRef ref) {
+  Widget typeRadioButton(String townCategory, WidgetRef ref) {
     return Container(
         height: 36,
         child: Row(
           children: [
-            typeItem('ALL', typeState, '전체', ref),
-            typeItem('LIFE', typeState, '일상', ref),
-            typeItem('TRAFFIC', typeState, '교통', ref),
-            typeItem('SAFE', typeState, '치안', ref),
-            typeItem('OTHER', typeState, '기타', ref)
+            typeItem(townCategory == '전체', '전체', ref),
+            typeItem(townCategory == '일상', '일상', ref),
+            typeItem(townCategory == '교통', '교통', ref),
+            typeItem(townCategory == '치안', '치안', ref),
+            typeItem(townCategory == '기타', '기타', ref)
           ],
         ));
   }
 
-  Widget typeItem(
-      String type, String typeState, String realText, WidgetRef ref) {
+  Widget typeItem(bool isSame, String realText, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: GestureDetector(
         onTap: () async {
-          await ref.read(communityTownProvider.notifier).selectButton(type);
+          await ref.read(communityTownProvider.notifier).selectButton(realText);
         },
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(99),
-              color: typeState == type
+              color: isSame
                   ? DaepiroColorStyle.g_600
                   : DaepiroColorStyle.g_50),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: Text(
               realText,
-              style: typeState == type
+              style: isSame
                   ? DaepiroTextStyle.body_1_m.copyWith(color: Colors.white)
                   : DaepiroTextStyle.body_1_m
                       .copyWith(color: DaepiroColorStyle.g_600),
@@ -153,6 +167,7 @@ class CommunityTownScreen extends ConsumerWidget {
   //리스트 아이템 위젯
   Widget listItemWidget(VoidCallback event, Content content, WidgetRef ref) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: event,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
@@ -163,21 +178,46 @@ class CommunityTownScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 8),
-                Visibility(
-                    visible: true,
-                    child: Column(
-                      children: [typeChip(), SizedBox(height: 12)],
-                    )),
-                Text(
-                  content.title ?? '',
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_900),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  content.body ?? '',
-                  style: DaepiroTextStyle.body_2_m
-                      .copyWith(color: DaepiroColorStyle.g_500),
+                typeChip(ContentCategory.getByValue(content.category!)),
+                SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            content.title ?? '',
+                            style: DaepiroTextStyle.body_1_b
+                                .copyWith(color: DaepiroColorStyle.g_900),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            content.body ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: DaepiroTextStyle.body_2_m
+                                .copyWith(color: DaepiroColorStyle.g_500),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Visibility(
+                      visible: content.previewImageUrl != null,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: content.previewImageUrl != null ? Image.network(
+                            width: 68,
+                            height: 68,
+                            content.previewImageUrl!,
+                            fit: BoxFit.fill,
+                          ) : SizedBox.shrink(),
+                        ),
+                    )
+                  ],
                 ),
                 SizedBox(height: 12),
                 Row(
@@ -201,7 +241,9 @@ class CommunityTownScreen extends ConsumerWidget {
                     Text(
                         ref
                             .read(communityTownProvider.notifier)
-                            .parseCommentTime(content.createdAt ?? ''),
+                            .parseCommentTime(
+                            content.lastModifiedAt == content.createdAt! ?
+                                content.createdAt! : content.lastModifiedAt!),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300)),
                     Spacer(),
@@ -234,7 +276,7 @@ class CommunityTownScreen extends ConsumerWidget {
     );
   }
 
-  Widget typeChip() {
+  Widget typeChip(String type) {
     return Container(
       decoration: BoxDecoration(
           color: DaepiroColorStyle.g_50,
@@ -242,19 +284,11 @@ class CommunityTownScreen extends ConsumerWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Text(
-          '일상',
+         type,
           style:
               DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_500),
         ),
       ),
     );
   }
-}
-
-class TypeModel {
-  bool isSelected;
-  final String text;
-  final String type;
-
-  TypeModel(this.isSelected, this.text, this.type);
 }

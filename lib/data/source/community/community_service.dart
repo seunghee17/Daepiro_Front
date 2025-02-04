@@ -1,21 +1,25 @@
+import 'dart:convert';
+
 import 'package:daepiro/data/model/request/community_comment_post_request.dart';
-import 'package:daepiro/data/model/response/disaster_reply_response.dart';
+import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-
 import '../../model/request/community_disaster_edit_request.dart';
-import '../../model/request/community_reply_report_request.dart';
-import '../../model/response/community_article_write_response.dart';
-import '../../model/response/community_comment_post_response.dart';
-import '../../model/response/community_disaster_edit_response.dart';
-import '../../model/response/community_dongnae_content_detail_response.dart';
-import '../../model/response/community_dongnae_content_response.dart';
-import '../../model/response/community_reply_like_response.dart';
-import '../../model/response/community_reply_report_response.dart';
-import '../../model/response/community_town_like_response.dart';
-import '../../model/response/disaster_reply_delete_response.dart';
-import '../../model/response/disaster_response.dart';
+import '../../model/request/community_writing_edit_request.dart';
+import '../../model/response/community/community_writing_edit_response.dart';
+import '../../model/response/report_request.dart';
+import '../../model/request/set_town_certificate_request.dart';
+import '../../model/response/community/community_article_write_response.dart';
+import '../../model/response/community/community_comment_post_response.dart';
+import '../../model/response/community/community_disaster_edit_response.dart';
+import '../../model/response/community/community_dongnae_content_detail_response.dart';
+import '../../model/response/community/community_dongnae_content_response.dart';
+import '../../model/response/community/community_reply_like_response.dart';
+import '../../model/response/community/disaster_reply_delete_response.dart';
+import '../../model/response/community/disaster_reply_response.dart';
+import '../../model/response/community/disaster_response.dart';
+import '../../model/response/community/town_certificate_response.dart';
 
 part 'community_service.g.dart';
 
@@ -66,17 +70,21 @@ abstract class CommunityService {
       {@Path('id') required int id});
 
   @PUT('/v1/comments/{id}/report')
-  Future<CommunityReplyReportResponse> communityReplyReport(
+  Future<BasicResponse> communityReplyReport(
       {@Path('id') required int id,
-      @Body()
-      required CommunityReplyReportRequest communityReplyReportRequest});
+      @Body() required ReportRequest communityReplyReportRequest});
+
+  @PUT('/v1/articles/{id}/report')
+  Future<BasicResponse> communityArticleReport(
+      {@Path('id') required int id,
+      @Body() required ReportRequest communityArticleRequest});
 
   //게시글 좋아요
   @PUT('/v1/articles/{id}/like')
-  Future<CommunityTownLikeResponse> communityTown(
-      {@Path('id') required int id});
+  Future<BasicResponse> getArticleLike({@Path('id') required int id});
 
   @POST('/v1/articles')
+  @MultiPart()
   Future<CommunityArticleWritingResponse> setArticleData({
     @Query('articleType') required String articleType,
     @Query('articleCategory') required String articleCategory,
@@ -85,6 +93,26 @@ abstract class CommunityService {
     @Query('visibility') required bool visibility,
     @Query('longitude') required double longitude,
     @Query('latitude') required double latitude,
-    @Part(name: 'attachFileList') required List<MultipartFile> attachFileList,
+    @Part() required List<MultipartFile> attachFileList,
   });
+
+  @POST('/v1/articles/{id}')
+  @MultiPart()
+  Future<CommunityWritingEditResponse> editArticle({
+    @Path('id') required int id,
+    @Part() required CommunityWritingEditRequest communityWritingEditRequest,
+    @Part() required List<MultipartFile> attachFileList,
+  });
+
+  @DELETE('/v1/articles/{id}')
+  Future<BasicResponse> deleteArticle({
+    @Path('id') required int id,
+});
+
+  @GET('/v1/user-address-verified')
+  Future<TownCertificateResponse> getTownCertificateInfo();
+
+  @PUT('/v1/user-address-verified')
+  Future<BasicResponse> setTownCertificateInfo(
+      {@Body() required SetTownCertificateRequest setTownCertificateRequest});
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/model/response/community_reply_like_response.dart';
+import '../../../data/model/response/community/community_reply_like_response.dart';
 import '../../repository/community_repository.dart';
 
 final communityReplyLikeUseCaseProvider = FutureProvider.family<

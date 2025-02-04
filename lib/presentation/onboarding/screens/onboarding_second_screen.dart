@@ -50,7 +50,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                                 style: DaepiroTextStyle.h6
                                     .copyWith(color: DaepiroColorStyle.g_900)),
                             SizedBox(height: 8),
-                            NameTextField(nameController, state.nameState, ref),
+                            NameTextField(nameController, state.nameState),
                             if (state.nameState != '')
                               namestateText(state.nameState),
                             SizedBox(height: 16),
@@ -159,7 +159,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                   DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
               children: [
                 TextSpan(
-                    text: ' 를 입력해주세요.',
+                    text: '를 입력해주세요.',
                     style: DaepiroTextStyle.h5
                         .copyWith(color: DaepiroColorStyle.black))
               ]),
@@ -176,7 +176,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
 
   //이름 입력란
   Widget NameTextField(
-      TextEditingController controller, String nameState, WidgetRef ref) {
+      TextEditingController controller, String nameState) {
     return Stack(
       children: [
         TextField(

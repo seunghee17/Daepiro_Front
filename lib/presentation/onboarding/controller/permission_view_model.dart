@@ -28,7 +28,6 @@ class PermissionViewModel extends StateNotifier<PermissionState> {
         permission.add(Permission.storage);
       }
     } else {
-      //ios의 경우
       permission.add(Permission.photos);
     }
     return permission;

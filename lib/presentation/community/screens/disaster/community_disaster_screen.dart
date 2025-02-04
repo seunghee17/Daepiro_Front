@@ -1,4 +1,4 @@
-import 'package:daepiro/data/model/response/disaster_response.dart';
+import 'package:daepiro/data/model/response/community/disaster_response.dart';
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/disaster/reply_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,11 +37,13 @@ class CommunityDisasterScreen extends ConsumerWidget {
             twoButtonContainer(ref, state.disasterCommunityType),
             if (state.isLoading)
               Center(child: CircularProgressIndicator())
-            else if (state.listLength == 0)
+            else if (state.disasterCommunityType == 'all' && state.allDisasterResponse.length ==0)
               Center(child: Text('데이터가 없습니다.'))
+            else if (state.disasterCommunityType != 'all' && state.receivedDisasterResponse.length ==0)
+                Center(child: Text('데이터가 없습니다.'))
             else
               ...List.generate(
-                state.listLength,
+                state.disasterCommunityType == 'all' ? state.allDisasterResponse.length : state.receivedDisasterResponse.length,
                 (index) {
                   final content = state.disasterCommunityType == 'all'
                       ? (index < state.allDisasterResponse.length
@@ -158,7 +160,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
     );
   }
 
-  Widget contentItem(Data content, BuildContext context, WidgetRef ref) {
+  Widget contentItem(Disaster content, BuildContext context, WidgetRef ref) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -228,7 +230,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     .copyWith(color: DaepiroColorStyle.g_900),
                 children: [
                   TextSpan(
-                    text: ' ${content.type} ',
+                    text: '${content.type} ',
                     style: DaepiroTextStyle.h6
                         .copyWith(color: DaepiroColorStyle.o_500),
                   ),
@@ -358,6 +360,8 @@ class CommunityDisasterScreen extends ConsumerWidget {
               content,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
             ),
             SizedBox(height: 8),
             Row(
@@ -455,6 +459,6 @@ class CommunityDisasterScreen extends ConsumerWidget {
         },
         isScrollControlled: true,
         enableDrag: false,
-        isDismissible: false);
+        isDismissible: true);
   }
 }

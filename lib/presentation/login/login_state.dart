@@ -5,11 +5,7 @@ part 'login_state.freezed.dart';
 sealed class LoginState with _$LoginState {
   factory LoginState({
     @Default(false) bool isLoading,
-    @Default('') String accessToken,
-    @Default('') String refreshToken,
     @Default(false) bool isCompletedOnboarding,
     @Default(false) bool isLoginSuccess,
-    @Default(false) bool isLocationGrant,
-    @Default(false) bool isGrantRequestFinish,
   }) = _LoginState;
 }

@@ -1,7 +1,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/model/request/community_disaster_edit_request.dart';
-import '../../../data/model/response/community_disaster_edit_response.dart';
+import '../../../data/model/response/community/community_disaster_edit_response.dart';
 import '../../repository/community_repository.dart';
 
 final getCommunityDisasterEditUseCaseProvider = FutureProvider.family<CommunityDisasterEditResponse, CommunityDisasterEditUsecase>((ref, request) async {

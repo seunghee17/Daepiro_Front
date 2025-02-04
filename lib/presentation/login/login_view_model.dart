@@ -1,4 +1,7 @@
+import 'package:daepiro/data/model/request/set_fcm_request.dart';
 import 'package:daepiro/data/model/request/social_login_request.dart';
+import 'package:daepiro/domain/usecase/login/set_fcm_token_usecase.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,16 +41,23 @@ class LoginViewModel extends StateNotifier<LoginState> {
           .future);
       state = state.copyWith(
           isLoading: false,
-          accessToken: response.data?.accessToken ?? '',
-          refreshToken: response.data?.refreshToken ?? '',
           isCompletedOnboarding: response.data?.isCompletedOnboarding ?? false,
           isLoginSuccess: true);
-      await storage.write(key: 'accessToken', value: state.accessToken);
-      await storage.write(key: 'refreshToken', value: state.refreshToken);
+      await storage.write(key: 'accessToken', value: response.data?.accessToken);
+      await storage.write(key: 'refreshToken', value: response.data?.refreshToken);
     } catch (error) {
       print('토큰 저장 오류: $error');
       state = state.copyWith(isLoading: false);
     }
+  }
+
+  Future<void> setFcmToken() async {
+    String fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
+    await ref.read(setFcmTokenUseCaseProvider(
+        SetFcmTokenUseCase(setFcmRequest: SetFcmRequest(
+            fcmToken: fcmToken
+        ))
+    ));
   }
 
   Future<void> kakaoLogin() async {
@@ -55,7 +65,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공');
-        print('카카오!!${token.accessToken}');
         await fetchSocialToken('kakao', token.accessToken);
       } catch (error) {
         print('카카오톡으로 로그인 실패: $error');
@@ -64,7 +73,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
         }
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-          print('카카오!!${token.accessToken}');
           await fetchSocialToken('kakao', token.accessToken);
         } catch (error) {
           print('카카오계정으로 로그인 실패: $error');
@@ -73,7 +81,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
     } else {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        print('카카오!!${token.accessToken}');
         await fetchSocialToken('kakao', token.accessToken);
       } catch (error) {
         print('카카오계정으로 로그인 실패: $error');

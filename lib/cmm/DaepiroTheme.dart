@@ -52,68 +52,80 @@ class DaepiroColorStyle {
 
 class DaepiroTextStyle {
   static final TextStyle h1 = TextStyle(
+      fontFamily: "Pretendard",
     fontSize: 96,
     fontWeight: FontWeight.w400,
     height: 1.19,
     letterSpacing: -1.5
   );
   static final h2 = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 60,
       fontWeight: FontWeight.w400,
       height: 1.2,
       letterSpacing: -0.5
   );
   static final h3 = TextStyle(
+    fontFamily: "Pretendard",
       fontSize: 48,
       fontWeight: FontWeight.w500,
       height: 1.208,
   );
   static final h4 = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 34,
       fontWeight: FontWeight.w600,
       height: 1.235
   );
   static final h5 = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 24,
       fontWeight: FontWeight.w700,
       height: 1.333
   );
   static final h6 = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 20,
       fontWeight: FontWeight.w600,
       height: 1.4,
       letterSpacing: 0.1
   );
   static final body_1_b = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 16,
       fontWeight: FontWeight.w700,
       height: 1.5,
       letterSpacing: 0.15
   );
   static final body_1_m = TextStyle(
+    fontFamily: "Pretendard",
       fontSize: 16,
       fontWeight: FontWeight.w500,
       height: 1.5,
       letterSpacing: 0.15
   );
   static final body_2_b = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 14,
       fontWeight: FontWeight.w700,
       height: 1.571,
       letterSpacing: -0.25
   );
   static final body_2_m = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 14,
       fontWeight: FontWeight.w500,
       letterSpacing: -0.25,
       height: 1.571
   );
   static final caption = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 12,
       fontWeight: FontWeight.w500,
       height: 1.333
   );
   static final overline = TextStyle(
+      fontFamily: "Pretendard",
       fontSize: 10,
       fontWeight: FontWeight.w500,
       height: 1.2

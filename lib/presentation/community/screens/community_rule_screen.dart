@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
+import 'package:daepiro/presentation/const/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +12,6 @@ class CommunityRuleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityViewModel = ref.watch(communityDisasterProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -24,7 +24,7 @@ class CommunityRuleScreen extends ConsumerWidget {
                   child: SingleChildScrollView(
                     child: bodyWidget(),
                   )),
-              bottomWidget(),
+              footerWidget(),
               SizedBox(height: 20)
             ],
           ),
@@ -40,7 +40,7 @@ class CommunityRuleScreen extends ConsumerWidget {
         child: Row(
           children: [
             GestureDetector(
-              onTap: GoRouter.of(context).pop,
+              onTap: () => GoRouter.of(context).pop(),
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
@@ -73,13 +73,12 @@ class CommunityRuleScreen extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20),
-        Text('대피로 이용 수칙 제목',
+        Text('대피로 커뮤니티 수칙',
         style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),),
         SizedBox(height: 8),
-        Text('2024.09.09',
-        style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_400),),
+        Text('2024.09.09', style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_400),),
         SizedBox(height: 24),
-        Text('내용내용내용',
+        Text(StringHelper.ruleTermText,
         style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_800),),
         SizedBox(height: 24),
         Container(
@@ -109,7 +108,7 @@ class CommunityRuleScreen extends ConsumerWidget {
     );
   }
 
-  Widget bottomWidget() {
+  Widget footerWidget() {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(

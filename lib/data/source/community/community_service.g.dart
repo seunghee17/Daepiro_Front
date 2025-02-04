@@ -312,16 +312,16 @@ class _CommunityService implements CommunityService {
   }
 
   @override
-  Future<CommunityReplyReportResponse> communityReplyReport({
+  Future<BasicResponse> communityReplyReport({
     required int id,
-    required CommunityReplyReportRequest communityReplyReportRequest,
+    required ReportRequest communityReplyReportRequest,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(communityReplyReportRequest.toJson());
-    final _options = _setStreamType<CommunityReplyReportResponse>(Options(
+    final _options = _setStreamType<BasicResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -338,9 +338,9 @@ class _CommunityService implements CommunityService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late CommunityReplyReportResponse _value;
+    late BasicResponse _value;
     try {
-      _value = CommunityReplyReportResponse.fromJson(_result.data!);
+      _value = BasicResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -349,12 +349,49 @@ class _CommunityService implements CommunityService {
   }
 
   @override
-  Future<CommunityTownLikeResponse> communityTown({required int id}) async {
+  Future<BasicResponse> communityArticleReport({
+    required int id,
+    required ReportRequest communityArticleRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(communityArticleRequest.toJson());
+    final _options = _setStreamType<BasicResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/articles/${id}/report',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BasicResponse _value;
+    try {
+      _value = BasicResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BasicResponse> getArticleLike({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<CommunityTownLikeResponse>(Options(
+    final _options = _setStreamType<BasicResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -371,9 +408,9 @@ class _CommunityService implements CommunityService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late CommunityTownLikeResponse _value;
+    late BasicResponse _value;
     try {
-      _value = CommunityTownLikeResponse.fromJson(_result.data!);
+      _value = BasicResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -410,6 +447,7 @@ class _CommunityService implements CommunityService {
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
         .compose(
           _dio.options,
@@ -426,6 +464,151 @@ class _CommunityService implements CommunityService {
     late CommunityArticleWritingResponse _value;
     try {
       _value = CommunityArticleWritingResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CommunityWritingEditResponse> editArticle({
+    required int id,
+    required CommunityWritingEditRequest communityWritingEditRequest,
+    required List<MultipartFile> attachFileList,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'communityWritingEditRequest',
+      jsonEncode(communityWritingEditRequest),
+    ));
+    _data.files
+        .addAll(attachFileList.map((i) => MapEntry('attachFileList', i)));
+    final _options = _setStreamType<CommunityWritingEditResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/v1/articles/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommunityWritingEditResponse _value;
+    try {
+      _value = CommunityWritingEditResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BasicResponse> deleteArticle({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BasicResponse>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/articles/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BasicResponse _value;
+    try {
+      _value = BasicResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<TownCertificateResponse> getTownCertificateInfo() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<TownCertificateResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/user-address-verified',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TownCertificateResponse _value;
+    try {
+      _value = TownCertificateResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BasicResponse> setTownCertificateInfo(
+      {required SetTownCertificateRequest setTownCertificateRequest}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(setTownCertificateRequest.toJson());
+    final _options = _setStreamType<BasicResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/user-address-verified',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BasicResponse _value;
+    try {
+      _value = BasicResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

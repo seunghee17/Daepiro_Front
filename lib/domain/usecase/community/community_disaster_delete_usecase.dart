@@ -1,5 +1,5 @@
-import 'package:daepiro/data/model/response/disaster_reply_delete_response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../data/model/response/community/disaster_reply_delete_response.dart';
 import '../../repository/community_repository.dart';
 
 final getDisasterDeleteUseCaseProvider =

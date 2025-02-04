@@ -27,26 +27,22 @@ mixin _$CommunityDisasterState {
       throw _privateConstructorUsedError; //대댓글을 선택한지에 대한 여부
   dynamic get isChildCommentState =>
       throw _privateConstructorUsedError; //moreinfo를 누를때부터 true로 활성화됨
-  int get deleteChildCommentId => throw _privateConstructorUsedError;
   int get editChildCommentId => throw _privateConstructorUsedError; //2
   bool get isEditChildCommentState => throw _privateConstructorUsedError; //1
-//댓글 삭제를 위해 필요한 데이터
-  int get deleteCommentId =>
-      throw _privateConstructorUsedError; //댓글 수정을 위한 상태 데이터
+//댓글 수정을 위한 상태 데이터
   bool get isEditState => throw _privateConstructorUsedError;
-  int get editCommentId => throw _privateConstructorUsedError;
-  String? get reportType =>
-      throw _privateConstructorUsedError; //커뮤니티 유형별 데이터 상태
-  List<Data> get allDisasterResponse => throw _privateConstructorUsedError;
-  List<Data> get receivedDisasterResponse => throw _privateConstructorUsedError;
-  int get listLength => throw _privateConstructorUsedError; //재난상황 로드 상태
+  int get editCommentId => throw _privateConstructorUsedError; //커뮤니티 유형별 데이터 상태
+  List<Disaster> get allDisasterResponse => throw _privateConstructorUsedError;
+  List<Disaster> get receivedDisasterResponse =>
+      throw _privateConstructorUsedError; //재난상황 로드 상태
   bool get isLoading => throw _privateConstructorUsedError; //재난상황 댓글 로드 상태
   bool get isReplyLoading => throw _privateConstructorUsedError; //재난상황 커뮤니티 타입
   String get disasterCommunityType =>
       throw _privateConstructorUsedError; //재난상황 댓글 상태
   List<Reply> get disasterReplyList =>
-      throw _privateConstructorUsedError; //신고 유형
-  String get reporyType => throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; //신고 유형1
+  String get reportType => throw _privateConstructorUsedError;
+  List<String> get reportDescription => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommunityDisasterStateCopyWith<CommunityDisasterState> get copyWith =>
@@ -64,21 +60,18 @@ abstract class $CommunityDisasterStateCopyWith<$Res> {
       int? selectSituaionId,
       int parentCommentId,
       dynamic isChildCommentState,
-      int deleteChildCommentId,
       int editChildCommentId,
       bool isEditChildCommentState,
-      int deleteCommentId,
       bool isEditState,
       int editCommentId,
-      String? reportType,
-      List<Data> allDisasterResponse,
-      List<Data> receivedDisasterResponse,
-      int listLength,
+      List<Disaster> allDisasterResponse,
+      List<Disaster> receivedDisasterResponse,
       bool isLoading,
       bool isReplyLoading,
       String disasterCommunityType,
       List<Reply> disasterReplyList,
-      String reporyType});
+      String reportType,
+      List<String> reportDescription});
 }
 
 /// @nodoc
@@ -99,21 +92,18 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
     Object? selectSituaionId = freezed,
     Object? parentCommentId = null,
     Object? isChildCommentState = freezed,
-    Object? deleteChildCommentId = null,
     Object? editChildCommentId = null,
     Object? isEditChildCommentState = null,
-    Object? deleteCommentId = null,
     Object? isEditState = null,
     Object? editCommentId = null,
-    Object? reportType = freezed,
     Object? allDisasterResponse = null,
     Object? receivedDisasterResponse = null,
-    Object? listLength = null,
     Object? isLoading = null,
     Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
     Object? disasterReplyList = null,
-    Object? reporyType = null,
+    Object? reportType = null,
+    Object? reportDescription = null,
   }) {
     return _then(_value.copyWith(
       isDisasterScreen: null == isDisasterScreen
@@ -132,10 +122,6 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
           ? _value.isChildCommentState
           : isChildCommentState // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      deleteChildCommentId: null == deleteChildCommentId
-          ? _value.deleteChildCommentId
-          : deleteChildCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       editChildCommentId: null == editChildCommentId
           ? _value.editChildCommentId
           : editChildCommentId // ignore: cast_nullable_to_non_nullable
@@ -144,10 +130,6 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
           ? _value.isEditChildCommentState
           : isEditChildCommentState // ignore: cast_nullable_to_non_nullable
               as bool,
-      deleteCommentId: null == deleteCommentId
-          ? _value.deleteCommentId
-          : deleteCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       isEditState: null == isEditState
           ? _value.isEditState
           : isEditState // ignore: cast_nullable_to_non_nullable
@@ -156,22 +138,14 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
           ? _value.editCommentId
           : editCommentId // ignore: cast_nullable_to_non_nullable
               as int,
-      reportType: freezed == reportType
-          ? _value.reportType
-          : reportType // ignore: cast_nullable_to_non_nullable
-              as String?,
       allDisasterResponse: null == allDisasterResponse
           ? _value.allDisasterResponse
           : allDisasterResponse // ignore: cast_nullable_to_non_nullable
-              as List<Data>,
+              as List<Disaster>,
       receivedDisasterResponse: null == receivedDisasterResponse
           ? _value.receivedDisasterResponse
           : receivedDisasterResponse // ignore: cast_nullable_to_non_nullable
-              as List<Data>,
-      listLength: null == listLength
-          ? _value.listLength
-          : listLength // ignore: cast_nullable_to_non_nullable
-              as int,
+              as List<Disaster>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -188,10 +162,14 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
           ? _value.disasterReplyList
           : disasterReplyList // ignore: cast_nullable_to_non_nullable
               as List<Reply>,
-      reporyType: null == reporyType
-          ? _value.reporyType
-          : reporyType // ignore: cast_nullable_to_non_nullable
+      reportType: null == reportType
+          ? _value.reportType
+          : reportType // ignore: cast_nullable_to_non_nullable
               as String,
+      reportDescription: null == reportDescription
+          ? _value.reportDescription
+          : reportDescription // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -210,21 +188,18 @@ abstract class _$$CommunityDisasterStateImplCopyWith<$Res>
       int? selectSituaionId,
       int parentCommentId,
       dynamic isChildCommentState,
-      int deleteChildCommentId,
       int editChildCommentId,
       bool isEditChildCommentState,
-      int deleteCommentId,
       bool isEditState,
       int editCommentId,
-      String? reportType,
-      List<Data> allDisasterResponse,
-      List<Data> receivedDisasterResponse,
-      int listLength,
+      List<Disaster> allDisasterResponse,
+      List<Disaster> receivedDisasterResponse,
       bool isLoading,
       bool isReplyLoading,
       String disasterCommunityType,
       List<Reply> disasterReplyList,
-      String reporyType});
+      String reportType,
+      List<String> reportDescription});
 }
 
 /// @nodoc
@@ -244,21 +219,18 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
     Object? selectSituaionId = freezed,
     Object? parentCommentId = null,
     Object? isChildCommentState = freezed,
-    Object? deleteChildCommentId = null,
     Object? editChildCommentId = null,
     Object? isEditChildCommentState = null,
-    Object? deleteCommentId = null,
     Object? isEditState = null,
     Object? editCommentId = null,
-    Object? reportType = freezed,
     Object? allDisasterResponse = null,
     Object? receivedDisasterResponse = null,
-    Object? listLength = null,
     Object? isLoading = null,
     Object? isReplyLoading = null,
     Object? disasterCommunityType = null,
     Object? disasterReplyList = null,
-    Object? reporyType = null,
+    Object? reportType = null,
+    Object? reportDescription = null,
   }) {
     return _then(_$CommunityDisasterStateImpl(
       isDisasterScreen: null == isDisasterScreen
@@ -276,10 +248,6 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
       isChildCommentState: freezed == isChildCommentState
           ? _value.isChildCommentState!
           : isChildCommentState,
-      deleteChildCommentId: null == deleteChildCommentId
-          ? _value.deleteChildCommentId
-          : deleteChildCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       editChildCommentId: null == editChildCommentId
           ? _value.editChildCommentId
           : editChildCommentId // ignore: cast_nullable_to_non_nullable
@@ -288,10 +256,6 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
           ? _value.isEditChildCommentState
           : isEditChildCommentState // ignore: cast_nullable_to_non_nullable
               as bool,
-      deleteCommentId: null == deleteCommentId
-          ? _value.deleteCommentId
-          : deleteCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       isEditState: null == isEditState
           ? _value.isEditState
           : isEditState // ignore: cast_nullable_to_non_nullable
@@ -300,22 +264,14 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
           ? _value.editCommentId
           : editCommentId // ignore: cast_nullable_to_non_nullable
               as int,
-      reportType: freezed == reportType
-          ? _value.reportType
-          : reportType // ignore: cast_nullable_to_non_nullable
-              as String?,
       allDisasterResponse: null == allDisasterResponse
           ? _value._allDisasterResponse
           : allDisasterResponse // ignore: cast_nullable_to_non_nullable
-              as List<Data>,
+              as List<Disaster>,
       receivedDisasterResponse: null == receivedDisasterResponse
           ? _value._receivedDisasterResponse
           : receivedDisasterResponse // ignore: cast_nullable_to_non_nullable
-              as List<Data>,
-      listLength: null == listLength
-          ? _value.listLength
-          : listLength // ignore: cast_nullable_to_non_nullable
-              as int,
+              as List<Disaster>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -332,10 +288,14 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
           ? _value._disasterReplyList
           : disasterReplyList // ignore: cast_nullable_to_non_nullable
               as List<Reply>,
-      reporyType: null == reporyType
-          ? _value.reporyType
-          : reporyType // ignore: cast_nullable_to_non_nullable
+      reportType: null == reportType
+          ? _value.reportType
+          : reportType // ignore: cast_nullable_to_non_nullable
               as String,
+      reportDescription: null == reportDescription
+          ? _value._reportDescription
+          : reportDescription // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -348,24 +308,28 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
       this.selectSituaionId = null,
       this.parentCommentId = 0,
       this.isChildCommentState = false,
-      this.deleteChildCommentId = 0,
       this.editChildCommentId = 0,
       this.isEditChildCommentState = false,
-      this.deleteCommentId = 0,
       this.isEditState = false,
       this.editCommentId = 0,
-      this.reportType = null,
-      final List<Data> allDisasterResponse = const [],
-      final List<Data> receivedDisasterResponse = const [],
-      this.listLength = 0,
+      final List<Disaster> allDisasterResponse = const [],
+      final List<Disaster> receivedDisasterResponse = const [],
       this.isLoading = true,
       this.isReplyLoading = true,
       this.disasterCommunityType = 'all',
       final List<Reply> disasterReplyList = const [],
-      this.reporyType = ''})
+      this.reportType = '',
+      final List<String> reportDescription = const [
+        '허위사실 유포',
+        '욕설 및 비방',
+        '상업적 광고 및 판매',
+        '음란물 및 불건전한 내용',
+        '기타'
+      ]})
       : _allDisasterResponse = allDisasterResponse,
         _receivedDisasterResponse = receivedDisasterResponse,
-        _disasterReplyList = disasterReplyList;
+        _disasterReplyList = disasterReplyList,
+        _reportDescription = reportDescription;
 
 //---------------------------------------------------------
 // 재난상황
@@ -388,19 +352,12 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
 //moreinfo를 누를때부터 true로 활성화됨
   @override
   @JsonKey()
-  final int deleteChildCommentId;
-  @override
-  @JsonKey()
   final int editChildCommentId;
 //2
   @override
   @JsonKey()
   final bool isEditChildCommentState;
 //1
-//댓글 삭제를 위해 필요한 데이터
-  @override
-  @JsonKey()
-  final int deleteCommentId;
 //댓글 수정을 위한 상태 데이터
   @override
   @JsonKey()
@@ -408,34 +365,28 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
   @override
   @JsonKey()
   final int editCommentId;
-  @override
-  @JsonKey()
-  final String? reportType;
 //커뮤니티 유형별 데이터 상태
-  final List<Data> _allDisasterResponse;
+  final List<Disaster> _allDisasterResponse;
 //커뮤니티 유형별 데이터 상태
   @override
   @JsonKey()
-  List<Data> get allDisasterResponse {
+  List<Disaster> get allDisasterResponse {
     if (_allDisasterResponse is EqualUnmodifiableListView)
       return _allDisasterResponse;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_allDisasterResponse);
   }
 
-  final List<Data> _receivedDisasterResponse;
+  final List<Disaster> _receivedDisasterResponse;
   @override
   @JsonKey()
-  List<Data> get receivedDisasterResponse {
+  List<Disaster> get receivedDisasterResponse {
     if (_receivedDisasterResponse is EqualUnmodifiableListView)
       return _receivedDisasterResponse;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_receivedDisasterResponse);
   }
 
-  @override
-  @JsonKey()
-  final int listLength;
 //재난상황 로드 상태
   @override
   @JsonKey()
@@ -460,14 +411,23 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
     return EqualUnmodifiableListView(_disasterReplyList);
   }
 
-//신고 유형
+//신고 유형1
   @override
   @JsonKey()
-  final String reporyType;
+  final String reportType;
+  final List<String> _reportDescription;
+  @override
+  @JsonKey()
+  List<String> get reportDescription {
+    if (_reportDescription is EqualUnmodifiableListView)
+      return _reportDescription;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reportDescription);
+  }
 
   @override
   String toString() {
-    return 'CommunityDisasterState(isDisasterScreen: $isDisasterScreen, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, listLength: $listLength, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reporyType: $reporyType)';
+    return 'CommunityDisasterState(isDisasterScreen: $isDisasterScreen, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, isEditState: $isEditState, editCommentId: $editCommentId, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reportType: $reportType, reportDescription: $reportDescription)';
   }
 
   @override
@@ -483,27 +443,19 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
                 other.parentCommentId == parentCommentId) &&
             const DeepCollectionEquality()
                 .equals(other.isChildCommentState, isChildCommentState) &&
-            (identical(other.deleteChildCommentId, deleteChildCommentId) ||
-                other.deleteChildCommentId == deleteChildCommentId) &&
             (identical(other.editChildCommentId, editChildCommentId) ||
                 other.editChildCommentId == editChildCommentId) &&
             (identical(
                     other.isEditChildCommentState, isEditChildCommentState) ||
                 other.isEditChildCommentState == isEditChildCommentState) &&
-            (identical(other.deleteCommentId, deleteCommentId) ||
-                other.deleteCommentId == deleteCommentId) &&
             (identical(other.isEditState, isEditState) ||
                 other.isEditState == isEditState) &&
             (identical(other.editCommentId, editCommentId) ||
                 other.editCommentId == editCommentId) &&
-            (identical(other.reportType, reportType) ||
-                other.reportType == reportType) &&
             const DeepCollectionEquality()
                 .equals(other._allDisasterResponse, _allDisasterResponse) &&
             const DeepCollectionEquality().equals(
                 other._receivedDisasterResponse, _receivedDisasterResponse) &&
-            (identical(other.listLength, listLength) ||
-                other.listLength == listLength) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isReplyLoading, isReplyLoading) ||
@@ -512,33 +464,31 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
                 other.disasterCommunityType == disasterCommunityType) &&
             const DeepCollectionEquality()
                 .equals(other._disasterReplyList, _disasterReplyList) &&
-            (identical(other.reporyType, reporyType) ||
-                other.reporyType == reporyType));
+            (identical(other.reportType, reportType) ||
+                other.reportType == reportType) &&
+            const DeepCollectionEquality()
+                .equals(other._reportDescription, _reportDescription));
   }
 
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        isDisasterScreen,
-        selectSituaionId,
-        parentCommentId,
-        const DeepCollectionEquality().hash(isChildCommentState),
-        deleteChildCommentId,
-        editChildCommentId,
-        isEditChildCommentState,
-        deleteCommentId,
-        isEditState,
-        editCommentId,
-        reportType,
-        const DeepCollectionEquality().hash(_allDisasterResponse),
-        const DeepCollectionEquality().hash(_receivedDisasterResponse),
-        listLength,
-        isLoading,
-        isReplyLoading,
-        disasterCommunityType,
-        const DeepCollectionEquality().hash(_disasterReplyList),
-        reporyType
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isDisasterScreen,
+      selectSituaionId,
+      parentCommentId,
+      const DeepCollectionEquality().hash(isChildCommentState),
+      editChildCommentId,
+      isEditChildCommentState,
+      isEditState,
+      editCommentId,
+      const DeepCollectionEquality().hash(_allDisasterResponse),
+      const DeepCollectionEquality().hash(_receivedDisasterResponse),
+      isLoading,
+      isReplyLoading,
+      disasterCommunityType,
+      const DeepCollectionEquality().hash(_disasterReplyList),
+      reportType,
+      const DeepCollectionEquality().hash(_reportDescription));
 
   @JsonKey(ignore: true)
   @override
@@ -554,21 +504,18 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
       final int? selectSituaionId,
       final int parentCommentId,
       final dynamic isChildCommentState,
-      final int deleteChildCommentId,
       final int editChildCommentId,
       final bool isEditChildCommentState,
-      final int deleteCommentId,
       final bool isEditState,
       final int editCommentId,
-      final String? reportType,
-      final List<Data> allDisasterResponse,
-      final List<Data> receivedDisasterResponse,
-      final int listLength,
+      final List<Disaster> allDisasterResponse,
+      final List<Disaster> receivedDisasterResponse,
       final bool isLoading,
       final bool isReplyLoading,
       final String disasterCommunityType,
       final List<Reply> disasterReplyList,
-      final String reporyType}) = _$CommunityDisasterStateImpl;
+      final String reportType,
+      final List<String> reportDescription}) = _$CommunityDisasterStateImpl;
 
   @override //---------------------------------------------------------
 // 재난상황
@@ -582,26 +529,18 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
   @override //대댓글을 선택한지에 대한 여부
   dynamic get isChildCommentState;
   @override //moreinfo를 누를때부터 true로 활성화됨
-  int get deleteChildCommentId;
-  @override
   int get editChildCommentId;
   @override //2
   bool get isEditChildCommentState;
   @override //1
-//댓글 삭제를 위해 필요한 데이터
-  int get deleteCommentId;
-  @override //댓글 수정을 위한 상태 데이터
+//댓글 수정을 위한 상태 데이터
   bool get isEditState;
   @override
   int get editCommentId;
-  @override
-  String? get reportType;
   @override //커뮤니티 유형별 데이터 상태
-  List<Data> get allDisasterResponse;
+  List<Disaster> get allDisasterResponse;
   @override
-  List<Data> get receivedDisasterResponse;
-  @override
-  int get listLength;
+  List<Disaster> get receivedDisasterResponse;
   @override //재난상황 로드 상태
   bool get isLoading;
   @override //재난상황 댓글 로드 상태
@@ -610,8 +549,10 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
   String get disasterCommunityType;
   @override //재난상황 댓글 상태
   List<Reply> get disasterReplyList;
-  @override //신고 유형
-  String get reporyType;
+  @override //신고 유형1
+  String get reportType;
+  @override
+  List<String> get reportDescription;
   @override
   @JsonKey(ignore: true)
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>

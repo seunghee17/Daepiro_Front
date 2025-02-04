@@ -1,11 +1,11 @@
+import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/domain/repository/community_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/model/request/community_reply_report_request.dart';
-import '../../../data/model/response/community_reply_report_response.dart';
+import '../../../data/model/response/report_request.dart';
 
 final communityReplyReportUseCaseProvider = FutureProvider.family<
-    CommunityReplyReportResponse,
+    BasicResponse,
     CommunityReplyReportUseCase>((ref, request) async {
   final repository = await ref.watch(communityRepositoryProvider);
   return await repository.communityReplyReport(
@@ -15,7 +15,7 @@ final communityReplyReportUseCaseProvider = FutureProvider.family<
 
 class CommunityReplyReportUseCase {
   final int id;
-  final CommunityReplyReportRequest communityReplyReportRequest;
+  final ReportRequest communityReplyReportRequest;
 
   CommunityReplyReportUseCase(
       {required this.id, required this.communityReplyReportRequest});

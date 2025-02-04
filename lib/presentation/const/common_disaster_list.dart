@@ -28,10 +28,6 @@ const List<Map<String, String>> CommonDisasterList = [
     "icon": "assets/icons/icon_social_disaster_03.svg",
   },
   {
-    "name": "기타",
-    "icon": "assets/icons/icon_other_01.svg",
-  },
-  {
     "name": "대설",
     "icon": "assets/icons/icon_nature_disaster_05.svg",
   },
@@ -106,5 +102,9 @@ const List<Map<String, String>> CommonDisasterList = [
   {
     "name": "환경오염사고",
     "icon": "assets/icons/icon_social_disaster_13.svg",
+  },
+  {
+    "name": "기타",
+    "icon": "assets/icons/icon_other_01.svg",
   }
 ];

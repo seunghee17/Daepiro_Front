@@ -9,7 +9,7 @@ import '../model/request/refresh_token_request.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import '../model/response/refresh_token_response.dart';
+import '../model/response/login/refresh_token_response.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final options = BaseOptions(
@@ -18,6 +18,29 @@ final dioProvider = Provider<Dio>((ref) {
         'Content-Type': 'application/json',
       }
   );
+
+  final Dio dio = Dio(options);
+  dio.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      maxWidth: 90,
+      enabled: kDebugMode
+  ));
+  dio.interceptors.add(ref.watch(interceptorProvider(dio)));
+  return dio;
+});
+
+final communityWriteDioProvider = Provider<Dio>((ref) {
+  final options = BaseOptions(
+      baseUrl: dotenv.get('BASE_URL'),
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+  );
+
   final Dio dio = Dio(options);
   dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
@@ -63,7 +86,7 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
             backgroundColor: Colors.black,
-            textColor: Colors.white
+            textColor: Colors.black
         );
       }
       if(exception.response?.statusCode == 401) {

@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/community/controller/town_certificate_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../cmm/DaepiroTheme.dart';
 
@@ -31,7 +33,7 @@ class CommunityTownAddressMenuScreen extends ConsumerWidget {
                       return addressMenuItem(index, ref, context, state.townList);
                     }
                 ),
-                townCertificationMenuItem(context)
+                townCertificationMenuItem(context, ref)
               ],
             )
         )
@@ -71,11 +73,14 @@ class CommunityTownAddressMenuScreen extends ConsumerWidget {
     );
   }
 
-  Widget townCertificationMenuItem(BuildContext context) {
+  Widget townCertificationMenuItem(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () {
-        //TODO 동네인증 로직 추가
+      onTap: () async {
+        await ref.read(townCertificateProvider.notifier).initState();
         GoRouter.of(context).pop();
+        GoRouter.of(context).push('/town_certificate');
+        ref.read(townCertificateProvider.notifier).setFirstStep(true);
+        ref.read(townCertificateProvider.notifier).setSecondStep(false);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

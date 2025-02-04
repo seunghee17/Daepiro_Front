@@ -21,9 +21,7 @@ mixin _$OnboardingState {
   String get nameState => throw _privateConstructorUsedError;
   String get nicknameState => throw _privateConstructorUsedError;
   bool get completeSetName => throw _privateConstructorUsedError;
-  bool get completeSetNickName =>
-      throw _privateConstructorUsedError; //검색된 주소 목록의 중복을 제거하기 위함
-  Set<String> get jusoListState => throw _privateConstructorUsedError;
+  bool get completeSetNickName => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userNickName => throw _privateConstructorUsedError; //입력한 주소값
   String get homeJuso => throw _privateConstructorUsedError;
@@ -62,7 +60,6 @@ abstract class $OnboardingStateCopyWith<$Res> {
       String nicknameState,
       bool completeSetName,
       bool completeSetNickName,
-      Set<String> jusoListState,
       String userName,
       String userNickName,
       String homeJuso,
@@ -98,7 +95,6 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? nicknameState = null,
     Object? completeSetName = null,
     Object? completeSetNickName = null,
-    Object? jusoListState = null,
     Object? userName = null,
     Object? userNickName = null,
     Object? homeJuso = null,
@@ -136,10 +132,6 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.completeSetNickName
           : completeSetNickName // ignore: cast_nullable_to_non_nullable
               as bool,
-      jusoListState: null == jusoListState
-          ? _value.jusoListState
-          : jusoListState // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -218,7 +210,6 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       String nicknameState,
       bool completeSetName,
       bool completeSetNickName,
-      Set<String> jusoListState,
       String userName,
       String userNickName,
       String homeJuso,
@@ -252,7 +243,6 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? nicknameState = null,
     Object? completeSetName = null,
     Object? completeSetNickName = null,
-    Object? jusoListState = null,
     Object? userName = null,
     Object? userNickName = null,
     Object? homeJuso = null,
@@ -290,10 +280,6 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value.completeSetNickName
           : completeSetNickName // ignore: cast_nullable_to_non_nullable
               as bool,
-      jusoListState: null == jusoListState
-          ? _value._jusoListState
-          : jusoListState // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -367,7 +353,6 @@ class _$OnboardingStateImpl implements _OnboardingState {
       this.nicknameState = '',
       this.completeSetName = false,
       this.completeSetNickName = false,
-      final Set<String> jusoListState = const <String>{},
       this.userName = '',
       this.userNickName = '',
       this.homeJuso = '',
@@ -388,9 +373,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
         false,
         false
       ],
-      final List<String> disasterTypes = const ['재난', '재난']})
-      : _jusoListState = jusoListState,
-        _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
+      final List<String> disasterTypes = const []})
+      : _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
         _disasterTypes = disasterTypes;
 
 //주소 검색 오류 상태
@@ -409,17 +393,6 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final bool completeSetNickName;
-//검색된 주소 목록의 중복을 제거하기 위함
-  final Set<String> _jusoListState;
-//검색된 주소 목록의 중복을 제거하기 위함
-  @override
-  @JsonKey()
-  Set<String> get jusoListState {
-    if (_jusoListState is EqualUnmodifiableSetView) return _jusoListState;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_jusoListState);
-  }
-
   @override
   @JsonKey()
   final String userName;
@@ -487,7 +460,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
 
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, jusoListState: $jusoListState, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
   }
 
   @override
@@ -504,8 +477,6 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 other.completeSetName == completeSetName) &&
             (identical(other.completeSetNickName, completeSetNickName) ||
                 other.completeSetNickName == completeSetNickName) &&
-            const DeepCollectionEquality()
-                .equals(other._jusoListState, _jusoListState) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.userNickName, userNickName) ||
@@ -548,7 +519,6 @@ class _$OnboardingStateImpl implements _OnboardingState {
         nicknameState,
         completeSetName,
         completeSetNickName,
-        const DeepCollectionEquality().hash(_jusoListState),
         userName,
         userNickName,
         homeJuso,
@@ -581,7 +551,6 @@ abstract class _OnboardingState implements OnboardingState {
       final String nicknameState,
       final bool completeSetName,
       final bool completeSetNickName,
-      final Set<String> jusoListState,
       final String userName,
       final String userNickName,
       final String homeJuso,
@@ -608,8 +577,6 @@ abstract class _OnboardingState implements OnboardingState {
   bool get completeSetName;
   @override
   bool get completeSetNickName;
-  @override //검색된 주소 목록의 중복을 제거하기 위함
-  Set<String> get jusoListState;
   @override
   String get userName;
   @override

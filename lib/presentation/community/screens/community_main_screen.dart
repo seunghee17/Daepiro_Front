@@ -18,6 +18,8 @@ class CommunityMainScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(communityDisasterProvider);
     final townState = ref.watch(communityTownProvider);
+    final disasterViewModel = ref.read(communityDisasterProvider.notifier);
+    final townViewModel = ref.read(communityTownProvider.notifier);
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
@@ -27,10 +29,11 @@ class CommunityMainScreen extends ConsumerWidget {
                 final TabController tabController =
                 DefaultTabController.of(context);
                 tabController.addListener(() {
-                  if (tabController.index == 1) {
-                    ref.read(communityDisasterProvider.notifier).changeScreenState(false);
+                  if (tabController.index == 1) { //동네생활임
+                    disasterViewModel.changeScreenState(false);
+                    townViewModel.loadContent();
                   } else {
-                    ref.read(communityDisasterProvider.notifier).changeScreenState(true);
+                    disasterViewModel.changeScreenState(true);
                   }
                 });
                 return Column(
@@ -52,7 +55,7 @@ class CommunityMainScreen extends ConsumerWidget {
                       labelStyle: DaepiroTextStyle.body_1_m,
                       labelColor: DaepiroColorStyle.g_800,
                       unselectedLabelColor: DaepiroColorStyle.g_300,
-                      labelPadding: EdgeInsets.symmetric(vertical: 16),
+                      labelPadding: const EdgeInsets.symmetric(vertical: 5),
                       tabs: [Tab(text: '재난상황'), Tab(text: '동네생활')],
                     ),
                     Expanded(
@@ -77,7 +80,7 @@ class CommunityMainScreen extends ConsumerWidget {
       children: [
         SizedBox(width: 20),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.only(top: 14),
           child: Text(
             '커뮤니티',
             style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
@@ -90,7 +93,7 @@ class CommunityMainScreen extends ConsumerWidget {
   Widget townHeaderWidget(String address, BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
         child: Row(
           children: [
             GestureDetector(
@@ -114,7 +117,12 @@ class CommunityMainScreen extends ConsumerWidget {
             Spacer(),
             TextButton(
                 onPressed: (){
-                  GoRouter.of(context).push('/community_town_writing');
+                  GoRouter.of(context).push(
+                      '/community_town_writing',
+                    extra: {
+                      'isEdit': false,
+                    },
+                  );
                 },
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.transparent),

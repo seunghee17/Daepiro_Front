@@ -7,17 +7,24 @@ class SettingFCM {
 
   @pragma('vm:entry-point')
   static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    print('Background message received: ${message.notification?.title}');
+    print('백그라운드 메시지 처리: ${message.notification?.title}');
   }
 
   Future<void> initNotification() async {
+    //백그라운드 메시지 핸들러 등록
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
+    //로컬 알림 초기화
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings();
     const settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
 
-    await _localNotifications.initialize(settings);
+    await _localNotifications.initialize(
+        settings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+          print('알림 클릭!!!!!');
+      }
+    );
 
     const androidChannel = AndroidNotificationChannel(
       'high_importance_channel',
@@ -26,12 +33,10 @@ class SettingFCM {
       importance: Importance.max,
     );
 
-    final androidImplementation = _localNotifications.resolvePlatformSpecificImplementation<
+    final androidImplementation =
+    _localNotifications.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
-
-    if (androidImplementation != null) {
-      await androidImplementation.createNotificationChannel(androidChannel);
-    }
+    await androidImplementation?.createNotificationChannel(androidChannel);
 
     // Foreground 알림 설정
     await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -43,15 +48,18 @@ class SettingFCM {
     // Foreground 메시지 처리
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
-      if (notification != null) {
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
         _localNotifications.show(
           notification.hashCode,
           notification.title,
           notification.body,
-          const NotificationDetails(
+          NotificationDetails(
             android: AndroidNotificationDetails(
-              'high_importance_channel',
-              'High Importance Notifications',
+              androidChannel.id,
+              androidChannel.name,
+              channelDescription: androidChannel.description,
               importance: Importance.max,
               priority: Priority.high,
               icon: '@mipmap/ic_launcher',
