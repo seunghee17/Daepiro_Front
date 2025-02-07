@@ -245,9 +245,6 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
           return CheerCommentMenu(
             isMine: isMine,
             id: id,
-            onCancel: () {
-              // ref.read(sponsorStateNotifierProvider.notifier).setDeleteState(0)
-            },
             onClickDelete: () {
               // ref.read(sponsorStateNotifierProvider.notifier)
               //     .setDeleteState(id)

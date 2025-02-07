@@ -12,14 +12,12 @@ import '../../../../cmm/button/secondary_filled_button.dart';
 class CheerCommentMenu extends ConsumerWidget {
   final bool isMine;
   final int id;
-  final VoidCallback onCancel;
   final VoidCallback onClickDelete;
 
   const CheerCommentMenu({
     super.key,
     required this.isMine,
     required this.id,
-    required this.onCancel,
     required this.onClickDelete,
   });
 
@@ -40,7 +38,6 @@ class CheerCommentMenu extends ConsumerWidget {
                 context,
                 ref,
                 id,
-                onCancel,
                 onClickDelete,
                 false
             ) : reportMenu(context)),
@@ -52,7 +49,6 @@ class CheerCommentMenu extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     int id,
-    VoidCallback onCancel,
     VoidCallback setDeleteState,
     bool isDisasterScreen,
   ) {
@@ -95,7 +91,7 @@ class CheerCommentMenu extends ConsumerWidget {
         GestureDetector(
             onTap: () {
               context.pop();
-              deleteDialog(context, ref, id, onCancel, setDeleteState);
+              deleteDialog(context, ref, id, setDeleteState);
               // isChildCommentState
               //     ? deleteDialog(context, ref, id, onCancel,
               //         setDeleteState, setChildCommentState)
@@ -150,7 +146,6 @@ class CheerCommentMenu extends ConsumerWidget {
       BuildContext context,
       WidgetRef ref,
       int id,
-      VoidCallback onCancel,
       VoidCallback onClickDelete,
   ) {
     showDialog(
@@ -201,7 +196,6 @@ class CheerCommentMenu extends ConsumerWidget {
                           context.pop();
                           showDeleteSnackbar(
                             context,
-                            onCancel,
                             onClickDelete,
                           );
                         },
@@ -225,7 +219,6 @@ class CheerCommentMenu extends ConsumerWidget {
 
   void showDeleteSnackbar(
       BuildContext context,
-      VoidCallback onCancel,
       VoidCallback onClickDelete
     ) {
     onClickDelete();
@@ -242,27 +235,12 @@ class CheerCommentMenu extends ConsumerWidget {
           color: Colors.black.withOpacity(0.6),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    '댓글이 삭제되었습니다.',
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.white),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    onCancel();
-                    overlayEntry.remove();
-                  },
-                  child: Text(
-                    '취소',
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.white),
-                  ),
-                ),
-              ],
+            child: Expanded(
+              child: Text(
+                '댓글이 삭제되었습니다.',
+                style: DaepiroTextStyle.body_2_m
+                    .copyWith(color: DaepiroColorStyle.white),
+              ),
             ),
           ),
         ),
