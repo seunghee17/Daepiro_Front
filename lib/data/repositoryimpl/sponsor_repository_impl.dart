@@ -82,5 +82,18 @@ class SponsorRepositoryImpl extends SponsorRepository {
     }
   }
 
-
+  @override
+  Future<BasicResponse> deleteCheer({
+    required String id
+  }) async {
+    try {
+      final response = await _service.deleteCheer(
+          id: id
+      );
+      return response;
+    } catch (e) {
+      print('응원메세지 삭제 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
 }

@@ -246,6 +246,8 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
             isMine: isMine,
             id: id,
             onClickDelete: () {
+              ref.read(sponsorStateNotifierProvider.notifier)
+                  .deleteCheerMessage(id: id.toString());
               // ref.read(sponsorStateNotifierProvider.notifier)
               //     .setDeleteState(id)
             },

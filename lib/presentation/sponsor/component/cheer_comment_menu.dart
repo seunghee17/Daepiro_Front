@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/sponsor/sponsor_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -49,7 +50,7 @@ class CheerCommentMenu extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     int id,
-    VoidCallback setDeleteState,
+    VoidCallback onClickDelete,
     bool isDisasterScreen,
   ) {
     return Column(
@@ -91,12 +92,7 @@ class CheerCommentMenu extends ConsumerWidget {
         GestureDetector(
             onTap: () {
               context.pop();
-              deleteDialog(context, ref, id, setDeleteState);
-              // isChildCommentState
-              //     ? deleteDialog(context, ref, id, onCancel,
-              //         setDeleteState, setChildCommentState)
-              //     : deleteDialog(
-              //         context, ref, id, onCancel, setDeleteState, null);
+              deleteDialog(context, ref, id, onClickDelete);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -193,6 +189,7 @@ class CheerCommentMenu extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () async {
+                          onClickDelete();
                           context.pop();
                           showDeleteSnackbar(
                             context,
