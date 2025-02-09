@@ -60,7 +60,9 @@ mixin _$CommunityTownState {
   int get currentAlbumIndex => throw _privateConstructorUsedError;
   List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommunityTownStateCopyWith<CommunityTownState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -113,6 +115,8 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -315,6 +319,8 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
       $Res Function(_$CommunityTownStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -766,7 +772,9 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
         const DeepCollectionEquality().hash(_selectAlbums)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>
@@ -806,24 +814,25 @@ abstract class _CommunityTownState implements CommunityTownState {
       final int currentAlbumIndex,
       final List<AlbumModel> selectAlbums}) = _$CommunityTownStateImpl;
 
-  @override //---------------------------------------------------------
+//---------------------------------------------------------
 // 동네생활
 //---------------------------------------------------------
 //동네생활 게시글 상세조회
-  ContentDetail get contentDetail;
-  @override //동네생활 댓글 상태
+  @override
+  ContentDetail get contentDetail; //동네생활 댓글 상태
+  @override
   List<CommentData> get townReplyList;
   @override
-  int? get selectContentId;
-  @override //동네생활 컨텐츠 리스트
-  Set<Content> get contentList;
-  @override //동네생활 로딩 상태
-  bool get isDongNaeLoading;
-  @override //동네생활 컨텐츠 더있는가
+  int? get selectContentId; //동네생활 컨텐츠 리스트
+  @override
+  Set<Content> get contentList; //동네생활 로딩 상태
+  @override
+  bool get isDongNaeLoading; //동네생활 컨텐츠 더있는가
+  @override
   bool get isDongNaeHasMore;
   @override
-  bool get isDongNaeContentEmpty;
-  @override //동네생활 선택한 동네
+  bool get isDongNaeContentEmpty; //동네생활 선택한 동네
+  @override
   String get selectTown;
   @override
   String get selectLongTownAddress;
@@ -832,44 +841,47 @@ abstract class _CommunityTownState implements CommunityTownState {
   @override
   List<String> get townList;
   @override
-  String get townCommunityType;
-  @override //동네생활 글쓰기 카테고리
-  String get townCategory;
-  @override //동네생활 댓글 상태
-  List<CommentData> get TownReplyList;
-  @override //대댓글 작성시 필요한 부모 댓글 id
-  int get parentCommentId;
-  @override //대댓글을 선택한지에 대한 여부
-  dynamic get isChildCommentState;
-  @override //moreinfo를 누를때부터 true로 활성화됨
+  String get townCommunityType; //동네생활 글쓰기 카테고리
+  @override
+  String get townCategory; //동네생활 댓글 상태
+  @override
+  List<CommentData> get TownReplyList; //대댓글 작성시 필요한 부모 댓글 id
+  @override
+  int get parentCommentId; //대댓글을 선택한지에 대한 여부
+  @override
+  dynamic get isChildCommentState; //moreinfo를 누를때부터 true로 활성화됨
+  @override
   int get deleteChildCommentId;
   @override
-  int get editChildCommentId;
-  @override //2
-  bool get isEditChildCommentState;
-  @override //1
+  int get editChildCommentId; //2
+  @override
+  bool get isEditChildCommentState; //1
 //댓글 삭제를 위해 필요한 데이터
-  int get deleteCommentId;
-  @override //댓글 수정을 위한 상태 데이터
+  @override
+  int get deleteCommentId; //댓글 수정을 위한 상태 데이터
+  @override
   bool get isEditState;
   @override
   int get editCommentId;
   @override
-  String? get reportType;
-  @override //위치 공개 여부 변수
+  String? get reportType; //위치 공개 여부 변수
+  @override
   bool get isVisible;
   @override
   double get latitude;
   @override
-  double get longitude;
-  @override //갤러리 관련 상태 변수
+  double get longitude; //갤러리 관련 상태 변수
+  @override
   List<AlbumModel> get albums;
   @override
   int get currentAlbumIndex;
   @override
   List<AlbumModel> get selectAlbums;
+
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -23,7 +23,9 @@ mixin _$PermissionState {
       throw _privateConstructorUsedError;
   bool get isModalShowing => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PermissionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PermissionStateCopyWith<PermissionState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$PermissionStateCopyWithImpl<$Res, $Val extends PermissionState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PermissionState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -96,6 +100,8 @@ class __$$PermissionStateImplCopyWithImpl<$Res>
       _$PermissionStateImpl _value, $Res Function(_$PermissionStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PermissionState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,7 +185,9 @@ class _$PermissionStateImpl implements _PermissionState {
       const DeepCollectionEquality().hash(_isPermissionCheckboxState),
       isModalShowing);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PermissionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PermissionStateImplCopyWith<_$PermissionStateImpl> get copyWith =>
@@ -193,14 +201,18 @@ abstract class _PermissionState implements PermissionState {
       final List<bool> isPermissionCheckboxState,
       final bool isModalShowing}) = _$PermissionStateImpl;
 
-  @override //권한 모두 동의 활성화 상태
-  bool get isAllPermissionGrant;
-  @override //체크박스의 활성화상태
+//권한 모두 동의 활성화 상태
+  @override
+  bool get isAllPermissionGrant; //체크박스의 활성화상태
+  @override
   List<bool> get isPermissionCheckboxState;
   @override
   bool get isModalShowing;
+
+  /// Create a copy of PermissionState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PermissionStateImplCopyWith<_$PermissionStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

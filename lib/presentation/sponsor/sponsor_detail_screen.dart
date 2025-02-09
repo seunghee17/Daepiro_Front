@@ -172,7 +172,7 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                               child: Text("내용소개"),
                             ),
                             Tab(
-                              child: Text("후원"),
+                              child: Text("후원사"),
                             )
                           ],
                         ),
@@ -202,29 +202,43 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              widget.extra.summary ?? "",
+                                              '후원 정보 요약',
                                               style: DaepiroTextStyle.body_1_b.copyWith(
                                                 color: DaepiroColorStyle.g_900,
                                               )
                                           ),
                                           const SizedBox(height: 10),
-                                          Text(
-                                              '- 추석 연휴 이후 남부 지역에 강한 비가 쏟아졌어요.',
-                                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                              )
-                                          )
+                                          for (int i=0;i<widget.extra.summary!.length;i++)
+                                            Column(
+                                              children: [
+                                                if (i !=0)
+                                                  const SizedBox(height: 2),
+                                                Text(
+                                                    "- ${widget.extra.summary?[i]}",
+                                                    style: DaepiroTextStyle.body_2_m.copyWith(
+                                                      color: DaepiroColorStyle.g_800,
+                                                    )
+                                                ),
+                                              ],
+                                            )
                                         ],
                                       ),
                                     ),
                                     const SizedBox(height: 20),
                                     Text(
-                                        '- 추석 연휴 이후 남부 지역에 강한 비가 쏟아졌어요.',
+                                        widget.extra.subtitle ?? "",
                                         style: DaepiroTextStyle.body_2_m.copyWith(
                                           color: DaepiroColorStyle.g_800,
                                         )
                                     ),
-
+                                    const SizedBox(height: 12),
+                                    Text(
+                                        widget.extra.body ?? "",
+                                        style: DaepiroTextStyle.body_2_m.copyWith(
+                                          color: DaepiroColorStyle.g_800,
+                                        )
+                                    ),
+                                    const SizedBox(height: 12)
                                   ],
                                 ),
                               ),

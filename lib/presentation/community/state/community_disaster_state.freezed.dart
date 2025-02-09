@@ -48,7 +48,9 @@ mixin _$CommunityDisasterState {
       throw _privateConstructorUsedError; //신고 유형
   String get reporyType => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommunityDisasterStateCopyWith<CommunityDisasterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -92,6 +94,8 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -237,6 +241,8 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
       $Res Function(_$CommunityDisasterStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -540,7 +546,9 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
         reporyType
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
@@ -570,50 +578,54 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
       final List<Reply> disasterReplyList,
       final String reporyType}) = _$CommunityDisasterStateImpl;
 
-  @override //---------------------------------------------------------
+//---------------------------------------------------------
 // 재난상황
 //---------------------------------------------------------
 //현재 보여지는 상태
+  @override
   bool get isDisasterScreen;
   @override
-  int? get selectSituaionId;
-  @override //대댓글 작성시 필요한 부모 댓글 id
-  int get parentCommentId;
-  @override //대댓글을 선택한지에 대한 여부
-  dynamic get isChildCommentState;
-  @override //moreinfo를 누를때부터 true로 활성화됨
+  int? get selectSituaionId; //대댓글 작성시 필요한 부모 댓글 id
+  @override
+  int get parentCommentId; //대댓글을 선택한지에 대한 여부
+  @override
+  dynamic get isChildCommentState; //moreinfo를 누를때부터 true로 활성화됨
+  @override
   int get deleteChildCommentId;
   @override
-  int get editChildCommentId;
-  @override //2
-  bool get isEditChildCommentState;
-  @override //1
+  int get editChildCommentId; //2
+  @override
+  bool get isEditChildCommentState; //1
 //댓글 삭제를 위해 필요한 데이터
-  int get deleteCommentId;
-  @override //댓글 수정을 위한 상태 데이터
+  @override
+  int get deleteCommentId; //댓글 수정을 위한 상태 데이터
+  @override
   bool get isEditState;
   @override
   int get editCommentId;
   @override
-  String? get reportType;
-  @override //커뮤니티 유형별 데이터 상태
+  String? get reportType; //커뮤니티 유형별 데이터 상태
+  @override
   List<Data> get allDisasterResponse;
   @override
   List<Data> get receivedDisasterResponse;
   @override
-  int get listLength;
-  @override //재난상황 로드 상태
-  bool get isLoading;
-  @override //재난상황 댓글 로드 상태
-  bool get isReplyLoading;
-  @override //재난상황 커뮤니티 타입
-  String get disasterCommunityType;
-  @override //재난상황 댓글 상태
-  List<Reply> get disasterReplyList;
-  @override //신고 유형
-  String get reporyType;
+  int get listLength; //재난상황 로드 상태
   @override
-  @JsonKey(ignore: true)
+  bool get isLoading; //재난상황 댓글 로드 상태
+  @override
+  bool get isReplyLoading; //재난상황 커뮤니티 타입
+  @override
+  String get disasterCommunityType; //재난상황 댓글 상태
+  @override
+  List<Reply> get disasterReplyList; //신고 유형
+  @override
+  String get reporyType;
+
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

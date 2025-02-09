@@ -42,12 +42,13 @@ class Sponsor {
   String? deadline;
   String? sponsorName;
   String? title;
+  String? subtitle;
   String? thumbnail;
   int? currentHeart;
   int? targetHeart;
   String? sponsorDescription;
   String? sponsorUrl;
-  String? summary;
+  List<String>? summary;
   String? body;
   String? disasterType;
 
@@ -56,6 +57,7 @@ class Sponsor {
     this.deadline,
     this.sponsorName,
     this.title,
+    this.subtitle,
     this.thumbnail,
     this.currentHeart,
     this.targetHeart,
@@ -71,12 +73,13 @@ class Sponsor {
     deadline = json['deadline'];
     sponsorName = json['sponsorName'];
     title = json['title'];
+    subtitle = json['subtitle'];
     thumbnail = json['thumbnail'];
     currentHeart = json['currentHeart'];
     targetHeart = json['targetHeart'];
     sponsorDescription = json['sponsorDescription'];
     sponsorUrl = json['sponsorUrl'];
-    summary = json['summary'];
+    summary = json['summary'].cast<String>();
     body = json['body'];
     disasterType = json['disasterType'];
   }
@@ -87,6 +90,7 @@ class Sponsor {
     data['deadline'] = this.deadline;
     data['sponsorName'] = this.sponsorName;
     data['title'] = this.title;
+    data['subtitle'] = this.subtitle;
     data['thumbnail'] = this.thumbnail;
     data['currentHeart'] = this.currentHeart;
     data['targetHeart'] = this.targetHeart;
