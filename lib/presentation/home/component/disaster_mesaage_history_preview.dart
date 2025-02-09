@@ -4,18 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
+import '../../const/utils.dart';
 
 class DisasterHistoryPreview extends StatefulWidget {
-  final SvgPicture icon;
+  final String disasterType;
   final String title;
   final String date;
 
   const DisasterHistoryPreview({
-    Key? key,
-    required this.icon,
+    super.key,
+    required this.disasterType,
     required this.title,
     required this.date
-  }): super(key: key);
+  });
 
   @override
   _DisasterHistoryPreview createState() => _DisasterHistoryPreview();
@@ -30,12 +31,17 @@ class _DisasterHistoryPreview extends State<DisasterHistoryPreview> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(
               color: DaepiroColorStyle.o_50,
               shape: BoxShape.circle,
             ),
-            child: widget.icon
+            child: SvgPicture.asset(
+              findDisasterIconByName(name: widget.disasterType),
+              width: 26,
+              height: 26,
+              colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+            ),
           ),
           const SizedBox(width: 12),
           Column(

@@ -1,8 +1,12 @@
+import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
 import 'package:daepiro/presentation/home/main/home_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../domain/usecase/information/get_disaster_contents_list_usecase.dart';
+import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
   return HomeViewModel(ref);
@@ -12,16 +16,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel(this.ref) : super(HomeState()) {
     getHomeStatus();
     getHomeDisasterHistory();
+    getPopularPostList(category: "LIFE");
+    getDisasterContentsList();
+    getSponsorList();
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
 
-  int _selectedPopularPostCategory = 0;
-  int get selectedPopularPostCategory => _selectedPopularPostCategory;
-
   void selectPopularPostCategory(int index) {
-    _selectedPopularPostCategory = index;
-    // notifyListeners();
+    state = state.copyWith(
+      selectedPopularPostCategory: index
+    );
+  }
+
+  void selectContentsCategory(int index) {
+    state = state.copyWith(
+        selectedContentsCategory: index
+    );
   }
 
   // 홈 화면에서 재난이 발생했는지 조회
@@ -55,8 +66,69 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getHomeDisasterHistoryUseCaseProvider(GetHomeDisasterHistoryUseCase()).future
       );
 
+      if (response.code == 1000) {
+        state = state.copyWith(
+            disasterHistoryList: response.data ?? []
+        );
+      }
+
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // 홈 화면 동네생활 인기글 조회
+  Future<void> getPopularPostList({
+    required String category
+  }) async {
+    try {
+      final response = await ref.read(
+          getPopularPostUsecaseProvider((GetPopularPostUsecase(category: category))).future
+      );
+
+      if (response.code == 1000) {
+        state = state.copyWith(
+            popularPostList: response.data ?? []
+        );
+      }
+    } catch (error) {
+      print('동네생활 인기글 조회 에러: $error');
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // 재난콘텐츠 목록 조회
+  Future<void> getDisasterContentsList() async {
+    try {
+      final response = await ref.read(
+          getDisasterContentsListUseCaseProvider(GetDisasterContentsListUseCase(
+              sortType: "latest",
+              size: "10"
+          )).future
+      );
+
+      state = state.copyWith(
+          contentsList: response.data?.contents ?? []
+      );
+    } catch (error) {
+      print('재난콘텐츠 목록 조회 에러: $error');
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // 후원목록 조회
+  Future<void> getSponsorList() async {
+    try {
+      final response = await ref.read(
+          getSponsorListUsecaseProvider(GetSponsorListUsecase()).future
+      );
+
+      state = state.copyWith(
+          sponsorList: response.data ?? []
+      );
+    } catch (error) {
+      print('후원목록 조회 에러: $error');
       state = state.copyWith(isLoading: false);
     }
   }

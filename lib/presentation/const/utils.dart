@@ -18,6 +18,16 @@ String formatDateToDot(String date) {
   return formattedDate;
 }
 
+// "2024-12-15T18:08:00" 형식의 String을 yyyy.mm.dd hh:mm형태로 변환
+String formatDateToDateTime(String date) {
+  if (date.isEmpty) return "";
+
+  DateTime dateTime = DateTime.parse(date);
+  String formattedDate = DateFormat("yyyy.MM.dd HH:mm").format(dateTime);
+
+  return formattedDate;
+}
+
 // "2024-12-15T18:08:00" 형식의 String을 D-13 형태로 변환
 String calculateDaysDiff(String date) {
   if (date.isEmpty) return "상시";

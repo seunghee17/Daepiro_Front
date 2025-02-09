@@ -57,16 +57,8 @@ class CheerCommentMenu extends ConsumerWidget {
       children: [
         GestureDetector(
           onTap: () {
-            if (isDisasterScreen) {
-              ref.read(communityDisasterProvider.notifier).setEditState(true);
-              ref
-                  .read(communityDisasterProvider.notifier)
-                  .setReplyId(id);
-            } else {
-              ref.read(communityTownProvider.notifier).setEditState(true);
-              ref.read(communityTownProvider.notifier).setReplyId(id);
-            }
-            GoRouter.of(context).pop();
+            context.pop();
+            // ref.
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

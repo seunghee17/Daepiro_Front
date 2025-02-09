@@ -187,7 +187,6 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                     path: '/home',
-                    // builder: (context, state) => const HomeScreen(), 왜안되지
                     builder: (context, state) => HomeScreen(),
                     routes: [
                       GoRoute(

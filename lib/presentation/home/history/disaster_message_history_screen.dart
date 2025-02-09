@@ -85,7 +85,7 @@ class _DisasterMessageHistoryScreen extends State<DisasterMessageHistoryScreen> 
                       ),
                       Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: ListView.builder(
                               itemCount: 3,
                               itemBuilder: (BuildContext context, int index) {

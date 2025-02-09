@@ -3,6 +3,7 @@ import 'package:daepiro/presentation/home/component/popular_post_preview.dart';
 import 'package:daepiro/presentation/const/const.dart';
 import 'package:daepiro/presentation/home/main/home_view_model.dart';
 import 'package:daepiro/presentation/home/component/disaster_mesaage_history_preview.dart';
+import 'package:daepiro/presentation/sponsor/component/item_sponsor_preview.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,25 +14,28 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
+import '../../const/utils.dart';
+import '../component/sponsor_preview.dart';
 import 'home_state.dart';
 
-class HomeScreen extends ConsumerWidget {
-  HomeScreen({super.key});
-
-  final PageController _popularPostPageController = PageController(initialPage: 0);
-  final PageController _infoContentsPageController = PageController(initialPage: 0);
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<HomeState>(homeStateNotifierProvider, (previous, next) {
-      if (next.isLoading) {
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-      }
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final PageController _popularPostPageController = PageController(initialPage: 0);
+  final PageController _infoContentsPageController = PageController(initialPage: 0);
+  final PageController _sponsorPageController = PageController(
+      initialPage: 0,
+      viewportFraction: 0.9
+  );
 
-      if (next.isOccurred) {
-
-      }
-    });
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(homeStateNotifierProvider);
 
     return MaterialApp(
       home: SafeArea(
@@ -77,8 +81,8 @@ class HomeScreen extends ConsumerWidget {
                                         child: Stack(
                                           children: [
                                             Container(
-                                              child: Image.asset('assets/icons/image_character_home.png'),
                                               alignment: Alignment.bottomRight,
+                                              child: Image.asset('assets/icons/image_character_home.png'),
                                             ),
                                             Container(
                                               padding: const EdgeInsets.only(top: 26, left: 16, bottom: 16, right: 16),
@@ -224,26 +228,25 @@ class HomeScreen extends ConsumerWidget {
                                               )
                                             ]
                                         ),
-                                        child: Column(
-                                          children: [
-                                            DisasterHistoryPreview(
-                                                icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
-                                                title: "서울시 성북구 쌍문동 호우 발생",
-                                                date: "2024.8.11 14:24"
-                                            ),
-                                            const SizedBox(height: 8),
-                                            DisasterHistoryPreview(
-                                                icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
-                                                title: "서울시 성북구 쌍문동 호우 발생2",
-                                                date: "2024.8.11 14:24"
-                                            ),
-                                            const SizedBox(height: 8),
-                                            DisasterHistoryPreview(
-                                                icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
-                                                title: "서울시 성북구 쌍문동 호우 발생3",
-                                                date: "2024.8.11 14:24"
-                                            ),
-                                          ],
+                                        child: Expanded(
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              itemCount: viewModel.disasterHistoryList.length,
+                                              itemBuilder: (context, index) {
+                                                return Column(
+                                                  children: [
+                                                    if (index != 0)
+                                                      const SizedBox(height: 8),
+                                                    DisasterHistoryPreview(
+                                                        disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                        title: viewModel.disasterHistoryList[index].title ?? "",
+                                                        date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                    ),
+                                                  ],
+                                                );
+                                              }
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(height: 28),
@@ -295,11 +298,10 @@ class HomeScreen extends ConsumerWidget {
                                                   Row(
                                                     children: [
                                                       SecondaryChip(
-                                                          // isSelected: _homeViewModel.selectedPopularPostCategory == index,
-                                                          isSelected: false,
+                                                          isSelected: viewModel.selectedPopularPostCategory == index,
                                                           text: Const.popularPostCategoryList[index],
                                                           onPressed: () {
-                                                            // _homeViewModel.selectPopularPostCategory(index);
+                                                            ref.read(homeStateNotifierProvider.notifier).selectPopularPostCategory(index);
                                                             _popularPostPageController.animateToPage(
                                                                 index,
                                                                 duration: const Duration(milliseconds: 1),
@@ -317,9 +319,27 @@ class HomeScreen extends ConsumerWidget {
                                               controller: _popularPostPageController,
                                               scrollDirection: Axis.horizontal,
                                               onPageChanged: (index) {
-                                                // _homeViewModel.selectPopularPostCategory(index);
+                                                ref.read(homeStateNotifierProvider.notifier).selectPopularPostCategory(index);
                                               },
                                               children: [
+                                                for (int i=0;i<3;i++)
+                                                  // Expanded(
+                                                  //   child: ListView.builder(
+                                                  //     shrinkWrap: true,
+                                                  //     physics: const NeverScrollableScrollPhysics(),
+                                                  //     itemCount: 3,
+                                                  //     itemBuilder: (context, index) {
+                                                  //       return PopularPostPreview(
+                                                  //           title: viewModel.popularPostList[index].title ?? "",
+                                                  //           contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
+                                                  //           location: "서울시 강남구",
+                                                  //           time: "5분전",
+                                                  //           like: "3",
+                                                  //           comment: "2"
+                                                  //       );
+                                                  //     }
+                                                  //   ),
+                                                  // ),
                                                 for (int i=0;i<5;i++)
                                                   Column(
                                                     children: [
@@ -416,30 +436,21 @@ class HomeScreen extends ConsumerWidget {
                                                 onPageChanged: (index) {
                                                 },
                                                 children: [
-                                                  for (int i=0;i<3;i++)
-                                                    const Column(
-                                                      children: [
-                                                        InformationContentsPreview(
-                                                            imagePath: 'assets/icons/image_sample.jpg',
-                                                            title: "북한, 새벽까지 오물풍선 190개 날렸다...",
-                                                            from: "동아닷컴",
-                                                            date: "2024.08.11"
-                                                        ),
-                                                        InformationContentsPreview(
-                                                            imagePath: 'assets/icons/image_sample.jpg',
-                                                            title: "북한, 새벽까지 오물풍선 190개 날렸다...",
-                                                            from: "동아닷컴",
-                                                            date: "2024.08.11"
-                                                        ),
-                                                      ],
-                                                    )
+                                                  for (int index=0;index<2;index++)
+                                                    InformationContentsPreview(
+                                                        imagePath: 'assets/icons/image_sample.jpg',
+                                                        // imagePath: viewModel.contentsList[index].thumbnailUrl ?? "",
+                                                        title: viewModel.contentsList[index].title ?? "",
+                                                        from: viewModel.contentsList[index].source ?? "",
+                                                        date: viewModel.contentsList[index].publishedAt ?? ""
+                                                    ),
                                                 ],
                                               ),
                                               const SizedBox(height: 16),
                                               Center(
                                                 child: SmoothPageIndicator(
                                                   controller: _infoContentsPageController,
-                                                  count: 3,
+                                                  count: viewModel.contentsList.length~/2,
                                                   effect: const ExpandingDotsEffect(
                                                       dotColor: DaepiroColorStyle.g_75,
                                                       activeDotColor: DaepiroColorStyle.g_300,
@@ -478,8 +489,25 @@ class HomeScreen extends ConsumerWidget {
                                             )
                                           ]
                                       ),
-                                      const SizedBox(height: 12),
-
+                                      ExpandablePageView.builder(
+                                          controller: _sponsorPageController,
+                                          scrollDirection: Axis.horizontal,
+                                          padEnds: false,
+                                          itemCount: viewModel.sponsorList.length,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            return Container(
+                                              padding: const EdgeInsets.only(top: 12),
+                                              margin: const EdgeInsets.only(right: 8),
+                                              child: SponsorPreview(
+                                                disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                                date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                                from: viewModel.sponsorList[index].sponsorName ?? "",
+                                                title: viewModel.sponsorList[index].title ?? "",
+                                                imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                              ),
+                                            );
+                                          }
+                                      )
                                     ],
                                   ),
                                 )

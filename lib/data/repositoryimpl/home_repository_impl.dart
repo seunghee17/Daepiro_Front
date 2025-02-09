@@ -3,6 +3,9 @@ import 'dart:ffi';
 import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
+import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
+import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/domain/repository/home_repository.dart';
 
@@ -39,6 +42,19 @@ class HomeRepositoryImpl extends HomeRepository {
       return response;
     } catch(e) {
       print('재난문자 상세 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PopularPostResponse> getPopularPostList(
+      String category
+  ) async {
+    try {
+      final response = await _service.getPopularPostList(category: category);
+      return response;
+    } catch(e) {
+      print('인기게시글 조회 오류 ${e.toString()}');
       rethrow;
     }
   }

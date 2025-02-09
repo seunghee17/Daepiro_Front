@@ -61,10 +61,6 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
       if (response.code == 1000) {
         getCheerCommentList();
       }
-
-      // state = state.copyWith(
-      //     cheerCommentList: response.data ?? []
-      // );
     } catch (error) {
       print('응원메세지 작성 에러: $error');
     }
@@ -82,6 +78,10 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
               id: id
           )).future
       );
+
+      if (response.code == 1000) {
+        getCheerCommentList();
+      }
     } catch (error) {
       print('응원메세지 수정 에러: $error');
     }
