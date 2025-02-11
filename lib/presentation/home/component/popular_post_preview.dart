@@ -74,19 +74,15 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
                   color: DaepiroColorStyle.g_300,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
-                padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                decoration: BoxDecoration(
-                  color: DaepiroColorStyle.g_50,
-                  borderRadius: BorderRadius.circular(100),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
                       'assets/icons/icon_good.svg',
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                       width: 16,
                       height: 16,
                     ),
@@ -100,19 +96,15 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
                   ]
                 ),
               ),
-              const SizedBox(width: 8,),
+              const SizedBox(width: 8),
               Container(
-                padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                decoration: BoxDecoration(
-                  color: DaepiroColorStyle.g_50,
-                  borderRadius: BorderRadius.circular(100),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
                       'assets/icons/icon_community.svg',
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                       width: 16,
                       height: 16
                     ),

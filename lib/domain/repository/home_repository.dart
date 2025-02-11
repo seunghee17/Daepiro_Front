@@ -2,6 +2,7 @@ import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dar
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,4 +21,6 @@ abstract class HomeRepository {
   Future<HomeDisasterHistoryResponse> getHomeDisasterHistory();
   Future<HomeDisasterFeedResponse> getHomeDisasterFeed();
   Future<PopularPostResponse> getPopularPostList(String category);
+
+  Future<DisastersHistoryResponse> getDisastersHistory();
 }

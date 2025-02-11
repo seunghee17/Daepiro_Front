@@ -1,4 +1,5 @@
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
+import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
@@ -131,6 +132,29 @@ class HomeViewModel extends StateNotifier<HomeState> {
       print('후원목록 조회 에러: $error');
       state = state.copyWith(isLoading: false);
     }
+  }
+
+  // 최근 재난문자 내역 조회
+  Future<void> getDisastersHistory() async {
+    try {
+      final response = await ref.read(
+          getRecentDisastersUsecaseProvider(GetDisastersHistoryUsecase()).future
+      );
+
+      if (response.code == 1000) {
+        state = state.copyWith(
+          disastersList: response.data ?? [],
+        );
+      }
+    } catch (error) {
+      print('최근 재난문자 내역 조회 에러: $error');
+    }
+  }
+
+  void selectDisasterHistoryType(int index) async {
+    state = state.copyWith(
+      selectedDisasterHistoryType: index,
+    );
   }
 
   // 재난 발생했을 때 재난 상세내용 조회

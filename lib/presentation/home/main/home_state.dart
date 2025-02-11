@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,6 +20,10 @@ sealed class HomeState with _$HomeState {
     @Default([]) List<Contents> contentsList,
     @Default([]) List<Sponsor> sponsorList,
     // @Default([[],[],[],[],[]]) List<List<PopularPost>> popularPostList,
+
+    @Default(0) int selectedDisasterHistoryType,
+    @Default([]) List<DisastersData> disastersList,
+
   }) = _HomeState;
 }
 

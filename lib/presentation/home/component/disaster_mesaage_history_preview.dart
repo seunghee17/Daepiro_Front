@@ -47,12 +47,7 @@ class _DisasterHistoryPreview extends State<DisasterHistoryPreview> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.title,
-                style: DaepiroTextStyle.body_1_b.copyWith(
-                  color: DaepiroColorStyle.g_900,
-                ),
-              ),
+              getHighlightText(title: widget.title, disaster: widget.disasterType),
               const SizedBox(height: 2),
               Text(
                 widget.date,

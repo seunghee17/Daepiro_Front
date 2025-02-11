@@ -20,8 +20,8 @@ import '../data/model/response/information/behavior_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/community/screens/town/community_town_writing_screen.dart';
-import '../presentation/home/history/disaster_message_detail_screen.dart';
-import '../presentation/home/history/disaster_message_history_screen.dart';
+import '../presentation/home/history/disaster_detail_screen.dart';
+import '../presentation/home/history/disasters_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
 import '../presentation/information/behavior_tip/behavior_tips_screen.dart';
 import '../presentation/information/main/information_screen.dart';
@@ -190,12 +190,12 @@ final goRouteProvider = Provider((ref) {
                     builder: (context, state) => HomeScreen(),
                     routes: [
                       GoRoute(
-                        path: 'disasterMessageHistory',
-                        builder: (context, state) => const DisasterMessageHistoryScreen(),
+                        path: 'disastersHistory',
+                        builder: (context, state) => DisastersHistoryScreen(),
                       ),
                       GoRoute(
-                        path: 'disasterMessageDetail',
-                        builder: (context, state) => const DisasterMessageDetailScreen(),
+                        path: 'disasterDetail',
+                        builder: (context, state) => DisasterDetailScreen(),
                       ),
                     ]
                 ),

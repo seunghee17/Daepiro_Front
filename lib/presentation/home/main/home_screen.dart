@@ -59,7 +59,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             Container(
                                 padding: const EdgeInsets.all(12),
-                                child: SvgPicture.asset('assets/icons/icon_alarm.svg')
+                                child: SvgPicture.asset(
+                                  'assets/icons/icon_alarm.svg',
+                                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                                )
                             ),
                           ],
                         ),
@@ -197,7 +200,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             const Spacer(),
                                             GestureDetector(
                                               onTap: () {
-                                                context.push('/home/disasterMessageHistory');
+                                                context.push('/home/disastersHistory');
                                               },
                                               child: Row(
                                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -218,15 +221,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Container(
                                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                                         decoration: BoxDecoration(
-                                            color: DaepiroColorStyle.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: DaepiroColorStyle.black.withOpacity(0.08),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 0),
-                                              )
-                                            ]
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            width: 2,
+                                            color: DaepiroColorStyle.g_50,
+                                          ),
                                         ),
                                         child: Expanded(
                                           child: ListView.builder(
@@ -278,15 +277,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Container(
                                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                                         decoration: BoxDecoration(
-                                            color: DaepiroColorStyle.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withOpacity(0.08),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 0),
-                                              )
-                                            ]
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            width: 2,
+                                            color: DaepiroColorStyle.g_50,
+                                          ),
                                         ),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -418,15 +413,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Container(
                                           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                                           decoration: BoxDecoration(
-                                              color: DaepiroColorStyle.white,
-                                              borderRadius: BorderRadius.circular(8),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black.withOpacity(0.08),
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 0),
-                                                )
-                                              ]
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(
+                                              width: 2,
+                                              color: DaepiroColorStyle.g_50,
+                                            ),
                                           ),
                                           child: Column(
                                             children: [
@@ -436,13 +427,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 onPageChanged: (index) {
                                                 },
                                                 children: [
-                                                  for (int index=0;index<2;index++)
+                                                  for (int i=0;i<2;i++)
                                                     InformationContentsPreview(
                                                         imagePath: 'assets/icons/image_sample.jpg',
                                                         // imagePath: viewModel.contentsList[index].thumbnailUrl ?? "",
-                                                        title: viewModel.contentsList[index].title ?? "",
-                                                        from: viewModel.contentsList[index].source ?? "",
-                                                        date: viewModel.contentsList[index].publishedAt ?? ""
+                                                        title: viewModel.contentsList[i].title ?? "",
+                                                        from: viewModel.contentsList[i].source ?? "",
+                                                        date: viewModel.contentsList[i].publishedAt ?? ""
                                                     ),
                                                 ],
                                               ),

@@ -4,6 +4,7 @@ import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dar
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
@@ -55,6 +56,17 @@ class HomeRepositoryImpl extends HomeRepository {
       return response;
     } catch(e) {
       print('인기게시글 조회 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<DisastersHistoryResponse> getDisastersHistory() async {
+    try {
+      final response = await _service.getDisastersHistory();
+      return response;
+    } catch(e) {
+      print('최근 재난문자 내역 조회 오류 ${e.toString()}');
       rethrow;
     }
   }

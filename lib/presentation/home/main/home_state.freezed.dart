@@ -24,7 +24,10 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   List<PopularPost> get popularPostList => throw _privateConstructorUsedError;
   List<Contents> get contentsList => throw _privateConstructorUsedError;
-  List<Sponsor> get sponsorList => throw _privateConstructorUsedError;
+  List<Sponsor> get sponsorList =>
+      throw _privateConstructorUsedError; // @Default([[],[],[],[],[]]) List<List<PopularPost>> popularPostList,
+  int get selectedDisasterHistoryType => throw _privateConstructorUsedError;
+  List<DisastersData> get disastersList => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +49,9 @@ abstract class $HomeStateCopyWith<$Res> {
       List<DisasterHistory> disasterHistoryList,
       List<PopularPost> popularPostList,
       List<Contents> contentsList,
-      List<Sponsor> sponsorList});
+      List<Sponsor> sponsorList,
+      int selectedDisasterHistoryType,
+      List<DisastersData> disastersList});
 }
 
 /// @nodoc
@@ -72,6 +77,8 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? popularPostList = null,
     Object? contentsList = null,
     Object? sponsorList = null,
+    Object? selectedDisasterHistoryType = null,
+    Object? disastersList = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -106,6 +113,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.sponsorList
           : sponsorList // ignore: cast_nullable_to_non_nullable
               as List<Sponsor>,
+      selectedDisasterHistoryType: null == selectedDisasterHistoryType
+          ? _value.selectedDisasterHistoryType
+          : selectedDisasterHistoryType // ignore: cast_nullable_to_non_nullable
+              as int,
+      disastersList: null == disastersList
+          ? _value.disastersList
+          : disastersList // ignore: cast_nullable_to_non_nullable
+              as List<DisastersData>,
     ) as $Val);
   }
 }
@@ -126,7 +141,9 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       List<DisasterHistory> disasterHistoryList,
       List<PopularPost> popularPostList,
       List<Contents> contentsList,
-      List<Sponsor> sponsorList});
+      List<Sponsor> sponsorList,
+      int selectedDisasterHistoryType,
+      List<DisastersData> disastersList});
 }
 
 /// @nodoc
@@ -150,6 +167,8 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? popularPostList = null,
     Object? contentsList = null,
     Object? sponsorList = null,
+    Object? selectedDisasterHistoryType = null,
+    Object? disastersList = null,
   }) {
     return _then(_$HomeStateImpl(
       isLoading: null == isLoading
@@ -184,6 +203,14 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._sponsorList
           : sponsorList // ignore: cast_nullable_to_non_nullable
               as List<Sponsor>,
+      selectedDisasterHistoryType: null == selectedDisasterHistoryType
+          ? _value.selectedDisasterHistoryType
+          : selectedDisasterHistoryType // ignore: cast_nullable_to_non_nullable
+              as int,
+      disastersList: null == disastersList
+          ? _value._disastersList
+          : disastersList // ignore: cast_nullable_to_non_nullable
+              as List<DisastersData>,
     ));
   }
 }
@@ -199,11 +226,14 @@ class _$HomeStateImpl implements _HomeState {
       final List<DisasterHistory> disasterHistoryList = const [],
       final List<PopularPost> popularPostList = const [],
       final List<Contents> contentsList = const [],
-      final List<Sponsor> sponsorList = const []})
+      final List<Sponsor> sponsorList = const [],
+      this.selectedDisasterHistoryType = 0,
+      final List<DisastersData> disastersList = const []})
       : _disasterHistoryList = disasterHistoryList,
         _popularPostList = popularPostList,
         _contentsList = contentsList,
-        _sponsorList = sponsorList;
+        _sponsorList = sponsorList,
+        _disastersList = disastersList;
 
   @override
   @JsonKey()
@@ -254,9 +284,22 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_sponsorList);
   }
 
+// @Default([[],[],[],[],[]]) List<List<PopularPost>> popularPostList,
+  @override
+  @JsonKey()
+  final int selectedDisasterHistoryType;
+  final List<DisastersData> _disastersList;
+  @override
+  @JsonKey()
+  List<DisastersData> get disastersList {
+    if (_disastersList is EqualUnmodifiableListView) return _disastersList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_disastersList);
+  }
+
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, disasterHistoryList: $disasterHistoryList, popularPostList: $popularPostList, contentsList: $contentsList, sponsorList: $sponsorList)';
+    return 'HomeState(isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, disasterHistoryList: $disasterHistoryList, popularPostList: $popularPostList, contentsList: $contentsList, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList)';
   }
 
   @override
@@ -282,7 +325,13 @@ class _$HomeStateImpl implements _HomeState {
             const DeepCollectionEquality()
                 .equals(other._contentsList, _contentsList) &&
             const DeepCollectionEquality()
-                .equals(other._sponsorList, _sponsorList));
+                .equals(other._sponsorList, _sponsorList) &&
+            (identical(other.selectedDisasterHistoryType,
+                    selectedDisasterHistoryType) ||
+                other.selectedDisasterHistoryType ==
+                    selectedDisasterHistoryType) &&
+            const DeepCollectionEquality()
+                .equals(other._disastersList, _disastersList));
   }
 
   @override
@@ -295,7 +344,9 @@ class _$HomeStateImpl implements _HomeState {
       const DeepCollectionEquality().hash(_disasterHistoryList),
       const DeepCollectionEquality().hash(_popularPostList),
       const DeepCollectionEquality().hash(_contentsList),
-      const DeepCollectionEquality().hash(_sponsorList));
+      const DeepCollectionEquality().hash(_sponsorList),
+      selectedDisasterHistoryType,
+      const DeepCollectionEquality().hash(_disastersList));
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -315,7 +366,9 @@ abstract class _HomeState implements HomeState {
       final List<DisasterHistory> disasterHistoryList,
       final List<PopularPost> popularPostList,
       final List<Contents> contentsList,
-      final List<Sponsor> sponsorList}) = _$HomeStateImpl;
+      final List<Sponsor> sponsorList,
+      final int selectedDisasterHistoryType,
+      final List<DisastersData> disastersList}) = _$HomeStateImpl;
 
   @override
   bool get isLoading;
@@ -332,7 +385,12 @@ abstract class _HomeState implements HomeState {
   @override
   List<Contents> get contentsList;
   @override
-  List<Sponsor> get sponsorList;
+  List<Sponsor>
+      get sponsorList; // @Default([[],[],[],[],[]]) List<List<PopularPost>> popularPostList,
+  @override
+  int get selectedDisasterHistoryType;
+  @override
+  List<DisastersData> get disastersList;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

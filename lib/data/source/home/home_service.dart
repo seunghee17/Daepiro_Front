@@ -2,6 +2,7 @@ import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dar
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
@@ -31,5 +32,9 @@ abstract class HomeService {
   Future<PopularPostResponse> getPopularPostList({
     @Query('category') required String category
   });
+
+  // 최근 재난문자 내역 조회
+  @GET('/v1/users/disasters')
+  Future<DisastersHistoryResponse> getDisastersHistory();
 
 }

@@ -10,14 +10,14 @@ import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
 import '../component/map_direction_item.dart';
 
-class DisasterMessageDetailScreen extends StatefulWidget {
-  const DisasterMessageDetailScreen({super.key});
+class DisasterDetailScreen extends StatefulWidget {
+  const DisasterDetailScreen({super.key});
 
   @override
-  State<DisasterMessageDetailScreen> createState() => _DisasterMessageDetailScreenState();
+  State<DisasterDetailScreen> createState() => _DisasterDetailScreenState();
 }
 
-class _DisasterMessageDetailScreenState extends State<DisasterMessageDetailScreen> {
+class _DisasterDetailScreenState extends State<DisasterDetailScreen> {
   final PageController _aroundShelterPageController = PageController(
     initialPage: 0,
     viewportFraction: 0.9
