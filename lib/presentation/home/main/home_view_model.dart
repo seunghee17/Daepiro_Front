@@ -28,7 +28,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     getPopularPostList(category: "SAFE");
     getPopularPostList(category: "OTHER");
     getDisasterContentsList();
-    getSponsorList();
+    // getSponsorList();
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
@@ -43,6 +43,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
   void selectContentsCategory(int index) {
     state = state.copyWith(
         selectedContentsCategory: index
+    );
+  }
+
+  void selectDisasterHistoryType(int index) async {
+    state = state.copyWith(
+      selectedDisasterHistoryType: index,
     );
   }
 
@@ -79,13 +85,13 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       if (response.code == 1000) {
         state = state.copyWith(
-            disasterHistoryList: response.data ?? []
+            disasterHistoryList: response.data ?? [],
+            isLoadingDisasterHistory: false
         );
       }
 
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -113,14 +119,14 @@ class HomeViewModel extends StateNotifier<HomeState> {
         }
 
         state = state.copyWith(
-            allPopularPostList: list
+          allPopularPostList: list,
+          isLoadingPopularPost: state.isLoadingPopularPost+1
         );
 
         selectPopularPostCategory(0);
       }
     } catch (error) {
       print('동네생활 인기글 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -132,11 +138,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
       );
 
       state = state.copyWith(
-          contentsList: response.data?.contents ?? []
+          contentsList: response.data?.contents ?? [],
+          isLoadingContents: false
       );
     } catch (error) {
       print('재난콘텐츠 목록 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -147,12 +153,13 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getSponsorListUsecaseProvider(GetSponsorListUsecase()).future
       );
 
-      state = state.copyWith(
-          sponsorList: response.data ?? []
-      );
+      if (response.code == 1000) {
+        state = state.copyWith(
+            sponsorList: response.data ?? []
+        );
+      }
     } catch (error) {
       print('후원목록 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -171,12 +178,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     } catch (error) {
       print('최근 재난문자 내역 조회 에러: $error');
     }
-  }
-
-  void selectDisasterHistoryType(int index) async {
-    state = state.copyWith(
-      selectedDisasterHistoryType: index,
-    );
   }
 
   // 재난 발생했을 때 재난 상세내용 조회

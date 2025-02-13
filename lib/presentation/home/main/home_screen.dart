@@ -67,12 +67,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ],
                         ),
                       ),
-                      Flexible(
+                      Expanded(
                         child: SingleChildScrollView(
                             child: Column(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.only(top: 4, left: 20, right: 20, bottom: 20),
+                                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
                                   child: Column(
                                     children: [
                                       Container(
@@ -227,26 +227,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             color: DaepiroColorStyle.g_50,
                                           ),
                                         ),
-                                        child: Expanded(
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: viewModel.disasterHistoryList.length,
-                                              itemBuilder: (context, index) {
-                                                return Column(
-                                                  children: [
-                                                    if (index != 0)
-                                                      const SizedBox(height: 8),
-                                                    DisasterHistoryPreview(
-                                                        disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
-                                                        title: viewModel.disasterHistoryList[index].title ?? "",
-                                                        date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                          ),
-                                        ),
+                                        child: viewModel.isLoadingDisasterHistory
+                                            ? Container(
+                                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                                child: const Center(child: CircularProgressIndicator())
+                                              )
+                                            : Expanded(
+                                                child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics: const NeverScrollableScrollPhysics(),
+                                                    itemCount: viewModel.disasterHistoryList.length,
+                                                    itemBuilder: (context, index) {
+                                                      return Column(
+                                                        children: [
+                                                          if (index != 0)
+                                                            const SizedBox(height: 8),
+                                                          DisasterHistoryPreview(
+                                                              disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                              title: viewModel.disasterHistoryList[index].title ?? "",
+                                                              date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                ),
+                                              ),
                                       ),
                                       const SizedBox(height: 28),
                                       Row(
@@ -310,43 +315,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               ],
                                             ),
                                             const SizedBox(height: 12),
-                                            ExpandablePageView(
-                                              controller: _popularPostPageController,
-                                              scrollDirection: Axis.horizontal,
-                                              onPageChanged: (index) {},
-                                              children: [
-                                                if (viewModel.popularPostList.isNotEmpty)
-                                                  for (int i=0;i<viewModel.popularPostList.length;i+=3)
-                                                    Column(
-                                                      children: [
-                                                        for (int j=0;j<3;j++)
-                                                          if (i+j <viewModel.popularPostList.length)
-                                                            PopularPostPreview(
-                                                                title: viewModel.popularPostList[i*3+j].title ?? "",
-                                                                contents: viewModel.popularPostList[i*3+j].body ?? "",
-                                                                location: "${viewModel.popularPostList[i*3+j].address?.siDo} ${viewModel.popularPostList[i*3+j].address?.siGunGu}",
-                                                                time: viewModel.popularPostList[i*3+j].createdAt ?? "",
-                                                                like: (viewModel.popularPostList[i*3+j].likeCount ?? 0).toString(),
-                                                                comment: (viewModel.popularPostList[i*3+j].commentCount ?? 0).toString(),
+                                            viewModel.isLoadingPopularPost != 5
+                                                ? Container(
+                                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                                    child: const Center(child: CircularProgressIndicator())
+                                                  )
+                                                : Column(
+                                                    children: [
+                                                      if (viewModel.popularPostList.isNotEmpty)
+                                                        Column(
+                                                          children: [
+                                                            ExpandablePageView(
+                                                              controller: _popularPostPageController,
+                                                              scrollDirection: Axis.horizontal,
+                                                              onPageChanged: (index) {},
+                                                              children: [
+                                                                for (int i=0;i<viewModel.popularPostList.length;i+=3)
+                                                                  Column(
+                                                                    children: [
+                                                                      for (int j=0;j<3;j++)
+                                                                        if (i+j <viewModel.popularPostList.length)
+                                                                          PopularPostPreview(
+                                                                            title: viewModel.popularPostList[i+j].title ?? "",
+                                                                            contents: viewModel.popularPostList[i+j].body ?? "",
+                                                                            location: "${viewModel.popularPostList[i+j].address?.siDo} ${viewModel.popularPostList[i+j].address?.siGunGu}",
+                                                                            time: viewModel.popularPostList[i+j].createdAt ?? "",
+                                                                            like: (viewModel.popularPostList[i+j].likeCount ?? 0).toString(),
+                                                                            comment: (viewModel.popularPostList[i+j].commentCount ?? 0).toString(),
+                                                                          ),
+                                                                    ],
+                                                                  )
+                                                              ],
                                                             ),
-                                                      ],
-                                                    )
-                                              ],
-                                            ),
-                                            const SizedBox(height: 12),
-                                            Center(
-                                              child: SmoothPageIndicator(
-                                                controller: _popularPostPageController,
-                                                count: viewModel.popularPostList.length%3 == 0 ? viewModel.popularPostList.length~/3 : viewModel.popularPostList.length~/3 + 1,
-                                                effect: const ExpandingDotsEffect(
-                                                    dotColor: DaepiroColorStyle.g_75,
-                                                    activeDotColor: DaepiroColorStyle.g_300,
-                                                    dotHeight: 6,
-                                                    dotWidth: 6,
-                                                    spacing: 6,
-                                                    expansionFactor: 2.5
-                                                ),
-                                              ),
+                                                            const SizedBox(height: 12),
+                                                            Center(
+                                                              child: SmoothPageIndicator(
+                                                                controller: _popularPostPageController,
+                                                                count: viewModel.popularPostList.length%3 == 0 ? viewModel.popularPostList.length~/3 : viewModel.popularPostList.length~/3+1,
+                                                                effect: const ExpandingDotsEffect(
+                                                                    dotColor: DaepiroColorStyle.g_75,
+                                                                    activeDotColor: DaepiroColorStyle.g_300,
+                                                                    dotHeight: 6,
+                                                                    dotWidth: 6,
+                                                                    spacing: 6,
+                                                                    expansionFactor: 2.5
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                    ],
                                             )
                                           ],
                                         ),
@@ -388,48 +406,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           ),
                                           child: Column(
                                             children: [
-                                              ExpandablePageView(
-                                                controller: _infoContentsPageController,
-                                                scrollDirection: Axis.horizontal,
-                                                onPageChanged: (index) {},
-                                                children: [
-                                                  for (int i=0;i<viewModel.contentsList.length;i+=2)
-                                                    Column(
-                                                      children: [
-                                                        for (int j=0;j<2;j++)
-                                                          if (i+j <viewModel.contentsList.length)
-                                                            Column(
-                                                              children: [
-                                                                if (j == 1)
-                                                                  const SizedBox(height: 12),
-                                                                InformationContentsPreview(
-                                                                    // imagePath: 'assets/icons/image_sample.jpg',
-                                                                    imagePath: viewModel.contentsList[i+j].thumbnailUrl ?? "",
-                                                                    title: viewModel.contentsList[i+j].title ?? "",
-                                                                    from: viewModel.contentsList[i+j].source ?? "",
-                                                                    date: viewModel.contentsList[i+j].publishedAt ?? ""
-                                                                ),
-                                                              ],
-                                                            ),
-                                                      ],
+                                              viewModel.isLoadingContents
+                                                  ? Container(
+                                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                                      child: const Center(child: CircularProgressIndicator())
                                                     )
-                                                ],
-                                              ),
-                                              const SizedBox(height: 16),
-                                              Center(
-                                                child: SmoothPageIndicator(
-                                                  controller: _infoContentsPageController,
-                                                  count: viewModel.contentsList.length%2 == 0 ? viewModel.contentsList.length~/2 : viewModel.contentsList.length~/2 + 1,
-                                                  effect: const ExpandingDotsEffect(
-                                                      dotColor: DaepiroColorStyle.g_75,
-                                                      activeDotColor: DaepiroColorStyle.g_300,
-                                                      dotHeight: 6,
-                                                      dotWidth: 6,
-                                                      spacing: 6,
-                                                      expansionFactor: 2.5
+                                                  : Column(
+                                                    children: [
+                                                      ExpandablePageView(
+                                                          controller: _infoContentsPageController,
+                                                          scrollDirection: Axis.horizontal,
+                                                          onPageChanged: (index) {},
+                                                          children: [
+                                                            for (int i=0;i<viewModel.contentsList.length;i+=2)
+                                                              Column(
+                                                                children: [
+                                                                  for (int j=0;j<2;j++)
+                                                                    if (i+j <viewModel.contentsList.length)
+                                                                      Column(
+                                                                        children: [
+                                                                          if (j == 1)
+                                                                            const SizedBox(height: 12),
+                                                                          InformationContentsPreview(
+                                                                              imagePath: viewModel.contentsList[i+j].thumbnailUrl ?? "",
+                                                                              title: viewModel.contentsList[i+j].title ?? "",
+                                                                              from: viewModel.contentsList[i+j].source ?? "",
+                                                                              date: viewModel.contentsList[i+j].publishedAt ?? ""
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                ],
+                                                              )
+                                                          ],
+                                                        ),
+                                                        const SizedBox(height: 16),
+                                                        Center(
+                                                          child: SmoothPageIndicator(
+                                                            controller: _infoContentsPageController,
+                                                            count: viewModel.contentsList.length%2 == 0 ? viewModel.contentsList.length~/2 : viewModel.contentsList.length~/2 + 1,
+                                                            effect: const ExpandingDotsEffect(
+                                                                dotColor: DaepiroColorStyle.g_75,
+                                                                activeDotColor: DaepiroColorStyle.g_300,
+                                                                dotHeight: 6,
+                                                                dotWidth: 6,
+                                                                spacing: 6,
+                                                                expansionFactor: 2.5
+                                                            ),
+                                                          ),
+                                                        )
+                                                    ],
                                                   ),
-                                                ),
-                                              )
                                             ],
                                           )
                                       ),
@@ -458,25 +484,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             )
                                           ]
                                       ),
-                                      ExpandablePageView.builder(
-                                          controller: _sponsorPageController,
-                                          scrollDirection: Axis.horizontal,
-                                          padEnds: false,
-                                          itemCount: viewModel.sponsorList.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return Container(
-                                              padding: const EdgeInsets.only(top: 12),
-                                              margin: const EdgeInsets.only(right: 8),
-                                              child: SponsorPreview(
-                                                disasterType: viewModel.sponsorList[index].disasterType ?? "",
-                                                date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
-                                                from: viewModel.sponsorList[index].sponsorName ?? "",
-                                                title: viewModel.sponsorList[index].title ?? "",
-                                                imagePath: viewModel.sponsorList[index].thumbnail ?? "",
-                                              ),
-                                            );
-                                          }
-                                      )
+                                      // ExpandablePageView.builder(
+                                      //     controller: _sponsorPageController,
+                                      //     scrollDirection: Axis.horizontal,
+                                      //     padEnds: false,
+                                      //     itemCount: viewModel.sponsorList.length,
+                                      //     itemBuilder: (BuildContext context, int index) {
+                                      //       return Container(
+                                      //         padding: const EdgeInsets.only(top: 12),
+                                      //         margin: const EdgeInsets.only(right: 8),
+                                      //         child: SponsorPreview(
+                                      //           disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                      //           date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                      //           from: viewModel.sponsorList[index].sponsorName ?? "",
+                                      //           title: viewModel.sponsorList[index].title ?? "",
+                                      //           imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                      //         ),
+                                      //       );
+                                      //     }
+                                      // )
                                     ],
                                   ),
                                 )

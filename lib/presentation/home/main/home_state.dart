@@ -15,6 +15,7 @@ sealed class HomeState with _$HomeState {
     @Default(0) int selectedPopularPostCategory,
     @Default(0) int selectedContentsCategory,
 
+    @Default(true) bool isLoadingDisasterHistory,
     @Default([]) List<DisasterHistory> disasterHistoryList,
 
     @Default([]) List<PopularPost> popularPostList,   // selected 인기게시글 카테고리
@@ -25,9 +26,11 @@ sealed class HomeState with _$HomeState {
     // @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
     // @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
 
+    @Default(true) bool isLoadingContents,
     @Default([]) List<Contents> contentsList,
+
+    @Default(0) int isLoadingPopularPost,
     @Default([]) List<Sponsor> sponsorList,
-    // @Default([[],[],[],[],[]]) List<List<PopularPost>> popularPostList,
 
     @Default(0) int selectedDisasterHistoryType,
     @Default([]) List<DisastersData> disastersList,

@@ -116,6 +116,7 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                   ],
                 ),
                 const SizedBox(height: 12),
+                Spacer(),
                 Center(
                   child: SmoothPageIndicator(
                     controller: _responsePageController,
