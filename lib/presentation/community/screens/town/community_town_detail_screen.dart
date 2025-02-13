@@ -259,7 +259,7 @@ class CommunityTownDetailState
                     itemBuilder: (BuildContext context, int index) {
                       Container(
                         width: 118,
-                        margin: EdgeInsets.only(right: 8),
+                        margin: const EdgeInsets.only(right: 8),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: Image.network(

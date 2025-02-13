@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
+import '../../const/utils.dart';
 
 class PopularPostPreview extends StatefulWidget {
   final String title;
@@ -12,14 +13,14 @@ class PopularPostPreview extends StatefulWidget {
   final String comment;
 
   const PopularPostPreview({
-    Key? key,
+    super.key,
     required this.title,
     required this.contents,
     required this.location,
     required this.time,
     required this.like,
     required this.comment,
-  }): super(key: key);
+  });
 
   @override
   State<PopularPostPreview> createState() => _PopularPostPreviewState();
@@ -69,7 +70,7 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
               ),
               const SizedBox(width: 4),
               Text(
-                widget.time,
+                timeAgo(widget.time),
                 style: DaepiroTextStyle.caption.copyWith(
                   color: DaepiroColorStyle.g_300,
                 ),

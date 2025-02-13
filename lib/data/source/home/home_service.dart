@@ -37,4 +37,8 @@ abstract class HomeService {
   @GET('/v1/users/disasters')
   Future<DisastersHistoryResponse> getDisastersHistory();
 
+  // 최근 정보콘텐츠 조회
+  @GET('/v1/home/news')
+  Future<DisasterContentsListResponse> getRecentContents();
+
 }

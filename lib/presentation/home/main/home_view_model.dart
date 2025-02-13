@@ -1,12 +1,14 @@
+import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
+import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
 import 'package:daepiro/presentation/home/main/home_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../domain/usecase/information/get_disaster_contents_list_usecase.dart';
+import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
@@ -15,9 +17,16 @@ final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState
 
 class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel(this.ref) : super(HomeState()) {
+    final list = List.generate(5, (_) => <PopularPost>[]);  // 빈 리스트 5개 생성
+    state = state.copyWith(allPopularPostList: list);
+
     getHomeStatus();
     getHomeDisasterHistory();
+    getPopularPostList(category: "");
     getPopularPostList(category: "LIFE");
+    getPopularPostList(category: "TRAFFIC");
+    getPopularPostList(category: "SAFE");
+    getPopularPostList(category: "OTHER");
     getDisasterContentsList();
     getSponsorList();
   }
@@ -26,7 +35,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   void selectPopularPostCategory(int index) {
     state = state.copyWith(
-      selectedPopularPostCategory: index
+      selectedPopularPostCategory: index,
+      popularPostList: state.allPopularPostList[index]
     );
   }
 
@@ -89,9 +99,24 @@ class HomeViewModel extends StateNotifier<HomeState> {
       );
 
       if (response.code == 1000) {
+        final list = List<List<PopularPost>>.from(state.allPopularPostList);
+        if (category == "") {
+          list[0] = response.data ?? [];
+        } else if (category == "LIFE") {
+          list[1] = response.data ?? [];
+        } else if (category == "TRAFFIC") {
+          list[2] = response.data ?? [];
+        } else if (category == "SAFE") {
+          list[3] = response.data ?? [];
+        } else if (category == "OTHER") {
+          list[4] = response.data ?? [];
+        }
+
         state = state.copyWith(
-            popularPostList: response.data ?? []
+            allPopularPostList: list
         );
+
+        selectPopularPostCategory(0);
       }
     } catch (error) {
       print('동네생활 인기글 조회 에러: $error');
@@ -103,10 +128,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   Future<void> getDisasterContentsList() async {
     try {
       final response = await ref.read(
-          getDisasterContentsListUseCaseProvider(GetDisasterContentsListUseCase(
-              sortType: "latest",
-              size: "10"
-          )).future
+          getRecentContentsUsecaseProvider(GetRecentContentsUsecase()).future
       );
 
       state = state.copyWith(

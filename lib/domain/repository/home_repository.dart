@@ -23,4 +23,5 @@ abstract class HomeRepository {
   Future<PopularPostResponse> getPopularPostList(String category);
 
   Future<DisastersHistoryResponse> getDisastersHistory();
+  Future<DisasterContentsListResponse> getRecentContents();
 }

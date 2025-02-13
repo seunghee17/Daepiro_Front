@@ -71,4 +71,15 @@ class HomeRepositoryImpl extends HomeRepository {
     }
   }
 
+  @override
+  Future<DisasterContentsListResponse> getRecentContents() async {
+    try {
+      final response = await _service.getRecentContents();
+      return response;
+    } catch(e) {
+      print('최근 정보콘텐츠 조회 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
 }

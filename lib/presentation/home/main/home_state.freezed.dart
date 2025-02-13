@@ -22,7 +22,15 @@ mixin _$HomeState {
   int get selectedContentsCategory => throw _privateConstructorUsedError;
   List<DisasterHistory> get disasterHistoryList =>
       throw _privateConstructorUsedError;
-  List<PopularPost> get popularPostList => throw _privateConstructorUsedError;
+  List<PopularPost> get popularPostList =>
+      throw _privateConstructorUsedError; // selected 인기게시글 카테고리
+  List<List<PopularPost>> get allPopularPostList =>
+      throw _privateConstructorUsedError; // 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
+// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
+// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
+// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   List<Contents> get contentsList => throw _privateConstructorUsedError;
   List<Sponsor> get sponsorList =>
       throw _privateConstructorUsedError; // @Default([[],[],[],[],[]]) List<List<PopularPost>> popularPostList,
@@ -48,6 +56,7 @@ abstract class $HomeStateCopyWith<$Res> {
       int selectedContentsCategory,
       List<DisasterHistory> disasterHistoryList,
       List<PopularPost> popularPostList,
+      List<List<PopularPost>> allPopularPostList,
       List<Contents> contentsList,
       List<Sponsor> sponsorList,
       int selectedDisasterHistoryType,
@@ -75,6 +84,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? selectedContentsCategory = null,
     Object? disasterHistoryList = null,
     Object? popularPostList = null,
+    Object? allPopularPostList = null,
     Object? contentsList = null,
     Object? sponsorList = null,
     Object? selectedDisasterHistoryType = null,
@@ -105,6 +115,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.popularPostList
           : popularPostList // ignore: cast_nullable_to_non_nullable
               as List<PopularPost>,
+      allPopularPostList: null == allPopularPostList
+          ? _value.allPopularPostList
+          : allPopularPostList // ignore: cast_nullable_to_non_nullable
+              as List<List<PopularPost>>,
       contentsList: null == contentsList
           ? _value.contentsList
           : contentsList // ignore: cast_nullable_to_non_nullable
@@ -140,6 +154,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       int selectedContentsCategory,
       List<DisasterHistory> disasterHistoryList,
       List<PopularPost> popularPostList,
+      List<List<PopularPost>> allPopularPostList,
       List<Contents> contentsList,
       List<Sponsor> sponsorList,
       int selectedDisasterHistoryType,
@@ -165,6 +180,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? selectedContentsCategory = null,
     Object? disasterHistoryList = null,
     Object? popularPostList = null,
+    Object? allPopularPostList = null,
     Object? contentsList = null,
     Object? sponsorList = null,
     Object? selectedDisasterHistoryType = null,
@@ -195,6 +211,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._popularPostList
           : popularPostList // ignore: cast_nullable_to_non_nullable
               as List<PopularPost>,
+      allPopularPostList: null == allPopularPostList
+          ? _value._allPopularPostList
+          : allPopularPostList // ignore: cast_nullable_to_non_nullable
+              as List<List<PopularPost>>,
       contentsList: null == contentsList
           ? _value._contentsList
           : contentsList // ignore: cast_nullable_to_non_nullable
@@ -225,12 +245,14 @@ class _$HomeStateImpl implements _HomeState {
       this.selectedContentsCategory = 0,
       final List<DisasterHistory> disasterHistoryList = const [],
       final List<PopularPost> popularPostList = const [],
+      final List<List<PopularPost>> allPopularPostList = const [],
       final List<Contents> contentsList = const [],
       final List<Sponsor> sponsorList = const [],
       this.selectedDisasterHistoryType = 0,
       final List<DisastersData> disastersList = const []})
       : _disasterHistoryList = disasterHistoryList,
         _popularPostList = popularPostList,
+        _allPopularPostList = allPopularPostList,
         _contentsList = contentsList,
         _sponsorList = sponsorList,
         _disastersList = disastersList;
@@ -266,7 +288,31 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_popularPostList);
   }
 
+// selected 인기게시글 카테고리
+  final List<List<PopularPost>> _allPopularPostList;
+// selected 인기게시글 카테고리
+  @override
+  @JsonKey()
+  List<List<PopularPost>> get allPopularPostList {
+    if (_allPopularPostList is EqualUnmodifiableListView)
+      return _allPopularPostList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allPopularPostList);
+  }
+
+// 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
+// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
+// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
+// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   final List<Contents> _contentsList;
+// 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
+// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
+// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
+// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   @override
   @JsonKey()
   List<Contents> get contentsList {
@@ -299,7 +345,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, disasterHistoryList: $disasterHistoryList, popularPostList: $popularPostList, contentsList: $contentsList, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList)';
+    return 'HomeState(isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, disasterHistoryList: $disasterHistoryList, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, contentsList: $contentsList, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList)';
   }
 
   @override
@@ -323,6 +369,8 @@ class _$HomeStateImpl implements _HomeState {
             const DeepCollectionEquality()
                 .equals(other._popularPostList, _popularPostList) &&
             const DeepCollectionEquality()
+                .equals(other._allPopularPostList, _allPopularPostList) &&
+            const DeepCollectionEquality()
                 .equals(other._contentsList, _contentsList) &&
             const DeepCollectionEquality()
                 .equals(other._sponsorList, _sponsorList) &&
@@ -343,6 +391,7 @@ class _$HomeStateImpl implements _HomeState {
       selectedContentsCategory,
       const DeepCollectionEquality().hash(_disasterHistoryList),
       const DeepCollectionEquality().hash(_popularPostList),
+      const DeepCollectionEquality().hash(_allPopularPostList),
       const DeepCollectionEquality().hash(_contentsList),
       const DeepCollectionEquality().hash(_sponsorList),
       selectedDisasterHistoryType,
@@ -365,6 +414,7 @@ abstract class _HomeState implements HomeState {
       final int selectedContentsCategory,
       final List<DisasterHistory> disasterHistoryList,
       final List<PopularPost> popularPostList,
+      final List<List<PopularPost>> allPopularPostList,
       final List<Contents> contentsList,
       final List<Sponsor> sponsorList,
       final int selectedDisasterHistoryType,
@@ -381,7 +431,14 @@ abstract class _HomeState implements HomeState {
   @override
   List<DisasterHistory> get disasterHistoryList;
   @override
-  List<PopularPost> get popularPostList;
+  List<PopularPost> get popularPostList; // selected 인기게시글 카테고리
+  @override
+  List<List<PopularPost>> get allPopularPostList; // 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
+// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
+// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
+// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
+// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   @override
   List<Contents> get contentsList;
   @override

@@ -298,7 +298,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                           onPressed: () {
                                                             ref.read(homeStateNotifierProvider.notifier).selectPopularPostCategory(index);
                                                             _popularPostPageController.animateToPage(
-                                                                index,
+                                                                0,
                                                                 duration: const Duration(milliseconds: 1),
                                                                 curve: Curves.easeIn
                                                             );
@@ -313,64 +313,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             ExpandablePageView(
                                               controller: _popularPostPageController,
                                               scrollDirection: Axis.horizontal,
-                                              onPageChanged: (index) {
-                                                ref.read(homeStateNotifierProvider.notifier).selectPopularPostCategory(index);
-                                              },
+                                              onPageChanged: (index) {},
                                               children: [
-                                                for (int i=0;i<3;i++)
-                                                  // Expanded(
-                                                  //   child: ListView.builder(
-                                                  //     shrinkWrap: true,
-                                                  //     physics: const NeverScrollableScrollPhysics(),
-                                                  //     itemCount: 3,
-                                                  //     itemBuilder: (context, index) {
-                                                  //       return PopularPostPreview(
-                                                  //           title: viewModel.popularPostList[index].title ?? "",
-                                                  //           contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                  //           location: "서울시 강남구",
-                                                  //           time: "5분전",
-                                                  //           like: "3",
-                                                  //           comment: "2"
-                                                  //       );
-                                                  //     }
-                                                  //   ),
-                                                  // ),
-                                                for (int i=0;i<5;i++)
-                                                  Column(
-                                                    children: [
-                                                      PopularPostPreview(
-                                                          title: "새로운 카페 오픈했네요 $i",
-                                                          contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                          location: "서울시 강남구",
-                                                          time: "5분전",
-                                                          like: "3",
-                                                          comment: "2"
-                                                      ),
-                                                      PopularPostPreview(
-                                                          title: "새로운 카페 오픈했네요 $i",
-                                                          contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                          location: "서울시 강남구",
-                                                          time: "5분전",
-                                                          like: "3",
-                                                          comment: "2"
-                                                      ),
-                                                      PopularPostPreview(
-                                                          title: "새로운 카페 오픈했네요 $i",
-                                                          contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                          location: "서울시 강남구",
-                                                          time: "5분전",
-                                                          like: "3",
-                                                          comment: "2"
-                                                      ),
-                                                    ],
-                                                  )
+                                                if (viewModel.popularPostList.isNotEmpty)
+                                                  for (int i=0;i<viewModel.popularPostList.length;i+=3)
+                                                    Column(
+                                                      children: [
+                                                        for (int j=0;j<3;j++)
+                                                          if (i+j <viewModel.popularPostList.length)
+                                                            PopularPostPreview(
+                                                                title: viewModel.popularPostList[i*3+j].title ?? "",
+                                                                contents: viewModel.popularPostList[i*3+j].body ?? "",
+                                                                location: "${viewModel.popularPostList[i*3+j].address?.siDo} ${viewModel.popularPostList[i*3+j].address?.siGunGu}",
+                                                                time: viewModel.popularPostList[i*3+j].createdAt ?? "",
+                                                                like: (viewModel.popularPostList[i*3+j].likeCount ?? 0).toString(),
+                                                                comment: (viewModel.popularPostList[i*3+j].commentCount ?? 0).toString(),
+                                                            ),
+                                                      ],
+                                                    )
                                               ],
                                             ),
                                             const SizedBox(height: 12),
                                             Center(
                                               child: SmoothPageIndicator(
                                                 controller: _popularPostPageController,
-                                                count: Const.popularPostCategoryList.length,
+                                                count: viewModel.popularPostList.length%3 == 0 ? viewModel.popularPostList.length~/3 : viewModel.popularPostList.length~/3 + 1,
                                                 effect: const ExpandingDotsEffect(
                                                     dotColor: DaepiroColorStyle.g_75,
                                                     activeDotColor: DaepiroColorStyle.g_300,
@@ -424,24 +391,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               ExpandablePageView(
                                                 controller: _infoContentsPageController,
                                                 scrollDirection: Axis.horizontal,
-                                                onPageChanged: (index) {
-                                                },
+                                                onPageChanged: (index) {},
                                                 children: [
-                                                  for (int i=0;i<2;i++)
-                                                    InformationContentsPreview(
-                                                        imagePath: 'assets/icons/image_sample.jpg',
-                                                        // imagePath: viewModel.contentsList[index].thumbnailUrl ?? "",
-                                                        title: viewModel.contentsList[i].title ?? "",
-                                                        from: viewModel.contentsList[i].source ?? "",
-                                                        date: viewModel.contentsList[i].publishedAt ?? ""
-                                                    ),
+                                                  for (int i=0;i<viewModel.contentsList.length;i+=2)
+                                                    Column(
+                                                      children: [
+                                                        for (int j=0;j<2;j++)
+                                                          if (i+j <viewModel.contentsList.length)
+                                                            Column(
+                                                              children: [
+                                                                if (j == 1)
+                                                                  const SizedBox(height: 12),
+                                                                InformationContentsPreview(
+                                                                    // imagePath: 'assets/icons/image_sample.jpg',
+                                                                    imagePath: viewModel.contentsList[i+j].thumbnailUrl ?? "",
+                                                                    title: viewModel.contentsList[i+j].title ?? "",
+                                                                    from: viewModel.contentsList[i+j].source ?? "",
+                                                                    date: viewModel.contentsList[i+j].publishedAt ?? ""
+                                                                ),
+                                                              ],
+                                                            ),
+                                                      ],
+                                                    )
                                                 ],
                                               ),
                                               const SizedBox(height: 16),
                                               Center(
                                                 child: SmoothPageIndicator(
                                                   controller: _infoContentsPageController,
-                                                  count: viewModel.contentsList.length~/2,
+                                                  count: viewModel.contentsList.length%2 == 0 ? viewModel.contentsList.length~/2 : viewModel.contentsList.length~/2 + 1,
                                                   effect: const ExpandingDotsEffect(
                                                       dotColor: DaepiroColorStyle.g_75,
                                                       activeDotColor: DaepiroColorStyle.g_300,

@@ -1,23 +1,29 @@
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/presentation/const/const.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
+import '../../const/utils.dart';
 import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
-import '../component/map_direction_item.dart';
 
-class DisasterDetailScreen extends StatefulWidget {
-  const DisasterDetailScreen({super.key});
+class DisasterDetailScreen extends ConsumerStatefulWidget {
+  final Disasters extra;
+
+  const DisasterDetailScreen({
+    super.key,
+    required this.extra
+  });
 
   @override
-  State<DisasterDetailScreen> createState() => _DisasterDetailScreenState();
+  _DisasterDetailScreenState createState() => _DisasterDetailScreenState();
 }
 
-class _DisasterDetailScreenState extends State<DisasterDetailScreen> {
+class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
   final PageController _aroundShelterPageController = PageController(
     initialPage: 0,
     viewportFraction: 0.9
@@ -58,35 +64,40 @@ class _DisasterDetailScreenState extends State<DisasterDetailScreen> {
                       children: [
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.fromLTRB(20, 4, 20, 20),
+                          padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: const BoxDecoration(
                                     color: DaepiroColorStyle.o_50,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: SvgPicture.asset('assets/icons/icon_natural_disaster.svg')
+                                  child: SvgPicture.asset(
+                                    findDisasterIconByName(name: widget.extra.disasterType ?? ""),
+                                    width: 26,
+                                    height: 26,
+                                    colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                  )
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                "서울시 성북구 쌍문동 호우 발생",
+                                widget.extra.title ?? "",
                                 style: DaepiroTextStyle.h5.copyWith(
                                   color: DaepiroColorStyle.g_900,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                "금일 10.23. 19:39경 소촌동 855 화재 발생, 인근주민은 안전유의 및 차량우회바랍니다. 960-8222금일 10.23. 19:39경 소촌동 855 화재 발생, 인근주민은 안전유의 및 차량우회바랍니다.",
+                                widget.extra.content ?? "",
                                 style: DaepiroTextStyle.body_2_m.copyWith(
                                   color: DaepiroColorStyle.g_500,
                                 ),
                               ),
                               const SizedBox(height: 16),
                               Text(
-                                "2024.8.11. 14:24",
+                                formatDateToDateTime(widget.extra.time ?? ""),
                                 style: DaepiroTextStyle.caption.copyWith(
                                   color: DaepiroColorStyle.g_300,
                                 ),
@@ -100,7 +111,7 @@ class _DisasterDetailScreenState extends State<DisasterDetailScreen> {
                           color: DaepiroColorStyle.g_50,
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -115,15 +126,11 @@ class _DisasterDetailScreenState extends State<DisasterDetailScreen> {
                                 width: double.infinity,
                                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                                 decoration: BoxDecoration(
-                                    color: DaepiroColorStyle.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: DaepiroColorStyle.black.withOpacity(0.12),
-                                        blurRadius: 12,
-                                        offset: const Offset(0, 0),
-                                      )
-                                    ]
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: DaepiroColorStyle.g_50,
+                                  ),
                                 ),
                                 child: Column(
                                   children: [
@@ -175,7 +182,7 @@ class _DisasterDetailScreenState extends State<DisasterDetailScreen> {
                         Column(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [

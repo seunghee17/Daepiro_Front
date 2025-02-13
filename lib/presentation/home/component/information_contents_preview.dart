@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,8 +32,8 @@ class _InformationContentsPreviewState extends State<InformationContentsPreview>
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
-            child: Image.asset(
-              widget.imagePath,
+            child: Image.network(
+              widget.imagePath.isNotEmpty ? widget.imagePath : 'https://thumbs.dreamstime.com/b/sample-stamp-white-background-sign-90532936.jpg',
               width: 68,
               height: 68,
               fit: BoxFit.cover,
@@ -61,7 +62,7 @@ class _InformationContentsPreviewState extends State<InformationContentsPreview>
                       ),
                     ),
                     Text(
-                      widget.date,
+                      formatDateToDot(widget.date),
                       style: DaepiroTextStyle.caption.copyWith(
                         color: DaepiroColorStyle.g_200,
                       ),

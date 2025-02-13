@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
 import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
@@ -195,7 +196,9 @@ final goRouteProvider = Provider((ref) {
                       ),
                       GoRoute(
                         path: 'disasterDetail',
-                        builder: (context, state) => DisasterDetailScreen(),
+                        builder: (context, state) => DisasterDetailScreen(
+                            extra: state.extra as Disasters
+                        ),
                       ),
                     ]
                 ),

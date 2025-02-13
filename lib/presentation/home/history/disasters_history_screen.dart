@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/presentation/const/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,15 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                                 != viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index-1].time?.split("T")[0]
                                             ),
                                             onClick: () {
-                                               context.push('/home/disasterDetail');
+                                               context.push(
+                                                 '/home/disasterDetail',
+                                                 extra: Disasters(
+                                                   disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
+                                                   title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title,
+                                                   content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
+                                                   time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,
+                                                 )
+                                               );
                                             },
                                           ),
                                           const SizedBox(height: 8),
