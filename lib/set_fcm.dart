@@ -56,9 +56,8 @@ class SettingFCM {
           notification['body'],
           const NotificationDetails(
             android: AndroidNotificationDetails(
-              androidChannel.id,
-              androidChannel.name,
-              channelDescription: androidChannel.description,
+              'high_importance_channel',
+              'High Importance Notifications',
               importance: Importance.max,
               priority: Priority.high,
               icon: '@mipmap/ic_launcher',

@@ -1,8 +1,5 @@
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
-import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
-import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
-import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_screen.dart';
