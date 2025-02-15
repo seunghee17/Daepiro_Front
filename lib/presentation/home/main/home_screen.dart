@@ -93,10 +93,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    "삐용님, 오늘도\n안전한 하루 보내세요!",
-                                                    style: DaepiroTextStyle.h6.copyWith(
-                                                      color: DaepiroColorStyle.g_900,
+                                                  RichText(
+                                                    textAlign: TextAlign.center,
+                                                    text: TextSpan(
+                                                      style: DaepiroTextStyle.h6.copyWith(
+                                                       color: DaepiroColorStyle.g_900,
+                                                      ),
+                                                      children: [
+                                                        TextSpan(
+                                                          text: "삐용님", // 색상을 변경할 부분
+                                                          style: DaepiroTextStyle.h6.copyWith(
+                                                            color: DaepiroColorStyle.o_500,
+                                                          ),
+                                                        ),
+                                                        const TextSpan(
+                                                          text: ", 오늘도\n안전한 하루 보내세요!", // 나머지 텍스트
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                   Container(
