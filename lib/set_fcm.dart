@@ -47,15 +47,14 @@ class SettingFCM {
 
     // Foreground 메시지 처리
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      Map<String, dynamic> notification = message.data;
 
-      if (notification != null && android != null) {
+      if (notification != null) {
         _localNotifications.show(
           notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
+          notification['title'],
+          notification['body'],
+          const NotificationDetails(
             android: AndroidNotificationDetails(
               androidChannel.id,
               androidChannel.name,

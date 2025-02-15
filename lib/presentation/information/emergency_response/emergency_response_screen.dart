@@ -82,40 +82,37 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                     ],
                   ),
                 ),
-                Container(
-                  // padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: TabBar(
-                    controller: _tabController,
-                    labelColor: DaepiroColorStyle.g_800,
-                    labelStyle: DaepiroTextStyle.body_1_m,
-                    unselectedLabelColor: DaepiroColorStyle.g_300,
-                    unselectedLabelStyle: DaepiroTextStyle.body_1_m,
-                    indicatorColor: DaepiroColorStyle.g_800,
-                    indicatorWeight: 4,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    tabs: const [
-                      Tab(child: Text("심폐소생술")),
-                      Tab(child: Text("응급처치")),
-                      Tab(child: Text("소화기")),
-                      Tab(child: Text("하임리히"))
-                    ],
-                  ),
+                TabBar(
+                  controller: _tabController,
+                  labelColor: DaepiroColorStyle.g_800,
+                  labelStyle: DaepiroTextStyle.body_1_m,
+                  unselectedLabelColor: DaepiroColorStyle.g_300,
+                  unselectedLabelStyle: DaepiroTextStyle.body_1_m,
+                  indicatorColor: DaepiroColorStyle.g_800,
+                  indicatorWeight: 4,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  tabs: const [
+                    Tab(child: Text("심폐소생술")),
+                    Tab(child: Text("응급처치")),
+                    Tab(child: Text("소화기")),
+                    Tab(child: Text("하임리히"))
+                  ],
                 ),
                 ExpandablePageView(
                   controller: _responsePageController,
                   scrollDirection: Axis.horizontal,
-                  onPageChanged: (index) {
-
-                  },
                   children: [
                     for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
-                      ItemEmergencyResponse(
-                          tabIndex: selectedTabIndex,
-                          pageIndex: i
+                      Flexible(
+                        child: ItemEmergencyResponse(
+                            tabIndex: selectedTabIndex,
+                            pageIndex: i
+                        ),
                       )
                   ],
                 ),
                 const SizedBox(height: 12),
+                // const Spacer(),
                 Center(
                   child: SmoothPageIndicator(
                     controller: _responsePageController,
@@ -131,7 +128,7 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                   child: Row(
                     children: [
                       Expanded(
@@ -144,7 +141,7 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                                 color: DaepiroColorStyle.g_50,
                                 borderRadius: BorderRadius.circular(8)
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Center(
                               child: Text(
                                   '이전',
@@ -167,7 +164,7 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                                   color: DaepiroColorStyle.o_500,
                                   borderRadius: BorderRadius.circular(8)
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Center(
                                 child: Text(
                                     '다음',

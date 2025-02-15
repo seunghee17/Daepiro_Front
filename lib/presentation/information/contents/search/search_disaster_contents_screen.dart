@@ -102,7 +102,8 @@ class SearchDisasterContentsScreen extends ConsumerWidget {
                                 from: viewModel.searchedContentsList[index].source ?? "",
                                 date: viewModel.searchedContentsList[index].publishedAt ?? "",
                                 eye: viewModel.searchedContentsList[index].viewCount ?? 0,
-                                save: viewModel.searchedContentsList[index].likeCount ?? 0
+                                save: viewModel.searchedContentsList[index].likeCount ?? 0,
+                                bodyUrl: viewModel.searchedContentsList[index].bodyUrl ?? ""
                             );
                           }
                       )

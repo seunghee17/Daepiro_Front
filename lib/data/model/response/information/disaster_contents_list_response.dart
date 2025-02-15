@@ -53,7 +53,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['nextCursor'] = this.nextCursor;
     if (this.contents != null) {
       data['contents'] = this.contents!.map((item) => item.toJson()).toList();
@@ -92,7 +92,7 @@ class Contents {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['title'] = this.title;
     data['thumbnailUrl'] = this.thumbnailUrl;
     data['bodyUrl'] = this.bodyUrl;

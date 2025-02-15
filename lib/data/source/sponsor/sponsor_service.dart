@@ -37,5 +37,11 @@ abstract class SponsorService {
     @Body() required CheerRequest body
   });
 
+  // 응원메세지 삭제
+  @DELETE('/v1/sponsors/cheering/{id}')
+  Future<BasicResponse> deleteCheer({
+    @Path("id") required String id,
+  });
+
 
 }

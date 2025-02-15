@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
+import '../../const/utils.dart';
 
 class PopularPostPreview extends StatefulWidget {
   final String title;
@@ -12,14 +13,14 @@ class PopularPostPreview extends StatefulWidget {
   final String comment;
 
   const PopularPostPreview({
-    Key? key,
+    super.key,
     required this.title,
     required this.contents,
     required this.location,
     required this.time,
     required this.like,
     required this.comment,
-  }): super(key: key);
+  });
 
   @override
   State<PopularPostPreview> createState() => _PopularPostPreviewState();
@@ -69,24 +70,20 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
               ),
               const SizedBox(width: 4),
               Text(
-                widget.time,
+                timeAgo(widget.time),
                 style: DaepiroTextStyle.caption.copyWith(
                   color: DaepiroColorStyle.g_300,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
-                padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                decoration: BoxDecoration(
-                  color: DaepiroColorStyle.g_50,
-                  borderRadius: BorderRadius.circular(100),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
                       'assets/icons/icon_good.svg',
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                       width: 16,
                       height: 16,
                     ),
@@ -100,19 +97,15 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
                   ]
                 ),
               ),
-              const SizedBox(width: 8,),
+              const SizedBox(width: 8),
               Container(
-                padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                decoration: BoxDecoration(
-                  color: DaepiroColorStyle.g_50,
-                  borderRadius: BorderRadius.circular(100),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
                       'assets/icons/icon_community.svg',
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                       width: 16,
                       height: 16
                     ),

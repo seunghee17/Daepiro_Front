@@ -89,7 +89,7 @@ class DisasterContentsScreen extends ConsumerWidget {
                       ],
                     )
                 ),
-                Divider(height: 1.5, color: DaepiroColorStyle.g_50),
+                const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(12),
@@ -103,7 +103,8 @@ class DisasterContentsScreen extends ConsumerWidget {
                               from: viewModel.contentsList[index].source ?? "",
                               date: viewModel.contentsList[index].publishedAt ?? "",
                               eye: viewModel.contentsList[index].viewCount ?? 0,
-                              save: viewModel.contentsList[index].likeCount ?? 0
+                              save: viewModel.contentsList[index].likeCount ?? 0,
+                              bodyUrl: viewModel.contentsList[index].bodyUrl ?? ""
                           );
                         }
                     ),

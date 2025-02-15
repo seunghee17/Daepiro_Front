@@ -24,4 +24,5 @@ abstract class SponsorRepository {
   Future<CheerKeywordResponse> getCheerKeywordList();
   Future<BasicResponse> writeCheer({required String content});
   Future<BasicResponse> modifyCheer({required String content, required String id});
+  Future<BasicResponse> deleteCheer({required String id});
 }

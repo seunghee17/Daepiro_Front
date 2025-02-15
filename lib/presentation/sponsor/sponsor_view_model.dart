@@ -1,3 +1,4 @@
+import 'package:daepiro/domain/usecase/sponsor/delete_cheer_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/get_cheer_comment_list_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/modify_cheer_usecase.dart';
@@ -57,9 +58,9 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
           writeCheerUsecaseProvider(WriteCheerUsecase(content: message)).future
       );
 
-      // state = state.copyWith(
-      //     cheerCommentList: response.data ?? []
-      // );
+      if (response.code == 1000) {
+        getCheerCommentList();
+      }
     } catch (error) {
       print('응원메세지 작성 에러: $error');
     }
@@ -78,11 +79,28 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
           )).future
       );
 
-      // state = state.copyWith(
-      //     cheerCommentList: response.data ?? []
-      // );
+      if (response.code == 1000) {
+        getCheerCommentList();
+      }
     } catch (error) {
       print('응원메세지 수정 에러: $error');
+    }
+  }
+
+  // 응원메세지 삭제
+  Future<void> deleteCheerMessage({required String id}) async {
+    try {
+      final response = await ref.read(
+          deleteCheerUsecaseProvider(DeleteCheerUsecase(
+              id: id
+          )).future
+      );
+
+      if (response.code == 1000) {
+        getCheerCommentList();
+      }
+    } catch (error) {
+      print('응원메세지 삭제 에러: $error');
     }
   }
 

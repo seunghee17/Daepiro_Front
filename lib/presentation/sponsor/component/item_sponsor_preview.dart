@@ -25,6 +25,7 @@ class ItemSponsorPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
+      color: Colors.white,
       child: Column(
         children: [
           Row(
@@ -42,7 +43,7 @@ class ItemSponsorPreview extends StatelessWidget {
                       findDisasterIconByName(name: disasterType),
                       width: 16,
                       height: 16,
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -73,6 +74,7 @@ class ItemSponsorPreview extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                 child: Column(

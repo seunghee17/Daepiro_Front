@@ -43,7 +43,9 @@ mixin _$OnboardingState {
       throw _privateConstructorUsedError;
   List<String> get disasterTypes => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OnboardingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OnboardingStateCopyWith<OnboardingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -87,6 +89,8 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OnboardingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -235,6 +239,8 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
       _$OnboardingStateImpl _value, $Res Function(_$OnboardingStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OnboardingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -536,7 +542,9 @@ class _$OnboardingStateImpl implements _OnboardingState {
         const DeepCollectionEquality().hash(_disasterTypes)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OnboardingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>
@@ -567,7 +575,8 @@ abstract class _OnboardingState implements OnboardingState {
       final List<bool> isAppPermissionCheckboxState,
       final List<String> disasterTypes}) = _$OnboardingStateImpl;
 
-  @override //주소 검색 오류 상태
+//주소 검색 오류 상태
+  @override
   bool get isError;
   @override
   String get nameState;
@@ -580,35 +589,38 @@ abstract class _OnboardingState implements OnboardingState {
   @override
   String get userName;
   @override
-  String get userNickName;
-  @override //입력한 주소값
+  String get userNickName; //입력한 주소값
+  @override
   String get homeJuso;
   @override
   String get firstJuso;
   @override
-  String get secondJuso;
-  @override //입력한 주소 별명
+  String get secondJuso; //입력한 주소 별명
+  @override
   String get homeJusoNick;
   @override
   String get firstJusoNick;
   @override
-  String get secondJusoNick;
-  @override //주소 별명 입력 오류 상태
+  String get secondJusoNick; //주소 별명 입력 오류 상태
+  @override
   String get firstJusoState;
   @override
-  String get secondJusoState;
-  @override //주소 입력 텍스트 필드 visible 상태
+  String get secondJusoState; //주소 입력 텍스트 필드 visible 상태
+  @override
   bool get isJuso1Visible;
   @override
-  bool get isJuso2Visible;
-  @override //권한 모두 동의 활성화 상태
-  bool get isAllAppPermissionGrant;
-  @override //체크박스의 활성화상태
+  bool get isJuso2Visible; //권한 모두 동의 활성화 상태
+  @override
+  bool get isAllAppPermissionGrant; //체크박스의 활성화상태
+  @override
   List<bool> get isAppPermissionCheckboxState;
   @override
   List<String> get disasterTypes;
+
+  /// Create a copy of OnboardingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

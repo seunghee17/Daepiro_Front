@@ -1,7 +1,7 @@
 class HomeDisasterHistoryResponse {
   int? code;
   String? message;
-  List<Data>? data;
+  List<DisasterHistory>? data;
   String? path;
   String? timestamp;
 
@@ -17,7 +17,7 @@ class HomeDisasterHistoryResponse {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = (json['data'] as List).map((item) => Data.fromJson(item)).toList();
+      data = (json['data'] as List).map((item) => DisasterHistory.fromJson(item)).toList();
     }
     path = json['path'];
     timestamp = json['timestamp'];
@@ -37,18 +37,18 @@ class HomeDisasterHistoryResponse {
 
 }
 
-class Data {
+class DisasterHistory {
   String? disasterType;
   String? title;
   String? time;
 
-  Data({
+  DisasterHistory({
     this.disasterType,
     this.title,
     this.time,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DisasterHistory.fromJson(Map<String, dynamic> json) {
     disasterType = json['disasterType'];
     title = json['title'];
     time = json['time'];

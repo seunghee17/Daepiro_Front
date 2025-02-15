@@ -51,7 +51,9 @@ mixin _$CommunityTownState {
   double get longitude => throw _privateConstructorUsedError; //갤러리
   List<SelectedImage> get selectedImages => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommunityTownStateCopyWith<CommunityTownState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -99,6 +101,8 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -271,6 +275,8 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
       $Res Function(_$CommunityTownStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -646,7 +652,9 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
         const DeepCollectionEquality().hash(_selectedImages)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>
@@ -731,7 +739,7 @@ abstract class _CommunityTownState implements CommunityTownState {
   @override //갤러리
   List<SelectedImage> get selectedImages;
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

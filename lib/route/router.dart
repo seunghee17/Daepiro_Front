@@ -1,3 +1,8 @@
+import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
+import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
+import 'package:daepiro/presentation/community/screens/album/album_choice_screen.dart';
+import 'package:daepiro/presentation/community/screens/album/uploadimage_screen.dart';
+import 'package:daepiro/presentation/community/screens/community_report_screen.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_screen.dart';
@@ -18,10 +23,10 @@ import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_report_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/community/screens/town/community_town_writing_screen.dart';
+import '../presentation/home/history/disaster_detail_screen.dart';
+import '../presentation/home/history/disasters_history_screen.dart';
 import '../presentation/community/screens/town/gallery_view_screen.dart';
 import '../presentation/community/screens/town/town_certificate_screen.dart';
-import '../presentation/home/history/disaster_message_detail_screen.dart';
-import '../presentation/home/history/disaster_message_history_screen.dart';
 import '../presentation/home/main/home_screen.dart';
 import '../presentation/information/behavior_tip/behavior_tips_screen.dart';
 import '../presentation/information/main/information_screen.dart';
@@ -214,16 +219,17 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                     path: '/home',
-                    // builder: (context, state) => const HomeScreen(), 왜안되지
                     builder: (context, state) => HomeScreen(),
                     routes: [
                       GoRoute(
-                        path: 'disasterMessageHistory',
-                        builder: (context, state) => const DisasterMessageHistoryScreen(),
+                        path: 'disastersHistory',
+                        builder: (context, state) => DisastersHistoryScreen(),
                       ),
                       GoRoute(
-                        path: 'disasterMessageDetail',
-                        builder: (context, state) => const DisasterMessageDetailScreen(),
+                        path: 'disasterDetail',
+                        builder: (context, state) => DisasterDetailScreen(
+                            extra: state.extra as Disasters
+                        ),
                       ),
                     ]
                 ),

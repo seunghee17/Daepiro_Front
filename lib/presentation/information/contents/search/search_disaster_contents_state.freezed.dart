@@ -19,7 +19,9 @@ mixin _$SearchDisasterContentsState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<Contents> get searchedContentsList => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchDisasterContentsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchDisasterContentsStateCopyWith<SearchDisasterContentsState>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$SearchDisasterContentsStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchDisasterContentsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$SearchDisasterContentsStateImplCopyWithImpl<$Res>
       $Res Function(_$SearchDisasterContentsStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchDisasterContentsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -148,7 +154,9 @@ class _$SearchDisasterContentsStateImpl
   int get hashCode => Object.hash(runtimeType, isLoading,
       const DeepCollectionEquality().hash(_searchedContentsList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchDisasterContentsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchDisasterContentsStateImplCopyWith<_$SearchDisasterContentsStateImpl>
@@ -166,8 +174,11 @@ abstract class _SearchDisasterContentsState
   bool get isLoading;
   @override
   List<Contents> get searchedContentsList;
+
+  /// Create a copy of SearchDisasterContentsState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchDisasterContentsStateImplCopyWith<_$SearchDisasterContentsStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

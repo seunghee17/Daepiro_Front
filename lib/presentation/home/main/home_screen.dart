@@ -3,6 +3,7 @@ import 'package:daepiro/presentation/home/component/popular_post_preview.dart';
 import 'package:daepiro/presentation/const/const.dart';
 import 'package:daepiro/presentation/home/main/home_view_model.dart';
 import 'package:daepiro/presentation/home/component/disaster_mesaage_history_preview.dart';
+import 'package:daepiro/presentation/sponsor/component/item_sponsor_preview.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,25 +14,28 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
+import '../../const/utils.dart';
+import '../component/sponsor_preview.dart';
 import 'home_state.dart';
 
-class HomeScreen extends ConsumerWidget {
-  HomeScreen({Key? key});
-
-  final PageController _popularPostPageController = PageController(initialPage: 0);
-  final PageController _infoContentsPageController = PageController(initialPage: 0);
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<HomeState>(homeStateNotifierProvider, (previous, next) {
-      if (next.isLoading) {
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-      }
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final PageController _popularPostPageController = PageController(initialPage: 0);
+  final PageController _infoContentsPageController = PageController(initialPage: 0);
+  final PageController _sponsorPageController = PageController(
+      initialPage: 0,
+      viewportFraction: 0.9
+  );
 
-      if (next.isOccurred) {
-
-      }
-    });
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(homeStateNotifierProvider);
 
     return MaterialApp(
       home: SafeArea(
@@ -43,7 +47,7 @@ class HomeScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 4, bottom: 4, left: 20, right: 12),
+                        padding: const EdgeInsets.only(top: 4, bottom: 4, left: 20, right: 12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -54,18 +58,21 @@ class HomeScreen extends ConsumerWidget {
                               child: SvgPicture.asset('assets/icons/icon_logo_small.svg'),
                             ),
                             Container(
-                                padding: EdgeInsets.all(12),
-                                child: SvgPicture.asset('assets/icons/icon_alarm.svg')
+                                padding: const EdgeInsets.all(12),
+                                child: SvgPicture.asset(
+                                  'assets/icons/icon_alarm.svg',
+                                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                                )
                             ),
                           ],
                         ),
                       ),
-                      Flexible(
+                      Expanded(
                         child: SingleChildScrollView(
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(top: 4, left: 20, right: 20, bottom: 20),
+                                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
                                   child: Column(
                                     children: [
                                       Container(
@@ -77,11 +84,11 @@ class HomeScreen extends ConsumerWidget {
                                         child: Stack(
                                           children: [
                                             Container(
-                                              child: Image.asset('assets/icons/image_character_home.png'),
                                               alignment: Alignment.bottomRight,
+                                              child: Image.asset('assets/icons/image_character_home.png'),
                                             ),
                                             Container(
-                                              padding: EdgeInsets.only(top: 26, left: 16, bottom: 16, right: 16),
+                                              padding: const EdgeInsets.only(top: 26, left: 16, bottom: 16, right: 16),
                                               alignment: Alignment.topLeft,
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,27 +112,27 @@ class HomeScreen extends ConsumerWidget {
                                                                   borderRadius: BorderRadius.circular(8),
                                                                 ),
                                                                 child: Container(
-                                                                  padding: EdgeInsets.all(8),
+                                                                  padding: const EdgeInsets.fromLTRB(8, 12, 12, 12),
                                                                   child: Row(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                                     children: [
                                                                       SvgPicture.asset(
                                                                         'assets/icons/icon_location.svg',
-                                                                        colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                                                                        width: 16,
-                                                                        height: 16,
+                                                                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                                                        width: 24,
+                                                                        height: 24,
                                                                       ),
                                                                       const SizedBox(width: 4),
                                                                       Text(
-                                                                        "현위치",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
+                                                                        "현재 위치는",
+                                                                        style: DaepiroTextStyle.body_2_m.copyWith(
                                                                           color: DaepiroColorStyle.g_800,
                                                                         ),
                                                                       ),
                                                                       const Spacer(),
                                                                       Text(
-                                                                        "강남구 역삼동",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
+                                                                        viewModel.location,
+                                                                        style: DaepiroTextStyle.body_2_m.copyWith(
                                                                           color: DaepiroColorStyle.g_800,
                                                                         ),
                                                                       )
@@ -134,43 +141,6 @@ class HomeScreen extends ConsumerWidget {
                                                                 )
                                                             )
                                                         ),
-                                                        const SizedBox(width: 8),
-                                                        Expanded(
-                                                            child: Container(
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.white,
-                                                                  borderRadius: BorderRadius.circular(8),
-                                                                ),
-                                                                child: Container(
-                                                                  padding: EdgeInsets.all(8),
-                                                                  child: Row(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    children: [
-                                                                      SvgPicture.asset(
-                                                                        'assets/icons/icon_weather.svg',
-                                                                        colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                                                                        width: 16,
-                                                                        height: 16,
-                                                                      ),
-                                                                      const SizedBox(width: 4),
-                                                                      Text(
-                                                                        "오늘의 날씨",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
-                                                                          color: DaepiroColorStyle.g_800,
-                                                                        ),
-                                                                      ),
-                                                                      const Spacer(),
-                                                                      Text(
-                                                                        "맑음",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
-                                                                          color: DaepiroColorStyle.g_800,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                            )
-                                                        )
                                                       ],
                                                     ),
                                                   )
@@ -193,7 +163,7 @@ class HomeScreen extends ConsumerWidget {
                                             const Spacer(),
                                             GestureDetector(
                                               onTap: () {
-                                                context.push('/home/disasterMessageHistory');
+                                                context.push('/home/disastersHistory');
                                               },
                                               child: Row(
                                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -214,37 +184,37 @@ class HomeScreen extends ConsumerWidget {
                                       Container(
                                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                                         decoration: BoxDecoration(
-                                            color: DaepiroColorStyle.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: DaepiroColorStyle.black.withOpacity(0.08),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 0),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            width: 2,
+                                            color: DaepiroColorStyle.g_50,
+                                          ),
+                                        ),
+                                        child: viewModel.isLoadingDisasterHistory
+                                            ? Container(
+                                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                                child: const Center(child: CircularProgressIndicator())
                                               )
-                                            ]
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            DisasterHistoryPreview(
-                                                icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
-                                                title: "서울시 성북구 쌍문동 호우 발생",
-                                                date: "2024.8.11 14:24"
-                                            ),
-                                            SizedBox(height: 8),
-                                            DisasterHistoryPreview(
-                                                icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
-                                                title: "서울시 성북구 쌍문동 호우 발생2",
-                                                date: "2024.8.11 14:24"
-                                            ),
-                                            SizedBox(height: 8),
-                                            DisasterHistoryPreview(
-                                                icon: SvgPicture.asset('assets/icons/icon_natural_disaster.svg'),
-                                                title: "서울시 성북구 쌍문동 호우 발생3",
-                                                date: "2024.8.11 14:24"
-                                            ),
-                                          ],
-                                        ),
+                                            : Expanded(
+                                                child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics: const NeverScrollableScrollPhysics(),
+                                                    itemCount: viewModel.disasterHistoryList.length,
+                                                    itemBuilder: (context, index) {
+                                                      return Column(
+                                                        children: [
+                                                          if (index != 0)
+                                                            const SizedBox(height: 8),
+                                                          DisasterHistoryPreview(
+                                                              disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                              title: viewModel.disasterHistoryList[index].title ?? "",
+                                                              date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                ),
+                                              ),
                                       ),
                                       const SizedBox(height: 28),
                                       Row(
@@ -275,15 +245,11 @@ class HomeScreen extends ConsumerWidget {
                                       Container(
                                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                                         decoration: BoxDecoration(
-                                            color: DaepiroColorStyle.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withOpacity(0.08),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 0),
-                                              )
-                                            ]
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            width: 2,
+                                            color: DaepiroColorStyle.g_50,
+                                          ),
                                         ),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,13 +261,12 @@ class HomeScreen extends ConsumerWidget {
                                                   Row(
                                                     children: [
                                                       SecondaryChip(
-                                                          // isSelected: _homeViewModel.selectedPopularPostCategory == index,
-                                                          isSelected: false,
+                                                          isSelected: viewModel.selectedPopularPostCategory == index,
                                                           text: Const.popularPostCategoryList[index],
                                                           onPressed: () {
-                                                            // _homeViewModel.selectPopularPostCategory(index);
+                                                            ref.read(homeStateNotifierProvider.notifier).selectPopularPostCategory(index);
                                                             _popularPostPageController.animateToPage(
-                                                                index,
+                                                                0,
                                                                 duration: const Duration(milliseconds: 1),
                                                                 curve: Curves.easeIn
                                                             );
@@ -313,58 +278,56 @@ class HomeScreen extends ConsumerWidget {
                                               ],
                                             ),
                                             const SizedBox(height: 12),
-                                            ExpandablePageView(
-                                              controller: _popularPostPageController,
-                                              scrollDirection: Axis.horizontal,
-                                              onPageChanged: (index) {
-                                                // _homeViewModel.selectPopularPostCategory(index);
-                                              },
-                                              children: [
-                                                for (int i=0;i<5;i++)
-                                                  Column(
-                                                    children: [
-                                                      PopularPostPreview(
-                                                          title: "새로운 카페 오픈했네요 $i",
-                                                          contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                          location: "서울시 강남구",
-                                                          time: "5분전",
-                                                          like: "3",
-                                                          comment: "2"
-                                                      ),
-                                                      PopularPostPreview(
-                                                          title: "새로운 카페 오픈했네요 $i",
-                                                          contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                          location: "서울시 강남구",
-                                                          time: "5분전",
-                                                          like: "3",
-                                                          comment: "2"
-                                                      ),
-                                                      PopularPostPreview(
-                                                          title: "새로운 카페 오픈했네요 $i",
-                                                          contents: "사거리 CU 옆에 새로 생긴 카페 바나나푸딩 사거리 CU 옆에 새로 생긴 카페 바나나푸딩",
-                                                          location: "서울시 강남구",
-                                                          time: "5분전",
-                                                          like: "3",
-                                                          comment: "2"
-                                                      ),
-                                                    ],
+                                            viewModel.isLoadingPopularPost != 5
+                                                ? Container(
+                                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                                    child: const Center(child: CircularProgressIndicator())
                                                   )
-                                              ],
-                                            ),
-                                            const SizedBox(height: 12),
-                                            Center(
-                                              child: SmoothPageIndicator(
-                                                controller: _popularPostPageController,
-                                                count: Const.popularPostCategoryList.length,
-                                                effect: ExpandingDotsEffect(
-                                                    dotColor: DaepiroColorStyle.g_75,
-                                                    activeDotColor: DaepiroColorStyle.g_300,
-                                                    dotHeight: 6,
-                                                    dotWidth: 6,
-                                                    spacing: 6,
-                                                    expansionFactor: 2.5
-                                                ),
-                                              ),
+                                                : Column(
+                                                    children: [
+                                                      if (viewModel.popularPostList.isNotEmpty)
+                                                        Column(
+                                                          children: [
+                                                            ExpandablePageView(
+                                                              controller: _popularPostPageController,
+                                                              scrollDirection: Axis.horizontal,
+                                                              onPageChanged: (index) {},
+                                                              children: [
+                                                                for (int i=0;i<viewModel.popularPostList.length;i+=3)
+                                                                  Column(
+                                                                    children: [
+                                                                      for (int j=0;j<3;j++)
+                                                                        if (i+j <viewModel.popularPostList.length)
+                                                                          PopularPostPreview(
+                                                                            title: viewModel.popularPostList[i+j].title ?? "",
+                                                                            contents: viewModel.popularPostList[i+j].body ?? "",
+                                                                            location: "${viewModel.popularPostList[i+j].address?.siDo} ${viewModel.popularPostList[i+j].address?.siGunGu}",
+                                                                            time: viewModel.popularPostList[i+j].createdAt ?? "",
+                                                                            like: (viewModel.popularPostList[i+j].likeCount ?? 0).toString(),
+                                                                            comment: (viewModel.popularPostList[i+j].commentCount ?? 0).toString(),
+                                                                          ),
+                                                                    ],
+                                                                  )
+                                                              ],
+                                                            ),
+                                                            const SizedBox(height: 12),
+                                                            Center(
+                                                              child: SmoothPageIndicator(
+                                                                controller: _popularPostPageController,
+                                                                count: viewModel.popularPostList.length%3 == 0 ? viewModel.popularPostList.length~/3 : viewModel.popularPostList.length~/3+1,
+                                                                effect: const ExpandingDotsEffect(
+                                                                    dotColor: DaepiroColorStyle.g_75,
+                                                                    activeDotColor: DaepiroColorStyle.g_300,
+                                                                    dotHeight: 6,
+                                                                    dotWidth: 6,
+                                                                    spacing: 6,
+                                                                    expansionFactor: 2.5
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                    ],
                                             )
                                           ],
                                         ),
@@ -375,6 +338,102 @@ class HomeScreen extends ConsumerWidget {
                                           children: [
                                             Text(
                                               "정보 콘텐츠",
+                                              style: DaepiroTextStyle.h6.copyWith(
+                                                color: DaepiroColorStyle.g_900,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                context.push('/disasterContents');
+                                              },
+                                              child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "더보기",
+                                                      style: DaepiroTextStyle.body_2_m.copyWith(
+                                                        color: DaepiroColorStyle.o_400,
+                                                      ),
+                                                    ),
+                                                    SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                                  ]
+                                              ),
+                                            )
+                                          ]
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(
+                                              width: 2,
+                                              color: DaepiroColorStyle.g_50,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              viewModel.isLoadingContents
+                                                  ? Container(
+                                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                                      child: const Center(child: CircularProgressIndicator())
+                                                    )
+                                                  : Column(
+                                                    children: [
+                                                      ExpandablePageView(
+                                                          controller: _infoContentsPageController,
+                                                          scrollDirection: Axis.horizontal,
+                                                          onPageChanged: (index) {},
+                                                          children: [
+                                                            for (int i=0;i<viewModel.contentsList.length;i+=2)
+                                                              Column(
+                                                                children: [
+                                                                  for (int j=0;j<2;j++)
+                                                                    if (i+j <viewModel.contentsList.length)
+                                                                      Column(
+                                                                        children: [
+                                                                          if (j == 1)
+                                                                            const SizedBox(height: 12),
+                                                                          InformationContentsPreview(
+                                                                              imagePath: viewModel.contentsList[i+j].thumbnailUrl ?? "",
+                                                                              title: viewModel.contentsList[i+j].title ?? "",
+                                                                              from: viewModel.contentsList[i+j].source ?? "",
+                                                                              date: viewModel.contentsList[i+j].publishedAt ?? "",
+                                                                              bodyUrl: viewModel.contentsList[i+j].bodyUrl ?? ""
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                ],
+                                                              )
+                                                          ],
+                                                        ),
+                                                        const SizedBox(height: 16),
+                                                        Center(
+                                                          child: SmoothPageIndicator(
+                                                            controller: _infoContentsPageController,
+                                                            count: viewModel.contentsList.length%2 == 0 ? viewModel.contentsList.length~/2 : viewModel.contentsList.length~/2 + 1,
+                                                            effect: const ExpandingDotsEffect(
+                                                                dotColor: DaepiroColorStyle.g_75,
+                                                                activeDotColor: DaepiroColorStyle.g_300,
+                                                                dotHeight: 6,
+                                                                dotWidth: 6,
+                                                                spacing: 6,
+                                                                expansionFactor: 2.5
+                                                            ),
+                                                          ),
+                                                        )
+                                                    ],
+                                                  ),
+                                            ],
+                                          )
+                                      ),
+                                      const SizedBox(height: 28),
+                                      Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "추천 후원",
                                               style: DaepiroTextStyle.h6.copyWith(
                                                 color: DaepiroColorStyle.g_900,
                                               ),
@@ -394,65 +453,26 @@ class HomeScreen extends ConsumerWidget {
                                             )
                                           ]
                                       ),
-                                      const SizedBox(height: 12),
-                                      Container(
-                                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                                          decoration: BoxDecoration(
-                                              color: DaepiroColorStyle.white,
-                                              borderRadius: BorderRadius.circular(8),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black.withOpacity(0.08),
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 0),
-                                                )
-                                              ]
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              ExpandablePageView(
-                                                controller: _infoContentsPageController,
-                                                scrollDirection: Axis.horizontal,
-                                                onPageChanged: (index) {
-                                                },
-                                                children: [
-                                                  for (int i=0;i<3;i++)
-                                                    const Column(
-                                                      children: [
-                                                        InformationContentsPreview(
-                                                            imagePath: 'assets/icons/image_sample.jpg',
-                                                            title: "북한, 새벽까지 오물풍선 190개 날렸다...",
-                                                            from: "동아닷컴",
-                                                            date: "2024.08.11"
-                                                        ),
-                                                        InformationContentsPreview(
-                                                            imagePath: 'assets/icons/image_sample.jpg',
-                                                            title: "북한, 새벽까지 오물풍선 190개 날렸다...",
-                                                            from: "동아닷컴",
-                                                            date: "2024.08.11"
-                                                        ),
-                                                      ],
-                                                    )
-                                                ],
-                                              ),
-                                              const SizedBox(height: 16),
-                                              Center(
-                                                child: SmoothPageIndicator(
-                                                  controller: _infoContentsPageController,
-                                                  count: 3,
-                                                  effect: const ExpandingDotsEffect(
-                                                      dotColor: DaepiroColorStyle.g_75,
-                                                      activeDotColor: DaepiroColorStyle.g_300,
-                                                      dotHeight: 6,
-                                                      dotWidth: 6,
-                                                      spacing: 6,
-                                                      expansionFactor: 2.5
-                                                  ),
+                                      if (!viewModel.isLoadingSponsor)
+                                        ExpandablePageView.builder(
+                                            controller: _sponsorPageController,
+                                            scrollDirection: Axis.horizontal,
+                                            padEnds: false,
+                                            itemCount: viewModel.sponsorList.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return Container(
+                                                padding: const EdgeInsets.only(top: 12),
+                                                margin: const EdgeInsets.only(right: 8),
+                                                child: SponsorPreview(
+                                                  disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                                  date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                                  from: viewModel.sponsorList[index].sponsorName ?? "",
+                                                  title: viewModel.sponsorList[index].title ?? "",
+                                                  imagePath: viewModel.sponsorList[index].thumbnail ?? "",
                                                 ),
-                                              )
-                                            ],
-                                          )
-                                      )
+                                              );
+                                            }
+                                        )
                                     ],
                                   ),
                                 )

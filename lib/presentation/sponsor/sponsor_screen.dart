@@ -158,7 +158,7 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
                                       ItemCheerKeyword(
                                           text: viewModel.cheerCommentList[i].content ?? ""
                                       ),
-                                      SizedBox(width: 8)
+                                      const SizedBox(width: 8)
                                     ],
                                   ),
                               ]

@@ -1,4 +1,5 @@
 import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
+import 'package:daepiro/presentation/const/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,71 +33,112 @@ class _BehaviorTipBottomSheetState extends State<BehaviorTipBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Stack(
                 children: [
                   Align(
+                    alignment: Alignment.center,
                     child: Text(
                         widget.behavior.name ?? "",
                         style: DaepiroTextStyle.body_1_b.copyWith(
                           color: DaepiroColorStyle.g_900,
                         )
                     ),
-                    alignment: Alignment.center,
                   ),
                   Align(
+                    alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: SvgPicture.asset(
                         'assets/icons/icon_close.svg',
-                        colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                       ),
                     ),
-                    alignment: Alignment.centerRight,
                   ),
                 ],
               ),
             ),
-            Divider(height: 1,color: DaepiroColorStyle.g_50),
+            const Divider(height: 1,color: DaepiroColorStyle.g_50),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-              child: Column(
-                children: [
-                  Row(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+              child: widget.behavior.tips!.isEmpty
+                  ? Column(
                     children: [
-                      for (int i=0;i<widget.behavior.tips!.length;i++)
+                      Row(
+                        children: [
+                          for (int i=0;i<3;i++)
+                            Row(
+                              children: [
+                                const SizedBox(width: 8),
+                                SecondaryChip(
+                                    isSelected: i == 0,
+                                    text: Const.actionTipsList[i],
+                                    onPressed: () {}
+                                )
+                              ],
+                            )
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const SizedBox(height: 16),
+                      SvgPicture.asset(
+                        'assets/icons/icon_warning_large.svg',
+                        width: 40,
+                        height: 40,
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_75, BlendMode.srcIn),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "대피로는 공사중",
+                        style: DaepiroTextStyle.h6.copyWith(
+                          color: DaepiroColorStyle.g_300,
+                        )
+                      ),
+                      Text(
+                        "추후 업데이트될 예정이에요!",
+                        style: DaepiroTextStyle.body_2_m.copyWith(
+                          color: DaepiroColorStyle.g_300,
+                        )
+                      ),
+                      const SizedBox(height: 16)
+                    ],
+                  )
+                  : Column(
+                      children: [
                         Row(
                           children: [
-                            const SizedBox(width: 8),
-                            SecondaryChip(
-                                isSelected: selectedDisasterTypeIdx == i,
-                                text: widget.behavior.tips![i].filter ?? "",
-                                onPressed: () {
-                                  setState(() {
-                                    selectedDisasterTypeIdx = i;
-                                  });
-                                }
-                            ),
+                            for (int i=0;i<widget.behavior.tips!.length;i++)
+                              Row(
+                                children: [
+                                  const SizedBox(width: 8),
+                                  SecondaryChip(
+                                      isSelected: selectedDisasterTypeIdx == i,
+                                      text: widget.behavior.tips![i].filter ?? "",
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedDisasterTypeIdx = i;
+                                        });
+                                      }
+                                  ),
+                                ],
+                              )
                           ],
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: widget.behavior.tips?[selectedDisasterTypeIdx].tips?.length ?? 0,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ActionTipItem(
+                                  text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index] ?? ""
+                              );
+                            }
+                          ),
                         )
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: widget.behavior.tips?[selectedDisasterTypeIdx].tips?.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ActionTipItem(
-                            isSelected: false,
-                            text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index] ?? ""
-                        );
-                      }
-                    ),
-                  )
-                ],
+                      ],
               ),
             )
           ],

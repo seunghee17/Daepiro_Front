@@ -44,7 +44,9 @@ mixin _$CommunityDisasterState {
   String get reportType => throw _privateConstructorUsedError;
   List<String> get reportDescription => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommunityDisasterStateCopyWith<CommunityDisasterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -85,6 +87,8 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -212,6 +216,8 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
       $Res Function(_$CommunityDisasterStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -490,7 +496,9 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
       reportType,
       const DeepCollectionEquality().hash(_reportDescription));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommunityDisasterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
@@ -517,10 +525,11 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
       final String reportType,
       final List<String> reportDescription}) = _$CommunityDisasterStateImpl;
 
-  @override //---------------------------------------------------------
+//---------------------------------------------------------
 // 재난상황
 //---------------------------------------------------------
 //현재 보여지는 상태
+  @override
   bool get isDisasterScreen;
   @override
   int? get selectSituaionId;
@@ -554,7 +563,7 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
   @override
   List<String> get reportDescription;
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
