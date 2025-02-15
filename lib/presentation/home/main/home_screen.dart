@@ -112,27 +112,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                                   borderRadius: BorderRadius.circular(8),
                                                                 ),
                                                                 child: Container(
-                                                                  padding: const EdgeInsets.all(8),
+                                                                  padding: const EdgeInsets.fromLTRB(8, 12, 12, 12),
                                                                   child: Row(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                                     children: [
                                                                       SvgPicture.asset(
                                                                         'assets/icons/icon_location.svg',
                                                                         colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                                                                        width: 16,
-                                                                        height: 16,
+                                                                        width: 24,
+                                                                        height: 24,
                                                                       ),
                                                                       const SizedBox(width: 4),
                                                                       Text(
-                                                                        "현위치",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
+                                                                        "현재 위치는",
+                                                                        style: DaepiroTextStyle.body_2_m.copyWith(
                                                                           color: DaepiroColorStyle.g_800,
                                                                         ),
                                                                       ),
                                                                       const Spacer(),
                                                                       Text(
-                                                                        "강남구 역삼동",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
+                                                                        viewModel.location,
+                                                                        style: DaepiroTextStyle.body_2_m.copyWith(
                                                                           color: DaepiroColorStyle.g_800,
                                                                         ),
                                                                       )
@@ -141,43 +141,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                                 )
                                                             )
                                                         ),
-                                                        const SizedBox(width: 8),
-                                                        Expanded(
-                                                            child: Container(
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.white,
-                                                                  borderRadius: BorderRadius.circular(8),
-                                                                ),
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(8),
-                                                                  child: Row(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    children: [
-                                                                      SvgPicture.asset(
-                                                                        'assets/icons/icon_weather.svg',
-                                                                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                                                                        width: 16,
-                                                                        height: 16,
-                                                                      ),
-                                                                      const SizedBox(width: 4),
-                                                                      Text(
-                                                                        "오늘의 날씨",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
-                                                                          color: DaepiroColorStyle.g_800,
-                                                                        ),
-                                                                      ),
-                                                                      const Spacer(),
-                                                                      Text(
-                                                                        "맑음",
-                                                                        style: DaepiroTextStyle.caption.copyWith(
-                                                                          color: DaepiroColorStyle.g_800,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                            )
-                                                        )
                                                       ],
                                                     ),
                                                   )
@@ -380,17 +343,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               ),
                                             ),
                                             const Spacer(),
-                                            Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "더보기",
-                                                    style: DaepiroTextStyle.body_2_m.copyWith(
-                                                      color: DaepiroColorStyle.o_400,
+                                            GestureDetector(
+                                              onTap: () {
+                                                context.push('/disasterContents');
+                                              },
+                                              child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "더보기",
+                                                      style: DaepiroTextStyle.body_2_m.copyWith(
+                                                        color: DaepiroColorStyle.o_400,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                                ]
+                                                    SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                                  ]
+                                              ),
                                             )
                                           ]
                                       ),
@@ -431,7 +399,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                                               imagePath: viewModel.contentsList[i+j].thumbnailUrl ?? "",
                                                                               title: viewModel.contentsList[i+j].title ?? "",
                                                                               from: viewModel.contentsList[i+j].source ?? "",
-                                                                              date: viewModel.contentsList[i+j].publishedAt ?? ""
+                                                                              date: viewModel.contentsList[i+j].publishedAt ?? "",
+                                                                              bodyUrl: viewModel.contentsList[i+j].bodyUrl ?? ""
                                                                           ),
                                                                         ],
                                                                       ),
@@ -484,25 +453,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             )
                                           ]
                                       ),
-                                      // ExpandablePageView.builder(
-                                      //     controller: _sponsorPageController,
-                                      //     scrollDirection: Axis.horizontal,
-                                      //     padEnds: false,
-                                      //     itemCount: viewModel.sponsorList.length,
-                                      //     itemBuilder: (BuildContext context, int index) {
-                                      //       return Container(
-                                      //         padding: const EdgeInsets.only(top: 12),
-                                      //         margin: const EdgeInsets.only(right: 8),
-                                      //         child: SponsorPreview(
-                                      //           disasterType: viewModel.sponsorList[index].disasterType ?? "",
-                                      //           date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
-                                      //           from: viewModel.sponsorList[index].sponsorName ?? "",
-                                      //           title: viewModel.sponsorList[index].title ?? "",
-                                      //           imagePath: viewModel.sponsorList[index].thumbnail ?? "",
-                                      //         ),
-                                      //       );
-                                      //     }
-                                      // )
+                                      if (!viewModel.isLoadingSponsor)
+                                        ExpandablePageView.builder(
+                                            controller: _sponsorPageController,
+                                            scrollDirection: Axis.horizontal,
+                                            padEnds: false,
+                                            itemCount: viewModel.sponsorList.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return Container(
+                                                padding: const EdgeInsets.only(top: 12),
+                                                margin: const EdgeInsets.only(right: 8),
+                                                child: SponsorPreview(
+                                                  disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                                  date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                                  from: viewModel.sponsorList[index].sponsorName ?? "",
+                                                  title: viewModel.sponsorList[index].title ?? "",
+                                                  imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                                ),
+                                              );
+                                            }
+                                        )
                                     ],
                                   ),
                                 )

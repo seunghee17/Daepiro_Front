@@ -1,7 +1,7 @@
 import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
 class InformationContentsPreview extends StatefulWidget {
@@ -9,14 +9,16 @@ class InformationContentsPreview extends StatefulWidget {
   final String title;
   final String from;
   final String date;
+  final String bodyUrl;
 
   const InformationContentsPreview({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.title,
     required this.from,
     required this.date,
-  }): super(key: key);
+    required this.bodyUrl,
+  });
 
   @override
   State<InformationContentsPreview> createState() => _InformationContentsPreviewState();
@@ -27,52 +29,57 @@ class _InformationContentsPreviewState extends State<InformationContentsPreview>
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Image.network(
-              widget.imagePath.isNotEmpty ? widget.imagePath : 'https://thumbs.dreamstime.com/b/sample-stamp-white-background-sign-90532936.jpg',
-              width: 68,
-              height: 68,
-              fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          launchUrl(Uri.parse(widget.bodyUrl));
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.network(
+                widget.imagePath.isNotEmpty ? widget.imagePath : 'https://thumbs.dreamstime.com/b/sample-stamp-white-background-sign-90532936.jpg',
+                width: 68,
+                height: 68,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.title,
-                  style: DaepiroTextStyle.body_1_b.copyWith(
-                    color: DaepiroColorStyle.g_900,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.from,
-                      style: DaepiroTextStyle.caption.copyWith(
-                        color: DaepiroColorStyle.g_700,
-                      ),
+            const SizedBox(width: 10),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: DaepiroTextStyle.body_1_b.copyWith(
+                      color: DaepiroColorStyle.g_900,
                     ),
-                    Text(
-                      formatDateToDot(widget.date),
-                      style: DaepiroTextStyle.caption.copyWith(
-                        color: DaepiroColorStyle.g_200,
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.from,
+                        style: DaepiroTextStyle.caption.copyWith(
+                          color: DaepiroColorStyle.g_700,
+                        ),
                       ),
-                    )
-                  ]
-                )
-              ]
-            ),
-          )
-        ]
+                      Text(
+                        formatDateToDot(widget.date),
+                        style: DaepiroTextStyle.caption.copyWith(
+                          color: DaepiroColorStyle.g_200,
+                        ),
+                      )
+                    ]
+                  )
+                ]
+              ),
+            )
+          ]
+        ),
       ),
     );
   }

@@ -116,6 +116,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                                  '/home/disasterDetail',
                                                  extra: Disasters(
                                                    disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
+                                                   disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,
                                                    title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title,
                                                    content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
                                                    time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,

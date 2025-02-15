@@ -1,13 +1,18 @@
+import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:daepiro/domain/usecase/home/get_behavior_tips_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
+import 'package:daepiro/domain/usecase/information/get_behavior_list_usecase.dart';
 import 'package:daepiro/presentation/home/main/home_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
@@ -20,6 +25,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final list = List.generate(5, (_) => <PopularPost>[]);  // 빈 리스트 5개 생성
     state = state.copyWith(allPopularPostList: list);
 
+    getAddress();
     getHomeStatus();
     getHomeDisasterHistory();
     getPopularPostList(category: "");
@@ -28,7 +34,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     getPopularPostList(category: "SAFE");
     getPopularPostList(category: "OTHER");
     getDisasterContentsList();
-    // getSponsorList();
+    getSponsorList();
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
@@ -155,7 +161,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       if (response.code == 1000) {
         state = state.copyWith(
-            sponsorList: response.data ?? []
+            sponsorList: response.data ?? [],
+            isLoadingSponsor: false
         );
       }
     } catch (error) {
@@ -180,6 +187,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
   }
 
+  // 재난에 대한 행동요령 조회
+  Future<void> getBehaviorTips(String disasterId) async {
+    try {
+      final response = await ref.read(
+          getBehaviorTipsUsecaseProvider(GetBehaviorTipsUsecase(disasterId: disasterId)).future
+      );
+
+      if (response.code == 1000) {
+        state = state.copyWith(
+          behaviorTip: response.data,
+        );
+      }
+    } catch (error) {
+      print('최근 재난문자 내역 조회 에러: $error');
+    }
+  }
+
   // 재난 발생했을 때 재난 상세내용 조회
   Future<void> getHomeDisasterFeed() async {
     try {
@@ -192,6 +216,34 @@ class HomeViewModel extends StateNotifier<HomeState> {
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
       state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> getAddress() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+
+      print("결과 ${placemarks.toString()}");
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+
+        // 3. 주소에서 "구"와 "동"만 추출
+        String district = place.administrativeArea ?? ""; // "강남구"
+        String district2 = place.subLocality ?? ""; // "강남구"
+        String neighborhood = place.locality!.isEmpty ? place.subLocality ?? "" : ""; // "역삼동"
+
+        state = state.copyWith(
+          location: "$district $district2"
+        );
+      } else {
+        state = state.copyWith(
+            location: "주소 확인 불가"
+        );
+      }
+    } catch (e) {
+      print("홈 현위치 조회 오류 $e");
     }
   }
 

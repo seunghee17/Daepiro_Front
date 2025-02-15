@@ -1,3 +1,4 @@
+import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
@@ -41,4 +42,9 @@ abstract class HomeService {
   @GET('/v1/home/news')
   Future<DisasterContentsListResponse> getRecentContents();
 
+  // 재난에 대한 행동요령 조회
+  @GET('/v1/behaviourtips/tip/{disasterId}')
+  Future<BehaviorTipsResponse> getBehaviorTips({
+    @Path("disasterId") required String disasterId
+  });
 }

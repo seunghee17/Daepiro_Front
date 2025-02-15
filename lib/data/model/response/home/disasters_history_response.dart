@@ -61,14 +61,16 @@ class DisastersData {
 
 class Disasters {
   String? disasterType;
+  int? disasterTypeId;
   String? title;
   String? content;
   String? time;
 
-  Disasters({this.disasterType, this.title, this.content, this.time});
+  Disasters({this.disasterType, this.disasterTypeId, this.title, this.content, this.time});
 
   Disasters.fromJson(Map<String, dynamic> json) {
     disasterType = json['disasterType'];
+    disasterTypeId = json['disasterTypeId'];
     title = json['title'];
     content = json['content'];
     time = json['time'];
@@ -77,6 +79,7 @@ class Disasters {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['disasterType'] = this.disasterType;
+    data['disasterTypeId'] = this.disasterTypeId;
     data['title'] = this.title;
     data['content'] = this.content;
     data['time'] = this.time;

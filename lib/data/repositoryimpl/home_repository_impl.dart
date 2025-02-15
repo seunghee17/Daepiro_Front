@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
@@ -78,6 +79,17 @@ class HomeRepositoryImpl extends HomeRepository {
       return response;
     } catch(e) {
       print('최근 정보콘텐츠 조회 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BehaviorTipsResponse> getBehaviorTips(String disasterId) async {
+    try {
+      final response = await _service.getBehaviorTips(disasterId: disasterId);
+      return response;
+    } catch(e) {
+      print('재난에 대한 행동요령 조회 오류 ${e.toString()}');
       rethrow;
     }
   }

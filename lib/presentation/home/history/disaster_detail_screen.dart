@@ -10,6 +10,7 @@ import '../../../cmm/chip/secondary_chip.dart';
 import '../../const/utils.dart';
 import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
+import '../main/home_view_model.dart';
 
 class DisasterDetailScreen extends ConsumerStatefulWidget {
   final Disasters extra;
@@ -32,7 +33,15 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
   int _selectedDisasterType = 0;
 
   @override
+  void initState() {
+    super.initState();
+    ref.read(homeStateNotifierProvider.notifier).getBehaviorTips(widget.extra.disasterTypeId.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final viewModel = ref.watch(homeStateNotifierProvider);
+
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
@@ -134,44 +143,42 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                 ),
                                 child: Column(
                                   children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: Row(
+                                    if (viewModel.behaviorTip != null)
+                                      Column(
                                         children: [
-                                          for (int index=0;index<Const.actionTipsList.length;index++)
-                                            Row(
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                                            child: Row(
                                               children: [
-                                                SecondaryChip(
-                                                    isSelected: index == _selectedActionTipType,
-                                                    text: Const.actionTipsList[index],
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        _selectedActionTipType = index;
-                                                      });
-                                                    }
-                                                ),
-                                                const SizedBox(width: 8)
+                                                for (int index=0;index<viewModel.behaviorTip!.tips!.length;index++)
+                                                  Row(
+                                                    children: [
+                                                      SecondaryChip(
+                                                          isSelected: index == _selectedActionTipType,
+                                                          text: viewModel.behaviorTip!.tips![index].filter ?? "",
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _selectedActionTipType = index;
+                                                            });
+                                                          }
+                                                      ),
+                                                      const SizedBox(width: 8)
+                                                    ],
+                                                  )
                                               ],
-                                            )
+                                            ),
+                                          ),
+                                          const SizedBox(height: 16),
+                                          for (int index=0;index<viewModel.behaviorTip!.tips![_selectedActionTipType].tips!.length;index++)
+                                              Column(
+                                                children: [
+                                                  ActionTipItem(
+                                                      text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index]
+                                                  ),
+                                                ],
+                                              )
                                         ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    ActionTipItem(
-                                        text: "튼튼한 탁자 아래에 들어가 몸을 보호하셨"
-                                    ),
-                                    ActionTipItem(
-                                        text: "튼튼한 탁자 아래에 들어가 몸을 보호하셨나요튼튼한 탁자 아래에 들어가 몸을 보호하셨"
-                                    ),
-                                    ActionTipItem(
-                                        text: "튼튼한 탁자 아래에 들어가 몸을 보호하??"
-                                    ),
-                                    ActionTipItem(
-                                        text: "튼튼한 탁자 아래에 들어가 몸을 보호하??"
-                                    ),
-                                    ActionTipItem(
-                                        text: "튼튼한 탁자 아래에 들어가 몸을 보호하??"
-                                    ),
                                   ],
                                 ),
                               ),
