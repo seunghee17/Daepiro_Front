@@ -441,29 +441,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           )
                                       ),
                                       const SizedBox(height: 28),
-                                      Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "추천 후원",
-                                              style: DaepiroTextStyle.h6.copyWith(
-                                                color: DaepiroColorStyle.g_900,
+                                      GestureDetector(
+                                        onTap: () {
+                                          GoRouter.of(context).replace('/sponsor');
+                                        },
+                                        child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "추천 후원",
+                                                style: DaepiroTextStyle.h6.copyWith(
+                                                  color: DaepiroColorStyle.g_900,
+                                                ),
                                               ),
-                                            ),
-                                            const Spacer(),
-                                            Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "더보기",
-                                                    style: DaepiroTextStyle.body_2_m.copyWith(
-                                                      color: DaepiroColorStyle.o_400,
+                                              const Spacer(),
+                                              Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "더보기",
+                                                      style: DaepiroTextStyle.body_2_m.copyWith(
+                                                        color: DaepiroColorStyle.o_400,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                                ]
-                                            )
-                                          ]
+                                                    SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                                  ]
+                                              )
+                                            ]
+                                        ),
                                       ),
                                       if (!viewModel.isLoadingSponsor)
                                         ExpandablePageView.builder(
@@ -475,12 +480,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               return Container(
                                                 padding: const EdgeInsets.only(top: 12),
                                                 margin: const EdgeInsets.only(right: 8),
-                                                child: SponsorPreview(
-                                                  disasterType: viewModel.sponsorList[index].disasterType ?? "",
-                                                  date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
-                                                  from: viewModel.sponsorList[index].sponsorName ?? "",
-                                                  title: viewModel.sponsorList[index].title ?? "",
-                                                  imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    context.push(
+                                                        '/sponsorDetail',
+                                                        extra: viewModel.sponsorList[index]
+                                                    );
+                                                  },
+                                                  child: SponsorPreview(
+                                                    disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                                    date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                                    from: viewModel.sponsorList[index].sponsorName ?? "",
+                                                    title: viewModel.sponsorList[index].title ?? "",
+                                                    imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                                  ),
                                                 ),
                                               );
                                             }

@@ -178,8 +178,11 @@ abstract class _LoginState implements LoginState {
   bool get isCompletedOnboarding;
   @override
   bool get isLoginSuccess;
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

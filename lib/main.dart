@@ -2,6 +2,7 @@ import 'package:daepiro/data/http/tokenErrorViewModel.dart';
 import 'package:daepiro/presentation/const/string_helper.dart';
 import 'package:daepiro/route/router.dart';
 import 'package:daepiro/set_fcm.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -20,6 +21,9 @@ Future<void> main() async {
   await _naverInit();
   await Firebase.initializeApp();
   SettingFCM().initNotification();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  String? token = await messaging.getToken();
+  print("FCM 토큰: $token");
 
   runApp(ProviderScope(child: MyApp()));
 }
