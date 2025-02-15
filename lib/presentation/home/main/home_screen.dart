@@ -94,14 +94,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   RichText(
-                                                    textAlign: TextAlign.center,
                                                     text: TextSpan(
                                                       style: DaepiroTextStyle.h6.copyWith(
                                                        color: DaepiroColorStyle.g_900,
                                                       ),
                                                       children: [
                                                         TextSpan(
-                                                          text: "삐용님", // 색상을 변경할 부분
+                                                          text: "삐용님",
                                                           style: DaepiroTextStyle.h6.copyWith(
                                                             color: DaepiroColorStyle.o_500,
                                                           ),
