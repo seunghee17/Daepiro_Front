@@ -29,7 +29,9 @@ mixin _$MyPageState {
   List<UserArticle> get myArticles => throw _privateConstructorUsedError;
   bool get isArticleLoading => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MyPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MyPageStateCopyWith<MyPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +67,8 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MyPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -165,6 +169,8 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
       _$MyPageStateImpl _value, $Res Function(_$MyPageStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MyPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -351,7 +357,9 @@ class _$MyPageStateImpl implements _MyPageState {
       const DeepCollectionEquality().hash(_myArticles),
       isArticleLoading);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MyPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MyPageStateImplCopyWith<_$MyPageStateImpl> get copyWith =>
@@ -397,8 +405,11 @@ abstract class _MyPageState implements MyPageState {
   List<UserArticle> get myArticles;
   @override
   bool get isArticleLoading;
+
+  /// Create a copy of MyPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MyPageStateImplCopyWith<_$MyPageStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

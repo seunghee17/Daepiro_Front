@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../const/utils.dart';
@@ -26,102 +27,71 @@ class DisasterContentsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: GestureDetector(
-        onTap: () {
-          launchUrl(Uri.parse(bodyUrl));
-        },
-        child: Column(
+    return GestureDetector(
+      onTap: () {
+        context.push('/news/${Uri.encodeComponent(bodyUrl)}');
+      },
+      child: Container(
+        height: 92,
+        color: DaepiroColorStyle.white,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     title,
                     style: DaepiroTextStyle.body_1_b.copyWith(
                         color: DaepiroColorStyle.g_900
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                const SizedBox(width: 10),
-                if (imagePath.isNotEmpty)
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.network(
-                        imagePath,
-                        width: 72,
-                        height: 72,
-                        fit: BoxFit.cover,
-                      )
+                  const Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        from,
+                        style: DaepiroTextStyle.caption.copyWith(
+                            color: DaepiroColorStyle.g_800
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          formatDateToDot(date),
+                          style: DaepiroTextStyle.caption.copyWith(
+                              color: DaepiroColorStyle.g_300
+                          ),
+                        ),
+                      ),
+                    ],
                   )
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 12),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  from,
-                  style: DaepiroTextStyle.caption.copyWith(
-                      color: DaepiroColorStyle.g_800
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    formatDateToDot(date),
-                    style: DaepiroTextStyle.caption.copyWith(
-                        color: DaepiroColorStyle.g_300
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/icon_eye.svg',
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
-                          width: 16,
-                          height: 16,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          eye.toString(),
-                          style: DaepiroTextStyle.caption.copyWith(
-                            color: DaepiroColorStyle.g_200,
-                          ),
-                        )
-                      ]
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/icon_save.svg',
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
-                          width: 16,
-                          height: 16,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          save.toString(),
-                          style: DaepiroTextStyle.caption.copyWith(
-                            color: DaepiroColorStyle.g_200,
-                          ),
-                        )
-                      ]
-                  ),
-                ),
-              ],
-            )
-          ]
+            const SizedBox(width: 10),
+            if (imagePath.isNotEmpty)
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Image.network(
+                    imagePath,
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover))
+            else
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Image.asset(
+                      'assets/icons/empty_image.png',
+                      width: 72,
+                      height: 72,
+                      fit: BoxFit.cover))
+          ],
         ),
       ),
     );

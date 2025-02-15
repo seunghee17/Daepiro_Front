@@ -64,6 +64,7 @@
           <key>io.flutter.embedded_views_preview</key>
           <true/>
           <key>NSAllowsArbitraryLoads</key>
+          <key>NSAllowsArbitraryLoadsInWebContent</key>
           <true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>

@@ -178,8 +178,11 @@ abstract class _PermissionState implements PermissionState {
   bool get isAllPermissionGrant; //체크박스의 활성화상태
   @override
   List<bool> get isPermissionCheckboxState;
+
+  /// Create a copy of PermissionState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PermissionStateImplCopyWith<_$PermissionStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -80,10 +80,6 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(sponsorStateNotifierProvider);
 
-    ref.listen<SponsorState>(sponsorStateNotifierProvider, (previous, next) {
-
-    });
-
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(

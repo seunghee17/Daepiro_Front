@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../home/component/around_shelter_preview.dart';
@@ -17,7 +18,10 @@ import '../../const/const.dart';
 class InformationScreen extends ConsumerWidget {
   InformationScreen({super.key});
 
-  final PageController _disasterContentPageController = PageController(initialPage: 0);
+  final PageController _disasterContentPageController = PageController(
+    initialPage: 0,
+    viewportFraction: 0.9
+  );
   final PageController _aroundShelterPageController = PageController(
       initialPage: 0,
       viewportFraction: 0.9
@@ -26,10 +30,6 @@ class InformationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(informationStateNotifierProvider);
-
-    ref.listen<InformationState>(informationStateNotifierProvider, (previous, next) {
-
-    });
 
     return MaterialApp(
       home: SafeArea(
@@ -94,40 +94,39 @@ class InformationScreen extends ConsumerWidget {
                             )
                           else
                             if (viewModel.contentsList.isNotEmpty)
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: DaepiroColorStyle.g_50,
-                                  ),
-                                ),
-                                child: ExpandablePageView(
-                                  controller: _disasterContentPageController,
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    for (int i=0;i<viewModel.contentsList!.length;i++)
-                                      Column(
-                                        children: [
-                                          DisasterContentsMainItem(
-                                              type: "실시간 뉴스",
-                                              title: viewModel.contentsList[i].title ?? "",
-                                              source: viewModel.contentsList[i].source ?? "",
-                                              date: viewModel.contentsList[i].publishedAt ?? "",
-                                              thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
-                                              bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
+                              ExpandablePageView(
+                                controller: _disasterContentPageController,
+                                scrollDirection: Axis.horizontal,
+                                padEnds: false,
+                                children: [
+                                  for (int i=0;i<viewModel.contentsList.length;i++)
+                                    Column(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(right: 10),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              context.push('/news/${Uri.encodeComponent(viewModel.contentsList[i].bodyUrl ?? "")}');
+                                            },
+                                            child: DisasterContentsMainItem(
+                                                type: "실시간 뉴스",
+                                                title: viewModel.contentsList[i].title ?? "",
+                                                source: viewModel.contentsList[i].source ?? "",
+                                                date: viewModel.contentsList[i].publishedAt ?? "",
+                                                thumbnailUrl: viewModel.contentsList[i].thumbnailUrl ?? "",
+                                                bodyUrl: viewModel.contentsList[i].bodyUrl ?? ""
+                                            ),
                                           ),
-                                        ],
-                                      )
-                                  ],
-                                ),
+                                        ),
+                                      ],
+                                    )
+                                ],
                               ),
                           const SizedBox(height: 12),
                           Center(
                             child: SmoothPageIndicator(
                               controller: _disasterContentPageController,
-                              count: viewModel.contentsList!.length,
+                              count: viewModel.contentsList.length,
                               effect: const ExpandingDotsEffect(
                                   dotColor: DaepiroColorStyle.g_75,
                                   activeDotColor: DaepiroColorStyle.g_300,

@@ -689,55 +689,59 @@ abstract class _CommunityTownState implements CommunityTownState {
       final double longitude,
       final List<SelectedImage> selectedImages}) = _$CommunityTownStateImpl;
 
-  @override //동네생활 게시글 상세조회
-  ContentDetail get contentDetail;
-  @override //게시글 삭제상태
-  bool get deleteArticle;
-  @override //동네생활 댓글 상태
+//동네생활 게시글 상세조회
+  @override
+  ContentDetail get contentDetail; //게시글 삭제상태
+  @override
+  bool get deleteArticle; //동네생활 댓글 상태
+  @override
   List<CommentData> get townReplyList;
   @override
-  int? get selectContentId;
-  @override //동네생활 컨텐츠 리스트
-  List<Content> get contentList;
-  @override //동네생활 로딩 상태
-  bool get isDongNaeLoading;
-  @override //동네생활 컨텐츠 더있는가
-  bool get isDongNaeHasMore;
-  @override //동네생활 선택한 동네
+  int? get selectContentId; //동네생활 컨텐츠 리스트
+  @override
+  List<Content> get contentList; //동네생활 로딩 상태
+  @override
+  bool get isDongNaeLoading; //동네생활 컨텐츠 더있는가
+  @override
+  bool get isDongNaeHasMore; //동네생활 선택한 동네
+  @override
   String get selectTown;
   @override
   String get selectLongTownAddress;
   @override
   List<String> get townLongAddressList;
   @override
-  List<String> get townList;
-  @override //동네생활 선택 카테고리
-  String get townCategory;
-  @override //동네생활 글쓰기 선택 카테고리
-  String get writingTownCategory;
-  @override //대댓글 작성시 필요한 부모 댓글 id
-  int get parentCommentId;
-  @override //대댓글을 선택한지에 대한 여부
-  dynamic get isChildCommentState;
-  @override //moreinfo를 누를때부터 true로 활성화됨
-  int get editChildCommentId;
-  @override //2
-  bool get isEditChildCommentState;
-  @override //1
+  List<String> get townList; //동네생활 선택 카테고리
+  @override
+  String get townCategory; //동네생활 글쓰기 선택 카테고리
+  @override
+  String get writingTownCategory; //대댓글 작성시 필요한 부모 댓글 id
+  @override
+  int get parentCommentId; //대댓글을 선택한지에 대한 여부
+  @override
+  dynamic get isChildCommentState; //moreinfo를 누를때부터 true로 활성화됨
+  @override
+  int get editChildCommentId; //2
+  @override
+  bool get isEditChildCommentState; //1
 //댓글 수정을 위한 상태 데이터
+  @override
   bool get isEditState;
   @override
-  int get editCommentId;
-  @override //신고하기
-  String get reportType;
-  @override //위치 공개 여부 변수
+  int get editCommentId; //신고하기
+  @override
+  String get reportType; //위치 공개 여부 변수
+  @override
   bool get isVisible;
   @override
   double get latitude;
   @override
-  double get longitude;
-  @override //갤러리
+  double get longitude; //갤러리
+  @override
   List<SelectedImage> get selectedImages;
+
+  /// Create a copy of CommunityTownState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>

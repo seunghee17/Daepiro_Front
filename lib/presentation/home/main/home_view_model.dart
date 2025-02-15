@@ -223,7 +223,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
     try {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
 
       print("결과 ${placemarks.toString()}");
       if (placemarks.isNotEmpty) {

@@ -1,5 +1,6 @@
 import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
 class DisasterContentsMainItem extends StatelessWidget {
@@ -25,6 +26,14 @@ class DisasterContentsMainItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       width: double.infinity,
+      height: 352,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          width: 2,
+          color: DaepiroColorStyle.g_50,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,10 +52,12 @@ class DisasterContentsMainItem extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-              title,
-              style: DaepiroTextStyle.h6.copyWith(
-                color: DaepiroColorStyle.g_800,
-              )
+            title,
+            style: DaepiroTextStyle.h6.copyWith(
+              color: DaepiroColorStyle.g_800,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 12),
           Text(
@@ -55,7 +66,7 @@ class DisasterContentsMainItem extends StatelessWidget {
               color: DaepiroColorStyle.g_400,
             ),
           ),
-          const SizedBox(height: 12),
+          const Spacer(),
           if (thumbnailUrl.isNotEmpty)
             ClipRRect(
                 borderRadius: BorderRadius.circular(8),
@@ -63,9 +74,15 @@ class DisasterContentsMainItem extends StatelessWidget {
                   thumbnailUrl,
                   width: double.infinity,
                   height: 180,
-                  fit: BoxFit.cover
-                )
-            )
+                  fit: BoxFit.cover))
+          else
+            ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                    'assets/icons/empty_image_large.png',
+                    width: double.infinity,
+                    height: 187,
+                    fit: BoxFit.cover))
         ],
       ),
     );

@@ -60,13 +60,13 @@ class DisasterContentsScreen extends ConsumerWidget {
                         child: SvgPicture.asset(
                           'assets/icons/icon_search.svg',
                           alignment: Alignment.centerRight,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Divider(height: 1.5, color: DaepiroColorStyle.g_50),
+                const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                     child: Row(
