@@ -67,7 +67,7 @@ class SponsorPreview extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                     color: DaepiroColorStyle.o_50
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                 child: Text(
                   date,
                   style: DaepiroTextStyle.body_2_m.copyWith(
