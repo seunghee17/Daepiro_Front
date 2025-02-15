@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/model/response/community_dongnae_content_response.dart';
+import '../../../data/model/response/community/community_dongnae_content_response.dart';
 import '../../repository/community_repository.dart';
 
-final getCommunityDongNaeUseCaseProvider = FutureProvider.family<
+final getCommunityDongNaeUseCaseProvider = FutureProvider.autoDispose.family<
     CommunityDongnaeContentResponse,
     CommunityDongnaeContentUseCase>((ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.getDongNaeContent(
       type: 'DONGNE',
       category: request.category,

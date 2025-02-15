@@ -1,14 +1,13 @@
 import 'package:daepiro/data/http/tokenErrorViewModel.dart';
+import 'package:daepiro/presentation/const/string_helper.dart';
 import 'package:daepiro/route/router.dart';
 import 'package:daepiro/set_fcm.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'cmm/DaepiroTheme.dart';
 
@@ -16,14 +15,22 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   String nativeKakaoKey = dotenv.get('KAKAOKEY');
+  await StringHelper.ruleInitialize();
   KakaoSdk.init(nativeAppKey: nativeKakaoKey);
+  await _naverInit();
   await Firebase.initializeApp();
-
   SettingFCM().initNotification();
-  String? _fcmToken = await FirebaseMessaging.instance.getToken();
-  print('토큰토큰 $_fcmToken');
 
   runApp(ProviderScope(child: MyApp()));
+}
+
+Future<void> _naverInit() async {
+  await dotenv.load(fileName: ".env");
+  String naverMapKey = dotenv.get('NAVER_MAP_CLIENTID');
+  await NaverMapSdk.instance.initialize(
+    clientId: naverMapKey,
+    onAuthFailed: (e) => print("네이버맵 인증 오류:$e")
+  );
 }
 
 class MyApp extends ConsumerWidget {

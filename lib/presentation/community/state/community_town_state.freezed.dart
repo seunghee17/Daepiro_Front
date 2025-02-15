@@ -16,49 +16,40 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommunityTownState {
-//---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
 //동네생활 게시글 상세조회
   ContentDetail get contentDetail =>
-      throw _privateConstructorUsedError; //동네생활 댓글 상태
+      throw _privateConstructorUsedError; //게시글 삭제상태
+  bool get deleteArticle => throw _privateConstructorUsedError; //동네생활 댓글 상태
   List<CommentData> get townReplyList => throw _privateConstructorUsedError;
   int? get selectContentId => throw _privateConstructorUsedError; //동네생활 컨텐츠 리스트
-  Set<Content> get contentList =>
+  List<Content> get contentList =>
       throw _privateConstructorUsedError; //동네생활 로딩 상태
   bool get isDongNaeLoading =>
       throw _privateConstructorUsedError; //동네생활 컨텐츠 더있는가
-  bool get isDongNaeHasMore => throw _privateConstructorUsedError;
-  bool get isDongNaeContentEmpty =>
-      throw _privateConstructorUsedError; //동네생활 선택한 동네
+  bool get isDongNaeHasMore => throw _privateConstructorUsedError; //동네생활 선택한 동네
   String get selectTown => throw _privateConstructorUsedError;
   String get selectLongTownAddress => throw _privateConstructorUsedError;
   List<String> get townLongAddressList => throw _privateConstructorUsedError;
-  List<String> get townList => throw _privateConstructorUsedError;
-  String get townCommunityType =>
-      throw _privateConstructorUsedError; //동네생활 글쓰기 카테고리
-  String get townCategory => throw _privateConstructorUsedError; //동네생활 댓글 상태
-  List<CommentData> get TownReplyList =>
+  List<String> get townList =>
+      throw _privateConstructorUsedError; //동네생활 선택 카테고리
+  String get townCategory =>
+      throw _privateConstructorUsedError; //동네생활 글쓰기 선택 카테고리
+  String get writingTownCategory =>
       throw _privateConstructorUsedError; //대댓글 작성시 필요한 부모 댓글 id
   int get parentCommentId =>
       throw _privateConstructorUsedError; //대댓글을 선택한지에 대한 여부
   dynamic get isChildCommentState =>
       throw _privateConstructorUsedError; //moreinfo를 누를때부터 true로 활성화됨
-  int get deleteChildCommentId => throw _privateConstructorUsedError;
   int get editChildCommentId => throw _privateConstructorUsedError; //2
   bool get isEditChildCommentState => throw _privateConstructorUsedError; //1
-//댓글 삭제를 위해 필요한 데이터
-  int get deleteCommentId =>
-      throw _privateConstructorUsedError; //댓글 수정을 위한 상태 데이터
+//댓글 수정을 위한 상태 데이터
   bool get isEditState => throw _privateConstructorUsedError;
-  int get editCommentId => throw _privateConstructorUsedError;
-  String? get reportType => throw _privateConstructorUsedError; //위치 공개 여부 변수
+  int get editCommentId => throw _privateConstructorUsedError; //신고하기
+  String get reportType => throw _privateConstructorUsedError; //위치 공개 여부 변수
   bool get isVisible => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
-  double get longitude => throw _privateConstructorUsedError; //갤러리 관련 상태 변수
-  List<AlbumModel> get albums => throw _privateConstructorUsedError;
-  int get currentAlbumIndex => throw _privateConstructorUsedError;
-  List<AlbumModel> get selectAlbums => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError; //갤러리
+  List<SelectedImage> get selectedImages => throw _privateConstructorUsedError;
 
   /// Create a copy of CommunityTownState
   /// with the given fields replaced by the non-null parameter values.
@@ -75,34 +66,29 @@ abstract class $CommunityTownStateCopyWith<$Res> {
   @useResult
   $Res call(
       {ContentDetail contentDetail,
+      bool deleteArticle,
       List<CommentData> townReplyList,
       int? selectContentId,
-      Set<Content> contentList,
+      List<Content> contentList,
       bool isDongNaeLoading,
       bool isDongNaeHasMore,
-      bool isDongNaeContentEmpty,
       String selectTown,
       String selectLongTownAddress,
       List<String> townLongAddressList,
       List<String> townList,
-      String townCommunityType,
       String townCategory,
-      List<CommentData> TownReplyList,
+      String writingTownCategory,
       int parentCommentId,
       dynamic isChildCommentState,
-      int deleteChildCommentId,
       int editChildCommentId,
       bool isEditChildCommentState,
-      int deleteCommentId,
       bool isEditState,
       int editCommentId,
-      String? reportType,
+      String reportType,
       bool isVisible,
       double latitude,
       double longitude,
-      List<AlbumModel> albums,
-      int currentAlbumIndex,
-      List<AlbumModel> selectAlbums});
+      List<SelectedImage> selectedImages});
 }
 
 /// @nodoc
@@ -121,40 +107,39 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
   @override
   $Res call({
     Object? contentDetail = null,
+    Object? deleteArticle = null,
     Object? townReplyList = null,
     Object? selectContentId = freezed,
     Object? contentList = null,
     Object? isDongNaeLoading = null,
     Object? isDongNaeHasMore = null,
-    Object? isDongNaeContentEmpty = null,
     Object? selectTown = null,
     Object? selectLongTownAddress = null,
     Object? townLongAddressList = null,
     Object? townList = null,
-    Object? townCommunityType = null,
     Object? townCategory = null,
-    Object? TownReplyList = null,
+    Object? writingTownCategory = null,
     Object? parentCommentId = null,
     Object? isChildCommentState = freezed,
-    Object? deleteChildCommentId = null,
     Object? editChildCommentId = null,
     Object? isEditChildCommentState = null,
-    Object? deleteCommentId = null,
     Object? isEditState = null,
     Object? editCommentId = null,
-    Object? reportType = freezed,
+    Object? reportType = null,
     Object? isVisible = null,
     Object? latitude = null,
     Object? longitude = null,
-    Object? albums = null,
-    Object? currentAlbumIndex = null,
-    Object? selectAlbums = null,
+    Object? selectedImages = null,
   }) {
     return _then(_value.copyWith(
       contentDetail: null == contentDetail
           ? _value.contentDetail
           : contentDetail // ignore: cast_nullable_to_non_nullable
               as ContentDetail,
+      deleteArticle: null == deleteArticle
+          ? _value.deleteArticle
+          : deleteArticle // ignore: cast_nullable_to_non_nullable
+              as bool,
       townReplyList: null == townReplyList
           ? _value.townReplyList
           : townReplyList // ignore: cast_nullable_to_non_nullable
@@ -166,7 +151,7 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
       contentList: null == contentList
           ? _value.contentList
           : contentList // ignore: cast_nullable_to_non_nullable
-              as Set<Content>,
+              as List<Content>,
       isDongNaeLoading: null == isDongNaeLoading
           ? _value.isDongNaeLoading
           : isDongNaeLoading // ignore: cast_nullable_to_non_nullable
@@ -174,10 +159,6 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
       isDongNaeHasMore: null == isDongNaeHasMore
           ? _value.isDongNaeHasMore
           : isDongNaeHasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDongNaeContentEmpty: null == isDongNaeContentEmpty
-          ? _value.isDongNaeContentEmpty
-          : isDongNaeContentEmpty // ignore: cast_nullable_to_non_nullable
               as bool,
       selectTown: null == selectTown
           ? _value.selectTown
@@ -195,18 +176,14 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.townList
           : townList // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      townCommunityType: null == townCommunityType
-          ? _value.townCommunityType
-          : townCommunityType // ignore: cast_nullable_to_non_nullable
-              as String,
       townCategory: null == townCategory
           ? _value.townCategory
           : townCategory // ignore: cast_nullable_to_non_nullable
               as String,
-      TownReplyList: null == TownReplyList
-          ? _value.TownReplyList
-          : TownReplyList // ignore: cast_nullable_to_non_nullable
-              as List<CommentData>,
+      writingTownCategory: null == writingTownCategory
+          ? _value.writingTownCategory
+          : writingTownCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       parentCommentId: null == parentCommentId
           ? _value.parentCommentId
           : parentCommentId // ignore: cast_nullable_to_non_nullable
@@ -215,10 +192,6 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.isChildCommentState
           : isChildCommentState // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      deleteChildCommentId: null == deleteChildCommentId
-          ? _value.deleteChildCommentId
-          : deleteChildCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       editChildCommentId: null == editChildCommentId
           ? _value.editChildCommentId
           : editChildCommentId // ignore: cast_nullable_to_non_nullable
@@ -227,10 +200,6 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.isEditChildCommentState
           : isEditChildCommentState // ignore: cast_nullable_to_non_nullable
               as bool,
-      deleteCommentId: null == deleteCommentId
-          ? _value.deleteCommentId
-          : deleteCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       isEditState: null == isEditState
           ? _value.isEditState
           : isEditState // ignore: cast_nullable_to_non_nullable
@@ -239,10 +208,10 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.editCommentId
           : editCommentId // ignore: cast_nullable_to_non_nullable
               as int,
-      reportType: freezed == reportType
+      reportType: null == reportType
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       isVisible: null == isVisible
           ? _value.isVisible
           : isVisible // ignore: cast_nullable_to_non_nullable
@@ -255,18 +224,10 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      albums: null == albums
-          ? _value.albums
-          : albums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
-      currentAlbumIndex: null == currentAlbumIndex
-          ? _value.currentAlbumIndex
-          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectAlbums: null == selectAlbums
-          ? _value.selectAlbums
-          : selectAlbums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
+      selectedImages: null == selectedImages
+          ? _value.selectedImages
+          : selectedImages // ignore: cast_nullable_to_non_nullable
+              as List<SelectedImage>,
     ) as $Val);
   }
 }
@@ -281,34 +242,29 @@ abstract class _$$CommunityTownStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {ContentDetail contentDetail,
+      bool deleteArticle,
       List<CommentData> townReplyList,
       int? selectContentId,
-      Set<Content> contentList,
+      List<Content> contentList,
       bool isDongNaeLoading,
       bool isDongNaeHasMore,
-      bool isDongNaeContentEmpty,
       String selectTown,
       String selectLongTownAddress,
       List<String> townLongAddressList,
       List<String> townList,
-      String townCommunityType,
       String townCategory,
-      List<CommentData> TownReplyList,
+      String writingTownCategory,
       int parentCommentId,
       dynamic isChildCommentState,
-      int deleteChildCommentId,
       int editChildCommentId,
       bool isEditChildCommentState,
-      int deleteCommentId,
       bool isEditState,
       int editCommentId,
-      String? reportType,
+      String reportType,
       bool isVisible,
       double latitude,
       double longitude,
-      List<AlbumModel> albums,
-      int currentAlbumIndex,
-      List<AlbumModel> selectAlbums});
+      List<SelectedImage> selectedImages});
 }
 
 /// @nodoc
@@ -325,40 +281,39 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? contentDetail = null,
+    Object? deleteArticle = null,
     Object? townReplyList = null,
     Object? selectContentId = freezed,
     Object? contentList = null,
     Object? isDongNaeLoading = null,
     Object? isDongNaeHasMore = null,
-    Object? isDongNaeContentEmpty = null,
     Object? selectTown = null,
     Object? selectLongTownAddress = null,
     Object? townLongAddressList = null,
     Object? townList = null,
-    Object? townCommunityType = null,
     Object? townCategory = null,
-    Object? TownReplyList = null,
+    Object? writingTownCategory = null,
     Object? parentCommentId = null,
     Object? isChildCommentState = freezed,
-    Object? deleteChildCommentId = null,
     Object? editChildCommentId = null,
     Object? isEditChildCommentState = null,
-    Object? deleteCommentId = null,
     Object? isEditState = null,
     Object? editCommentId = null,
-    Object? reportType = freezed,
+    Object? reportType = null,
     Object? isVisible = null,
     Object? latitude = null,
     Object? longitude = null,
-    Object? albums = null,
-    Object? currentAlbumIndex = null,
-    Object? selectAlbums = null,
+    Object? selectedImages = null,
   }) {
     return _then(_$CommunityTownStateImpl(
       contentDetail: null == contentDetail
           ? _value.contentDetail
           : contentDetail // ignore: cast_nullable_to_non_nullable
               as ContentDetail,
+      deleteArticle: null == deleteArticle
+          ? _value.deleteArticle
+          : deleteArticle // ignore: cast_nullable_to_non_nullable
+              as bool,
       townReplyList: null == townReplyList
           ? _value._townReplyList
           : townReplyList // ignore: cast_nullable_to_non_nullable
@@ -370,7 +325,7 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
       contentList: null == contentList
           ? _value._contentList
           : contentList // ignore: cast_nullable_to_non_nullable
-              as Set<Content>,
+              as List<Content>,
       isDongNaeLoading: null == isDongNaeLoading
           ? _value.isDongNaeLoading
           : isDongNaeLoading // ignore: cast_nullable_to_non_nullable
@@ -378,10 +333,6 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
       isDongNaeHasMore: null == isDongNaeHasMore
           ? _value.isDongNaeHasMore
           : isDongNaeHasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDongNaeContentEmpty: null == isDongNaeContentEmpty
-          ? _value.isDongNaeContentEmpty
-          : isDongNaeContentEmpty // ignore: cast_nullable_to_non_nullable
               as bool,
       selectTown: null == selectTown
           ? _value.selectTown
@@ -399,18 +350,14 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
           ? _value._townList
           : townList // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      townCommunityType: null == townCommunityType
-          ? _value.townCommunityType
-          : townCommunityType // ignore: cast_nullable_to_non_nullable
-              as String,
       townCategory: null == townCategory
           ? _value.townCategory
           : townCategory // ignore: cast_nullable_to_non_nullable
               as String,
-      TownReplyList: null == TownReplyList
-          ? _value._TownReplyList
-          : TownReplyList // ignore: cast_nullable_to_non_nullable
-              as List<CommentData>,
+      writingTownCategory: null == writingTownCategory
+          ? _value.writingTownCategory
+          : writingTownCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       parentCommentId: null == parentCommentId
           ? _value.parentCommentId
           : parentCommentId // ignore: cast_nullable_to_non_nullable
@@ -418,10 +365,6 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
       isChildCommentState: freezed == isChildCommentState
           ? _value.isChildCommentState!
           : isChildCommentState,
-      deleteChildCommentId: null == deleteChildCommentId
-          ? _value.deleteChildCommentId
-          : deleteChildCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       editChildCommentId: null == editChildCommentId
           ? _value.editChildCommentId
           : editChildCommentId // ignore: cast_nullable_to_non_nullable
@@ -430,10 +373,6 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
           ? _value.isEditChildCommentState
           : isEditChildCommentState // ignore: cast_nullable_to_non_nullable
               as bool,
-      deleteCommentId: null == deleteCommentId
-          ? _value.deleteCommentId
-          : deleteCommentId // ignore: cast_nullable_to_non_nullable
-              as int,
       isEditState: null == isEditState
           ? _value.isEditState
           : isEditState // ignore: cast_nullable_to_non_nullable
@@ -442,10 +381,10 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
           ? _value.editCommentId
           : editCommentId // ignore: cast_nullable_to_non_nullable
               as int,
-      reportType: freezed == reportType
+      reportType: null == reportType
           ? _value.reportType
           : reportType // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       isVisible: null == isVisible
           ? _value.isVisible
           : isVisible // ignore: cast_nullable_to_non_nullable
@@ -458,18 +397,10 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      albums: null == albums
-          ? _value._albums
-          : albums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
-      currentAlbumIndex: null == currentAlbumIndex
-          ? _value.currentAlbumIndex
-          : currentAlbumIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectAlbums: null == selectAlbums
-          ? _value._selectAlbums
-          : selectAlbums // ignore: cast_nullable_to_non_nullable
-              as List<AlbumModel>,
+      selectedImages: null == selectedImages
+          ? _value._selectedImages
+          : selectedImages // ignore: cast_nullable_to_non_nullable
+              as List<SelectedImage>,
     ));
   }
 }
@@ -479,49 +410,43 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
 class _$CommunityTownStateImpl implements _CommunityTownState {
   _$CommunityTownStateImpl(
       {this.contentDetail = const ContentDetail(),
+      this.deleteArticle = false,
       final List<CommentData> townReplyList = const [],
       this.selectContentId = null,
-      final Set<Content> contentList = const <Content>{},
+      final List<Content> contentList = const [],
       this.isDongNaeLoading = true,
       this.isDongNaeHasMore = true,
-      this.isDongNaeContentEmpty = true,
       this.selectTown = '',
       this.selectLongTownAddress = '',
       final List<String> townLongAddressList = const [],
       final List<String> townList = const [],
-      this.townCommunityType = 'ALL',
       this.townCategory = '전체',
-      final List<CommentData> TownReplyList = const [],
+      this.writingTownCategory = '',
       this.parentCommentId = 0,
       this.isChildCommentState = false,
-      this.deleteChildCommentId = 0,
       this.editChildCommentId = 0,
       this.isEditChildCommentState = false,
-      this.deleteCommentId = 0,
       this.isEditState = false,
       this.editCommentId = 0,
-      this.reportType = null,
+      this.reportType = '',
       this.isVisible = false,
       this.latitude = 0.0,
       this.longitude = 0.0,
-      final List<AlbumModel> albums = const [],
-      this.currentAlbumIndex = 0,
-      final List<AlbumModel> selectAlbums = const []})
+      final List<SelectedImage> selectedImages = const []})
       : _townReplyList = townReplyList,
         _contentList = contentList,
         _townLongAddressList = townLongAddressList,
         _townList = townList,
-        _TownReplyList = TownReplyList,
-        _albums = albums,
-        _selectAlbums = selectAlbums;
+        _selectedImages = selectedImages;
 
-//---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
 //동네생활 게시글 상세조회
   @override
   @JsonKey()
   final ContentDetail contentDetail;
+//게시글 삭제상태
+  @override
+  @JsonKey()
+  final bool deleteArticle;
 //동네생활 댓글 상태
   final List<CommentData> _townReplyList;
 //동네생활 댓글 상태
@@ -537,14 +462,14 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @JsonKey()
   final int? selectContentId;
 //동네생활 컨텐츠 리스트
-  final Set<Content> _contentList;
+  final List<Content> _contentList;
 //동네생활 컨텐츠 리스트
   @override
   @JsonKey()
-  Set<Content> get contentList {
-    if (_contentList is EqualUnmodifiableSetView) return _contentList;
+  List<Content> get contentList {
+    if (_contentList is EqualUnmodifiableListView) return _contentList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_contentList);
+    return EqualUnmodifiableListView(_contentList);
   }
 
 //동네생활 로딩 상태
@@ -555,9 +480,6 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final bool isDongNaeHasMore;
-  @override
-  @JsonKey()
-  final bool isDongNaeContentEmpty;
 //동네생활 선택한 동네
   @override
   @JsonKey()
@@ -584,24 +506,14 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
     return EqualUnmodifiableListView(_townList);
   }
 
-  @override
-  @JsonKey()
-  final String townCommunityType;
-//동네생활 글쓰기 카테고리
+//동네생활 선택 카테고리
   @override
   @JsonKey()
   final String townCategory;
-//동네생활 댓글 상태
-  final List<CommentData> _TownReplyList;
-//동네생활 댓글 상태
+//동네생활 글쓰기 선택 카테고리
   @override
   @JsonKey()
-  List<CommentData> get TownReplyList {
-    if (_TownReplyList is EqualUnmodifiableListView) return _TownReplyList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_TownReplyList);
-  }
-
+  final String writingTownCategory;
 //대댓글 작성시 필요한 부모 댓글 id
   @override
   @JsonKey()
@@ -613,19 +525,12 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
 //moreinfo를 누를때부터 true로 활성화됨
   @override
   @JsonKey()
-  final int deleteChildCommentId;
-  @override
-  @JsonKey()
   final int editChildCommentId;
 //2
   @override
   @JsonKey()
   final bool isEditChildCommentState;
 //1
-//댓글 삭제를 위해 필요한 데이터
-  @override
-  @JsonKey()
-  final int deleteCommentId;
 //댓글 수정을 위한 상태 데이터
   @override
   @JsonKey()
@@ -633,9 +538,10 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final int editCommentId;
+//신고하기
   @override
   @JsonKey()
-  final String? reportType;
+  final String reportType;
 //위치 공개 여부 변수
   @override
   @JsonKey()
@@ -646,32 +552,20 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final double longitude;
-//갤러리 관련 상태 변수
-  final List<AlbumModel> _albums;
-//갤러리 관련 상태 변수
+//갤러리
+  final List<SelectedImage> _selectedImages;
+//갤러리
   @override
   @JsonKey()
-  List<AlbumModel> get albums {
-    if (_albums is EqualUnmodifiableListView) return _albums;
+  List<SelectedImage> get selectedImages {
+    if (_selectedImages is EqualUnmodifiableListView) return _selectedImages;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_albums);
-  }
-
-  @override
-  @JsonKey()
-  final int currentAlbumIndex;
-  final List<AlbumModel> _selectAlbums;
-  @override
-  @JsonKey()
-  List<AlbumModel> get selectAlbums {
-    if (_selectAlbums is EqualUnmodifiableListView) return _selectAlbums;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectAlbums);
+    return EqualUnmodifiableListView(_selectedImages);
   }
 
   @override
   String toString() {
-    return 'CommunityTownState(contentDetail: $contentDetail, townReplyList: $townReplyList, selectContentId: $selectContentId, contentList: $contentList, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, isDongNaeContentEmpty: $isDongNaeContentEmpty, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, townCommunityType: $townCommunityType, townCategory: $townCategory, TownReplyList: $TownReplyList, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, deleteChildCommentId: $deleteChildCommentId, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, deleteCommentId: $deleteCommentId, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, isVisible: $isVisible, latitude: $latitude, longitude: $longitude, albums: $albums, currentAlbumIndex: $currentAlbumIndex, selectAlbums: $selectAlbums)';
+    return 'CommunityTownState(contentDetail: $contentDetail, deleteArticle: $deleteArticle, townReplyList: $townReplyList, selectContentId: $selectContentId, contentList: $contentList, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, townCategory: $townCategory, writingTownCategory: $writingTownCategory, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, isVisible: $isVisible, latitude: $latitude, longitude: $longitude, selectedImages: $selectedImages)';
   }
 
   @override
@@ -681,6 +575,8 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
             other is _$CommunityTownStateImpl &&
             (identical(other.contentDetail, contentDetail) ||
                 other.contentDetail == contentDetail) &&
+            (identical(other.deleteArticle, deleteArticle) ||
+                other.deleteArticle == deleteArticle) &&
             const DeepCollectionEquality()
                 .equals(other._townReplyList, _townReplyList) &&
             (identical(other.selectContentId, selectContentId) ||
@@ -691,8 +587,6 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
                 other.isDongNaeLoading == isDongNaeLoading) &&
             (identical(other.isDongNaeHasMore, isDongNaeHasMore) ||
                 other.isDongNaeHasMore == isDongNaeHasMore) &&
-            (identical(other.isDongNaeContentEmpty, isDongNaeContentEmpty) ||
-                other.isDongNaeContentEmpty == isDongNaeContentEmpty) &&
             (identical(other.selectTown, selectTown) ||
                 other.selectTown == selectTown) &&
             (identical(other.selectLongTownAddress, selectLongTownAddress) ||
@@ -700,25 +594,19 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
             const DeepCollectionEquality()
                 .equals(other._townLongAddressList, _townLongAddressList) &&
             const DeepCollectionEquality().equals(other._townList, _townList) &&
-            (identical(other.townCommunityType, townCommunityType) ||
-                other.townCommunityType == townCommunityType) &&
             (identical(other.townCategory, townCategory) ||
                 other.townCategory == townCategory) &&
-            const DeepCollectionEquality()
-                .equals(other._TownReplyList, _TownReplyList) &&
+            (identical(other.writingTownCategory, writingTownCategory) ||
+                other.writingTownCategory == writingTownCategory) &&
             (identical(other.parentCommentId, parentCommentId) ||
                 other.parentCommentId == parentCommentId) &&
             const DeepCollectionEquality()
                 .equals(other.isChildCommentState, isChildCommentState) &&
-            (identical(other.deleteChildCommentId, deleteChildCommentId) ||
-                other.deleteChildCommentId == deleteChildCommentId) &&
             (identical(other.editChildCommentId, editChildCommentId) ||
                 other.editChildCommentId == editChildCommentId) &&
             (identical(
                     other.isEditChildCommentState, isEditChildCommentState) ||
                 other.isEditChildCommentState == isEditChildCommentState) &&
-            (identical(other.deleteCommentId, deleteCommentId) ||
-                other.deleteCommentId == deleteCommentId) &&
             (identical(other.isEditState, isEditState) ||
                 other.isEditState == isEditState) &&
             (identical(other.editCommentId, editCommentId) ||
@@ -731,45 +619,37 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
-            const DeepCollectionEquality().equals(other._albums, _albums) &&
-            (identical(other.currentAlbumIndex, currentAlbumIndex) ||
-                other.currentAlbumIndex == currentAlbumIndex) &&
             const DeepCollectionEquality()
-                .equals(other._selectAlbums, _selectAlbums));
+                .equals(other._selectedImages, _selectedImages));
   }
 
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
         contentDetail,
+        deleteArticle,
         const DeepCollectionEquality().hash(_townReplyList),
         selectContentId,
         const DeepCollectionEquality().hash(_contentList),
         isDongNaeLoading,
         isDongNaeHasMore,
-        isDongNaeContentEmpty,
         selectTown,
         selectLongTownAddress,
         const DeepCollectionEquality().hash(_townLongAddressList),
         const DeepCollectionEquality().hash(_townList),
-        townCommunityType,
         townCategory,
-        const DeepCollectionEquality().hash(_TownReplyList),
+        writingTownCategory,
         parentCommentId,
         const DeepCollectionEquality().hash(isChildCommentState),
-        deleteChildCommentId,
         editChildCommentId,
         isEditChildCommentState,
-        deleteCommentId,
         isEditState,
         editCommentId,
         reportType,
         isVisible,
         latitude,
         longitude,
-        const DeepCollectionEquality().hash(_albums),
-        currentAlbumIndex,
-        const DeepCollectionEquality().hash(_selectAlbums)
+        const DeepCollectionEquality().hash(_selectedImages)
       ]);
 
   /// Create a copy of CommunityTownState
@@ -785,54 +665,45 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
 abstract class _CommunityTownState implements CommunityTownState {
   factory _CommunityTownState(
       {final ContentDetail contentDetail,
+      final bool deleteArticle,
       final List<CommentData> townReplyList,
       final int? selectContentId,
-      final Set<Content> contentList,
+      final List<Content> contentList,
       final bool isDongNaeLoading,
       final bool isDongNaeHasMore,
-      final bool isDongNaeContentEmpty,
       final String selectTown,
       final String selectLongTownAddress,
       final List<String> townLongAddressList,
       final List<String> townList,
-      final String townCommunityType,
       final String townCategory,
-      final List<CommentData> TownReplyList,
+      final String writingTownCategory,
       final int parentCommentId,
       final dynamic isChildCommentState,
-      final int deleteChildCommentId,
       final int editChildCommentId,
       final bool isEditChildCommentState,
-      final int deleteCommentId,
       final bool isEditState,
       final int editCommentId,
-      final String? reportType,
+      final String reportType,
       final bool isVisible,
       final double latitude,
       final double longitude,
-      final List<AlbumModel> albums,
-      final int currentAlbumIndex,
-      final List<AlbumModel> selectAlbums}) = _$CommunityTownStateImpl;
+      final List<SelectedImage> selectedImages}) = _$CommunityTownStateImpl;
 
-//---------------------------------------------------------
-// 동네생활
-//---------------------------------------------------------
-//동네생활 게시글 상세조회
-  @override
-  ContentDetail get contentDetail; //동네생활 댓글 상태
-  @override
+  @override //동네생활 게시글 상세조회
+  ContentDetail get contentDetail;
+  @override //게시글 삭제상태
+  bool get deleteArticle;
+  @override //동네생활 댓글 상태
   List<CommentData> get townReplyList;
   @override
-  int? get selectContentId; //동네생활 컨텐츠 리스트
-  @override
-  Set<Content> get contentList; //동네생활 로딩 상태
-  @override
-  bool get isDongNaeLoading; //동네생활 컨텐츠 더있는가
-  @override
+  int? get selectContentId;
+  @override //동네생활 컨텐츠 리스트
+  List<Content> get contentList;
+  @override //동네생활 로딩 상태
+  bool get isDongNaeLoading;
+  @override //동네생활 컨텐츠 더있는가
   bool get isDongNaeHasMore;
-  @override
-  bool get isDongNaeContentEmpty; //동네생활 선택한 동네
-  @override
+  @override //동네생활 선택한 동네
   String get selectTown;
   @override
   String get selectLongTownAddress;
@@ -840,46 +711,33 @@ abstract class _CommunityTownState implements CommunityTownState {
   List<String> get townLongAddressList;
   @override
   List<String> get townList;
-  @override
-  String get townCommunityType; //동네생활 글쓰기 카테고리
-  @override
-  String get townCategory; //동네생활 댓글 상태
-  @override
-  List<CommentData> get TownReplyList; //대댓글 작성시 필요한 부모 댓글 id
-  @override
-  int get parentCommentId; //대댓글을 선택한지에 대한 여부
-  @override
-  dynamic get isChildCommentState; //moreinfo를 누를때부터 true로 활성화됨
-  @override
-  int get deleteChildCommentId;
-  @override
-  int get editChildCommentId; //2
-  @override
-  bool get isEditChildCommentState; //1
-//댓글 삭제를 위해 필요한 데이터
-  @override
-  int get deleteCommentId; //댓글 수정을 위한 상태 데이터
-  @override
+  @override //동네생활 선택 카테고리
+  String get townCategory;
+  @override //동네생활 글쓰기 선택 카테고리
+  String get writingTownCategory;
+  @override //대댓글 작성시 필요한 부모 댓글 id
+  int get parentCommentId;
+  @override //대댓글을 선택한지에 대한 여부
+  dynamic get isChildCommentState;
+  @override //moreinfo를 누를때부터 true로 활성화됨
+  int get editChildCommentId;
+  @override //2
+  bool get isEditChildCommentState;
+  @override //1
+//댓글 수정을 위한 상태 데이터
   bool get isEditState;
   @override
   int get editCommentId;
-  @override
-  String? get reportType; //위치 공개 여부 변수
-  @override
+  @override //신고하기
+  String get reportType;
+  @override //위치 공개 여부 변수
   bool get isVisible;
   @override
   double get latitude;
   @override
-  double get longitude; //갤러리 관련 상태 변수
-  @override
-  List<AlbumModel> get albums;
-  @override
-  int get currentAlbumIndex;
-  @override
-  List<AlbumModel> get selectAlbums;
-
-  /// Create a copy of CommunityTownState
-  /// with the given fields replaced by the non-null parameter values.
+  double get longitude;
+  @override //갤러리
+  List<SelectedImage> get selectedImages;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>

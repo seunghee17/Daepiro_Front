@@ -1,21 +1,30 @@
+import 'dart:io';
+import 'package:daepiro/data/model/request/community_writing_edit_request.dart';
+import 'package:daepiro/domain/usecase/community/community_article_delete_usecase.dart';
+import 'package:daepiro/domain/usecase/community/community_article_edit_usecase.dart';
+import 'package:daepiro/domain/usecase/community/community_article_like_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_article_writing_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_dongnae_content_detail_usecase.dart';
 import 'package:daepiro/domain/usecase/community/community_dongnae_content_usecase.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../data/model/request/album_model.dart';
+import 'package:photo_manager/photo_manager.dart';
 import '../../../data/model/request/community_comment_post_request.dart';
 import '../../../data/model/request/community_disaster_edit_request.dart';
-import '../../../data/model/response/community_dongnae_content_response.dart';
+import '../../../data/model/response/report_request.dart';
+import '../../../data/model/selected_image.dart';
+import '../../../domain/usecase/community/community_article_report_usecase.dart';
 import '../../../domain/usecase/community/community_comment_write_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_delete_usecase.dart';
 import '../../../domain/usecase/community/community_disaster_edit_usecase.dart';
 import '../../../domain/usecase/community/community_reply_like_usecase.dart';
+import '../../../domain/usecase/community/community_reply_report_usecase.dart';
 import '../state/community_town_state.dart';
+import 'community_disaster_view_model.dart';
 
 final communityTownProvider =
     StateNotifierProvider<CommunityTownViewModel, CommunityTownState>((ref) {
@@ -25,7 +34,7 @@ final communityTownProvider =
 class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   final Ref ref;
   final FlutterSecureStorage storage = FlutterSecureStorage();
-  int _currentPage = 0;
+  var _currentPage = 0;
 
   CommunityTownViewModel(this.ref) : super(CommunityTownState()) {
     _initState();
@@ -33,7 +42,6 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<void> _initState() async {
     await setUserAddressList();
-    await loadContent();
   }
 
   Future<void> loadContent() async {
@@ -51,22 +59,22 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
                   //address: state.selectLongTownAddress,
                   address: '서울특별시 강남구',
                   page: newPage,
-                  size: 20))
+                  size: 10))
           .future);
-      state = state.copyWith(isDongNaeContentEmpty: result.data?.empty ?? true);
-      if (state.isDongNaeContentEmpty) {
+      final lastContent = result.data?.empty ?? false;
+      if (lastContent) {
         state = state.copyWith(
           isDongNaeHasMore: false,
           isDongNaeLoading: false,
         );
-      } else {
-        final newContent = result.data?.content ?? [];
-        _currentPage = newPage;
-        state = state.copyWith(
-          contentList: [...currentList, ...newContent].toSet(),
-          isDongNaeHasMore: true,
-        );
+        return;
       }
+      final newContent = result.data?.content ?? [];
+      _currentPage = newPage;
+      state = state.copyWith(
+        contentList: List.from(currentList)..addAll(newContent),
+        isDongNaeHasMore: true,
+      );
     } catch (e) {
       print('동네생활 viewmodel 에러발생 ${e}');
     } finally {
@@ -76,7 +84,10 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<void> selectButton(String type) async {
     state = state.copyWith(
-        townCategory: type, isDongNaeHasMore: true, contentList: <Content>{});
+        isDongNaeLoading: true,
+        townCategory: type,
+        isDongNaeHasMore: true,
+        contentList: []);
     _currentPage = 0;
     await loadContent();
   }
@@ -96,24 +107,28 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     } else if (differ.inHours < 24) {
       return '${differ.inHours} 시간전';
     } else {
-      return '';
+      return '${differ.inDays}일전';
     }
   }
 
   Future<void> getContentDetail(int id) async {
+    _currentPage = 0;
     final result = await ref.read(
         getCommunityDongNaeContentDetailUseCaseProvider(
                 CommunityDongNaeContentDetailUseCase(id: id))
             .future);
     state = state.copyWith(
-      contentDetail: result.data!,
-      townReplyList: result.data!.comments,
-      selectContentId: result.data?.id,
-    );
+        contentDetail: result.data!,
+        townReplyList: result.data!.comments,
+        selectContentId: result.data?.id,
+        contentList: []);
   }
 
-  void setSelectContentId(int id) {
-    state = state.copyWith(selectContentId: id);
+  Future<void> setArticleLike() async {
+    await ref.read(getArticleLikeUseCaseProvider(
+            CommunityArticleLikeUseCase(id: state.selectContentId!))
+        .future);
+    await getContentDetail(state.selectContentId!);
   }
 
   void setLoadingState(bool value) {
@@ -122,54 +137,40 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   //글쓰기 타입 지정
   void setCategoryState(String category) {
-    state = state.copyWith(townCategory: category);
+    state = state.copyWith(writingTownCategory: category);
   }
 
-  //이미지 접근권한 확인
-  Future<void> checkPermission() async {
-    await PhotoManager.requestPermissionExtend().then((ps) async {
-      if (ps.isAuth) {
-        await getAlbums();
-      } else {
-        await PhotoManager.openSetting();
-      }
-    });
+  //신고하기 유형 선택
+  void setReortType(String type) {
+    state = state.copyWith(reportType: type);
   }
 
-  Future<void> getAlbums() async {
-    try {
-      List<AlbumModel> newAlbums = [];
-      var paths = await PhotoManager.getAssetPathList(type: RequestType.image);
-      for (var asset in paths) {
-        var images = await asset.getAssetListRange(start: 0, end: 10000);
-        if (images.isNotEmpty) {
-          var album =
-              AlbumModel(id: asset.id, name: asset.name, images: images);
-          newAlbums.add(album);
-        }
-      }
-      state = state.copyWith(albums: newAlbums);
-    } catch (e) {
-      print('에러 발생 $e');
-    }
+  //댓글 신고하기 api
+  Future<void> sendReplyReportContent(
+      int id, String detail, String email) async {
+    await ref.read(communityReplyReportUseCaseProvider(
+            CommunityReplyReportUseCase(
+                id: id,
+                communityReplyReportRequest: ReportRequest(
+                    detail: detail,
+                    type: ReportCategory.getNamedByCategory(state.reportType),
+                    email: email)))
+        .future);
   }
 
-  void addSelectedAlbum(AlbumModel photo) {
-    if (!state.selectAlbums.contains(photo)) {
-      state = state.copyWith(selectAlbums: [...state.selectAlbums, photo]);
-    }
+  //게시글 신고하기
+  Future<void> sendArticleReportContent(
+      int id, String detail, String email) async {
+    await ref.read(communityArticleReportUseCaseProvider(
+            CommunityArticleReportUseCase(
+                id: id,
+                communityArticleRequest: ReportRequest(
+                    detail: detail,
+                    type: ReportCategory.getNamedByCategory(state.reportType),
+                    email: email)))
+        .future);
   }
-
-  void deselectPhoto(AlbumModel photo) {
-    state = state.copyWith(
-        selectAlbums:
-            state.selectAlbums.where((p) => p.id != photo.id).toList());
-  }
-
-  void setCurrentAlbumIndex(int index) {
-    state = state.copyWith(currentAlbumIndex: index);
-  }
-
+//TODO
   Future<void> setUserAddressList() async {
     List<String> addressList = [];
     List<String> longAddressList = [];
@@ -177,6 +178,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     while (true) {
       String address = await storage.read(key: 'shortAddress_$idx') ?? '';
       String longAddress = await storage.read(key: 'fullAddress_$idx') ?? '';
+      print('여기여기 ${address} & ${longAddress}');
       if (address == '') {
         break;
       } else {
@@ -205,25 +207,6 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     state = state.copyWith(isChildCommentState: value);
   }
 
-  //삭제하려는 상태 지정
-  void setDeleteState(int commentId) {
-    if (state.isChildCommentState) {
-      state = state.copyWith(
-        deleteChildCommentId: commentId,
-      );
-      if (commentId == 0) {
-        //삭제를 취소하려는 동작임
-        state = state.copyWith(
-          isChildCommentState: false,
-        );
-      }
-    } else {
-      state = state.copyWith(
-        deleteCommentId: commentId,
-      );
-    }
-  }
-
   void setParentCommentId(int parentCommentId) {
     //답글작성할때 필요
     state = state.copyWith(parentCommentId: parentCommentId);
@@ -237,18 +220,10 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     await getContentDetail(state.selectContentId!);
   }
 
-  Future<void> deleteReply() async {
-    if (state.isChildCommentState && state.deleteChildCommentId != 0) {
-      //대댓글을 삭제하려고함
-      await ref.read(getDisasterDeleteUseCaseProvider(
-              CommunityDisasterDeleteUsecase(id: state.deleteChildCommentId))
-          .future);
-    } else if (state.deleteCommentId != 0) {
-      await ref.read(getDisasterDeleteUseCaseProvider(
-              CommunityDisasterDeleteUsecase(id: state.deleteCommentId))
-          .future);
-    }
-    setDeleteState(0);
+  Future<void> deleteReply(int id) async {
+    await ref.read(
+        getDisasterDeleteUseCaseProvider(CommunityDisasterDeleteUsecase(id: id))
+            .future);
     await getContentDetail(state.selectContentId!);
   }
 
@@ -313,22 +288,93 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     await getContentDetail(state.selectContentId!);
   }
 
-  Future<void> setArticle(
-    String title,
-    String body,
-    List<MultipartFile> attachFileList,
-  ) async {
-    await ref.read(setCommunityArticleWritingUseCaseProvider(
-            CommunityArticleWritingUseCase(
-                articleCategory:
-                    ContentCategory.getNamedByCategory(state.townCategory),
-                title: title,
-                body: body,
-                visibility: state.isVisible,
-                longitude: state.longitude,
-                latitude: state.latitude,
-                attachFileList: attachFileList))
-        .future);
+  Future<List<MultipartFile>> changeMultiPart() async {
+    List<MultipartFile> multipartFiles = [];
+    for (var image in state.selectedImages) {
+      final file = await image.entity!.originFile;
+      final multiPartFile = await MultipartFile.fromFile(file!.path,
+          filename: file.uri.pathSegments.last);
+      multipartFiles.add(multiPartFile);
+    }
+    return multipartFiles;
+  }
+
+  Future<bool> setArticle(String title, String body) async {
+    final imageData = await changeMultiPart();
+    try {
+      final result = await ref.read(setCommunityArticleWritingUseCaseProvider(
+              CommunityArticleWritingUseCase(
+                  articleCategory: ContentCategory.getNamedByCategory(
+                      state.writingTownCategory),
+                  title: title,
+                  body: body,
+                  visibility: state.isVisible,
+                  longitude: 127.0495556,
+                  latitude: 37.514575,
+                  attachFileList: imageData))
+          .future);
+      _currentPage = 0;
+      state = state.copyWith(contentList: []);
+      if (result.code != 1000) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      print('게시글 편집 오류 발생 $e');
+      return false;
+    }
+  }
+
+  Future<bool> editArticle(String title, String body) async {
+    final imageData = await changeMultiPart();
+    try {
+      final result = await ref.read(setCommunityArticleEditUseCaseProvider(
+              CommunityArticleEditUseCase(
+                  id: state.selectContentId!,
+                  communityWritingEditRequest: CommunityWritingEditRequest(
+                      articleType: 'DONGNE',
+                      articleCategory: ContentCategory.getNamedByCategory(
+                          state.writingTownCategory),
+                      visibility: state.isVisible,
+                      title: title,
+                      body: body),
+                  attachFileList: imageData))
+          .future);
+      if (result.code != 1000) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      print('게시글 편집 오류 발생 $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteArticle() async {
+    try {
+      final result = await ref.read(setCommunityArticleDeleteUseCaseProvider(
+              CommunityArticleDeleteUseCase(id: state.selectContentId!))
+          .future);
+      if (result.code != 1000) {
+        return false;
+      }
+      state = state.copyWith(
+          selectContentId: 0,
+          isDongNaeLoading: true,
+          isDongNaeHasMore: true,
+          contentList: []);
+      _currentPage = 0;
+      await loadContent();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void setArticleDeleteState(bool value) {
+    state = state.copyWith(deleteArticle: value);
   }
 
   Future<void> setVisibleState() async {
@@ -342,7 +388,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   void clearWritingState() {
     state = state.copyWith(
       isVisible: false,
-      townCategory: '전체',
+      writingTownCategory: '',
     );
   }
 
@@ -358,6 +404,66 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     } else {
       await Permission.location.request();
     }
+  }
+
+  void addImageFromGallery(SelectedImage image) {
+    final currentList = List<SelectedImage>.from(state.selectedImages);
+    currentList.add(image);
+    state = state.copyWith(selectedImages: currentList);
+  }
+
+  void removeImageFromGallery(SelectedImage? image, bool isEditState) {
+    var updatedList = List<SelectedImage>.from(state.selectedImages);
+    if (isEditState) {
+      updatedList.remove(image);
+    } else {
+      updatedList = state.selectedImages
+          .where((e) => !_addedImageCheck(image!, e))
+          .toList();
+    }
+    state = state.copyWith(
+      selectedImages: updatedList,
+    );
+  }
+
+  void convertFileToAssetEntity() async {
+    final fileUrls = state.contentDetail.files;
+    List<SelectedImage> convertResult = [];
+
+    for (String fileUrl in fileUrls) {
+      try {
+        final response = await http.get(Uri.parse(fileUrl));
+        if (response.statusCode == 200) {
+          //로컬 임시저장소에 저장
+          final tempDir = Directory.systemTemp;
+          final filePath = '${tempDir.path}/${fileUrl.split('/').last}';
+          final file = File(filePath);
+          await file.writeAsBytes(response.bodyBytes);
+
+          final assetEntity = await PhotoManager.editor.saveImageWithPath(
+            filePath,
+            title: filePath.split('/').last, // 파일명 추출
+          );
+          convertResult.add(SelectedImage(entity: assetEntity, file: null));
+        }
+      } catch (e) {
+        print('파일 다운로드 실패');
+      }
+    }
+    state = state.copyWith(selectedImages: convertResult);
+  }
+
+  bool addedImageCheck(SelectedImage image) {
+    return state.selectedImages.any((e) => _addedImageCheck(image, e));
+  }
+
+  bool _addedImageCheck(SelectedImage image, SelectedImage compareImage) {
+    return image.entity == compareImage.entity &&
+        image.file == compareImage.file;
+  }
+
+  void setImageFromGallery(List<SelectedImage> images) {
+    state = state.copyWith(selectedImages: images);
   }
 }
 

@@ -12,8 +12,7 @@ sealed class OnboardingState with _$OnboardingState {
       @Default('') String nicknameState,
       @Default(false) bool completeSetName,
       @Default(false) bool completeSetNickName,
-      //검색된 주소 목록의 중복을 제거하기 위함
-      @Default(<String>{}) Set<String> jusoListState,
+
       @Default('') String userName,
       @Default('') String userNickName,
       //입력한 주소값
@@ -38,5 +37,5 @@ sealed class OnboardingState with _$OnboardingState {
       //체크박스의 활성화상태
       @Default([false, false, false, false, false])
       List<bool> isAppPermissionCheckboxState,
-      @Default(['재난', '재난']) List<String> disasterTypes}) = _OnboardingState;
+      @Default([]) List<String> disasterTypes}) = _OnboardingState;
 }

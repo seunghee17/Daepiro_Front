@@ -1,7 +1,7 @@
 import 'package:daepiro/domain/repository/onboarding_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
-import '../../../data/model/response/onboarding_info_response.dart';
+import '../../../data/model/response/onboarding/onboarding_info_response.dart';
 
 final sendonboardingInfoUseCaseProvider = FutureProvider.family<OnboardingInfoResponse, SendOnboardinginfoUseCase>((ref, request) async {
   final repository = await ref.watch(onboardingRepositoryProvider);

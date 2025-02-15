@@ -9,6 +9,5 @@ sealed class PermissionState with _$PermissionState {
     @Default(false) bool isAllPermissionGrant,
     //체크박스의 활성화상태
     @Default([false, false, false, false]) List<bool> isPermissionCheckboxState,
-    @Default(false) bool isModalShowing,
 }) = _PermissionState;
 }

@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import '../../model/request/onboarding_info_request.dart';
-import '../../model/response/nickname_check_response.dart';
-import '../../model/response/onboarding_info_response.dart';
-import '../../model/response/user_address_response.dart';
+import '../../model/response/onboarding/nickname_check_response.dart';
+import '../../model/response/onboarding/onboarding_info_response.dart';
+import '../../model/response/onboarding/user_address_response.dart';
 
 part 'onboarding_service.g.dart';
 

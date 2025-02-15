@@ -1,28 +1,62 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player/video_player.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 
-class OnboardingFirstScreen extends StatelessWidget {
-  const OnboardingFirstScreen({super.key});
+class OnboardingFirstScreen extends StatefulWidget {
+  @override
+  _OnboardingFirstState createState() => _OnboardingFirstState();
+}
+
+class _OnboardingFirstState extends State<OnboardingFirstScreen> {
+  late VideoPlayerController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = controller = VideoPlayerController.asset('assets/videos/intro_video.mp4')..initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.play();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 48),
-              headerWidget(),
-              Spacer(),
-              footerWidget(context),
-              SizedBox(height: 16),
-            ],
-          ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 80,
+              child: Center(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: AspectRatio(
+                      aspectRatio: controller.value.aspectRatio,
+                      child: VideoPlayer(controller),
+                    )
+                ),
+              ),
+            ),
+            Positioned(
+                top: 48,
+                right: 20,
+                left: 20,
+                child: headerWidget()
+            ),
+            Positioned(
+                bottom: 16,
+                right: 20,
+                left: 20,
+                child: footerWidget(context, double.infinity)
+            )
+          ],
         ),
       ),
     );
@@ -46,24 +80,26 @@ class OnboardingFirstScreen extends StatelessWidget {
     );
   }
 
-  Widget footerWidget(BuildContext context) {
-    return Container(
+  Widget footerWidget(BuildContext context, double width) {
+    return SizedBox(
       width: double.infinity,
-      child: PrimaryFilledButton(
-          onPressed: () {
-            GoRouter.of(context).push('/onboarding/first');
-          },
-          backgroundColor: Color(0xFFFF6929),
-          pressedColor: Color(0xFFFF6929),
-          child: Text(
-            '다음',
-            style: DaepiroTextStyle.body_1_b
-                .copyWith(color: DaepiroColorStyle.white),
-          ),
-          verticalPadding: 12,
-          borderRadius: 8),
+      child: Container(
+        width: width,
+        child: PrimaryFilledButton(
+            onPressed: () {
+              GoRouter.of(context).push('/onboarding/first');
+            },
+            backgroundColor: Color(0xFFFF6929),
+            pressedColor: Color(0xFFFF6929),
+            child: Text(
+              '다음',
+              style: DaepiroTextStyle.body_1_b
+                  .copyWith(color: DaepiroColorStyle.white),
+            ),
+            verticalPadding: 12,
+            borderRadius: 8),
+      ),
     );
   }
 
-//TODO 일러스트 추가해야함
 }

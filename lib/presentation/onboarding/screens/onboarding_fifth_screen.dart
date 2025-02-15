@@ -20,30 +20,31 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     final state = ref.watch(onboardingStateNotifierProvider);
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 48,),
-              headerWidget(),
-              SizedBox(height: 36),
-              allAgreeWidget(state.isAllAppPermissionGrant, ref),
-              SizedBox(height: 16),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: 5,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
-                      }
-                  )
-              ),
-              bottomWidget(state.isAllAppPermissionGrant),
-              SizedBox(height: 28)
-            ],
-          ),
-        )
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 48,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: headerWidget()),
+            SizedBox(height: 36),
+          allAgreeWidget(state.isAllAppPermissionGrant, ref),
+            SizedBox(height: 16),
+            Expanded(
+                child: ListView.builder(
+                    itemCount: 5,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
+                    }
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: bottomWidget(state.isAllAppPermissionGrant)),
+            SizedBox(height: 28)
+          ],
+        ),
       ),
     );
   }

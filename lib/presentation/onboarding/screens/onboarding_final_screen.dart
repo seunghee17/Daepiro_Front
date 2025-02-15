@@ -5,32 +5,66 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player/video_player.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
-
-class OnboardingFinalScreen extends ConsumerWidget {
+class OnboardingFinalScreen extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(onboardingStateNotifierProvider);
+  _OnboardingFinalState createState() => _OnboardingFinalState();
+}
+class _OnboardingFinalState extends ConsumerState<OnboardingFinalScreen> {
+  late VideoPlayerController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = controller = VideoPlayerController.asset('assets/videos/outtro_video.mp4')..initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.play();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.read(onboardingStateNotifierProvider.notifier);
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 48),
-              Text(
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Center(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    child: VideoPlayer(controller),
+                  )
+              ),
+            )),
+            Positioned(
+              top: 48,
+              left: 20,
+              right: 20,
+              child: Text(
                 '이젠 대피로와 함께\n안전한 생활을 시작해보세요!',
                 style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
               ),
-              Spacer(),
-              SizedBox(
+            ),
+            Positioned(
+              bottom: 16,
+              left: 20,
+              right: 20,
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: PrimaryFilledButton(
                     onPressed: () async {
-                      await ref.read(onboardingStateNotifierProvider.notifier).sendUserInfo();
-                      await ref.read(onboardingStateNotifierProvider.notifier).storeUserAdresses();
+                      await viewModel.sendUserInfo();
+                      await viewModel.storeUserAdresses();
                       GoRouter.of(context).go('/home');
                     },
                     backgroundColor: DaepiroColorStyle.o_500,
@@ -43,10 +77,9 @@ class OnboardingFinalScreen extends ConsumerWidget {
                     verticalPadding: 12
                 ),
               ),
-              SizedBox(height: 16)
-            ],
-          ),
-        ),
+            ),
+          ],
+        )
       ),
     );
   }

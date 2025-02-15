@@ -1,20 +1,24 @@
-import 'package:daepiro/data/model/response/disaster_reply_response.dart';
 import 'package:daepiro/data/source/community/community_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/http/http_provider.dart';
 import '../../data/model/request/community_comment_post_request.dart';
 import '../../data/model/request/community_disaster_edit_request.dart';
-import '../../data/model/request/community_reply_report_request.dart';
-import '../../data/model/response/community_article_write_response.dart';
-import '../../data/model/response/community_comment_post_response.dart';
-import '../../data/model/response/community_disaster_edit_response.dart';
-import '../../data/model/response/community_dongnae_content_detail_response.dart';
-import '../../data/model/response/community_dongnae_content_response.dart';
-import '../../data/model/response/community_reply_like_response.dart';
-import '../../data/model/response/community_reply_report_response.dart';
-import '../../data/model/response/disaster_reply_delete_response.dart';
-import '../../data/model/response/disaster_response.dart';
+import '../../data/model/request/community_writing_edit_request.dart';
+import '../../data/model/request/set_town_certificate_request.dart';
+import '../../data/model/response/basic_response.dart';
+import '../../data/model/response/community/community_article_write_response.dart';
+import '../../data/model/response/community/community_comment_post_response.dart';
+import '../../data/model/response/community/community_disaster_edit_response.dart';
+import '../../data/model/response/community/community_dongnae_content_detail_response.dart';
+import '../../data/model/response/community/community_dongnae_content_response.dart';
+import '../../data/model/response/community/community_reply_like_response.dart';
+import '../../data/model/response/community/community_writing_edit_response.dart';
+import '../../data/model/response/community/disaster_reply_delete_response.dart';
+import '../../data/model/response/community/disaster_reply_response.dart';
+import '../../data/model/response/community/disaster_response.dart';
+import '../../data/model/response/community/town_certificate_response.dart';
+import '../../data/model/response/report_request.dart';
 import '../../data/repositoryimpl/community_repository_impl.dart';
 
 final communityRepositoryProvider = Provider<CommunityRepository>((ref) {
@@ -22,10 +26,13 @@ final communityRepositoryProvider = Provider<CommunityRepository>((ref) {
   return CommunityRepositoryImpl(service: CommunityService(http));
 });
 
-abstract class CommunityRepository {
-  Future<List<Data>> getAllDisasterResult();
+final communityWritingRepositoryProvider = Provider<CommunityRepository>((ref) {
+  final http = ref.watch(communityWriteDioProvider);
+  return CommunityRepositoryImpl(service: CommunityService(http));
+});
 
-  Future<List<Data>> getReceivedDisasterResult();
+abstract class CommunityRepository {
+  Future<List<Disaster>> getDisasterSituation();
 
   Future<CommunityCommentPostResponse> setComment(
       CommunityCommentPostRequest communityCommentPostRequest);
@@ -52,9 +59,11 @@ abstract class CommunityRepository {
 
   Future<CommunityReplyLikeResponse> communityReplyLike({required int id});
 
-  Future<CommunityReplyReportResponse> communityReplyReport(
-      {required int id,
-      required CommunityReplyReportRequest communityReplyReportRequest});
+  Future<BasicResponse> communityReplyReport(
+      {required int id, required ReportRequest communityReplyReportRequest});
+
+  Future<BasicResponse> communityArticleReport(
+      {required int id, required ReportRequest communityArticleRequest});
 
   Future<CommunityArticleWritingResponse> setArticleData({
     required String articleCategory,
@@ -65,4 +74,19 @@ abstract class CommunityRepository {
     required double latitude,
     required List<MultipartFile> attachFileList,
   });
+
+  Future<TownCertificateResponse> getTownCertificateInfo();
+
+  Future<CommunityWritingEditResponse> editArticle({
+    required int id,
+    required CommunityWritingEditRequest communityWritingEditRequest,
+    required List<MultipartFile> attachFileList,
+});
+
+  Future<BasicResponse> deleteArticle({required int id});
+
+  Future<BasicResponse> setTownCertificateInfo(
+      {required SetTownCertificateRequest setTownCertificateRequest});
+
+  Future<BasicResponse> getArticleLike({required int id});
 }

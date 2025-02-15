@@ -117,14 +117,14 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                     .read(onboardingStateNotifierProvider
                                         .notifier)
                                     .removeDisasterType(
-                                        EmergencyDisasterList[index]['name']!);
+                                    CommonDisasterList[index]['name']!);
                               } else {
                                 selectedSub.add(index);
                                 ref
                                     .read(onboardingStateNotifierProvider
                                         .notifier)
                                     .addDisasterType(
-                                        EmergencyDisasterList[index]['name']!);
+                                    CommonDisasterList[index]['name']!);
                               }
                             });
                           },

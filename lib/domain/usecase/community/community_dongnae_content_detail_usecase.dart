@@ -1,7 +1,7 @@
 import 'package:daepiro/domain/repository/community_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/model/response/community_dongnae_content_detail_response.dart';
+import '../../../data/model/response/community/community_dongnae_content_detail_response.dart';
 
 final getCommunityDongNaeContentDetailUseCaseProvider = FutureProvider.family<
     CommunityDongNaeDetailContentResponse,

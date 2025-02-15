@@ -12,20 +12,20 @@ import '../../../cmm/button/secondary_filled_button.dart';
 //수정하기 & 삭제하기
 class ReplyMenuScreen extends ConsumerWidget {
   final bool isUser;
-  final int commentId;
-  final VoidCallback onCancel;
-  final VoidCallback setDeleteState;
-  final VoidCallback setChildCommentState;
+  final int id;
+  final Future<void> Function() deleteComment;
   final bool isChildCommentState;
+  final bool isArticle;
+  final void Function()? deleteArticle;
 
   const ReplyMenuScreen({
     super.key,
     required this.isUser,
-    required this.commentId,
-    required this.onCancel,
-    required this.setDeleteState,
-    required this.setChildCommentState,
+    required this.id,
+    required this.deleteComment,
     required this.isChildCommentState,
+    required this.isArticle,
+    this.deleteArticle,
   });
 
   @override
@@ -41,16 +41,9 @@ class ReplyMenuScreen extends ConsumerWidget {
             right: 0,
             bottom: 20,
             child: isUser
-                ? editMenu(
-                    context,
-                    ref,
-                    commentId,
-                    onCancel,
-                    setDeleteState,
-                    setChildCommentState,
-                    isChildCommentState,
-                    state.isDisasterScreen)
-                : reportMenu(context)),
+                ? editMenu(context, ref, id, isChildCommentState,
+                    state.isDisasterScreen, isArticle)
+                : reportMenu(context, ref, id, isArticle)),
       ],
     );
   }
@@ -59,11 +52,9 @@ class ReplyMenuScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     int commentId,
-    VoidCallback onCancel,
-    VoidCallback setDeleteState,
-    VoidCallback setChildCommentState,
     bool isChildCommentState,
     bool isDisasterScreen,
+    bool isArticle,
   ) {
     return Column(
       children: [
@@ -75,8 +66,20 @@ class ReplyMenuScreen extends ConsumerWidget {
                   .read(communityDisasterProvider.notifier)
                   .setReplyId(commentId);
             } else {
-              ref.read(communityTownProvider.notifier).setEditState(true);
-              ref.read(communityTownProvider.notifier).setReplyId(commentId);
+              if (isArticle) {
+                //게시글 수정을 위한 화면으로 가야함
+                GoRouter.of(context).push(
+                  '/community_town_writing',
+                  extra: {
+                    'isEdit': true,
+                    'contentDetail':
+                        ref.read(communityTownProvider).contentDetail,
+                  },
+                );
+              } else {
+                ref.read(communityTownProvider.notifier).setEditState(true);
+                ref.read(communityTownProvider.notifier).setReplyId(commentId);
+              }
             }
             GoRouter.of(context).pop();
           },
@@ -102,12 +105,13 @@ class ReplyMenuScreen extends ConsumerWidget {
         SizedBox(height: 7),
         GestureDetector(
             onTap: () {
-              GoRouter.of(context).pop();
-              isChildCommentState
-                  ? deleteDialog(context, ref, commentId, onCancel,
-                      setDeleteState, setChildCommentState)
-                  : deleteDialog(
-                      context, ref, commentId, onCancel, setDeleteState, null);
+              if (isArticle && deleteArticle != null) {
+                GoRouter.of(context).pop();
+                deleteArticle!();
+              } else {
+                GoRouter.of(context).pop();
+                deleteDialog(context, deleteComment, isArticle);
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -131,32 +135,35 @@ class ReplyMenuScreen extends ConsumerWidget {
     );
   }
 
-  Widget reportMenu(BuildContext context) {
+  Widget reportMenu(
+      BuildContext context, WidgetRef ref, int commentId, bool isArticle) {
     return GestureDetector(
         onTap: () {
-          GoRouter.of(context).go('/community_report_screen');
+          GoRouter.of(context)
+              .push('/community_report_screen/${commentId}/${isArticle}');
         },
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: DaepiroColorStyle.g_50,
-              borderRadius: BorderRadius.circular(8)),
-          child: Text(
-            '신고하기',
-            textAlign: TextAlign.center,
-            style: DaepiroTextStyle.body_1_b
-                .copyWith(color: DaepiroColorStyle.g_700),
-          ),
-        ));
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: DaepiroColorStyle.g_50,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  '신고하기',
+                  textAlign: TextAlign.center,
+                  style: DaepiroTextStyle.body_1_b
+                      .copyWith(color: DaepiroColorStyle.g_700),
+                ),
+              ),
+              // ),
+            )));
   }
 
-  void deleteDialog(
-      BuildContext context,
-      WidgetRef ref,
-      int commentId,
-      VoidCallback onCancel,
-      VoidCallback setDeleteState,
-      VoidCallback? setChildCommentState) {
+  void deleteDialog(BuildContext context, Future<void> Function() deleteComment,
+      bool isArticle) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -182,7 +189,6 @@ class ReplyMenuScreen extends ConsumerWidget {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          setChildCommentState;
                           Navigator.pop(context);
                         },
                         radius: 8,
@@ -203,11 +209,11 @@ class ReplyMenuScreen extends ConsumerWidget {
                         verticalPadding: 12,
                         onPressed: () async {
                           GoRouter.of(context).pop();
-                          showDeleteSnackbar(
-                            context,
-                            onCancel,
-                            setDeleteState,
-                          );
+                          showDeleteSnackbar(context);
+                          if (isArticle) {
+                          } else {
+                            await deleteComment();
+                          }
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_700,
@@ -226,9 +232,7 @@ class ReplyMenuScreen extends ConsumerWidget {
         });
   }
 
-  void showDeleteSnackbar(BuildContext context, VoidCallback onCancel,
-      VoidCallback setDeleteState) {
-    setDeleteState();
+  void showDeleteSnackbar(BuildContext context) {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(
@@ -247,17 +251,6 @@ class ReplyMenuScreen extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     '댓글이 삭제되었습니다.',
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.white),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    onCancel();
-                    overlayEntry.remove();
-                  },
-                  child: Text(
-                    '취소',
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.white),
                   ),

@@ -8,12 +8,14 @@ class SecondaryLightButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final double radius;
   final Widget child;
+  final double padding;
 
   const SecondaryLightButton({
     Key? key,
     required this.onPressed,
     required this.radius,
     required this.child,
+    required this.padding
   }) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class _SecondaryLightButton extends State<SecondaryLightButton> {
        ),
        elevation: 0.0,
        shadowColor: Colors.transparent,
-         padding: EdgeInsets.symmetric(vertical: 4)
+         padding: EdgeInsets.symmetric(vertical: widget.padding)
      ).copyWith(
        backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
          if (states.contains(MaterialState.pressed)) {

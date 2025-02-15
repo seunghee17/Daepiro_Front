@@ -11,30 +11,42 @@ import 'package:daepiro/presentation/community/screens/community_rule_screen.dar
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
-import 'package:daepiro/presentation/sponsor/cheer_screen.dart';
-import 'package:daepiro/presentation/sponsor/sponsor_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import '../data/model/response/community/community_dongnae_content_detail_response.dart';
 import '../data/model/response/information/behavior_list_response.dart';
+import '../data/model/response/sponsor/sponsor_list_response.dart';
+import '../data/model/selected_image.dart';
 import '../presentation/community/screens/community_main_screen.dart';
+import '../presentation/community/screens/town/community_report_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
 import '../presentation/community/screens/town/community_town_writing_screen.dart';
 import '../presentation/home/history/disaster_detail_screen.dart';
 import '../presentation/home/history/disasters_history_screen.dart';
+import '../presentation/community/screens/town/gallery_view_screen.dart';
+import '../presentation/community/screens/town/town_certificate_screen.dart';
 import '../presentation/home/main/home_screen.dart';
 import '../presentation/information/behavior_tip/behavior_tips_screen.dart';
 import '../presentation/information/main/information_screen.dart';
 import '../presentation/information/shelter/around_shelter_screen.dart';
 import '../presentation/login/login_screen.dart';
-import '../presentation/mypage/mypage_screen.dart';
+import '../presentation/mypage/screens/mypage_alarm_setting_screen.dart';
+import '../presentation/mypage/screens/mypage_disaster_address_setting_screen.dart';
+import '../presentation/mypage/screens/mypage_disaster_type_setting_screen.dart';
+import '../presentation/mypage/screens/mypage_fix_userinfo_screen.dart';
+import '../presentation/mypage/screens/mypage_inquires_screen.dart';
+import '../presentation/mypage/screens/mypage_screen.dart';
+import '../presentation/mypage/screens/mypage_user_writing_screen.dart';
 import '../presentation/onboarding/screens/onboarding_fifth_screen.dart';
 import '../presentation/onboarding/screens/onboarding_final_screen.dart';
 import '../presentation/onboarding/screens/onboarding_first_screen.dart';
 import '../presentation/onboarding/screens/onboarding_fourth_screen.dart';
 import '../presentation/onboarding/screens/onboarding_second_screen.dart';
 import '../presentation/splash/splash_screen.dart';
+import '../presentation/sponsor/cheer_screen.dart';
+import '../presentation/sponsor/sponsor_detail_screen.dart';
 import '../presentation/sponsor/sponsor_screen.dart';
 import 'main_navigation.dart';
 
@@ -67,14 +79,13 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 
 final goRouteProvider = Provider((ref) {
   return GoRouter(
-     // initialLocation: '/splash',
-     initialLocation: '/login',
+    initialLocation: '/splash',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
-          path: '/splash',
-        builder: (context, state) =>  SplashScreen(),
+        path: '/splash',
+        builder: (context, state) => SplashScreen(),
       ),
       GoRoute(
         path: '/login',
@@ -82,62 +93,82 @@ final goRouteProvider = Provider((ref) {
       ),
       GoRoute(
           path: '/community_rule',
-          builder: (context, state) => CommunityRuleScreen()
-      ),
+          builder: (context, state) => CommunityRuleScreen()),
       GoRoute(
           path: '/community_town_detail',
-          builder: (context, state) => CommunityTownDetailScreen()
-      ),
+          builder: (context, state) => CommunityTownDetailScreen()),
       GoRoute(
-          path: '/album_choice',
-          builder: (context, state) => AlbumChoiceScreen()
-      ),
+          path: '/community_town_writing_album',
+          builder: (context, state) => GalleryViewScreen(
+              selectedImages: state.extra as List<SelectedImage>)),
       GoRoute(
-          path: '/album_screen',
-          builder: (context, state) => AlbumScreen()
-      ),
-      GoRoute(
-          path: '/community_report_screen',
-          builder: (context, state) => CommunityReportScreen()
-      ),
+          path: '/community_report_screen/:id/:isArticle',
+          builder: (context, state) {
+            return CommunityReportScreen(
+              id: int.tryParse(state.pathParameters['id'] ?? '0'),
+              isArticle: state.pathParameters['isArticle'] == 'true',
+            );
+          }),
       GoRoute(
         path: '/community_town_writing',
-        builder: (context, state) => CommunityTownWritingScreen()
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          final isEdit = extra['isEdit'] as bool? ?? false;
+          final contentDetail = extra['contentDetail'] as ContentDetail?;
+          return CommunityTownWritingScreen(
+            isEdit: isEdit,
+            contentDetail: contentDetail,
+          );
+        },
       ),
       GoRoute(
+          path: '/town_certificate',
+          builder: (context, state) => TownCertificateScreen()),
+      GoRoute(
+          path: '/mypage_fix_userinfo',
+          builder: (context, state) => MyPageFixUserinfoScreen()),
+      GoRoute(
+          path: '/mypage_fix_alarminfo',
+          builder: (context, state) => MyPageAlarmSettingScreen()),
+      GoRoute(
+          path: '/mypage_setting_address',
+          builder: (context, state) => MypageDisasterAddressSettingScreen()),
+      GoRoute(
+          path: '/mypage_setting_disaster_type',
+          builder: (context, state) => MypageDisasterTypeSettingScreen()),
+      GoRoute(
+          path: '/mypage_user_writing',
+          builder: (context, state) => MyPageUserWritingScreen()),
+      GoRoute(
+          path: '/mypage_inquires',
+          builder: (context, state) => MyPageInquiresScreen()),
+      GoRoute(
           path: '/onboarding',
-          builder: (context, state) => const OnboardingFirstScreen(),
+          builder: (context, state) => OnboardingFirstScreen(),
           routes: [
             GoRoute(
                 path: 'first',
-                builder: (context, state) => const OnboardingSecondScreen()
-            ),
+                builder: (context, state) => const OnboardingSecondScreen()),
             GoRoute(
                 path: 'second',
-                builder: (context, state) => const OnboardingThirdScreen()
-            ),
+                builder: (context, state) => const OnboardingThirdScreen()),
             GoRoute(
                 path: 'juso/:type/:index',
                 builder: (context, state) {
                   final type = state.pathParameters['type'];
                   final index = state.pathParameters['index'];
                   return JusoInputScreen(type: type, index: index);
-                }
-            ),
+                }),
             GoRoute(
                 path: 'third',
-                builder: (context, state) => OnboardingFourthScreen()
-            ),
+                builder: (context, state) => OnboardingFourthScreen()),
             GoRoute(
                 path: 'fourth',
-                builder: (context, state) => OnboardingFifthScreen()
-            ),
+                builder: (context, state) => OnboardingFifthScreen()),
             GoRoute(
                 path: 'final',
-                builder: (context, state) => OnboardingFinalScreen()
-            ),
-          ]
-      ),
+                builder: (context, state) => OnboardingFinalScreen()),
+          ]),
       GoRoute(
           path: '/behaviorTips',
           builder: (context, state) => BehaviorTipsScreen()

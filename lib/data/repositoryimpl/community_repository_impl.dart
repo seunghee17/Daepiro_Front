@@ -1,19 +1,22 @@
 import 'package:daepiro/data/model/request/community_comment_post_request.dart';
 import 'package:daepiro/data/model/request/community_disaster_edit_request.dart';
-import 'package:daepiro/data/model/request/community_reply_report_request.dart';
-import 'package:daepiro/data/model/response/community_article_write_response.dart';
-import 'package:daepiro/data/model/response/community_comment_post_response.dart';
-import 'package:daepiro/data/model/response/community_disaster_edit_response.dart';
-import 'package:daepiro/data/model/response/community_dongnae_content_detail_response.dart';
-import 'package:daepiro/data/model/response/community_reply_like_response.dart';
-import 'package:daepiro/data/model/response/community_reply_report_response.dart';
-import 'package:daepiro/data/model/response/disaster_reply_delete_response.dart';
-import 'package:daepiro/data/model/response/disaster_reply_response.dart';
-import 'package:daepiro/data/model/response/disaster_response.dart';
+import 'package:daepiro/data/model/request/community_writing_edit_request.dart';
+import 'package:daepiro/data/model/response/community/community_writing_edit_response.dart';
+import 'package:daepiro/data/model/response/report_request.dart';
+import 'package:daepiro/data/model/request/set_town_certificate_request.dart';
+import 'package:daepiro/data/model/response/basic_response.dart';
+import 'package:daepiro/data/model/response/community/community_article_write_response.dart';
+import 'package:daepiro/data/model/response/community/community_comment_post_response.dart';
+import 'package:daepiro/data/model/response/community/disaster_response.dart';
+import 'package:daepiro/data/model/response/community/town_certificate_response.dart';
 import 'package:daepiro/domain/repository/community_repository.dart';
 import 'package:dio/src/multipart_file.dart';
-
-import '../model/response/community_dongnae_content_response.dart';
+import '../model/response/community/community_disaster_edit_response.dart';
+import '../model/response/community/community_dongnae_content_detail_response.dart';
+import '../model/response/community/community_dongnae_content_response.dart';
+import '../model/response/community/community_reply_like_response.dart';
+import '../model/response/community/disaster_reply_delete_response.dart';
+import '../model/response/community/disaster_reply_response.dart';
 import '../source/community/community_service.dart';
 
 class CommunityRepositoryImpl implements CommunityRepository {
@@ -22,7 +25,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
   final CommunityService _service;
 
   @override
-  Future<List<Data>> getAllDisasterResult() async {
+  Future<List<Disaster>> getDisasterSituation() async {
     try {
       final response = await _service.getDisasterResult();
       if (response.data == null) {
@@ -37,27 +40,10 @@ class CommunityRepositoryImpl implements CommunityRepository {
   }
 
   @override
-  Future<List<Data>> getReceivedDisasterResult() async {
-    try {
-      final response = await _service.getDisasterResult();
-      if (response.data == null) {
-        return [];
-      } else {
-        final filteredList =
-        response.data!.where((item) => item.isReceived!).toList();
-        return filteredList;
-      }
-    } catch (e) {
-      print('재난상황 수신 타입 데이터 오류 ${e}');
-      return [];
-    }
-  }
-
-  @override
   Future<List<Reply>> getDisasterReply(int situationId) async {
     try {
       final response =
-      await _service.getDisasterReply(situationId: situationId.toString());
+          await _service.getDisasterReply(situationId: situationId.toString());
       if (response.data == null) {
         return [];
       } else {
@@ -75,9 +61,10 @@ class CommunityRepositoryImpl implements CommunityRepository {
   }
 
   @override
-  Future<CommunityDisasterEditResponse> editReply({required int id,
-    required CommunityDisasterEditRequest
-    communityDisasterEditRequest}) async {
+  Future<CommunityDisasterEditResponse> editReply(
+      {required int id,
+      required CommunityDisasterEditRequest
+          communityDisasterEditRequest}) async {
     try {
       final response = await _service.editReply(
           id: id, communityDisasterEditRequest: communityDisasterEditRequest);
@@ -155,8 +142,9 @@ class CommunityRepositoryImpl implements CommunityRepository {
   }
 
   @override
-  Future<CommunityReplyReportResponse> communityReplyReport({required int id,
-    required CommunityReplyReportRequest communityReplyReportRequest}) async {
+  Future<BasicResponse> communityReplyReport(
+      {required int id,
+      required ReportRequest communityReplyReportRequest}) async {
     try {
       return await _service.communityReplyReport(
           id: id, communityReplyReportRequest: communityReplyReportRequest);
@@ -167,15 +155,26 @@ class CommunityRepositoryImpl implements CommunityRepository {
   }
 
   @override
+  Future<BasicResponse> communityArticleReport(
+      {required int id, required ReportRequest communityArticleRequest}) async {
+    try {
+      return await _service.communityArticleReport(
+          id: id, communityArticleRequest: communityArticleRequest);
+    } catch (e) {
+      print('게시글 신고 오류 발생 ${e}');
+      rethrow;
+    }
+  }
+
+  @override
   Future<CommunityArticleWritingResponse> setArticleData(
-      {
-        required String articleCategory,
-        required String title,
-        required String body,
-        required bool visibility,
-        required double longitude,
-        required double latitude,
-        required List<MultipartFile> attachFileList}) async {
+      {required String articleCategory,
+      required String title,
+      required String body,
+      required bool visibility,
+      required double longitude,
+      required double latitude,
+      required List<MultipartFile> attachFileList}) async {
     try {
       return await _service.setArticleData(
           articleType: 'DONGNE',
@@ -186,8 +185,60 @@ class CommunityRepositoryImpl implements CommunityRepository {
           longitude: longitude,
           latitude: latitude,
           attachFileList: attachFileList);
-    } catch(e) {
+    } catch (e) {
       print('게시글 작성중 오류 발생 ${e}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<TownCertificateResponse> getTownCertificateInfo() async {
+    try {
+      return await _service.getTownCertificateInfo();
+    } catch (e) {
+      print('동네인증 정보로드중 오류 발생 $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BasicResponse> setTownCertificateInfo(
+      {required SetTownCertificateRequest setTownCertificateRequest}) async {
+    try {
+      return await _service.setTownCertificateInfo(
+          setTownCertificateRequest: setTownCertificateRequest);
+    } catch (e) {
+      print('동네인증 정보 입력중 오류발생 $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BasicResponse> getArticleLike({required int id}) async {
+    try {
+      return await _service.getArticleLike(id: id);
+    } catch (e) {
+      print('게시글 좋아요 오류발행 $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CommunityWritingEditResponse> editArticle({required CommunityWritingEditRequest communityWritingEditRequest, required List<MultipartFile> attachFileList, required int id}) async {
+    try {
+      return await _service.editArticle(id: id, communityWritingEditRequest: communityWritingEditRequest, attachFileList: attachFileList);
+    } catch(e) {
+      print('게시글 편집 에러 발생 $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BasicResponse> deleteArticle({required int id}) async {
+    try {
+      return await _service.deleteArticle(id: id);
+    } catch(e) {
+      print('게시글 삭제 에러 발생 $e');
       rethrow;
     }
   }

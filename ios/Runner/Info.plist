@@ -59,8 +59,12 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<key>NMFClientId</key>
+          <string>987dvcn70h</string>
+          <key>io.flutter.embedded_views_preview</key>
+          <true/>
+          <key>NSAllowsArbitraryLoads</key>
+          <true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>커뮤니티에서 게시글 및 댓글을 작성할 때 사진을 업로드하기 위해서는 '카메라' 접근 권한을 허용해주세요.</string>

@@ -17,7 +17,9 @@ final onboardingStateNotifierProvider =
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
   final Ref ref;
   final FlutterSecureStorage storage = FlutterSecureStorage();
-  List<String> inputJusoList = [];
+  Set<String> get inputJusoList => _inputJusoList;
+  Set<String> _inputJusoList = Set<String>();
+
 
   OnboardingViewModel(this.ref) : super(OnboardingState());
 
@@ -69,7 +71,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   //특수문자 판단용
   bool _checkForSpecialCharacter(String text) {
-    final regex = RegExp(r'[^가-힣a-zA-Z0-9]');
+    final regex = RegExp(r'[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]');
     return !regex.hasMatch(text);
   }
 
@@ -87,16 +89,16 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   //재난리스트 아이템 추가
-  void addDisasterType(String type) {
-    final list = state.disasterTypes;
-    list.add(type);
-    state = state.copyWith(disasterTypes: list);
+  void addDisasterType(String disasterType) {
+    final mutableList = List<String>.from(state.disasterTypes);
+    mutableList.add(disasterType);
+    state = state.copyWith(disasterTypes: List.unmodifiable(mutableList));
   }
 
-  void removeDisasterType(String type) {
-    final list = state.disasterTypes;
-    list.remove(type);
-    state = state.copyWith(disasterTypes: list);
+  void removeDisasterType(String disasterType) {
+    final mutableList = List<String>.from(state.disasterTypes);
+    mutableList.remove(disasterType);
+    state = state.copyWith(disasterTypes: List.unmodifiable(mutableList));
   }
 
   Future<void> sendUserInfo() async {
@@ -107,24 +109,28 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
       realname: state.userName,
       nickname: state.userNickName,
       addresses: address,
-      disasterTypes: ['지진', '화재', '태풍'],
-      //TODO 추후 실 재난유형으로 수정해야함 null을 보내면 안됨
+      disasterTypes: state.disasterTypes,
       fcmToken: fcmToken,
     ))).future);
   }
 
   //보낸 주소 정보 받아서 로컬에 저장 주소를 처음 저장하는 부분
   Future<void> storeUserAdresses() async {
-    final userAddresses =
-        await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
-    if (userAddresses.length > 0) {
-      for (int i = 0; i < userAddresses.length; i++) {
-        await storage.write(
-            key: 'fullAddress_$i', value: userAddresses[i].fullAddress);
-        await storage.write(
-            key: 'shortAddress_$i', value: userAddresses[i].shortAddress);
+    try {
+      final userAddresses =
+      await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
+      if (userAddresses.length > 0) {
+        for (int i = 0; i < userAddresses.length; i++) {
+          await storage.write(
+              key: 'fullAddress_$i', value: userAddresses[i].fullAddress);
+          await storage.write(
+              key: 'shortAddress_$i', value: userAddresses[i].shortAddress);
+        }
       }
+    } catch(e) {
+      rethrow;
     }
+
   }
 
   Future<String> getFcmToken() async {
@@ -157,13 +163,12 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   Future<void> getJusoList(
       String inputJuso, int currentPage, bool append) async {
     final result = await ref.read(getJusoListUseCaseProvider(
-            GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage))
-        .future);
-    final currentList = state.jusoListState;
+            GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
+    final currentList = _inputJusoList;
     try {
-      final updateList =
-          append ? currentList.union(result.toSet()) : result.toSet();
-      state = state.copyWith(jusoListState: updateList, isError: false);
+      final updateList = append ? currentList.union(result.toSet()) : result.toSet();
+      _inputJusoList = updateList;
+      state = state.copyWith(isError: false);
     } catch (e) {
       state = state.copyWith(isError: true);
     }
@@ -215,7 +220,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   //주소 검색 결과 초기화
   void initSearchHistory() {
-    state = state.copyWith(jusoListState: Set<String>());
+    _inputJusoList = Set<String>();
   }
 
   void setVisibleState(int index, bool value) {

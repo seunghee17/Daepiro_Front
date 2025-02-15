@@ -59,6 +59,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingStateNotifierProvider);
+    final resultAddress = ref.watch(onboardingStateNotifierProvider.notifier);
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -77,17 +78,17 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                       color: DaepiroColorStyle.g_400),
                 ),
                 SizedBox(height: 8),
-                if(state.isError || (focusNode.hasFocus && state.jusoListState.isEmpty))
+                if(state.isError || (focusNode.hasFocus && resultAddress.inputJusoList.isEmpty))
                   searchErrorWidget(),
                 if(!state.isError)
                   Expanded(
                     child: ListView.builder(
                         controller: scrollController,
-                        itemCount: state.jusoListState.length + 1,
+                        itemCount: resultAddress.inputJusoList.length + 1,
                         itemBuilder: (context, index) {
-                          if (index == state.jusoListState.length)
+                          if (index == resultAddress.inputJusoList.length)
                             return Container();
-                          var jusoList = state.jusoListState.toList();
+                          var jusoList = resultAddress.inputJusoList.toList();
                           var juso = jusoList[index].toString();
                           bool isTapped = selected.contains(index);
                           return Container(
@@ -256,7 +257,6 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                 color: DaepiroColorStyle.g_200),
             suffixIcon: Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
-                //TODO 삭제 버튼이 조건적으로 있어야함
                 child: controller.text.length > 0 ?
                 GestureDetector(
                   onTap: controller.clear,
