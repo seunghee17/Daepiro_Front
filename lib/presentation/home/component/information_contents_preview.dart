@@ -1,5 +1,7 @@
 import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../cmm/DaepiroTheme.dart';
@@ -27,23 +29,30 @@ class InformationContentsPreview extends StatefulWidget {
 class _InformationContentsPreviewState extends State<InformationContentsPreview> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: GestureDetector(
-        onTap: () {
-          launchUrl(Uri.parse(widget.bodyUrl));
-        },
+    return GestureDetector(
+      onTap: () {
+        context.push('/news/${Uri.encodeComponent(widget.bodyUrl)}');
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        color: DaepiroColorStyle.white,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: Image.network(
-                widget.imagePath.isNotEmpty ? widget.imagePath : 'https://thumbs.dreamstime.com/b/sample-stamp-white-background-sign-90532936.jpg',
-                width: 68,
-                height: 68,
-                fit: BoxFit.cover,
-              ),
+              child: widget.imagePath.isEmpty
+                  ? Image.asset(
+                        'assets/icons/empty_image.png',
+                        width: 68,
+                        height: 68,
+                        fit: BoxFit.cover)
+                  : Image.network(
+                        widget.imagePath,
+                        width: 68,
+                        height: 68,
+                        fit: BoxFit.cover
+                    ),
             ),
             const SizedBox(width: 10),
             Flexible(

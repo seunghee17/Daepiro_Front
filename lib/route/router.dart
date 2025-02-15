@@ -1,6 +1,7 @@
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
+import 'package:daepiro/presentation/information/contents/news_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/behavior_tip/search/search_disaster_type_screen.dart';
@@ -205,6 +206,11 @@ final goRouteProvider = Provider((ref) {
         path: '/cheer',
         builder: (context, state) => CheerScreen(),
       ),
+      GoRoute(
+        path: '/news/:url',
+        builder: (context, state) {
+          return NewsScreen(url: Uri.decodeComponent(state.pathParameters['url'] ?? ""));
+        }),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
