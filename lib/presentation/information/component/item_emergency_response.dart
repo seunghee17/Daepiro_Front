@@ -52,16 +52,27 @@ class ItemEmergencyResponse extends StatelessWidget {
                       )
                   ),
                   const SizedBox(height: 16),
-                  Image.asset(Const.emergencyResponseList[tabIndex][pageIndex][1]),
-                  const SizedBox(height: 30),
-                  Text(
-                    Const.emergencyResponseList[tabIndex][pageIndex][2],
-                    style: DaepiroTextStyle.body_1_b.copyWith(
-                      color: DaepiroColorStyle.g_700,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: DaepiroColorStyle.g_50,
                     ),
-                    textAlign: TextAlign.center,
+                    child: Image.asset(Const.emergencyResponseList[tabIndex][pageIndex][1])
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 30),
+                  if (Const.emergencyResponseList[tabIndex][pageIndex][2].isNotEmpty)
+                    Column(
+                      children: [
+                        Text(
+                          Const.emergencyResponseList[tabIndex][pageIndex][2],
+                          style: DaepiroTextStyle.body_1_b.copyWith(
+                            color: DaepiroColorStyle.g_700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 4),
+                      ],
+                    ),
                   Text(
                     Const.emergencyResponseList[tabIndex][pageIndex][3],
                     style: DaepiroTextStyle.body_2_m.copyWith(
