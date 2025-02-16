@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/domain/usecase/home/get_behavior_tips_usecase.dart';
+import 'package:daepiro/domain/usecase/home/get_notifications_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
@@ -206,6 +207,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
       }
     } catch (error) {
       print('최근 재난문자 내역 조회 에러: $error');
+    }
+  }
+
+  // 알림 내역 조회
+  Future<void> getNotifications() async {
+    try {
+      final response = await ref.read(
+          getNotificationsUsecaseProvider(GetNotificationsUsecase()).future
+      );
+
+      if (response.code == 1000) {
+        state = state.copyWith(
+          notificationList: response.data ?? [],
+        );
+      }
+    } catch (error) {
+      print('알림 내역 조회 에러: $error');
     }
   }
 

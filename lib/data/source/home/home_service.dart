@@ -2,6 +2,7 @@ import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
+import 'package:daepiro/data/model/response/home/notification_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:dio/dio.dart';
@@ -14,6 +15,10 @@ part 'home_service.g.dart';
 @RestApi()
 abstract class HomeService {
   factory HomeService(Dio dio, {String baseUrl}) = _HomeService;
+
+  // 알림 내역 조회
+  @GET('/v1/users/notifications')
+  Future<NotificationResponse> getNotifications();
 
   // 현재 재난 발생 유무 조회
   @GET('/v1/home/status')

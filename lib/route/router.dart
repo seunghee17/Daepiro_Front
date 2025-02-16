@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
+import 'package:daepiro/presentation/home/main/notification_screen.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/contents/news_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
@@ -210,6 +211,20 @@ final goRouteProvider = Provider((ref) {
         builder: (context, state) {
           return NewsScreen(url: Uri.decodeComponent(state.pathParameters['url'] ?? ""));
         }),
+      GoRoute(
+        path: '/disastersHistory',
+        builder: (context, state) => const DisastersHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/disasterDetail',
+        builder: (context, state) => DisasterDetailScreen(
+            extra: state.extra as Disasters
+        ),
+      ),
+      GoRoute(
+        path: '/notification',
+        builder: (context, state) => const NotificationScreen(),
+      ),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -223,18 +238,6 @@ final goRouteProvider = Provider((ref) {
                 GoRoute(
                     path: '/home',
                     builder: (context, state) => const HomeScreen(),
-                    routes: [
-                      GoRoute(
-                        path: 'disastersHistory',
-                        builder: (context, state) => const DisastersHistoryScreen(),
-                      ),
-                      GoRoute(
-                        path: 'disasterDetail',
-                        builder: (context, state) => DisasterDetailScreen(
-                            extra: state.extra as Disasters
-                        ),
-                      ),
-                    ]
                 ),
               ],
             ),
@@ -253,10 +256,6 @@ final goRouteProvider = Provider((ref) {
                 GoRoute(
                   path: '/information',
                   builder: (context, state) => InformationScreen(),
-                  routes: const [
-
-
-                  ]
                 ),
               ],
             ),

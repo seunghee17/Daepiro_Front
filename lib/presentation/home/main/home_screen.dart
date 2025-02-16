@@ -49,16 +49,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                GoRouter.of(context).go('/home/shelter');
+                                GoRouter.of(context).go('/shelter');
                               },
                               child: SvgPicture.asset('assets/icons/icon_logo_small.svg'),
                             ),
-                            Container(
-                                padding: const EdgeInsets.all(12),
-                                child: SvgPicture.asset(
-                                  'assets/icons/icon_alarm.svg',
-                                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
-                                )
+                            GestureDetector(
+                              onTap: () {
+                                context.push('/notification');
+                              },
+                              child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/icon_alarm.svg',
+                                    colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                                  )
+                              ),
                             ),
                           ],
                         ),
@@ -183,7 +188,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             const Spacer(),
                                             GestureDetector(
                                               onTap: () {
-                                                context.push('/home/disastersHistory');
+                                                context.push('/disastersHistory');
                                               },
                                               child: Row(
                                                   crossAxisAlignment: CrossAxisAlignment.center,

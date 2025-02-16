@@ -30,11 +30,6 @@ mixin _$HomeState {
       throw _privateConstructorUsedError; // selected 인기게시글 카테고리
   List<List<PopularPost>> get allPopularPostList =>
       throw _privateConstructorUsedError; // 인기게시글 - 전체
-// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
-// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
-// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
-// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
-// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   bool get isLoadingContents => throw _privateConstructorUsedError;
   List<Contents> get contentsList => throw _privateConstructorUsedError;
   bool get isLoadingSponsor => throw _privateConstructorUsedError;
@@ -42,6 +37,7 @@ mixin _$HomeState {
   int get selectedDisasterHistoryType => throw _privateConstructorUsedError;
   List<DisastersData> get disastersList => throw _privateConstructorUsedError;
   BehaviorData? get behaviorTip => throw _privateConstructorUsedError;
+  List<Notification> get notificationList => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -73,7 +69,8 @@ abstract class $HomeStateCopyWith<$Res> {
       List<Sponsor> sponsorList,
       int selectedDisasterHistoryType,
       List<DisastersData> disastersList,
-      BehaviorData? behaviorTip});
+      BehaviorData? behaviorTip,
+      List<Notification> notificationList});
 }
 
 /// @nodoc
@@ -109,6 +106,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? selectedDisasterHistoryType = null,
     Object? disastersList = null,
     Object? behaviorTip = freezed,
+    Object? notificationList = null,
   }) {
     return _then(_value.copyWith(
       location: null == location
@@ -183,6 +181,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.behaviorTip
           : behaviorTip // ignore: cast_nullable_to_non_nullable
               as BehaviorData?,
+      notificationList: null == notificationList
+          ? _value.notificationList
+          : notificationList // ignore: cast_nullable_to_non_nullable
+              as List<Notification>,
     ) as $Val);
   }
 }
@@ -213,7 +215,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       List<Sponsor> sponsorList,
       int selectedDisasterHistoryType,
       List<DisastersData> disastersList,
-      BehaviorData? behaviorTip});
+      BehaviorData? behaviorTip,
+      List<Notification> notificationList});
 }
 
 /// @nodoc
@@ -247,6 +250,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? selectedDisasterHistoryType = null,
     Object? disastersList = null,
     Object? behaviorTip = freezed,
+    Object? notificationList = null,
   }) {
     return _then(_$HomeStateImpl(
       location: null == location
@@ -321,6 +325,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.behaviorTip
           : behaviorTip // ignore: cast_nullable_to_non_nullable
               as BehaviorData?,
+      notificationList: null == notificationList
+          ? _value._notificationList
+          : notificationList // ignore: cast_nullable_to_non_nullable
+              as List<Notification>,
     ));
   }
 }
@@ -346,13 +354,15 @@ class _$HomeStateImpl implements _HomeState {
       final List<Sponsor> sponsorList = const [],
       this.selectedDisasterHistoryType = 0,
       final List<DisastersData> disastersList = const [],
-      this.behaviorTip = null})
+      this.behaviorTip = null,
+      final List<Notification> notificationList = const []})
       : _disasterHistoryList = disasterHistoryList,
         _popularPostList = popularPostList,
         _allPopularPostList = allPopularPostList,
         _contentsList = contentsList,
         _sponsorList = sponsorList,
-        _disastersList = disastersList;
+        _disastersList = disastersList,
+        _notificationList = notificationList;
 
   @override
   @JsonKey()
@@ -410,11 +420,6 @@ class _$HomeStateImpl implements _HomeState {
   }
 
 // 인기게시글 - 전체
-// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
-// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
-// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
-// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
-// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   @override
   @JsonKey()
   final bool isLoadingContents;
@@ -454,10 +459,19 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final BehaviorData? behaviorTip;
+  final List<Notification> _notificationList;
+  @override
+  @JsonKey()
+  List<Notification> get notificationList {
+    if (_notificationList is EqualUnmodifiableListView)
+      return _notificationList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_notificationList);
+  }
 
   @override
   String toString() {
-    return 'HomeState(location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip)';
+    return 'HomeState(location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList)';
   }
 
   @override
@@ -473,13 +487,13 @@ class _$HomeStateImpl implements _HomeState {
                 other.isLoading == isLoading) &&
             (identical(other.isOccurred, isOccurred) ||
                 other.isOccurred == isOccurred) &&
-            (identical(other.selectedPopularPostCategory,
-                    selectedPopularPostCategory) ||
+            (identical(other.selectedPopularPostCategory, selectedPopularPostCategory) ||
                 other.selectedPopularPostCategory ==
                     selectedPopularPostCategory) &&
             (identical(other.selectedContentsCategory, selectedContentsCategory) ||
                 other.selectedContentsCategory == selectedContentsCategory) &&
-            (identical(other.isLoadingDisasterHistory, isLoadingDisasterHistory) ||
+            (identical(
+                    other.isLoadingDisasterHistory, isLoadingDisasterHistory) ||
                 other.isLoadingDisasterHistory == isLoadingDisasterHistory) &&
             const DeepCollectionEquality()
                 .equals(other._disasterHistoryList, _disasterHistoryList) &&
@@ -504,30 +518,34 @@ class _$HomeStateImpl implements _HomeState {
             const DeepCollectionEquality()
                 .equals(other._disastersList, _disastersList) &&
             (identical(other.behaviorTip, behaviorTip) ||
-                other.behaviorTip == behaviorTip));
+                other.behaviorTip == behaviorTip) &&
+            const DeepCollectionEquality()
+                .equals(other._notificationList, _notificationList));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      nickname,
-      isLoading,
-      isOccurred,
-      selectedPopularPostCategory,
-      selectedContentsCategory,
-      isLoadingDisasterHistory,
-      const DeepCollectionEquality().hash(_disasterHistoryList),
-      isLoadingPopularPost,
-      const DeepCollectionEquality().hash(_popularPostList),
-      const DeepCollectionEquality().hash(_allPopularPostList),
-      isLoadingContents,
-      const DeepCollectionEquality().hash(_contentsList),
-      isLoadingSponsor,
-      const DeepCollectionEquality().hash(_sponsorList),
-      selectedDisasterHistoryType,
-      const DeepCollectionEquality().hash(_disastersList),
-      behaviorTip);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        location,
+        nickname,
+        isLoading,
+        isOccurred,
+        selectedPopularPostCategory,
+        selectedContentsCategory,
+        isLoadingDisasterHistory,
+        const DeepCollectionEquality().hash(_disasterHistoryList),
+        isLoadingPopularPost,
+        const DeepCollectionEquality().hash(_popularPostList),
+        const DeepCollectionEquality().hash(_allPopularPostList),
+        isLoadingContents,
+        const DeepCollectionEquality().hash(_contentsList),
+        isLoadingSponsor,
+        const DeepCollectionEquality().hash(_sponsorList),
+        selectedDisasterHistoryType,
+        const DeepCollectionEquality().hash(_disastersList),
+        behaviorTip,
+        const DeepCollectionEquality().hash(_notificationList)
+      ]);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -557,7 +575,8 @@ abstract class _HomeState implements HomeState {
       final List<Sponsor> sponsorList,
       final int selectedDisasterHistoryType,
       final List<DisastersData> disastersList,
-      final BehaviorData? behaviorTip}) = _$HomeStateImpl;
+      final BehaviorData? behaviorTip,
+      final List<Notification> notificationList}) = _$HomeStateImpl;
 
   @override
   String get location;
@@ -581,11 +600,6 @@ abstract class _HomeState implements HomeState {
   List<PopularPost> get popularPostList; // selected 인기게시글 카테고리
   @override
   List<List<PopularPost>> get allPopularPostList; // 인기게시글 - 전체
-// @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
-// @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
-// @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
-// @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
-// @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
   @override
   bool get isLoadingContents;
   @override
@@ -600,6 +614,8 @@ abstract class _HomeState implements HomeState {
   List<DisastersData> get disastersList;
   @override
   BehaviorData? get behaviorTip;
+  @override
+  List<Notification> get notificationList;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
+import 'package:daepiro/data/model/response/home/notification_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
@@ -13,7 +14,6 @@ sealed class HomeState with _$HomeState {
     @Default("") String location,
     @Default("") String nickname,
 
-
     @Default(false) bool isLoading,
     @Default(false) bool isOccurred,
 
@@ -26,11 +26,6 @@ sealed class HomeState with _$HomeState {
     @Default(0) int isLoadingPopularPost,
     @Default([]) List<PopularPost> popularPostList,   // selected 인기게시글 카테고리
     @Default([]) List<List<PopularPost>> allPopularPostList,   // 인기게시글 - 전체
-    // @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
-    // @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
-    // @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
-    // @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
-    // @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
 
     @Default(true) bool isLoadingContents,
     @Default([]) List<Contents> contentsList,
@@ -42,6 +37,9 @@ sealed class HomeState with _$HomeState {
     @Default([]) List<DisastersData> disastersList,
 
     @Default(null) BehaviorData? behaviorTip,
+
+    @Default([]) List<Notification> notificationList,
+
   }) = _HomeState;
 }
 

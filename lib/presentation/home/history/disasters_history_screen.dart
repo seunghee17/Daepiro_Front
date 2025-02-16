@@ -109,7 +109,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                         ),
                                         onClick: () {
                                           context.push(
-                                              '/home/disasterDetail',
+                                              '/disasterDetail',
                                               extra: Disasters(
                                                 disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
                                                 disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,

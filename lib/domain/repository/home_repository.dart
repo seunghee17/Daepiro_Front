@@ -7,6 +7,7 @@ import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/http/http_provider.dart';
 import '../../data/model/response/home/behavior_tips_response.dart';
+import '../../data/model/response/home/notification_response.dart';
 import '../../data/model/response/information/disaster_contents_list_response.dart';
 import '../../data/repositoryimpl/home_repository_impl.dart';
 
@@ -24,4 +25,6 @@ abstract class HomeRepository {
   Future<DisastersHistoryResponse> getDisastersHistory();
   Future<DisasterContentsListResponse> getRecentContents();
   Future<BehaviorTipsResponse> getBehaviorTips(String disasterId);
+
+  Future<NotificationResponse> getNotifications();
 }
