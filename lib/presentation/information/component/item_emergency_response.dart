@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../const/const.dart';
 
@@ -23,63 +24,54 @@ class ItemEmergencyResponse extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  width: 2,
-                  color: DaepiroColorStyle.g_50,
-                ),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.12),  // 그림자의 색 (불투명도 조절)
+                    offset: const Offset(0, 0),  // 그림자의 위치 (오른쪽, 아래로 4픽셀)
+                    blurRadius: 8,  // 흐림 효과 (그림자가 퍼지는 정도)
+                    spreadRadius: 1,  // 그림자의 크기 확장 정도
+                  ),
+                ],
               ),
               padding: const EdgeInsets.all(16),
-              child: Stack(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Align(
-                      alignment: Alignment.center,
-                      child: Image.asset(Const.emergencyResponseList[tabIndex][pageIndex][1])
-                  ),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: DaepiroColorStyle.o_500,
-                              borderRadius: BorderRadius.circular(4)
-                          ),
-                          child: Text(
-                              Const.emergencyResponseList[tabIndex][pageIndex][0],
-                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                color: DaepiroColorStyle.white,
-                              )
+                  Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: DaepiroColorStyle.g_50,
+                          borderRadius: BorderRadius.circular(14)
+                      ),
+                      child: Text(
+                          Const.emergencyResponseList[tabIndex][pageIndex][0],
+                          style: DaepiroTextStyle.body_2_m.copyWith(
+                            color: DaepiroColorStyle.g_600,
                           )
                       )
                   ),
-                ],
-              )
-          ),
-          const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-            decoration: BoxDecoration(
-                color: DaepiroColorStyle.g_50,
-                borderRadius: BorderRadius.circular(8)
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+                  const SizedBox(height: 16),
+                  Image.asset(Const.emergencyResponseList[tabIndex][pageIndex][1]),
+                  const SizedBox(height: 30),
+                  Text(
                     Const.emergencyResponseList[tabIndex][pageIndex][2],
                     style: DaepiroTextStyle.body_1_b.copyWith(
                       color: DaepiroColorStyle.g_700,
-                    )
-                ),
-                const SizedBox(width: 4),
-                Text(
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
                     Const.emergencyResponseList[tabIndex][pageIndex][3],
                     style: DaepiroTextStyle.body_2_m.copyWith(
                       color: DaepiroColorStyle.g_600,
-                    )
-                )
-              ],
-            ),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 14),
+                ],
+              )
           ),
         ],
       ),

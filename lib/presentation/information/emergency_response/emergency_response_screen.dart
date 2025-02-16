@@ -46,91 +46,90 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: DaepiroColorStyle.white,
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: SvgPicture.asset(
-                          'assets/icons/icon_arrow_left.svg',
-                          alignment: Alignment.centerLeft,
-                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          '응급대처',
-                          style: DaepiroTextStyle.h6.copyWith(
-                            color: DaepiroColorStyle.g_800,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                TabBar(
-                  controller: _tabController,
-                  labelColor: DaepiroColorStyle.g_800,
-                  labelStyle: DaepiroTextStyle.body_1_m,
-                  unselectedLabelColor: DaepiroColorStyle.g_300,
-                  unselectedLabelStyle: DaepiroTextStyle.body_1_m,
-                  indicatorColor: DaepiroColorStyle.g_800,
-                  indicatorWeight: 4,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(child: Text("심폐소생술")),
-                    Tab(child: Text("응급처치")),
-                    Tab(child: Text("소화기")),
-                    Tab(child: Text("하임리히"))
-                  ],
-                ),
-                ExpandablePageView(
-                  controller: _responsePageController,
-                  scrollDirection: Axis.horizontal,
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: DaepiroColorStyle.white,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                child: Row(
                   children: [
-                    for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
-                      Flexible(
-                        child: ItemEmergencyResponse(
-                            tabIndex: selectedTabIndex,
-                            pageIndex: i
+                    GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: SvgPicture.asset(
+                        'assets/icons/icon_arrow_left.svg',
+                        alignment: Alignment.centerLeft,
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '응급대처',
+                        style: DaepiroTextStyle.h6.copyWith(
+                          color: DaepiroColorStyle.g_800,
                         ),
-                      )
+                        textAlign: TextAlign.center,
+                      ),
+                    )
                   ],
                 ),
-                const SizedBox(height: 12),
-                // const Spacer(),
-                Center(
-                  child: SmoothPageIndicator(
-                    controller: _responsePageController,
-                    count: Const.emergencyResponseList[selectedTabIndex].length,
-                    effect: const ExpandingDotsEffect(
-                        dotColor: DaepiroColorStyle.g_75,
-                        activeDotColor: DaepiroColorStyle.g_300,
-                        dotHeight: 6,
-                        dotWidth: 6,
-                        spacing: 6,
-                        expansionFactor: 2.5
-                    ),
+              ),
+              TabBar(
+                controller: _tabController,
+                labelColor: DaepiroColorStyle.g_800,
+                labelStyle: DaepiroTextStyle.body_1_m,
+                unselectedLabelColor: DaepiroColorStyle.g_300,
+                unselectedLabelStyle: DaepiroTextStyle.body_1_m,
+                indicatorColor: DaepiroColorStyle.g_800,
+                indicatorWeight: 4,
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs: const [
+                  Tab(child: Text("심폐소생술")),
+                  Tab(child: Text("응급처치")),
+                  Tab(child: Text("소화기")),
+                  Tab(child: Text("하임리히"))
+                ],
+              ),
+              ExpandablePageView(
+                controller: _responsePageController,
+                scrollDirection: Axis.horizontal,
+                children: [
+                  for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
+                    Flexible(
+                      child: ItemEmergencyResponse(
+                          tabIndex: selectedTabIndex,
+                          pageIndex: i
+                      ),
+                    )
+                ],
+              ),
+              // const SizedBox(height: 12),
+              const Spacer(),
+              Center(
+                child: SmoothPageIndicator(
+                  controller: _responsePageController,
+                  count: Const.emergencyResponseList[selectedTabIndex].length,
+                  effect: const ExpandingDotsEffect(
+                      dotColor: DaepiroColorStyle.g_75,
+                      activeDotColor: DaepiroColorStyle.g_300,
+                      dotHeight: 6,
+                      dotWidth: 6,
+                      spacing: 6,
+                      expansionFactor: 2.5
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Row(
+                  children: [
+                    Expanded(
                         child: GestureDetector(
                           onTap: () {
                             _responsePageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
@@ -151,35 +150,34 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                             ),
                           ),
                         )
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              _responsePageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: DaepiroColorStyle.o_500,
-                                  borderRadius: BorderRadius.circular(8)
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Center(
-                                child: Text(
-                                    '다음',
-                                    style: DaepiroTextStyle.body_1_b.copyWith(
-                                      color: DaepiroColorStyle.white,
-                                    )
-                                ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            _responsePageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: DaepiroColorStyle.o_500,
+                                borderRadius: BorderRadius.circular(8)
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Center(
+                              child: Text(
+                                  '다음',
+                                  style: DaepiroTextStyle.body_1_b.copyWith(
+                                    color: DaepiroColorStyle.white,
+                                  )
                               ),
                             ),
-                          )
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                          ),
+                        )
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

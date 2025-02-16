@@ -22,62 +22,60 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: SafeArea(
-            child: Scaffold(
-                body: Column(
+    return Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                child: Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              context.pop();
-                            },
-                            child: SvgPicture.asset(
-                              'assets/icons/icon_arrow_left.svg',
-                              alignment: Alignment.centerLeft,
-                              colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '실시간 뉴스',
-                              style: DaepiroTextStyle.h6.copyWith(
-                                color: DaepiroColorStyle.g_800,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Share.share(widget.url);
-                            },
-                            child: SvgPicture.asset(
-                              'assets/icons/icon_share.svg',
-                              alignment: Alignment.centerRight,
-                              colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
-                            ),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: SvgPicture.asset(
+                        'assets/icons/icon_arrow_left.svg',
+                        alignment: Alignment.centerLeft,
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                       ),
                     ),
                     Expanded(
-                      child: InAppWebView(
-                        initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
-                        initialOptions: InAppWebViewGroupOptions(
-                          crossPlatform: InAppWebViewOptions(
-                            javaScriptEnabled: true,
-                            javaScriptCanOpenWindowsAutomatically: true,
-                            verticalScrollBarEnabled: true
-                            )
-                        )
+                      child: Text(
+                        '실시간 뉴스',
+                        style: DaepiroTextStyle.h6.copyWith(
+                          color: DaepiroColorStyle.g_800,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Share.share(widget.url);
+                      },
+                      child: SvgPicture.asset(
+                        'assets/icons/icon_share.svg',
+                        alignment: Alignment.centerRight,
+                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                       ),
                     ),
                   ],
-                )
-            )
+                ),
+              ),
+              Expanded(
+                child: InAppWebView(
+                    initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+                    initialOptions: InAppWebViewGroupOptions(
+                        crossPlatform: InAppWebViewOptions(
+                            javaScriptEnabled: true,
+                            javaScriptCanOpenWindowsAutomatically: true,
+                            verticalScrollBarEnabled: true
+                        )
+                    )
+                ),
+              ),
+            ],
+          ),
         )
     );
   }

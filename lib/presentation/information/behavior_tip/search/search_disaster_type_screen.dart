@@ -22,39 +22,38 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: DaepiroColorStyle.g_50,
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20,8,12,8),
-                  color: Colors.white,
-                  child: Row(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: DaepiroColorStyle.g_50,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(20,8,12,8),
+                color: Colors.white,
+                child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: SvgPicture.asset('assets/icons/icon_arrow_left.svg')
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: SvgPicture.asset('assets/icons/icon_arrow_left.svg')
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                           child: TextField(
                             style: DaepiroTextStyle.body_1_m.copyWith(
-                              color: DaepiroColorStyle.g_900
+                                color: DaepiroColorStyle.g_900
                             ),
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: DaepiroColorStyle.g_50,
                               border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(8)
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8)
                               ),
                               contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               suffixIcon: Padding(
@@ -79,26 +78,25 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
                           )
                       )
                     ]
-                  ),
                 ),
-                Flexible(
-                  child: Container(
+              ),
+              Flexible(
+                child: Container(
                     color: Colors.white,
                     padding: searchedDisasterList.isNotEmpty ? const EdgeInsets.symmetric(horizontal: 12, vertical: 20) : const EdgeInsets.all(0),
                     child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: searchedDisasterList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return SearchDisasterType(
-                          name: searchedDisasterList[index].name!,
-                          behaviorList: widget.behaviorList
-                        );
-                      }
+                        shrinkWrap: true,
+                        itemCount: searchedDisasterList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SearchDisasterType(
+                              name: searchedDisasterList[index].name!,
+                              behaviorList: widget.behaviorList
+                          );
+                        }
                     )
-                  ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),
