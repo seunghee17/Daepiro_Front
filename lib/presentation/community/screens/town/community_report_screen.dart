@@ -1,6 +1,5 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,13 +41,13 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(
                         '어떤 점이 불편하셨나요?',
                         style: DaepiroTextStyle.h6
                             .copyWith(color: DaepiroColorStyle.g_900),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       GestureDetector(
                           onTap: () {
                             showModalBottomSheet(
@@ -61,17 +60,17 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                           child: disasterState.isDisasterScreen
                               ? reportTypeWidget(disasterState.reportType)
                               : reportTypeWidget(townState.reportType)),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       contentWriteWidget(screenHeight),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         '연락받을 메일 주소',
                         style: DaepiroTextStyle.body_1_m
                             .copyWith(color: DaepiroColorStyle.g_900),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       mailWriteWidget(),
-                      SizedBox(height: 20)
+                      const SizedBox(height: 20)
                     ],
                   ),
                 ),
@@ -85,12 +84,12 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   }
 
   Widget headerWidget(bool isDisasterScreen) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: GestureDetector(
               onTap: () {
                 GoRouter.of(context).pop();
@@ -103,7 +102,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
           ),
@@ -115,7 +114,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                   DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
             ),
           ),
-          Container(
+          const SizedBox(
             width: 24,
             height: 24,
           )
@@ -132,7 +131,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Row(
           children: [
             reportType == ''
@@ -146,10 +145,10 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                     style: DaepiroTextStyle.body_1_m
                         .copyWith(color: DaepiroColorStyle.g_900),
                   ),
-            Spacer(),
+            const Spacer(),
             SvgPicture.asset('assets/icons/icon_arrow_down.svg',
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                    const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ],
         ),
       ),
@@ -157,7 +156,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   }
 
   Widget contentWriteWidget(double screenHeight) {
-    return Container(
+    return SizedBox(
         height: 341,
         child: Stack(
           children: [
@@ -168,12 +167,12 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
               style: DaepiroTextStyle.body_1_m
                   .copyWith(color: DaepiroColorStyle.g_900),
               cursorColor: DaepiroColorStyle.g_900,
-              textAlignVertical: TextAlignVertical(y: -1),
+              textAlignVertical: const TextAlignVertical(y: -1),
               controller: contentEditingController,
               onTapOutside: (event) =>
                   FocusManager.instance.primaryFocus?.unfocus(),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                contentPadding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                 counterText: '',
                 filled: true,
                 isDense: true,
@@ -181,10 +180,10 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                 hintText: '불편했던 사항을 구체적으로 작성해주세요.',
                 hintStyle: DaepiroTextStyle.body_1_m
                     .copyWith(color: DaepiroColorStyle.g_200),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: const OutlineInputBorder(
@@ -209,7 +208,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   }
 
   Widget mailWriteWidget() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: TextField(
         style:
@@ -219,16 +218,16 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         controller: mailEditingController,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(16),
+          contentPadding: const EdgeInsets.all(16),
           filled: true,
           fillColor: DaepiroColorStyle.g_50,
           hintText: '메일 주소를 입력해주세요',
           hintStyle: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_200),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderSide: BorderSide.none,
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide.none,
           ),
           focusedBorder: const OutlineInputBorder(
@@ -245,17 +244,17 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
 
   Widget footerWidget(bool isDisasterScreen) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: SizedBox(
         width: double.infinity,
         child: PrimaryFilledButton(
-            backgroundColor: mailEditingController.text.length > 0 &&
-                    contentEditingController.text.length > 0
+            backgroundColor: mailEditingController.text.isNotEmpty &&
+                    contentEditingController.text.isNotEmpty
                 ? DaepiroColorStyle.g_700
                 : DaepiroColorStyle.g_200,
             onPressed: () async {
-              if (mailEditingController.text.length > 0 &&
-                  contentEditingController.text.length > 0) {
+              if (mailEditingController.text.isNotEmpty &&
+                  contentEditingController.text.isNotEmpty) {
                 if (isDisasterScreen) {
                   await ref
                       .read(communityDisasterProvider.notifier)
@@ -289,12 +288,12 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
             },
             pressedColor: DaepiroColorStyle.g_600,
             borderRadius: 8,
+            verticalPadding: 12,
             child: Text(
               '접수하기',
               style: DaepiroTextStyle.body_1_b
                   .copyWith(color: DaepiroColorStyle.white),
-            ),
-            verticalPadding: 12),
+            )),
       ),
     );
   }
@@ -304,19 +303,19 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 3), () {
             GoRouter.of(context).pop();
           });
           return AlertDialog(
             backgroundColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(vertical: 20),
+            contentPadding: const EdgeInsets.symmetric(vertical: 20),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset('assets/icons/icon_warning',
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.r_200, BlendMode.srcIn)),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   '신고 유형을 선택해주세요',
                   style: DaepiroTextStyle.body_1_b
@@ -333,12 +332,12 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 3), () {
             GoRouter.of(context).pop();
           });
           return AlertDialog(
             backgroundColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(vertical: 24),
+            contentPadding: const EdgeInsets.symmetric(vertical: 24),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -347,7 +346,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   '신고 유형을 선택해주세요',
                   style: DaepiroTextStyle.body_1_m
@@ -364,7 +363,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.4,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(12),
@@ -381,7 +380,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                 ListView.builder(
                     itemCount: reportDescription.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -402,7 +401,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                             pressedColor: DaepiroColorStyle.g_50,
                             child: Row(
                               children: [
-                                SizedBox(width: 16),
+                                const SizedBox(width: 16),
                                 Text(
                                   textAlign: TextAlign.start,
                                   reportDescription[index],
@@ -429,7 +428,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
           children: [
             Row(
               children: [
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Opacity(
                   opacity: 0.0,
                   child: SvgPicture.asset(
@@ -451,14 +450,14 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                   child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_900, BlendMode.srcIn)),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
               ],
             ),
             Container(
-              decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+              decoration: const BoxDecoration(color: DaepiroColorStyle.g_50),
               width: double.infinity,
               height: 1,
             )

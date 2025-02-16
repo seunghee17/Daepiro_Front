@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,31 +66,31 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               headerWidget(context),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Expanded(
                   child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     writingTypeWidget(state.writingTownCategory),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     titleTextField(titleTextController),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     contentTextField(contentTextController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     photoWidget(state.selectedImages),
-                    SizedBox(height: 20)
+                    const SizedBox(height: 20)
                   ],
                 ),
               )),
               locationCheckWidget(state.isVisible),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -102,7 +101,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   Widget headerWidget(BuildContext context) {
     return Container(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           children: [
             GestureDetector(
@@ -114,7 +113,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
             Expanded(
@@ -180,7 +179,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                     ? DaepiroColorStyle.g_75
                     : DaepiroColorStyle.g_50)),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Row(
             children: [
               writingTownCategory == ''
@@ -194,9 +193,9 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                       style: DaepiroTextStyle.body_1_m
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
-              Spacer(),
+              const Spacer(),
               SvgPicture.asset('assets/icons/icon_arrow_down.svg',
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ],
           ),
@@ -206,7 +205,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
   Widget titleTextField(TextEditingController controller) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: TextField(
         controller: controller,
@@ -221,11 +220,11 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
           hintStyle:
               DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_75),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-          enabledBorder: UnderlineInputBorder(
+          enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: DaepiroColorStyle.g_75)),
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: DaepiroColorStyle.g_75)),
-          border: UnderlineInputBorder(
+          border: const UnderlineInputBorder(
               borderSide: BorderSide(color: DaepiroColorStyle.g_75)),
         ),
       ),
@@ -233,7 +232,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
   Widget contentTextField(TextEditingController controller) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 343,
       child: TextField(
@@ -304,7 +303,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             if (selectedImages!.isNotEmpty)
               Expanded(
                 child: SingleChildScrollView(
@@ -316,7 +315,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
-                            Container(
+                            SizedBox(
                                 width: 118,
                                 height: 118,
                                 child: image.entity != null ? FutureBuilder<Uint8List?> (
@@ -331,7 +330,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                                         ),
                                       );
                                     }
-                                    return Center(
+                                    return const Center(
                                       child: CircularProgressIndicator(),
                                     );
                                   },
@@ -362,7 +361,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                                           height: 12,
                                           'assets/icons/icon_close.svg',
                                           colorFilter:
-                                          ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                                          const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
                                     ),
                                   ),
                                 )
@@ -447,25 +446,25 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.g_50,
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           overlayColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           shadowColor: Colors.transparent,
           elevation: 0.0),
       child: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             width: 12,
           ),
           Checkbox(
               visualDensity: VisualDensity.compact,
-              side: BorderSide(color: Colors.transparent),
+              side: const BorderSide(color: Colors.transparent),
               activeColor: DaepiroColorStyle.g_500,
               checkColor: DaepiroColorStyle.white,
-              fillColor: MaterialStateProperty.resolveWith((state) {
-                if (!state.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith((state) {
+                if (!state.contains(WidgetState.selected)) {
                   return DaepiroColorStyle.g_100;
                 }
                 return null;
@@ -476,7 +475,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                     .read(communityTownProvider.notifier)
                     .setVisibleState();
               }),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
             '현위치를 표시하겠어요?',
             style: DaepiroTextStyle.body_1_m
@@ -508,7 +507,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   //바텀시트 내부 위젯
   Widget categoryItemWidget(bool isWritingContainerPress) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(30),
@@ -561,7 +560,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
           children: [
             Row(
               children: [
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Opacity(
                   opacity: 0.0,
                   child: SvgPicture.asset(
@@ -583,15 +582,15 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                   child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_900, BlendMode.srcIn)),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
-              decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+              decoration: const BoxDecoration(color: DaepiroColorStyle.g_50),
               width: double.infinity,
               height: 1,
             )
@@ -602,7 +601,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
   Widget categoryListItem(String category) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -622,7 +621,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
           GoRouter.of(context).pop();
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Row(
             children: [
               Text(
@@ -646,19 +645,19 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                     'assets/icons/icon_warning',
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.r_200, BlendMode.srcIn)),
               ],
             ),
-            contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
-            content: Container(
+            contentPadding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+            content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                   mainAxisSize: MainAxisSize.min,

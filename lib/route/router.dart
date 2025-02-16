@@ -15,7 +15,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../data/model/response/community/community_dongnae_content_detail_response.dart';
 import '../data/model/response/information/behavior_list_response.dart';
-import '../data/model/response/sponsor/sponsor_list_response.dart';
 import '../data/model/selected_image.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_report_screen.dart';
@@ -56,13 +55,13 @@ final _communityNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'community'
 final _informationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'information');
 final _sponsorNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sponsor');
 final _mypageNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'mypage');
-final FlutterSecureStorage storage = FlutterSecureStorage();
+const FlutterSecureStorage storage = FlutterSecureStorage();
 
 //중간에 토큰 만료시 로직은 개선해야함
 Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
   String current = state.uri.path;
   if (current != '/splash') {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     String? accessToken = await storage.read(key: 'accessToken');
     String? refreshToken = await storage.read(key: 'refreshToken');
     if ((accessToken == null && refreshToken == null) ||
@@ -84,18 +83,18 @@ final goRouteProvider = Provider((ref) {
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => SplashScreen(),
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => LoginScreen(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
           path: '/community_rule',
-          builder: (context, state) => CommunityRuleScreen()),
+          builder: (context, state) => const CommunityRuleScreen()),
       GoRoute(
           path: '/community_town_detail',
-          builder: (context, state) => CommunityTownDetailScreen()),
+          builder: (context, state) => const CommunityTownDetailScreen()),
       GoRoute(
           path: '/community_town_writing_album',
           builder: (context, state) => GalleryViewScreen(
@@ -125,25 +124,25 @@ final goRouteProvider = Provider((ref) {
           builder: (context, state) => TownCertificateScreen()),
       GoRoute(
           path: '/mypage_fix_userinfo',
-          builder: (context, state) => MyPageFixUserinfoScreen()),
+          builder: (context, state) => const MyPageFixUserinfoScreen()),
       GoRoute(
           path: '/mypage_fix_alarminfo',
-          builder: (context, state) => MyPageAlarmSettingScreen()),
+          builder: (context, state) => const MyPageAlarmSettingScreen()),
       GoRoute(
           path: '/mypage_setting_address',
-          builder: (context, state) => MypageDisasterAddressSettingScreen()),
+          builder: (context, state) => const MypageDisasterAddressSettingScreen()),
       GoRoute(
           path: '/mypage_setting_disaster_type',
-          builder: (context, state) => MypageDisasterTypeSettingScreen()),
+          builder: (context, state) => const MypageDisasterTypeSettingScreen()),
       GoRoute(
           path: '/mypage_user_writing',
-          builder: (context, state) => MyPageUserWritingScreen()),
+          builder: (context, state) => const MyPageUserWritingScreen()),
       GoRoute(
           path: '/mypage_inquires',
-          builder: (context, state) => MyPageInquiresScreen()),
+          builder: (context, state) => const MyPageInquiresScreen()),
       GoRoute(
           path: '/onboarding',
-          builder: (context, state) => OnboardingFirstScreen(),
+          builder: (context, state) => const OnboardingFirstScreen(),
           routes: [
             GoRoute(
                 path: 'first',
@@ -160,29 +159,29 @@ final goRouteProvider = Provider((ref) {
                 }),
             GoRoute(
                 path: 'third',
-                builder: (context, state) => OnboardingFourthScreen()),
+                builder: (context, state) => const OnboardingFourthScreen()),
             GoRoute(
                 path: 'fourth',
-                builder: (context, state) => OnboardingFifthScreen()),
+                builder: (context, state) => const OnboardingFifthScreen()),
             GoRoute(
                 path: 'final',
-                builder: (context, state) => OnboardingFinalScreen()),
+                builder: (context, state) => const OnboardingFinalScreen()),
           ]),
       GoRoute(
           path: '/behaviorTips',
-          builder: (context, state) => BehaviorTipsScreen()
+          builder: (context, state) => const BehaviorTipsScreen()
       ),
       GoRoute(
           path: '/emergencyResponse',
-          builder: (context, state) => EmergencyResponseScreen()
+          builder: (context, state) => const EmergencyResponseScreen()
       ),
       GoRoute(
           path: '/disasterContents',
-          builder: (context, state) => DisasterContentsScreen()
+          builder: (context, state) => const DisasterContentsScreen()
       ),
       GoRoute(
           path: '/searchDisasterContents',
-          builder: (context, state) => SearchDisasterContentsScreen()
+          builder: (context, state) => const SearchDisasterContentsScreen()
       ),
       GoRoute(
         path: '/aroundShelter',
@@ -204,7 +203,7 @@ final goRouteProvider = Provider((ref) {
       ),
       GoRoute(
         path: '/cheer',
-        builder: (context, state) => CheerScreen(),
+        builder: (context, state) => const CheerScreen(),
       ),
       GoRoute(
         path: '/news/:url',
@@ -223,11 +222,11 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                     path: '/home',
-                    builder: (context, state) => HomeScreen(),
+                    builder: (context, state) => const HomeScreen(),
                     routes: [
                       GoRoute(
                         path: 'disastersHistory',
-                        builder: (context, state) => DisastersHistoryScreen(),
+                        builder: (context, state) => const DisastersHistoryScreen(),
                       ),
                       GoRoute(
                         path: 'disasterDetail',
@@ -254,7 +253,7 @@ final goRouteProvider = Provider((ref) {
                 GoRoute(
                   path: '/information',
                   builder: (context, state) => InformationScreen(),
-                  routes: [
+                  routes: const [
 
 
                   ]
@@ -266,7 +265,7 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                   path: '/sponsor',
-                  builder: (context, state) => SponsorScreen(),
+                  builder: (context, state) => const SponsorScreen(),
                 ),
 
               ],

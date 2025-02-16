@@ -11,20 +11,20 @@ class CommunityArticleWritingResponse {
   CommunityArticleWritingResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Response.fromJson(json['data']) : null;
+    data = json['data'] != null ? Response.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -39,8 +39,8 @@ class Response {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     return data;
   }
 }

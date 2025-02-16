@@ -1,4 +1,3 @@
-import 'package:daepiro/data/model/response/information/around_shelter_list_response.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_comment_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

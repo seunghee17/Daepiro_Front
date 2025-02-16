@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
@@ -6,6 +5,8 @@ import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 
 class OnboardingFirstScreen extends StatefulWidget {
+  const OnboardingFirstScreen({super.key});
+
   @override
   _OnboardingFirstState createState() => _OnboardingFirstState();
 }
@@ -71,7 +72,7 @@ class _OnboardingFirstState extends State<OnboardingFirstScreen> {
           style: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_500),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           '대피로가 해결해드릴게요.',
           style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
@@ -83,21 +84,21 @@ class _OnboardingFirstState extends State<OnboardingFirstScreen> {
   Widget footerWidget(BuildContext context, double width) {
     return SizedBox(
       width: double.infinity,
-      child: Container(
+      child: SizedBox(
         width: width,
         child: PrimaryFilledButton(
             onPressed: () {
               GoRouter.of(context).push('/onboarding/first');
             },
-            backgroundColor: Color(0xFFFF6929),
-            pressedColor: Color(0xFFFF6929),
+            backgroundColor: const Color(0xFFFF6929),
+            pressedColor: const Color(0xFFFF6929),
+            verticalPadding: 12,
+            borderRadius: 8,
             child: Text(
               '다음',
               style: DaepiroTextStyle.body_1_b
                   .copyWith(color: DaepiroColorStyle.white),
-            ),
-            verticalPadding: 12,
-            borderRadius: 8),
+            )),
       ),
     );
   }

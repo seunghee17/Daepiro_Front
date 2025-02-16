@@ -19,7 +19,7 @@ final loginStateNotifierProvider =
 
 class LoginViewModel extends StateNotifier<LoginState> {
   final Ref ref;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   List<Permission> permission = [
     Permission.location,
@@ -53,7 +53,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   Future<void> setFcmToken() async {
     String fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
-    await ref.read(setFcmTokenUseCaseProvider(
+    ref.read(setFcmTokenUseCaseProvider(
         SetFcmTokenUseCase(setFcmRequest: SetFcmRequest(
             fcmToken: fcmToken
         ))
@@ -95,7 +95,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
       NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
       await fetchSocialToken('naver', accessToken.accessToken);
     } catch (error) {
-      print('네이버 로그인 에러: ${error}');
+      print('네이버 로그인 에러: $error');
     }
     return;
   }

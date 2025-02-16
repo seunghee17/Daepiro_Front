@@ -1,9 +1,7 @@
-import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
 import 'package:daepiro/presentation/information/behavior_tip/behavior_tips_state.dart';
 import 'package:daepiro/presentation/information/behavior_tip/behavior_tips_view_model.dart';
 import 'package:daepiro/presentation/information/component/behavior_tip_bottom_sheet.dart';
 import 'package:daepiro/presentation/information/component/disaster_type.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -59,7 +57,7 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                         child: SvgPicture.asset(
                           'assets/icons/icon_arrow_left.svg',
                           alignment: Alignment.centerLeft,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),
                       ),
                       Expanded(
@@ -81,7 +79,7 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                         child: SvgPicture.asset(
                           'assets/icons/icon_search.svg',
                           alignment: Alignment.centerRight,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),
                       ),
                     ],

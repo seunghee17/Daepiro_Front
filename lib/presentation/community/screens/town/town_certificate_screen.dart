@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:daepiro/cmm/button/primary_filled_button.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:daepiro/presentation/community/controller/town_certificate_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,6 +17,8 @@ class TownCertificateScreen extends ConsumerWidget {
   bool isFirstDialogAppear = false;
   bool isSecondDialogAppear = false;
   NMarker? currentMarker;
+
+  TownCertificateScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,7 +58,7 @@ class TownCertificateScreen extends ConsumerWidget {
                     children: [
                       headerWidget(context),
                       addressWidget(state.selectAddress),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         height: 317,
                         child: Stack(
@@ -67,7 +67,7 @@ class TownCertificateScreen extends ConsumerWidget {
                               top: 0,
                                 right: 0,
                                 left: 0,
-                                child: Container(
+                                child: SizedBox(
                                   width: double.infinity,
                                   height: 317,
                                   child: NaverMap(
@@ -81,7 +81,7 @@ class TownCertificateScreen extends ConsumerWidget {
                                     onMapReady: (controller) async {
                                       currentMarker = NMarker(
                                           id: 'daepiro',
-                                          icon: NOverlayImage.fromAssetImage(
+                                          icon: const NOverlayImage.fromAssetImage(
                                               'assets/icons/icon_location_58.png'),
                                           position:
                                           NLatLng(state.latitude, state.longitude));
@@ -119,7 +119,7 @@ class TownCertificateScreen extends ConsumerWidget {
                                             height: 24,
                                             'assets/icons/icon_reset.svg',
                                             colorFilter:
-                                            ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                                            const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
                                       ),
                                     ),
                                   )
@@ -130,7 +130,7 @@ class TownCertificateScreen extends ConsumerWidget {
                               child: Positioned(
                                 right: 68,
                                   bottom: 14,
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 250,
                                     child: SpeechBalloon(
                                       nipLocation: NipLocation.right,
@@ -149,21 +149,21 @@ class TownCertificateScreen extends ConsumerWidget {
                           ],
                         )
                       ),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       locationCheckWidget(state.isSuccessCertificate),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       state.isSuccessCertificate
                           ? Text('인증하기를 눌러 동네 인증을 완료해주세요.',
                               style: DaepiroTextStyle.body_2_m
                                   .copyWith(color: DaepiroColorStyle.g_500))
                           : Text(
-                              '현재 \‘${selectAddress}\' 동네 생활에 있어요.\n현 위치가 동네와 다르면 위치를 노출할 수 없어요.',
+                              '현재 ‘$selectAddress\' 동네 생활에 있어요.\n현 위치가 동네와 다르면 위치를 노출할 수 없어요.',
                               style: DaepiroTextStyle.body_2_m
                                   .copyWith(color: DaepiroColorStyle.g_500),
                             ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       notificationWidget(),
-                      Spacer(),
+                      const Spacer(),
                       state.isSuccessCertificate
                           ? Expanded(
                               child: PrimaryFilledButton(
@@ -171,12 +171,12 @@ class TownCertificateScreen extends ConsumerWidget {
                                   pressedColor: DaepiroColorStyle.g_600,
                                   onPressed: () => successDialog(context),
                                   borderRadius: 8,
+                                  verticalPadding: 12,
                                   child: Text(
                                     '인증하기',
                                     style: DaepiroTextStyle.body_1_b.copyWith(
                                         color: DaepiroColorStyle.white),
-                                  ),
-                                  verticalPadding: 12),
+                                  )),
                             )
                           : Padding(
                               padding: const EdgeInsets.only(bottom: 16),
@@ -189,14 +189,14 @@ class TownCertificateScreen extends ConsumerWidget {
                                         pressedColor: DaepiroColorStyle.g_200,
                                         onPressed: null,
                                         borderRadius: 8,
+                                        verticalPadding: 12,
                                         child: Text(
                                           '인증하기',
                                           style: DaepiroTextStyle.body_1_b
                                               .copyWith(
                                                   color:
                                                       DaepiroColorStyle.g_75),
-                                        ),
-                                        verticalPadding: 12),
+                                        )),
                                   )
                                 ],
                               ),
@@ -214,18 +214,18 @@ class TownCertificateScreen extends ConsumerWidget {
   }
 
   Widget headerWidget(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: GestureDetector(
               onTap: () => stopDialog(context),
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
           ),
@@ -237,7 +237,7 @@ class TownCertificateScreen extends ConsumerWidget {
                   DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
             ),
           ),
-          Container(
+          const SizedBox(
             width: 24,
             height: 24,
           )
@@ -247,7 +247,7 @@ class TownCertificateScreen extends ConsumerWidget {
   }
 
   Widget addressWidget(String address) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 19),
@@ -258,7 +258,7 @@ class TownCertificateScreen extends ConsumerWidget {
               style: DaepiroTextStyle.body_1_b
                   .copyWith(color: DaepiroColorStyle.g_900),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(99),
@@ -336,7 +336,7 @@ class TownCertificateScreen extends ConsumerWidget {
         builder: (BuildContext context) {
           return AlertDialog(
               backgroundColor: DaepiroColorStyle.white,
-              titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+              titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
               title: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -347,7 +347,7 @@ class TownCertificateScreen extends ConsumerWidget {
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
                   ]),
-              contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
+              contentPadding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
               content: StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
                 return Column(
@@ -360,11 +360,11 @@ class TownCertificateScreen extends ConsumerWidget {
                       style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_500),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     ...List.generate(townList.length, (index) {
                       final selected = selectAddress == townList[index];
                       return ConstrainedBox(
-                        constraints: BoxConstraints(minWidth: double.infinity),
+                        constraints: const BoxConstraints(minWidth: double.infinity),
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: ElevatedButton(
@@ -383,7 +383,7 @@ class TownCertificateScreen extends ConsumerWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 12),
                                 overlayColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8)),
                                 ),
@@ -422,7 +422,7 @@ class TownCertificateScreen extends ConsumerWidget {
                                     .copyWith(color: DaepiroColorStyle.g_700),
                               )),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Expanded(
                             child: SecondaryFilledButton(
                           onPressed: selectAddress.isNotEmpty
@@ -441,6 +441,9 @@ class TownCertificateScreen extends ConsumerWidget {
                                 }
                               : null,
                           radius: 8,
+                          backgroundColor: selectAddress.isNotEmpty
+                              ? DaepiroColorStyle.g_700
+                              : DaepiroColorStyle.g_200,
                           child: Text(
                             textAlign: TextAlign.center,
                             '선택하기',
@@ -450,9 +453,6 @@ class TownCertificateScreen extends ConsumerWidget {
                                 : DaepiroTextStyle.body_1_b
                                     .copyWith(color: DaepiroColorStyle.g_75),
                           ),
-                          backgroundColor: selectAddress.isNotEmpty
-                              ? DaepiroColorStyle.g_700
-                              : DaepiroColorStyle.g_200,
                         ))
                       ],
                     )
@@ -516,21 +516,21 @@ class TownCertificateScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8)),
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         child: Row(
           children: [
             checkSuccess
                 ? SvgPicture.asset('assets/icons/icon_certification.svg',
                     width: 24,
                     height: 24,
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.gre_500, BlendMode.srcIn))
                 : SvgPicture.asset('assets/icons/icon_warning.svg',
                     width: 24,
                     height: 24,
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.r_400, BlendMode.srcIn)),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             checkSuccess
                 ? Text(
                     '위치가 확인되었습니다.',
@@ -553,7 +553,7 @@ class TownCertificateScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8),
           color: DaepiroColorStyle.g_50),
       child: Padding(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -562,7 +562,7 @@ class TownCertificateScreen extends ConsumerWidget {
               style: DaepiroTextStyle.body_2_b
                   .copyWith(color: DaepiroColorStyle.g_500),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
               '주민 뱃지는 1개만 얻을 수 있으니 신중하게 선택해주세요.\n투명한 정보를 위해 동네 변경은 1달에 1회만 가능해요.',
               style: DaepiroTextStyle.body_2_m
@@ -584,8 +584,8 @@ class TownCertificateScreen extends ConsumerWidget {
               width: 48,
               height: 48,
               colorFilter:
-                  ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)),
-          SizedBox(height: 8),
+                  const ColorFilter.mode(DaepiroColorStyle.o_300, BlendMode.srcIn)),
+          const SizedBox(height: 8),
           Text(
             '나중에 다시 하시겠습니까?',
             style: DaepiroTextStyle.body_1_b
@@ -637,7 +637,7 @@ class TownCertificateScreen extends ConsumerWidget {
         builder: (context) {
           return AlertDialog(
             backgroundColor: DaepiroColorStyle.white,
-            titlePadding: EdgeInsets.fromLTRB(0, 24, 0, 8),
+            titlePadding: const EdgeInsets.fromLTRB(0, 24, 0, 8),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -645,23 +645,23 @@ class TownCertificateScreen extends ConsumerWidget {
                 SvgPicture.asset('assets/icons/icon_certification.svg',
                     width: 48,
                     height: 48,
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.o_300, BlendMode.srcIn)),
-                SizedBox(height: 8)
+                const SizedBox(height: 8)
               ],
             ),
-            content: Container(
+            content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '‘${selectAddress}’ 주민 뱃지를 얻었어요!',
+                      '‘$selectAddress’ 주민 뱃지를 얻었어요!',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.g_700),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       '동네생활에서 주민들과 함께\n안전한 동네를 만들어요.',
                       style: DaepiroTextStyle.body_1_b
@@ -681,8 +681,8 @@ class TownCertificateScreen extends ConsumerWidget {
                             Navigator.of(context, rootNavigator: true).pop();
                             GoRouter.of(context).pop();
                           },
-                          child: Text('닫기'),
-                          verticalPadding: 12)),
+                          verticalPadding: 12,
+                          child: const Text('닫기'))),
                 ],
               ),
             ],
@@ -698,14 +698,14 @@ class TownCertificateScreen extends ConsumerWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: DaepiroColorStyle.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [titleWidget],
             ),
-            contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
-            content: Container(
+            contentPadding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+            content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -716,7 +716,7 @@ class TownCertificateScreen extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(child: doneWidget),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Expanded(child: actionWidget)

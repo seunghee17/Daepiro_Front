@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +8,8 @@ import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 
 class OnboardingFifthScreen extends ConsumerStatefulWidget {
+  const OnboardingFifthScreen({super.key});
+
   @override
   OnboardingFifthState createState() => OnboardingFifthState();
 }
@@ -23,17 +24,17 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 48,),
+            const SizedBox(height: 48,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: headerWidget()),
-            SizedBox(height: 36),
+            const SizedBox(height: 36),
           allAgreeWidget(state.isAllAppPermissionGrant, ref),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
                 child: ListView.builder(
                     itemCount: 5,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
                     }
@@ -42,7 +43,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: bottomWidget(state.isAllAppPermissionGrant)),
-            SizedBox(height: 28)
+            const SizedBox(height: 28)
           ],
         ),
       ),
@@ -57,7 +58,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
           '이제 거의 다 왔어요!',
           style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.o_400),
         ),
-        SizedBox(height: 8,),
+        const SizedBox(height: 8,),
         Text(
           '대피로 서비스 이용을 위해\n이용약관에 동의해 주세요.',
           style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
@@ -67,7 +68,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
   }
 
   Widget bottomWidget(bool isAllAppPermissionGrant) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         children: [
@@ -78,14 +79,14 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                   pressedColor: DaepiroColorStyle.g_75,
                   borderRadius: 8.0,
                   disabledColor: DaepiroColorStyle.g_50,
+                  verticalPadding: 12,
                   child: Text(
                     '이전',
                     style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
-                  ),
-                  verticalPadding: 12
+                  )
               )
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Expanded(
             child: PrimaryFilledButton(
               onPressed: isAllAppPermissionGrant ? () {
@@ -95,11 +96,11 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
               pressedColor: DaepiroColorStyle.o_600,
               disabledColor: DaepiroColorStyle.o_100,
               borderRadius: 8,
+              verticalPadding: 12,
               child: Text(
                 '다음',
                 style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
               ),
-              verticalPadding: 12,
             ),
           ),
         ],
@@ -119,12 +120,12 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             shadowColor: Colors.transparent,
             elevation: 0.0
         ).copyWith(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
               return DaepiroColorStyle.g_75;
             }
             return DaepiroColorStyle.g_50;
@@ -134,11 +135,11 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
           children: [
             Checkbox(
                 visualDensity: VisualDensity.compact,
-                side: BorderSide(color: Colors.transparent),
+                side: const BorderSide(color: Colors.transparent),
                 activeColor: DaepiroColorStyle.g_500,
                 checkColor: DaepiroColorStyle.white,
-                fillColor: MaterialStateProperty.resolveWith((state) {
-                  if(!state.contains(MaterialState.selected)) {
+                fillColor: WidgetStateProperty.resolveWith((state) {
+                  if(!state.contains(WidgetState.selected)) {
                     return DaepiroColorStyle.g_100;
                   }
                   return null;
@@ -147,7 +148,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 onChanged: (value) {
                   ref.read(onboardingStateNotifierProvider.notifier).updateAllAgreeState();
                 }),
-            SizedBox(width: 8,),
+            const SizedBox(width: 8,),
             Text(
               '(필수) 약관 모두 동의',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
@@ -170,12 +171,12 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             shadowColor: Colors.transparent,
             elevation: 0.0
         ).copyWith(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
               return DaepiroColorStyle.g_50;
             }
             return DaepiroColorStyle.white;
@@ -185,11 +186,11 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
           children: [
             Checkbox(
                 visualDensity: VisualDensity.compact,
-                side: BorderSide(color: Colors.transparent),
+                side: const BorderSide(color: Colors.transparent),
                 activeColor: DaepiroColorStyle.g_500,
                 checkColor: DaepiroColorStyle.white,
-                fillColor: MaterialStateProperty.resolveWith((state) {
-                  if(!state.contains(MaterialState.selected)) {
+                fillColor: WidgetStateProperty.resolveWith((state) {
+                  if(!state.contains(WidgetState.selected)) {
                     return DaepiroColorStyle.g_100;
                   }
                   return null;
@@ -198,17 +199,17 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 onChanged: (value) {
                  ref.read(onboardingStateNotifierProvider.notifier).updateEachPermissionState(index);
                 }),
-            SizedBox(width: 8,),
+            const SizedBox(width: 8,),
             Text(
               '(필수) 약관 모두 동의',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             ),
-            Spacer(),
+            const Spacer(),
             SvgPicture.asset(
                 'assets/icons/icon_arrow_right.svg',
                 width: 24,
                 height: 24,
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
+                colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
             )
           ],
         ),

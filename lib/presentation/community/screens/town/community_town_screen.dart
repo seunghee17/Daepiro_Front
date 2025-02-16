@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +8,8 @@ import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../data/model/response/community/community_dongnae_content_response.dart';
 
 class CommunityTownScreen extends ConsumerStatefulWidget {
+  const CommunityTownScreen({super.key});
+
   @override
   CommunityTownState createState() => CommunityTownState();
 }
@@ -52,11 +53,11 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
       body: SingleChildScrollView(
         controller: scrollController,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               GestureDetector(
                   onTap: () {
                     GoRouter.of(context).push('/community_rule');
@@ -67,7 +68,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                   child: typeRadioButton(state.townCategory, ref)),
               ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.contentList.length,
                   itemBuilder: (context, index) {
                   final content = state.contentList[index];
@@ -79,7 +80,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                   }
               ),
               if (state.isDongNaeLoading)
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 )
             ],
@@ -91,30 +92,30 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
 
   Widget ruleContainer() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: DaepiroColorStyle.o_50),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 13),
+        padding: const EdgeInsets.symmetric(vertical: 13),
         child: Row(
           children: [
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             SvgPicture.asset('assets/icons/icon_noti.svg',
                 width: 28,
                 height: 28,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
-            SizedBox(width: 6),
+                    const ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
+            const SizedBox(width: 6),
             Text('대피로 커뮤니티 이용수칙',
                 style: DaepiroTextStyle.body_2_m
                     .copyWith(color: DaepiroColorStyle.g_900)),
-            Spacer(),
+            const Spacer(),
             SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                 width: 16,
                 height: 16,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
-            SizedBox(width: 12)
+                    const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+            const SizedBox(width: 12)
           ],
         ),
       ),
@@ -123,7 +124,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
 
   //글 유형 타입 radio button
   Widget typeRadioButton(String townCategory, WidgetRef ref) {
-    return Container(
+    return SizedBox(
         height: 36,
         child: Row(
           children: [
@@ -150,7 +151,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                   ? DaepiroColorStyle.g_600
                   : DaepiroColorStyle.g_50),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: Text(
               realText,
               style: isSame
@@ -177,9 +178,9 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 typeChip(ContentCategory.getByValue(content.category!)),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -193,7 +194,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                             style: DaepiroTextStyle.body_1_b
                                 .copyWith(color: DaepiroColorStyle.g_900),
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Text(
                             content.body ?? '',
                             overflow: TextOverflow.ellipsis,
@@ -204,7 +205,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Visibility(
                       visible: content.previewImageUrl != null,
                         child: ClipRRect(
@@ -214,12 +215,12 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                             height: 68,
                             content.previewImageUrl!,
                             fit: BoxFit.fill,
-                          ) : SizedBox.shrink(),
+                          ) : const SizedBox.shrink(),
                         ),
                     )
                   ],
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     Text(
@@ -227,17 +228,17 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_800),
                     ),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Visibility(
                       visible: content.authorUser?.isVerified ?? false,
                       child: SvgPicture.asset(
                           'assets/icons/icon_certification.svg',
                           width: 16,
                           height: 16,
-                          colorFilter: ColorFilter.mode(
+                          colorFilter: const ColorFilter.mode(
                               DaepiroColorStyle.o_300, BlendMode.srcIn)),
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     Text(
                         ref
                             .read(communityTownProvider.notifier)
@@ -246,23 +247,23 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                                 content.createdAt! : content.lastModifiedAt!),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300)),
-                    Spacer(),
+                    const Spacer(),
                     SvgPicture.asset('assets/icons/icon_good.svg',
                         width: 16,
                         height: 16,
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Text(content.likeCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     SvgPicture.asset('assets/icons/icon_community.svg',
                         width: 16,
                         height: 16,
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Text(content.commentCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
@@ -282,7 +283,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
           color: DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(4)),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Text(
          type,
           style:

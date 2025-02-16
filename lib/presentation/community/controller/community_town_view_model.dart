@@ -33,7 +33,7 @@ final communityTownProvider =
 
 class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   final Ref ref;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   var _currentPage = 0;
 
   CommunityTownViewModel(this.ref) : super(CommunityTownState()) {
@@ -76,7 +76,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
         isDongNaeHasMore: true,
       );
     } catch (e) {
-      print('동네생활 viewmodel 에러발생 ${e}');
+      print('동네생활 viewmodel 에러발생 $e');
     } finally {
       state = state.copyWith(isDongNaeLoading: false);
     }
@@ -178,7 +178,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     while (true) {
       String address = await storage.read(key: 'shortAddress_$idx') ?? '';
       String longAddress = await storage.read(key: 'fullAddress_$idx') ?? '';
-      print('여기여기 ${address} & ${longAddress}');
+      print('여기여기 $address & $longAddress');
       if (address == '') {
         break;
       } else {

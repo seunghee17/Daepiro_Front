@@ -21,14 +21,14 @@ class DisastersHistoryResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -44,16 +44,16 @@ class DisastersData {
     if (json['disasters'] != null) {
       disasters = <Disasters>[];
       json['disasters'].forEach((v) {
-        disasters!.add(new Disasters.fromJson(v));
+        disasters!.add(Disasters.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['region'] = this.region;
-    if (this.disasters != null) {
-      data['disasters'] = this.disasters!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['region'] = region;
+    if (disasters != null) {
+      data['disasters'] = disasters!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -77,12 +77,12 @@ class Disasters {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['disasterType'] = this.disasterType;
-    data['disasterTypeId'] = this.disasterTypeId;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['time'] = this.time;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['disasterType'] = disasterType;
+    data['disasterTypeId'] = disasterTypeId;
+    data['title'] = title;
+    data['content'] = content;
+    data['time'] = time;
     return data;
   }
 }

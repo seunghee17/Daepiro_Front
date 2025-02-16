@@ -259,7 +259,7 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                     return Container(
                                       padding: const EdgeInsets.only(top: 16, bottom: 20),
                                       margin: const EdgeInsets.only(right: 8),
-                                      child: AroundShelterPreview(
+                                      child: const AroundShelterPreview(
                                        name: "강남구 보건소 지하 1층",
                                        distinct: 250,
                                        address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",

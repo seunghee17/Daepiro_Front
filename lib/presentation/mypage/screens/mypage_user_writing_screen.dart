@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +9,8 @@ import '../../../data/model/response/mypage/get_mypage_articles_response.dart';
 import '../../community/controller/community_town_view_model.dart';
 
 class MyPageUserWritingScreen extends ConsumerStatefulWidget {
+  const MyPageUserWritingScreen({super.key});
+
   @override
   MyPageUserWritingState createState() => MyPageUserWritingState();
 }
@@ -61,10 +62,10 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.myArticles.length,
                             itemBuilder: (context, index) {
                               final content = state.myArticles[index];
@@ -76,7 +77,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                             }
                         ),
                         if (state.isArticleLoading)
-                          Center(
+                          const Center(
                             child: CircularProgressIndicator(),
                           )
                       ],
@@ -103,9 +104,9 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 typeChip(ContentCategory.getByValue(content.category!)),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +120,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                             style: DaepiroTextStyle.body_1_b
                                 .copyWith(color: DaepiroColorStyle.g_900),
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Text(
                             content.body ?? '',
                             overflow: TextOverflow.ellipsis,
@@ -130,7 +131,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Visibility(
                       visible: content.previewImageUrl != null,
                       child: ClipRRect(
@@ -140,12 +141,12 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                           height: 68,
                           content.previewImageUrl!,
                           fit: BoxFit.fill,
-                        ) : SizedBox.shrink(),
+                        ) : const SizedBox.shrink(),
                       ),
                     )
                   ],
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     Text(
@@ -153,17 +154,17 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_800),
                     ),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Visibility(
                       visible: content.authorUser?.isVerified ?? false,
                       child: SvgPicture.asset(
                           'assets/icons/icon_certification.svg',
                           width: 16,
                           height: 16,
-                          colorFilter: ColorFilter.mode(
+                          colorFilter: const ColorFilter.mode(
                               DaepiroColorStyle.o_300, BlendMode.srcIn)),
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     Text(
                         ref
                             .read(communityTownProvider.notifier)
@@ -172,23 +173,23 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                             content.createdAt! : content.lastModifiedAt!),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300)),
-                    Spacer(),
+                    const Spacer(),
                     SvgPicture.asset('assets/icons/icon_good.svg',
                         width: 16,
                         height: 16,
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Text(content.likeCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     SvgPicture.asset('assets/icons/icon_community.svg',
                         width: 16,
                         height: 16,
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Text(content.commentCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
@@ -208,7 +209,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
           color: DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(4)),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Text(
           type,
           style:
@@ -219,12 +220,12 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
   }
 
   Widget headerWidget() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 14),
+            padding: const EdgeInsets.symmetric(vertical: 14),
             child: GestureDetector(
               onTap: () {
                 GoRouter.of(context).pop();
@@ -233,7 +234,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
           ),
@@ -245,7 +246,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
               DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
             ),
           ),
-          Container(
+          const SizedBox(
             width: 24,
             height: 24,
           )

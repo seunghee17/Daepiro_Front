@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../home/component/map_direction_item.dart';
 
@@ -71,7 +69,7 @@ class ItemAroundShelter extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: MaterialButton(
                   color: DaepiroColorStyle.g_50,

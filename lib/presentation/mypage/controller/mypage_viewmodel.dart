@@ -1,7 +1,6 @@
 import 'package:daepiro/data/model/request/set_mypage_disaster_types_request.dart';
 import 'package:daepiro/data/model/request/set_mypage_inquires_request.dart';
 import 'package:daepiro/data/model/request/set_mypage_profiles_request.dart';
-import 'package:daepiro/domain/usecase/community/community_article_like_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_get_myarticles_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_set_profiles_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

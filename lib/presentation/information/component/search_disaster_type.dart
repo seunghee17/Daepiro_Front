@@ -1,6 +1,4 @@
-import 'package:daepiro/presentation/const/common_disaster_list.dart';
 import 'package:daepiro/presentation/const/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
@@ -34,13 +32,13 @@ class SearchDisasterType extends StatelessWidget {
       },
       child: Container(
         color: DaepiroColorStyle.white,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
               findDisasterIconByName(name: name),
-              colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn),
               width: 36,
               height: 36
             ),
@@ -55,7 +53,7 @@ class SearchDisasterType extends StatelessWidget {
             ),
             SvgPicture.asset(
                 'assets/icons/icon_arrow_right.svg',
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn),
                 width: 20,
                 height: 20
             ),

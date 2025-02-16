@@ -1,8 +1,6 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/reply_menu_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../cmm/DaepiroTheme.dart';
@@ -11,7 +9,7 @@ import '../../../../data/model/response/community/disaster_reply_response.dart';
 class ReplyBottomSheet extends ConsumerStatefulWidget {
   final int? situationId;
 
-  ReplyBottomSheet({super.key, this.situationId});
+  const ReplyBottomSheet({super.key, this.situationId});
 
   @override
   ReplyBottomSheetState createState() => ReplyBottomSheetState();
@@ -39,7 +37,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     }
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(30),
@@ -62,7 +60,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       child: Column(
                         children: [
                           if (state.isLoading)
-                            Center(
+                            const Center(
                               child: CircularProgressIndicator(),
                             )
                           else
@@ -106,7 +104,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           children: [
             Row(
               children: [
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Opacity(
                   opacity: 0.0,
                   child: SvgPicture.asset(
@@ -137,15 +135,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_900, BlendMode.srcIn)),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
-              decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+              decoration: const BoxDecoration(color: DaepiroColorStyle.g_50),
               width: double.infinity,
               height: 1,
             )
@@ -165,7 +163,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     bool isEditChildCommentState,
     int editChildCommentId,
   ) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Column(
           children: List.generate(list.length, (index) {
@@ -219,15 +217,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                     visible: reply.isVerified ?? false,
                     child: Row(
                       children: [
-                        SizedBox(width: 2),
+                        const SizedBox(width: 2),
                         SvgPicture.asset('assets/icons/icon_certification.svg',
                             width: 16,
                             height: 16,
-                            colorFilter: ColorFilter.mode(
+                            colorFilter: const ColorFilter.mode(
                                 DaepiroColorStyle.o_300, BlendMode.srcIn)),
                       ],
                     )),
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
                 Visibility(
                   visible: reply.isModified ?? false,
                   child: Text(
@@ -243,25 +241,25 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   style: DaepiroTextStyle.caption
                       .copyWith(color: DaepiroColorStyle.g_300),
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     goToAdditional(context, reply.isMine!, reply.id!, ref,
                         isChildCommentState);
                   },
                   child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_200, BlendMode.srcIn)),
                 ),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               editCommentId == reply.id ? '수정중' : reply.content!,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
                 GestureDetector(
@@ -271,7 +269,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                           .replyLike(reply.id!);
                     },
                     child: likeButton(reply.isLiked!, reply.likeCount!)),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 GestureDetector(
                     onTap: () {
                       ref
@@ -285,7 +283,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                     child: replyWriteButton())
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             if (reply.childComments != [])
               IntrinsicHeight(
                 child: Row(
@@ -294,10 +292,10 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       alignment: Alignment.center,
                       child: Container(
                         width: 4,
-                        decoration: BoxDecoration(color: DaepiroColorStyle.g_75),
+                        decoration: const BoxDecoration(color: DaepiroColorStyle.g_75),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: reReplyListWidget(
                           reply.childComments!,
@@ -324,14 +322,14 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     bool isEditChildCommentState,
     int editChildCommentId,
   ) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         children: List.generate(list.length, (index) {
           return Column(
             children: [
               reReplyWidget(context, list[index], situationId, isChildCommentState, isEditChildCommentState, editChildCommentId),
-              SizedBox(height: 8)
+              const SizedBox(height: 8)
             ],
           );
         }),
@@ -357,7 +355,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Row(
             children: [
               Text(
@@ -369,17 +367,17 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   visible: childComments.isVerified ?? false,
                   child: Row(
                     children: [
-                      SizedBox(width: 2),
+                      const SizedBox(width: 2),
                       SvgPicture.asset(
                           'assets/icons/icon_certification.svg',
                           width: 16,
                           height: 16,
-                          colorFilter: ColorFilter.mode(
+                          colorFilter: const ColorFilter.mode(
                               DaepiroColorStyle.o_300,
                               BlendMode.srcIn)),
                     ],
                   )),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               Text(
                 ref
                     .read(communityDisasterProvider.notifier)
@@ -387,7 +385,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 style: DaepiroTextStyle.caption
                     .copyWith(color: DaepiroColorStyle.g_300),
               ),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                   onTap: () {
                     ref
@@ -402,12 +400,12 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   },
                   child: SvgPicture.asset(
                       'assets/icons/icon_moreinfo.svg',
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_200,
                           BlendMode.srcIn))),
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             editChildCommentId == childComments.id
                 ? '수정중'
@@ -415,7 +413,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_900),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             children: [
               GestureDetector(
@@ -426,7 +424,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   },
                   child: likeButton(childComments.isLiked!,
                       childComments.likeCount ?? 0)),
-              Spacer()
+              const Spacer()
             ],
           ),
         ],
@@ -444,13 +442,13 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       bool isEditChildCommentState) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: DaepiroColorStyle.g_50))),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 25),
+        padding: const EdgeInsets.symmetric(vertical: 25),
         child: Row(
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
                 child: Container(
               decoration: BoxDecoration(
@@ -496,7 +494,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   TextButton(
                     onPressed: () async {
                       if (isEditState) {
@@ -556,7 +554,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 ],
               ),
             )),
-            SizedBox(width: 20)
+            const SizedBox(width: 20)
           ],
         ),
       ),
@@ -569,7 +567,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           color: isLiked ? DaepiroColorStyle.o_50 : DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(99)),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
             SvgPicture.asset('assets/icons/icon_good.svg',
@@ -578,7 +576,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                 colorFilter: ColorFilter.mode(
                     isLiked ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300,
                     BlendMode.srcIn)),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             Text(
               '좋아요',
               style: DaepiroTextStyle.caption.copyWith(
@@ -586,11 +584,11 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       ? DaepiroColorStyle.o_400
                       : DaepiroColorStyle.g_300),
             ),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             Visibility(
               visible: likeNum > 0,
               child: Text(
-                '${likeNum}',
+                '$likeNum',
                 style: DaepiroTextStyle.caption.copyWith(
                     color: isLiked
                         ? DaepiroColorStyle.o_400
@@ -609,15 +607,15 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           color: DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(99)),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
             SvgPicture.asset('assets/icons/icon_community.svg',
                 width: 16,
                 height: 16,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn)),
-            SizedBox(width: 2),
+                    const ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn)),
+            const SizedBox(width: 2),
             Text(
               '답글쓰기',
               style: DaepiroTextStyle.caption
@@ -639,7 +637,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             '아직 작성된 댓글이 없어요',
             style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_300),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             '가장 먼저 유익한 정보를 나눠주세요!',
             style: DaepiroTextStyle.body_1_m

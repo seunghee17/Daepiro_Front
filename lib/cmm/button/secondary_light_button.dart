@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../DaepiroTheme.dart';
@@ -11,12 +10,12 @@ class SecondaryLightButton extends StatefulWidget {
   final double padding;
 
   const SecondaryLightButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.radius,
     required this.child,
     required this.padding
-  }) : super(key: key);
+  });
 
   @override
   _SecondaryLightButton createState() => _SecondaryLightButton();
@@ -36,8 +35,8 @@ class _SecondaryLightButton extends State<SecondaryLightButton> {
        shadowColor: Colors.transparent,
          padding: EdgeInsets.symmetric(vertical: widget.padding)
      ).copyWith(
-       backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-         if (states.contains(MaterialState.pressed)) {
+       backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+         if (states.contains(WidgetState.pressed)) {
            return DaepiroColorStyle.g_75;
          }
          return DaepiroColorStyle.g_50;

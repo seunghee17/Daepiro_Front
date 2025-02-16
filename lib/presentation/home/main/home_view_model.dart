@@ -1,4 +1,3 @@
-import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/domain/usecase/home/get_behavior_tips_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
@@ -7,13 +6,11 @@ import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
-import 'package:daepiro/domain/usecase/information/get_behavior_list_usecase.dart';
 import 'package:daepiro/presentation/home/main/home_state.dart';
+import 'package:daepiro/route/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
@@ -25,6 +22,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final list = List.generate(5, (_) => <PopularPost>[]);  // 빈 리스트 5개 생성
     state = state.copyWith(allPopularPostList: list);
 
+    loadNickname();
     getAddress();
     getHomeStatus();
     getHomeDisasterHistory();
@@ -38,6 +36,13 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
+
+  Future<void> loadNickname() async {
+    var nickname = await storage.read(key: 'nickname') ?? 'Empty닉네임';
+    state = state.copyWith(
+        nickname: nickname
+    );
+  }
 
   void selectPopularPostCategory(int index) {
     state = state.copyWith(

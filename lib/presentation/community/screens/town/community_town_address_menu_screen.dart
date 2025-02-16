@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:daepiro/presentation/community/controller/town_certificate_view_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../cmm/DaepiroTheme.dart';
 
 class CommunityTownAddressMenuScreen extends ConsumerWidget {
+  const CommunityTownAddressMenuScreen({super.key});
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,7 +68,7 @@ class CommunityTownAddressMenuScreen extends ConsumerWidget {
             ),
           ),
         ),
-        SizedBox(height: 7)
+        const SizedBox(height: 7)
       ],
     );
   }

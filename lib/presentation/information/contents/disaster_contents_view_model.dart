@@ -10,7 +10,7 @@ class DisasterContentsViewModel extends StateNotifier<DisasterContentsState> {
   final StateNotifierProviderRef<DisasterContentsViewModel, DisasterContentsState> ref;
 
   DisasterContentsViewModel(this.ref) : super(DisasterContentsState()) {
-    getDisasterContentsList();
+    getDisasterContentsList(sortType: "latest");
   }
 
 

@@ -7,15 +7,15 @@ class SetMypageAddressNotificationRequest {
     if (json['addresses'] != null) {
       addresses = <Addresses>[];
       json['addresses'].forEach((v) {
-        addresses!.add(new Addresses.fromJson(v));
+        addresses!.add(Addresses.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.addresses != null) {
-      data['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (addresses != null) {
+      data['addresses'] = addresses!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -33,9 +33,9 @@ class Addresses {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['address'] = this.address;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['address'] = address;
     return data;
   }
 }

@@ -7,12 +7,12 @@ class BasicDialog extends StatelessWidget {
   final Widget actionWidget;
 
   const BasicDialog({
-    Key? key,
+    super.key,
     required this.titleWidget,
     required this.contentWidget,
     required this.doneWidget,
     required this.actionWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class BasicDialog extends StatelessWidget {
         children: [titleWidget],
       ),
       contentPadding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
         child: Column(
           mainAxisSize: MainAxisSize.min,

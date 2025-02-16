@@ -5,7 +5,7 @@ import '../../repository/community_repository.dart';
 final getDisasterDeleteUseCaseProvider =
     FutureProvider.family<DeleteReplyResponse, CommunityDisasterDeleteUsecase>(
         (ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.deleteReply(request.id);
 });
 

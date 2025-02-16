@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final setCommunityArticleDeleteUseCaseProvider =
 FutureProvider.family<BasicResponse, CommunityArticleDeleteUseCase>(
         (ref, request) async {
-      final repository = await ref.watch(communityRepositoryProvider);
+      final repository = ref.watch(communityRepositoryProvider);
       return await repository.deleteArticle(id: request.id);
     }
 );

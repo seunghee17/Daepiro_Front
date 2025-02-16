@@ -14,7 +14,7 @@ class DisasterResponse {
     if (json['data'] != null) {
       data = <Disaster>[];
       json['data'].forEach((v) {
-        data!.add(new Disaster.fromJson(v));
+        data!.add(Disaster.fromJson(v));
       });
     }
     path = json['path'];
@@ -22,14 +22,14 @@ class DisasterResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -68,23 +68,23 @@ class Disaster {
     if (json['comments'] != null) {
       comments = <Comments>[];
       json['comments'].forEach((v) {
-        comments!.add(new Comments.fromJson(v));
+        comments!.add(Comments.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['location'] = this.location;
-    data['time'] = this.time;
-    data['commentCount'] = this.commentCount;
-    data['isReceived'] = this.isReceived;
-    if (this.comments != null) {
-      data['comments'] = this.comments!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['title'] = title;
+    data['content'] = content;
+    data['location'] = location;
+    data['time'] = time;
+    data['commentCount'] = commentCount;
+    data['isReceived'] = isReceived;
+    if (comments != null) {
+      data['comments'] = comments!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -116,13 +116,13 @@ class Comments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['time'] = this.time;
-    data['content'] = this.content;
-    data['likeCount'] = this.likeCount;
-    data['isMine'] = this.isMine;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['time'] = time;
+    data['content'] = content;
+    data['likeCount'] = likeCount;
+    data['isMine'] = isMine;
     return data;
   }
 }

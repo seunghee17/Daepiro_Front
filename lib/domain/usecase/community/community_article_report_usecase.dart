@@ -6,7 +6,7 @@ import '../../repository/community_repository.dart';
 final communityArticleReportUseCaseProvider = FutureProvider.family<
     BasicResponse,
     CommunityArticleReportUseCase>((ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.communityArticleReport(
       id: request.id,
       communityArticleRequest: request.communityArticleRequest);

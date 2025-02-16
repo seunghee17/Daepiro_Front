@@ -6,7 +6,7 @@ import '../../../data/model/response/community/community_dongnae_content_detail_
 final getCommunityDongNaeContentDetailUseCaseProvider = FutureProvider.family<
     CommunityDongNaeDetailContentResponse,
     CommunityDongNaeContentDetailUseCase>((ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.getDongNaeDetailContent(id: request.id);
 });
 

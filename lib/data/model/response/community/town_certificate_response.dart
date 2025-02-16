@@ -14,7 +14,7 @@ class TownCertificateResponse {
     if (json['data'] != null) {
       data = <TownInfo>[];
       json['data'].forEach((v) {
-        data!.add(new TownInfo.fromJson(v));
+        data!.add(TownInfo.fromJson(v));
       });
     }
     path = json['path'];
@@ -22,14 +22,14 @@ class TownCertificateResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -48,10 +48,10 @@ class TownInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['addressId'] = this.addressId;
-    data['fullAddress'] = this.fullAddress;
-    data['isVerified'] = this.isVerified;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['addressId'] = addressId;
+    data['fullAddress'] = fullAddress;
+    data['isVerified'] = isVerified;
     return data;
   }
 }

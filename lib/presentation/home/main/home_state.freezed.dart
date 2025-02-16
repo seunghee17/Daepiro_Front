@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   String get location => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isOccurred => throw _privateConstructorUsedError;
   int get selectedPopularPostCategory => throw _privateConstructorUsedError;
@@ -56,6 +57,7 @@ abstract class $HomeStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String location,
+      String nickname,
       bool isLoading,
       bool isOccurred,
       int selectedPopularPostCategory,
@@ -90,6 +92,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? location = null,
+    Object? nickname = null,
     Object? isLoading = null,
     Object? isOccurred = null,
     Object? selectedPopularPostCategory = null,
@@ -111,6 +114,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
               as String,
       isLoading: null == isLoading
           ? _value.isLoading
@@ -190,6 +197,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {String location,
+      String nickname,
       bool isLoading,
       bool isOccurred,
       int selectedPopularPostCategory,
@@ -222,6 +230,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? location = null,
+    Object? nickname = null,
     Object? isLoading = null,
     Object? isOccurred = null,
     Object? selectedPopularPostCategory = null,
@@ -243,6 +252,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
               as String,
       isLoading: null == isLoading
           ? _value.isLoading
@@ -317,6 +330,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 class _$HomeStateImpl implements _HomeState {
   _$HomeStateImpl(
       {this.location = "",
+      this.nickname = "",
       this.isLoading = false,
       this.isOccurred = false,
       this.selectedPopularPostCategory = 0,
@@ -343,6 +357,9 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final String location;
+  @override
+  @JsonKey()
+  final String nickname;
   @override
   @JsonKey()
   final bool isLoading;
@@ -440,7 +457,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(location: $location, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip)';
+    return 'HomeState(location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip)';
   }
 
   @override
@@ -450,6 +467,8 @@ class _$HomeStateImpl implements _HomeState {
             other is _$HomeStateImpl &&
             (identical(other.location, location) ||
                 other.location == location) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isOccurred, isOccurred) ||
@@ -492,6 +511,7 @@ class _$HomeStateImpl implements _HomeState {
   int get hashCode => Object.hash(
       runtimeType,
       location,
+      nickname,
       isLoading,
       isOccurred,
       selectedPopularPostCategory,
@@ -521,6 +541,7 @@ class _$HomeStateImpl implements _HomeState {
 abstract class _HomeState implements HomeState {
   factory _HomeState(
       {final String location,
+      final String nickname,
       final bool isLoading,
       final bool isOccurred,
       final int selectedPopularPostCategory,
@@ -540,6 +561,8 @@ abstract class _HomeState implements HomeState {
 
   @override
   String get location;
+  @override
+  String get nickname;
   @override
   bool get isLoading;
   @override

@@ -1,11 +1,11 @@
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
+import '../../../route/router.dart';
 
 class OnboardingSecondScreen extends ConsumerStatefulWidget {
   const OnboardingSecondScreen({super.key});
@@ -15,8 +15,8 @@ class OnboardingSecondScreen extends ConsumerStatefulWidget {
 }
 
 class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
-  final TextEditingController nameController = new TextEditingController();
-  final TextEditingController nicknameController = new TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nicknameController = TextEditingController();
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
         resizeToAvoidBottomInset: false,
         body: SafeArea(
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -43,23 +43,23 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             headerWidget(),
-                            SizedBox(height: 24),
+                            const SizedBox(height: 24),
                             Text('이름',
                                 style: DaepiroTextStyle.h6
                                     .copyWith(color: DaepiroColorStyle.g_900)),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             NameTextField(nameController, state.nameState),
                             if (state.nameState != '')
                               namestateText(state.nameState),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Text(
                               '닉네임',
                               style: DaepiroTextStyle.h6
                                   .copyWith(color: DaepiroColorStyle.g_900),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             nickNameTextField(
                                 nicknameController, state.nicknameState),
                             if (state.nicknameState != '')
@@ -77,13 +77,13 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                               .read(onboardingStateNotifierProvider.notifier)
                               .getProceedState()),
                     ),
-                    SizedBox(height: 16)
+                    const SizedBox(height: 16)
                   ],
                 ))));
   }
 
   Widget BottomWidget(BuildContext context, bool isAvailable) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Row(
           children: [
@@ -94,13 +94,13 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                     pressedColor: DaepiroColorStyle.g_75,
                     borderRadius: 8.0,
                     disabledColor: DaepiroColorStyle.g_50,
+                    verticalPadding: 12,
                     child: Text(
                       '이전',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.g_700),
-                    ),
-                    verticalPadding: 12)),
-            SizedBox(width: 8),
+                    ))),
+            const SizedBox(width: 8),
             Expanded(
                 child: PrimaryFilledButton(
                     onPressed: isAvailable
@@ -113,7 +113,8 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                                   .read(
                                       onboardingStateNotifierProvider.notifier)
                                   .updateNickName(nicknameController.text),
-                              GoRouter.of(context).push('/onboarding/second')
+                              GoRouter.of(context).push('/onboarding/second'),
+                              storage.write(key: 'nickname', value: nicknameController.text)
                             }
                         : null,
                     backgroundColor: isAvailable
@@ -121,10 +122,10 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                         : DaepiroColorStyle.o_100,
                     pressedColor: DaepiroColorStyle.o_600,
                     borderRadius: 8.0,
+                    verticalPadding: 12,
                     child: Text('다음',
                         style: DaepiroTextStyle.body_1_b
-                            .copyWith(color: DaepiroColorStyle.white)),
-                    verticalPadding: 12)),
+                            .copyWith(color: DaepiroColorStyle.white)))),
           ],
         ));
   }
@@ -142,16 +143,16 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                 lineHeight: 10,
                 backgroundColor: DaepiroColorStyle.g_50,
                 progressColor: DaepiroColorStyle.o_300,
-                barRadius: Radius.circular(10.0),
+                barRadius: const Radius.circular(10.0),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Text('1/3',
                 style: DaepiroTextStyle.body_1_b
                     .copyWith(color: DaepiroColorStyle.g_100)),
           ],
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         RichText(
           text: TextSpan(
               text: '기본 정보',
@@ -164,7 +165,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                         .copyWith(color: DaepiroColorStyle.black))
               ]),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           '이름은 기본 서비스 이용을 위해,\n닉네임은 커뮤니티에서 사용돼요.',
           style: DaepiroTextStyle.body_1_m
@@ -188,24 +189,24 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
           decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
               hintText: '6자 이내의 한글',
               hintStyle: DaepiroTextStyle.body_1_m
                   .copyWith(color: DaepiroColorStyle.g_200),
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1.5,
                       color: nameState != ''
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_100)),
-              enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide:
                       BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
               suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Text('${controller.text.length}/6',
                     style: DaepiroTextStyle.body_1_m.copyWith(
                         color: controller.text.length > 6
@@ -237,21 +238,21 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
           decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
               hintText: '10자 이내의 한글/영문/숫자',
               hintStyle: DaepiroTextStyle.body_1_m
                   .copyWith(color: DaepiroColorStyle.g_200),
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1.5, color: setBorderColor(nickNameState))),
-              enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide:
                       BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
               suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Text('${controller.text.length}/10',
                     style: DaepiroTextStyle.body_1_m.copyWith(
                         color: controller.text.length > 10
@@ -282,7 +283,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   Widget nickNamestateText(String nickNameState) {
     return Container(
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-        Spacer(),
+        const Spacer(),
         Text(nickNameState,
             style: DaepiroTextStyle.body_2_m.copyWith(
                 color: nickNameState == '*사용 가능한 닉네임 입니다.'
@@ -295,7 +296,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   Widget namestateText(String nickNameState) {
     return Container(
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-        Spacer(),
+        const Spacer(),
         Text(nickNameState,
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.r_300)),

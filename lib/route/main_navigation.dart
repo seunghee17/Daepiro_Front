@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,9 +7,9 @@ import '../cmm/DaepiroTheme.dart';
 
 class MainNavigation extends ConsumerStatefulWidget {
   const MainNavigation({
-    Key? key,
+    super.key,
     required this.navigationShell,
-  }) : super(key: key);
+  });
 
   final StatefulNavigationShell navigationShell;
 
@@ -53,7 +52,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
     return Scaffold(
       body: body,
       bottomNavigationBar: Container (
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: DaepiroColorStyle.g_75, width: 2),
           ),
@@ -63,23 +62,23 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.099,
             backgroundColor: DaepiroColorStyle.white,
             indicatorColor: Colors.transparent,
-            labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
-                (Set<MaterialState> states) {
-                  if(states.contains(MaterialState.selected)) {
+            labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
+                (Set<WidgetState> states) {
+                  if(states.contains(WidgetState.selected)) {
                     return DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_600);
                   }
                   return DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_100);
                 },
             ),
-            iconTheme: MaterialStateProperty.resolveWith<IconThemeData>(
-                (Set<MaterialState> states) {
-                  if(states.contains(MaterialState.selected)) {
-                    return IconThemeData(color: DaepiroColorStyle.g_600);
+            iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
+                (Set<WidgetState> states) {
+                  if(states.contains(WidgetState.selected)) {
+                    return const IconThemeData(color: DaepiroColorStyle.g_600);
                   }
-                  return IconThemeData(color: DaepiroColorStyle.g_100);
+                  return const IconThemeData(color: DaepiroColorStyle.g_100);
                 }
             ),
-            overlayColor: MaterialStateProperty.all(Colors.transparent),
+            overlayColor: WidgetStateProperty.all(Colors.transparent),
           ),
           child: NavigationBar(
             selectedIndex: currentIndex,
@@ -87,55 +86,55 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               NavigationDestination(
                 icon: SvgPicture.asset(
                   'assets/icons/icon_home.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
                   'assets/icons/icon_home.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '홈',
               ),
               NavigationDestination(
                 icon: SvgPicture.asset(
                 'assets/icons/icon_community.svg',
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
               ),
                 selectedIcon: SvgPicture.asset(
                   'assets/icons/icon_community.svg',
-                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                    colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '커뮤니티',
               ),
               NavigationDestination(
                 icon: SvgPicture.asset(
                   'assets/icons/icon_info.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon:  SvgPicture.asset(
                   'assets/icons/icon_info.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '재난정보',
               ),
               NavigationDestination(
                 icon: SvgPicture.asset(
                   'assets/icons/icon_funding.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
                   'assets/icons/icon_funding.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '후원',
               ),
               NavigationDestination(
                 icon:SvgPicture.asset(
                   'assets/icons/icon_my.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
                 selectedIcon: SvgPicture.asset(
                   'assets/icons/icon_my.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                 ),
                 label: '마이페이지',
               ),

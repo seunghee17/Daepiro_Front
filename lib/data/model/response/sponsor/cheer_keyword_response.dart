@@ -27,14 +27,14 @@ class CheerKeywordResponse {
   }
 
   Map<String, dynamic> toJson() {
-      final Map<String, dynamic> data = Map<String, dynamic>();
-      data['code'] = this.code;
-      data['message'] = this.message;
+      final Map<String, dynamic> data = <String, dynamic>{};
+      data['code'] = code;
+      data['message'] = message;
       if (this.data != null) {
         data['data'] = this.data!.map((v) => v.toJson()).toList();
       }
-      data['path'] = this.path;
-      data['timestamp'] = this.timestamp;
+      data['path'] = path;
+      data['timestamp'] = timestamp;
       return data;
     }
 }

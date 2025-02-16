@@ -34,7 +34,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
         return response.data!;
       }
     } catch (e) {
-      print('재난상황 데이터 오류 ${e}');
+      print('재난상황 데이터 오류 $e');
       return [];
     }
   }
@@ -50,7 +50,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
         return response.data!;
       }
     } catch (e) {
-      print('재난 상황 댓글 데이터 로드 오류 ${e}');
+      print('재난 상황 댓글 데이터 로드 오류 $e');
       return [];
     }
   }
@@ -74,7 +74,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
         return response;
       }
     } catch (e) {
-      print('재난 상황 편집 로드 오류 ${e}');
+      print('재난 상황 편집 로드 오류 $e');
       rethrow;
     }
   }
@@ -114,7 +114,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
       return await _service.setComment(
           communityCommentPostRequest: communityCommentPostRequest);
     } catch (e) {
-      print('댓글 작성중 오류 발생 ${e}');
+      print('댓글 작성중 오류 발생 $e');
       rethrow;
     }
   }
@@ -125,7 +125,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
     try {
       return await _service.dongNaeDetailContent(id: id);
     } catch (e) {
-      print('동네생활 게시글 상세조회 오류 발생 ${e}');
+      print('동네생활 게시글 상세조회 오류 발생 $e');
       rethrow;
     }
   }
@@ -136,7 +136,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
     try {
       return await _service.communityReplyLike(id: id);
     } catch (e) {
-      print('댓글 좋아요 ${e}');
+      print('댓글 좋아요 $e');
       rethrow;
     }
   }
@@ -149,7 +149,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
       return await _service.communityReplyReport(
           id: id, communityReplyReportRequest: communityReplyReportRequest);
     } catch (e) {
-      print('댓글 신고 오류 발생 ${e}');
+      print('댓글 신고 오류 발생 $e');
       rethrow;
     }
   }
@@ -161,7 +161,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
       return await _service.communityArticleReport(
           id: id, communityArticleRequest: communityArticleRequest);
     } catch (e) {
-      print('게시글 신고 오류 발생 ${e}');
+      print('게시글 신고 오류 발생 $e');
       rethrow;
     }
   }
@@ -186,7 +186,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
           latitude: latitude,
           attachFileList: attachFileList);
     } catch (e) {
-      print('게시글 작성중 오류 발생 ${e}');
+      print('게시글 작성중 오류 발생 $e');
       rethrow;
     }
   }

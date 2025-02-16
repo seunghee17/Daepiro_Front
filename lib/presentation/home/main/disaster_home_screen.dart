@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
@@ -20,7 +19,7 @@ class _DisasterHomeScreenState extends State<DisasterHomeScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               color: DaepiroColorStyle.white,
-              child: Column(
+              child: const Column(
                 children: [
 
                   ],

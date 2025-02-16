@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../repository/community_repository.dart';
 
 final getCommunityDisasterSituationUseCaseProvider = FutureProvider.autoDispose<List<Disaster>>((ref) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.getDisasterSituation();
 });
 

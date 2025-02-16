@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,7 +76,7 @@ class AroundShelterPreview extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Container(
+          SizedBox(
             width: double.infinity,
             child: MaterialButton(
               color: DaepiroColorStyle.g_50,

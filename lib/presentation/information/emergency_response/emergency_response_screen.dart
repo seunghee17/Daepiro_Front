@@ -1,7 +1,6 @@
 import 'package:daepiro/presentation/const/const.dart';
 import 'package:daepiro/presentation/information/component/item_emergency_response.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,7 +66,7 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                         child: SvgPicture.asset(
                           'assets/icons/icon_arrow_left.svg',
                           alignment: Alignment.centerLeft,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),
                       ),
                       Expanded(

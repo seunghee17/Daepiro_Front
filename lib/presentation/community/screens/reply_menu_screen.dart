@@ -1,9 +1,7 @@
 import 'dart:ui';
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
@@ -102,7 +100,7 @@ class ReplyMenuScreen extends ConsumerWidget {
             ),
           ),
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         GestureDetector(
             onTap: () {
               if (isArticle && deleteArticle != null) {
@@ -140,7 +138,7 @@ class ReplyMenuScreen extends ConsumerWidget {
     return GestureDetector(
         onTap: () {
           GoRouter.of(context)
-              .push('/community_report_screen/${commentId}/${isArticle}');
+              .push('/community_report_screen/$commentId/$isArticle');
         },
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -170,7 +168,7 @@ class ReplyMenuScreen extends ConsumerWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 24),
+            titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,7 +199,7 @@ class ReplyMenuScreen extends ConsumerWidget {
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Expanded(

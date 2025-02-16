@@ -48,24 +48,26 @@ class SettingFCM {
     // Foreground 메시지 처리
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       Map<String, dynamic> notification = message.data;
+      String title = notification.isEmpty ? message.notification!.title : notification['title'];
+      String body = notification.isEmpty ? message.notification!.body : notification['body'];
+      print('알림 notification: $title');
+      print('알림 notification: $body');
 
-      if (notification != null) {
-        _localNotifications.show(
-          notification.hashCode,
-          notification['title'],
-          notification['body'],
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'high_importance_channel',
-              'High Importance Notifications',
-              importance: Importance.max,
-              priority: Priority.high,
-              icon: '@mipmap/ic_launcher',
-            ),
-            iOS: DarwinNotificationDetails(sound: 'default'),
+      _localNotifications.show(
+        notification.hashCode,
+        title,
+        body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel',
+            'High Importance Notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: '@mipmap/ic_launcher',
           ),
-        );
-      }
-    });
+          iOS: DarwinNotificationDetails(sound: 'default'),
+        ),
+      );
+        });
   }
 }

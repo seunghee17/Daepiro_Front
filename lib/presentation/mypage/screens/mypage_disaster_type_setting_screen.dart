@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,13 +9,15 @@ import '../../const/common_disaster_list.dart';
 import '../../const/emergency_disaster_list.dart';
 
 class MypageDisasterTypeSettingScreen extends ConsumerStatefulWidget {
+  const MypageDisasterTypeSettingScreen({super.key});
+
   @override
   MypageDisasterTypeSettingState createState() => MypageDisasterTypeSettingState();
 }
 
 class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSettingScreen> {
-  Set<int> selected = Set();
-  Set<int> selectedSub = Set();
+  Set<int> selected = {};
+  Set<int> selectedSub = {};
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
                           Text(
@@ -43,11 +44,11 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                             style: DaepiroTextStyle.body_1_b
                                 .copyWith(color: DaepiroColorStyle.g_900),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           primaryFilledButtonWidget(),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Text(
@@ -55,7 +56,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Wrap(
                           spacing: 8,
                           runSpacing: 8,
@@ -80,19 +81,19 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                                         EmergencyDisasterList[index]['name']!,
                                         EmergencyDisasterList[index]['icon']!));
                               })),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       Text(
                         '일반 재난',
                         style: DaepiroTextStyle.body_1_b
                             .copyWith(color: DaepiroColorStyle.g_900),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
@@ -140,14 +141,14 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                 width: 24,
                 height: 24,
                 colorFilter:
-                ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text('프로필 수정',
             style:
             DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-        Spacer(),
+        const Spacer(),
         GestureDetector(
           onTap: () async {
             final isSuccess = await ref.read(myPageProvider.notifier).setDisasterType();
@@ -175,7 +176,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                 width: 16,
                 height: 16,
                 colorFilter:
-                ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)),
+                const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)),
             Text(
               '수신권장',
               style: DaepiroTextStyle.caption
@@ -190,36 +191,6 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
   Widget disasterItem(bool isTapped, String name, String icon) {
     return Container(
       width: (MediaQuery.of(context).size.width / 3) - 20,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 8),
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: DaepiroColorStyle.g_50,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: SvgPicture.asset(icon,
-                  width: 36,
-                  height: 36,
-                  colorFilter: ColorFilter.mode(
-                      DaepiroColorStyle.g_500, BlendMode.srcIn)),
-            ),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          Text(
-            name,
-            style: DaepiroTextStyle.body_2_m
-                .copyWith(color: DaepiroColorStyle.g_500),
-          ),
-          SizedBox(height: 8),
-        ],
-      ),
       decoration: BoxDecoration(
           color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
           border: Border.all(
@@ -227,6 +198,36 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
               isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
               width: 1),
           borderRadius: BorderRadius.circular(8)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 8),
+          Container(
+            height: 50,
+            width: 50,
+            decoration: const BoxDecoration(
+              color: DaepiroColorStyle.g_50,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: SvgPicture.asset(icon,
+                  width: 36,
+                  height: 36,
+                  colorFilter: const ColorFilter.mode(
+                      DaepiroColorStyle.g_500, BlendMode.srcIn)),
+            ),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            name,
+            style: DaepiroTextStyle.body_2_m
+                .copyWith(color: DaepiroColorStyle.g_500),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 

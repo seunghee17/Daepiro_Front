@@ -13,7 +13,7 @@ import '../../../../data/model/selected_image.dart';
 
 class GalleryViewScreen extends ConsumerStatefulWidget {
   final List<SelectedImage> selectedImages;
-  GalleryViewScreen({super.key, required this.selectedImages});
+  const GalleryViewScreen({super.key, required this.selectedImages});
 
   @override
   _GalleryViewScreenState createState() => _GalleryViewScreenState();
@@ -109,7 +109,7 @@ class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with Widg
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     getAlbum();
   }
 
@@ -125,7 +125,7 @@ class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with Widg
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -140,7 +140,7 @@ class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with Widg
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -154,12 +154,12 @@ class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with Widg
                             child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                                 width: 24,
                                 height: 24,
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     DaepiroColorStyle.g_900, BlendMode.srcIn)),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text('${state.selectedImages.length}/3', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-                          Spacer(),
+                          const Spacer(),
                           GestureDetector(
                               onTap: () async {
                                 GoRouter.of(context).pop();
@@ -206,8 +206,8 @@ class GridPhoto extends StatelessWidget {
     required this.images,
     required this.selectedImages,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final picker = ImagePicker();
 
@@ -297,11 +297,11 @@ class GridPhoto extends StatelessWidget {
         top: 8,
         child: Checkbox(
           visualDensity: VisualDensity.compact,
-          side: BorderSide(color: Colors.transparent),
+          side: const BorderSide(color: Colors.transparent),
           activeColor: DaepiroColorStyle.o_500,
           checkColor: Colors.white,
-          fillColor: MaterialStateProperty.resolveWith((states) {
-            if(states.contains(MaterialState.selected)) {
+          fillColor: WidgetStateProperty.resolveWith((states) {
+            if(states.contains(WidgetState.selected)) {
               return DaepiroColorStyle.o_500;
             }
             return DaepiroColorStyle.g_75;

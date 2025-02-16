@@ -13,10 +13,10 @@ class CommunityCommentPostRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['body'] = this.body;
-    data['parentCommentId'] = this.parentCommentId;
-    data['articleId'] = this.articleId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['body'] = body;
+    data['parentCommentId'] = parentCommentId;
+    data['articleId'] = articleId;
     return data;
   }
 }

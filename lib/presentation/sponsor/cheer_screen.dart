@@ -1,18 +1,11 @@
-import 'package:daepiro/presentation/const/utils.dart';
 import 'package:daepiro/presentation/sponsor/component/cheer_comment_menu.dart';
 import 'package:daepiro/presentation/sponsor/component/item_cheer_comment.dart';
-import 'package:daepiro/presentation/sponsor/sponsor_state.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../cmm/DaepiroTheme.dart';
-import '../community/screens/reply_menu_screen.dart';
-import 'component/item_sponsor_preview.dart';
 
 class CheerScreen extends ConsumerStatefulWidget {
   const CheerScreen({super.key});

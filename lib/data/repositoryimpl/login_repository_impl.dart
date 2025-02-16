@@ -10,7 +10,7 @@ import '../source/login/login_service.dart';
 class LoginRepositoryImpl implements LoginRepository {
   LoginRepositoryImpl({required LoginService service}) : _service = service;
   final LoginService _service;
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   Future<SocialLoginTokenResponse> getSocialLogin({

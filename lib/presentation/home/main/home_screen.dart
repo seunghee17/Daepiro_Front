@@ -3,20 +3,16 @@ import 'package:daepiro/presentation/home/component/popular_post_preview.dart';
 import 'package:daepiro/presentation/const/const.dart';
 import 'package:daepiro/presentation/home/main/home_view_model.dart';
 import 'package:daepiro/presentation/home/component/disaster_mesaage_history_preview.dart';
-import 'package:daepiro/presentation/sponsor/component/item_sponsor_preview.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../const/utils.dart';
 import '../component/sponsor_preview.dart';
-import 'home_state.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -76,16 +72,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   child: Column(
                                     children: [
                                       Container(
-                                        alignment: Alignment.topLeft,
                                         decoration: BoxDecoration(
                                           color: DaepiroColorStyle.o_50,
                                           borderRadius: BorderRadius.circular(12),
                                         ),
+                                        height: 184,
                                         child: Stack(
                                           children: [
-                                            Container(
-                                              alignment: Alignment.bottomRight,
-                                              child: Image.asset('assets/icons/image_character_home.png'),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(12),
+                                              child: Image.asset(
+                                                'assets/icons/home_banner.png',
+                                                width: double.infinity,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                             Container(
                                               padding: const EdgeInsets.only(top: 26, left: 16, bottom: 16, right: 16),
@@ -100,7 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                       ),
                                                       children: [
                                                         TextSpan(
-                                                          text: "삐용님",
+                                                          text: viewModel.nickname,
                                                           style: DaepiroTextStyle.h6.copyWith(
                                                             color: DaepiroColorStyle.o_500,
                                                           ),
@@ -111,51 +111,59 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                       ],
                                                     ),
                                                   ),
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width,
-                                                    padding: const EdgeInsets.only(top: 41),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Expanded(
-                                                            child: Container(
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.white,
-                                                                  borderRadius: BorderRadius.circular(8),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                                              alignment: Alignment.bottomCenter,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.white.withOpacity(0.5),
+                                                            borderRadius: BorderRadius.circular(8),
+                                                            border: Border.all(
+                                                              width: 1,
+                                                              color: DaepiroColorStyle.white.withOpacity(0.7),
+                                                            ),
+                                                          ),
+                                                          child: Stack(
+                                                            children: [
+                                                              Container(
+                                                                padding: const EdgeInsets.fromLTRB(8, 12, 12, 12),
+                                                                child: Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    SvgPicture.asset(
+                                                                      'assets/icons/icon_location.svg',
+                                                                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                                                      width: 24,
+                                                                      height: 24,
+                                                                    ),
+                                                                    const SizedBox(width: 4),
+                                                                    Text(
+                                                                      "현재 위치는",
+                                                                      style: DaepiroTextStyle.body_2_m.copyWith(
+                                                                        color: DaepiroColorStyle.g_800,
+                                                                      ),
+                                                                    ),
+                                                                    const Spacer(),
+                                                                    Text(
+                                                                      viewModel.location,
+                                                                      style: DaepiroTextStyle.body_2_m.copyWith(
+                                                                        color: DaepiroColorStyle.g_800,
+                                                                      ),
+                                                                    )
+                                                                  ],
                                                                 ),
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.fromLTRB(8, 12, 12, 12),
-                                                                  child: Row(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    children: [
-                                                                      SvgPicture.asset(
-                                                                        'assets/icons/icon_location.svg',
-                                                                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                                                                        width: 24,
-                                                                        height: 24,
-                                                                      ),
-                                                                      const SizedBox(width: 4),
-                                                                      Text(
-                                                                        "현재 위치는",
-                                                                        style: DaepiroTextStyle.body_2_m.copyWith(
-                                                                          color: DaepiroColorStyle.g_800,
-                                                                        ),
-                                                                      ),
-                                                                      const Spacer(),
-                                                                      Text(
-                                                                        viewModel.location,
-                                                                        style: DaepiroTextStyle.body_2_m.copyWith(
-                                                                          color: DaepiroColorStyle.g_800,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                            )
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
+                                                              ),
+                                                            ],
+                                                          )
+                                                      )
+                                                  ),
                                                 ],
                                               ),
                                             )

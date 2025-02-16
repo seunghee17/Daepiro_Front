@@ -1,15 +1,12 @@
 import 'package:daepiro/presentation/information/component/disaster_contents_main_item.dart';
 import 'package:daepiro/presentation/information/main/information_view_model.dart';
-import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../home/component/around_shelter_preview.dart';

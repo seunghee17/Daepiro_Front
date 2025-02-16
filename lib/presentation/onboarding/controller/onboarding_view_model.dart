@@ -16,9 +16,9 @@ final onboardingStateNotifierProvider =
 
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
   final Ref ref;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   Set<String> get inputJusoList => _inputJusoList;
-  Set<String> _inputJusoList = Set<String>();
+  Set<String> _inputJusoList = <String>{};
 
 
   OnboardingViewModel(this.ref) : super(OnboardingState());
@@ -41,6 +41,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   void updateNickName(String nickName) {
     state = state.copyWith(userNickName: nickName);
+
   }
 
   Future<void> setNickNameState(String nickName) async {
@@ -119,7 +120,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     try {
       final userAddresses =
       await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
-      if (userAddresses.length > 0) {
+      if (userAddresses.isNotEmpty) {
         for (int i = 0; i < userAddresses.length; i++) {
           await storage.write(
               key: 'fullAddress_$i', value: userAddresses[i].fullAddress);
@@ -134,8 +135,8 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   }
 
   Future<String> getFcmToken() async {
-    String? _fcmToken = await FirebaseMessaging.instance.getToken();
-    return _fcmToken ?? '';
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+    return fcmToken ?? '';
   }
 
   void setJusoNick(String firstNick, String secondNick) {
@@ -220,7 +221,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   //주소 검색 결과 초기화
   void initSearchHistory() {
-    _inputJusoList = Set<String>();
+    _inputJusoList = <String>{};
   }
 
   void setVisibleState(int index, bool value) {

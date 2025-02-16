@@ -1,11 +1,8 @@
 import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
-import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
 import 'package:daepiro/presentation/information/component/search_disaster_type.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../../../../cmm/DaepiroTheme.dart';
 
 class SearchDisasterTypeScreen extends StatefulWidget {
@@ -35,7 +32,7 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(20,8,12,8),
+                  padding: const EdgeInsets.fromLTRB(20,8,12,8),
                   color: Colors.white,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,9 +56,9 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(8)
                               ),
-                              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               suffixIcon: Padding(
-                                  padding: EdgeInsets.fromLTRB(8, 8, 16, 8),
+                                  padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
                                   child: SvgPicture.asset('assets/icons/icon_search.svg')
                               ),
                               suffixIconColor: DaepiroColorStyle.g_200,
@@ -87,7 +84,7 @@ class _SearchDisasterTypeScreenState extends State<SearchDisasterTypeScreen> {
                 Flexible(
                   child: Container(
                     color: Colors.white,
-                    padding: searchedDisasterList.isNotEmpty ? EdgeInsets.symmetric(horizontal: 12, vertical: 20) : EdgeInsets.all(0),
+                    padding: searchedDisasterList.isNotEmpty ? const EdgeInsets.symmetric(horizontal: 12, vertical: 20) : const EdgeInsets.all(0),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: searchedDisasterList.length,

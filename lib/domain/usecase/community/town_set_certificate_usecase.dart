@@ -5,7 +5,7 @@ import '../../../data/model/response/basic_response.dart';
 import '../../repository/community_repository.dart';
 
 final townSetCertificateUseCaseProvider = FutureProvider.family<BasicResponse, TownSetCertificateUseCase> ((ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.setTownCertificateInfo(setTownCertificateRequest: request.setTownCertificateRequest);
 });
 

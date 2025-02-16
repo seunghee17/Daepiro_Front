@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +10,8 @@ import 'login_state.dart';
 import 'login_view_model.dart';
 
 class LoginScreen extends ConsumerWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(loginStateNotifierProvider.notifier);
@@ -52,7 +52,7 @@ class LoginScreen extends ConsumerWidget {
               height: screenHeight * 0.63,
               color: DaepiroColorStyle.white,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 75),
+                padding: const EdgeInsets.symmetric(horizontal: 75),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +62,7 @@ class LoginScreen extends ConsumerWidget {
                         style: DaepiroTextStyle.body_1_b
                             .copyWith(color: DaepiroColorStyle.o_500),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Flexible(
                           child: SvgPicture.asset(
                         'assets/icons/icon_logo_small.svg',
@@ -74,12 +74,12 @@ class LoginScreen extends ConsumerWidget {
               )),
           Flexible(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   LoginButton(
-                    Color(0xFFFAE300),
+                    const Color(0xFFFAE300),
                     () async {
                       await ref
                           .read(loginStateNotifierProvider.notifier)
@@ -87,9 +87,9 @@ class LoginScreen extends ConsumerWidget {
                     },
                     KakaoWidget(),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   LoginButton(
-                    Color(0xFF03C75A),
+                    const Color(0xFF03C75A),
                     () async {
                       await ref
                           .read(loginStateNotifierProvider.notifier)
@@ -97,7 +97,7 @@ class LoginScreen extends ConsumerWidget {
                     },
                     NaverWidget(),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   if (Platform.isIOS)
                     Column(
                       children: [
@@ -106,14 +106,14 @@ class LoginScreen extends ConsumerWidget {
                               .read(loginStateNotifierProvider.notifier)
                               .appleLogin();
                         }, AppleWidget()),
-                        SizedBox(height: 41)
+                        const SizedBox(height: 41)
                       ],
                     )
                 ],
               ),
             ),
           ),
-          SizedBox(height: 16)
+          const SizedBox(height: 16)
         ],
       ),
     );
@@ -129,7 +129,7 @@ class LoginScreen extends ConsumerWidget {
             'assets/icons/icon_kakao.svg',
             color: DaepiroColorStyle.black,
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
             'Kakao로 로그인',
             style: DaepiroTextStyle.body_1_m
@@ -147,7 +147,7 @@ class LoginScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset('assets/icons/icon_naver.svg'),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
             'Naver로 로그인',
             style: DaepiroTextStyle.body_1_m
@@ -167,8 +167,8 @@ class LoginScreen extends ConsumerWidget {
           SvgPicture.asset(
             'assets/icons/icon_apple_logo.svg',
           colorFilter:
-          ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)),
-          SizedBox(width: 8),
+          const ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)),
+          const SizedBox(width: 8),
           Text(
             'Apple로 로그인',
             style: DaepiroTextStyle.body_1_m
@@ -187,7 +187,7 @@ class LoginScreen extends ConsumerWidget {
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           shadowColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
         onPressed: onPressed,
         child: child);
@@ -200,7 +200,7 @@ class LoginScreen extends ConsumerWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: DaepiroColorStyle.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,8 +212,8 @@ class LoginScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.fromLTRB(20, 0, 20, 24),
-            content: Container(
+            contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+            content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -247,7 +247,7 @@ class LoginScreen extends ConsumerWidget {
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Expanded(

@@ -1,7 +1,6 @@
 import 'package:daepiro/cmm/DaepiroTheme.dart';
 import 'package:daepiro/cmm/button/secondary_light_button.dart';
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,40 +33,40 @@ class MypageScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         UserWidget(context, state.realName, state.profileImgUrl, state.nickName),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           '내 정보',
                           style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_800),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         Row(
                           children: [
                             Expanded(
                               child: GestureDetector(
                                 onTap: () => GoRouter.of(context).push('/mypage_fix_alarminfo'),
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(12)),
                                     color: DaepiroColorStyle.g_50
                                   ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                       SvgPicture.asset('assets/icons/icon_alarm.svg',
                                           width: 24,
                                           height: 24,
                                           colorFilter:
-                                          ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
-                                      SizedBox(height: 6),
+                                          const ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
+                                      const SizedBox(height: 6),
                                       Text('알림 설정', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900)),
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: GestureDetector(
                                 onTap: () async {
@@ -75,22 +74,22 @@ class MypageScreen extends ConsumerWidget {
                                   GoRouter.of(context).push('/mypage_user_writing');
                                 },
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(12)),
                                       color: DaepiroColorStyle.g_50
                                   ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                       SvgPicture.asset('assets/icons/icon_community.svg',
                                           width: 24,
                                           height: 24,
                                           colorFilter:
-                                          ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
-                                      SizedBox(height: 6),
+                                          const ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
+                                      const SizedBox(height: 6),
                                       Text('내가 쓴글', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900)),
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                     ],
                                   ),
                                 ),
@@ -98,9 +97,9 @@ class MypageScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text('고객 센터', style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900)),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         GestureDetector(
                           onTap: () => GoRouter.of(context).push('/mypage_fix_userinfo'),
                             child: mypageListItem('공지사항')
@@ -117,24 +116,24 @@ class MypageScreen extends ConsumerWidget {
                             onTap: () => GoRouter.of(context).push('/mypage_fix_userinfo'),
                             child: mypageListItem('앱버전')
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           children: [
                             Expanded(
                                 child: SecondaryLightButton(
                                     onPressed: (){},
                                     radius: 4,
-                                    child: Text('회원탈퇴', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
                                   padding: 10,
+                                    child: Text('회원탈퇴', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
                                 )
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Expanded(
                                 child: SecondaryLightButton(
                                   onPressed: (){},
                                   radius: 4,
-                                  child: Text('로그아웃', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
                                   padding: 10,
+                                  child: Text('로그아웃', style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_600)),
                                 )
                             ),
                           ],
@@ -151,7 +150,7 @@ class MypageScreen extends ConsumerWidget {
   }
 
   Widget UserWidget(BuildContext context, String realName, String profileImgUrl, String nickName) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,26 +165,26 @@ class MypageScreen extends ConsumerWidget {
             child: Image.network(
               profileImgUrl,
               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               },
               fit: BoxFit.fill,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               Text(realName, style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_800)),
-              SizedBox(width: 8),
-              Text('@${nickName}', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
-              Spacer(),
+              const SizedBox(width: 8),
+              Text('@$nickName', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
+              const Spacer(),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           GestureDetector(
             onTap: () => GoRouter.of(context).push('/mypage_fix_userinfo'),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(99)),
                 color: DaepiroColorStyle.g_50
               ),
@@ -202,7 +201,7 @@ class MypageScreen extends ConsumerWidget {
 
   Widget mypageListItem(String title) {
     return GestureDetector(
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -217,7 +216,7 @@ class MypageScreen extends ConsumerWidget {
                 SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                     width: 20,
                     height: 20,
-                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
+                    colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)
                 ),
               if(title == '앱버전')
                 Text(

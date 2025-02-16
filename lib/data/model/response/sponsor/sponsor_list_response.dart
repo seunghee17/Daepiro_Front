@@ -25,14 +25,14 @@ class SponsorListResponse {
   }
 
   Map<String, dynamic> toJson() {
-      final Map<String, dynamic> data = Map<String, dynamic>();
-      data['code'] = this.code;
-      data['message'] = this.message;
+      final Map<String, dynamic> data = <String, dynamic>{};
+      data['code'] = code;
+      data['message'] = message;
       if (this.data != null) {
         data['data'] = this.data!.map((v) => v.toJson()).toList();
       }
-      data['path'] = this.path;
-      data['timestamp'] = this.timestamp;
+      data['path'] = path;
+      data['timestamp'] = timestamp;
       return data;
     }
 }
@@ -85,20 +85,20 @@ class Sponsor {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['deadline'] = this.deadline;
-    data['sponsorName'] = this.sponsorName;
-    data['title'] = this.title;
-    data['subtitle'] = this.subtitle;
-    data['thumbnail'] = this.thumbnail;
-    data['currentHeart'] = this.currentHeart;
-    data['targetHeart'] = this.targetHeart;
-    data['sponsorDescription'] = this.sponsorDescription;
-    data['sponsorUrl'] = this.sponsorUrl;
-    data['summary'] = this.summary;
-    data['body'] = this.body;
-    data['disasterType'] = this.disasterType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['deadline'] = deadline;
+    data['sponsorName'] = sponsorName;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
+    data['thumbnail'] = thumbnail;
+    data['currentHeart'] = currentHeart;
+    data['targetHeart'] = targetHeart;
+    data['sponsorDescription'] = sponsorDescription;
+    data['sponsorUrl'] = sponsorUrl;
+    data['summary'] = summary;
+    data['body'] = body;
+    data['disasterType'] = disasterType;
     return data;
   }
 }

@@ -1,16 +1,10 @@
-import 'dart:ffi';
 
 import 'package:daepiro/data/model/request/cheer_request.dart';
 import 'package:daepiro/data/model/response/basic_response.dart';
-import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
-import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
-import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_comment_response.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_keyword_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
-import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/data/source/sponsor/sponsor_service.dart';
-import 'package:daepiro/domain/repository/home_repository.dart';
 import 'package:daepiro/domain/repository/sponsor_repository.dart';
 
 class SponsorRepositoryImpl extends SponsorRepository {

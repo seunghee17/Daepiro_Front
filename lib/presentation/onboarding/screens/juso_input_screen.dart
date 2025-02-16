@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,10 +17,10 @@ class JusoInputScreen extends ConsumerStatefulWidget {
 }
 
 class JusoInputState extends ConsumerState<JusoInputScreen> {
-  final TextEditingController jusoController = new TextEditingController();
+  final TextEditingController jusoController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final FocusNode focusNode = FocusNode();
-  Set<int> selected = Set();
+  Set<int> selected = {};
   int currentPage = 1;
   bool isLoading = false;
 
@@ -63,21 +62,21 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 headerWidget(state.userName),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 jusoInputTextField(ref, jusoController, focusNode),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   '검색결과',
                   style: DaepiroTextStyle.body_2_m.copyWith(
                       color: DaepiroColorStyle.g_400),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 if(state.isError || (focusNode.hasFocus && resultAddress.inputJusoList.isEmpty))
                   searchErrorWidget(),
                 if(!state.isError)
@@ -86,8 +85,9 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                         controller: scrollController,
                         itemCount: resultAddress.inputJusoList.length + 1,
                         itemBuilder: (context, index) {
-                          if (index == resultAddress.inputJusoList.length)
+                          if (index == resultAddress.inputJusoList.length) {
                             return Container();
+                          }
                           var jusoList = resultAddress.inputJusoList.toList();
                           var juso = jusoList[index].toString();
                           bool isTapped = selected.contains(index);
@@ -98,7 +98,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                     : DaepiroColorStyle.white,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(
+                                    side: const BorderSide(
                                         color: DaepiroColorStyle.white)
                                 ),
                                 title: Text(
@@ -148,9 +148,9 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
             },
             icon: SvgPicture.asset(
                 'assets/icons/icon_arrow_left.svg',
-                colorFilter: ColorFilter.mode(
+                colorFilter: const ColorFilter.mode(
                     DaepiroColorStyle.g_900, BlendMode.srcIn))),
-        SizedBox(height: 32),
+        const SizedBox(height: 32),
         Row(
           children: [
             if(userName.length >=3)
@@ -161,13 +161,13 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               ),
             if(userName.length <3)
               Text(
-                '${userName}님 ',
+                '$userName님 ',
                 style: DaepiroTextStyle.h5.copyWith(
                     color: DaepiroColorStyle.g_900),
               ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             typeChipWidget(),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               '어디에 있나요?',
               style: DaepiroTextStyle.h5.copyWith(
@@ -191,7 +191,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                 style: DaepiroTextStyle.body_1_b.copyWith(
                     color: DaepiroColorStyle.g_600),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                   '다시 검색해주세요',
                   style: DaepiroTextStyle.body_2_m.copyWith(
@@ -207,7 +207,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         radius: 99,
         backgroundColor: DaepiroColorStyle.g_600,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -215,7 +215,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                   widget.type == '집'
                       ? 'assets/icons/icon_home.svg'
                       : 'assets/icons/icon_location_24.svg',
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.white, BlendMode.srcIn)
               ),
               Text(
@@ -250,38 +250,38 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
           decoration: InputDecoration(
             filled: true,
             isDense: true,
-            contentPadding: EdgeInsets.all(16),
+            contentPadding: const EdgeInsets.all(16),
             fillColor: DaepiroColorStyle.g_50,
             hintText: '동/읍/면/리',
             hintStyle: DaepiroTextStyle.body_1_m.copyWith(
                 color: DaepiroColorStyle.g_200),
             suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: controller.text.length > 0 ?
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: controller.text.isNotEmpty ?
                 GestureDetector(
                   onTap: controller.clear,
                   child: SvgPicture.asset(
                       'assets/icons/icon_close.svg',
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_400, BlendMode.srcIn)
                   ),
                 ) :
                 SvgPicture.asset('assets/icons/icon_search.svg',
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.g_200, BlendMode.srcIn))
             ),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(
                     width: 1.5,
                     color: DaepiroColorStyle.g_75
                 )
             ),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
             ),
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
                 borderSide: BorderSide(width: 1, color: DaepiroColorStyle.g_50)
             ),

@@ -1,6 +1,5 @@
 import 'package:daepiro/cmm/DaepiroTheme.dart';
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,8 +13,8 @@ class MyPageFixUserinfoScreen extends ConsumerStatefulWidget {
 }
 
 class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
-  final TextEditingController nameController = new TextEditingController();
-  final TextEditingController nicknameController = new TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nicknameController = TextEditingController();
 
   @override
   void initState() {
@@ -39,17 +38,17 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               headerWidget(context, ref),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text('이름', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               nameTextField(nameController),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Text('닉네임', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               nickNameTextField(nicknameController),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Text('계정', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               emailTextField()
             ],
           ),
@@ -70,14 +69,14 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
                 width: 24,
                 height: 24,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                    const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text('프로필 수정',
             style:
                 DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-        Spacer(),
+        const Spacer(),
         GestureDetector(
           onTap: () async {
             await ref.read(myPageProvider.notifier).setMyProfiles(nameController.text, nicknameController.text);
@@ -105,22 +104,22 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
             decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide:
                       BorderSide(width: 1.5, color: DaepiroColorStyle.g_75)),
-              enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide:
                       BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
               suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: SvgPicture.asset('assets/icons/icon_edit.svg',
                     width: 24,
                     height: 24,
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.g_200, BlendMode.srcIn)),
               ),
             ))
@@ -141,22 +140,22 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
             decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide:
                   BorderSide(width: 1.5, color: DaepiroColorStyle.g_75)),
-              enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide:
                   BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
               suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: SvgPicture.asset('assets/icons/icon_edit.svg',
                     width: 24,
                     height: 24,
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                         DaepiroColorStyle.g_200, BlendMode.srcIn)),
               ),
             ))
@@ -178,7 +177,7 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text('카카오', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
-            Spacer(),
+            const Spacer(),
             Text('victoria@naver', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
           ],
         ),

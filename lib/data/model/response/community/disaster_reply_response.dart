@@ -14,7 +14,7 @@ class DisasterReplyResponse {
     if (json['data'] != null) {
       data = <Reply>[];
       json['data'].forEach((v) {
-        data!.add(new Reply.fromJson(v));
+        data!.add(Reply.fromJson(v));
       });
     }
     path = json['path'];
@@ -22,14 +22,14 @@ class DisasterReplyResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -73,30 +73,28 @@ class Reply {
     if (json['childComments'] != null) {
       childComments = <ChildComments>[];
       json['childComments'].forEach((v) {
-        childComments!.add(new ChildComments.fromJson(v));
+        childComments!.add(ChildComments.fromJson(v));
       });
     }
-    ;
     isLiked = json['isLiked'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['time'] = this.time;
-    data['content'] = this.content;
-    data['likeCount'] = this.likeCount;
-    data['isMine'] = this.isMine;
-    data['isDeleted'] = this.isDeleted;
-    data['isModified'] = this.isModified;
-    data['isVerified'] = this.isVerified;
-    if (this.childComments != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['time'] = time;
+    data['content'] = content;
+    data['likeCount'] = likeCount;
+    data['isMine'] = isMine;
+    data['isDeleted'] = isDeleted;
+    data['isModified'] = isModified;
+    data['isVerified'] = isVerified;
+    if (childComments != null) {
       data['childComments'] =
-          this.childComments!.map((v) => v.toJson()).toList();
+          childComments!.map((v) => v.toJson()).toList();
     }
-    ;
-    data['isLiked'] = this.isLiked;
+    data['isLiked'] = isLiked;
     return data;
   }
 }
@@ -140,17 +138,17 @@ class ChildComments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['time'] = this.time;
-    data['content'] = this.content;
-    data['likeCount'] = this.likeCount;
-    data['isMine'] = this.isMine;
-    data['isDeleted'] = this.isDeleted;
-    data['isModified'] = this.isModified;
-    data['isVerified'] = this.isVerified;
-    data['isLiked'] = this.isLiked;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['time'] = time;
+    data['content'] = content;
+    data['likeCount'] = likeCount;
+    data['isMine'] = isMine;
+    data['isDeleted'] = isDeleted;
+    data['isModified'] = isModified;
+    data['isVerified'] = isVerified;
+    data['isLiked'] = isLiked;
     return data;
   }
 }

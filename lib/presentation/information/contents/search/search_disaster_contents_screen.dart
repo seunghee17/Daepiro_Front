@@ -1,7 +1,6 @@
 import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_state.dart';
 import 'package:daepiro/presentation/information/contents/search/search_disaster_contents_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,7 +33,7 @@ class SearchDisasterContentsScreen extends ConsumerWidget {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(20,8,12,8),
+                  padding: const EdgeInsets.fromLTRB(20,8,12,8),
                   color: Colors.white,
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,9 +57,9 @@ class SearchDisasterContentsScreen extends ConsumerWidget {
                                     borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.circular(8)
                                 ),
-                                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                 suffixIcon: Padding(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 16, 8),
+                                    padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
                                     child: GestureDetector(
                                       onTap: () {
                                         ref.read(searchDisasterContentsStateNotifierProvider.notifier)
@@ -91,7 +90,7 @@ class SearchDisasterContentsScreen extends ConsumerWidget {
                 Flexible(
                   child: Container(
                       color: Colors.white,
-                      padding: viewModel.searchedContentsList.isNotEmpty ? EdgeInsets.symmetric(horizontal: 12, vertical: 20) : EdgeInsets.all(0),
+                      padding: viewModel.searchedContentsList.isNotEmpty ? const EdgeInsets.symmetric(horizontal: 12, vertical: 20) : const EdgeInsets.all(0),
                       child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: viewModel.searchedContentsList.length,

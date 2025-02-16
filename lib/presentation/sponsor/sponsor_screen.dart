@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:daepiro/presentation/sponsor/component/item_cheer_keyword.dart';
 import 'package:daepiro/presentation/sponsor/component/item_sponsor_preview.dart';
-import 'package:daepiro/presentation/sponsor/sponsor_state.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -136,7 +134,7 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
                                       ItemCheerKeyword(
                                           text: viewModel.cheerCommentList[i].content ?? ""
                                       ),
-                                      SizedBox(width: 8)
+                                      const SizedBox(width: 8)
                                     ],
                                   ),
                               ]

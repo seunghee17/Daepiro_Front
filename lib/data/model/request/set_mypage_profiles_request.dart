@@ -10,9 +10,9 @@ class SetMyPageProfilesRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['realname'] = this.realname;
-    data['nickname'] = this.nickname;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['realname'] = realname;
+    data['nickname'] = nickname;
     return data;
   }
 }

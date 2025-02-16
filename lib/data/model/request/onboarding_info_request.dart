@@ -14,7 +14,7 @@ class OnboardingInfoRequest {
     if (json['addresses'] != null) {
       addresses = <Addresses>[];
       json['addresses'].forEach((v) {
-        addresses!.add(new Addresses.fromJson(v));
+        addresses!.add(Addresses.fromJson(v));
       });
     }
     disasterTypes = json['disasterTypes'].cast<String>();
@@ -22,14 +22,14 @@ class OnboardingInfoRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['realname'] = this.realname;
-    data['nickname'] = this.nickname;
-    if (this.addresses != null) {
-      data['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['realname'] = realname;
+    data['nickname'] = nickname;
+    if (addresses != null) {
+      data['addresses'] = addresses!.map((v) => v.toJson()).toList();
     }
-    data['disasterTypes'] = this.disasterTypes;
-    data['fcmToken'] = this.fcmToken;
+    data['disasterTypes'] = disasterTypes;
+    data['fcmToken'] = fcmToken;
     return data;
   }
 }
@@ -46,9 +46,9 @@ class Addresses {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['address'] = this.address;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['address'] = address;
     return data;
   }
 }

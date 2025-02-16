@@ -1,16 +1,10 @@
 import 'package:daepiro/data/model/response/basic_response.dart';
-import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
-import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
-import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_comment_response.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_keyword_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
-import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/data/source/sponsor/sponsor_service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/http/http_provider.dart';
-import '../../data/repositoryimpl/home_repository_impl.dart';
 import '../../data/repositoryimpl/sponsor_repository_impl.dart';
 
 final sponsorRepositoryProvider = Provider<SponsorRepository>((ref) {

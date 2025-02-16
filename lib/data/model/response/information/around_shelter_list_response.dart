@@ -22,14 +22,14 @@ class AroundShelterListResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -54,10 +54,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['myLocation'] = this.myLocation;
-    if (this.shelters != null) {
-      data['shelters'] = this.shelters!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['myLocation'] = myLocation;
+    if (shelters != null) {
+      data['shelters'] = shelters!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -82,12 +82,12 @@ class Shelters {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['distance'] = this.distance;
-    data['address'] = this.address;
-    data['longitude'] = this.longitude;
-    data['latitude'] = this.latitude;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['distance'] = distance;
+    data['address'] = address;
+    data['longitude'] = longitude;
+    data['latitude'] = latitude;
     return data;
   }
 }

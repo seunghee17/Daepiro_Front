@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SecondaryFilledButton extends StatefulWidget {
@@ -12,7 +11,7 @@ class SecondaryFilledButton extends StatefulWidget {
   final Color? disableColor;
 
   const SecondaryFilledButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.radius,
     required this.child,
@@ -21,7 +20,7 @@ class SecondaryFilledButton extends StatefulWidget {
     required this.backgroundColor,
     this.disableColor,
     this.pressedColor
-  }) : super(key: key);
+  });
 
   @override
   _SecondaryFilledButton createState() => _SecondaryFilledButton();
@@ -44,8 +43,8 @@ class _SecondaryFilledButton extends State<SecondaryFilledButton> {
           shadowColor: Colors.transparent,
           padding: EdgeInsets.symmetric(vertical: widget.verticalPadding ?? 0, horizontal: widget.horizontalPadding ?? 0)
         ).copyWith(//g_400
-          backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed) && widget.pressedColor!=null) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed) && widget.pressedColor!=null) {
               return widget.pressedColor!;
             }
             return widget.backgroundColor;

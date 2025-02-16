@@ -4,7 +4,7 @@ import 'package:daepiro/domain/repository/community_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final communityCommentWriteUseCaseProvider = FutureProvider.family<CommunityCommentPostResponse, CommunityCommentWriteUsecase> ((ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.setComment(request.communityCommentPostRequest);
 });
 

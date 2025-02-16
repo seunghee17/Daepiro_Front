@@ -9,7 +9,6 @@ import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 import '../../model/response/information/disaster_contents_list_response.dart';
-import '../../model/response/sponsor/sponsor_list_response.dart';
 part 'home_service.g.dart';
 
 @RestApi()

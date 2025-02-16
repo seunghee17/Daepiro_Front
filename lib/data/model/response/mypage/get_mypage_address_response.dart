@@ -11,20 +11,20 @@ class GetMyPageAddressResponse {
   GetMyPageAddressResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Adresses.fromJson(json['data']) : null;
+    data = json['data'] != null ? Adresses.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -38,15 +38,15 @@ class Adresses {
     if (json['addresses'] != null) {
       addresses = <Addresses>[];
       json['addresses'].forEach((v) {
-        addresses!.add(new Addresses.fromJson(v));
+        addresses!.add(Addresses.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.addresses != null) {
-      data['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (addresses != null) {
+      data['addresses'] = addresses!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -66,10 +66,10 @@ class Addresses {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['addressId'] = this.addressId;
-    data['siDo'] = this.siDo;
-    data['siGunGu'] = this.siGunGu;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['addressId'] = addressId;
+    data['siDo'] = siDo;
+    data['siGunGu'] = siGunGu;
     return data;
   }
 }

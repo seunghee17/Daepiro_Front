@@ -1,7 +1,6 @@
 import 'package:daepiro/presentation/information/component/disaster_contents_preview_item.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_state.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
 class DisasterContentsScreen extends ConsumerWidget {
-  DisasterContentsScreen({super.key});
+  const DisasterContentsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,7 +30,7 @@ class DisasterContentsScreen extends ConsumerWidget {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                   child: Row(
                     children: [
                       GestureDetector(
@@ -41,7 +40,7 @@ class DisasterContentsScreen extends ConsumerWidget {
                         child: SvgPicture.asset(
                           'assets/icons/icon_arrow_left.svg',
                           alignment: Alignment.centerLeft,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn),
                         ),
                       ),
                       Expanded(
@@ -67,27 +66,51 @@ class DisasterContentsScreen extends ConsumerWidget {
                   ),
                 ),
                 const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                            '최신순',
-                            style: DaepiroTextStyle.body_2_m.copyWith(
-                              color: DaepiroColorStyle.g_600,
-                            )
-                        ),
-                        const SizedBox(width: 4),
-                        SvgPicture.asset(
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IntrinsicWidth(
+                    child: DropdownButtonFormField<String>(
+                      value: "최신순",
+                      icon: Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: SvgPicture.asset(
                           'assets/icons/icon_arrow_down.svg',
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
                           width: 16,
                           height: 16,
                         ),
-                      ],
-                    )
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      isExpanded: true,
+                      decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                      items: ["최신순", "인기순"].map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: DaepiroTextStyle.body_2_m.copyWith(
+                              color: DaepiroColorStyle.g_600
+                          ),
+                        ),
+                      )).toList(),
+                      onChanged: (value) {
+                        if (value == "최신순") {
+                          ref.read(disasterContentsStateNotifierProvider.notifier)
+                              .getDisasterContentsList(sortType: "latest");
+                        } else {
+                          ref.read(disasterContentsStateNotifierProvider.notifier)
+                              .getDisasterContentsList(sortType: "popular");
+                        }
+                      },
+                      onSaved: (value) {
+
+                      },
+                    ),
+                  ),
                 ),
                 const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
                 Expanded(

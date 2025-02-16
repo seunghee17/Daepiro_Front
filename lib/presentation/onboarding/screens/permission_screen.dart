@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
@@ -8,7 +6,7 @@ import '../controller/permission_view_model.dart';
 
 class PermissionScreen extends ConsumerWidget {
   final VoidCallback onPermissionCheck;
-  PermissionScreen({Key? key, required this.onPermissionCheck}) : super(key: key);
+  PermissionScreen({super.key, required this.onPermissionCheck});
   List<String> permissionDescription = ['위치권한', '알림', '카메라', '사진'];
   List<String> permissionSubDescription = ['사용자 위치 확인', '재난 알림 수신', '커뮤니티', '커뮤니티'];
 
@@ -21,7 +19,7 @@ class PermissionScreen extends ConsumerWidget {
     return Container(
       width: double.infinity,
       height: screenHeight * 0.6,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
         color: DaepiroColorStyle.white),
       child: Column(
@@ -31,7 +29,7 @@ class PermissionScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 24,),
+                  const SizedBox(height: 24,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -39,18 +37,18 @@ class PermissionScreen extends ConsumerWidget {
                       style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   allAgreeWidget(permissionState.isAllPermissionGrant, ref),
                   SizedBox(
                     child: ListView.builder(
                         itemCount: 4,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
                               permissionWidget(index, permissionState.isPermissionCheckboxState, ref),
-                              if(index==3) SizedBox(height: 44),
+                              if(index==3) const SizedBox(height: 44),
                             ],
                           );
                         }
@@ -78,12 +76,12 @@ class PermissionScreen extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             shadowColor: Colors.transparent,
             elevation: 0.0
         ).copyWith(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
               return DaepiroColorStyle.g_75;
             }
             return DaepiroColorStyle.g_50;
@@ -93,11 +91,11 @@ class PermissionScreen extends ConsumerWidget {
           children: [
             Checkbox(
                 visualDensity: VisualDensity.compact,
-                side: BorderSide(color: Colors.transparent),
+                side: const BorderSide(color: Colors.transparent),
                 activeColor: DaepiroColorStyle.g_500,
                 checkColor: DaepiroColorStyle.white,
-                fillColor: MaterialStateProperty.resolveWith((state) {
-                  if(!state.contains(MaterialState.selected)) {
+                fillColor: WidgetStateProperty.resolveWith((state) {
+                  if(!state.contains(WidgetState.selected)) {
                     return DaepiroColorStyle.g_100;
                   }
                   return null;
@@ -106,7 +104,7 @@ class PermissionScreen extends ConsumerWidget {
                 onChanged: (value) {
                   ref.read(permissionStateNotifierProvider.notifier).updateAllAgreeState();
                 }),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               '권한 전체 동의',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
@@ -129,12 +127,12 @@ class PermissionScreen extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             shadowColor: Colors.transparent,
             elevation: 0.0
         ).copyWith(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
               return DaepiroColorStyle.g_50;
             }
             return DaepiroColorStyle.white;
@@ -144,11 +142,11 @@ class PermissionScreen extends ConsumerWidget {
           children: [
             Checkbox(
                 visualDensity: VisualDensity.compact,
-                side: BorderSide(color: Colors.transparent),
+                side: const BorderSide(color: Colors.transparent),
                 activeColor: DaepiroColorStyle.g_500,
                 checkColor: DaepiroColorStyle.white,
-                fillColor: MaterialStateProperty.resolveWith((state) {
-                  if(!state.contains(MaterialState.selected)) {
+                fillColor: WidgetStateProperty.resolveWith((state) {
+                  if(!state.contains(WidgetState.selected)) {
                     return DaepiroColorStyle.g_100;
                   }
                   return null;
@@ -157,12 +155,12 @@ class PermissionScreen extends ConsumerWidget {
                 onChanged: (value) {
                   ref.read(permissionStateNotifierProvider.notifier).updateEachPermissionState(index);
                 }),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               permissionDescription[index],
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
               permissionSubDescription[index],
               style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
@@ -185,8 +183,8 @@ class PermissionScreen extends ConsumerWidget {
             '권한을 허용하지 않아도 서비스를 사용할 수 있으나\n일부 서비스 이용이 제한될 수 있어요.',
             style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
           ),
-          SizedBox(height: 10),
-          Container(
+          const SizedBox(height: 10),
+          SizedBox(
             width: screenWidth,
             child: PrimaryFilledButton(
               onPressed: () async {
@@ -196,14 +194,14 @@ class PermissionScreen extends ConsumerWidget {
                 backgroundColor: DaepiroColorStyle.g_700,
                 pressedColor: DaepiroColorStyle.g_600,
                 borderRadius: 8,
+                verticalPadding: 12,
                 child: Text(
                   '다음',
                   style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
-                ),
-                verticalPadding: 12
+                )
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );

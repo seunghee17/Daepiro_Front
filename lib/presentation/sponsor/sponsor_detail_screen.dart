@@ -1,5 +1,4 @@
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -93,7 +92,7 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                     findDisasterIconByName(name: widget.extra.disasterType ?? ""),
                                     width: 16,
                                     height: 16,
-                                    colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                    colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
                                   ),
                                   const SizedBox(width: 4),
                                   Text(

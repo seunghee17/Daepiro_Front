@@ -48,7 +48,7 @@ String calculateDaysDiff(String date) {
   } else if (difference > 0) {
     return "D+$difference"; // 과거
   } else {
-    return "D${difference}"; // 미래
+    return "D$difference"; // 미래
   }
 }
 

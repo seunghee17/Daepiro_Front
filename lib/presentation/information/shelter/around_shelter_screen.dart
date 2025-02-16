@@ -1,7 +1,6 @@
 import 'package:daepiro/data/model/response/information/around_shelter_list_response.dart';
 import 'package:daepiro/presentation/information/component/item_around_shelter.dart';
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -51,15 +50,15 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(12),
-                        margin: EdgeInsets.only(top: 4, bottom: 4, left: 12),
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(top: 4, bottom: 4, left: 12),
                         child: SvgPicture.asset(
                           'assets/icons/icon_arrow_left.svg',
                         ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 14),
+                      margin: const EdgeInsets.symmetric(vertical: 14),
                       alignment: Alignment.center,
                       child: Text(
                         "주변 대피소 목록",
@@ -104,8 +103,8 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
                       color: DaepiroColorStyle.g_50,
                       borderRadius: BorderRadius.circular(8)

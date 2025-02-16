@@ -1,5 +1,4 @@
 import 'package:daepiro/cmm/dialog/basic_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -61,16 +60,16 @@ class CommunityTownDetailState
                       children: [
                         headerWidget(
                             ContentCategory.getByValue(
-                                state.contentDetail.category!),
+                                state.contentDetail.category),
                             context),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         subHeaderWidget(state.contentDetail, ref),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         contentWidget(state.contentDetail),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -81,20 +80,20 @@ class CommunityTownDetailState
                                   .read(communityTownProvider.notifier)
                                   .setArticleLike();
                             },
-                            child: likeButton(state.contentDetail.isLiked!,
+                            child: likeButton(state.contentDetail.isLiked,
                                 state.contentDetail.likeCount)),
                         //Spacer()
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+                    decoration: const BoxDecoration(color: DaepiroColorStyle.g_50),
                     width: double.infinity,
                     height: 4,
                   ),
                   if (state.isDongNaeLoading)
-                    Center(
+                    const Center(
                       child: CircularProgressIndicator(),
                     )
                   else
@@ -143,7 +142,7 @@ class CommunityTownDetailState
                 width: 24,
                 height: 24,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                    const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
         ),
         Expanded(
@@ -153,7 +152,7 @@ class CommunityTownDetailState
             style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
           ),
         )),
-        SizedBox(
+        const SizedBox(
           width: 24,
         )
       ],
@@ -161,7 +160,7 @@ class CommunityTownDetailState
   }
 
   Widget subHeaderWidget(ContentDetail content, WidgetRef ref) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -174,20 +173,20 @@ class CommunityTownDetailState
               height: 40,
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                Text(content.authorUser!.nickname!,
+                Text(content.authorUser.nickname,
                     style: DaepiroTextStyle.body_2_b
                         .copyWith(color: DaepiroColorStyle.g_800)),
                 Visibility(
-                  visible: content.authorUser?.isVerified ?? false,
+                  visible: content.authorUser.isVerified ?? false,
                   child: SvgPicture.asset('assets/icons/icon_certification.svg',
                       width: 16,
                       height: 16,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.o_300, BlendMode.srcIn)),
                 ),
               ]),
@@ -195,7 +194,7 @@ class CommunityTownDetailState
               Row(
                 children: [
                   Visibility(
-                      visible: content.lastModifiedAt != content.createdAt!,
+                      visible: content.lastModifiedAt != content.createdAt,
                       child: Text(
                         '수정됨 · ',
                         style: DaepiroTextStyle.caption
@@ -206,15 +205,15 @@ class CommunityTownDetailState
                       ref
                           .read(communityTownProvider.notifier)
                           .parseCommentTime(
-                          content.lastModifiedAt == content.createdAt! ?
-                          content.createdAt! : content.lastModifiedAt!),
+                          content.lastModifiedAt == content.createdAt ?
+                          content.createdAt : content.lastModifiedAt),
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_300))
                 ],
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             //TODO api 수정되면 isMine 여부 넣어야함
             onTap: () => articleGoToAdditional(context, true, content.id),
@@ -222,7 +221,7 @@ class CommunityTownDetailState
                 width: 24,
                 height: 24,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)),
+                    const ColorFilter.mode(DaepiroColorStyle.g_200, BlendMode.srcIn)),
           ),
         ],
       ),
@@ -334,7 +333,7 @@ class CommunityTownDetailState
         ),
         content.files.isNotEmpty ?
         Padding(
-          padding: EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 20),
           child: SizedBox(
             height: 118,
             child: ListView.builder(
@@ -343,7 +342,7 @@ class CommunityTownDetailState
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     width: 118,
-                    margin: EdgeInsets.only(right: 8),
+                    margin: const EdgeInsets.only(right: 8),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(4),
                       child: Image.network(
@@ -354,7 +353,7 @@ class CommunityTownDetailState
                   );
                 }),
           ),
-        ): SizedBox.shrink(),
+        ): const SizedBox.shrink(),
       ],
     );
   }
@@ -365,7 +364,7 @@ class CommunityTownDetailState
           color: isClick ? DaepiroColorStyle.o_50 : DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(99)),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
             SvgPicture.asset('assets/icons/icon_good.svg',
@@ -374,7 +373,7 @@ class CommunityTownDetailState
                 colorFilter: ColorFilter.mode(
                     isClick ? DaepiroColorStyle.o_400 : DaepiroColorStyle.g_300,
                     BlendMode.srcIn)),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             Text(
               '좋아요',
               style: DaepiroTextStyle.caption.copyWith(
@@ -382,11 +381,11 @@ class CommunityTownDetailState
                       ? DaepiroColorStyle.o_400
                       : DaepiroColorStyle.g_300),
             ),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             Visibility(
               visible: likeNum > 0,
               child: Text(
-                '${likeNum}',
+                '$likeNum',
                 style: DaepiroTextStyle.caption.copyWith(
                     color: isClick
                         ? DaepiroColorStyle.o_400
@@ -407,7 +406,7 @@ class CommunityTownDetailState
       bool isTownChildCommentState,
       int editTownChildCommentId,
       bool isEditChildCommentState) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Column(
           children: List.generate(list.length, (index) {
@@ -425,14 +424,14 @@ class CommunityTownDetailState
   //대댓글 리스트 위젯들
   Widget reReplyListWidget(bool isEditChildCommentState, int editChildCommentId,
       List<Children> list, bool isChildCommentState) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         children: List.generate(list.length, (index) {
           return Column(
             children: [
               reReplyWidget(isEditChildCommentState, editChildCommentId, list[index], isChildCommentState),
-              SizedBox(height: 8)
+              const SizedBox(height: 8)
             ],
           );
         }),
@@ -471,15 +470,15 @@ class CommunityTownDetailState
                     visible: comment.author?.isVerified ?? false,
                     child: Row(
                       children: [
-                        SizedBox(width: 2),
+                        const SizedBox(width: 2),
                         SvgPicture.asset('assets/icons/icon_certification.svg',
                             width: 16,
                             height: 16,
-                            colorFilter: ColorFilter.mode(
+                            colorFilter: const ColorFilter.mode(
                                 DaepiroColorStyle.o_300, BlendMode.srcIn)),
                       ],
                     )),
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
                 Visibility(
                   visible: comment.createdAt != comment.lastModifiedAt,
                   child: Text(
@@ -495,25 +494,25 @@ class CommunityTownDetailState
                   style: DaepiroTextStyle.caption
                       .copyWith(color: DaepiroColorStyle.g_300),
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     goToAdditional(
                         context, true, comment.id!, isChildCommentState);
                   },
                   child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_200, BlendMode.srcIn)),
                 ),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               editCommentId == comment.id ? '수정중' : comment.body!,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
                 GestureDetector(
@@ -524,7 +523,7 @@ class CommunityTownDetailState
                     },
                     child: likeButton(
                         comment.isLiked ?? false, comment.likeCount!)),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 GestureDetector(
                     onTap: () {
                       ref
@@ -538,7 +537,7 @@ class CommunityTownDetailState
                     child: replyWriteButton())
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             if (comment.children != [])
               IntrinsicHeight(
                 child: Row(
@@ -547,10 +546,10 @@ class CommunityTownDetailState
                       alignment: Alignment.center,
                       child: Container(
                         width: 4,
-                        decoration: BoxDecoration(color: DaepiroColorStyle.g_75),
+                        decoration: const BoxDecoration(color: DaepiroColorStyle.g_75),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: reReplyListWidget(
                         isEditChildCommentState,
@@ -586,7 +585,7 @@ class CommunityTownDetailState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Row(
             children: [
               Text(
@@ -598,17 +597,17 @@ class CommunityTownDetailState
                   visible: childComment.author?.isVerified ?? false,
                   child: Row(
                     children: [
-                      SizedBox(width: 2),
+                      const SizedBox(width: 2),
                       SvgPicture.asset(
                           'assets/icons/icon_certification.svg',
                           width: 16,
                           height: 16,
-                          colorFilter: ColorFilter.mode(
+                          colorFilter: const ColorFilter.mode(
                               DaepiroColorStyle.o_300,
                               BlendMode.srcIn)),
                     ],
                   )),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               Text(
                 ref
                     .read(communityTownProvider.notifier)
@@ -617,7 +616,7 @@ class CommunityTownDetailState
                 style: DaepiroTextStyle.caption
                     .copyWith(color: DaepiroColorStyle.g_300),
               ),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                   onTap: () {
                     ref
@@ -628,12 +627,12 @@ class CommunityTownDetailState
                   },
                   child: SvgPicture.asset(
                       'assets/icons/icon_moreinfo.svg',
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_200,
                           BlendMode.srcIn))),
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             editTownChildCommentId == childComment.id
                 ? '수정중'
@@ -641,7 +640,7 @@ class CommunityTownDetailState
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_900),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             children: [
               GestureDetector(
@@ -652,7 +651,7 @@ class CommunityTownDetailState
                   },
                   child: likeButton(childComment.isLiked ?? false,
                       childComment.likeCount ?? 0)),
-              Spacer()
+              const Spacer()
             ],
           ),
         ],
@@ -666,15 +665,15 @@ class CommunityTownDetailState
           color: DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(99)),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
             SvgPicture.asset('assets/icons/icon_community.svg',
                 width: 16,
                 height: 16,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn)),
-            SizedBox(width: 2),
+                    const ColorFilter.mode(DaepiroColorStyle.g_300, BlendMode.srcIn)),
+            const SizedBox(width: 2),
             Text(
               '답글쓰기',
               style: DaepiroTextStyle.caption
@@ -696,13 +695,13 @@ class CommunityTownDetailState
       bool isEditChildCommentState) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: DaepiroColorStyle.g_50))),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 25),
+        padding: const EdgeInsets.symmetric(vertical: 25),
         child: Row(
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
                 child: Container(
               decoration: BoxDecoration(
@@ -747,7 +746,7 @@ class CommunityTownDetailState
                       ),
                     ),
                   )),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   TextButton(
                     onPressed: () async {
                       if (isEditState) {
@@ -805,7 +804,7 @@ class CommunityTownDetailState
                 ],
               ),
             )),
-            SizedBox(width: 20)
+            const SizedBox(width: 20)
           ],
         ),
       ),

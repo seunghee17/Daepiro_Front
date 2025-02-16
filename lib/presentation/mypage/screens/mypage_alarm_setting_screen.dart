@@ -30,7 +30,7 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
             Container(
               width: double.infinity,
               height: 1,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: DaepiroColorStyle.g_50
               ),
             ),
@@ -44,6 +44,7 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
                 child: SecondaryLightButton(
                     onPressed: () => GoRouter.of(context).push('/mypage_setting_address'),
                     radius: 8,
+                    padding: 16,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -57,16 +58,16 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
                         SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                             width: 24,
                             height: 24,
-                            colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
+                            colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
                         ),
                       ],
-                    ),
-                    padding: 16)),
-            SizedBox(height: 8),
+                    ))),
+            const SizedBox(height: 8),
             Expanded(
               child: SecondaryLightButton(
                   onPressed: () => GoRouter.of(context).push('/mypage_setting_disaster_type'),
                   radius: 8,
+                  padding: 16,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -80,11 +81,10 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
                       SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                           width: 24,
                           height: 24,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
                       ),
                     ],
-                  ),
-                  padding: 16),
+                  )),
             )
           ],
         ),
@@ -104,21 +104,21 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
                 width: 24,
                 height: 24,
                 colorFilter:
-                ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
-          Spacer(),
+          const Spacer(),
           Text('알림 설정',
               style:
               DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-          Spacer(),
-          SizedBox(width: 24)
+          const Spacer(),
+          const SizedBox(width: 24)
         ],
       ),
     );
   }
 
   Widget alarmSettingListItem(String title, String content, bool value, Function onChanged) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -129,19 +129,19 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title, style: DaepiroTextStyle.body_2_m.copyWith(color: Colors.black)),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(content, style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300)),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             CupertinoSwitch(
                 value: value,
                 onChanged: (bool value) {
                   onChanged;
                 },
-              activeColor: DaepiroColorStyle.o_500,
+              activeTrackColor: DaepiroColorStyle.o_500,
               thumbColor: Colors.white,
-              trackColor: Colors.black,
+              inactiveTrackColor: Colors.black,
             )
           ],
         ),

@@ -1,6 +1,5 @@
 import 'package:daepiro/presentation/onboarding/widget/location_chip.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -64,12 +63,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     return Scaffold(
         body: SafeArea(
             child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           header(),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -87,7 +86,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             ),
           ),
           bottomWidget(context, state.homeJuso, state.homeJuso.isNotEmpty),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
         ],
       ),
     )));
@@ -98,7 +97,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           children: [
             Expanded(
@@ -108,10 +107,10 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 lineHeight: 10,
                 backgroundColor: DaepiroColorStyle.g_50,
                 progressColor: DaepiroColorStyle.o_300,
-                barRadius: Radius.circular(10.0),
+                barRadius: const Radius.circular(10.0),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Text(
               '2/3',
               style: DaepiroTextStyle.body_1_b
@@ -119,7 +118,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             ),
           ],
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         RichText(
             text: TextSpan(
                 text: '재난문자를 수신 받을 ',
@@ -142,7 +141,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     .copyWith(color: DaepiroColorStyle.black),
               ),
             ])),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           '지역은 지번주소로 설정해주세요.\n지역은 최대 3개까지 추가할 수 있어요.',
           style: DaepiroTextStyle.body_1_m
@@ -161,13 +160,13 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       String homeJuso,
       bool juso1Visible,
       bool juso2Visible) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           homeChipWidget(),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextField(
             onTap: () => GoRouter.of(context).push('/onboarding/juso/집/0'),
             enabled: true,
@@ -179,7 +178,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
               hintText: '동/읍/면/리',
               hintStyle: DaepiroTextStyle.body_1_m
@@ -188,7 +187,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: homecontroller.text.isEmpty
                     ? SvgPicture.asset('assets/icons/icon_search.svg',
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn))
                     : GestureDetector(
                         onTap: () {
@@ -205,26 +204,26 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                               MediaQuery.of(context).size.width * 0.8);
                         },
                         child: SvgPicture.asset('assets/icons/icon_delete.svg',
-                            colorFilter: ColorFilter.mode(
+                            colorFilter: const ColorFilter.mode(
                                 DaepiroColorStyle.g_400, BlendMode.srcIn)),
                       ),
               ),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: (homeJuso == '' && (juso1Visible || juso2Visible))
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_50)),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: (homeJuso == '' && (juso1Visible || juso2Visible))
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_50)),
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: (homeJuso == '' && (juso1Visible || juso2Visible))
@@ -232,11 +231,11 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                           : DaepiroColorStyle.g_50)),
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           if (homeJuso == '' && (juso1Visible || juso2Visible))
             Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 Text(
                   '*집 주소를 필수로 입력해주세요',
                   style: DaepiroTextStyle.body_2_m
@@ -244,7 +243,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 ),
               ],
             ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           if (!juso1Visible || !juso2Visible)
             plusChipWidget(ref, homecontroller, jusoController1,
                 jusoController2, juso1Visible, juso2Visible)
@@ -260,7 +259,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     WidgetRef ref,
     String firstJusoState,
   ) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,7 +276,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             focusNode: nickFocusNode1,
             index: 1,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextField(
@@ -296,7 +295,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
               hintText: '동/읍/면/리',
               hintStyle: DaepiroTextStyle.body_1_m
@@ -305,7 +304,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 padding: const EdgeInsets.all(16),
                 child: juso1controller.text.isEmpty
                     ? SvgPicture.asset('assets/icons/icon_search.svg',
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn))
                     : GestureDetector(
                         onTap: () => deleteDialog(
@@ -319,26 +318,26 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                                 .deleteFirstJuso(),
                             MediaQuery.of(context).size.width * 0.8),
                         child: SvgPicture.asset('assets/icons/icon_delete.svg',
-                            colorFilter: ColorFilter.mode(
+                            colorFilter: const ColorFilter.mode(
                                 DaepiroColorStyle.g_400, BlendMode.srcIn)),
                       ),
               ),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: firstJusoState != 'Possible'
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_50)),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: firstJusoState != 'Possible'
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_50)),
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: firstJusoState != 'Possible'
@@ -346,11 +345,11 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                           : DaepiroColorStyle.g_50)),
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           if (firstJusoState != 'Possible')
             Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 Text(
                   firstJusoState,
                   style: DaepiroTextStyle.body_2_m
@@ -358,7 +357,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 ),
               ],
             ),
-          SizedBox(height: 24)
+          const SizedBox(height: 24)
         ],
       ),
     );
@@ -371,7 +370,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     WidgetRef ref,
     String secondJusoState,
   ) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,7 +386,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             focusNode: nickFocusNode2,
             index: 2,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextField(
@@ -406,7 +405,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             decoration: InputDecoration(
               filled: true,
               isDense: true,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               fillColor: DaepiroColorStyle.g_50,
               hintText: '동/읍/면/리',
               hintStyle: DaepiroTextStyle.body_1_m
@@ -415,7 +414,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 padding: const EdgeInsets.all(16),
                 child: juso2controller.text.isEmpty
                     ? SvgPicture.asset('assets/icons/icon_search.svg',
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn))
                     : GestureDetector(
                         onTap: () => deleteDialog(
@@ -429,26 +428,26 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                                 .deleteSecondJuso(),
                             MediaQuery.of(context).size.width * 0.8),
                         child: SvgPicture.asset('assets/icons/icon_delete.svg',
-                            colorFilter: ColorFilter.mode(
+                            colorFilter: const ColorFilter.mode(
                                 DaepiroColorStyle.g_400, BlendMode.srcIn)),
                       ),
               ),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: secondJusoState != 'Possible'
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_50)),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: secondJusoState != 'Possible'
                           ? DaepiroColorStyle.r_300
                           : DaepiroColorStyle.g_50)),
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(
                       width: 1,
                       color: secondJusoState != 'Possible'
@@ -456,11 +455,11 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                           : DaepiroColorStyle.g_50)),
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           if (secondJusoState != 'Possible')
             Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 Text(
                   '*별명 설정은 필수입니다.',
                   style: DaepiroTextStyle.body_2_m
@@ -468,7 +467,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 ),
               ],
             ),
-          SizedBox(height: 24)
+          const SizedBox(height: 24)
         ],
       ),
     );
@@ -484,14 +483,14 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       pressedColor: DaepiroColorStyle.g_600,
       verticalPadding: 8,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset('assets/icons/icon_home.svg',
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)),
-            SizedBox(
+                    const ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn)),
+            const SizedBox(
               width: 2,
             ),
             Text(
@@ -591,7 +590,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            titlePadding: EdgeInsets.only(top: 24),
+            titlePadding: const EdgeInsets.only(top: 24),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -608,7 +607,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     children: [
                       SvgPicture.asset(
                         'assets/icons/icon_location.svg',
-                        colorFilter: ColorFilter.mode(
+                        colorFilter: const ColorFilter.mode(
                             DaepiroColorStyle.white, BlendMode.srcIn),
                         width: 16,
                         height: 16,
@@ -623,8 +622,8 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.fromLTRB(20, 8, 20, 24),
-            content: Container(
+            contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+            content: SizedBox(
               width: width,
               child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -657,7 +656,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Expanded(
@@ -687,7 +686,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   }
 
   Widget bottomWidget(BuildContext context, String homeJuso, bool isAvailable) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Row(
           children: [
@@ -697,13 +696,13 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     backgroundColor: DaepiroColorStyle.g_50,
                     pressedColor: DaepiroColorStyle.g_75,
                     borderRadius: 8.0,
+                    verticalPadding: 12,
                     child: Text(
                       '이전',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.g_700),
-                    ),
-                    verticalPadding: 12)),
-            SizedBox(width: 8),
+                    ))),
+            const SizedBox(width: 8),
             Expanded(
                 child: PrimaryFilledButton(
                     onPressed: isAvailable
@@ -721,12 +720,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         : DaepiroColorStyle.o_100,
                     pressedColor: DaepiroColorStyle.o_600,
                     borderRadius: 8.0,
+                    verticalPadding: 12,
                     child: Text(
                       '다음',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.white),
-                    ),
-                    verticalPadding: 12)),
+                    ))),
           ],
         ));
   }

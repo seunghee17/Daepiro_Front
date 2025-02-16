@@ -11,20 +11,20 @@ class GetMyPageArticlesResponse {
   GetMyPageArticlesResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Articles.fromJson(json['data']) : null;
+    data = json['data'] != null ? Articles.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -56,14 +56,14 @@ class Articles {
     if (json['content'] != null) {
       content = <UserArticle>[];
       json['content'].forEach((v) {
-        content!.add(new UserArticle.fromJson(v));
+        content!.add(UserArticle.fromJson(v));
       });
     }
     number = json['number'];
-    sort = json['sort'] != null ? new Sort.fromJson(json['sort']) : null;
+    sort = json['sort'] != null ? Sort.fromJson(json['sort']) : null;
     numberOfElements = json['numberOfElements'];
     pageable = json['pageable'] != null
-        ? new Pageable.fromJson(json['pageable'])
+        ? Pageable.fromJson(json['pageable'])
         : null;
     first = json['first'];
     last = json['last'];
@@ -71,22 +71,22 @@ class Articles {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['size'] = this.size;
-    if (this.content != null) {
-      data['content'] = this.content!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['size'] = size;
+    if (content != null) {
+      data['content'] = content!.map((v) => v.toJson()).toList();
     }
-    data['number'] = this.number;
-    if (this.sort != null) {
-      data['sort'] = this.sort!.toJson();
+    data['number'] = number;
+    if (sort != null) {
+      data['sort'] = sort!.toJson();
     }
-    data['numberOfElements'] = this.numberOfElements;
-    if (this.pageable != null) {
-      data['pageable'] = this.pageable!.toJson();
+    data['numberOfElements'] = numberOfElements;
+    if (pageable != null) {
+      data['pageable'] = pageable!.toJson();
     }
-    data['first'] = this.first;
-    data['last'] = this.last;
-    data['empty'] = this.empty;
+    data['first'] = first;
+    data['last'] = last;
+    data['empty'] = empty;
     return data;
   }
 }
@@ -141,11 +141,11 @@ class UserArticle {
     commentCount = json['commentCount'];
     reportCount = json['reportCount'];
     address =
-    json['address'] != null ? new Address.fromJson(json['address']) : null;
+    json['address'] != null ? Address.fromJson(json['address']) : null;
     createdAt = json['createdAt'];
     lastModifiedAt = json['lastModifiedAt'];
     authorUser = json['authorUser'] != null
-        ? new AuthorUser.fromJson(json['authorUser'])
+        ? AuthorUser.fromJson(json['authorUser'])
         : null;
     isMine = json['isMine'];
     previewImageUrl = json['previewImageUrl'];
@@ -153,28 +153,28 @@ class UserArticle {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['status'] = this.status;
-    data['type'] = this.type;
-    data['category'] = this.category;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    data['likeCount'] = this.likeCount;
-    data['viewCount'] = this.viewCount;
-    data['commentCount'] = this.commentCount;
-    data['reportCount'] = this.reportCount;
-    if (this.address != null) {
-      data['address'] = this.address!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['status'] = status;
+    data['type'] = type;
+    data['category'] = category;
+    data['title'] = title;
+    data['body'] = body;
+    data['likeCount'] = likeCount;
+    data['viewCount'] = viewCount;
+    data['commentCount'] = commentCount;
+    data['reportCount'] = reportCount;
+    if (address != null) {
+      data['address'] = address!.toJson();
     }
-    data['createdAt'] = this.createdAt;
-    data['lastModifiedAt'] = this.lastModifiedAt;
-    if (this.authorUser != null) {
-      data['authorUser'] = this.authorUser!.toJson();
+    data['createdAt'] = createdAt;
+    data['lastModifiedAt'] = lastModifiedAt;
+    if (authorUser != null) {
+      data['authorUser'] = authorUser!.toJson();
     }
-    data['isMine'] = this.isMine;
-    data['previewImageUrl'] = this.previewImageUrl;
-    data['isLiked'] = this.isLiked;
+    data['isMine'] = isMine;
+    data['previewImageUrl'] = previewImageUrl;
+    data['isLiked'] = isLiked;
     return data;
   }
 }
@@ -193,10 +193,10 @@ class Address {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['addressId'] = this.addressId;
-    data['siDo'] = this.siDo;
-    data['siGunGu'] = this.siGunGu;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['addressId'] = addressId;
+    data['siDo'] = siDo;
+    data['siGunGu'] = siGunGu;
     return data;
   }
 }
@@ -227,13 +227,13 @@ class AuthorUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['nickname'] = this.nickname;
-    data['realname'] = this.realname;
-    data['isCompletedOnboarding'] = this.isCompletedOnboarding;
-    data['profileImageUrl'] = this.profileImageUrl;
-    data['isVerified'] = this.isVerified;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['nickname'] = nickname;
+    data['realname'] = realname;
+    data['isCompletedOnboarding'] = isCompletedOnboarding;
+    data['profileImageUrl'] = profileImageUrl;
+    data['isVerified'] = isVerified;
     return data;
   }
 }
@@ -252,10 +252,10 @@ class Sort {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['empty'] = this.empty;
-    data['sorted'] = this.sorted;
-    data['unsorted'] = this.unsorted;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['empty'] = empty;
+    data['sorted'] = sorted;
+    data['unsorted'] = unsorted;
     return data;
   }
 }
@@ -278,7 +278,7 @@ class Pageable {
 
   Pageable.fromJson(Map<String, dynamic> json) {
     offset = json['offset'];
-    sort = json['sort'] != null ? new Sort.fromJson(json['sort']) : null;
+    sort = json['sort'] != null ? Sort.fromJson(json['sort']) : null;
     paged = json['paged'];
     pageNumber = json['pageNumber'];
     pageSize = json['pageSize'];
@@ -286,15 +286,15 @@ class Pageable {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['offset'] = this.offset;
-    if (this.sort != null) {
-      data['sort'] = this.sort!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['offset'] = offset;
+    if (sort != null) {
+      data['sort'] = sort!.toJson();
     }
-    data['paged'] = this.paged;
-    data['pageNumber'] = this.pageNumber;
-    data['pageSize'] = this.pageSize;
-    data['unpaged'] = this.unpaged;
+    data['paged'] = paged;
+    data['pageNumber'] = pageNumber;
+    data['pageSize'] = pageSize;
+    data['unpaged'] = unpaged;
     return data;
   }
 }

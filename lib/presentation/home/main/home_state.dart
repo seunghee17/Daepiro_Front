@@ -11,6 +11,8 @@ part 'home_state.freezed.dart';
 sealed class HomeState with _$HomeState {
   factory HomeState({
     @Default("") String location,
+    @Default("") String nickname,
+
 
     @Default(false) bool isLoading,
     @Default(false) bool isOccurred,

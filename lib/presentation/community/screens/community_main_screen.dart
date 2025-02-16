@@ -3,7 +3,6 @@ import 'package:daepiro/presentation/community/controller/community_town_view_mo
 import 'package:daepiro/presentation/community/screens/disaster/community_disaster_screen.dart';
 import 'package:daepiro/presentation/community/screens/town/community_town_address_menu_screen.dart';
 import 'package:daepiro/presentation/community/screens/town/community_town_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,7 +39,7 @@ class CommunityMainScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     communityHeader(state.isDisasterScreen, townState.selectTown, context),
-                    TabBar(
+                    const TabBar(
                       padding: EdgeInsets.zero,
                       splashFactory: NoSplash.splashFactory,
                       indicator: UnderlineTabIndicator(
@@ -55,15 +54,15 @@ class CommunityMainScreen extends ConsumerWidget {
                       labelStyle: DaepiroTextStyle.body_1_m,
                       labelColor: DaepiroColorStyle.g_800,
                       unselectedLabelColor: DaepiroColorStyle.g_300,
-                      labelPadding: const EdgeInsets.symmetric(vertical: 5),
+                      labelPadding: EdgeInsets.symmetric(vertical: 5),
                       tabs: [Tab(text: '재난상황'), Tab(text: '동네생활')],
                     ),
                     Expanded(
                         child: TabBarView(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           children: [
                             CommunityDisasterScreen(),
-                            CommunityTownScreen()
+                            const CommunityTownScreen()
                           ],
                         ))
                   ],
@@ -78,7 +77,7 @@ class CommunityMainScreen extends ConsumerWidget {
     return Container(
         child: Row(
       children: [
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         Padding(
           padding: const EdgeInsets.only(top: 14),
           child: Text(
@@ -105,16 +104,16 @@ class CommunityMainScreen extends ConsumerWidget {
                   Text(address,
                     style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
                   ),
-                  SizedBox(width: 4),
+                  const SizedBox(width: 4),
                   SvgPicture.asset(
                       'assets/icons/icon_arrow_down.svg',
                       width: 20,
                       height: 20,
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             TextButton(
                 onPressed: (){
                   GoRouter.of(context).push(
@@ -125,7 +124,7 @@ class CommunityMainScreen extends ConsumerWidget {
                   );
                 },
                 style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  overlayColor: WidgetStateProperty.all(Colors.transparent),
                 ),
                 child: Text(
                   '글쓰기',
@@ -151,7 +150,7 @@ class CommunityMainScreen extends ConsumerWidget {
         context: context,
         barrierColor: Colors.black.withOpacity(0.6),
         builder: (context) {
-          return CommunityTownAddressMenuScreen();
+          return const CommunityTownAddressMenuScreen();
         });
   }
 }

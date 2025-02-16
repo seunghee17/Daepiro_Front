@@ -7,7 +7,7 @@ import '../../repository/community_repository.dart';
 final setCommunityArticleEditUseCaseProvider =
 FutureProvider.family<CommunityWritingEditResponse, CommunityArticleEditUseCase>(
         (ref, request) async {
-      final repository = await ref.watch(communityWritingRepositoryProvider);
+      final repository = ref.watch(communityWritingRepositoryProvider);
       return await repository.editArticle(
         id: request.id,
           communityWritingEditRequest: request.communityWritingEditRequest,

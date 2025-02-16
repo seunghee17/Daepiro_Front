@@ -12,20 +12,20 @@ class CommunityDongNaeDetailContentResponse {
     code = json['code'];
     message = json['message'];
     data =
-        json['data'] != null ? new ContentDetail.fromJson(json['data']) : null;
+        json['data'] != null ? ContentDetail.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -84,7 +84,7 @@ class ContentDetail {
       status: json['status'] ?? '',
       authorUser: json['authorUser'] != null
           ? AuthorUser.fromJson(json['authorUser'])
-          : AuthorUser(
+          : const AuthorUser(
               userId: 0,
               nickname: '',
               realname: '',
@@ -103,28 +103,24 @@ class ContentDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    data['type'] = this.type;
-    data['category'] = this.category;
-    data['isLocationVisible'] = this.isLocationVisible;
-    data['likeCount'] = this.likeCount;
-    data['viewCount'] = this.viewCount;
-    data['commentCount'] = this.commentCount;
-    data['reportCount'] = this.reportCount;
-    data['status'] = this.status;
-    if (this.authorUser != null) {
-      data['authorUser'] = this.authorUser!.toJson();
-    }
-    data['files'] = this.files;
-    if (this.comments != null) {
-      data['comments'] = this.comments!.map((v) => v.toJson()).toList();
-    }
-    data['isLiked'] = this.isLiked;
-    data['createdAt'] = this.createdAt;
-    data['lastModifiedAt'] = this.lastModifiedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['body'] = body;
+    data['type'] = type;
+    data['category'] = category;
+    data['isLocationVisible'] = isLocationVisible;
+    data['likeCount'] = likeCount;
+    data['viewCount'] = viewCount;
+    data['commentCount'] = commentCount;
+    data['reportCount'] = reportCount;
+    data['status'] = status;
+    data['authorUser'] = authorUser.toJson();
+      data['files'] = files;
+    data['comments'] = comments.map((v) => v.toJson()).toList();
+      data['isLiked'] = isLiked;
+    data['createdAt'] = createdAt;
+    data['lastModifiedAt'] = lastModifiedAt;
     return data;
   }
 }
@@ -156,7 +152,7 @@ class AuthorUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['userId'] = userId;
     data['nickname'] = nickname;
     data['realname'] = realname;
@@ -193,7 +189,7 @@ class CommentData {
     id = json['id'];
     body = json['body'];
     author =
-        json['author'] != null ? new AuthorUser.fromJson(json['author']) : null;
+        json['author'] != null ? AuthorUser.fromJson(json['author']) : null;
     likeCount = json['likeCount'];
     parentCommentId = json['parentCommentId'];
     createdAt = json['createdAt'];
@@ -201,27 +197,27 @@ class CommentData {
     if (json['children'] != null) {
       children = <Children>[];
       json['children'].forEach((v) {
-        children!.add(new Children.fromJson(v));
+        children!.add(Children.fromJson(v));
       });
     }
     isLiked = json['isLiked'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['body'] = this.body;
-    if (this.author != null) {
-      data['author'] = this.author!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['body'] = body;
+    if (author != null) {
+      data['author'] = author!.toJson();
     }
-    data['likeCount'] = this.likeCount;
-    data['parentCommentId'] = this.parentCommentId;
-    data['createdAt'] = this.createdAt;
-    data['lastModifiedAt'] = this.lastModifiedAt;
-    if (this.children != null) {
-      data['children'] = this.children!.map((v) => v.toJson()).toList();
+    data['likeCount'] = likeCount;
+    data['parentCommentId'] = parentCommentId;
+    data['createdAt'] = createdAt;
+    data['lastModifiedAt'] = lastModifiedAt;
+    if (children != null) {
+      data['children'] = children!.map((v) => v.toJson()).toList();
     }
-    data['isLiked'] = this.isLiked;
+    data['isLiked'] = isLiked;
     return data;
   }
 }
@@ -251,7 +247,7 @@ class Children {
     id = json['id'];
     body = json['body'];
     author =
-        json['author'] != null ? new AuthorUser.fromJson(json['author']) : null;
+        json['author'] != null ? AuthorUser.fromJson(json['author']) : null;
     likeCount = json['likeCount'];
     parentCommentId = json['parentCommentId'];
     createdAt = json['createdAt'];
@@ -260,17 +256,17 @@ class Children {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['body'] = this.body;
-    if (this.author != null) {
-      data['author'] = this.author!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['body'] = body;
+    if (author != null) {
+      data['author'] = author!.toJson();
     }
-    data['likeCount'] = this.likeCount;
-    data['parentCommentId'] = this.parentCommentId;
-    data['createdAt'] = this.createdAt;
-    data['lastModifiedAt'] = this.lastModifiedAt;
-    data['isLiked'] = this.isLiked;
+    data['likeCount'] = likeCount;
+    data['parentCommentId'] = parentCommentId;
+    data['createdAt'] = createdAt;
+    data['lastModifiedAt'] = lastModifiedAt;
+    data['isLiked'] = isLiked;
     return data;
   }
 }

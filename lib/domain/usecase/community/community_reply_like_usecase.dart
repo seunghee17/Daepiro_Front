@@ -6,7 +6,7 @@ import '../../repository/community_repository.dart';
 final communityReplyLikeUseCaseProvider = FutureProvider.family<
     CommunityReplyLikeResponse,
     CommunityReplyLikeUseCase>((ref, request) async {
-  final repository = await ref.watch(communityRepositoryProvider);
+  final repository = ref.watch(communityRepositoryProvider);
   return await repository.communityReplyLike(id: request.id);
 });
 

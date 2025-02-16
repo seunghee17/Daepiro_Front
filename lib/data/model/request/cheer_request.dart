@@ -10,8 +10,8 @@ class CheerRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['content'] = this.content;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['content'] = content;
     return data;
   }
 }

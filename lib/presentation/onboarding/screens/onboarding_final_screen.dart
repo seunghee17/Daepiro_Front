@@ -1,7 +1,5 @@
 
-import 'package:daepiro/data/model/request/onboarding_info_request.dart';
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +7,8 @@ import 'package:video_player/video_player.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 class OnboardingFinalScreen extends ConsumerStatefulWidget {
+  const OnboardingFinalScreen({super.key});
+
   @override
   _OnboardingFinalState createState() => _OnboardingFinalState();
 }
@@ -70,11 +70,11 @@ class _OnboardingFinalState extends ConsumerState<OnboardingFinalScreen> {
                     backgroundColor: DaepiroColorStyle.o_500,
                     pressedColor: DaepiroColorStyle.o_500,
                     borderRadius: 8,
+                    verticalPadding: 12,
                     child: Text(
                       '대피로 시작하기',
                       style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.white),
-                    ),
-                    verticalPadding: 12
+                    )
                 ),
               ),
             ),

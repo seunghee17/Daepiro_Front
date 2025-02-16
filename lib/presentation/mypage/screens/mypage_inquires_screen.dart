@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +9,8 @@ import '../../../cmm/button/primary_filled_button.dart';
 import '../../../cmm/button/secondary_filled_button.dart';
 
 class MyPageInquiresScreen extends ConsumerStatefulWidget {
+  const MyPageInquiresScreen({super.key});
+
   @override
   MyPageInquiresState createState() => MyPageInquiresState();
 }
@@ -35,13 +36,13 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           '어떤 점이 궁금하신가요?',
                           style: DaepiroTextStyle.h6
                               .copyWith(color: DaepiroColorStyle.g_900),
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         GestureDetector(
                             onTap: () {
                               showModalBottomSheet(
@@ -53,17 +54,17 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                                   });
                             },
                             child: inquireTypeWidget(state.inquireType)),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         contentWriteWidget(),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Text(
                           '연락받을 메일 주소',
                           style: DaepiroTextStyle.body_1_m
                               .copyWith(color: DaepiroColorStyle.g_900),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         mailWriteWidget(),
-                        SizedBox(height: 20)
+                        const SizedBox(height: 20)
                       ],
                     ),
                   )
@@ -77,18 +78,18 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
   }
 
   Widget headerWidget() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: GestureDetector(
               onTap: () => GoRouter.of(context).pop(),
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
           ),
@@ -100,7 +101,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
               DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
             ),
           ),
-          Container(
+          const SizedBox(
             width: 24,
             height: 24,
           )
@@ -117,7 +118,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Row(
           children: [
             inquireType == ''
@@ -131,10 +132,10 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
               style: DaepiroTextStyle.body_1_m
                   .copyWith(color: DaepiroColorStyle.g_900),
             ),
-            Spacer(),
+            const Spacer(),
             SvgPicture.asset('assets/icons/icon_arrow_down.svg',
                 colorFilter:
-                ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ],
         ),
       ),
@@ -146,7 +147,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.4,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(12),
@@ -163,7 +164,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                 ListView.builder(
                     itemCount: inquireTypeList.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -178,7 +179,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                             pressedColor: DaepiroColorStyle.g_50,
                             child: Row(
                               children: [
-                                SizedBox(width: 16),
+                                const SizedBox(width: 16),
                                 Text(
                                   textAlign: TextAlign.start,
                                   inquireTypeList[index],
@@ -205,7 +206,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
           children: [
             Row(
               children: [
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Opacity(
                   opacity: 0.0,
                   child: SvgPicture.asset(
@@ -227,14 +228,14 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                   child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           DaepiroColorStyle.g_900, BlendMode.srcIn)),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
               ],
             ),
             Container(
-              decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+              decoration: const BoxDecoration(color: DaepiroColorStyle.g_50),
               width: double.infinity,
               height: 1,
             )
@@ -245,7 +246,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
   }
 
   Widget contentWriteWidget() {
-    return Container(
+    return SizedBox(
         height: 341,
         child: Stack(
           children: [
@@ -256,12 +257,12 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
               style: DaepiroTextStyle.body_1_m
                   .copyWith(color: DaepiroColorStyle.g_900),
               cursorColor: DaepiroColorStyle.g_900,
-              textAlignVertical: TextAlignVertical(y: -1),
+              textAlignVertical: const TextAlignVertical(y: -1),
               controller: contentEditingController,
               onTapOutside: (event) =>
                   FocusManager.instance.primaryFocus?.unfocus(),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                contentPadding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                 counterText: '',
                 filled: true,
                 isDense: true,
@@ -269,10 +270,10 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                 hintText: '궁금한 사항을 구체적으로 작성해주세요.',
                 hintStyle: DaepiroTextStyle.body_1_m
                     .copyWith(color: DaepiroColorStyle.g_200),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: const OutlineInputBorder(
@@ -297,7 +298,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
   }
 
   Widget mailWriteWidget() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: TextField(
         style:
@@ -307,16 +308,16 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
         controller: mailEditingController,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(16),
+          contentPadding: const EdgeInsets.all(16),
           filled: true,
           fillColor: DaepiroColorStyle.g_50,
           hintText: '메일 주소를 입력해주세요',
           hintStyle: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_200),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderSide: BorderSide.none,
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide.none,
           ),
           focusedBorder: const OutlineInputBorder(
@@ -333,17 +334,17 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
 
   Widget footerWidget() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: SizedBox(
         width: double.infinity,
         child: PrimaryFilledButton(
-            backgroundColor: mailEditingController.text.length > 0 &&
-                contentEditingController.text.length > 0
+            backgroundColor: mailEditingController.text.isNotEmpty &&
+                contentEditingController.text.isNotEmpty
                 ? DaepiroColorStyle.g_700
                 : DaepiroColorStyle.g_200,
             onPressed: () async {
-              if (mailEditingController.text.length > 0 &&
-                  contentEditingController.text.length > 0) {
+              if (mailEditingController.text.isNotEmpty &&
+                  contentEditingController.text.isNotEmpty) {
                 await ref.read(myPageProvider.notifier).setInquires(contentEditingController.text, mailEditingController.text);
               } else {
                 //TODO 경고 다이얼로그
@@ -353,12 +354,12 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
             },
             pressedColor: DaepiroColorStyle.g_600,
             borderRadius: 8,
+            verticalPadding: 12,
             child: Text(
               '접수하기',
               style: DaepiroTextStyle.body_1_b
                   .copyWith(color: DaepiroColorStyle.white),
-            ),
-            verticalPadding: 12),
+            )),
       ),
     );
   }

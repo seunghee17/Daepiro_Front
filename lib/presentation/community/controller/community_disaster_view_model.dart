@@ -69,8 +69,9 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
 
   Future<void> reloadData() async {
     try {
-      if (state.selectSituaionId != null)
+      if (state.selectSituaionId != null) {
         await getReplyData(state.selectSituaionId!);
+      }
       await getReloadDisasterData();
     } catch (e) {
       print('Error reloading data: $e');
@@ -86,7 +87,7 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
     int hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
     hour = hour == 0 ? 12 : hour;
     String minute = dateTime.minute.toString().padLeft(2, '0');
-    return '${period} ${hour}시 ${minute}분';
+    return '$period $hour시 $minute분';
   }
 
   String parseCommentTime(String timeText) {
