@@ -1,5 +1,4 @@
 
-import 'package:daepiro/data/model/request/onboarding_info_request.dart';
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,7 @@ class _OnboardingFinalState extends ConsumerState<OnboardingFinalScreen> {
                 child: PrimaryFilledButton(
                     onPressed: () async {
                       await viewModel.sendUserInfo();
-                      await viewModel.storeUserAdresses();
+                      await viewModel.storeSecureStorage();
                       GoRouter.of(context).go('/home');
                     },
                     backgroundColor: DaepiroColorStyle.o_500,

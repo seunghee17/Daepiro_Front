@@ -35,9 +35,7 @@ mixin _$InformationState {
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
 
-  /// Create a copy of InformationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $InformationStateCopyWith<InformationState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,8 +71,6 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of InformationState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -175,8 +171,6 @@ class __$$InformationStateImplCopyWithImpl<$Res>
       $Res Function(_$InformationStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of InformationState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -409,9 +403,7 @@ class _$InformationStateImpl implements _InformationState {
       latitude,
       longitude);
 
-  /// Create a copy of InformationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$InformationStateImplCopyWith<_$InformationStateImpl> get copyWith =>
@@ -439,30 +431,27 @@ abstract class _InformationState implements InformationState {
   @override
   bool get isLoadingShelters;
   @override
-  List<Contents> get contentsList; // 메인 재난콘텐츠 목록
-  @override
+  List<Contents> get contentsList;
+  @override // 메인 재난콘텐츠 목록
   int get selectedAroundShelterType;
   @override
   String get myLocation;
   @override
-  List<Shelters> get shelterList; // 주변 대피소 리스트
-  @override
-  List<Shelters> get temperatureShelterList; // 주변 대피소 리스트(전체)
-  @override
-  List<Shelters> get earthquakeShelterList; // 주변 대피소 리스트(지진)
-  @override
-  List<Shelters> get tsunamiShelterList; // 주변 대피소 리스트(수해)
-  @override
-  List<Shelters> get civilShelterList; // 주변 대피소 리스트(전쟁)
-  @override
+  List<Shelters> get shelterList;
+  @override // 주변 대피소 리스트
+  List<Shelters> get temperatureShelterList;
+  @override // 주변 대피소 리스트(전체)
+  List<Shelters> get earthquakeShelterList;
+  @override // 주변 대피소 리스트(지진)
+  List<Shelters> get tsunamiShelterList;
+  @override // 주변 대피소 리스트(수해)
+  List<Shelters> get civilShelterList;
+  @override // 주변 대피소 리스트(전쟁)
   double get latitude;
   @override
   double get longitude;
-
-  /// Create a copy of InformationState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$InformationStateImplCopyWith<_$InformationStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

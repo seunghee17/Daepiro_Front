@@ -50,7 +50,7 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
               SizedBox(height: 24),
               Text('계정', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
               SizedBox(height: 8),
-              emailTextField()
+              emailTextField('kakao')
             ],
           ),
         ),
@@ -165,7 +165,7 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
   }
 
   //이메일 입력란
-  Widget emailTextField() {
+  Widget emailTextField(String platform) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -177,9 +177,7 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('카카오', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
-            Spacer(),
-            Text('victoria@naver', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
+            Text(PlatformCategory.getCategoryByKeyword(platform), style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
           ],
         ),
       )

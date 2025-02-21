@@ -42,9 +42,7 @@ mixin _$HomeState {
   List<DisastersData> get disastersList => throw _privateConstructorUsedError;
   BehaviorData? get behaviorTip => throw _privateConstructorUsedError;
 
-  /// Create a copy of HomeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -84,8 +82,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of HomeState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -216,8 +212,6 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       _$HomeStateImpl _value, $Res Function(_$HomeStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HomeState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -509,9 +503,7 @@ class _$HomeStateImpl implements _HomeState {
       const DeepCollectionEquality().hash(_disastersList),
       behaviorTip);
 
-  /// Create a copy of HomeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
@@ -555,15 +547,15 @@ abstract class _HomeState implements HomeState {
   @override
   int get isLoadingPopularPost;
   @override
-  List<PopularPost> get popularPostList; // selected 인기게시글 카테고리
-  @override
-  List<List<PopularPost>> get allPopularPostList; // 인기게시글 - 전체
+  List<PopularPost> get popularPostList;
+  @override // selected 인기게시글 카테고리
+  List<List<PopularPost>> get allPopularPostList;
+  @override // 인기게시글 - 전체
 // @Default([]) List<PopularPost> popularPostList0,   // 인기게시글 - 전체
 // @Default([]) List<PopularPost> popularPostList1,   // 인기게시글 - 일상
 // @Default([]) List<PopularPost> popularPostList2,   // 인기게시글 - 교통
 // @Default([]) List<PopularPost> popularPostList3,   // 인기게시글 - 치안
 // @Default([]) List<PopularPost> popularPostList4,   // 인기게시글 - 기타
-  @override
   bool get isLoadingContents;
   @override
   List<Contents> get contentsList;
@@ -577,11 +569,8 @@ abstract class _HomeState implements HomeState {
   List<DisastersData> get disastersList;
   @override
   BehaviorData? get behaviorTip;
-
-  /// Create a copy of HomeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

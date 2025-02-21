@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/community/screens/town/horizon_photo_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,8 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../cmm/DaepiroTheme.dart';
+import '../../../../cmm/button/secondary_filled_button.dart';
 import '../../../../data/model/response/community/community_dongnae_content_detail_response.dart';
-import '../../../../data/model/selected_image.dart';
 
 class CommunityTownWritingScreen extends ConsumerStatefulWidget {
   final bool isEdit;
@@ -20,15 +20,20 @@ class CommunityTownWritingScreen extends ConsumerStatefulWidget {
 }
 
 //동네생활 글쓰기 화면
-class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen> {
+class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen> with WidgetsBindingObserver {
   bool isCompleteEnabled = false;
   bool isWritingContainerPress = false;
+
   final TextEditingController titleTextController = TextEditingController();
   final TextEditingController contentTextController = TextEditingController();
+
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
     titleTextController.addListener(_updateCompleteButtonState);
     contentTextController.addListener(_updateCompleteButtonState);
     if(widget.isEdit) {
@@ -56,43 +61,71 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    final viewModel = ref.read(communityTownProvider.notifier);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        bool isGrant = await viewModel.getLocationPermission();
+        if(!isGrant) {
+          viewModel.initLocationState();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(communityTownProvider);
 
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              headerWidget(context),
-              SizedBox(height: 12),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    writingTypeWidget(state.writingTownCategory),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    titleTextField(titleTextController),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    contentTextField(contentTextController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    photoWidget(state.selectedImages),
-                    SizedBox(height: 20)
-                  ],
-                ),
-              )),
-              locationCheckWidget(state.isVisible),
-              SizedBox(height: 16),
-            ],
+      resizeToAvoidBottomInset: true,
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                headerWidget(context),
+                SizedBox(height: 12),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      writingTypeWidget(state.writingTownCategory),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      titleTextField(titleTextController),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      contentTextField(contentTextController),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      photoWidget(),
+                      SizedBox(height: 20)
+                    ],
+                  ),
+                )),
+                Visibility(
+                  visible: !widget.isEdit,
+                    child: locationCheckWidget(state.isVisible)),
+                SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),
@@ -100,61 +133,66 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
   Widget headerWidget(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                ref.read(communityTownProvider.notifier).clearWritingState();
-                ref.read(communityTownProvider.notifier).setImageFromGallery([]);
-                GoRouter.of(context).pop();
-              },
-              child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(
-                      DaepiroColorStyle.g_900, BlendMode.srcIn)),
-            ),
-            Expanded(
-              child: Text(
-                '글쓰기',
-                textAlign: TextAlign.center,
-                style: DaepiroTextStyle.h6
-                    .copyWith(color: DaepiroColorStyle.g_800),
-              ),
-            ),
-            GestureDetector(
-                onTap: () async {
-                  if(isCompleteEnabled && !widget.isEdit) {
-                    final isSuccess = await ref.read(communityTownProvider.notifier).setArticle(titleTextController.text, contentTextController.text);
-                    GoRouter.of(context).pop();
-                    showSnackbar(context, isSuccess);
-                    ref.read(communityTownProvider.notifier).setImageFromGallery([]);
-                    ref.read(communityTownProvider.notifier).clearWritingState();
-                    await ref.read(communityTownProvider.notifier).loadContent();
-                  }
-                  if(widget.isEdit) {
-                    //게시글 수정 api 호출
-                    final isSuccess = await ref.read(communityTownProvider.notifier).editArticle(titleTextController.text, contentTextController.text);
-                    GoRouter.of(context).pop();
-                    showSnackbar(context, isSuccess);
-                    ref.read(communityTownProvider.notifier).setImageFromGallery([]);
-                    ref.read(communityTownProvider.notifier).clearWritingState();
-                    await ref
-                        .read(communityTownProvider.notifier)
-                        .getContentDetail(widget.contentDetail!.id);
-                  }
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (bool didPop) {
+        if(didPop) {
+          ref.read(communityTownProvider.notifier).clearWritingState();
+        }
+      },
+      child: Container(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  GoRouter.of(context).pop();
                 },
+                child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                        DaepiroColorStyle.g_900, BlendMode.srcIn)),
+              ),
+              Expanded(
                 child: Text(
-                  '완료',
-                  style: DaepiroTextStyle.body_1_m.copyWith(
-                      color: isCompleteEnabled || widget.isEdit
-                          ? DaepiroColorStyle.o_500
-                          : DaepiroColorStyle.g_100),
-                )),
-          ],
+                  '글쓰기',
+                  textAlign: TextAlign.center,
+                  style: DaepiroTextStyle.h6
+                      .copyWith(color: DaepiroColorStyle.g_800),
+                ),
+              ),
+              GestureDetector(
+                  onTap: () async {
+                    //게시글 작성 및 편집후 모든 상태 초기화
+                    if(isCompleteEnabled && !widget.isEdit) {
+                      final isSuccess = await ref.read(communityTownProvider.notifier).setArticle(titleTextController.text, contentTextController.text);
+                      GoRouter.of(context).pop();
+                      showSnackbar(context, isSuccess);
+                      ref.read(communityTownProvider.notifier).clearWritingState();
+                      await ref.read(communityTownProvider.notifier).loadContent();
+                    }
+                    if(widget.isEdit) {
+                      //게시글 수정 api 호출
+                      final isSuccess = await ref.read(communityTownProvider.notifier).editArticle(titleTextController.text, contentTextController.text);
+                      GoRouter.of(context).pop();
+                      showSnackbar(context, isSuccess);
+                      ref.read(communityTownProvider.notifier).clearWritingState();
+                      await ref
+                          .read(communityTownProvider.notifier)
+                          .getContentDetail(widget.contentDetail!.id);
+                    }
+                  },
+                  child: Text(
+                    '완료',
+                    style: DaepiroTextStyle.body_1_m.copyWith(
+                        color: isCompleteEnabled || widget.isEdit
+                            ? DaepiroColorStyle.o_500
+                            : DaepiroColorStyle.g_100),
+                  )),
+            ],
+          ),
         ),
       ),
     );
@@ -212,7 +250,6 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         controller: controller,
         maxLength: 38,
         cursorColor: DaepiroColorStyle.g_900,
-        onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
         decoration: InputDecoration(
           counterText: '',
@@ -246,7 +283,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         decoration: InputDecoration(
           counterText: '',
           isDense: true,
-          hintText: '동네생활과 관련된 이야기를 주민들과 나누세요.',
+          hintText: '동내와 관련된 이야기를 주민들과 나눠보세요.',
           hintStyle: DaepiroTextStyle.body_2_m
               .copyWith(color: DaepiroColorStyle.g_200),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
@@ -258,7 +295,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
     );
   }
 
-  Widget photoWidget(List<SelectedImage>? selectedImages) {
+  Widget photoWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -274,10 +311,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               onTap: () async {
                 var status = await Permission.photos.request();
                 if (status.isGranted || status == PermissionStatus.limited) {
-                  GoRouter.of(context).push(
-                      '/community_town_writing_album',
-                    extra: selectedImages
-                  );
+                  GoRouter.of(context).push('/community_town_writing_album');
                 } else {
                   await openAppSettings();
                 }
@@ -305,134 +339,16 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               ),
             ),
             SizedBox(width: 8),
-            if (selectedImages!.isNotEmpty)
+            if(widget.isEdit)
               Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: selectedImages.map((image) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(0,8,8,0),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                                width: 118,
-                                height: 118,
-                                child: image.entity != null ? FutureBuilder<Uint8List?> (
-                                  future: image.entity!.thumbnailData,
-                                  builder: (context, snapshot) {
-                                    if(snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
-                                      return ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.memory(
-                                          snapshot.data!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    }
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
-                                ) : Container()
-                            ),
-                            Positioned(
-                                top: -4,
-                                right: -4,
-                                child: GestureDetector(
-                                  onTap: () => ref.read(communityTownProvider.notifier).removeImageFromGallery(image, widget.isEdit),
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: DaepiroColorStyle.white,
-                                      boxShadow: [BoxShadow(
-                                        color: Colors.black.withOpacity(0.6),
-                                        blurRadius: 4.0,
-                                        spreadRadius: 0.0,
-                                        offset: const Offset(0, 0)
-                                      )]
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
-                                      child: SvgPicture.asset(
-                                        width: 12,
-                                          height: 12,
-                                          'assets/icons/icon_close.svg',
-                                          colorFilter:
-                                          ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
-                                    ),
-                                  ),
-                                )
-                            )
-                          ],
-                        )
-                      );
-                    }).toList(),
-                  ),
-                ),
+                child: HorizonPhotoWidget( //편집상태이다
+                  scrollController: _scrollController),
               ),
-            // if (widget.isEdit && widget.contentDetail?.files.length !=0)
-            //   Expanded(
-            //     child: SingleChildScrollView(
-            //       scrollDirection: Axis.horizontal,
-            //       child: Row(
-            //         children: files!.map((image) {
-            //           return Padding(
-            //               padding: const EdgeInsets.fromLTRB(0,8,8,0),
-            //               child: Stack(
-            //                 clipBehavior: Clip.none,
-            //                 children: [
-            //                   Container(
-            //                       width: 118,
-            //                       height: 118,
-            //                       child: ClipRRect(
-            //                         borderRadius: BorderRadius.circular(8),
-            //                         child: Image.network(
-            //                           image,
-            //                           fit: BoxFit.cover,
-            //                         ),
-            //                       )
-            //                   ),
-            //                   Positioned(
-            //                       top: -4,
-            //                       right: -4,
-            //                       child: GestureDetector(
-            //                         onTap: () {},
-            //                         child: Container(
-            //                           width: 24,
-            //                           height: 24,
-            //                           decoration: BoxDecoration(
-            //                               shape: BoxShape.circle,
-            //                               color: DaepiroColorStyle.white,
-            //                               boxShadow: [BoxShadow(
-            //                                   color: Colors.black.withOpacity(0.6),
-            //                                   blurRadius: 4.0,
-            //                                   spreadRadius: 0.0,
-            //                                   offset: const Offset(0, 0)
-            //                               )]
-            //                           ),
-            //                           child: Padding(
-            //                             padding: const EdgeInsets.all(6.0),
-            //                             child: SvgPicture.asset(
-            //                                 width: 12,
-            //                                 height: 12,
-            //                                 'assets/icons/icon_close.svg',
-            //                                 colorFilter:
-            //                                 ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
-            //                           ),
-            //                         ),
-            //                       )
-            //                   )
-            //                 ],
-            //               )
-            //           );
-            //         }).toList(),
-            //       ),
-            //     ),
-            //   ),
+            if(!widget.isEdit)
+              Expanded(
+                  child: HorizonPhotoWidget( //글쓰기 상태이다
+                      scrollController: _scrollController)
+              ),
           ],
         ),
       ],
@@ -443,7 +359,17 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   Widget locationCheckWidget(bool isVisible) {
     return ElevatedButton(
       onPressed: () async {
-        await ref.read(communityTownProvider.notifier).setVisibleState();
+        final locationState = await ref.read(communityTownProvider.notifier).getLocationPermission();
+        if(!locationState) { //위치권한 미허용된 상태
+          locationDialog(context);
+        } else {
+          final locationCorrect = await ref.read(communityTownProvider.notifier).checkShowCurrentLocation();
+          if(locationCorrect) {
+            await ref.read(communityTownProvider.notifier).setVisibleState();
+          } else {
+            showErrorText(context, '작성하고자 하는 위치와 현위치가 일치하지 않습니다.');
+          }
+        }
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.g_50,
@@ -472,19 +398,100 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               }),
               value: isVisible,
               onChanged: (value) async {
-                await ref
-                    .read(communityTownProvider.notifier)
-                    .setVisibleState();
+                final locationState = await ref.read(communityTownProvider.notifier).getLocationPermission();
+                if(!locationState) openAppSettings();
+                else await ref.read(communityTownProvider.notifier).setVisibleState();
               }),
           SizedBox(width: 8),
           Text(
-            '현위치를 표시하겠어요?',
+            '현 위치를 표시하겠어요?',
             style: DaepiroTextStyle.body_1_m
                 .copyWith(color: DaepiroColorStyle.g_800),
           )
         ],
       ),
     );
+  }
+
+  //위치 권한 안내 다이얼로그
+  void locationDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: DaepiroColorStyle.white,
+            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '위치 권한이 없습니다.',
+                  style: DaepiroTextStyle.body_1_b
+                      .copyWith(color: DaepiroColorStyle.g_900),
+                ),
+              ],
+            ),
+            contentPadding: EdgeInsets.fromLTRB(20, 0, 20, 24),
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      '현 위치 노출을 위해 위치 권한을 허용해주세요.',
+                      style: DaepiroTextStyle.body_2_m
+                          .copyWith(color: DaepiroColorStyle.g_500),
+                    ),
+                  ]),
+            ),
+            actions: <Widget>[
+              Row(
+                children: [
+                  Expanded(
+                    child: SecondaryFilledButton(
+                        verticalPadding: 12,
+                        onPressed: () {
+                          GoRouter.of(context).pop();
+                        },
+                        radius: 8,
+                        backgroundColor: DaepiroColorStyle.g_50,
+                        pressedColor: DaepiroColorStyle.g_75,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          '미허용',
+                          style: DaepiroTextStyle.body_1_b
+                              .copyWith(color: DaepiroColorStyle.g_700),
+                        )),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
+                    child: SecondaryFilledButton(
+                        verticalPadding: 12,
+                        onPressed: () async {
+                          GoRouter.of(context).pop();
+                          await openAppSettings();
+                        },
+                        radius: 8,
+                        backgroundColor: DaepiroColorStyle.g_700,
+                        pressedColor: DaepiroColorStyle.g_400,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          '위치 허용',
+                          style: DaepiroTextStyle.body_1_b
+                              .copyWith(color: DaepiroColorStyle.white),
+                        )),
+                  )
+                ],
+              ),
+            ],
+          );
+        });
   }
 
   //카테고리 선택 바텀시트
@@ -520,7 +527,6 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
           bottomSheetheaderWidget(),
           GestureDetector(
               onTap: () {
-                print('이거눌림');
                 setState(() {
                   isWritingContainerPress = false;
                 });
@@ -639,42 +645,42 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   }
 
 //오류 다이얼로그
-  void remindDialog(BuildContext context, String text) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
-            title: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                    'assets/icons/icon_warning',
-                    colorFilter: ColorFilter.mode(
-                        DaepiroColorStyle.r_200, BlendMode.srcIn)),
-              ],
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
-            content: Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      textAlign: TextAlign.center,
-                      text,
-                      style: DaepiroTextStyle.body_1_b
-                          .copyWith(color: DaepiroColorStyle.g_900),
-                    ),
-                  ]),
-            ),
-          );
-        });
-  }
+//   void remindDialog(BuildContext context, String text) {
+//     showDialog(
+//         context: context,
+//         barrierDismissible: false,
+//         builder: (BuildContext context) {
+//           return AlertDialog(
+//             backgroundColor: Colors.white,
+//             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+//             title: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 SvgPicture.asset(
+//                     'assets/icons/icon_warning',
+//                     colorFilter: ColorFilter.mode(
+//                         DaepiroColorStyle.r_200, BlendMode.srcIn)),
+//               ],
+//             ),
+//             contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
+//             content: Container(
+//               width: MediaQuery.of(context).size.width * 0.8,
+//               child: Column(
+//                   mainAxisSize: MainAxisSize.min,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     Text(
+//                       textAlign: TextAlign.center,
+//                       text,
+//                       style: DaepiroTextStyle.body_1_b
+//                           .copyWith(color: DaepiroColorStyle.g_900),
+//                     ),
+//                   ]),
+//             ),
+//           );
+//         });
+//   }
 
   void showSnackbar(BuildContext context, bool isSuccess) {
     final overlay = Overlay.of(context);
@@ -694,7 +700,46 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               children: [
                 Expanded(
                   child: Text(
-                    isSuccess ? '게시글 작성이 완료되었습니다.' : '다시 시도해주세요.',
+                    textAlign: TextAlign.center,
+                    isSuccess ? '게시글 작성이 완료되었어요.' : '다시 시도해주세요.',
+                    style: DaepiroTextStyle.body_2_m
+                        .copyWith(color: DaepiroColorStyle.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    overlay.insert(overlayEntry);
+    Future.delayed(const Duration(seconds: 5), () {
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
+    });
+  }
+
+  void showErrorText(BuildContext context, String content) {
+    final overlay = Overlay.of(context);
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 50.0,
+        left: 20.0,
+        right: 20.0,
+        child: Material(
+          elevation: 8.0,
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.black.withOpacity(0.6),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    content,
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.white),
                   ),

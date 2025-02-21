@@ -61,7 +61,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
 
   Future<bool> _checkOnboardingComplete(WidgetRef ref) async {
     try {
-      await ref.read(onboardingStateNotifierProvider.notifier).storeUserAdresses();
+      await ref.read(onboardingStateNotifierProvider.notifier).storeSecureStorage();
       String? address = await storage.read(key: 'fullAddress_0');
       if(address == null) {
         return false;

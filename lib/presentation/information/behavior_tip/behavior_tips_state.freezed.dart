@@ -21,9 +21,7 @@ mixin _$BehaviorTipsState {
       throw _privateConstructorUsedError;
   List<Behavior> get commonBehaviorList => throw _privateConstructorUsedError;
 
-  /// Create a copy of BehaviorTipsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $BehaviorTipsStateCopyWith<BehaviorTipsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,8 +48,6 @@ class _$BehaviorTipsStateCopyWithImpl<$Res, $Val extends BehaviorTipsState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of BehaviorTipsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,8 +94,6 @@ class __$$BehaviorTipsStateImplCopyWithImpl<$Res>
       $Res Function(_$BehaviorTipsStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BehaviorTipsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,9 +176,7 @@ class _$BehaviorTipsStateImpl implements _BehaviorTipsState {
       const DeepCollectionEquality().hash(_emergencyBehaviorList),
       const DeepCollectionEquality().hash(_commonBehaviorList));
 
-  /// Create a copy of BehaviorTipsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BehaviorTipsStateImplCopyWith<_$BehaviorTipsStateImpl> get copyWith =>
@@ -204,11 +196,8 @@ abstract class _BehaviorTipsState implements BehaviorTipsState {
   List<Behavior> get emergencyBehaviorList;
   @override
   List<Behavior> get commonBehaviorList;
-
-  /// Create a copy of BehaviorTipsState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BehaviorTipsStateImplCopyWith<_$BehaviorTipsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../cmm/DaepiroTheme.dart';
 
@@ -45,9 +44,9 @@ class CommunityTownAddressMenuScreen extends ConsumerWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            ref.read(communityTownProvider.notifier).setSelectAddress(index);
+          onTap: () async {
             GoRouter.of(context).pop();
+            await ref.read(communityTownProvider.notifier).setSelectAddress(index);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

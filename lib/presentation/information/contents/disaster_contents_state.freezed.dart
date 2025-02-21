@@ -19,9 +19,7 @@ mixin _$DisasterContentsState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<Contents> get contentsList => throw _privateConstructorUsedError;
 
-  /// Create a copy of DisasterContentsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $DisasterContentsStateCopyWith<DisasterContentsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,8 +44,6 @@ class _$DisasterContentsStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of DisasterContentsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,8 +84,6 @@ class __$$DisasterContentsStateImplCopyWithImpl<$Res>
       $Res Function(_$DisasterContentsStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DisasterContentsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -148,9 +142,7 @@ class _$DisasterContentsStateImpl implements _DisasterContentsState {
   int get hashCode => Object.hash(runtimeType, isLoading,
       const DeepCollectionEquality().hash(_contentsList));
 
-  /// Create a copy of DisasterContentsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$DisasterContentsStateImplCopyWith<_$DisasterContentsStateImpl>
@@ -167,11 +159,8 @@ abstract class _DisasterContentsState implements DisasterContentsState {
   bool get isLoading;
   @override
   List<Contents> get contentsList;
-
-  /// Create a copy of DisasterContentsState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$DisasterContentsStateImplCopyWith<_$DisasterContentsStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

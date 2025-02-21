@@ -44,9 +44,7 @@ mixin _$CommunityDisasterState {
   String get reportType => throw _privateConstructorUsedError;
   List<String> get reportDescription => throw _privateConstructorUsedError;
 
-  /// Create a copy of CommunityDisasterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CommunityDisasterStateCopyWith<CommunityDisasterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -87,8 +85,6 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CommunityDisasterState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -216,8 +212,6 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
       $Res Function(_$CommunityDisasterStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CommunityDisasterState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -496,9 +490,7 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
       reportType,
       const DeepCollectionEquality().hash(_reportDescription));
 
-  /// Create a copy of CommunityDisasterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
@@ -525,48 +517,44 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
       final String reportType,
       final List<String> reportDescription}) = _$CommunityDisasterStateImpl;
 
-//---------------------------------------------------------
+  @override //---------------------------------------------------------
 // 재난상황
 //---------------------------------------------------------
 //현재 보여지는 상태
-  @override
   bool get isDisasterScreen;
   @override
-  int? get selectSituaionId; //대댓글 작성시 필요한 부모 댓글 id
-  @override
-  int get parentCommentId; //대댓글을 선택한지에 대한 여부
-  @override
-  dynamic get isChildCommentState; //moreinfo를 누를때부터 true로 활성화됨
-  @override
-  int get editChildCommentId; //2
-  @override
-  bool get isEditChildCommentState; //1
+  int? get selectSituaionId;
+  @override //대댓글 작성시 필요한 부모 댓글 id
+  int get parentCommentId;
+  @override //대댓글을 선택한지에 대한 여부
+  dynamic get isChildCommentState;
+  @override //moreinfo를 누를때부터 true로 활성화됨
+  int get editChildCommentId;
+  @override //2
+  bool get isEditChildCommentState;
+  @override //1
 //댓글 수정을 위한 상태 데이터
-  @override
   bool get isEditState;
   @override
-  int get editCommentId; //커뮤니티 유형별 데이터 상태
-  @override
+  int get editCommentId;
+  @override //커뮤니티 유형별 데이터 상태
   List<Disaster> get allDisasterResponse;
   @override
-  List<Disaster> get receivedDisasterResponse; //재난상황 로드 상태
-  @override
-  bool get isLoading; //재난상황 댓글 로드 상태
-  @override
-  bool get isReplyLoading; //재난상황 커뮤니티 타입
-  @override
-  String get disasterCommunityType; //재난상황 댓글 상태
-  @override
-  List<Reply> get disasterReplyList; //신고 유형1
-  @override
+  List<Disaster> get receivedDisasterResponse;
+  @override //재난상황 로드 상태
+  bool get isLoading;
+  @override //재난상황 댓글 로드 상태
+  bool get isReplyLoading;
+  @override //재난상황 커뮤니티 타입
+  String get disasterCommunityType;
+  @override //재난상황 댓글 상태
+  List<Reply> get disasterReplyList;
+  @override //신고 유형1
   String get reportType;
   @override
   List<String> get reportDescription;
-
-  /// Create a copy of CommunityDisasterState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CommunityDisasterStateImplCopyWith<_$CommunityDisasterStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

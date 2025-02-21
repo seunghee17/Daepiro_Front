@@ -59,7 +59,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                               style: DaepiroTextStyle.h6
                                   .copyWith(color: DaepiroColorStyle.g_900),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             nickNameTextField(
                                 nicknameController, state.nicknameState),
                             if (state.nicknameState != '')
@@ -77,7 +77,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                               .read(onboardingStateNotifierProvider.notifier)
                               .getProceedState()),
                     ),
-                    SizedBox(height: 16)
+                    const SizedBox(height: 16)
                   ],
                 ))));
   }
@@ -181,6 +181,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: DaepiroColorStyle.g_900,
           onTapOutside: (event) =>
               FocusManager.instance.primaryFocus?.unfocus(),
           style: DaepiroTextStyle.body_1_m
@@ -230,6 +231,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: DaepiroColorStyle.g_900,
           onTapOutside: (event) =>
               FocusManager.instance.primaryFocus?.unfocus(),
           style: DaepiroTextStyle.body_1_m

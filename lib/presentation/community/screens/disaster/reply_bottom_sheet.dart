@@ -1,5 +1,6 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/reply_menu_screen.dart';
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -38,62 +39,67 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       focusNode.requestFocus();
     }
 
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30),
-            topLeft: Radius.circular(30),
-          )),
-      child: Column(
-        children: [
-          headerWidget(),
-          Expanded(
-            child: state.disasterReplyList.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      noReplyWidget(),
-                    ],
-                  )
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          if (state.isLoading)
-                            Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          else
-                            replyListWidget(
-                              ref,
-                              state.disasterReplyList,
-                              widget.situationId ?? 0,
-                              state.isEditState,
-                              state.editCommentId,
-                              state.isChildCommentState,
-                              state.isEditChildCommentState,
-                              state.editChildCommentId,
-                            )
-                        ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30),
+              topLeft: Radius.circular(30),
+            )),
+        child: Column(
+          children: [
+            headerWidget(),
+            Expanded(
+              child: state.disasterReplyList.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        noReplyWidget(),
+                      ],
+                    )
+                  : SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            if (state.isLoading)
+                              Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            else
+                              replyListWidget(
+                                ref,
+                                state.disasterReplyList,
+                                widget.situationId ?? 0,
+                                state.isEditState,
+                                state.editCommentId,
+                                state.isChildCommentState,
+                                state.isEditChildCommentState,
+                                state.editChildCommentId,
+                              )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-          ),
-          Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: footerWidget(
-                replyController,
-                widget.situationId ?? 0,
-                state.isEditState,
-                focusNode,
-                state.parentCommentId,
-                state.isChildCommentState,
-                state.isEditChildCommentState,
-              ))
-        ],
+            ),
+            Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: footerWidget(
+                  replyController,
+                  widget.situationId ?? 0,
+                  state.isEditState,
+                  focusNode,
+                  state.parentCommentId,
+                  state.isChildCommentState,
+                  state.isEditChildCommentState,
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -124,6 +130,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   ),
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () async {
                     ref.read(communityDisasterProvider.notifier).setReplyId(0);
                     ref
@@ -134,13 +141,17 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                         .clearDisasterReplyData();
                     Navigator.pop(context);
                   },
-                  child: SvgPicture.asset('assets/icons/icon_close.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                          DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/icon_close.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                              DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                      SizedBox(width: 16),
+                    ],
+                  ),
                 ),
-                SizedBox(width: 16),
               ],
             ),
             SizedBox(height: 16),
@@ -197,121 +208,128 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     int editChildCommentId,
   ) {
     return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: isEditState && editCommentId == reply.id
-              ? DaepiroColorStyle.g_50
-              : DaepiroColorStyle.white,
-          borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  reply.name ?? '탈퇴한 사용자',
-                  style: DaepiroTextStyle.caption
-                      .copyWith(color: DaepiroColorStyle.g_800),
-                ),
-                Visibility(
-                    visible: reply.isVerified ?? false,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 2),
-                        SvgPicture.asset('assets/icons/icon_certification.svg',
-                            width: 16,
-                            height: 16,
-                            colorFilter: ColorFilter.mode(
-                                DaepiroColorStyle.o_300, BlendMode.srcIn)),
-                      ],
-                    )),
-                SizedBox(width: 6),
-                Visibility(
-                  visible: reply.isModified ?? false,
-                  child: Text(
-                    '수정됨 · ',
-                    style: DaepiroTextStyle.caption
-                        .copyWith(color: DaepiroColorStyle.g_300),
-                  ),
-                ),
-                Text(
-                  ref
-                      .read(communityDisasterProvider.notifier)
-                      .parseCommentTime(reply.time!),
-                  style: DaepiroTextStyle.caption
-                      .copyWith(color: DaepiroColorStyle.g_300),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    goToAdditional(context, reply.isMine!, reply.id!, ref,
-                        isChildCommentState);
-                  },
-                  child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
-                      colorFilter: ColorFilter.mode(
-                          DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            Text(
-              editCommentId == reply.id ? '수정중' : reply.content!,
-              style: DaepiroTextStyle.body_2_m
-                  .copyWith(color: DaepiroColorStyle.g_900),
-            ),
-            SizedBox(height: 12),
-            Row(
-              children: [
-                GestureDetector(
-                    onTap: () async {
-                      await ref
-                          .read(communityDisasterProvider.notifier)
-                          .replyLike(reply.id!);
-                    },
-                    child: likeButton(reply.isLiked!, reply.likeCount!)),
-                SizedBox(width: 8),
-                GestureDetector(
-                    onTap: () {
-                      ref
-                          .read(communityDisasterProvider.notifier)
-                          .setChildCommentState(true);
-                      ref
-                          .read(communityDisasterProvider.notifier)
-                          .setParentCommentId(reply.id!);
-                      focusNode.requestFocus();
-                    },
-                    child: replyWriteButton())
-              ],
-            ),
-            SizedBox(height: 8),
-            if (reply.childComments != [])
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 4,
-                        decoration: BoxDecoration(color: DaepiroColorStyle.g_75),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: isEditState && editCommentId == reply.id
+                    ? DaepiroColorStyle.g_50
+                    : DaepiroColorStyle.white,
+                borderRadius: BorderRadius.circular(8)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        reply.name ?? '탈퇴한 사용자',
+                        style: DaepiroTextStyle.caption
+                            .copyWith(color: DaepiroColorStyle.g_800),
                       ),
+                      Visibility(
+                          visible: reply.isVerified ?? false,
+                          child: Row(
+                            children: [
+                              SizedBox(width: 2),
+                              SvgPicture.asset( 'assets/icons/icon_town_certificate.svg',
+                                  width: 16,
+                                  height: 16,
+                                  colorFilter: ColorFilter.mode(
+                                      DaepiroColorStyle.o_300, BlendMode.srcIn)),
+                            ],
+                          )),
+                      SizedBox(width: 6),
+                      Visibility(
+                        visible: reply.isModified ?? false,
+                        child: Text(
+                          '수정됨 · ',
+                          style: DaepiroTextStyle.caption
+                              .copyWith(color: DaepiroColorStyle.g_300),
+                        ),
+                      ),
+                      Text(
+                        parseRegTime(reply.time!),
+                        style: DaepiroTextStyle.caption
+                            .copyWith(color: DaepiroColorStyle.g_300),
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          goToAdditional(context, reply.isMine!, reply.id!, ref,
+                              isChildCommentState);
+                        },
+                        child: Visibility(
+                          visible: reply.isDeleted == false,
+                          child: SvgPicture.asset('assets/icons/icon_moreinfo.svg',
+                              colorFilter: ColorFilter.mode(
+                                  DaepiroColorStyle.g_200, BlendMode.srcIn)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    editCommentId == reply.id ? '수정중' : reply.content!,
+                    style: DaepiroTextStyle.body_2_m
+                        .copyWith(color: DaepiroColorStyle.g_900),
+                  ),
+                  SizedBox(height: 12),
+                  Row(
+                    children: [
+                      GestureDetector(
+                          onTap: () async {
+                            await ref
+                                .read(communityDisasterProvider.notifier)
+                                .replyLike(reply.id!);
+                          },
+                          child: likeButton(reply.isLiked!, reply.likeCount!)),
+                      SizedBox(width: 8),
+                      GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(communityDisasterProvider.notifier)
+                                .setChildCommentState(true);
+                            ref
+                                .read(communityDisasterProvider.notifier)
+                                .setParentCommentId(reply.id!);
+                            focusNode.requestFocus();
+                          },
+                          child: replyWriteButton())
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          if (reply.childComments != [])
+            IntrinsicHeight(
+              child: Row(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 4,
+                      decoration: BoxDecoration(color: DaepiroColorStyle.g_75),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: reReplyListWidget(
-                          reply.childComments!,
-                          context,
-                          situationId,
-                          isChildCommentState,
-                          isEditChildCommentState,
-                          editChildCommentId),
-                    ),
-                  ],
-                ),
-              )
-          ],
-        ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: reReplyListWidget(
+                        reply.childComments!,
+                        context,
+                        situationId,
+                        isChildCommentState,
+                        isEditChildCommentState,
+                        editChildCommentId),
+                  ),
+                ],
+              ),
+            )
+        ],
       ),
     );
   }
@@ -347,89 +365,97 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       bool isEditChildCommentState,
       int editChildCommentId) {
     return Container(
-      width: double.infinity,
       decoration: BoxDecoration(
         color: isEditChildCommentState && editChildCommentId == childComments.id
             ? DaepiroColorStyle.g_50
             : DaepiroColorStyle.white,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 8,),
-          Row(
-            children: [
-              Text(
-                childComments.name ?? '탈퇴한 사용자',
-                style: DaepiroTextStyle.caption
-                    .copyWith(color: DaepiroColorStyle.g_800),
-              ),
-              Visibility(
-                  visible: childComments.isVerified ?? false,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 2),
-                      SvgPicture.asset(
-                          'assets/icons/icon_certification.svg',
-                          width: 16,
-                          height: 16,
-                          colorFilter: ColorFilter.mode(
-                              DaepiroColorStyle.o_300,
-                              BlendMode.srcIn)),
-                    ],
-                  )),
-              SizedBox(width: 6),
-              Text(
-                ref
-                    .read(communityDisasterProvider.notifier)
-                    .parseCommentTime(childComments.time!),
-                style: DaepiroTextStyle.caption
-                    .copyWith(color: DaepiroColorStyle.g_300),
-              ),
-              Spacer(),
-              GestureDetector(
-                  onTap: () {
-                    ref
-                        .read(communityDisasterProvider.notifier)
-                        .setChildCommentState(true);
-                    goToAdditional(
-                        context,
-                        childComments.isMine!,
-                        childComments.id!,
-                        ref,
-                        isChildCommentState);
-                  },
-                  child: SvgPicture.asset(
-                      'assets/icons/icon_moreinfo.svg',
-                      colorFilter: ColorFilter.mode(
-                          DaepiroColorStyle.g_200,
-                          BlendMode.srcIn))),
-            ],
-          ),
-          SizedBox(height: 4),
-          Text(
-            editChildCommentId == childComments.id
-                ? '수정중'
-                : childComments.content!,
-            style: DaepiroTextStyle.body_2_m
-                .copyWith(color: DaepiroColorStyle.g_900),
-          ),
-          SizedBox(height: 12),
-          Row(
-            children: [
-              GestureDetector(
-                  onTap: () async {
-                    await ref
-                        .read(communityDisasterProvider.notifier)
-                        .replyLike(childComments.id!);
-                  },
-                  child: likeButton(childComments.isLiked!,
-                      childComments.likeCount ?? 0)),
-              Spacer()
-            ],
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  childComments.name ?? '탈퇴한 사용자',
+                  style: DaepiroTextStyle.caption
+                      .copyWith(color: DaepiroColorStyle.g_800),
+                ),
+                Visibility(
+                    visible: childComments.isVerified ?? false,
+                    child: Row(
+                      children: [
+                        SizedBox(width: 2),
+                        SvgPicture.asset(
+                            'assets/icons/icon_town_certificate.svg',
+                            width: 16,
+                            height: 16,
+                            colorFilter: ColorFilter.mode(
+                                DaepiroColorStyle.o_300,
+                                BlendMode.srcIn)),
+                      ],
+                    )),
+                SizedBox(width: 6),
+                Visibility(
+                  visible: childComments.isModified ?? false,
+                  child: Text(
+                    '수정됨 · ',
+                    style: DaepiroTextStyle.caption
+                        .copyWith(color: DaepiroColorStyle.g_300),
+                  ),
+                ),
+                Text(
+                  parseRegTime(childComments.time!),
+                  style: DaepiroTextStyle.caption
+                      .copyWith(color: DaepiroColorStyle.g_300),
+                ),
+                Spacer(),
+                GestureDetector(
+                    onTap: () {
+                      ref
+                          .read(communityDisasterProvider.notifier)
+                          .setChildCommentState(true);
+                      goToAdditional(
+                          context,
+                          childComments.isMine!,
+                          childComments.id!,
+                          ref,
+                          isChildCommentState);
+                    },
+                    child: SvgPicture.asset(
+                        'assets/icons/icon_moreinfo.svg',
+                        colorFilter: ColorFilter.mode(
+                            DaepiroColorStyle.g_200,
+                            BlendMode.srcIn))
+                ),
+              ],
+            ),
+            SizedBox(height: 4),
+            Text(
+              editChildCommentId == childComments.id
+                  ? '수정중'
+                  : childComments.content!,
+              style: DaepiroTextStyle.body_2_m
+                  .copyWith(color: DaepiroColorStyle.g_900),
+            ),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                GestureDetector(
+                    onTap: () async {
+                      await ref
+                          .read(communityDisasterProvider.notifier)
+                          .replyLike(childComments.id!);
+                    },
+                    child: likeButton(childComments.isLiked!,
+                        childComments.likeCount ?? 0)),
+                Spacer()
+              ],
+            ),
+          ],
+        ),
       )
     );
   }
@@ -466,8 +492,8 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       focusNode: replyFocusNode,
                       controller: controller,
                       cursorColor: DaepiroColorStyle.g_900,
-                      onTapOutside: (event) =>
-                          FocusManager.instance.primaryFocus?.unfocus(),
+                      // onTapOutside: (event) =>
+                      //     FocusManager.instance.primaryFocus?.unfocus(),
                       style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_900),
                       decoration: InputDecoration(
@@ -641,7 +667,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
           ),
           SizedBox(height: 8),
           Text(
-            '가장 먼저 유익한 정보를 나눠주세요!',
+            '가장 먼저 정보를 이웃에게 공유해주세요',
             style: DaepiroTextStyle.body_1_m
                 .copyWith(color: DaepiroColorStyle.g_300),
           ),
@@ -650,7 +676,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     );
   }
 
-  //수정 삭제를 위한 blur 화면 띄우는 메소드
+
   void goToAdditional(BuildContext context, bool isUser, int commentId,
       WidgetRef ref, bool isChildCommentState) {
     showDialog(

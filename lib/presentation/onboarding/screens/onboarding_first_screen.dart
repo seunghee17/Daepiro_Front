@@ -71,7 +71,7 @@ class _OnboardingFirstState extends State<OnboardingFirstScreen> {
           style: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_500),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           '대피로가 해결해드릴게요.',
           style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),

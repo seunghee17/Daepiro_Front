@@ -33,7 +33,7 @@ class Articles {
   int? size;
   List<UserArticle>? content;
   int? number;
-  Sort? sort;
+  List<dynamic>? sort;
   int? numberOfElements;
   Pageable? pageable;
   bool? first;
@@ -60,7 +60,7 @@ class Articles {
       });
     }
     number = json['number'];
-    sort = json['sort'] != null ? new Sort.fromJson(json['sort']) : null;
+    sort = json['sort'];
     numberOfElements = json['numberOfElements'];
     pageable = json['pageable'] != null
         ? new Pageable.fromJson(json['pageable'])
@@ -78,7 +78,7 @@ class Articles {
     }
     data['number'] = this.number;
     if (this.sort != null) {
-      data['sort'] = this.sort!.toJson();
+      data['sort'] = this.sort!.map((v) => v.toJson()).toList();
     }
     data['numberOfElements'] = this.numberOfElements;
     if (this.pageable != null) {
@@ -238,31 +238,9 @@ class AuthorUser {
   }
 }
 
-class Sort {
-  bool? empty;
-  bool? sorted;
-  bool? unsorted;
-
-  Sort({this.empty, this.sorted, this.unsorted});
-
-  Sort.fromJson(Map<String, dynamic> json) {
-    empty = json['empty'];
-    sorted = json['sorted'];
-    unsorted = json['unsorted'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['empty'] = this.empty;
-    data['sorted'] = this.sorted;
-    data['unsorted'] = this.unsorted;
-    return data;
-  }
-}
-
 class Pageable {
   int? offset;
-  Sort? sort;
+  List<dynamic>? sort;
   bool? paged;
   int? pageNumber;
   int? pageSize;
@@ -278,7 +256,7 @@ class Pageable {
 
   Pageable.fromJson(Map<String, dynamic> json) {
     offset = json['offset'];
-    sort = json['sort'] != null ? new Sort.fromJson(json['sort']) : null;
+    sort = json['sort'];
     paged = json['paged'];
     pageNumber = json['pageNumber'];
     pageSize = json['pageSize'];
@@ -289,7 +267,7 @@ class Pageable {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['offset'] = this.offset;
     if (this.sort != null) {
-      data['sort'] = this.sort!.toJson();
+      data['sort'] = this.sort!.map((v) => v.toJson()).toList();
     }
     data['paged'] = this.paged;
     data['pageNumber'] = this.pageNumber;

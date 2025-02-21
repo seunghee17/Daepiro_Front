@@ -42,12 +42,14 @@ class ContentDetail {
   final int commentCount;
   final int reportCount;
   final String status;
+  final String address;
   final AuthorUser authorUser;
   final List<String> files;
   final List<CommentData> comments;
   final bool isLiked;
   final String createdAt;
   final String lastModifiedAt;
+  final bool isMine;
 
   const ContentDetail({
     this.id = 0,
@@ -61,12 +63,14 @@ class ContentDetail {
     this.commentCount = 0,
     this.reportCount = 0,
     this.status = '',
+    this.address = '',
     this.authorUser = const AuthorUser(),
     this.files = const [],
     this.comments = const [],
     this.isLiked = false,
     this.createdAt = '',
     this.lastModifiedAt = '',
+    this.isMine = false,
   });
 
   factory ContentDetail.fromJson(Map<String, dynamic> json) {
@@ -81,6 +85,7 @@ class ContentDetail {
       viewCount: json['viewCount'] ?? 0,
       commentCount: json['commentCount'] ?? 0,
       reportCount: json['reportCount'] ?? 0,
+      address: json['address'] ?? '',
       status: json['status'] ?? '',
       authorUser: json['authorUser'] != null
           ? AuthorUser.fromJson(json['authorUser'])
@@ -99,6 +104,7 @@ class ContentDetail {
       isLiked: json['isLiked'] ?? false,
       createdAt: json['createdAt'] ?? '',
       lastModifiedAt: json['lastModifiedAt'] ?? '',
+      isMine: json['isMine'] ?? false,
     );
   }
 
@@ -114,6 +120,7 @@ class ContentDetail {
     data['viewCount'] = this.viewCount;
     data['commentCount'] = this.commentCount;
     data['reportCount'] = this.reportCount;
+    data['address'] = this.address;
     data['status'] = this.status;
     if (this.authorUser != null) {
       data['authorUser'] = this.authorUser!.toJson();
@@ -125,6 +132,7 @@ class ContentDetail {
     data['isLiked'] = this.isLiked;
     data['createdAt'] = this.createdAt;
     data['lastModifiedAt'] = this.lastModifiedAt;
+    data['isMine'] = this.isMine;
     return data;
   }
 }
@@ -175,6 +183,8 @@ class CommentData {
   int? parentCommentId;
   String? createdAt;
   String? lastModifiedAt;
+  String? deletedAt;
+  bool? isMine;
   List<Children>? children;
   bool? isLiked;
 
@@ -186,6 +196,8 @@ class CommentData {
       this.parentCommentId,
       this.createdAt,
       this.lastModifiedAt,
+      this.deletedAt,
+      this.isMine,
       this.children,
       this.isLiked});
 
@@ -198,6 +210,8 @@ class CommentData {
     parentCommentId = json['parentCommentId'];
     createdAt = json['createdAt'];
     lastModifiedAt = json['lastModifiedAt'];
+    deletedAt = json['deletedAt'];
+    isMine = json['isMine'];
     if (json['children'] != null) {
       children = <Children>[];
       json['children'].forEach((v) {
@@ -218,6 +232,8 @@ class CommentData {
     data['parentCommentId'] = this.parentCommentId;
     data['createdAt'] = this.createdAt;
     data['lastModifiedAt'] = this.lastModifiedAt;
+    data['deletedAt'] = this.deletedAt;
+    data['isMine'] = this.isMine;
     if (this.children != null) {
       data['children'] = this.children!.map((v) => v.toJson()).toList();
     }
@@ -234,6 +250,7 @@ class Children {
   int? parentCommentId;
   String? createdAt;
   String? lastModifiedAt;
+  bool? isMine;
   bool? isLiked;
 
   Children({
@@ -244,6 +261,7 @@ class Children {
     this.parentCommentId,
     this.createdAt,
     this.lastModifiedAt,
+    this.isMine,
     this.isLiked,
   });
 
@@ -256,6 +274,7 @@ class Children {
     parentCommentId = json['parentCommentId'];
     createdAt = json['createdAt'];
     lastModifiedAt = json['lastModifiedAt'];
+    isMine = json['isMine'];
     isLiked = json['isLiked'];
   }
 
@@ -270,6 +289,7 @@ class Children {
     data['parentCommentId'] = this.parentCommentId;
     data['createdAt'] = this.createdAt;
     data['lastModifiedAt'] = this.lastModifiedAt;
+    data['isMine'] = this.isMine;
     data['isLiked'] = this.isLiked;
     return data;
   }

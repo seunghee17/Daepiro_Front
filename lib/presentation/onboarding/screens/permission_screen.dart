@@ -9,8 +9,8 @@ import '../controller/permission_view_model.dart';
 class PermissionScreen extends ConsumerWidget {
   final VoidCallback onPermissionCheck;
   PermissionScreen({Key? key, required this.onPermissionCheck}) : super(key: key);
-  List<String> permissionDescription = ['위치권한', '알림', '카메라', '사진'];
-  List<String> permissionSubDescription = ['사용자 위치 확인', '재난 알림 수신', '커뮤니티', '커뮤니티'];
+  List<String> permissionDescription = ['위치(권장)', '알림', '카메라', '사진'];
+  List<String> permissionSubDescription = ['사용자 위치 확인', '푸시 알림 수신', '커뮤니티', '커뮤니티'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +35,7 @@ class PermissionScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
+                      '대피로를 이용하기 위해\n다음과 같은 권한 허용이 필요해요',
                       style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
                     ),
                   ),
@@ -108,7 +108,7 @@ class PermissionScreen extends ConsumerWidget {
                 }),
             SizedBox(width: 8),
             Text(
-              '권한 전체 동의',
+              '전체 동의',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             )
           ],
@@ -182,7 +182,7 @@ class PermissionScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '권한을 허용하지 않아도 서비스를 사용할 수 있으나\n일부 서비스 이용이 제한될 수 있어요.',
+            '권한을 허용하지 않으면 일부 서비스 이용이 제한될 수 있어요.',
             style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
           ),
           SizedBox(height: 10),

@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,6 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
     super.dispose();
   }
 
-
   void _onScroll() {
     final state = ref.read(communityTownProvider);
     final viewModel = ref.read(communityTownProvider.notifier);
@@ -45,44 +45,47 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    final viewModel = ref.read(communityTownProvider.notifier);
     final state = ref.watch(communityTownProvider);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              GestureDetector(
-                  onTap: () {
-                    GoRouter.of(context).push('/community_rule');
-                  },
-                  child: ruleContainer()),
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: typeRadioButton(state.townCategory, ref)),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: state.contentList.length,
-                  itemBuilder: (context, index) {
-                  final content = state.contentList[index];
-                  return listItemWidget(() async {
-                        await ref.read(communityTownProvider.notifier).getContentDetail(content.id!);
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await viewModel.reloadContent();
+        },
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).push('/community_rule');
+                    },
+                    child: ruleContainer()),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: typeRadioButton(state.townCategory, ref)),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: state.contentList.length,
+                    itemBuilder: (context, index) {
+                      final content = state.contentList[index];
+                      return listItemWidget(() async {
+                        await viewModel.getContentDetail(content.id!);
                         GoRouter.of(context).push('/community_town_detail');
-                      },
-                  content, ref);
-                  }
-              ),
-              if (state.isDongNaeLoading)
-                Center(
-                  child: CircularProgressIndicator(),
-                )
-            ],
+                      }, content, ref, state.townCategory);
+                    }),
+                if (state.isDongNaeLoading)
+                  Center(
+                    child: CircularProgressIndicator(),
+                  )
+              ],
+            ),
           ),
         ),
       ),
@@ -146,9 +149,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(99),
-              color: isSame
-                  ? DaepiroColorStyle.g_600
-                  : DaepiroColorStyle.g_50),
+              color: isSame ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: Text(
@@ -165,7 +166,8 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
   }
 
   //리스트 아이템 위젯
-  Widget listItemWidget(VoidCallback event, Content content, WidgetRef ref) {
+  Widget listItemWidget(
+      VoidCallback event, Content content, WidgetRef ref, String townCategory) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: event,
@@ -178,7 +180,20 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 8),
-                typeChip(ContentCategory.getByValue(content.category!)),
+                Row(
+                  children: [
+                    Visibility(
+                        visible: townCategory == '전체',
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: typeChip(ContentCategory.getByValue(content.category!)),
+                        )),
+                    Visibility(
+                      visible: content.address != null,
+                        child: addressChip(content.address?.eupMyeonDong ?? '00동에서 작성했어요!')
+                    )
+                  ],
+                ),
                 SizedBox(height: 12),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,15 +222,17 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                     SizedBox(width: 10),
                     Visibility(
                       visible: content.previewImageUrl != null,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: content.previewImageUrl != null ? Image.network(
-                            width: 68,
-                            height: 68,
-                            content.previewImageUrl!,
-                            fit: BoxFit.fill,
-                          ) : SizedBox.shrink(),
-                        ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: content.previewImageUrl != null
+                            ? Image.network(
+                                width: 68,
+                                height: 68,
+                                content.previewImageUrl!,
+                                fit: BoxFit.fill,
+                              )
+                            : SizedBox.shrink(),
+                      ),
                     )
                   ],
                 ),
@@ -227,25 +244,27 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_800),
                     ),
-                    SizedBox(width: 2),
                     Visibility(
                       visible: content.authorUser?.isVerified ?? false,
-                      child: SvgPicture.asset(
-                          'assets/icons/icon_certification.svg',
-                          width: 16,
-                          height: 16,
-                          colorFilter: ColorFilter.mode(
-                              DaepiroColorStyle.o_300, BlendMode.srcIn)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: SvgPicture.asset(
+                            'assets/icons/icon_town_certificate.svg',
+                            width: 16,
+                            height: 16,
+                            colorFilter: ColorFilter.mode(
+                                DaepiroColorStyle.o_300, BlendMode.srcIn)),
+                      ),
                     ),
-                    SizedBox(width: 6),
-                    Text(
-                        ref
-                            .read(communityTownProvider.notifier)
-                            .parseCommentTime(
-                            content.lastModifiedAt == content.createdAt! ?
-                                content.createdAt! : content.lastModifiedAt!),
-                        style: DaepiroTextStyle.caption
-                            .copyWith(color: DaepiroColorStyle.g_300)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6.0),
+                      child: Text(
+                          content.lastModifiedAt == content.createdAt!
+                              ? parseRegTime(content.createdAt!)
+                              : parseRegTime(content.lastModifiedAt!),
+                          style: DaepiroTextStyle.caption
+                              .copyWith(color: DaepiroColorStyle.g_300)),
+                    ),
                     Spacer(),
                     SvgPicture.asset('assets/icons/icon_good.svg',
                         width: 16,
@@ -284,9 +303,24 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Text(
-         type,
+          type,
           style:
               DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_500),
+        ),
+      ),
+    );
+  }
+
+  Widget addressChip(String eupMyeonDong) {
+    return Container(
+      decoration: BoxDecoration(
+          color: DaepiroColorStyle.o_50,
+          borderRadius: BorderRadius.circular(4)),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+        child: Text(
+          eupMyeonDong,
+          style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
         ),
       ),
     );

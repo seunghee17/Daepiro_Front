@@ -17,6 +17,7 @@ class ReplyMenuScreen extends ConsumerWidget {
   final bool isChildCommentState;
   final bool isArticle;
   final void Function()? deleteArticle;
+  final bool? fromMyPage;
 
   const ReplyMenuScreen({
     super.key,
@@ -26,6 +27,7 @@ class ReplyMenuScreen extends ConsumerWidget {
     required this.isChildCommentState,
     required this.isArticle,
     this.deleteArticle,
+    this.fromMyPage,
   });
 
   @override
@@ -42,7 +44,7 @@ class ReplyMenuScreen extends ConsumerWidget {
             bottom: 20,
             child: isUser
                 ? editMenu(context, ref, id, isChildCommentState,
-                    state.isDisasterScreen, isArticle)
+                    state.isDisasterScreen, isArticle, fromMyPage)
                 : reportMenu(context, ref, id, isArticle)),
       ],
     );
@@ -55,31 +57,32 @@ class ReplyMenuScreen extends ConsumerWidget {
     bool isChildCommentState,
     bool isDisasterScreen,
     bool isArticle,
+    bool? fromMyPage,
   ) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            if (isDisasterScreen) {
-              ref.read(communityDisasterProvider.notifier).setEditState(true);
-              ref
-                  .read(communityDisasterProvider.notifier)
-                  .setReplyId(commentId);
-            } else {
+            if(fromMyPage == true || !isDisasterScreen) {
               if (isArticle) {
-                //게시글 수정을 위한 화면으로 가야함
                 GoRouter.of(context).push(
                   '/community_town_writing',
                   extra: {
                     'isEdit': true,
                     'contentDetail':
-                        ref.read(communityTownProvider).contentDetail,
+                    ref.read(communityTownProvider).contentDetail,
                   },
                 );
               } else {
+                //게시글 수정을 위한 화면으로 가야함
                 ref.read(communityTownProvider.notifier).setEditState(true);
                 ref.read(communityTownProvider.notifier).setReplyId(commentId);
               }
+            } else if(isDisasterScreen) {
+              ref.read(communityDisasterProvider.notifier).setEditState(true);
+              ref
+                  .read(communityDisasterProvider.notifier)
+                  .setReplyId(commentId);
             }
             GoRouter.of(context).pop();
           },
@@ -92,11 +95,12 @@ class ReplyMenuScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(8)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  '수정하기',
-                  textAlign: TextAlign.center,
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_700),
+                child: DefaultTextStyle(
+                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
+                  child: Text(
+                    '수정하기',
+                    textAlign: TextAlign.center
+                  ),
                 ),
               ),
             ),
@@ -122,11 +126,12 @@ class ReplyMenuScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    '삭제하기',
-                    textAlign: TextAlign.center,
-                    style: DaepiroTextStyle.body_1_b
-                        .copyWith(color: DaepiroColorStyle.g_700),
+                  child: DefaultTextStyle(
+                    style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_700),
+                    child: Text(
+                      '삭제하기',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ),
@@ -151,11 +156,13 @@ class ReplyMenuScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(8)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  '신고하기',
-                  textAlign: TextAlign.center,
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_700),
+                child: DefaultTextStyle(
+                  style:DaepiroTextStyle.body_1_b
+                    .copyWith(color: DaepiroColorStyle.g_700),
+                  child: Text(
+                    '신고하기',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               // ),
@@ -176,7 +183,7 @@ class ReplyMenuScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '댓글을 삭제하시겠습니까?',
+                  '댓글을 삭제하시겠어요?',
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 )
@@ -250,7 +257,7 @@ class ReplyMenuScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    '댓글이 삭제되었습니다.',
+                    '댓글이 삭제되었어요.',
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.white),
                   ),

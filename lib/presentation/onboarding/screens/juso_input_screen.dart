@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,8 +11,10 @@ import '../controller/onboarding_view_model.dart';
 class JusoInputScreen extends ConsumerStatefulWidget {
   final String? type;
   final String? index;
+  final String? userName;
+  final bool fromMyPage;
 
-  const JusoInputScreen({super.key, this.type, this.index});
+  const JusoInputScreen({super.key, this.type, this.index, this.userName, required this.fromMyPage});
 
   @override
   JusoInputState createState() => JusoInputState();
@@ -30,6 +33,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
     super.initState();
     Future(() {
       ref.read(onboardingStateNotifierProvider.notifier).initSearchHistory();
+      ref.read(myPageProvider.notifier).initSearchHistory();
     });
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
@@ -45,11 +49,18 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         isLoading = true;
         currentPage++;
       });
-      await ref.read(onboardingStateNotifierProvider.notifier).getJusoList(
-          jusoController.text,
-          currentPage,
-          true
-      );
+      if(widget.fromMyPage) {
+        await ref.read(myPageProvider.notifier).getJusoList(
+            jusoController.text,
+            currentPage,
+            true);
+      } else {
+        await ref.read(onboardingStateNotifierProvider.notifier).getJusoList(
+            jusoController.text,
+            currentPage,
+            true
+        );
+      }
       setState(() {
         isLoading = false;
       });
@@ -68,7 +79,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 16),
-                headerWidget(state.userName),
+                headerWidget(widget.userName ?? ''),
                 SizedBox(height: 24),
                 jusoInputTextField(ref, jusoController, focusNode),
                 SizedBox(height: 16),
@@ -110,19 +121,35 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                                   setState(() {
                                     selected.add(index);
                                   });
-                                  if (widget.index == '0') {
-                                    ref.read(onboardingStateNotifierProvider
-                                        .notifier).addHomeJuso(juso);
-                                  } else if (widget.index == '1') {
-                                    ref.read(onboardingStateNotifierProvider
-                                        .notifier).addFirstJuso(juso);
+                                  if(widget.fromMyPage == false) {
+                                    if (widget.index == '0') {
+                                      ref.read(onboardingStateNotifierProvider
+                                          .notifier).addHomeJuso(juso);
+                                    } else if (widget.index == '1') {
+                                      ref.read(onboardingStateNotifierProvider
+                                          .notifier).addFirstJuso(juso);
+                                    } else {
+                                      ref.read(onboardingStateNotifierProvider
+                                          .notifier).addSecondJuso(juso);
+                                    }
+                                    ref.read(
+                                        onboardingStateNotifierProvider.notifier)
+                                        .initSearchHistory();
                                   } else {
-                                    ref.read(onboardingStateNotifierProvider
-                                        .notifier).addSecondJuso(juso);
+                                    if (widget.index == '0') {
+                                      ref.read(myPageProvider
+                                          .notifier).addHomeJuso(juso);
+                                    } else if (widget.index == '1') {
+                                      ref.read(myPageProvider
+                                          .notifier).addFirstJuso(juso);
+                                    } else {
+                                      ref.read(myPageProvider
+                                          .notifier).addSecondJuso(juso);
+                                    }
+                                    ref.read(
+                                        myPageProvider.notifier)
+                                        .initSearchHistory();
                                   }
-                                  ref.read(
-                                      onboardingStateNotifierProvider.notifier)
-                                      .initSearchHistory();
                                   GoRouter.of(context).pop();
                                 }
                             ),
@@ -161,7 +188,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               ),
             if(userName.length <3)
               Text(
-                '${userName}님 ',
+                '${userName}님의 ',
                 style: DaepiroTextStyle.h5.copyWith(
                     color: DaepiroColorStyle.g_900),
               ),
@@ -169,7 +196,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
             typeChipWidget(),
             SizedBox(width: 8),
             Text(
-              '어디에 있나요?',
+              '어디인가요',
               style: DaepiroTextStyle.h5.copyWith(
                   color: DaepiroColorStyle.g_900),
             ),
@@ -193,7 +220,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               ),
               SizedBox(height: 4),
               Text(
-                  '다시 검색해주세요',
+                  '동/읍/면/리 주소로 다시 검색해주세요.',
                   style: DaepiroTextStyle.body_2_m.copyWith(
                       color: DaepiroColorStyle.g_600)),
             ],
@@ -237,6 +264,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
           onTapOutside: (event) =>
               FocusManager.instance.primaryFocus?.unfocus(),
           controller: controller,
+          cursorColor: DaepiroColorStyle.g_900,
           style: DaepiroTextStyle.body_1_m.copyWith(
               color: DaepiroColorStyle.g_900,
               decorationThickness: 0

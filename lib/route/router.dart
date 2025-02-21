@@ -16,7 +16,6 @@ import 'package:go_router/go_router.dart';
 import '../data/model/response/community/community_dongnae_content_detail_response.dart';
 import '../data/model/response/information/behavior_list_response.dart';
 import '../data/model/response/sponsor/sponsor_list_response.dart';
-import '../data/model/selected_image.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_report_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
@@ -31,17 +30,21 @@ import '../presentation/information/main/information_screen.dart';
 import '../presentation/information/shelter/around_shelter_screen.dart';
 import '../presentation/login/login_screen.dart';
 import '../presentation/mypage/screens/mypage_alarm_setting_screen.dart';
+import '../presentation/mypage/screens/mypage_announcement_detail_screen.dart';
+import '../presentation/mypage/screens/mypage_announcement_screen.dart';
 import '../presentation/mypage/screens/mypage_disaster_address_setting_screen.dart';
 import '../presentation/mypage/screens/mypage_disaster_type_setting_screen.dart';
 import '../presentation/mypage/screens/mypage_fix_userinfo_screen.dart';
 import '../presentation/mypage/screens/mypage_inquires_screen.dart';
 import '../presentation/mypage/screens/mypage_screen.dart';
+import '../presentation/mypage/screens/mypage_user_withdraw_screen.dart';
 import '../presentation/mypage/screens/mypage_user_writing_screen.dart';
 import '../presentation/onboarding/screens/onboarding_fifth_screen.dart';
 import '../presentation/onboarding/screens/onboarding_final_screen.dart';
 import '../presentation/onboarding/screens/onboarding_first_screen.dart';
 import '../presentation/onboarding/screens/onboarding_fourth_screen.dart';
 import '../presentation/onboarding/screens/onboarding_second_screen.dart';
+import '../presentation/onboarding/screens/onboarding_term_screen.dart';
 import '../presentation/splash/splash_screen.dart';
 import '../presentation/sponsor/cheer_screen.dart';
 import '../presentation/sponsor/sponsor_detail_screen.dart';
@@ -91,15 +94,25 @@ final goRouteProvider = Provider((ref) {
         builder: (context, state) => LoginScreen(),
       ),
       GoRoute(
+          path: '/onboarding_terms/:id',
+          builder: (context, state) {
+            final id = state.pathParameters['id'] ?? '0';
+            return OnboardingTermScreen(id: id);
+          }),
+      GoRoute(
           path: '/community_rule',
           builder: (context, state) => CommunityRuleScreen()),
       GoRoute(
           path: '/community_town_detail',
-          builder: (context, state) => CommunityTownDetailScreen()),
+          builder: (context, state) {
+            final fromMyPage = state.extra as Map<String, bool>? ?? {'fromMyPage': false};
+            return CommunityTownDetailScreen(
+                fromMyPage: fromMyPage['fromMyPage'],
+            );
+          }),
       GoRoute(
           path: '/community_town_writing_album',
-          builder: (context, state) => GalleryViewScreen(
-              selectedImages: state.extra as List<SelectedImage>)),
+          builder: (context, state) => GalleryViewScreen()),
       GoRoute(
           path: '/community_report_screen/:id/:isArticle',
           builder: (context, state) {
@@ -142,6 +155,18 @@ final goRouteProvider = Provider((ref) {
           path: '/mypage_inquires',
           builder: (context, state) => MyPageInquiresScreen()),
       GoRoute(
+          path: '/mypage_withdraw',
+          builder: (context, state) => MyPageUserWithDrawScreen()),
+      GoRoute(
+          path: '/mypage_announcement',
+          builder: (context, state) => MypageAnnouncementScreen()),
+      GoRoute(
+          path: '/mypage_announcement_detail/:id',
+          builder: (context, state) {
+            final id = state.pathParameters['id'] ?? '0';
+            return MypageAnnouncementDetailScreen(id: id);
+          }),
+      GoRoute(
           path: '/onboarding',
           builder: (context, state) => OnboardingFirstScreen(),
           routes: [
@@ -152,11 +177,14 @@ final goRouteProvider = Provider((ref) {
                 path: 'second',
                 builder: (context, state) => const OnboardingThirdScreen()),
             GoRoute(
-                path: 'juso/:type/:index',
+                path: 'juso/:type/:index/:userName',
                 builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>? ?? {};
                   final type = state.pathParameters['type'];
                   final index = state.pathParameters['index'];
-                  return JusoInputScreen(type: type, index: index);
+                  final userName = state.pathParameters['userName'];
+                  final fromMyPage = extra['fromMyPage'] as bool? ?? false;
+                  return JusoInputScreen(type: type, index: index, userName: userName, fromMyPage: fromMyPage);
                 }),
             GoRoute(
                 path: 'third',

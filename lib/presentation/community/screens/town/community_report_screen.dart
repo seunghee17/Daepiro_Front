@@ -1,10 +1,12 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:daepiro/presentation/const/utils.dart';
 import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../cmm/button/primary_filled_button.dart';
 import '../../../../cmm/button/secondary_filled_button.dart';
@@ -29,55 +31,63 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     final disasterState = ref.watch(communityDisasterProvider);
     final townState = ref.watch(communityTownProvider);
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              headerWidget(disasterState.isDisasterScreen),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        '어떤 점이 불편하셨나요?',
-                        style: DaepiroTextStyle.h6
-                            .copyWith(color: DaepiroColorStyle.g_900),
-                      ),
-                      SizedBox(height: 16),
-                      GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                enableDrag: false,
-                                isDismissible: true,
-                                context: context,
-                                builder: (context) {
-                                  return reportTypeBottomSheet(disasterState.isDisasterScreen, disasterState.reportDescription);});
-                          },
-                          child: disasterState.isDisasterScreen
-                              ? reportTypeWidget(disasterState.reportType)
-                              : reportTypeWidget(townState.reportType)),
-                      SizedBox(height: 16),
-                      contentWriteWidget(screenHeight),
-                      SizedBox(height: 16),
-                      Text(
-                        '연락받을 메일 주소',
-                        style: DaepiroTextStyle.body_1_m
-                            .copyWith(color: DaepiroColorStyle.g_900),
-                      ),
-                      SizedBox(height: 8),
-                      mailWriteWidget(),
-                      SizedBox(height: 20)
-                    ],
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          ref.read(myPageProvider.notifier).setInquireType('');
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                headerWidget(disasterState.isDisasterScreen),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        Text(
+                          '어떤 점이 불편하셨나요?',
+                          style: DaepiroTextStyle.h6
+                              .copyWith(color: DaepiroColorStyle.g_900),
+                        ),
+                        SizedBox(height: 16),
+                        GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  enableDrag: false,
+                                  isDismissible: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return reportTypeBottomSheet(disasterState.isDisasterScreen, disasterState.reportDescription);});
+                            },
+                            child: disasterState.isDisasterScreen
+                                ? reportTypeWidget(disasterState.reportType)
+                                : reportTypeWidget(townState.reportType)),
+                        SizedBox(height: 16),
+                        contentWriteWidget(screenHeight),
+                        SizedBox(height: 16),
+                        Text(
+                          '연락받을 메일 주소',
+                          style: DaepiroTextStyle.body_1_m
+                              .copyWith(color: DaepiroColorStyle.g_900),
+                        ),
+                        SizedBox(height: 8),
+                        mailWriteWidget(),
+                        SizedBox(height: 20)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              footerWidget(disasterState.isDisasterScreen)
-            ],
+                footerWidget(disasterState.isDisasterScreen)
+              ],
+            ),
           ),
         ),
       ),
@@ -94,11 +104,6 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
             child: GestureDetector(
               onTap: () {
                 GoRouter.of(context).pop();
-                if (isDisasterScreen) {
-                  ref.read(communityDisasterProvider.notifier).setReortType('');
-                } else {
-                  ref.read(communityTownProvider.notifier).setReortType('');
-                }
               },
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
@@ -163,6 +168,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
           children: [
             TextField(
               expands: true,
+              keyboardType: TextInputType.emailAddress,
               maxLines: null,
               maxLength: 1000,
               style: DaepiroTextStyle.body_1_m
@@ -212,8 +218,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     return Container(
       width: double.infinity,
       child: TextField(
-        style:
-            DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+        style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
         keyboardType: TextInputType.emailAddress,
         cursorColor: DaepiroColorStyle.g_900,
         controller: mailEditingController,
@@ -222,7 +227,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
           contentPadding: EdgeInsets.all(16),
           filled: true,
           fillColor: DaepiroColorStyle.g_50,
-          hintText: '메일 주소를 입력해주세요',
+          hintText: 'example@domain.com',
           hintStyle: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_200),
           border: OutlineInputBorder(
@@ -250,14 +255,17 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         width: double.infinity,
         child: PrimaryFilledButton(
             backgroundColor: mailEditingController.text.length > 0 &&
-                    contentEditingController.text.length > 0
+                    contentEditingController.text.length > 0 && isEmailValid(mailEditingController.text)
                 ? DaepiroColorStyle.g_700
                 : DaepiroColorStyle.g_200,
             onPressed: () async {
               if (mailEditingController.text.length > 0 &&
-                  contentEditingController.text.length > 0) {
+                  contentEditingController.text.length >0 &&
+                  isEmailValid(mailEditingController.text)
+              ) {
+                late bool isSuccess;
                 if (isDisasterScreen) {
-                  await ref
+                  isSuccess = await ref
                       .read(communityDisasterProvider.notifier)
                       .sendReplyReportContent(
                           widget.id!,
@@ -265,25 +273,31 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                           mailEditingController.text);
                 } else {
                   if (widget.isArticle!) {
-                    await ref
+                    isSuccess = await ref
                         .read(communityTownProvider.notifier)
                         .sendArticleReportContent(
                             widget.id!,
                             contentEditingController.text,
                             mailEditingController.text);
                   } else {
-                    await ref
+                    isSuccess = await ref
                         .read(communityTownProvider.notifier)
                         .sendReplyReportContent(
                             widget.id!,
                             contentEditingController.text,
                             mailEditingController.text);
                   }
+                  if(isSuccess) {
+                    successReportDialog(context);
+                  }
+                  Future.delayed(Duration(seconds: 3), () {
+                    if(context.mounted) {
+                      GoRouter.of(context).pop();
+                      GoRouter.of(context).pop();
+                    }
+                  });
                 }
-                GoRouter.of(context).pop();
-                GoRouter.of(context).pop();
               } else {
-                //TODO 경고 다이얼로그
                 null;
               }
             },
@@ -299,7 +313,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
     );
   }
 
-  void deSelectReportTypeDialog(BuildContext context) {
+  void deSelectReportTypeDialog(BuildContext context, String content) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -318,7 +332,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                         DaepiroColorStyle.r_200, BlendMode.srcIn)),
                 SizedBox(height: 8),
                 Text(
-                  '신고 유형을 선택해주세요',
+                  content,
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 )
@@ -333,23 +347,22 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 3), () {
-            GoRouter.of(context).pop();
-          });
           return AlertDialog(
             backgroundColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 24),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '신고가 정상적으로 접수되었습니다',
+                  '신고가 정상적으로 접수되었습니다.',
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  '신고 유형을 선택해주세요',
+                  textAlign: TextAlign.center,
+                  '답변은 메일 주소로 전송됩니다.\n건강한 소통을 위해 노력하겠습니다.',
                   style: DaepiroTextStyle.body_1_m
                       .copyWith(color: DaepiroColorStyle.g_500),
                 )
@@ -363,7 +376,6 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
   Widget reportTypeBottomSheet(bool isDisasterScreen, List<String> reportDescription) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.4,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

@@ -1,6 +1,7 @@
 import 'package:daepiro/data/model/response/community/disaster_response.dart';
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/screens/disaster/reply_bottom_sheet.dart';
+import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,44 +21,54 @@ class CommunityDisasterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.read(communityDisasterProvider.notifier);
     final state = ref.watch(communityDisasterProvider);
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            GestureDetector(
-              onTap: () {
-                GoRouter.of(context).push('/community_rule');
-              },
-              child: ruleContainer(),
-            ),
-            twoButtonContainer(ref, state.disasterCommunityType),
-            if (state.isLoading)
-              Center(child: CircularProgressIndicator())
-            else if (state.disasterCommunityType == 'all' && state.allDisasterResponse.length ==0)
-              Center(child: Text('데이터가 없습니다.'))
-            else if (state.disasterCommunityType != 'all' && state.receivedDisasterResponse.length ==0)
-                Center(child: Text('데이터가 없습니다.'))
-            else
-              ...List.generate(
-                state.disasterCommunityType == 'all' ? state.allDisasterResponse.length : state.receivedDisasterResponse.length,
-                (index) {
-                  final content = state.disasterCommunityType == 'all'
-                      ? (index < state.allDisasterResponse.length
-                          ? state.allDisasterResponse[index]
-                          : null)
-                      : (index < state.receivedDisasterResponse.length
-                          ? state.receivedDisasterResponse[index]
-                          : null);
-                  if (content == null)
-                    return SizedBox.shrink(); // 유효하지 않은 데이터 무시
-                  return contentItem(content, context, ref);
+    return RefreshIndicator(
+      onRefresh: () async {
+        await viewModel.getDisasterSituaions();
+      },
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  GoRouter.of(context).push('/community_rule');
                 },
+                child: ruleContainer(),
               ),
-          ],
+              twoButtonContainer(ref, state.disasterCommunityType),
+              if (state.isLoading)
+                Center(child: CircularProgressIndicator())
+              else if (state.disasterCommunityType == 'all' &&
+                  state.allDisasterResponse.length == 0)
+                Center(child: Text('데이터가 없습니다.'))
+              else if (state.disasterCommunityType != 'all' &&
+                  state.receivedDisasterResponse.length == 0)
+                Center(child: Text('데이터가 없습니다.'))
+              else
+                ...List.generate(
+                  state.disasterCommunityType == 'all'
+                      ? state.allDisasterResponse.length
+                      : state.receivedDisasterResponse.length,
+                  (index) {
+                    final content = state.disasterCommunityType == 'all'
+                        ? (index < state.allDisasterResponse.length
+                            ? state.allDisasterResponse[index]
+                            : null)
+                        : (index < state.receivedDisasterResponse.length
+                            ? state.receivedDisasterResponse[index]
+                            : null);
+                    if (content == null)
+                      return SizedBox.shrink(); // 유효하지 않은 데이터 무시
+                    return contentItem(content, context, ref);
+                  },
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -257,7 +268,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
               ),
               SizedBox(width: 4),
               Text(
-                '${content.location} ∙ ${ref.read(communityDisasterProvider.notifier).parseDateTime(content.time ?? '')}',
+                '${content.location} ∙ ${parseDateTime(content.time ?? '')}',
                 style: DaepiroTextStyle.caption
                     .copyWith(color: DaepiroColorStyle.g_400),
               ),
@@ -312,9 +323,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                       padding: EdgeInsets.only(bottom: 8),
                       child: replyWidget(
                           comment[index].content ?? '',
-                          ref
-                              .read(communityDisasterProvider.notifier)
-                              .parseCommentTime(comment[index].time ?? ''),
+                          parseRegTime(comment[index].time!),
                           comment[index].likeCount ?? 0),
                     )),
             SizedBox(height: 2),
@@ -447,18 +456,21 @@ class CommunityDisasterScreen extends ConsumerWidget {
 
   void showReplyBottomSheet(BuildContext context, int situationId) {
     showModalBottomSheet(
-        context: context,
-        useRootNavigator: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          final height = MediaQuery.of(context).size.height * 0.8;
-          return Container(
-            height: height,
-            child: ReplyBottomSheet(situationId: situationId),
-          );
-        },
-        isScrollControlled: true,
-        enableDrag: false,
-        isDismissible: true);
+            context: context,
+            useRootNavigator: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) {
+              final height = MediaQuery.of(context).size.height * 0.8;
+              return Container(
+                height: height,
+                child: ReplyBottomSheet(situationId: situationId),
+              );
+            },
+            isScrollControlled: true,
+            enableDrag: false,
+            isDismissible: false)
+        .then((value) {
+
+    });
   }
 }

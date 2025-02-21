@@ -29,9 +29,8 @@ class CommunityMainScreen extends ConsumerWidget {
                 final TabController tabController =
                 DefaultTabController.of(context);
                 tabController.addListener(() {
-                  if (tabController.index == 1) { //동네생활임
+                  if (tabController.index == 1) {
                     disasterViewModel.changeScreenState(false);
-                    townViewModel.loadContent();
                   } else {
                     disasterViewModel.changeScreenState(true);
                   }
@@ -49,7 +48,7 @@ class CommunityMainScreen extends ConsumerWidget {
                           color: DaepiroColorStyle.g_800,
                         ),
                         insets: EdgeInsets.symmetric(
-                            horizontal: 100.0), // 좌우 인셋을 조절하여 너비를 비율에 맞춤
+                            horizontal: 100.0),
                       ),
                       indicatorWeight: 2,
                       labelStyle: DaepiroTextStyle.body_1_m,
@@ -78,7 +77,7 @@ class CommunityMainScreen extends ConsumerWidget {
     return Container(
         child: Row(
       children: [
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         Padding(
           padding: const EdgeInsets.only(top: 14),
           child: Text(
@@ -91,49 +90,47 @@ class CommunityMainScreen extends ConsumerWidget {
   }
 
   Widget townHeaderWidget(String address, BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                goToMenu(context);
-              },
-              child: Row(
-                children: [
-                  Text(address,
-                    style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
-                  ),
-                  SizedBox(width: 4),
-                  SvgPicture.asset(
-                      'assets/icons/icon_arrow_down.svg',
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
-                ],
-              ),
-            ),
-            Spacer(),
-            TextButton(
-                onPressed: (){
-                  GoRouter.of(context).push(
-                      '/community_town_writing',
-                    extra: {
-                      'isEdit': false,
-                    },
-                  );
-                },
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              goToMenu(context);
+            },
+            child: Row(
+              children: [
+                Text(address,
+                  style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
                 ),
-                child: Text(
-                  '글쓰기',
-                  style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),
-                )
-            )
-          ],
-        ),
+                const SizedBox(width: 4),
+                SvgPicture.asset(
+                    'assets/icons/icon_arrow_down.svg',
+                    width: 20,
+                    height: 20,
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+              ],
+            ),
+          ),
+          const Spacer(),
+          TextButton(
+              onPressed: (){
+                GoRouter.of(context).push(
+                    '/community_town_writing',
+                  extra: {
+                    'isEdit': false,
+                  },
+                );
+              },
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+              child: Text(
+                '글쓰기',
+                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),
+              )
+          )
+        ],
       ),
     );
   }

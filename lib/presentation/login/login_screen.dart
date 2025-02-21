@@ -20,6 +20,7 @@ class LoginScreen extends ConsumerWidget {
     ref.listen<LoginState>(loginStateNotifierProvider, (previous, next) {
       if (next.isLoginSuccess && next.isCompletedOnboarding) {
         viewModel.setFcmToken();
+        viewModel.storeUserAdresses();
         GoRouter.of(context).go('/home');
       } else if (next.isLoginSuccess && !next.isCompletedOnboarding) {
         showModalBottomSheet(
@@ -36,7 +37,7 @@ class LoginScreen extends ConsumerWidget {
                   if (!locationGrant) {
                     locationDialog(context, ref);
                   } else {
-                    GoRouter.of(context).go('/home');
+                    GoRouter.of(context).go('/onboarding');
                   }
                 },
               );
@@ -206,7 +207,7 @@ class LoginScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '대피로는 사용자의 위치를 받아서\n재난 알림을 전송해요.',
+                  '현재 위치를 기반으로 정보를 제공해요',
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 ),
@@ -221,7 +222,7 @@ class LoginScreen extends ConsumerWidget {
                   children: [
                     Text(
                       textAlign: TextAlign.center,
-                      '만약 위치 권한을 허용하지 않는다면\n거주지를 기준으로 재난문자가 발송돼요.',
+                      '위치 권한을 허용하지 않으면\n거주지를 기준으로 재난문자가 발송돼요.',
                       style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_500),
                     ),

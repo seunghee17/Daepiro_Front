@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/request/set_fcm_request.dart';
 import 'package:daepiro/data/model/request/social_login_request.dart';
+import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/domain/usecase/login/set_fcm_token_usecase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import '../../data/model/response/login/sociallogin_token_response.dart';
 import '../../domain/usecase/login/social_login_usecase.dart';
+import '../../domain/usecase/onboarding/user_adresses_usecase.dart';
 import 'login_state.dart';
 
 final loginStateNotifierProvider =
@@ -31,7 +34,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
   LoginViewModel(this.ref) : super(LoginState());
 
   // 상태를 관리하는 ViewModel 또는 Notifier에서
-  Future<void> fetchSocialToken(String platform, String token) async {
+  Future<SocialLoginTokenResponse?> fetchSocialToken(String platform, String token) async {
     state = state.copyWith(isLoading: true);
     try {
       final response = await ref.read(getSocialTokenUsecaseProvider(
@@ -39,12 +42,16 @@ class LoginViewModel extends StateNotifier<LoginState> {
                   platform: platform,
                   tokenRequest: SocialLoginRequest(socialToken: token)))
           .future);
+      if(response.code != 1000) {
+        throw Exception("Invalid response code: ${response}");
+      }
       state = state.copyWith(
           isLoading: false,
           isCompletedOnboarding: response.data?.isCompletedOnboarding ?? false,
           isLoginSuccess: true);
       await storage.write(key: 'accessToken', value: response.data?.accessToken);
       await storage.write(key: 'refreshToken', value: response.data?.refreshToken);
+      await storage.write(key: 'platform', value: platform);
     } catch (error) {
       print('토큰 저장 오류: $error');
       state = state.copyWith(isLoading: false);
@@ -58,6 +65,23 @@ class LoginViewModel extends StateNotifier<LoginState> {
             fcmToken: fcmToken
         ))
     ));
+  }
+
+  Future<void> storeUserAdresses() async {
+    try {
+      final userAddresses =
+      await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
+      if (userAddresses.length > 0) {
+        for (int i = 0; i < userAddresses.length; i++) {
+          await storage.write(
+              key: 'fullAddress_$i', value: userAddresses[i].fullAddress);
+          await storage.write(
+              key: 'shortAddress_$i', value: userAddresses[i].shortAddress);
+        }
+      }
+    } catch(e) {
+      rethrow;
+    }
   }
 
   Future<void> kakaoLogin() async {
@@ -102,11 +126,11 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   Future<void> appleLogin() async {
     try {
-      final result = await SignInWithApple.getAppleIDCredential(scopes: [
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ]);
-      await fetchSocialToken('apple', result.identityToken ?? '');
+      await fetchSocialToken('apple', credential.authorizationCode ?? '');
     } catch (e) {
       print('애플로그인 시도중 error 발생 $e');
       return;

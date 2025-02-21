@@ -5,16 +5,52 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
 
-class MyPageAlarmSettingScreen extends ConsumerWidget {
+class MyPageAlarmSettingScreen extends ConsumerStatefulWidget {
   const MyPageAlarmSettingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  MyPageAlarmSettingScreenState createState() => MyPageAlarmSettingScreenState();
+}
+
+class MyPageAlarmSettingScreenState extends ConsumerState<MyPageAlarmSettingScreen> with WidgetsBindingObserver {
+  bool isGrant = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    final viewModel = ref.read(myPageProvider.notifier);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        isGrant = await viewModel.checknotificationPermission();
+        if(isGrant) {
+          await viewModel.getAlarmSettingType();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -25,7 +61,7 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
                 '커뮤니티 알림',
                 '재난 상황과 동네생활 커뮤니케이션에 대한 댓글, 좋아요 등의 정보를 전달하는 알림입니다.',
                 state.communityAlarmState,
-                () => viewModel.setNotificationType('community')
+                () => viewModel.setNotificationType('community', isGrant)
             ),
             Container(
               width: double.infinity,
@@ -37,22 +73,25 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
             alarmSettingListItem(
                 '재난 알림',
                 '재난 문자 및 정보를 전달하는 알림입니다.',
-                state.communityAlarmState,
-                    () => viewModel.setNotificationType('disaster')
+                state.disasterAlarmState,
+                    () => viewModel.setNotificationType('disaster', isGrant)
             ),
-            Expanded(
-                child: SecondaryLightButton(
-                    onPressed: () => GoRouter.of(context).push('/mypage_setting_address'),
-                    radius: 8,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SecondaryLightButton(
+                  onPressed: () {
+                    GoRouter.of(context).push('/mypage_setting_address');
+                    viewModel.setLoadingState();
+                  },
+                  radius: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                          child: Text(
-                            '재난 알림 지역 설정',
-                            style: DaepiroTextStyle.body_1_m.copyWith(color: Colors.black),
-                          ),
+                        Text(
+                          '재난 알림 지역 설정',
+                          style: DaepiroTextStyle.body_1_m.copyWith(color: Colors.black),
                         ),
                         SvgPicture.asset('assets/icons/icon_arrow_right.svg',
                             width: 24,
@@ -61,31 +100,35 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    padding: 16)),
+                  ),
+                  padding: 16
+              ),
+            ),
             SizedBox(height: 8),
-            Expanded(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SecondaryLightButton(
                   onPressed: () => GoRouter.of(context).push('/mypage_setting_disaster_type'),
                   radius: 8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                        child: Text(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
                           '재난 유형 설정',
                           style: DaepiroTextStyle.body_1_m.copyWith(color: Colors.black),
                         ),
-                      ),
-                      SvgPicture.asset('assets/icons/icon_arrow_right.svg',
-                          width: 24,
-                          height: 24,
-                          colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
-                      ),
-                    ],
+                        SvgPicture.asset('assets/icons/icon_arrow_right.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn)
+                        ),
+                      ],
+                    ),
                   ),
                   padding: 16),
-            )
+            ),
           ],
         ),
       ),
@@ -123,25 +166,36 @@ class MyPageAlarmSettingScreen extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: DaepiroTextStyle.body_2_m.copyWith(color: Colors.black)),
-                SizedBox(height: 4),
-                Text(content, style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: DaepiroTextStyle.body_1_m.copyWith(color: Colors.black)),
+                  SizedBox(height: 4),
+                  Text(content,  style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300)),
+                ],
+              ),
             ),
-            Spacer(),
-            CupertinoSwitch(
-                value: value,
-                onChanged: (bool value) {
-                  onChanged;
-                },
-              activeColor: DaepiroColorStyle.o_500,
-              thumbColor: Colors.white,
-              trackColor: Colors.black,
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Container(
+                width: 38,
+                height: 22,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: CupertinoSwitch(
+                      value: value,
+                      onChanged: (bool value) {
+                        onChanged();
+                      },
+                    activeColor: DaepiroColorStyle.o_500,
+                    thumbColor: Colors.white,
+                    trackColor: DaepiroColorStyle.g_100,
+                  ),
+                ),
+              ),
             )
           ],
         ),

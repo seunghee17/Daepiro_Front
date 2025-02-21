@@ -76,12 +76,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 children: [
                   if (state.isJuso2Visible)
                     InputLocationAddress2(jusoController2, jusoNickController2,
-                        ref, state.secondJusoState),
+                        ref, state.secondJusoState, state.userName),
                   if (state.isJuso1Visible)
                     InputLocationAddress1(jusoController1, jusoNickController1,
-                        ref, state.firstJusoState),
+                        ref, state.firstJusoState, state.userName),
                   InputHomeAddress(homeController, context, ref, state.homeJuso,
-                      state.isJuso1Visible, state.isJuso2Visible)
+                      state.isJuso1Visible, state.isJuso2Visible, state.userName)
                 ],
               ),
             ),
@@ -122,7 +122,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         SizedBox(height: 24),
         RichText(
             text: TextSpan(
-                text: '재난문자를 수신 받을 ',
+                text: '재난정보를 받을\n',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
                 children: [
@@ -132,7 +132,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     .copyWith(color: DaepiroColorStyle.o_400),
               ),
               TextSpan(
-                text: '을\n',
+                text: '을 ',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
@@ -144,7 +144,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             ])),
         SizedBox(height: 4),
         Text(
-          '지역은 지번주소로 설정해주세요.\n지역은 최대 3개까지 추가할 수 있어요.',
+          '지역은 최대 3개까지 추가할 수 있어요.',
           style: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_300),
         ),
@@ -155,12 +155,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   //홈칩 + 주소입력창
   Widget InputHomeAddress(
       TextEditingController homecontroller,
-      //VoidCallback onTap,
       BuildContext context,
       WidgetRef ref,
       String homeJuso,
       bool juso1Visible,
-      bool juso2Visible) {
+      bool juso2Visible,
+      String userName,) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -169,7 +169,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           homeChipWidget(),
           SizedBox(height: 10),
           TextField(
-            onTap: () => GoRouter.of(context).push('/onboarding/juso/집/0'),
+            onTap: () => GoRouter.of(context).push(
+                '/onboarding/juso/집/0/${userName}',
+              extra: {
+                'fromMyPage': false,
+              },
+            ),
             enabled: true,
             readOnly: true,
             style: DaepiroTextStyle.body_1_m
@@ -238,7 +243,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               children: [
                 Spacer(),
                 Text(
-                  '*집 주소를 필수로 입력해주세요',
+                  '*집 주소는 필수로 입력해주세요',
                   style: DaepiroTextStyle.body_2_m
                       .copyWith(color: DaepiroColorStyle.r_300),
                 ),
@@ -259,6 +264,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     TextEditingController jusoNickController1,
     WidgetRef ref,
     String firstJusoState,
+      String userName,
   ) {
     return Container(
       width: double.infinity,
@@ -285,8 +291,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 .copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
               if (firstJusoState == 'Possible') {
-                GoRouter.of(context)
-                    .push('/onboarding/juso/${jusoNickController1.text}/1');
+                GoRouter.of(context).push(
+                    '/onboarding/juso/${jusoNickController1.text}/1/${userName}',
+                  extra: {
+                    'fromMyPage': false,
+                  },
+                );
               }
             },
             enabled: true,
@@ -370,6 +380,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     TextEditingController jusoNickController2,
     WidgetRef ref,
     String secondJusoState,
+      String userName
   ) {
     return Container(
       width: double.infinity,
@@ -396,7 +407,12 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             onTap: () {
               if (secondJusoState == 'Possible') {
                 GoRouter.of(context)
-                    .push('/onboarding/juso/${jusoNickController2.text}/2');
+                    .push(
+                    '/onboarding/juso/${jusoNickController2.text}/2/${userName}',
+                  extra: {
+                    'fromMyPage': false,
+                  },
+                );
               }
             },
             enabled: true,
@@ -462,7 +478,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               children: [
                 Spacer(),
                 Text(
-                  '*별명 설정은 필수입니다.',
+                  '*별명은 필수로 입력해주세요.',
                   style: DaepiroTextStyle.body_2_m
                       .copyWith(color: DaepiroColorStyle.r_300),
                 ),
@@ -478,7 +494,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   //홈칩
   Widget homeChipWidget() {
     return SecondaryFilledButton(
-      onPressed: () {},
+      onPressed: null,
       radius: 99,
       backgroundColor: DaepiroColorStyle.g_600,
       pressedColor: DaepiroColorStyle.g_600,
@@ -524,9 +540,6 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         } else {
           if ((!juso1visible && !juso2visible) ||
               (!juso1visible && juso2visible)) {
-            // setState(() {
-            //   juso1visible = true;
-            // });
             ref
                 .read(onboardingStateNotifierProvider.notifier)
                 .setVisibleState(1, true);
@@ -534,9 +547,6 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               FocusScope.of(context).requestFocus(nickFocusNode1);
             });
           } else if (juso1visible && !juso2visible) {
-            // setState(() {
-            //   juso2visible = true;
-            // });
             ref
                 .read(onboardingStateNotifierProvider.notifier)
                 .setVisibleState(2, true);
@@ -632,7 +642,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                   children: [
                     Text(
                       textAlign: TextAlign.center,
-                      '지역을 삭제하시겠습니까?',
+                      '지역을 삭제하시겠어요?',
                       style: DaepiroTextStyle.body_1_m
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
@@ -652,7 +662,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         pressedColor: DaepiroColorStyle.g_75,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '취소',
+                          '그만두기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
@@ -674,7 +684,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         pressedColor: DaepiroColorStyle.g_400,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '삭제',
+                          '삭제하기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.white),
                         )),

@@ -19,6 +19,31 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
   Set<int> selectedSub = Set();
 
   @override
+  void initState() {
+    super.initState();
+    selected.clear();
+    selectedSub.clear();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(myPageProvider.notifier).getDisasterType();
+      final state = ref.watch(myPageProvider);
+      for(int i=0; i<EmergencyDisasterList.length; i++) {
+        if(state.disasterTypeList.contains(EmergencyDisasterList[i]['name'])) {
+          setState(() {
+            selected.add(i);
+          });
+        }
+      }
+      for(int i=0; i<CommonDisasterList.length; i++) {
+        if(state.disasterTypeList.contains(CommonDisasterList[i]['name'])) {
+         setState(() {
+           selectedSub.add(i);
+         });
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
@@ -51,7 +76,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                         height: 4,
                       ),
                       Text(
-                        '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                        '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난이에요.',
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
@@ -88,7 +113,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                       ),
                       SizedBox(height: 4),
                       Text(
-                        '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
+                        '기상 특보와 같이 안전 주의를 요하는 재난이에요.',
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
@@ -118,6 +143,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                           );
                         }),
                       ),
+                      SizedBox(height: 60),
                     ],
                   ),
                 ),
@@ -144,14 +170,13 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
           ),
         ),
         Spacer(),
-        Text('프로필 수정',
+        Text('재난 유형 설정',
             style:
             DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
         Spacer(),
         GestureDetector(
           onTap: () async {
             final isSuccess = await ref.read(myPageProvider.notifier).setDisasterType();
-            GoRouter.of(context).pop();
             showSnackbar(context, isSuccess);
           },
           child: Text('저장',
@@ -248,7 +273,8 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
               children: [
                 Expanded(
                   child: Text(
-                    isSuccess ? '재난 유형 설정이 저장되었어요.' : '다시 시도해주세요.',
+                    textAlign: TextAlign.center,
+                    isSuccess ? '저장되었어요.' : '다시 시도해주세요.',
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.white),
                   ),

@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/button/primary_filled_button.dart';
 import '../../../cmm/button/secondary_filled_button.dart';
+import '../../const/utils.dart';
 
 class MyPageInquiresScreen extends ConsumerStatefulWidget {
   @override
@@ -22,57 +23,65 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(myPageProvider);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              headerWidget(),
-              Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20),
-                        Text(
-                          '어떤 점이 궁금하신가요?',
-                          style: DaepiroTextStyle.h6
-                              .copyWith(color: DaepiroColorStyle.g_900),
-                        ),
-                        SizedBox(height: 16),
-                        GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  enableDrag: false,
-                                  isDismissible: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return inquireTypeBottomSheet(state.inquireTypeList);
-                                  });
-                            },
-                            child: inquireTypeWidget(state.inquireType)),
-                        SizedBox(height: 16),
-                        contentWriteWidget(),
-                        SizedBox(height: 16),
-                        Text(
-                          '연락받을 메일 주소',
-                          style: DaepiroTextStyle.body_1_m
-                              .copyWith(color: DaepiroColorStyle.g_900),
-                        ),
-                        SizedBox(height: 8),
-                        mailWriteWidget(),
-                        SizedBox(height: 20)
-                      ],
-                    ),
-                  )
-              ),
-              footerWidget()
-            ],
+    return PopScope(
+      canPop: true,
+        onPopInvoked: (bool didPop) {
+          if (didPop) {
+            ref.read(myPageProvider.notifier).setInquireType('');
+          }
+        },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                headerWidget(),
+                Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 20),
+                          Text(
+                            '어떤 점이 궁금하신가요?',
+                            style: DaepiroTextStyle.h6
+                                .copyWith(color: DaepiroColorStyle.g_900),
+                          ),
+                          SizedBox(height: 16),
+                          GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    enableDrag: false,
+                                    isDismissible: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return inquireTypeBottomSheet(state.inquireTypeList);
+                                    });
+                              },
+                              child: inquireTypeWidget(state.inquireType)),
+                          SizedBox(height: 16),
+                          contentWriteWidget(),
+                          SizedBox(height: 16),
+                          Text(
+                            '연락받을 메일 주소',
+                            style: DaepiroTextStyle.body_1_m
+                                .copyWith(color: DaepiroColorStyle.g_900),
+                          ),
+                          SizedBox(height: 8),
+                          mailWriteWidget(),
+                          SizedBox(height: 20)
+                        ],
+                      ),
+                    )
+                ),
+                footerWidget()
+              ],
+            ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 
@@ -223,7 +232,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => GoRouter.of(context).pop(),
                   child: SvgPicture.asset('assets/icons/icon_close.svg',
                       width: 24,
                       height: 24,
@@ -251,6 +260,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
           children: [
             TextField(
               expands: true,
+              keyboardType: TextInputType.emailAddress,
               maxLines: null,
               maxLength: 1000,
               style: DaepiroTextStyle.body_1_m
@@ -310,7 +320,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
           contentPadding: EdgeInsets.all(16),
           filled: true,
           fillColor: DaepiroColorStyle.g_50,
-          hintText: '메일 주소를 입력해주세요',
+          hintText: 'example@domain.com',
           hintStyle: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_200),
           border: OutlineInputBorder(
@@ -338,15 +348,16 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
         width: double.infinity,
         child: PrimaryFilledButton(
             backgroundColor: mailEditingController.text.length > 0 &&
-                contentEditingController.text.length > 0
+                contentEditingController.text.length > 0 && isEmailValid(mailEditingController.text)
                 ? DaepiroColorStyle.g_700
                 : DaepiroColorStyle.g_200,
             onPressed: () async {
               if (mailEditingController.text.length > 0 &&
-                  contentEditingController.text.length > 0) {
+                  contentEditingController.text.length > 0 &&
+                  isEmailValid(mailEditingController.text)
+              ) {
                 await ref.read(myPageProvider.notifier).setInquires(contentEditingController.text, mailEditingController.text);
               } else {
-                //TODO 경고 다이얼로그
                 null;
               }
               GoRouter.of(context).pop();

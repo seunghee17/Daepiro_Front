@@ -30,24 +30,33 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakao0786b07056f57dd7e119842166e52498</string>
+                <string>com.daepiro.app</string>
 			</array>
 		</dict>
-	</array>
 
-	<key>naverConsumerKey</key>
-	<string>6IUl3ufVzcV1OzMLG3cS</string>
-	<key>naverConsumerSecret</key>
-	<string>WPYAXanUcu</string>
-	<key>naverServiceAppName</key>
-	<string>daepiro</string>
-	<key>naverServiceAppUrlScheme</key>
-    <string>daepiroapp</string>
+	</array>
 
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>KAKAO_KEY</key>
 	<string>0786b07056f57dd7e119842166e52498</string>
 	<key>LSApplicationQueriesSchemes</key>
+    
+    <array>
+          <string>naversearchapp</string>
+          <string>naversearchthirdlogin</string>
+      </array>
+    
+    <key>naverServiceAppUrlScheme</key>
+            <string>com.daepiro.app</string>
+            <key>naverConsumerKey</key>
+            <string>6IUl3ufVzcV1OzMLG3cS</string>
+            <key>naverConsumerSecret</key>
+            <string>WPYAXanUcu</string>
+            <key>naverServiceAppName</key>
+            <string>대피로</string>
+      
+ <key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakao0786b07056f57dd7e119842166e52498</string>
 		<string>kakaokompassauth</string>
@@ -55,18 +64,40 @@
 		<string>kakaolink</string>
 		<string>kakaotalk-5.9.7</string>
 	</array>
+    
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+        
 		<key>NMFClientId</key>
           <string>987dvcn70h</string>
           <key>io.flutter.embedded_views_preview</key>
           <true/>
           <key>NSAllowsArbitraryLoads</key>
-          <key>NSAllowsArbitraryLoadsInWebContent</key>
           <true/>
-	</dict>
+
+          <key>NSAllowsArbitraryLoads</key>
+                   <true/>
+                   <key>NSExceptionDomains</key>
+                   <dict>
+                      <key>naver.com</key>
+                      <dict>
+                         <key>NSExceptionRequiresForwardSecrecy</key>
+                         <false/>
+                         <key>NSIncludesSubdomains</key>
+                         <true/>
+                      </dict>
+                      <key>naver.net</key>
+                      <dict>
+                         <key>NSExceptionRequiresForwardSecrecy</key>
+                         <false/>
+                         <key>NSIncludesSubdomains</key>
+                         <true/>
+                      </dict>
+                   </dict>
+                </dict>
+
 	<key>NSCameraUsageDescription</key>
 	<string>커뮤니티에서 게시글 및 댓글을 작성할 때 사진을 업로드하기 위해서는 '카메라' 접근 권한을 허용해주세요.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -104,4 +135,5 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
+
 </plist>

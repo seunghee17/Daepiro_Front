@@ -30,15 +30,17 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             SizedBox(height: 36),
           allAgreeWidget(state.isAllAppPermissionGrant, ref),
             SizedBox(height: 16),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: 5,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return privateInfoWidget(index, state.isAppPermissionCheckboxState, ref);
-                    }
-                )
+            ListView(
+              shrinkWrap: true,
+               children: [
+                 privateInfoWidget(state.termList[0], 0, state.isAppPermissionCheckboxState, ref, null),
+                 privateInfoWidget(state.termList[1], 1, state.isAppPermissionCheckboxState, ref, 0),
+                 privateInfoWidget(state.termList[2], 2, state.isAppPermissionCheckboxState, ref, 1),
+                 privateInfoWidget(state.termList[3], 3, state.isAppPermissionCheckboxState, ref, 2),
+               ],
+
             ),
+            Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: bottomWidget(state.isAllAppPermissionGrant)),
@@ -149,7 +151,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
             SizedBox(width: 8,),
             Text(
-              '(필수) 약관 모두 동의',
+              '필수 약관 모두 동의',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             )
           ],
@@ -159,11 +161,11 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
   }
 
   //개별 권한 동의 위젯
-  Widget privateInfoWidget(int index, List<bool> isPermissionCheckboxState, WidgetRef ref) {
+  Widget privateInfoWidget(String term, int index, List<bool> isPermissionCheckboxState, WidgetRef ref, int? termValue) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: () => ref.read(onboardingStateNotifierProvider.notifier).updateEachPermissionState(index),
+        onPressed: () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.white,
             overlayColor: Colors.transparent,
@@ -200,19 +202,30 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
             SizedBox(width: 8,),
             Text(
-              '(필수) 약관 모두 동의',
+              term,
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             ),
             Spacer(),
-            SvgPicture.asset(
-                'assets/icons/icon_arrow_right.svg',
-                width: 24,
-                height: 24,
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
+            GestureDetector(
+              onTap: () {
+                if(termValue != null) {
+                  GoRouter.of(context).push('/onboarding_terms/${termValue}');
+                }
+              },
+              child: Visibility(
+                visible: index != 0,
+                child: SvgPicture.asset(
+                    'assets/icons/icon_arrow_right.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
+                ),
+              ),
             )
           ],
         ),
       ),
     );
   }
+
 }

@@ -20,9 +20,7 @@ mixin _$SponsorState {
   List<Sponsor> get sponsorList => throw _privateConstructorUsedError; // 후원 리스트
   List<Comment> get cheerCommentList => throw _privateConstructorUsedError;
 
-  /// Create a copy of SponsorState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SponsorStateCopyWith<SponsorState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,8 +47,6 @@ class _$SponsorStateCopyWithImpl<$Res, $Val extends SponsorState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SponsorState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -97,8 +93,6 @@ class __$$SponsorStateImplCopyWithImpl<$Res>
       _$SponsorStateImpl _value, $Res Function(_$SponsorStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SponsorState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,9 +176,7 @@ class _$SponsorStateImpl implements _SponsorState {
       const DeepCollectionEquality().hash(_sponsorList),
       const DeepCollectionEquality().hash(_cheerCommentList));
 
-  /// Create a copy of SponsorState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SponsorStateImplCopyWith<_$SponsorStateImpl> get copyWith =>
@@ -200,14 +192,11 @@ abstract class _SponsorState implements SponsorState {
   @override
   bool get isLoading;
   @override
-  List<Sponsor> get sponsorList; // 후원 리스트
-  @override
+  List<Sponsor> get sponsorList;
+  @override // 후원 리스트
   List<Comment> get cheerCommentList;
-
-  /// Create a copy of SponsorState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SponsorStateImplCopyWith<_$SponsorStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
