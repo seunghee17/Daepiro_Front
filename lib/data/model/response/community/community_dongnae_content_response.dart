@@ -11,20 +11,20 @@ class CommunityDongnaeContentResponse {
   CommunityDongnaeContentResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? Article.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Article.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['code'] = code;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = path;
-    data['timestamp'] = timestamp;
+    data['path'] = this.path;
+    data['timestamp'] = this.timestamp;
     return data;
   }
 }
@@ -55,11 +55,11 @@ class Article {
     if (json['content'] != null) {
       content = <Content>[];
       json['content'].forEach((v) {
-        content!.add(Content.fromJson(v));
+        content!.add(new Content.fromJson(v));
       });
     }
     pageable = json['pageable'] != null
-        ? Pageable.fromJson(json['pageable'])
+        ? new Pageable.fromJson(json['pageable'])
         : null;
     size = json['size'];
     number = json['number'];
@@ -71,22 +71,22 @@ class Article {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (content != null) {
-      data['content'] = content!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.content != null) {
+      data['content'] = this.content!.map((v) => v.toJson()).toList();
     }
-    if (pageable != null) {
-      data['pageable'] = pageable!.toJson();
+    if (this.pageable != null) {
+      data['pageable'] = this.pageable!.toJson();
     }
-    data['size'] = size;
-    data['number'] = number;
-    if (sort != null) {
-      data['sort'] = sort!.map((v) => v.toJson()).toList();
+    data['size'] = this.size;
+    data['number'] = this.number;
+    if (this.sort != null) {
+      data['sort'] = this.sort!.map((v) => v.toJson()).toList();
     }
-    data['numberOfElements'] = numberOfElements;
-    data['first'] = first;
-    data['last'] = last;
-    data['empty'] = empty;
+    data['numberOfElements'] = this.numberOfElements;
+    data['first'] = this.first;
+    data['last'] = this.last;
+    data['empty'] = this.empty;
     return data;
   }
 }
@@ -139,38 +139,38 @@ class Content {
     commentCount = json['commentCount'];
     reportCount = json['reportCount'];
     address =
-    json['address'] != null ? Address.fromJson(json['address']) : null;
+    json['address'] != null ? new Address.fromJson(json['address']) : null;
     createdAt = json['createdAt'];
     lastModifiedAt = json['lastModifiedAt'];
     authorUser = json['authorUser'] != null
-        ? AuthorUser.fromJson(json['authorUser'])
+        ? new AuthorUser.fromJson(json['authorUser'])
         : null;
     previewImageUrl = json['previewImageUrl'];
     isLiked = json['isLiked'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['status'] = status;
-    data['type'] = type;
-    data['category'] = category;
-    data['title'] = title;
-    data['body'] = body;
-    data['likeCount'] = likeCount;
-    data['viewCount'] = viewCount;
-    data['commentCount'] = commentCount;
-    data['reportCount'] = reportCount;
-    if (address != null) {
-      data['address'] = address!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['status'] = this.status;
+    data['type'] = this.type;
+    data['category'] = this.category;
+    data['title'] = this.title;
+    data['body'] = this.body;
+    data['likeCount'] = this.likeCount;
+    data['viewCount'] = this.viewCount;
+    data['commentCount'] = this.commentCount;
+    data['reportCount'] = this.reportCount;
+    if (this.address != null) {
+      data['address'] = this.address!.toJson();
     }
-    data['createdAt'] = createdAt;
-    data['lastModifiedAt'] = lastModifiedAt;
-    if (authorUser != null) {
-      data['authorUser'] = authorUser!.toJson();
+    data['createdAt'] = this.createdAt;
+    data['lastModifiedAt'] = this.lastModifiedAt;
+    if (this.authorUser != null) {
+      data['authorUser'] = this.authorUser!.toJson();
     }
-    data['previewImageUrl'] = previewImageUrl ?? '';
-    data['isLiked'] = isLiked;
+    data['previewImageUrl'] = this.previewImageUrl ?? '';
+    data['isLiked'] = this.isLiked;
     return data;
   }
 }
@@ -179,20 +179,23 @@ class Address {
   int? addressId;
   String? siDo;
   String? siGunGu;
+  String? eupMyeonDong;
 
-  Address({this.addressId, this.siDo, this.siGunGu});
+  Address({this.addressId, this.siDo, this.siGunGu, this.eupMyeonDong});
 
   Address.fromJson(Map<String, dynamic> json) {
     addressId = json['addressId'];
     siDo = json['siDo'];
     siGunGu = json['siGunGu'];
+    eupMyeonDong = json['eupMyeonDong'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['addressId'] = addressId;
-    data['siDo'] = siDo;
-    data['siGunGu'] = siGunGu;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['addressId'] = this.addressId;
+    data['siDo'] = this.siDo;
+    data['siGunGu'] = this.siGunGu;
+    data['eupMyeonDong'] = this.eupMyeonDong;
     return data;
   }
 }
@@ -220,12 +223,12 @@ class AuthorUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['userId'] = userId;
-    data['nickname'] = nickname;
-    data['realname'] = realname;
-    data['isCompletedOnboarding'] = isCompletedOnboarding;
-    data['isVerified'] = isVerified;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
+    data['nickname'] = this.nickname;
+    data['realname'] = this.realname;
+    data['isCompletedOnboarding'] = this.isCompletedOnboarding;
+    data['isVerified'] = this.isVerified;
     return data;
   }
 }
@@ -256,15 +259,15 @@ class Pageable {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['pageNumber'] = pageNumber;
-    data['pageSize'] = pageSize;
-    if (sort != null) {
-      data['sort'] = sort!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['pageNumber'] = this.pageNumber;
+    data['pageSize'] = this.pageSize;
+    if (this.sort != null) {
+      data['sort'] = this.sort!.map((v) => v.toJson()).toList();
     }
-    data['offset'] = offset;
-    data['paged'] = paged;
-    data['unpaged'] = unpaged;
+    data['offset'] = this.offset;
+    data['paged'] = this.paged;
+    data['unpaged'] = this.unpaged;
     return data;
   }
 }

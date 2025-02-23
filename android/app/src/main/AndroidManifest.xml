@@ -29,7 +29,6 @@
 
 
     <application
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="daepiro">
 
@@ -41,7 +40,7 @@
             android:value="${naverSecret}" />
         <meta-data
             android:name="com.naver.sdk.clientName"
-            android:value="daepiroNaver" />
+            android:value="대피로" />
 
         <activity
             android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"

@@ -3,6 +3,7 @@ import 'package:daepiro/presentation/community/controller/community_town_view_mo
 import 'package:daepiro/presentation/community/screens/disaster/community_disaster_screen.dart';
 import 'package:daepiro/presentation/community/screens/town/community_town_address_menu_screen.dart';
 import 'package:daepiro/presentation/community/screens/town/community_town_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,9 +29,8 @@ class CommunityMainScreen extends ConsumerWidget {
                 final TabController tabController =
                 DefaultTabController.of(context);
                 tabController.addListener(() {
-                  if (tabController.index == 1) { //동네생활임
+                  if (tabController.index == 1) {
                     disasterViewModel.changeScreenState(false);
-                    townViewModel.loadContent();
                   } else {
                     disasterViewModel.changeScreenState(true);
                   }
@@ -39,7 +39,7 @@ class CommunityMainScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     communityHeader(state.isDisasterScreen, townState.selectTown, context),
-                    const TabBar(
+                    TabBar(
                       padding: EdgeInsets.zero,
                       splashFactory: NoSplash.splashFactory,
                       indicator: UnderlineTabIndicator(
@@ -48,21 +48,21 @@ class CommunityMainScreen extends ConsumerWidget {
                           color: DaepiroColorStyle.g_800,
                         ),
                         insets: EdgeInsets.symmetric(
-                            horizontal: 100.0), // 좌우 인셋을 조절하여 너비를 비율에 맞춤
+                            horizontal: 100.0),
                       ),
                       indicatorWeight: 2,
                       labelStyle: DaepiroTextStyle.body_1_m,
                       labelColor: DaepiroColorStyle.g_800,
                       unselectedLabelColor: DaepiroColorStyle.g_300,
-                      labelPadding: EdgeInsets.symmetric(vertical: 5),
+                      labelPadding: const EdgeInsets.symmetric(vertical: 5),
                       tabs: [Tab(text: '재난상황'), Tab(text: '동네생활')],
                     ),
                     Expanded(
                         child: TabBarView(
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           children: [
                             CommunityDisasterScreen(),
-                            const CommunityTownScreen()
+                            CommunityTownScreen()
                           ],
                         ))
                   ],
@@ -90,49 +90,47 @@ class CommunityMainScreen extends ConsumerWidget {
   }
 
   Widget townHeaderWidget(String address, BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                goToMenu(context);
-              },
-              child: Row(
-                children: [
-                  Text(address,
-                    style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
-                  ),
-                  const SizedBox(width: 4),
-                  SvgPicture.asset(
-                      'assets/icons/icon_arrow_down.svg',
-                      width: 20,
-                      height: 20,
-                      colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
-                ],
-              ),
-            ),
-            const Spacer(),
-            TextButton(
-                onPressed: (){
-                  GoRouter.of(context).push(
-                      '/community_town_writing',
-                    extra: {
-                      'isEdit': false,
-                    },
-                  );
-                },
-                style: ButtonStyle(
-                  overlayColor: WidgetStateProperty.all(Colors.transparent),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              goToMenu(context);
+            },
+            child: Row(
+              children: [
+                Text(address,
+                  style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
                 ),
-                child: Text(
-                  '글쓰기',
-                  style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),
-                )
-            )
-          ],
-        ),
+                const SizedBox(width: 4),
+                SvgPicture.asset(
+                    'assets/icons/icon_arrow_down.svg',
+                    width: 20,
+                    height: 20,
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+              ],
+            ),
+          ),
+          const Spacer(),
+          TextButton(
+              onPressed: (){
+                GoRouter.of(context).push(
+                    '/community_town_writing',
+                  extra: {
+                    'isEdit': false,
+                  },
+                );
+              },
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+              child: Text(
+                '글쓰기',
+                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),
+              )
+          )
+        ],
       ),
     );
   }
@@ -150,7 +148,7 @@ class CommunityMainScreen extends ConsumerWidget {
         context: context,
         barrierColor: Colors.black.withOpacity(0.6),
         builder: (context) {
-          return const CommunityTownAddressMenuScreen();
+          return CommunityTownAddressMenuScreen();
         });
   }
 }

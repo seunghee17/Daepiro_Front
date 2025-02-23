@@ -15,6 +15,7 @@ FutureProvider.family<CommunityArticleWritingResponse, CommunityArticleWritingUs
           visibility: request.visibility,
           longitude: request.longitude,
           latitude: request.latitude,
+          dongne: request.dongne,
           attachFileList: request.attachFileList
       );
     }
@@ -27,6 +28,7 @@ class CommunityArticleWritingUseCase {
   final bool visibility;
   final double longitude;
   final double latitude;
+  final String dongne;
   final List<MultipartFile> attachFileList;
 
   CommunityArticleWritingUseCase({
@@ -36,6 +38,7 @@ class CommunityArticleWritingUseCase {
     required this.visibility,
     required this.longitude,
     required this.latitude,
+    required this.dongne,
     required this.attachFileList,
   });
 }

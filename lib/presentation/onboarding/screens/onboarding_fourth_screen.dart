@@ -52,7 +52,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                       height: 4,
                     ),
                     Text(
-                      '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                      '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난이에요.',
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_300),
                     ),
@@ -98,7 +98,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
+                      '기상 특보와 같이 안전 주의를 요하는 재난이에요.',
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_300),
                     ),
@@ -203,22 +203,22 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
         const SizedBox(height: 24),
         RichText(
             text: TextSpan(
-                text: '수신 받을 ',
+                text: '알림을 받고 싶은\n',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
                 children: [
               TextSpan(
-                text: '재난 유형',
+                text: '재난',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.o_400),
               ),
               TextSpan(
-                text: '을\n',
+                text: '을 ',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
               TextSpan(
-                text: '선택해주세요.',
+                text: '선택해주세요',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
@@ -293,8 +293,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                     child: PrimaryFilledButton(
-                        onPressed: () =>
-                            GoRouter.of(context).push('/onboarding/fourth'),
+                        onPressed: () => GoRouter.of(context).push('/onboarding/fourth'),
                         backgroundColor: DaepiroColorStyle.o_500,
                         pressedColor: DaepiroColorStyle.o_600,
                         borderRadius: 8.0,
@@ -337,9 +336,10 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '다음에 설정하시겠어요?',
+                  textAlign: TextAlign.center,
+                  '다음에 설정하고\n모든 재난 정보를 수신하시겠어요?',
                   style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_900),
+                      .copyWith(color: DaepiroColorStyle.g_900,),
                 ),
               ],
             ),
@@ -352,7 +352,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                   children: [
                     Text(
                       textAlign: TextAlign.center,
-                      '전체 유형의 재난 문자가 수신되며\n해당 설정은 마이페이지에서 변경 가능합니다.',
+                      '알림 설정은 마이페이지에서 변경할 수 있어요.',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.g_500),
                     ),
@@ -370,7 +370,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         pressedColor: DaepiroColorStyle.g_75,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '다시 선택',
+                          '돌아가기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
@@ -390,7 +390,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         pressedColor: DaepiroColorStyle.g_400,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '확인',
+                          '다음에 하기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.white),
                         )),

@@ -17,9 +17,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   String nativeKakaoKey = dotenv.get('KAKAOKEY');
-  await StringHelper.ruleInitialize();
+
+  await StringHelper.initialize();
+
+  //소셜 로그인 초기화
   KakaoSdk.init(nativeAppKey: nativeKakaoKey);
   await _naverInit();
+
   await Firebase.initializeApp();
   SettingFCM().initNotification();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -36,6 +40,7 @@ Future<void> _naverInit() async {
     clientId: naverMapKey,
     onAuthFailed: (e) => print("네이버맵 인증 오류:$e")
   );
+  return;
 }
 
 class MyApp extends ConsumerWidget {

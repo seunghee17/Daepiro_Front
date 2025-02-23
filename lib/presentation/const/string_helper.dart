@@ -1,13 +1,25 @@
 import 'package:flutter/services.dart';
 
 class StringHelper {
-  static late String ruleTermText;
+  static late String infoTermText;
+  static late String usingTermText;
+  static late String locationTermText;
 
-  static Future<void> ruleInitialize() async {
-    final texts = await Future.wait([
-      rootBundle.loadString('assets/texts/rule_terms.txt')
+  static Future<void> initialize() async {
+    final infoText = await Future.wait([
+      rootBundle.loadString('assets/texts/info_terms.txt')
     ]);
-    ruleTermText = texts[0];
+    infoTermText = infoText[0];
+
+    final usingText = await Future.wait([
+      rootBundle.loadString('assets/texts/using_terms.txt')
+    ]);
+    usingTermText = usingText[0];
+
+    final locationText = await Future.wait([
+      rootBundle.loadString('assets/texts/location_service_terms.txt')
+    ]);
+    locationTermText = locationText[0];
   }
 
   StringHelper._();

@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,15 +10,38 @@ import '../../const/common_disaster_list.dart';
 import '../../const/emergency_disaster_list.dart';
 
 class MypageDisasterTypeSettingScreen extends ConsumerStatefulWidget {
-  const MypageDisasterTypeSettingScreen({super.key});
-
   @override
   MypageDisasterTypeSettingState createState() => MypageDisasterTypeSettingState();
 }
 
 class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSettingScreen> {
-  Set<int> selected = {};
-  Set<int> selectedSub = {};
+  Set<int> selected = Set();
+  Set<int> selectedSub = Set();
+
+  @override
+  void initState() {
+    super.initState();
+    selected.clear();
+    selectedSub.clear();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(myPageProvider.notifier).getDisasterType();
+      final state = ref.watch(myPageProvider);
+      for(int i=0; i<EmergencyDisasterList.length; i++) {
+        if(state.disasterTypeList.contains(EmergencyDisasterList[i]['name'])) {
+          setState(() {
+            selected.add(i);
+          });
+        }
+      }
+      for(int i=0; i<CommonDisasterList.length; i++) {
+        if(state.disasterTypeList.contains(CommonDisasterList[i]['name'])) {
+         setState(() {
+           selectedSub.add(i);
+         });
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +60,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                       Row(
                         children: [
                           Text(
@@ -44,19 +68,19 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                             style: DaepiroTextStyle.body_1_b
                                 .copyWith(color: DaepiroColorStyle.g_900),
                           ),
-                          const Spacer(),
+                          Spacer(),
                           primaryFilledButtonWidget(),
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 4,
                       ),
                       Text(
-                        '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                        '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난이에요.',
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Wrap(
                           spacing: 8,
                           runSpacing: 8,
@@ -81,19 +105,19 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                                         EmergencyDisasterList[index]['name']!,
                                         EmergencyDisasterList[index]['icon']!));
                               })),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24),
                       Text(
                         '일반 재난',
                         style: DaepiroTextStyle.body_1_b
                             .copyWith(color: DaepiroColorStyle.g_900),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
-                        '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
+                        '기상 특보와 같이 안전 주의를 요하는 재난이에요.',
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
@@ -119,6 +143,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                           );
                         }),
                       ),
+                      SizedBox(height: 60),
                     ],
                   ),
                 ),
@@ -141,18 +166,17 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                 width: 24,
                 height: 24,
                 colorFilter:
-                const ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
         ),
-        const Spacer(),
-        Text('프로필 수정',
+        Spacer(),
+        Text('재난 유형 설정',
             style:
             DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-        const Spacer(),
+        Spacer(),
         GestureDetector(
           onTap: () async {
             final isSuccess = await ref.read(myPageProvider.notifier).setDisasterType();
-            GoRouter.of(context).pop();
             showSnackbar(context, isSuccess);
           },
           child: Text('저장',
@@ -176,7 +200,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                 width: 16,
                 height: 16,
                 colorFilter:
-                const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)),
+                ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)),
             Text(
               '수신권장',
               style: DaepiroTextStyle.caption
@@ -191,21 +215,14 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
   Widget disasterItem(bool isTapped, String name, String icon) {
     return Container(
       width: (MediaQuery.of(context).size.width / 3) - 20,
-      decoration: BoxDecoration(
-          color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
-          border: Border.all(
-              color:
-              isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
-              width: 1),
-          borderRadius: BorderRadius.circular(8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Container(
             height: 50,
             width: 50,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: DaepiroColorStyle.g_50,
               shape: BoxShape.circle,
             ),
@@ -213,11 +230,11 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
               child: SvgPicture.asset(icon,
                   width: 36,
                   height: 36,
-                  colorFilter: const ColorFilter.mode(
+                  colorFilter: ColorFilter.mode(
                       DaepiroColorStyle.g_500, BlendMode.srcIn)),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 4,
           ),
           Text(
@@ -225,9 +242,16 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_500),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
         ],
       ),
+      decoration: BoxDecoration(
+          color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
+          border: Border.all(
+              color:
+              isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
+              width: 1),
+          borderRadius: BorderRadius.circular(8)),
     );
   }
 
@@ -249,7 +273,8 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
               children: [
                 Expanded(
                   child: Text(
-                    isSuccess ? '재난 유형 설정이 저장되었어요.' : '다시 시도해주세요.',
+                    textAlign: TextAlign.center,
+                    isSuccess ? '저장되었어요.' : '다시 시도해주세요.',
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.white),
                   ),

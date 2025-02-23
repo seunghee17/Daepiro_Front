@@ -20,29 +20,14 @@ final communityDisasterProvider =
 class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
   final Ref ref;
 
-  CommunityDisasterViewModel(this.ref) : super(CommunityDisasterState()) {
-    _initState();
-  }
-
-  Future<void> _initState() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      await getDisasterSituaions();
-    } catch (e) {
-      print('error initialization: $e');
-    } finally {
-      state = state.copyWith(isLoading: false);
-    }
-  }
+  CommunityDisasterViewModel(this.ref) : super(CommunityDisasterState());
 
   void changeScreenState(bool isdisasterScreen) {
     state = state.copyWith(isDisasterScreen: isdisasterScreen);
-    if (state.isDisasterScreen) {
-      reloadData();
-    }
   }
 
   Future<void> getDisasterSituaions() async {
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(
       getCommunityDisasterSituationUseCaseProvider.future,
     );
@@ -50,13 +35,13 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
     state = state.copyWith(
       allDisasterResponse: result,
       receivedDisasterResponse: receivedSituations,
+      isLoading: false,
     );
   }
 
   Future<void> selectButton(String type) async {
-    state = state.copyWith(disasterCommunityType: type, isLoading: true);
+    state = state.copyWith(disasterCommunityType: type);
     await getDisasterSituaions();
-    state = state.copyWith(isLoading: false);
   }
 
   Future<void> getReloadDisasterData() async {
@@ -69,43 +54,11 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
 
   Future<void> reloadData() async {
     try {
-      if (state.selectSituaionId != null) {
+      if (state.selectSituaionId != null)
         await getReplyData(state.selectSituaionId!);
-      }
       await getReloadDisasterData();
     } catch (e) {
       print('Error reloading data: $e');
-    }
-  }
-
-  String parseDateTime(String timeText) {
-    if (timeText == '') {
-      return '';
-    }
-    DateTime dateTime = DateTime.parse(timeText).toLocal();
-    String period = dateTime.hour >= 12 ? '오후' : '오전';
-    int hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
-    hour = hour == 0 ? 12 : hour;
-    String minute = dateTime.minute.toString().padLeft(2, '0');
-    return '$period $hour시 $minute분';
-  }
-
-  String parseCommentTime(String timeText) {
-    if (timeText == '') {
-      return '';
-    }
-    DateTime dateTime = DateTime.parse(timeText).toLocal();
-    DateTime currentTime = DateTime.now();
-    Duration differ = currentTime.difference(dateTime);
-
-    if (differ.inMinutes < 1) {
-      return '방금 전';
-    } else if (differ.inMinutes < 60) {
-      return '${differ.inMinutes}분전';
-    } else if (differ.inHours < 24) {
-      return '${differ.inHours} 시간전';
-    } else {
-      return '${differ.inDays}일전';
     }
   }
 
@@ -157,9 +110,8 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
     state = state.copyWith(reportType: type);
   }
 
-  Future<void> sendReplyReportContent(
-      int id, String detail, String email) async {
-    await ref.read(communityReplyReportUseCaseProvider(
+  Future<bool> sendReplyReportContent(int id, String detail, String email) async {
+    final response = await ref.read(communityReplyReportUseCaseProvider(
             CommunityReplyReportUseCase(
                 id: id,
                 communityReplyReportRequest: ReportRequest(
@@ -167,6 +119,8 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
                     type: ReportCategory.getNamedByCategory(state.reportType),
                     email: email)))
         .future);
+    if(response.code != 1000) return false;
+    return true;
   }
 
   Future<void> deleteReply(int id) async {
@@ -237,6 +191,18 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
 
   void setChildCommentState(bool value) {
     state = state.copyWith(isChildCommentState: value);
+  }
+
+  void initDisasterScreenState() {
+    state = state.copyWith(
+        isChildCommentState: false,
+        editChildCommentId: 0,
+        isEditChildCommentState: false,
+        parentCommentId: 0,
+        selectSituaionId: null,
+        isEditState: false,
+        editCommentId: 0,
+    );
   }
 }
 

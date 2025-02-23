@@ -5,8 +5,9 @@ import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import '../../model/request/community_check_current_location_request.dart';
 import '../../model/request/community_disaster_edit_request.dart';
-import '../../model/request/community_writing_edit_request.dart';
+import '../../model/response/community/community_check_location_response.dart';
 import '../../model/response/community/community_writing_edit_response.dart';
 import '../../model/response/report_request.dart';
 import '../../model/request/set_town_certificate_request.dart';
@@ -93,14 +94,19 @@ abstract class CommunityService {
     @Query('visibility') required bool visibility,
     @Query('longitude') required double longitude,
     @Query('latitude') required double latitude,
+    @Query('dongne') required String dongne,
     @Part() required List<MultipartFile> attachFileList,
   });
 
   @POST('/v1/articles/{id}')
   @MultiPart()
   Future<CommunityWritingEditResponse> editArticle({
-    @Path('id') required int id,
-    @Part() required CommunityWritingEditRequest communityWritingEditRequest,
+    @Query('id') required int id,
+    @Query('articleType') required String articleType,
+    @Query('articleCategory') required String articleCategory,
+    @Query('visibility') required bool visibility,
+    @Query('title') required String title,
+    @Query('body') required String body,
     @Part() required List<MultipartFile> attachFileList,
   });
 
@@ -115,4 +121,8 @@ abstract class CommunityService {
   @PUT('/v1/user-address-verified')
   Future<BasicResponse> setTownCertificateInfo(
       {@Body() required SetTownCertificateRequest setTownCertificateRequest});
+
+  //현위치 표시 가능 여부 조회
+  @POST('/v1/articles/position')
+  Future<CheckShowCurrentLocation> checkShowCurrentLocation({@Body() required CommunityCheckCurrentLocationRequest communityCheckCurrentLocationRequest});
 }

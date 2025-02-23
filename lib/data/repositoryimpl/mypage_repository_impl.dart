@@ -1,7 +1,10 @@
+import 'package:daepiro/data/model/request/set_mypage_address_notification_request.dart';
 import 'package:daepiro/data/model/request/set_mypage_disaster_types_request.dart';
 import 'package:daepiro/data/model/request/set_mypage_inquires_request.dart';
 import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/data/model/response/mypage/get_mypage_address_response.dart';
+import 'package:daepiro/data/model/response/mypage/get_mypage_announcement_detail_response.dart';
+import 'package:daepiro/data/model/response/mypage/get_mypage_announcements_list_response.dart';
 import 'package:daepiro/data/model/response/mypage/get_mypage_articles_response.dart';
 import 'package:daepiro/data/model/response/mypage/get_mypage_disaster_types_response.dart';
 import 'package:daepiro/data/model/response/mypage/get_mypage_notification_setting_response.dart';
@@ -10,6 +13,7 @@ import 'package:daepiro/data/source/mypage/mypage_service.dart';
 import 'package:daepiro/domain/repository/mypage_repository.dart';
 
 import '../model/request/set_mypage_profiles_request.dart';
+import '../model/request/withdraw_user_request.dart';
 
 class MyPageRepositoryImpl implements MyPageRepository {
   MyPageRepositoryImpl({required MyPageService service}) : _service = service;
@@ -111,6 +115,46 @@ class MyPageRepositoryImpl implements MyPageRepository {
       return await _service.getMyArticles(page: page, size: size);
     } catch(e) {
       print('내가 쓴글 오류 발생 $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BasicResponse> setMyAddress(SetMypageAddressNotificationRequest setMypageAddressNotificationRequest) async {
+    try {
+      return await _service.setMyAddress(setMypageAddressNotificationRequest: setMypageAddressNotificationRequest);
+    } catch(e) {
+      print('재난지역 재설정 진행중 오류 발생 ${e}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BasicResponse> withDrawUserInfo(String reason, WithDrawRequest withDrawRequest) async {
+    try {
+      return await _service.withDrawUserInfo(reason: reason, withDrawRequest: withDrawRequest);
+    } catch(e) {
+      print('회원탈퇴 오류 발생 ${e}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AnnouncementDetailResponse> getAnnouncementDetail(String id) async {
+    try {
+      return await _service.getAnnouncementDetail(id: id);
+    } catch(e) {
+      print('공지사항 단건조회 오류 발생 ${e}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AnnouncementListResponse> getAnnouncements() async {
+    try {
+      return await _service.getAnnouncements();
+    } catch(e) {
+      print('공지사항 오류 발생 ${e}');
       rethrow;
     }
   }

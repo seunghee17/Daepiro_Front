@@ -38,22 +38,20 @@ mixin _$CommunityTownState {
       throw _privateConstructorUsedError; //대댓글 작성시 필요한 부모 댓글 id
   int get parentCommentId =>
       throw _privateConstructorUsedError; //대댓글을 선택한지에 대한 여부
-  dynamic get isChildCommentState =>
-      throw _privateConstructorUsedError; //moreinfo를 누를때부터 true로 활성화됨
-  int get editChildCommentId => throw _privateConstructorUsedError; //2
-  bool get isEditChildCommentState => throw _privateConstructorUsedError; //1
-//댓글 수정을 위한 상태 데이터
+  dynamic get isChildCommentState => throw _privateConstructorUsedError;
+  int get editChildCommentId => throw _privateConstructorUsedError;
+  bool get isEditChildCommentState =>
+      throw _privateConstructorUsedError; //댓글 수정을 위한 상태 데이터
   bool get isEditState => throw _privateConstructorUsedError;
   int get editCommentId => throw _privateConstructorUsedError; //신고하기
   String get reportType => throw _privateConstructorUsedError; //위치 공개 여부 변수
   bool get isVisible => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
-  double get longitude => throw _privateConstructorUsedError; //갤러리
-  List<SelectedImage> get selectedImages => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError; //사진 선택에 대한 상태
+  List<SelectedImage> get attachedImages => throw _privateConstructorUsedError;
+  List<SelectedImage> get choiceImages => throw _privateConstructorUsedError;
 
-  /// Create a copy of CommunityTownState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CommunityTownStateCopyWith<CommunityTownState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -88,7 +86,8 @@ abstract class $CommunityTownStateCopyWith<$Res> {
       bool isVisible,
       double latitude,
       double longitude,
-      List<SelectedImage> selectedImages});
+      List<SelectedImage> attachedImages,
+      List<SelectedImage> choiceImages});
 }
 
 /// @nodoc
@@ -101,8 +100,6 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CommunityTownState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,7 +126,8 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
     Object? isVisible = null,
     Object? latitude = null,
     Object? longitude = null,
-    Object? selectedImages = null,
+    Object? attachedImages = null,
+    Object? choiceImages = null,
   }) {
     return _then(_value.copyWith(
       contentDetail: null == contentDetail
@@ -224,9 +222,13 @@ class _$CommunityTownStateCopyWithImpl<$Res, $Val extends CommunityTownState>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      selectedImages: null == selectedImages
-          ? _value.selectedImages
-          : selectedImages // ignore: cast_nullable_to_non_nullable
+      attachedImages: null == attachedImages
+          ? _value.attachedImages
+          : attachedImages // ignore: cast_nullable_to_non_nullable
+              as List<SelectedImage>,
+      choiceImages: null == choiceImages
+          ? _value.choiceImages
+          : choiceImages // ignore: cast_nullable_to_non_nullable
               as List<SelectedImage>,
     ) as $Val);
   }
@@ -264,7 +266,8 @@ abstract class _$$CommunityTownStateImplCopyWith<$Res>
       bool isVisible,
       double latitude,
       double longitude,
-      List<SelectedImage> selectedImages});
+      List<SelectedImage> attachedImages,
+      List<SelectedImage> choiceImages});
 }
 
 /// @nodoc
@@ -275,8 +278,6 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
       $Res Function(_$CommunityTownStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CommunityTownState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -303,7 +304,8 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
     Object? isVisible = null,
     Object? latitude = null,
     Object? longitude = null,
-    Object? selectedImages = null,
+    Object? attachedImages = null,
+    Object? choiceImages = null,
   }) {
     return _then(_$CommunityTownStateImpl(
       contentDetail: null == contentDetail
@@ -397,9 +399,13 @@ class __$$CommunityTownStateImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      selectedImages: null == selectedImages
-          ? _value._selectedImages
-          : selectedImages // ignore: cast_nullable_to_non_nullable
+      attachedImages: null == attachedImages
+          ? _value._attachedImages
+          : attachedImages // ignore: cast_nullable_to_non_nullable
+              as List<SelectedImage>,
+      choiceImages: null == choiceImages
+          ? _value._choiceImages
+          : choiceImages // ignore: cast_nullable_to_non_nullable
               as List<SelectedImage>,
     ));
   }
@@ -432,12 +438,14 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
       this.isVisible = false,
       this.latitude = 0.0,
       this.longitude = 0.0,
-      final List<SelectedImage> selectedImages = const []})
+      final List<SelectedImage> attachedImages = const [],
+      final List<SelectedImage> choiceImages = const []})
       : _townReplyList = townReplyList,
         _contentList = contentList,
         _townLongAddressList = townLongAddressList,
         _townList = townList,
-        _selectedImages = selectedImages;
+        _attachedImages = attachedImages,
+        _choiceImages = choiceImages;
 
 //동네생활 게시글 상세조회
   @override
@@ -522,15 +530,12 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final dynamic isChildCommentState;
-//moreinfo를 누를때부터 true로 활성화됨
   @override
   @JsonKey()
   final int editChildCommentId;
-//2
   @override
   @JsonKey()
   final bool isEditChildCommentState;
-//1
 //댓글 수정을 위한 상태 데이터
   @override
   @JsonKey()
@@ -552,20 +557,29 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
   @override
   @JsonKey()
   final double longitude;
-//갤러리
-  final List<SelectedImage> _selectedImages;
-//갤러리
+//사진 선택에 대한 상태
+  final List<SelectedImage> _attachedImages;
+//사진 선택에 대한 상태
   @override
   @JsonKey()
-  List<SelectedImage> get selectedImages {
-    if (_selectedImages is EqualUnmodifiableListView) return _selectedImages;
+  List<SelectedImage> get attachedImages {
+    if (_attachedImages is EqualUnmodifiableListView) return _attachedImages;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedImages);
+    return EqualUnmodifiableListView(_attachedImages);
+  }
+
+  final List<SelectedImage> _choiceImages;
+  @override
+  @JsonKey()
+  List<SelectedImage> get choiceImages {
+    if (_choiceImages is EqualUnmodifiableListView) return _choiceImages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_choiceImages);
   }
 
   @override
   String toString() {
-    return 'CommunityTownState(contentDetail: $contentDetail, deleteArticle: $deleteArticle, townReplyList: $townReplyList, selectContentId: $selectContentId, contentList: $contentList, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, townCategory: $townCategory, writingTownCategory: $writingTownCategory, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, isVisible: $isVisible, latitude: $latitude, longitude: $longitude, selectedImages: $selectedImages)';
+    return 'CommunityTownState(contentDetail: $contentDetail, deleteArticle: $deleteArticle, townReplyList: $townReplyList, selectContentId: $selectContentId, contentList: $contentList, isDongNaeLoading: $isDongNaeLoading, isDongNaeHasMore: $isDongNaeHasMore, selectTown: $selectTown, selectLongTownAddress: $selectLongTownAddress, townLongAddressList: $townLongAddressList, townList: $townList, townCategory: $townCategory, writingTownCategory: $writingTownCategory, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, isEditState: $isEditState, editCommentId: $editCommentId, reportType: $reportType, isVisible: $isVisible, latitude: $latitude, longitude: $longitude, attachedImages: $attachedImages, choiceImages: $choiceImages)';
   }
 
   @override
@@ -620,7 +634,9 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
             const DeepCollectionEquality()
-                .equals(other._selectedImages, _selectedImages));
+                .equals(other._attachedImages, _attachedImages) &&
+            const DeepCollectionEquality()
+                .equals(other._choiceImages, _choiceImages));
   }
 
   @override
@@ -649,12 +665,11 @@ class _$CommunityTownStateImpl implements _CommunityTownState {
         isVisible,
         latitude,
         longitude,
-        const DeepCollectionEquality().hash(_selectedImages)
+        const DeepCollectionEquality().hash(_attachedImages),
+        const DeepCollectionEquality().hash(_choiceImages)
       ]);
 
-  /// Create a copy of CommunityTownState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>
@@ -687,63 +702,61 @@ abstract class _CommunityTownState implements CommunityTownState {
       final bool isVisible,
       final double latitude,
       final double longitude,
-      final List<SelectedImage> selectedImages}) = _$CommunityTownStateImpl;
+      final List<SelectedImage> attachedImages,
+      final List<SelectedImage> choiceImages}) = _$CommunityTownStateImpl;
 
-//동네생활 게시글 상세조회
-  @override
-  ContentDetail get contentDetail; //게시글 삭제상태
-  @override
-  bool get deleteArticle; //동네생활 댓글 상태
-  @override
+  @override //동네생활 게시글 상세조회
+  ContentDetail get contentDetail;
+  @override //게시글 삭제상태
+  bool get deleteArticle;
+  @override //동네생활 댓글 상태
   List<CommentData> get townReplyList;
   @override
-  int? get selectContentId; //동네생활 컨텐츠 리스트
-  @override
-  List<Content> get contentList; //동네생활 로딩 상태
-  @override
-  bool get isDongNaeLoading; //동네생활 컨텐츠 더있는가
-  @override
-  bool get isDongNaeHasMore; //동네생활 선택한 동네
-  @override
+  int? get selectContentId;
+  @override //동네생활 컨텐츠 리스트
+  List<Content> get contentList;
+  @override //동네생활 로딩 상태
+  bool get isDongNaeLoading;
+  @override //동네생활 컨텐츠 더있는가
+  bool get isDongNaeHasMore;
+  @override //동네생활 선택한 동네
   String get selectTown;
   @override
   String get selectLongTownAddress;
   @override
   List<String> get townLongAddressList;
   @override
-  List<String> get townList; //동네생활 선택 카테고리
+  List<String> get townList;
+  @override //동네생활 선택 카테고리
+  String get townCategory;
+  @override //동네생활 글쓰기 선택 카테고리
+  String get writingTownCategory;
+  @override //대댓글 작성시 필요한 부모 댓글 id
+  int get parentCommentId;
+  @override //대댓글을 선택한지에 대한 여부
+  dynamic get isChildCommentState;
   @override
-  String get townCategory; //동네생활 글쓰기 선택 카테고리
+  int get editChildCommentId;
   @override
-  String get writingTownCategory; //대댓글 작성시 필요한 부모 댓글 id
-  @override
-  int get parentCommentId; //대댓글을 선택한지에 대한 여부
-  @override
-  dynamic get isChildCommentState; //moreinfo를 누를때부터 true로 활성화됨
-  @override
-  int get editChildCommentId; //2
-  @override
-  bool get isEditChildCommentState; //1
-//댓글 수정을 위한 상태 데이터
-  @override
+  bool get isEditChildCommentState;
+  @override //댓글 수정을 위한 상태 데이터
   bool get isEditState;
   @override
-  int get editCommentId; //신고하기
-  @override
-  String get reportType; //위치 공개 여부 변수
-  @override
+  int get editCommentId;
+  @override //신고하기
+  String get reportType;
+  @override //위치 공개 여부 변수
   bool get isVisible;
   @override
   double get latitude;
   @override
-  double get longitude; //갤러리
+  double get longitude;
+  @override //사진 선택에 대한 상태
+  List<SelectedImage> get attachedImages;
   @override
-  List<SelectedImage> get selectedImages;
-
-  /// Create a copy of CommunityTownState
-  /// with the given fields replaced by the non-null parameter values.
+  List<SelectedImage> get choiceImages;
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CommunityTownStateImplCopyWith<_$CommunityTownStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

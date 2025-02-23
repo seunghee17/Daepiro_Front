@@ -2,12 +2,13 @@ import 'package:daepiro/data/source/community/community_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/http/http_provider.dart';
+import '../../data/model/request/community_check_current_location_request.dart';
 import '../../data/model/request/community_comment_post_request.dart';
 import '../../data/model/request/community_disaster_edit_request.dart';
-import '../../data/model/request/community_writing_edit_request.dart';
 import '../../data/model/request/set_town_certificate_request.dart';
 import '../../data/model/response/basic_response.dart';
 import '../../data/model/response/community/community_article_write_response.dart';
+import '../../data/model/response/community/community_check_location_response.dart';
 import '../../data/model/response/community/community_comment_post_response.dart';
 import '../../data/model/response/community/community_disaster_edit_response.dart';
 import '../../data/model/response/community/community_dongnae_content_detail_response.dart';
@@ -72,6 +73,7 @@ abstract class CommunityRepository {
     required bool visibility,
     required double longitude,
     required double latitude,
+    required String dongne,
     required List<MultipartFile> attachFileList,
   });
 
@@ -79,7 +81,11 @@ abstract class CommunityRepository {
 
   Future<CommunityWritingEditResponse> editArticle({
     required int id,
-    required CommunityWritingEditRequest communityWritingEditRequest,
+    required String articleType,
+    required String articleCategory,
+    required bool visibility,
+    required String title,
+    required String body,
     required List<MultipartFile> attachFileList,
 });
 
@@ -89,4 +95,6 @@ abstract class CommunityRepository {
       {required SetTownCertificateRequest setTownCertificateRequest});
 
   Future<BasicResponse> getArticleLike({required int id});
+
+  Future<CheckShowCurrentLocation> checkShowCurrentLocation({required CommunityCheckCurrentLocationRequest communityCheckCurrentLocationRequest});
 }

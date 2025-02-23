@@ -64,7 +64,7 @@ class _OnboardingFinalState extends ConsumerState<OnboardingFinalScreen> {
                 child: PrimaryFilledButton(
                     onPressed: () async {
                       await viewModel.sendUserInfo();
-                      await viewModel.storeUserAdresses();
+                      await viewModel.storeSecureStorage();
                       GoRouter.of(context).go('/home');
                     },
                     backgroundColor: DaepiroColorStyle.o_500,

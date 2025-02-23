@@ -45,9 +45,9 @@ class CommunityTownAddressMenuScreen extends ConsumerWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            ref.read(communityTownProvider.notifier).setSelectAddress(index);
+          onTap: () async {
             GoRouter.of(context).pop();
+            await ref.read(communityTownProvider.notifier).setSelectAddress(index);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

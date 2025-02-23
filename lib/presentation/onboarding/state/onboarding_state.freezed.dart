@@ -42,10 +42,9 @@ mixin _$OnboardingState {
   List<bool> get isAppPermissionCheckboxState =>
       throw _privateConstructorUsedError;
   List<String> get disasterTypes => throw _privateConstructorUsedError;
+  List<String> get termList => throw _privateConstructorUsedError;
 
-  /// Create a copy of OnboardingState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $OnboardingStateCopyWith<OnboardingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -76,7 +75,8 @@ abstract class $OnboardingStateCopyWith<$Res> {
       bool isJuso2Visible,
       bool isAllAppPermissionGrant,
       List<bool> isAppPermissionCheckboxState,
-      List<String> disasterTypes});
+      List<String> disasterTypes,
+      List<String> termList});
 }
 
 /// @nodoc
@@ -89,8 +89,6 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of OnboardingState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +112,7 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
     Object? disasterTypes = null,
+    Object? termList = null,
   }) {
     return _then(_value.copyWith(
       isError: null == isError
@@ -196,6 +195,10 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.disasterTypes
           : disasterTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      termList: null == termList
+          ? _value.termList
+          : termList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -228,7 +231,8 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       bool isJuso2Visible,
       bool isAllAppPermissionGrant,
       List<bool> isAppPermissionCheckboxState,
-      List<String> disasterTypes});
+      List<String> disasterTypes,
+      List<String> termList});
 }
 
 /// @nodoc
@@ -239,8 +243,6 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
       _$OnboardingStateImpl _value, $Res Function(_$OnboardingStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of OnboardingState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -264,6 +266,7 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
     Object? isAllAppPermissionGrant = null,
     Object? isAppPermissionCheckboxState = null,
     Object? disasterTypes = null,
+    Object? termList = null,
   }) {
     return _then(_$OnboardingStateImpl(
       isError: null == isError
@@ -346,6 +349,10 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value._disasterTypes
           : disasterTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      termList: null == termList
+          ? _value._termList
+          : termList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -379,9 +386,16 @@ class _$OnboardingStateImpl implements _OnboardingState {
         false,
         false
       ],
-      final List<String> disasterTypes = const []})
+      final List<String> disasterTypes = const [],
+      final List<String> termList = const [
+        '(필수) 만 14세 이상입니다.',
+        '(필수) 서비스 이용약관 동의',
+        '(필수) 개인 정보 수집 ・ 이용 동의',
+        '(필수) 위치정보 이용 동의'
+      ]})
       : _isAppPermissionCheckboxState = isAppPermissionCheckboxState,
-        _disasterTypes = disasterTypes;
+        _disasterTypes = disasterTypes,
+        _termList = termList;
 
 //주소 검색 오류 상태
   @override
@@ -464,9 +478,18 @@ class _$OnboardingStateImpl implements _OnboardingState {
     return EqualUnmodifiableListView(_disasterTypes);
   }
 
+  final List<String> _termList;
+  @override
+  @JsonKey()
+  List<String> get termList {
+    if (_termList is EqualUnmodifiableListView) return _termList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_termList);
+  }
+
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes)';
+    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes, termList: $termList)';
   }
 
   @override
@@ -514,7 +537,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
                 other._isAppPermissionCheckboxState,
                 _isAppPermissionCheckboxState) &&
             const DeepCollectionEquality()
-                .equals(other._disasterTypes, _disasterTypes));
+                .equals(other._disasterTypes, _disasterTypes) &&
+            const DeepCollectionEquality().equals(other._termList, _termList));
   }
 
   @override
@@ -539,12 +563,11 @@ class _$OnboardingStateImpl implements _OnboardingState {
         isJuso2Visible,
         isAllAppPermissionGrant,
         const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
-        const DeepCollectionEquality().hash(_disasterTypes)
+        const DeepCollectionEquality().hash(_disasterTypes),
+        const DeepCollectionEquality().hash(_termList)
       ]);
 
-  /// Create a copy of OnboardingState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>
@@ -573,10 +596,10 @@ abstract class _OnboardingState implements OnboardingState {
       final bool isJuso2Visible,
       final bool isAllAppPermissionGrant,
       final List<bool> isAppPermissionCheckboxState,
-      final List<String> disasterTypes}) = _$OnboardingStateImpl;
+      final List<String> disasterTypes,
+      final List<String> termList}) = _$OnboardingStateImpl;
 
-//주소 검색 오류 상태
-  @override
+  @override //주소 검색 오류 상태
   bool get isError;
   @override
   String get nameState;
@@ -589,38 +612,37 @@ abstract class _OnboardingState implements OnboardingState {
   @override
   String get userName;
   @override
-  String get userNickName; //입력한 주소값
-  @override
+  String get userNickName;
+  @override //입력한 주소값
   String get homeJuso;
   @override
   String get firstJuso;
   @override
-  String get secondJuso; //입력한 주소 별명
-  @override
+  String get secondJuso;
+  @override //입력한 주소 별명
   String get homeJusoNick;
   @override
   String get firstJusoNick;
   @override
-  String get secondJusoNick; //주소 별명 입력 오류 상태
-  @override
+  String get secondJusoNick;
+  @override //주소 별명 입력 오류 상태
   String get firstJusoState;
   @override
-  String get secondJusoState; //주소 입력 텍스트 필드 visible 상태
-  @override
+  String get secondJusoState;
+  @override //주소 입력 텍스트 필드 visible 상태
   bool get isJuso1Visible;
   @override
-  bool get isJuso2Visible; //권한 모두 동의 활성화 상태
-  @override
-  bool get isAllAppPermissionGrant; //체크박스의 활성화상태
-  @override
+  bool get isJuso2Visible;
+  @override //권한 모두 동의 활성화 상태
+  bool get isAllAppPermissionGrant;
+  @override //체크박스의 활성화상태
   List<bool> get isAppPermissionCheckboxState;
   @override
   List<String> get disasterTypes;
-
-  /// Create a copy of OnboardingState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String> get termList;
+  @override
+  @JsonKey(ignore: true)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -117,3 +117,56 @@ Text getHighlightText({
       )
   );
 }
+
+//00분전, 00일전으로 시간 반환
+String parseRegTime(String timeText) {
+  if (timeText == '') {
+    return '';
+  }
+  DateTime dateTime = DateTime.parse(timeText).toLocal();
+  DateTime currentTime = DateTime.now();
+  Duration differ = currentTime.difference(dateTime);
+
+  if (differ.inMinutes < 1) {
+    return '방금 전';
+  } else if (differ.inMinutes < 60) {
+    return '${differ.inMinutes}분전';
+  } else if (differ.inHours < 24) {
+    return '${differ.inHours} 시간전';
+  } else {
+    return '${differ.inDays}일전';
+  }
+}
+
+//오후 00시 00분 형식으로 시간 반환
+String parseDateTime(String timeText) {
+  if (timeText == '') {
+    return '';
+  }
+  DateTime dateTime = DateTime.parse(timeText).toLocal();
+  String period = dateTime.hour >= 12 ? '오후' : '오전';
+  int hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
+  hour = hour == 0 ? 12 : hour;
+  String minute = dateTime.minute.toString().padLeft(2, '0');
+  return '${period} ${hour}시 ${minute}분';
+}
+
+//특수문자 판단용
+bool checkForSpecialCharacter(String text) {
+  final regex = RegExp(r'[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]');
+  return !regex.hasMatch(text);
+}
+
+//영문 판단용
+bool checkForNameRule(String text) {
+  final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}]', unicode: true);
+  return pattern.hasMatch(text);
+}
+
+//이메일 형식 체크
+bool isEmailValid(String email) {
+  if(email.isEmpty) return false;
+  final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  if (!regExp.hasMatch(email)) return false;
+  return true;
+}

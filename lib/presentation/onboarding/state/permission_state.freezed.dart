@@ -22,9 +22,7 @@ mixin _$PermissionState {
   List<bool> get isPermissionCheckboxState =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of PermissionState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $PermissionStateCopyWith<PermissionState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,8 +46,6 @@ class _$PermissionStateCopyWithImpl<$Res, $Val extends PermissionState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PermissionState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,8 +84,6 @@ class __$$PermissionStateImplCopyWithImpl<$Res>
       _$PermissionStateImpl _value, $Res Function(_$PermissionStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PermissionState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,9 +152,7 @@ class _$PermissionStateImpl implements _PermissionState {
   int get hashCode => Object.hash(runtimeType, isAllPermissionGrant,
       const DeepCollectionEquality().hash(_isPermissionCheckboxState));
 
-  /// Create a copy of PermissionState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PermissionStateImplCopyWith<_$PermissionStateImpl> get copyWith =>
@@ -173,16 +165,12 @@ abstract class _PermissionState implements PermissionState {
       {final bool isAllPermissionGrant,
       final List<bool> isPermissionCheckboxState}) = _$PermissionStateImpl;
 
-//권한 모두 동의 활성화 상태
-  @override
-  bool get isAllPermissionGrant; //체크박스의 활성화상태
-  @override
+  @override //권한 모두 동의 활성화 상태
+  bool get isAllPermissionGrant;
+  @override //체크박스의 활성화상태
   List<bool> get isPermissionCheckboxState;
-
-  /// Create a copy of PermissionState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PermissionStateImplCopyWith<_$PermissionStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

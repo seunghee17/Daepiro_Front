@@ -427,6 +427,7 @@ class _CommunityService implements CommunityService {
     required bool visibility,
     required double longitude,
     required double latitude,
+    required String dongne,
     required List<MultipartFile> attachFileList,
   }) async {
     final _extra = <String, dynamic>{};
@@ -438,6 +439,7 @@ class _CommunityService implements CommunityService {
       r'visibility': visibility,
       r'longitude': longitude,
       r'latitude': latitude,
+      r'dongne': dongne,
     };
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -474,17 +476,24 @@ class _CommunityService implements CommunityService {
   @override
   Future<CommunityWritingEditResponse> editArticle({
     required int id,
-    required CommunityWritingEditRequest communityWritingEditRequest,
+    required String articleType,
+    required String articleCategory,
+    required bool visibility,
+    required String title,
+    required String body,
     required List<MultipartFile> attachFileList,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'id': id,
+      r'articleType': articleType,
+      r'articleCategory': articleCategory,
+      r'visibility': visibility,
+      r'title': title,
+      r'body': body,
+    };
     final _headers = <String, dynamic>{};
     final _data = FormData();
-    _data.fields.add(MapEntry(
-      'communityWritingEditRequest',
-      jsonEncode(communityWritingEditRequest),
-    ));
     _data.files
         .addAll(attachFileList.map((i) => MapEntry('attachFileList', i)));
     final _options = _setStreamType<CommunityWritingEditResponse>(Options(
@@ -495,7 +504,7 @@ class _CommunityService implements CommunityService {
     )
         .compose(
           _dio.options,
-          '/v1/articles/${id}',
+          '/v1/articles/{id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -609,6 +618,42 @@ class _CommunityService implements CommunityService {
     late BasicResponse _value;
     try {
       _value = BasicResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CheckShowCurrentLocation> checkShowCurrentLocation(
+      {required CommunityCheckCurrentLocationRequest
+          communityCheckCurrentLocationRequest}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(communityCheckCurrentLocationRequest.toJson());
+    final _options = _setStreamType<CheckShowCurrentLocation>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/v1/articles/position',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CheckShowCurrentLocation _value;
+    try {
+      _value = CheckShowCurrentLocation.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

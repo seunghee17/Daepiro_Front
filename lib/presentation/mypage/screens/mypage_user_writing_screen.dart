@@ -1,4 +1,5 @@
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,10 +8,10 @@ import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../data/model/response/mypage/get_mypage_articles_response.dart';
 import '../../community/controller/community_town_view_model.dart';
+import '../../const/utils.dart';
+/// 내가 쓴글 페이지
 
 class MyPageUserWritingScreen extends ConsumerStatefulWidget {
-  const MyPageUserWritingScreen({super.key});
-
   @override
   MyPageUserWritingState createState() => MyPageUserWritingState();
 }
@@ -46,48 +47,56 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(myPageProvider);
-    final viewModel = ref.read(myPageProvider.notifier);
+    final communityViewModel = ref.read(communityTownProvider.notifier);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              headerWidget(),
-              Expanded(
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 8),
-                        ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.myArticles.length,
-                            itemBuilder: (context, index) {
-                              final content = state.myArticles[index];
-                              return listItemWidget(() async {
-                                //상세 기사정보 화면으로 이동
-                                await ref.read(communityTownProvider.notifier).getContentDetail(content.id!);
-                                GoRouter.of(context).push('/community_town_detail');
-                              }, content, ref);
-                            }
-                        ),
-                        if (state.isArticleLoading)
-                          const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                      ],
-                    ),
-                  )
-              )
-            ],
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (bool didPop) {
+        if(didPop) {
+          ref.read(myPageProvider.notifier).initMyArticleState();
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                headerWidget(),
+                Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 8),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: state.myArticles.length,
+                              itemBuilder: (context, index) {
+                                final content = state.myArticles[index];
+                                return listItemWidget(() async {
+                                  //상세 기사정보 화면으로 이동
+                                  await communityViewModel.getContentDetail(content.id!);
+                                  GoRouter.of(context).push('/community_town_detail', extra: {'fromMyPage': true});
+                                }, content, ref);
+                              }
+                          ),
+                          if (state.isArticleLoading)
+                            Center(
+                              child: CircularProgressIndicator(),
+                            )
+                        ],
+                      ),
+                    )
+                )
+              ],
+            ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 
@@ -104,9 +113,9 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 typeChip(ContentCategory.getByValue(content.category!)),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +129,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                             style: DaepiroTextStyle.body_1_b
                                 .copyWith(color: DaepiroColorStyle.g_900),
                           ),
-                          const SizedBox(height: 2),
+                          SizedBox(height: 2),
                           Text(
                             content.body ?? '',
                             overflow: TextOverflow.ellipsis,
@@ -131,7 +140,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Visibility(
                       visible: content.previewImageUrl != null,
                       child: ClipRRect(
@@ -141,12 +150,12 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                           height: 68,
                           content.previewImageUrl!,
                           fit: BoxFit.fill,
-                        ) : const SizedBox.shrink(),
+                        ) : SizedBox.shrink(),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   children: [
                     Text(
@@ -154,42 +163,38 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_800),
                     ),
-                    const SizedBox(width: 2),
+                    SizedBox(width: 2),
                     Visibility(
                       visible: content.authorUser?.isVerified ?? false,
                       child: SvgPicture.asset(
                           'assets/icons/icon_certification.svg',
                           width: 16,
                           height: 16,
-                          colorFilter: const ColorFilter.mode(
+                          colorFilter: ColorFilter.mode(
                               DaepiroColorStyle.o_300, BlendMode.srcIn)),
                     ),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
-                        ref
-                            .read(communityTownProvider.notifier)
-                            .parseCommentTime(
-                            content.lastModifiedAt == content.createdAt! ?
-                            content.createdAt! : content.lastModifiedAt!),
+                        content.lastModifiedAt == content.createdAt! ? parseRegTime(content.createdAt!) : parseRegTime(content.lastModifiedAt!),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_300)),
-                    const Spacer(),
+                    Spacer(),
                     SvgPicture.asset('assets/icons/icon_good.svg',
                         width: 16,
                         height: 16,
-                        colorFilter: const ColorFilter.mode(
+                        colorFilter: ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                    const SizedBox(width: 2),
+                    SizedBox(width: 2),
                     Text(content.likeCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     SvgPicture.asset('assets/icons/icon_community.svg',
                         width: 16,
                         height: 16,
-                        colorFilter: const ColorFilter.mode(
+                        colorFilter: ColorFilter.mode(
                             DaepiroColorStyle.g_200, BlendMode.srcIn)),
-                    const SizedBox(width: 2),
+                    SizedBox(width: 2),
                     Text(content.commentCount.toString(),
                         style: DaepiroTextStyle.caption
                             .copyWith(color: DaepiroColorStyle.g_200)),
@@ -209,7 +214,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
           color: DaepiroColorStyle.g_50,
           borderRadius: BorderRadius.circular(4)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Text(
           type,
           style:
@@ -220,21 +225,20 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
   }
 
   Widget headerWidget() {
-    return SizedBox(
+    return Container(
       width: double.infinity,
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding: EdgeInsets.symmetric(vertical: 14),
             child: GestureDetector(
               onTap: () {
                 GoRouter.of(context).pop();
-                ref.read(myPageProvider.notifier).initMyArticleState();
               },
               child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                   width: 24,
                   height: 24,
-                  colorFilter: const ColorFilter.mode(
+                  colorFilter: ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
           ),
@@ -246,7 +250,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
               DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
             ),
           ),
-          const SizedBox(
+          Container(
             width: 24,
             height: 24,
           )

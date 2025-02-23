@@ -1,6 +1,6 @@
+import 'package:daepiro/data/model/request/community_check_current_location_request.dart';
 import 'package:daepiro/data/model/request/community_comment_post_request.dart';
 import 'package:daepiro/data/model/request/community_disaster_edit_request.dart';
-import 'package:daepiro/data/model/request/community_writing_edit_request.dart';
 import 'package:daepiro/data/model/response/community/community_writing_edit_response.dart';
 import 'package:daepiro/data/model/response/report_request.dart';
 import 'package:daepiro/data/model/request/set_town_certificate_request.dart';
@@ -11,6 +11,7 @@ import 'package:daepiro/data/model/response/community/disaster_response.dart';
 import 'package:daepiro/data/model/response/community/town_certificate_response.dart';
 import 'package:daepiro/domain/repository/community_repository.dart';
 import 'package:dio/src/multipart_file.dart';
+import '../model/response/community/community_check_location_response.dart';
 import '../model/response/community/community_disaster_edit_response.dart';
 import '../model/response/community/community_dongnae_content_detail_response.dart';
 import '../model/response/community/community_dongnae_content_response.dart';
@@ -174,6 +175,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
       required bool visibility,
       required double longitude,
       required double latitude,
+      required String dongne,
       required List<MultipartFile> attachFileList}) async {
     try {
       return await _service.setArticleData(
@@ -184,6 +186,7 @@ class CommunityRepositoryImpl implements CommunityRepository {
           visibility: visibility,
           longitude: longitude,
           latitude: latitude,
+          dongne: dongne,
           attachFileList: attachFileList);
     } catch (e) {
       print('게시글 작성중 오류 발생 $e');
@@ -224,10 +227,26 @@ class CommunityRepositoryImpl implements CommunityRepository {
   }
 
   @override
-  Future<CommunityWritingEditResponse> editArticle({required CommunityWritingEditRequest communityWritingEditRequest, required List<MultipartFile> attachFileList, required int id}) async {
+  Future<CommunityWritingEditResponse> editArticle(
+      {
+        required int id,
+        required String articleType,
+        required String articleCategory,
+        required bool visibility,
+        required String title,
+        required String body,
+        required List<MultipartFile> attachFileList,
+      }) async {
     try {
-      return await _service.editArticle(id: id, communityWritingEditRequest: communityWritingEditRequest, attachFileList: attachFileList);
-    } catch(e) {
+      return await _service.editArticle(
+          id: id,
+         articleType: articleType,
+          articleCategory: articleCategory,
+          visibility: visibility,
+          title: title,
+          body: body,
+          attachFileList: attachFileList);
+    } catch (e) {
       print('게시글 편집 에러 발생 $e');
       rethrow;
     }
@@ -237,8 +256,18 @@ class CommunityRepositoryImpl implements CommunityRepository {
   Future<BasicResponse> deleteArticle({required int id}) async {
     try {
       return await _service.deleteArticle(id: id);
-    } catch(e) {
+    } catch (e) {
       print('게시글 삭제 에러 발생 $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CheckShowCurrentLocation> checkShowCurrentLocation({required CommunityCheckCurrentLocationRequest communityCheckCurrentLocationRequest}) async {
+    try {
+      return await _service.checkShowCurrentLocation(communityCheckCurrentLocationRequest: communityCheckCurrentLocationRequest);
+    } catch(e) {
+      print('현위치 판단 에러 발생 $e');
       rethrow;
     }
   }

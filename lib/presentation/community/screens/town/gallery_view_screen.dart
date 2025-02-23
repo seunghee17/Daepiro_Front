@@ -1,35 +1,129 @@
-import 'package:image_picker/image_picker.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
+
 import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../data/model/Album.dart';
 import '../../../../data/model/selected_image.dart';
 
-class GalleryViewScreen extends ConsumerStatefulWidget {
-  final List<SelectedImage> selectedImages;
-  const GalleryViewScreen({super.key, required this.selectedImages});
+final selectedImagesProvider = StateNotifierProvider<SelectedImagesNotifier, List<SelectedImage>>((ref) {
+  return SelectedImagesNotifier();
+});
 
-  @override
-  _GalleryViewScreenState createState() => _GalleryViewScreenState();
+class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
+  SelectedImagesNotifier() : super([]);
+
+  int totalSize = 0;
+
+  //선택 제거 상태를 제어하기 위함
+  Future<void> selectImage(SelectedImage image, int attachImages, BuildContext context) async {
+    final addedImageCheck = state.any((e) => _addedImageCheck(image, e));
+    final totalLength = state.length + attachImages;
+
+    if (addedImageCheck) {
+      final file = await image.entity?.originFile;
+      if (file != null) {
+        totalSize -= await file.length();
+      }
+      state = state.where((e) => !_addedImageCheck(image, e)).toList();
+    } else {
+      //개수 제한
+      if(totalLength >= 3) return;
+
+      //크기 제한
+      final file = await image.entity?.originFile;
+      if(file != null) {
+        final fileSize = await file.length();
+        if(totalSize + fileSize > 10 * 1024 * 1024) {
+          failSnackbar(context);
+          return;
+        }
+      }
+      state = [...state, image];
+    }
+  }
+
+  bool _addedImageCheck(SelectedImage image, SelectedImage compareImage) {
+    return image.entity == compareImage.entity && image.file == compareImage.file;
+  }
+
+  void failSnackbar(BuildContext context) {
+    final overlay = Overlay.of(context);
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 50.0,
+        left: 20.0,
+        right: 20.0,
+        child: Material(
+          elevation: 8.0,
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.black.withOpacity(0.6),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    '파일 용량이 10MB를 초과할 수 없습니다.',
+                    style: DaepiroTextStyle.body_2_m
+                        .copyWith(color: DaepiroColorStyle.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    overlay.insert(overlayEntry);
+    Future.delayed(const Duration(seconds: 5), () {
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
+    });
+  }
 }
 
-class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with WidgetsBindingObserver {
-  List<AssetPathEntity>? _paths;
-  List<Album> _albums = [];
-  late List<AssetEntity> _images;
+class GalleryViewScreen extends ConsumerStatefulWidget {
+  GalleryViewScreen({Key? key});
+
+  @override
+  _PhotoSelectScreenState createState() => _PhotoSelectScreenState();
+}
+
+class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
+  List<AssetPathEntity>? _paths; //모든 파일 정보
+  List<Album> _albums = []; //드롭다운 앨범 목록(우리 앱에선 살짝 의미 없음)
+  late List<AssetEntity> _images = []; //앨범 이미지 목록
   int _currentPage = 0;
   late Album _currentAlbum;
   final _scrollController = ScrollController();
 
+  @override
+  void initState() {
+    super.initState();
+    getAlbum();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
   Future<void> getAlbum() async {
     _paths = await PhotoManager.getAssetPathList(
-      type: RequestType.all,
+        onlyAll: true, //전체보기만 불러온다
+        type: RequestType.image //불러올 파일 형식 이미지
     );
 
     _albums = _paths!.map((e) {
@@ -38,158 +132,104 @@ class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with Widg
         name: e.isAll ? '모든 사진' : e.name,
       );
     }).toList();
-
     await getPhotos(_albums[0], albumChange: true);
   }
 
-  List<AssetEntity> _isAllCheck(List<AssetEntity> loadImages, bool isAll) {
-    if (isAll) {
-      const dummy = AssetEntity(id: 'camera', typeInt: 0, width: 0, height: 0);
-      loadImages.insert(0, dummy);
-    }
-    return loadImages;
-  }
 
 
-  Future<void> getPhotos(
-      Album album, {
-        bool albumChange = false,
-      }) async {
+  //앨범의 이미지 목록
+  // 이 페이지에 처음 진입했을때 & 스크롤이 끝에 다다랐을때 호출된다
+  Future<void> getPhotos(Album album, {bool albumChange = false}) async {
     _currentAlbum = album;
     albumChange ? _currentPage = 0 : _currentPage++;
 
-    final getAlbum = _paths!.singleWhere((element) => element.id == album.id);
-    final loadImages = await getAlbum.getAssetListPaged(
+    final loadImages = await _paths!
+        .singleWhere((AssetPathEntity e) => e.id == album.id)
+        .getAssetListPaged(
       page: _currentPage,
       size: 20,
     );
 
     setState(() {
       if (albumChange) {
-        _images = _isAllCheck(loadImages, false);
+        _images = _isAllCheck(loadImages, reset: true);
       } else {
-        _images.addAll(loadImages);
+        _images.addAll(_isAllCheck(loadImages, reset: false));
       }
     });
   }
 
-  Future<int> _getAssetSize(AssetEntity entity) async {
-    final file = await entity.originFile;
-    if (file != null) {
-      return await file.length(); // 파일 크기를 바이트 단위로 반환
-    }
-    return 0; // 파일이 없으면 0 반환
-  }
+// 카메라 버튼을 포함하는 함수
+  List<AssetEntity> _isAllCheck(List<AssetEntity> loadImages, {required bool reset}) {
+    const dummy = AssetEntity(id: 'camera', typeInt: 0, width: 0, height: 0);
 
-  void _selectImage(SelectedImage image) async {
-    final viewModel = ref.read(communityTownProvider.notifier);
-    final sizeInBytes = await _getAssetSize(image.entity!);
-    final sizeInMB = sizeInBytes / (1024 * 1024);
-    if(sizeInMB > 300) {
-      print('선택한 파일이 300MB초과');
-      return;
-    }
-
-    final addedImageCheck = viewModel.addedImageCheck(image);
-
-    if (addedImageCheck) {
-      viewModel.removeImageFromGallery(image, false);
+    if (reset) {
+      return [dummy, ...loadImages];
     } else {
-      if(ref.read(communityTownProvider).selectedImages.length < 3) {
-        final item = SelectedImage(entity: image.entity, file: image.file);
-        viewModel.addImageFromGallery(item);
-      }
+      return loadImages;
     }
-
-    if (!addedImageCheck && _scrollController.hasClients) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    getAlbum();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch(state) {
-      case AppLifecycleState.resumed:
-        getAlbum();
-      default:
-        break;
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(communityTownProvider);
+    final selectedImages = ref.watch(selectedImagesProvider);
+    final attachedImages = ref.watch(communityTownProvider).attachedImages;
+    int totalLength = selectedImages.length + attachedImages.length;
+
     return Scaffold(
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              ref.read(communityTownProvider.notifier).setImageFromGallery([]);
-                              GoRouter.of(context).pop();
-                            },
-                            child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
-                                width: 24,
-                                height: 24,
-                                colorFilter: const ColorFilter.mode(
-                                    DaepiroColorStyle.g_900, BlendMode.srcIn)),
-                          ),
-                          const Spacer(),
-                          Text('${state.selectedImages.length}/3', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-                          const Spacer(),
-                          GestureDetector(
-                              onTap: () async {
-                                GoRouter.of(context).pop();
-                              },
-                              child: Text('추가', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_400),))
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: NotificationListener<ScrollNotification>(
+            headerWidget(totalLength),
+            Expanded(
+                child:
+                NotificationListener<ScrollNotification>(
                     onNotification: (ScrollNotification scroll) {
-                      final scrollPixels = scroll.metrics.pixels /
-                          scroll.metrics.maxScrollExtent;
-                      if (scrollPixels > 0.7) getPhotos(_currentAlbum);
-
+                      final scrollPixels = scroll.metrics.pixels / scroll.metrics.maxScrollExtent;
+                      if(scrollPixels > 0.7)
+                        getPhotos(_currentAlbum);
                       return false;
                     },
                     child: _paths == null
-                        ? const Center(child: CircularProgressIndicator())
-                        : GridPhoto(
-                      images: _images,
-                      selectedImages: state.selectedImages,
-                      onTap: _selectImage,
-                    ),
-                  ),
-                ),
-              ],
+                        ? Center(child: CircularProgressIndicator())
+                        :gridPhoto(
+                        images: _images,
+                        selectedImages: selectedImages,
+                        onTap: (image) => ref.read(selectedImagesProvider.notifier).selectImage(image, attachedImages.length, context))
+                )
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget headerWidget(int totalLength) {
+   return Container(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                GoRouter.of(context).pop();
+              },
+              child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+                  width: 24,
+                  height: 24,
+                  colorFilter: ColorFilter.mode(
+                      DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
+            Spacer(),
+            Text('${totalLength}/3', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
+            Spacer(),
+            GestureDetector(
+                onTap: () {
+                  ref.read(communityTownProvider.notifier).setFinalFiles(ref.read(selectedImagesProvider));
+                  GoRouter.of(context).pop();
+                },
+                child: Text('추가', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_400),))
           ],
         ),
       ),
@@ -197,69 +237,80 @@ class _GalleryViewScreenState extends ConsumerState<GalleryViewScreen> with Widg
   }
 }
 
-class GridPhoto extends StatelessWidget {
+
+//갤러리 이미지 선택과 해제를 위한 item
+//_gridPhotoItem에서 selectedImages에 해당하면 dim처리와 카운팅
+//이미지 선택 해제 카메라로 이미지 가져오면 ontap 실행
+class gridPhoto extends ConsumerWidget {
   List<AssetEntity> images;
   List<SelectedImage> selectedImages;
   ValueChanged<SelectedImage> onTap;
 
-  GridPhoto({
+  gridPhoto({
     required this.images,
     required this.selectedImages,
     required this.onTap,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final picker = ImagePicker();
 
-  void _loadCamera() async {
+  void _loadCamera(BuildContext context) async {
     final file = await picker.pickImage(source: ImageSource.camera);
-    if (file != null) {
-      final item = SelectedImage(entity: null, file: file);
+    if(file != null) {
+      final item = SelectedImage(entity: null, file: file); //카메라로 가져온 이미지는 entiy가 널이다
       onTap(item);
+      GoRouter.of(context).pop();
     }
   }
 
   void _selectImage(AssetEntity e) {
-    if(selectedImages.length <=3) {
-      final item = SelectedImage(entity: e, file: null);
-      onTap(item);
-    }
+    final item = SelectedImage(entity: e, file: null);
+    onTap(item);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedImages = ref.watch(selectedImagesProvider);
+
     return GridView(
+      physics: const BouncingScrollPhysics(),
       gridDelegate:
       const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       children: images.map((e) {
-        if (e.id == 'camera') {
-          return _cameraButton();
+        if(e.id == 'camera') {
+          return _cameraButton(context);
         } else {
-          return _gridPhotoItem(e);
+          return _gridPhotoItem(e, selectedImages, ref);
         }
       }).toList(),
     );
   }
 
-  Widget _cameraButton() {
+  Widget _cameraButton(BuildContext context) {
     return GestureDetector(
-      onTap: _loadCamera,
+      onTap: () async {
+        var status = await Permission.camera.status;
+        if(status.isGranted) {
+          _loadCamera(context);
+        } else {
+          await openAppSettings();
+        }
+      },
       child: Container(
-        color: Colors.black,
-        child: const Icon(
+        child: Icon(
           CupertinoIcons.camera,
-          color: Colors.white,
           size: 50,
         ),
       ),
     );
   }
 
-  Widget _gridPhotoItem(AssetEntity e) {
+  Widget _gridPhotoItem(AssetEntity e, List<SelectedImage> selectedImages, WidgetRef ref) {
+    final isSelected = selectedImages.any((element) => element.entity == e);
+
     return GestureDetector(
-      onTap: () {
-        _selectImage(e);
-      },
+      onTap: () => _selectImage(e),
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Stack(
@@ -267,53 +318,59 @@ class GridPhoto extends StatelessWidget {
             Positioned.fill(
               child: AssetEntityImage(
                 e,
-                isOriginal: false,
+                isOriginal: false, //썸네일 로드
                 fit: BoxFit.cover,
               ),
             ),
-            _dimContainer(e),
-            _selectNumberContainer(e)
+            _dimContainer(isSelected),
+            _selectNumberContainer(e, isSelected),
+            //동영상일 경우 상징 표시만 해주기
+            if(e.type == AssetType.video)
+              Positioned(
+                child: Icon(
+                  Icons.play_circle_fill,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              )
           ],
         ),
       ),
     );
   }
 
-  Widget _dimContainer(AssetEntity e) {
-    final isSelected = selectedImages.any((element) => element.entity == e);
+  //선택함을 표시
+  Widget _dimContainer(bool isSelected) {
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? Colors.black38 : Colors.transparent,
+          color: isSelected ? Colors.black38 : Colors.transparent
         ),
       ),
     );
   }
 
-    Widget _selectNumberContainer(AssetEntity e) {
+  //체크 박스
+  Widget _selectNumberContainer(AssetEntity e, bool isSelected) {
     final isSelected = selectedImages.any((element) => element.entity == e);
+
     return Positioned(
-      right: 8,
+        right: 8,
         top: 8,
         child: Checkbox(
           visualDensity: VisualDensity.compact,
-          side: const BorderSide(color: Colors.transparent),
+          side: BorderSide(color: Colors.transparent),
           activeColor: DaepiroColorStyle.o_500,
           checkColor: Colors.white,
-          fillColor: WidgetStateProperty.resolveWith((states) {
-            if(states.contains(WidgetState.selected)) {
+          fillColor: MaterialStateProperty.resolveWith((states) {
+            if(states.contains(MaterialState.selected)) {
               return DaepiroColorStyle.o_500;
             }
             return DaepiroColorStyle.g_75;
           }),
           value: isSelected,
           onChanged: (value) {
-            if(value == true) {
-              _selectImage(e);
-            } else {
-              final item = SelectedImage(entity: e, file: null);
-                  onTap(item);
-            }
+            onTap(SelectedImage(entity: e, file: null));
           },
         )
     );

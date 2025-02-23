@@ -1,13 +1,15 @@
 import 'package:daepiro/data/model/response/basic_response.dart';
+import 'package:daepiro/data/model/response/mypage/get_mypage_announcement_detail_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-
 import '../../model/request/set_mypage_address_notification_request.dart';
 import '../../model/request/set_mypage_disaster_types_request.dart';
 import '../../model/request/set_mypage_inquires_request.dart';
 import '../../model/request/set_mypage_profiles_request.dart';
+import '../../model/request/withdraw_user_request.dart';
 import '../../model/response/mypage/get_mypage_address_response.dart';
+import '../../model/response/mypage/get_mypage_announcements_list_response.dart';
 import '../../model/response/mypage/get_mypage_articles_response.dart';
 import '../../model/response/mypage/get_mypage_disaster_types_response.dart';
 import '../../model/response/mypage/get_mypage_notification_setting_response.dart';
@@ -41,14 +43,12 @@ abstract class MyPageService {
   });
 
   @POST('/v1/my-page/inquires')
-  Future<BasicResponse> setInquires({
-    @Body() required SetMyPageInquiresRequest setMypageInquiresRequest
-});
+  Future<BasicResponse> setInquires(
+      {@Body() required SetMyPageInquiresRequest setMypageInquiresRequest});
 
   @PUT('/v1/my-page/profiles')
-  Future<BasicResponse> setMyProfiles({
-    @Body() required SetMyPageProfilesRequest setMypageProfilesRequest
-});
+  Future<BasicResponse> setMyProfiles(
+      {@Body() required SetMyPageProfilesRequest setMypageProfilesRequest});
 
   @PUT('/v1/my-page/notifications/{type}')
   Future<BasicResponse> setNotificationSetting({
@@ -56,13 +56,27 @@ abstract class MyPageService {
   });
 
   @PUT('/v1/my-page/disaster-types')
-  Future<BasicResponse> setDisasterTypes({
-    @Body() required SetMypageDisasterTypesRequest setMypageDisasterTypesRequest
-  });
+  Future<BasicResponse> setDisasterTypes(
+      {@Body()
+      required SetMypageDisasterTypesRequest setMypageDisasterTypesRequest});
 
   @PUT('/v1/my-page/addresses')
-  Future<BasicResponse> setAddressNotification({
-    @Body() required SetMypageAddressNotificationRequest setMypageAddressNotificationRequest
-  });
+  Future<BasicResponse> setMyAddress(
+      {@Body()
+      required SetMypageAddressNotificationRequest
+          setMypageAddressNotificationRequest});
 
+  @DELETE('/v1/users/{reason}')
+  Future<BasicResponse> withDrawUserInfo({
+    @Path('reason') required String reason,
+    @Body() required WithDrawRequest withDrawRequest
+});
+
+  @GET('/v1/my-page/announcement')
+  Future<AnnouncementListResponse> getAnnouncements();
+
+  @GET('/v1/my-page/announcement/{id}')
+  Future<AnnouncementDetailResponse> getAnnouncementDetail({
+    @Path('id') required String id,
+  });
 }

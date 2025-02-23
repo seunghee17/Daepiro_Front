@@ -41,9 +41,9 @@ sealed class CommunityTownState with _$CommunityTownState {
     @Default(0) int parentCommentId,
 
     //대댓글을 선택한지에 대한 여부
-    @Default(false) isChildCommentState, //moreinfo를 누를때부터 true로 활성화됨
-    @Default(0) int editChildCommentId, //2
-    @Default(false) bool isEditChildCommentState, //1
+    @Default(false) isChildCommentState,
+    @Default(0) int editChildCommentId,
+    @Default(false) bool isEditChildCommentState,
 
 
     //댓글 수정을 위한 상태 데이터
@@ -58,9 +58,9 @@ sealed class CommunityTownState with _$CommunityTownState {
     @Default(0.0) double latitude,
     @Default(0.0) double longitude,
 
-    //갤러리
-    @Default([]) List<SelectedImage> selectedImages,
-
+    //사진 선택에 대한 상태
+    @Default([]) List<SelectedImage> attachedImages,
+    @Default([]) List<SelectedImage> choiceImages,
 
 
   }) = _CommunityTownState;

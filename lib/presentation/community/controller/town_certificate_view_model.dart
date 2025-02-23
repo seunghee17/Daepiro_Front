@@ -19,7 +19,6 @@ class TownCertificateViewModel extends StateNotifier<TownCertificateState> {
 
   Future<void> initState() async {
     await getLocationPermissionStatus();
-    await getUserLocation();
   }
 
   Future<void> getLocationPermissionStatus() async {
@@ -45,6 +44,7 @@ class TownCertificateViewModel extends StateNotifier<TownCertificateState> {
         longitude: position.longitude,
       );
     }
+    return;
   }
 
   void setUserLatitude(double latitude, double longitude) {
@@ -54,10 +54,11 @@ class TownCertificateViewModel extends StateNotifier<TownCertificateState> {
     );
   }
 
-  Future<void> setCertificate(List<String> townLongAddressList, String selectAddress) async {
+  Future<void> setCertificate(List<String> townLongAddressList) async {
+    await getUserLocation();
     var certificateAddress = '';
     for(String address in townLongAddressList) {
-      if(address.contains(selectAddress)) {
+      if(address.contains(state.selectAddress)) {
         certificateAddress = address;
       }
     }
@@ -92,5 +93,20 @@ class TownCertificateViewModel extends StateNotifier<TownCertificateState> {
 
   void setSelectAddress(String value) {
     state = state.copyWith(selectAddress: value);
+  }
+
+  void clearState() {
+    state = state.copyWith(
+      certificateAddress: '',
+        isCertificate: false,
+        isPermissionGrant: true,
+        isSuccessCertificate: false,
+        firstStep: true,
+        secondStep: false,
+        isDialogOpen: false,
+        latitude: 0.0,
+        longitude: 0.0,
+        selectAddress: ''
+    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../data/model/request/onboarding_info_request.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
+import '../../const/utils.dart';
 import '../state/onboarding_state.dart';
 
 final onboardingStateNotifierProvider =
@@ -16,21 +17,21 @@ final onboardingStateNotifierProvider =
 
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
   final Ref ref;
-  final FlutterSecureStorage storage = const FlutterSecureStorage();
+  final FlutterSecureStorage storage = FlutterSecureStorage();
   Set<String> get inputJusoList => _inputJusoList;
-  Set<String> _inputJusoList = <String>{};
+  Set<String> _inputJusoList = Set<String>();
 
 
   OnboardingViewModel(this.ref) : super(OnboardingState());
 
   void setNameState(String name) {
-    if (_checkForNameRule(name)) {
+    if (checkForNameRule(name)) {
       state = state.copyWith(
-          nameState: '*이름은 한글만 입력 가능해요.', completeSetName: false);
+          nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
     } else if (name.length > 6) {
       state = state.copyWith(
-          nameState: '*최대 6자까지 작성 가능해요.', completeSetName: false);
-    } else if (name.length <= 6 && !_checkForNameRule(name) && name != '') {
+          nameState: '*최대 6자까지 작성 가능해주세요.', completeSetName: false);
+    } else if (name.length <= 6 && !checkForNameRule(name) && name != '') {
       state = state.copyWith(nameState: '', completeSetName: true);
     }
   }
@@ -41,16 +42,15 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   void updateNickName(String nickName) {
     state = state.copyWith(userNickName: nickName);
-
   }
 
   Future<void> setNickNameState(String nickName) async {
     if (nickName.length > 10) {
       state = state.copyWith(
-          nicknameState: '*최대 10글자만 입력 가능합니다.', completeSetNickName: false);
-    } else if (!_checkForSpecialCharacter(nickName)) {
+          nicknameState: '*최대 10자까지 작성해주세요.', completeSetNickName: false);
+    } else if (!checkForSpecialCharacter(nickName)) {
       state = state.copyWith(
-          nicknameState: '*닉네임은 한글/영문/숫자만 입력 가능해요.',
+          nicknameState: '*닉네임은 한글/영문/숫자로 입력해주세요.',
           completeSetNickName: false);
     } else if (!await _checkNickName(nickName)) {
       //현재 닉네임이 중복됨
@@ -68,18 +68,6 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     } else {
       return false;
     }
-  }
-
-  //특수문자 판단용
-  bool _checkForSpecialCharacter(String text) {
-    final regex = RegExp(r'[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]');
-    return !regex.hasMatch(text);
-  }
-
-  //영문 판단용
-  bool _checkForNameRule(String text) {
-    final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}]', unicode: true);
-    return pattern.hasMatch(text);
   }
 
   Future<bool> _checkNickName(String nickname) async {
@@ -115,12 +103,11 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     ))).future);
   }
 
-  //보낸 주소 정보 받아서 로컬에 저장 주소를 처음 저장하는 부분
-  Future<void> storeUserAdresses() async {
+  //주소 저장과 이름 닉네임 저장
+  Future<void> storeSecureStorage() async {
     try {
-      final userAddresses =
-      await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
-      if (userAddresses.isNotEmpty) {
+      final userAddresses = await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
+      if (userAddresses.length > 0) {
         for (int i = 0; i < userAddresses.length; i++) {
           await storage.write(
               key: 'fullAddress_$i', value: userAddresses[i].fullAddress);
@@ -131,12 +118,11 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     } catch(e) {
       rethrow;
     }
-
   }
 
   Future<String> getFcmToken() async {
-    String? fcmToken = await FirebaseMessaging.instance.getToken();
-    return fcmToken ?? '';
+    String? _fcmToken = await FirebaseMessaging.instance.getToken();
+    return _fcmToken ?? '';
   }
 
   void setJusoNick(String firstNick, String secondNick) {
@@ -221,7 +207,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   //주소 검색 결과 초기화
   void initSearchHistory() {
-    _inputJusoList = <String>{};
+    _inputJusoList = Set<String>();
   }
 
   void setVisibleState(int index, bool value) {
@@ -237,21 +223,21 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
       TextEditingController nickController, int index) {
     if (nickController.text.isEmpty) {
       if (index == 1) {
-        state = state.copyWith(firstJusoState: '*별명 설정은 필수입니다.');
+        state = state.copyWith(firstJusoState: '*별명은 필수로 입력해주세요.');
       } else {
-        state = state.copyWith(secondJusoState: '*별명 설정은 필수입니다.');
+        state = state.copyWith(secondJusoState: '*별명은 필수로 입력해주세요.');
       }
     } else if (nickController.text.length > 8) {
       if (index == 1) {
-        state = state.copyWith(firstJusoState: '*최대 8자까지 작성 가능해요.');
+        state = state.copyWith(firstJusoState: '*최대 8자까지 작성해주세요.');
       } else {
-        state = state.copyWith(secondJusoState: '*별명은 한글/영문/숫자만 가능합니다.');
+        state = state.copyWith(secondJusoState: '*별명은 한글/영문/숫자로 입력해주세요.');
       }
-    } else if (!_checkForSpecialCharacter(nickController.text)) {
+    } else if (!checkForSpecialCharacter(nickController.text)) {
       if (index == 1) {
-        state = state.copyWith(firstJusoState: '*별명은 한글/영문/숫자만 가능합니다.');
+        state = state.copyWith(firstJusoState: '*별명은 한글/영문/숫자로 입력해주세요.');
       } else {
-        state = state.copyWith(secondJusoState: '*별명은 한글/영문/숫자만 가능합니다.');
+        state = state.copyWith(secondJusoState: '*별명은 한글/영문/숫자로 입력해주세요.');
       }
     } else {
       if (index == 1) {

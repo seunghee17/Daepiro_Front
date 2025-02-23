@@ -182,6 +182,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: DaepiroColorStyle.g_900,
           onTapOutside: (event) =>
               FocusManager.instance.primaryFocus?.unfocus(),
           style: DaepiroTextStyle.body_1_m
@@ -231,6 +232,7 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: DaepiroColorStyle.g_900,
           onTapOutside: (event) =>
               FocusManager.instance.primaryFocus?.unfocus(),
           style: DaepiroTextStyle.body_1_m

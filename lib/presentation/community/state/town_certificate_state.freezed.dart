@@ -28,9 +28,7 @@ mixin _$TownCertificateState {
   double get longitude => throw _privateConstructorUsedError;
   String get selectAddress => throw _privateConstructorUsedError;
 
-  /// Create a copy of TownCertificateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TownCertificateStateCopyWith<TownCertificateState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,8 +63,6 @@ class _$TownCertificateStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TownCertificateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -155,8 +151,6 @@ class __$$TownCertificateStateImplCopyWithImpl<$Res>
       $Res Function(_$TownCertificateStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TownCertificateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -312,9 +306,7 @@ class _$TownCertificateStateImpl implements _TownCertificateState {
       longitude,
       selectAddress);
 
-  /// Create a copy of TownCertificateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TownCertificateStateImplCopyWith<_$TownCertificateStateImpl>
@@ -336,14 +328,13 @@ abstract class _TownCertificateState implements TownCertificateState {
       final double longitude,
       final String selectAddress}) = _$TownCertificateStateImpl;
 
-//인증진행하려 고른 주소
-  @override
-  String get certificateAddress; //인증 여부
-  @override
-  bool get isCertificate; //권한 허용 여부
-  @override
-  bool get isPermissionGrant; //인증 성공 여부
-  @override
+  @override //인증진행하려 고른 주소
+  String get certificateAddress;
+  @override //인증 여부
+  bool get isCertificate;
+  @override //권한 허용 여부
+  bool get isPermissionGrant;
+  @override //인증 성공 여부
   bool get isSuccessCertificate;
   @override
   bool get firstStep;
@@ -357,11 +348,8 @@ abstract class _TownCertificateState implements TownCertificateState {
   double get longitude;
   @override
   String get selectAddress;
-
-  /// Create a copy of TownCertificateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TownCertificateStateImplCopyWith<_$TownCertificateStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
