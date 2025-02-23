@@ -1,5 +1,6 @@
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
+import 'package:daepiro/presentation/home/main/notification_screen.dart';
 import 'package:daepiro/presentation/information/contents/disaster_contents_screen.dart';
 import 'package:daepiro/presentation/information/contents/news_screen.dart';
 import 'package:daepiro/presentation/information/emergency_response/emergency_response_screen.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../data/model/response/community/community_dongnae_content_detail_response.dart';
 import '../data/model/response/information/behavior_list_response.dart';
+import '../data/model/selected_image.dart';
 import '../data/model/response/sponsor/sponsor_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_report_screen.dart';
@@ -59,13 +61,13 @@ final _communityNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'community'
 final _informationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'information');
 final _sponsorNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sponsor');
 final _mypageNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'mypage');
-final FlutterSecureStorage storage = FlutterSecureStorage();
+const FlutterSecureStorage storage = FlutterSecureStorage();
 
 //중간에 토큰 만료시 로직은 개선해야함
 Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
   String current = state.uri.path;
   if (current != '/splash') {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     String? accessToken = await storage.read(key: 'accessToken');
     String? refreshToken = await storage.read(key: 'refreshToken');
     if ((accessToken == null && refreshToken == null) ||
@@ -87,11 +89,11 @@ final goRouteProvider = Provider((ref) {
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => SplashScreen(),
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => LoginScreen(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
           path: '/onboarding_terms/:id',
@@ -101,7 +103,7 @@ final goRouteProvider = Provider((ref) {
           }),
       GoRoute(
           path: '/community_rule',
-          builder: (context, state) => CommunityRuleScreen()),
+          builder: (context, state) => const CommunityRuleScreen()),
       GoRoute(
           path: '/community_town_detail',
           builder: (context, state) {
@@ -239,6 +241,20 @@ final goRouteProvider = Provider((ref) {
         builder: (context, state) {
           return NewsScreen(url: Uri.decodeComponent(state.pathParameters['url'] ?? ""));
         }),
+      GoRoute(
+        path: '/disastersHistory',
+        builder: (context, state) => const DisastersHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/disasterDetail',
+        builder: (context, state) => DisasterDetailScreen(
+            extra: state.extra as Disasters
+        ),
+      ),
+      GoRoute(
+        path: '/notification',
+        builder: (context, state) => const NotificationScreen(),
+      ),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -251,19 +267,7 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                     path: '/home',
-                    builder: (context, state) => HomeScreen(),
-                    routes: [
-                      GoRoute(
-                        path: 'disastersHistory',
-                        builder: (context, state) => DisastersHistoryScreen(),
-                      ),
-                      GoRoute(
-                        path: 'disasterDetail',
-                        builder: (context, state) => DisasterDetailScreen(
-                            extra: state.extra as Disasters
-                        ),
-                      ),
-                    ]
+                    builder: (context, state) => const HomeScreen(),
                 ),
               ],
             ),
@@ -294,7 +298,7 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                   path: '/sponsor',
-                  builder: (context, state) => SponsorScreen(),
+                  builder: (context, state) => const SponsorScreen(),
                 ),
 
               ],

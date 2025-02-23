@@ -10,8 +10,8 @@ class PopularPost {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['category'] = this.category;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['category'] = category;
     return data;
   }
 }

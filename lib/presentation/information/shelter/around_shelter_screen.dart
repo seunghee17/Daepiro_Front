@@ -1,7 +1,6 @@
 import 'package:daepiro/data/model/response/information/around_shelter_list_response.dart';
 import 'package:daepiro/presentation/information/component/item_around_shelter.dart';
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -34,98 +33,97 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: DaepiroColorStyle.white,
-            child: Column(
-              children: [
-                Stack(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: DaepiroColorStyle.white,
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).pop();
+                    },
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(top: 4, bottom: 4, left: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/icon_arrow_left.svg',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 14),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "주변 대피소 목록",
+                      style: DaepiroTextStyle.h6.copyWith(
+                        color: DaepiroColorStyle.g_800,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        GoRouter.of(context).pop();
-                      },
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(12),
-                        margin: EdgeInsets.only(top: 4, bottom: 4, left: 12),
-                        child: SvgPicture.asset(
-                          'assets/icons/icon_arrow_left.svg',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 14),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "주변 대피소 목록",
-                        style: DaepiroTextStyle.h6.copyWith(
-                          color: DaepiroColorStyle.g_800,
-                        ),
-                      ),
-                    ),
+                    for (int index=0;index<Const.disasterTypeList.length;index++)
+                      Row(
+                        children: [
+                          SecondaryChip(
+                              isSelected: index == _selectedDisasterType,
+                              text: Const.disasterTypeList[index],
+                              onPressed: () {
+                                setState(() {
+                                  _selectedDisasterType = index;
+
+                                  if (index == 0) {
+                                    shelterList = widget.extra.temperatureShelterList;
+                                  } else if (index == 1) {
+                                    shelterList = widget.extra.earthquakeShelterList;
+                                  } else if (index == 2) {
+                                    shelterList = widget.extra.tsunamiShelterList;
+                                  } else if (index == 3) {
+                                    shelterList = widget.extra.civilShelterList;
+                                  }
+                                });
+                              }
+                          ),
+                          const SizedBox(width: 8)
+                        ],
+                      )
                   ],
                 ),
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      for (int index=0;index<Const.disasterTypeList.length;index++)
-                        Row(
-                          children: [
-                            SecondaryChip(
-                                isSelected: index == _selectedDisasterType,
-                                text: Const.disasterTypeList[index],
-                                onPressed: () {
-                                  setState(() {
-                                    _selectedDisasterType = index;
-
-                                    if (index == 0) {
-                                      shelterList = widget.extra.temperatureShelterList;
-                                    } else if (index == 1) {
-                                      shelterList = widget.extra.earthquakeShelterList;
-                                    } else if (index == 2) {
-                                      shelterList = widget.extra.tsunamiShelterList;
-                                    } else if (index == 3) {
-                                      shelterList = widget.extra.civilShelterList;
-                                    }
-                                  });
-                                }
-                            ),
-                            const SizedBox(width: 8)
-                          ],
-                        )
-                    ],
-                  ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                decoration: BoxDecoration(
+                    color: DaepiroColorStyle.g_50,
+                    borderRadius: BorderRadius.circular(8)
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
-                      color: DaepiroColorStyle.g_50,
-                      borderRadius: BorderRadius.circular(8)
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/icons/icon_location_24.svg'),
-                      const SizedBox(width: 4),
-                      Text(
-                        widget.extra.address,
-                        style: DaepiroTextStyle.body_1_m.copyWith(
-                          color: DaepiroColorStyle.g_600,
-                        ),
-                      )
-                    ],
-                  ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/icon_location_24.svg'),
+                    const SizedBox(width: 4),
+                    Text(
+                      widget.extra.address,
+                      style: DaepiroTextStyle.body_1_m.copyWith(
+                        color: DaepiroColorStyle.g_600,
+                      ),
+                    )
+                  ],
                 ),
-                Expanded(
-                  child: ListView.builder(
+              ),
+              Expanded(
+                child: ListView.builder(
                     itemCount: shelterList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemAroundShelter(
@@ -138,10 +136,9 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                           endLongitude: shelterList[index].longitude ?? 0
                       );
                     }
-                  ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),

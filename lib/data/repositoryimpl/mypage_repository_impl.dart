@@ -34,7 +34,7 @@ class MyPageRepositoryImpl implements MyPageRepository {
     try {
       return await _service.getMyProfiles();
     } catch(e) {
-      print('프로필 조회 오류 발생 ${e}');
+      print('프로필 조회 오류 발생 $e');
       rethrow;
     }
   }

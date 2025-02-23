@@ -5,7 +5,7 @@ import '../../../data/model/response/onboarding/nickname_check_response.dart';
 final checkNickNameUseCaseProvider =
     FutureProvider.family<NicknameCheckResponse, CheckNickNameUseCase>(
         (ref, request) async {
-  final repository = await ref.watch(onboardingRepositoryProvider);
+  final repository = ref.watch(onboardingRepositoryProvider);
   return await repository.checkNickName(nickname: request.nickName);
 });
 

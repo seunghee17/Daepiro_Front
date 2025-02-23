@@ -10,7 +10,7 @@ class JusoRepositoryImpl extends JusoRepository {
     try {
       final jusoResponse = await _service.getJusoList(keyword: inputJuso, currentPage: currentPage);
       final results = jusoResponse.results;
-      Set<String> jusoList = Set();
+      Set<String> jusoList = {};
       if(results == null || results.juso == null) {
         return [];
       }

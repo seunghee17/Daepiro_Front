@@ -93,7 +93,9 @@ dependencies:
 
   # Webview
   flutter_inappwebview: ^5.7.2
-  webview_flutter: ^4.0.0
+  # dropdown button
+  dropdown_button2: ^2.3.9
+
 
 
 dev_dependencies:

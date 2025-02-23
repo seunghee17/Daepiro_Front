@@ -27,11 +27,11 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
       );
 
       state = state.copyWith(
-        sponsorList: response.data ?? []
+        sponsorList: response.data ?? [],
+        isLoading: false
       );
     } catch (error) {
       print('후원목록 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -42,9 +42,23 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
           getCheerCommentListUsecaseProvider(GetCheerCommentListUsecase()).future
       );
 
-      state = state.copyWith(
-          cheerCommentList: response.data ?? []
-      );
+      if (response.code == 1000) {
+        if (response.data!.isNotEmpty) {
+          final size = response.data!.length;
+          final scrollList1 = List.generate(200, (index) {
+            return response.data![index % size~/2].content ?? "";
+          });
+          final scrollList2 = List.generate(200, (index) {
+            return response.data![(size~/2) + (index%(size-(size~/2)))].content ?? "";
+          });
+
+          state = state.copyWith(
+              cheerCommentList: response.data ?? [],
+            scrollCommentList1: scrollList1,
+            scrollCommentList2: scrollList2,
+          );
+        }
+      }
     } catch (error) {
       print('응원메세 조회 에러: $error');
       state = state.copyWith(isLoading: false);

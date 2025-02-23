@@ -1,4 +1,3 @@
-import 'package:daepiro/presentation/const/common_disaster_list.dart';
 import 'package:daepiro/presentation/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';

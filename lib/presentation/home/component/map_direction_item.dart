@@ -41,13 +41,13 @@ class MapDirectionItem extends StatelessWidget {
         String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
         String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
 
-        url = "nmap://route/walk?slat=${startLatitude}&slng=${startLongitude}&sname=${encodedStartAddress}&dlat=${endLatitude}&dlng=${endLongitude}&dname=${encodedEndAddress}";
+        url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
         storeUrl = "com.nhn.android.nmap";
       } else if (type == "kakao") {
-        url = "kakaomap://route?sp=${startLatitude},${startLongitude}&ep=${endLatitude},${endLongitude}&by=FOOT";
+        url = "kakaomap://route?sp=$startLatitude,$startLongitude&ep=$endLatitude,$endLongitude&by=FOOT";
         storeUrl = "net.daum.android.map";
       } else {
-        url = "tmap://route?startx=${startLongitude}&starty=${startLatitude}&goalx=${endLongitude}&goaly=${endLatitude}&reqCoordType=WGS84&resCoordType=WGS84";
+        url = "tmap://route?startx=$startLongitude&starty=$startLatitude&goalx=$endLongitude&goaly=$endLatitude&reqCoordType=WGS84&resCoordType=WGS84";
         storeUrl = "com.skt.tmap.ku";
       }
 
@@ -79,7 +79,7 @@ class MapDirectionItem extends StatelessWidget {
         onClick();
       },
       child: Container(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
             color: DaepiroColorStyle.g_50,
             borderRadius: BorderRadius.circular(4)

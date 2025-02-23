@@ -12,10 +12,10 @@ class SetMyPageInquiresRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['content'] = this.content;
-    data['email'] = this.email;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['content'] = content;
+    data['email'] = email;
     return data;
   }
 }

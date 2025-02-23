@@ -1,6 +1,5 @@
 import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
 import 'package:daepiro/presentation/const/const.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';

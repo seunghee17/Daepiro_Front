@@ -14,7 +14,7 @@ class OnboardingInfoResponse {
     if (json['data'] != null) {
       data = <Adress>[];
       json['data'].forEach((v) {
-        data!.add(new Adress.fromJson(v));
+        data!.add(Adress.fromJson(v));
       });
     }
     path = json['path'];
@@ -22,14 +22,14 @@ class OnboardingInfoResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -48,10 +48,10 @@ class Adress {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['addressId'] = this.addressId;
-    data['fullAddress'] = this.fullAddress;
-    data['shortAddress'] = this.shortAddress;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['addressId'] = addressId;
+    data['fullAddress'] = fullAddress;
+    data['shortAddress'] = shortAddress;
     return data;
   }
 }

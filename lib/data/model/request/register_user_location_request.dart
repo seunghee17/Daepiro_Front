@@ -13,9 +13,9 @@ class RegisterUserLocationRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['longitude'] = this.longitude;
-    data['latitude'] = this.latitude;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['longitude'] = longitude;
+    data['latitude'] = latitude;
     return data;
   }
 }

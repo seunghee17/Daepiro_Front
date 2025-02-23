@@ -16,20 +16,20 @@ class HomeDisasterFeedResponse {
   HomeDisasterFeedResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 
@@ -37,12 +37,14 @@ class HomeDisasterFeedResponse {
 
 class Data {
   String? disasterType;
+  String? disasterTypeId;
   String? title;
   String? content;
   String? time;
 
   Data({
     this.disasterType,
+    this.disasterTypeId,
     this.title,
     this.content,
     this.time,
@@ -50,17 +52,19 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     disasterType = json['disasterType'];
+    disasterType = json['disasterTypeId'];
     title = json['title'];
     title = json['content'];
     time = json['time'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['disasterType'] = this.disasterType;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['time'] = this.time;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['disasterType'] = disasterType;
+    data['disasterType'] = disasterTypeId;
+    data['title'] = title;
+    data['content'] = content;
+    data['time'] = time;
     return data;
   }
 }

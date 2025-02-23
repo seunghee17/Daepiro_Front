@@ -5,7 +5,7 @@ import '../../repository/onboarding_repository.dart';
 
 final userAddressUseCaseProvider =
     FutureProvider.family<List<StoreAdress>, UserAddressUseCase>((ref, request) async {
-          final repository = await ref.watch(onboardingRepositoryProvider);
+          final repository = ref.watch(onboardingRepositoryProvider);
           return await repository.getUserAddress();
         });
 

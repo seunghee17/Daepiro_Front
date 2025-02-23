@@ -7,7 +7,7 @@ import '../../../data/model/response/community/community_article_write_response.
 final setCommunityArticleWritingUseCaseProvider =
 FutureProvider.family<CommunityArticleWritingResponse, CommunityArticleWritingUseCase>(
     (ref, request) async {
-      final repository = await ref.watch(communityWritingRepositoryProvider);
+      final repository = ref.watch(communityWritingRepositoryProvider);
       return await repository.setArticleData(
           articleCategory: request.articleCategory,
           title: request.title,

@@ -1,4 +1,3 @@
-import '../information/behavior_list_response.dart';
 
 class BehaviorTipsResponse {
   int? code;
@@ -18,20 +17,20 @@ class BehaviorTipsResponse {
   BehaviorTipsResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new BehaviorData.fromJson(json['data']) : null;
+    data = json['data'] != null ? BehaviorData.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -53,10 +52,10 @@ class BehaviorData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['disasterType'] = this.disasterType;
-    if (this.tips != null) {
-      data['tips'] = this.tips!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['disasterType'] = disasterType;
+    if (tips != null) {
+      data['tips'] = tips!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -74,9 +73,9 @@ class Tips {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['filter'] = this.filter;
-    data['tips'] = this.tips;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['filter'] = filter;
+    data['tips'] = tips;
     return data;
   }
 }

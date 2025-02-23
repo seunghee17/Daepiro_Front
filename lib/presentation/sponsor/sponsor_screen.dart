@@ -1,10 +1,9 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:daepiro/presentation/sponsor/component/item_cheer_keyword.dart';
 import 'package:daepiro/presentation/sponsor/component/item_sponsor_preview.dart';
-import 'package:daepiro/presentation/sponsor/sponsor_state.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -68,6 +67,157 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
   }
 
   @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(sponsorStateNotifierProvider);
+
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: DaepiroColorStyle.white,
+          child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+                  child: Text(
+                    "후원",
+                    style: DaepiroTextStyle.h6.copyWith(
+                      color: DaepiroColorStyle.g_800,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  width: double.infinity,
+                  color: DaepiroColorStyle.o_50,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "대피로",
+                              style: DaepiroTextStyle.h6.copyWith(
+                                color: DaepiroColorStyle.o_500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "와 함께\n응원의 한마디를 남겨보세요!",
+                              style: DaepiroTextStyle.h6.copyWith(
+                                color: DaepiroColorStyle.g_900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        controller: _scrollController1,
+                        child: Row(
+                            children: [
+                              for (int i=0;i<viewModel.scrollCommentList1.length;i++)
+                                Row(
+                                  children: [
+                                    ItemCheerKeyword(
+                                        text: viewModel.scrollCommentList1[i]
+                                    ),
+                                    const SizedBox(width: 8)
+                                  ],
+                                ),
+                            ]
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        controller: _scrollController2,
+                        child: Row(
+                            children: [
+                              for (int i=0;i<viewModel.scrollCommentList2.length;i++)
+                                Row(
+                                  children: [
+                                    ItemCheerKeyword(
+                                        text: viewModel.scrollCommentList2[i]
+                                    ),
+                                    const SizedBox(width: 8)
+                                  ],
+                                ),
+                            ]
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.push('/cheer');
+                          },
+                          child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "응원하기",
+                                  style: DaepiroTextStyle.body_2_m.copyWith(
+                                    color: DaepiroColorStyle.o_400,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                              ]
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                viewModel.isLoading
+                    ? Container(
+                    padding: const EdgeInsets.only(top: 60),
+                    child: const Center(child: CircularProgressIndicator())
+                )
+                    : Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    child: ListView.builder(
+                        itemCount: viewModel.sponsorList.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  context.push(
+                                      '/sponsorDetail',
+                                      extra: viewModel.sponsorList[index]
+                                  );
+                                },
+                                child: ItemSponsorPreview(
+                                  disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                  date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                  from: viewModel.sponsorList[index].sponsorName ?? "",
+                                  title: viewModel.sponsorList[index].title ?? "",
+                                  imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                ),
+                              ),
+                              const SizedBox(height: 12)
+                            ],
+                          );
+                        }
+                    ),
+                  ),
+                )
+              ]
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
   void dispose() {
     _scrollTimer1?.cancel();
     _scrollTimer2?.cancel();
@@ -75,153 +225,4 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
     _scrollController2.dispose();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final viewModel = ref.watch(sponsorStateNotifierProvider);
-
-    return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: DaepiroColorStyle.white,
-            child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
-                    child: Text(
-                      "후원",
-                      style: DaepiroTextStyle.h6.copyWith(
-                        color: DaepiroColorStyle.g_800,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                    width: double.infinity,
-                    color: DaepiroColorStyle.o_50,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "대피로",
-                                style: DaepiroTextStyle.h6.copyWith(
-                                  color: DaepiroColorStyle.o_500,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "와 함께\n응원의 한마디를 남겨보세요!",
-                                style: DaepiroTextStyle.h6.copyWith(
-                                  color: DaepiroColorStyle.g_900,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController1,
-                          child: Row(
-                              children: [
-                                for (int i=0;i<viewModel.cheerCommentList.length;i++)
-                                  Row(
-                                    children: [
-                                      ItemCheerKeyword(
-                                          text: viewModel.cheerCommentList[i].content ?? ""
-                                      ),
-                                      SizedBox(width: 8)
-                                    ],
-                                  ),
-                              ]
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController2,
-                          child: Row(
-                              children: [
-                                for (int i=0;i<viewModel.cheerCommentList.length;i++)
-                                  Row(
-                                    children: [
-                                      ItemCheerKeyword(
-                                          text: viewModel.cheerCommentList[i].content ?? ""
-                                      ),
-                                      const SizedBox(width: 8)
-                                    ],
-                                  ),
-                              ]
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              context.push('/cheer');
-                            },
-                            child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    "응원하기",
-                                    style: DaepiroTextStyle.body_2_m.copyWith(
-                                      color: DaepiroColorStyle.o_400,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                ]
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                      child: ListView.builder(
-                          itemCount: viewModel.sponsorList.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    context.push(
-                                        '/sponsorDetail',
-                                        extra: viewModel.sponsorList[index]
-                                    );
-                                  },
-                                  child: ItemSponsorPreview(
-                                    disasterType: viewModel.sponsorList[index].disasterType ?? "",
-                                    date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
-                                    from: viewModel.sponsorList[index].sponsorName ?? "",
-                                    title: viewModel.sponsorList[index].title ?? "",
-                                    imagePath: viewModel.sponsorList[index].thumbnail ?? "",
-                                  ),
-                                ),
-                                const SizedBox(height: 12)
-                              ],
-                            );
-                          }
-                      ),
-                    ),
-                  )
-                ]
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
 }

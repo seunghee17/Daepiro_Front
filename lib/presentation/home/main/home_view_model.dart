@@ -1,19 +1,17 @@
-import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/domain/usecase/home/get_behavior_tips_usecase.dart';
+import 'package:daepiro/domain/usecase/home/get_notifications_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
-import 'package:daepiro/domain/usecase/information/get_behavior_list_usecase.dart';
 import 'package:daepiro/presentation/home/main/home_state.dart';
+import 'package:daepiro/route/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
@@ -25,19 +23,18 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final list = List.generate(5, (_) => <PopularPost>[]);  // 빈 리스트 5개 생성
     state = state.copyWith(allPopularPostList: list);
 
-    getAddress();
     getHomeStatus();
-    getHomeDisasterHistory();
-    getPopularPostList(category: "");
-    getPopularPostList(category: "LIFE");
-    getPopularPostList(category: "TRAFFIC");
-    getPopularPostList(category: "SAFE");
-    getPopularPostList(category: "OTHER");
-    getDisasterContentsList();
-    getSponsorList();
+
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
+
+  Future<void> loadNickname() async {
+    var nickname = await storage.read(key: 'nickname') ?? 'Empty닉네임';
+    state = state.copyWith(
+        nickname: nickname
+    );
+  }
 
   void selectPopularPostCategory(int index) {
     state = state.copyWith(
@@ -60,7 +57,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   // 홈 화면에서 재난이 발생했는지 조회
   Future<void> getHomeStatus() async {
-    state = state.copyWith(isLoading: true);
     try {
       final response = await ref.read(
           getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
@@ -73,12 +69,21 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       if (response.data?.isOccurred == true) {
         getHomeDisasterFeed();
-      } else {
 
+      } else {
+        loadNickname();
+        getAddress();
+        getHomeDisasterHistory();
+        getPopularPostList(category: "");
+        getPopularPostList(category: "LIFE");
+        getPopularPostList(category: "TRAFFIC");
+        getPopularPostList(category: "SAFE");
+        getPopularPostList(category: "OTHER");
+        getDisasterContentsList();
+        getSponsorList();
       }
     } catch (error) {
-      print('재난 발생상황 에러: $error');
-      state = state.copyWith(isLoading: false);
+      print('재난 발생상황 조회 에러: $error');
     }
   }
 
@@ -204,6 +209,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
   }
 
+  // 알림 내역 조회
+  Future<void> getNotifications() async {
+    try {
+      final response = await ref.read(
+          getNotificationsUsecaseProvider(GetNotificationsUsecase()).future
+      );
+
+      if (response.code == 1000) {
+        state = state.copyWith(
+          notificationList: response.data ?? [],
+        );
+      }
+    } catch (error) {
+      print('알림 내역 조회 에러: $error');
+    }
+  }
+
   // 재난 발생했을 때 재난 상세내용 조회
   Future<void> getHomeDisasterFeed() async {
     try {
@@ -215,7 +237,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 

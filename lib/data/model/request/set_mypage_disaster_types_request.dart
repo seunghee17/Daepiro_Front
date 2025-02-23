@@ -8,8 +8,8 @@ class SetMypageDisasterTypesRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['disasterTypes'] = this.disasterTypes;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['disasterTypes'] = disasterTypes;
     return data;
   }
 }

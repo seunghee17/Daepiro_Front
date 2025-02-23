@@ -57,7 +57,7 @@ final communityWriteDioProvider = Provider<Dio>((ref) {
 
 
 final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio) {
-  final storage = storge.FlutterSecureStorage();
+  const storage = storge.FlutterSecureStorage();
 
   return InterceptorsWrapper(
     onRequest: (options, handler) async {

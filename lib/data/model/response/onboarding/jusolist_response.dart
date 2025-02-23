@@ -5,13 +5,13 @@ class JusoListResponse {
 
   JusoListResponse.fromJson(Map<String, dynamic> json) {
     results =
-    json['results'] != null ? new Results.fromJson(json['results']) : null;
+    json['results'] != null ? Results.fromJson(json['results']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.toJson();
     }
     return data;
   }
@@ -25,22 +25,22 @@ class Results {
 
   Results.fromJson(Map<String, dynamic> json) {
     common =
-    json['common'] != null ? new Common.fromJson(json['common']) : null;
+    json['common'] != null ? Common.fromJson(json['common']) : null;
     if (json['juso'] != null) {
       juso = <Juso>[];
       json['juso'].forEach((v) {
-        juso!.add(new Juso.fromJson(v));
+        juso!.add(Juso.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.common != null) {
-      data['common'] = this.common!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (common != null) {
+      data['common'] = common!.toJson();
     }
-    if (this.juso != null) {
-      data['juso'] = this.juso!.map((v) => v.toJson()).toList();
+    if (juso != null) {
+      data['juso'] = juso!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -69,12 +69,12 @@ class Common {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['errorMessage'] = this.errorMessage;
-    data['countPerPage'] = this.countPerPage;
-    data['totalCount'] = this.totalCount;
-    data['errorCode'] = this.errorCode;
-    data['currentPage'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['errorMessage'] = errorMessage;
+    data['countPerPage'] = countPerPage;
+    data['totalCount'] = totalCount;
+    data['errorCode'] = errorCode;
+    data['currentPage'] = currentPage;
     return data;
   }
 }
@@ -159,31 +159,31 @@ class Juso {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['detBdNmList'] = this.detBdNmList;
-    data['engAddr'] = this.engAddr;
-    data['rn'] = this.rn;
-    data['emdNm'] = this.emdNm;
-    data['zipNo'] = this.zipNo;
-    data['roadAddrPart2'] = this.roadAddrPart2;
-    data['emdNo'] = this.emdNo;
-    data['sggNm'] = this.sggNm;
-    data['jibunAddr'] = this.jibunAddr;
-    data['siNm'] = this.siNm;
-    data['roadAddrPart1'] = this.roadAddrPart1;
-    data['bdNm'] = this.bdNm;
-    data['admCd'] = this.admCd;
-    data['udrtYn'] = this.udrtYn;
-    data['lnbrMnnm'] = this.lnbrMnnm;
-    data['roadAddr'] = this.roadAddr;
-    data['lnbrSlno'] = this.lnbrSlno;
-    data['buldMnnm'] = this.buldMnnm;
-    data['bdKdcd'] = this.bdKdcd;
-    data['liNm'] = this.liNm;
-    data['rnMgtSn'] = this.rnMgtSn;
-    data['mtYn'] = this.mtYn;
-    data['bdMgtSn'] = this.bdMgtSn;
-    data['buldSlno'] = this.buldSlno;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['detBdNmList'] = detBdNmList;
+    data['engAddr'] = engAddr;
+    data['rn'] = rn;
+    data['emdNm'] = emdNm;
+    data['zipNo'] = zipNo;
+    data['roadAddrPart2'] = roadAddrPart2;
+    data['emdNo'] = emdNo;
+    data['sggNm'] = sggNm;
+    data['jibunAddr'] = jibunAddr;
+    data['siNm'] = siNm;
+    data['roadAddrPart1'] = roadAddrPart1;
+    data['bdNm'] = bdNm;
+    data['admCd'] = admCd;
+    data['udrtYn'] = udrtYn;
+    data['lnbrMnnm'] = lnbrMnnm;
+    data['roadAddr'] = roadAddr;
+    data['lnbrSlno'] = lnbrSlno;
+    data['buldMnnm'] = buldMnnm;
+    data['bdKdcd'] = bdKdcd;
+    data['liNm'] = liNm;
+    data['rnMgtSn'] = rnMgtSn;
+    data['mtYn'] = mtYn;
+    data['bdMgtSn'] = bdMgtSn;
+    data['buldSlno'] = buldSlno;
     return data;
   }
 }

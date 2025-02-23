@@ -1,6 +1,6 @@
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -27,6 +27,7 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -37,150 +38,147 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
 
   @override
   Widget build(BuildContext context) {
-
-    return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            // height: MediaQuery.of(context).size.height,
-            color: DaepiroColorStyle.white,
-            child: Column(
-                children: [
-                  Stack(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          color: DaepiroColorStyle.white,
+          child: Column(
+              children: [
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(top: 4, bottom: 4, left: 12),
+                        child: SvgPicture.asset('assets/icons/icon_arrow_left.svg'),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 14),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "후원정보",
+                        style: DaepiroTextStyle.h6.copyWith(
+                          color: DaepiroColorStyle.g_800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.all(12),
-                          margin: const EdgeInsets.only(top: 4, bottom: 4, left: 12),
-                          child: SvgPicture.asset('assets/icons/icon_arrow_left.svg'),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 14),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "후원정보",
-                          style: DaepiroTextStyle.h6.copyWith(
-                            color: DaepiroColorStyle.g_800,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: DaepiroColorStyle.o_50
-                              ),
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    findDisasterIconByName(name: widget.extra.disasterType ?? ""),
-                                    width: 16,
-                                    height: 16,
-                                    colorFilter: ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: DaepiroColorStyle.o_50
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  findDisasterIconByName(name: widget.extra.disasterType ?? ""),
+                                  width: 16,
+                                  height: 16,
+                                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  widget.extra.disasterType ?? "",
+                                  style: DaepiroTextStyle.caption.copyWith(
+                                    color: DaepiroColorStyle.o_500,
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    widget.extra.disasterType ?? "",
-                                    style: DaepiroTextStyle.caption.copyWith(
-                                      color: DaepiroColorStyle.o_500,
-                                    ),
-                                  )
-                                ],
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: DaepiroColorStyle.o_50
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                            child: Text(
+                              calculateDaysDiff(widget.extra.deadline ?? ""),
+                              style: DaepiroTextStyle.body_2_m.copyWith(
+                                color: DaepiroColorStyle.g_600,
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: DaepiroColorStyle.o_50
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        widget.extra.sponsorName ?? "",
+                        style: DaepiroTextStyle.body_2_m.copyWith(
+                          color: DaepiroColorStyle.g_600,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        widget.extra.title ?? "",
+                        style: DaepiroTextStyle.h6.copyWith(
+                          color: DaepiroColorStyle.g_900,
+                        ),
+                      ),
+                      if (widget.extra.deadline != null)
+                        Column(
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              formatDateToDot(widget.extra.deadline ?? ""),
+                              style: DaepiroTextStyle.caption.copyWith(
+                                color: DaepiroColorStyle.g_400,
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                              child: Text(
-                                calculateDaysDiff(widget.extra.deadline ?? ""),
-                                style: DaepiroTextStyle.body_2_m.copyWith(
-                                  color: DaepiroColorStyle.g_600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          widget.extra.sponsorName ?? "",
-                          style: DaepiroTextStyle.body_2_m.copyWith(
-                            color: DaepiroColorStyle.g_600,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          widget.extra.title ?? "",
-                          style: DaepiroTextStyle.h6.copyWith(
-                            color: DaepiroColorStyle.g_900,
-                          ),
-                        ),
-                        if (widget.extra.deadline != null)
-                          Column(
-                            children: [
-                              const SizedBox(height: 8),
-                              Text(
-                                formatDateToDot(widget.extra.deadline ?? ""),
-                                style: DaepiroTextStyle.caption.copyWith(
-                                  color: DaepiroColorStyle.g_400,
-                                ),
-                              )
-                            ],
-                          ),
-                        const SizedBox(height: 16),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image.network(
-                            widget.extra.thumbnail ?? "",
-                            width: double.infinity,
-                            height: 187,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        TabBar(
-                          controller: _tabController,
-                          labelColor: DaepiroColorStyle.g_800,
-                          labelStyle: DaepiroTextStyle.body_1_m,
-                          unselectedLabelColor: DaepiroColorStyle.g_300,
-                          unselectedLabelStyle: DaepiroTextStyle.body_1_m,
-                          indicatorColor: DaepiroColorStyle.g_800,
-                          indicatorWeight: 2,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          tabs: const [
-                            Tab(
-                              child: Text("내용소개"),
-                            ),
-                            Tab(
-                              child: Text("후원사"),
                             )
                           ],
                         ),
-                      ],
-                    ),
+                      const SizedBox(height: 16),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.network(
+                          widget.extra.thumbnail ?? "",
+                          width: double.infinity,
+                          height: 187,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TabBar(
+                        controller: _tabController,
+                        labelColor: DaepiroColorStyle.g_800,
+                        labelStyle: DaepiroTextStyle.body_1_m,
+                        unselectedLabelColor: DaepiroColorStyle.g_300,
+                        unselectedLabelStyle: DaepiroTextStyle.body_1_m,
+                        indicatorColor: DaepiroColorStyle.g_800,
+                        indicatorWeight: 2,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        tabs: const [
+                          Tab(
+                            child: Text("내용소개"),
+                          ),
+                          Tab(
+                            child: Text("후원사"),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: TabBarView(
+                ),
+                Expanded(
+                  child: TabBarView(
                       controller: _tabController,
                       children: [
                         Expanded(
@@ -270,13 +268,13 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                           ),
                                           const Spacer(),
                                           Text(
-                                              widget.extra.sponsorName ?? "",
-                                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                                decoration: TextDecoration.underline,
-                                                decorationColor: DaepiroColorStyle.g_800,
-                                                decorationThickness: 1,
-                                              ),
+                                            widget.extra.sponsorName ?? "",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.g_800,
+                                              decoration: TextDecoration.underline,
+                                              decorationColor: DaepiroColorStyle.g_800,
+                                              decorationThickness: 1,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -294,58 +292,57 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                             )
                         ),
                       ]
-                    ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: 1,
-                    color: DaepiroColorStyle.g_50,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
-                                launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
-                              }
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: DaepiroColorStyle.g_50,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
+                              launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
+                            }
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: DaepiroColorStyle.o_500
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(
-                                "후원하기",
-                                style: DaepiroTextStyle.body_1_b.copyWith(
-                                  color: DaepiroColorStyle.white,
-                                ),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
+                              "후원하기",
+                              style: DaepiroTextStyle.body_1_b.copyWith(
+                                color: DaepiroColorStyle.white,
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
-                        GestureDetector(
-                          onTap: () {
-                            Share.share(widget.extra.sponsorUrl ?? "");
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/icon_share.svg',
-                            width: 28,
-                            height: 28,
-                            colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ]
-            ),
+                      ),
+                      const SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: () {
+                          Share.share(widget.extra.sponsorUrl ?? "");
+                        },
+                        child: SvgPicture.asset(
+                          'assets/icons/icon_share.svg',
+                          width: 28,
+                          height: 28,
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_400, BlendMode.srcIn),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ]
           ),
         ),
       ),

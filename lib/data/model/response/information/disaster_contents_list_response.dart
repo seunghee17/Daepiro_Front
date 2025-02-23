@@ -16,20 +16,20 @@ class DisasterContentsListResponse {
   DisasterContentsListResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     path = json['path'];
     timestamp = json['timestamp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['path'] = this.path;
-    data['timestamp'] = this.timestamp;
+    data['path'] = path;
+    data['timestamp'] = timestamp;
     return data;
   }
 }
@@ -53,10 +53,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['nextCursor'] = this.nextCursor;
-    if (this.contents != null) {
-      data['contents'] = this.contents!.map((item) => item.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['nextCursor'] = nextCursor;
+    if (contents != null) {
+      data['contents'] = contents!.map((item) => item.toJson()).toList();
     }
     return data;
   }
@@ -92,14 +92,14 @@ class Contents {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['title'] = this.title;
-    data['thumbnailUrl'] = this.thumbnailUrl;
-    data['bodyUrl'] = this.bodyUrl;
-    data['source'] = this.source;
-    data['publishedAt'] = this.publishedAt;
-    data['viewCount'] = this.viewCount;
-    data['likeCount'] = this.likeCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['thumbnailUrl'] = thumbnailUrl;
+    data['bodyUrl'] = bodyUrl;
+    data['source'] = source;
+    data['publishedAt'] = publishedAt;
+    data['viewCount'] = viewCount;
+    data['likeCount'] = likeCount;
     return data;
   }
 }

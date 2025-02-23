@@ -12,10 +12,10 @@ class SetTownCertificateRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['address'] = this.address;
-    data['longitude'] = this.longitude;
-    data['latitude'] = this.latitude;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['address'] = address;
+    data['longitude'] = longitude;
+    data['latitude'] = latitude;
     return data;
   }
 }

@@ -7,7 +7,7 @@ class SecondaryChip extends StatefulWidget {
   final VoidCallback onPressed;
 
   const SecondaryChip({
-    Key? key,
+    super.key,
     required this.isSelected,
     required this.text,
     required this.onPressed

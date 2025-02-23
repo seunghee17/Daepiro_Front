@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
-import '../../home/component/map_direction_item.dart';
 
 class SponsorPreview extends StatelessWidget {
   final String disasterType;

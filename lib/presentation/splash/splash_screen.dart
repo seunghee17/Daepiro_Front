@@ -1,12 +1,13 @@
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
 import 'package:daepiro/route/router.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -20,11 +21,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
     super.initState();
     _controller = AnimationController(
         vsync: this,
-      duration: Duration(seconds: 5)
+      duration: const Duration(seconds: 5)
     );
     _controller.forward();
     checkAuth().then((isAuthenticated) {
-      Future.delayed(Duration(seconds: 5), () async {
+      Future.delayed(const Duration(seconds: 5), () async {
         if (isAuthenticated) {
           try {
             bool isOnboardingComplete = await _checkOnboardingComplete(ref);
@@ -51,6 +52,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
 
   Future<bool> checkAuth() async {
     String? accessToken = await storage.read(key: 'accessToken');
+    print("accessToken: $accessToken");
     String? refreshToken = await storage.read(key: 'refreshToken');
     if((accessToken == null) && refreshToken == null || accessToken == "" && refreshToken == "") {
       return false;
@@ -90,9 +92,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                 controller: _controller,
                 onLoaded: (composition) {
                   _controller.addStatusListener((status) {
-                    if(status == AnimationStatus.dismissed)
+                    if(status == AnimationStatus.dismissed) {
                       _controller.forward();
-                    else if(status == AnimationStatus.completed)
+                    } else if(status == AnimationStatus.completed)
                       _controller.reverse();
                   });
                   _controller

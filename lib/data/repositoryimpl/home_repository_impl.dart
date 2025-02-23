@@ -1,13 +1,12 @@
-import 'dart:ffi';
 
 import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
 import 'package:daepiro/data/model/response/home/home_status_response.dart';
+import 'package:daepiro/data/model/response/home/notification_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
-import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/domain/repository/home_repository.dart';
 
@@ -90,6 +89,17 @@ class HomeRepositoryImpl extends HomeRepository {
       return response;
     } catch(e) {
       print('재난에 대한 행동요령 조회 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<NotificationResponse> getNotifications() async {
+    try {
+      final response = await _service.getNotifications();
+      return response;
+    } catch(e) {
+      print('알림 내역 오류 ${e.toString()}');
       rethrow;
     }
   }

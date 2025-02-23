@@ -1,7 +1,6 @@
 import 'package:daepiro/data/model/request/register_user_location_request.dart';
 import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/data/model/response/information/behavior_list_response.dart';
-import 'package:daepiro/data/model/response/information/disaster_contents_response.dart';
 import 'package:daepiro/data/source/information/information_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/http/http_provider.dart';

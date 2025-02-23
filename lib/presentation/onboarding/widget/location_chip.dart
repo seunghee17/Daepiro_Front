@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +12,7 @@ class LocationChip extends StatefulWidget {
   final FocusNode focusNode;
   final int index;
 
-  LocationChip({
+  const LocationChip({super.key, 
     required this.controller,
     required this.onChanged,
     required this.ref,
@@ -45,14 +44,14 @@ class _LocationChipState extends State<LocationChip> {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+              padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
               child: SvgPicture.asset(
                 'assets/icons/icon_location_24.svg',
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
+                    const ColorFilter.mode(DaepiroColorStyle.white, BlendMode.srcIn),
               ),
             ),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             Expanded(
               child: TextField(
                 focusNode: widget.focusNode,
@@ -64,7 +63,7 @@ class _LocationChipState extends State<LocationChip> {
                     FocusManager.instance.primaryFocus?.unfocus(),
                 style: DaepiroTextStyle.body_2_b
                     .copyWith(color: DaepiroColorStyle.white),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 16, 0),

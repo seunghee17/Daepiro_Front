@@ -7,12 +7,12 @@ class EmergencyResponsePageItem extends StatefulWidget {
   final String resource;
 
   const EmergencyResponsePageItem({
-    Key? key,
+    super.key,
     required this.step,
     required this.title,
     required this.description,
     required this.resource
-  }): super(key: key);
+  });
 
   @override
   State<EmergencyResponsePageItem> createState() => _EmergencyResponsePageItemState();

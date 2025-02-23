@@ -12,10 +12,10 @@ class ReportRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['detail'] = this.detail;
-    data['type'] = this.type;
-    data['email'] = this.email;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['detail'] = detail;
+    data['type'] = type;
+    data['email'] = email;
     return data;
   }
 }

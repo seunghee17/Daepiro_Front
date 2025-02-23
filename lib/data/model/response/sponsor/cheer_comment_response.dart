@@ -26,14 +26,14 @@ class CheerCommentResponse {
   }
 
   Map<String, dynamic> toJson() {
-      final Map<String, dynamic> data = Map<String, dynamic>();
-      data['code'] = this.code;
-      data['message'] = this.message;
+      final Map<String, dynamic> data = <String, dynamic>{};
+      data['code'] = code;
+      data['message'] = message;
       if (this.data != null) {
         data['data'] = this.data!.map((v) => v.toJson()).toList();
       }
-      data['path'] = this.path;
-      data['timestamp'] = this.timestamp;
+      data['path'] = path;
+      data['timestamp'] = timestamp;
       return data;
     }
 }
@@ -65,13 +65,13 @@ class Comment {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['content'] = this.content;
-    data['author'] = this.author;
-    data['time'] = this.time;
-    data['isModified'] = this.isModified;
-    data['isMine'] = this.isMine;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['content'] = content;
+    data['author'] = author;
+    data['time'] = time;
+    data['isModified'] = isModified;
+    data['isMine'] = isMine;
     return data;
   }
 }

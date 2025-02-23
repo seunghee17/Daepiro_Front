@@ -1,5 +1,4 @@
 import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,20 +11,22 @@ import '../../const/common_disaster_list.dart';
 import '../../const/emergency_disaster_list.dart';
 
 class OnboardingFourthScreen extends ConsumerStatefulWidget {
+  const OnboardingFourthScreen({super.key});
+
   @override
   OnboardingFourthState createState() => OnboardingFourthState();
 }
 
 class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
-  Set<int> selected = Set();
-  Set<int> selectedSub = Set();
+  Set<int> selected = {};
+  Set<int> selectedSub = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,7 +36,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     Row(
                       children: [
                         Text(
@@ -43,11 +44,11 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_900),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         primaryFilledButtonWidget(),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
                     Text(
@@ -55,7 +56,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_300),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Wrap(
                         spacing: 8,
                         runSpacing: 8,
@@ -89,19 +90,19 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                                   EmergencyDisasterList[index]['name']!,
                                   EmergencyDisasterList[index]['icon']!));
                         })),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     Text(
                       '일반 재난',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       '기상 특보와 같이 안전 주의를 요하는 재난이에요.',
                       style: DaepiroTextStyle.caption
                           .copyWith(color: DaepiroColorStyle.g_300),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
@@ -139,7 +140,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             bottomWidget(context),
@@ -162,7 +163,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 width: 16,
                 height: 16,
                 colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)),
+                    const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn)),
             Text(
               '수신권장',
               style: DaepiroTextStyle.caption
@@ -178,7 +179,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           children: [
             Expanded(
@@ -188,10 +189,10 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 lineHeight: 10,
                 backgroundColor: DaepiroColorStyle.g_50,
                 progressColor: DaepiroColorStyle.o_300,
-                barRadius: Radius.circular(10.0),
+                barRadius: const Radius.circular(10.0),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Text(
               '3/3',
               style: DaepiroTextStyle.body_1_b
@@ -199,7 +200,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
             ),
           ],
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         RichText(
             text: TextSpan(
                 text: '알림을 받고 싶은\n',
@@ -229,36 +230,6 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
   Widget disasterItem(bool isTapped, String name, String icon) {
     return Container(
       width: (MediaQuery.of(context).size.width / 3) - 20,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 8),
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: DaepiroColorStyle.g_50,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: SvgPicture.asset(icon,
-                  width: 36,
-                  height: 36,
-                  colorFilter: ColorFilter.mode(
-                      DaepiroColorStyle.g_500, BlendMode.srcIn)),
-            ),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          Text(
-            name,
-            style: DaepiroTextStyle.body_2_m
-                .copyWith(color: DaepiroColorStyle.g_500),
-          ),
-          SizedBox(height: 8),
-        ],
-      ),
       decoration: BoxDecoration(
           color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
           border: Border.all(
@@ -266,11 +237,41 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                   isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
               width: 1),
           borderRadius: BorderRadius.circular(8)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 8),
+          Container(
+            height: 50,
+            width: 50,
+            decoration: const BoxDecoration(
+              color: DaepiroColorStyle.g_50,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: SvgPicture.asset(icon,
+                  width: 36,
+                  height: 36,
+                  colorFilter: const ColorFilter.mode(
+                      DaepiroColorStyle.g_500, BlendMode.srcIn)),
+            ),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            name,
+            style: DaepiroTextStyle.body_2_m
+                .copyWith(color: DaepiroColorStyle.g_500),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 
   Widget bottomWidget(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Column(
           children: [
@@ -283,13 +284,13 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         pressedColor: DaepiroColorStyle.g_75,
                         borderRadius: 8.0,
                         disabledColor: DaepiroColorStyle.g_50,
+                        verticalPadding: 12,
                         child: Text(
                           '이전',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_700),
-                        ),
-                        verticalPadding: 12)),
-                SizedBox(width: 8),
+                        ))),
+                const SizedBox(width: 8),
                 Expanded(
                     child: PrimaryFilledButton(
                         onPressed: () => GoRouter.of(context).push('/onboarding/fourth'),
@@ -297,17 +298,17 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         pressedColor: DaepiroColorStyle.o_600,
                         borderRadius: 8.0,
                         disabledColor: DaepiroColorStyle.o_500,
+                        verticalPadding: 12,
                         child: Text(
                           '다음',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.white),
-                        ),
-                        verticalPadding: 12)),
+                        ))),
               ],
             ),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 5),
               child: TextButton(
                   onPressed: () {
                     remindDialog(context);
@@ -329,7 +330,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
+            titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -342,8 +343,8 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
-            content: Container(
+            contentPadding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+            content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -374,7 +375,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Expanded(
