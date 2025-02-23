@@ -23,17 +23,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final list = List.generate(5, (_) => <PopularPost>[]);  // 빈 리스트 5개 생성
     state = state.copyWith(allPopularPostList: list);
 
-    loadNickname();
-    getAddress();
     getHomeStatus();
-    getHomeDisasterHistory();
-    getPopularPostList(category: "");
-    getPopularPostList(category: "LIFE");
-    getPopularPostList(category: "TRAFFIC");
-    getPopularPostList(category: "SAFE");
-    getPopularPostList(category: "OTHER");
-    getDisasterContentsList();
-    getSponsorList();
+
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
@@ -66,7 +57,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   // 홈 화면에서 재난이 발생했는지 조회
   Future<void> getHomeStatus() async {
-    state = state.copyWith(isLoading: true);
     try {
       final response = await ref.read(
           getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
@@ -79,12 +69,21 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       if (response.data?.isOccurred == true) {
         getHomeDisasterFeed();
-      } else {
 
+      } else {
+        loadNickname();
+        getAddress();
+        getHomeDisasterHistory();
+        getPopularPostList(category: "");
+        getPopularPostList(category: "LIFE");
+        getPopularPostList(category: "TRAFFIC");
+        getPopularPostList(category: "SAFE");
+        getPopularPostList(category: "OTHER");
+        getDisasterContentsList();
+        getSponsorList();
       }
     } catch (error) {
-      print('재난 발생상황 에러: $error');
-      state = state.copyWith(isLoading: false);
+      print('재난 발생상황 조회 에러: $error');
     }
   }
 
@@ -238,7 +237,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
-      state = state.copyWith(isLoading: false);
     }
   }
 

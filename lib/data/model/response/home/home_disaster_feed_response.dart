@@ -37,12 +37,14 @@ class HomeDisasterFeedResponse {
 
 class Data {
   String? disasterType;
+  String? disasterTypeId;
   String? title;
   String? content;
   String? time;
 
   Data({
     this.disasterType,
+    this.disasterTypeId,
     this.title,
     this.content,
     this.time,
@@ -50,6 +52,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     disasterType = json['disasterType'];
+    disasterType = json['disasterTypeId'];
     title = json['title'];
     title = json['content'];
     time = json['time'];
@@ -58,6 +61,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['disasterType'] = disasterType;
+    data['disasterType'] = disasterTypeId;
     data['title'] = title;
     data['content'] = content;
     data['time'] = time;

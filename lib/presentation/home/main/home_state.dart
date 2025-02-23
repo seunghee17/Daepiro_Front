@@ -14,7 +14,7 @@ sealed class HomeState with _$HomeState {
     @Default("") String location,
     @Default("") String nickname,
 
-    @Default(false) bool isLoading,
+    @Default(true) bool isLoading,
     @Default(false) bool isOccurred,
 
     @Default(0) int selectedPopularPostCategory,

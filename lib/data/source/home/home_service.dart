@@ -24,13 +24,13 @@ abstract class HomeService {
   @GET('/v1/home/status')
   Future<HomeStatusResponse> getHomeStatus();
 
+  // 재난 발생 시 - 발생 재난 피드 조회
+  @GET('/v1/home/warnings')
+  Future<HomeDisasterFeedResponse> getHomeDisasterFeed();
+
   // 재난문자 내역 조회
   @GET('/v1/home/disasters')
   Future<HomeDisasterHistoryResponse> getHomeDisasterHistory();
-
-  // 발생 재난 피드 조회
-  @GET('/v1/home/warnings')
-  Future<HomeDisasterFeedResponse> getHomeDisasterFeed();
 
   // 인기 게시글 조회
   @GET('/v1/home/articles')
