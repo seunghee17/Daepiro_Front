@@ -28,12 +28,6 @@ abstract class InformationService {
     @Query("size") required String size
   });
 
-  // 사용자 위치 등록
-  @POST('/v1/users/gps')
-  Future<BasicResponse> registerUserLocation({
-    @Body() required RegisterUserLocationRequest body
-  });
-
   // 주변대피소 조회
   @GET('/v1/shelters/{type}')
   Future<AroundShelterListResponse> getAroundShelterList({

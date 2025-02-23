@@ -1,4 +1,6 @@
 
+import 'package:daepiro/data/model/request/register_user_location_request.dart';
+import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/data/model/response/home/behavior_tips_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_feed_response.dart';
 import 'package:daepiro/data/model/response/home/home_disaster_history_response.dart';
@@ -6,6 +8,7 @@ import 'package:daepiro/data/model/response/home/home_status_response.dart';
 import 'package:daepiro/data/model/response/home/notification_response.dart';
 import 'package:daepiro/data/model/response/home/popular_post_response.dart';
 import 'package:daepiro/data/model/response/home/disasters_history_response.dart';
+import 'package:daepiro/data/model/response/home/user_address_response.dart';
 import 'package:daepiro/data/model/response/information/disaster_contents_list_response.dart';
 import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/domain/repository/home_repository.dart';
@@ -100,6 +103,32 @@ class HomeRepositoryImpl extends HomeRepository {
       return response;
     } catch(e) {
       print('알림 내역 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserAddressResponse> getUserAddress() async {
+    try {
+      final response = await _service.getUserAddress();
+      return response;
+    } catch(e) {
+      print('주소 조회 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BasicResponse> registerUserLocation({
+    required RegisterUserLocationRequest body
+  }) async {
+    try {
+      final response = await _service.registerUserLocation(
+          body: body
+      );
+      return response;
+    } catch(e) {
+      print('사용자 위치 등록 오류 ${e.toString()}');
       rethrow;
     }
   }

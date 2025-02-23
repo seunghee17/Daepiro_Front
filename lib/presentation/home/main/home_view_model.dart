@@ -4,6 +4,7 @@ import 'package:daepiro/domain/usecase/home/get_notifications_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
+import 'package:daepiro/domain/usecase/home/get_user_address_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
@@ -12,6 +13,7 @@ import 'package:daepiro/route/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../../domain/usecase/home/register_user_location_usecase.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
@@ -25,6 +27,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     getHomeStatus();
 
+    getCurrentLocation();
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
@@ -34,6 +37,66 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(
         nickname: nickname
     );
+  }
+
+  Future<void> getCurrentLocation() async {
+    bool isEnableLocation = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission;
+
+    if (isEnableLocation) {
+      permission = await Geolocator.checkPermission();
+      if (permission != LocationPermission.denied ||
+          permission != LocationPermission.deniedForever) {
+        Position location = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+            registerUserLocation(
+                latitude: location.latitude.toString(),
+                longitude: location.longitude.toString()
+            );
+
+        state = state.copyWith(
+            latitude: location.latitude,
+            longitude: location.longitude
+        );
+      } else {
+        // 위치 비활성화
+
+      }
+    }
+  }
+
+  // 사용자 위치 등록
+  Future<void> registerUserLocation({
+    required String latitude,
+    required String longitude,
+  }) async {
+    try {
+      await ref.read(
+          registerUserLocationUsecaseProvider(RegisterUserLocationUsecase(
+              latitude: latitude,
+              longitude: longitude
+          )).future
+      );
+
+      getUserAddress();
+    } catch (error) {
+      print('사용자 위치 등록 에러: $error');
+    }
+  }
+
+  // 사용자 주소 조회
+  Future<void> getUserAddress() async {
+    try {
+      final response = await ref.read(
+          getUserAddressUsecaseProvider(GetUserAddressUsecase()).future
+      );
+
+      state = state.copyWith(
+        location: response.data?.currentPosition ?? ""
+      );
+    } catch (error) {
+      print('사용자 주소 조회 에러: $error');
+    }
   }
 
   void selectPopularPostCategory(int index) {
@@ -72,7 +135,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       } else {
         loadNickname();
-        getAddress();
         getHomeDisasterHistory();
         getPopularPostList(category: "");
         getPopularPostList(category: "LIFE");
@@ -237,37 +299,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
-    }
-  }
-
-  Future<void> getAddress() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      print("결과 ${placemarks.toString()}");
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks.first;
-
-        // 3. 주소에서 "구"와 "동"만 추출
-        String district = place.administrativeArea ?? ""; // "강남구"
-        String district2 = place.subLocality ?? ""; // "강남구"
-        String neighborhood = place.locality!.isEmpty ? place.subLocality ?? "" : ""; // "역삼동"
-
-        state = state.copyWith(
-          location: "$district $district2"
-        );
-      } else {
-        state = state.copyWith(
-            location: "주소 확인 불가"
-        );
-      }
-    } catch (e) {
-      print("홈 현위치 조회 오류 $e");
     }
   }
 

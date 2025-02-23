@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
+  double get latitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
   String get location => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
@@ -50,7 +52,9 @@ abstract class $HomeStateCopyWith<$Res> {
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
   $Res call(
-      {String location,
+      {double latitude,
+      double longitude,
+      String location,
       String nickname,
       bool isLoading,
       bool isOccurred,
@@ -84,6 +88,8 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? latitude = null,
+    Object? longitude = null,
     Object? location = null,
     Object? nickname = null,
     Object? isLoading = null,
@@ -105,6 +111,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? notificationList = null,
   }) {
     return _then(_value.copyWith(
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -194,7 +208,9 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String location,
+      {double latitude,
+      double longitude,
+      String location,
       String nickname,
       bool isLoading,
       bool isOccurred,
@@ -226,6 +242,8 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? latitude = null,
+    Object? longitude = null,
     Object? location = null,
     Object? nickname = null,
     Object? isLoading = null,
@@ -247,6 +265,14 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? notificationList = null,
   }) {
     return _then(_$HomeStateImpl(
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -331,7 +357,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 class _$HomeStateImpl implements _HomeState {
   _$HomeStateImpl(
-      {this.location = "",
+      {this.latitude = 0,
+      this.longitude = 0,
+      this.location = "",
       this.nickname = "",
       this.isLoading = true,
       this.isOccurred = false,
@@ -358,6 +386,12 @@ class _$HomeStateImpl implements _HomeState {
         _disastersList = disastersList,
         _notificationList = notificationList;
 
+  @override
+  @JsonKey()
+  final double latitude;
+  @override
+  @JsonKey()
+  final double longitude;
   @override
   @JsonKey()
   final String location;
@@ -465,7 +499,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList)';
+    return 'HomeState(latitude: $latitude, longitude: $longitude, location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList)';
   }
 
   @override
@@ -473,6 +507,10 @@ class _$HomeStateImpl implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.nickname, nickname) ||
@@ -486,8 +524,7 @@ class _$HomeStateImpl implements _HomeState {
                     selectedPopularPostCategory) &&
             (identical(other.selectedContentsCategory, selectedContentsCategory) ||
                 other.selectedContentsCategory == selectedContentsCategory) &&
-            (identical(
-                    other.isLoadingDisasterHistory, isLoadingDisasterHistory) ||
+            (identical(other.isLoadingDisasterHistory, isLoadingDisasterHistory) ||
                 other.isLoadingDisasterHistory == isLoadingDisasterHistory) &&
             const DeepCollectionEquality()
                 .equals(other._disasterHistoryList, _disasterHistoryList) &&
@@ -520,6 +557,8 @@ class _$HomeStateImpl implements _HomeState {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        latitude,
+        longitude,
         location,
         nickname,
         isLoading,
@@ -550,7 +589,9 @@ class _$HomeStateImpl implements _HomeState {
 
 abstract class _HomeState implements HomeState {
   factory _HomeState(
-      {final String location,
+      {final double latitude,
+      final double longitude,
+      final String location,
       final String nickname,
       final bool isLoading,
       final bool isOccurred,
@@ -570,6 +611,10 @@ abstract class _HomeState implements HomeState {
       final BehaviorData? behaviorTip,
       final List<Notification> notificationList}) = _$HomeStateImpl;
 
+  @override
+  double get latitude;
+  @override
+  double get longitude;
   @override
   String get location;
   @override

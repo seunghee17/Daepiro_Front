@@ -24,10 +24,6 @@ abstract class InformationRepository {
     required String size
   });
 
-  Future<BasicResponse> registerUserLocation({
-    required RegisterUserLocationRequest body
-  });
-
   Future<AroundShelterListResponse> getAroundShelterList({
     required String type
   });

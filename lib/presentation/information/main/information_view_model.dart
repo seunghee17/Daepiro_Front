@@ -1,6 +1,6 @@
 import 'package:daepiro/domain/usecase/information/get_around_shelter_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/get_disaster_contents_list_usecase.dart';
-import 'package:daepiro/domain/usecase/information/register_user_location_usecase.dart';
+import 'package:daepiro/domain/usecase/home/register_user_location_usecase.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,7 +15,6 @@ class InformationViewModel extends StateNotifier<InformationState> {
   InformationViewModel(this.ref) : super(InformationState()) {
     getDisasterContents();
     getCurrentLocation();
-
   }
 
   void selectAroundShelterType(int index) {
@@ -50,10 +49,11 @@ class InformationViewModel extends StateNotifier<InformationState> {
           permission != LocationPermission.deniedForever) {
         Position location = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-        registerUserLocation(
-            latitude: location.latitude.toString(),
-            longitude: location.longitude.toString()
-        );
+
+        getAroundShelterList(type: "temperature");
+        getAroundShelterList(type: "earthquake");
+        getAroundShelterList(type: "tsunami");
+        getAroundShelterList(type: "civil");
 
         state = state.copyWith(
             latitude: location.latitude,
@@ -126,29 +126,6 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
     } catch (error) {
       print('주변 대피소 조회 에러: $error');
-    }
-  }
-
-  // 사용자 위치 등록
-  Future<void> registerUserLocation({
-    required String latitude,
-    required String longitude,
-  }) async {
-    try {
-      await ref.read(
-          registerUserLocationUsecaseProvider(RegisterUserLocationUsecase(
-              latitude: latitude,
-              longitude: longitude
-          )).future
-      );
-
-      getAroundShelterList(type: "temperature");
-      getAroundShelterList(type: "earthquake");
-      getAroundShelterList(type: "tsunami");
-      getAroundShelterList(type: "civil");
-
-    } catch (error) {
-      print('사용자 위치 등록 에러: $error');
     }
   }
 

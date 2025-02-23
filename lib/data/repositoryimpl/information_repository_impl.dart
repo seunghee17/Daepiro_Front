@@ -45,21 +45,6 @@ class InformationRepositoryImpl extends InformationRepository {
   }
 
   @override
-  Future<BasicResponse> registerUserLocation({
-    required RegisterUserLocationRequest body
-  }) async {
-    try {
-      final response = await _service.registerUserLocation(
-          body: body
-      );
-      return response;
-    } catch(e) {
-      print('사용자 위치 등록 오류 ${e.toString()}');
-      rethrow;
-    }
-  }
-
-  @override
   Future<AroundShelterListResponse> getAroundShelterList({
     required String type
   }) async {

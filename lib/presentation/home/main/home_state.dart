@@ -11,6 +11,8 @@ part 'home_state.freezed.dart';
 @freezed
 sealed class HomeState with _$HomeState {
   factory HomeState({
+    @Default(0) double latitude,
+    @Default(0) double longitude,
     @Default("") String location,
     @Default("") String nickname,
 
