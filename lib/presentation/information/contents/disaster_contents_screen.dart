@@ -65,53 +65,6 @@ class DisasterContentsScreen extends ConsumerWidget {
                 ),
               ),
               const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IntrinsicWidth(
-                  child: DropdownButtonFormField<String>(
-                    value: "최신순",
-                    icon: Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: SvgPicture.asset(
-                        'assets/icons/icon_arrow_down.svg',
-                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
-                        width: 16,
-                        height: 16,
-                      ),
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                    isExpanded: true,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                    items: ["최신순", "인기순"].map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: DaepiroTextStyle.body_2_m.copyWith(
-                            color: DaepiroColorStyle.g_600
-                        ),
-                      ),
-                    )).toList(),
-                    onChanged: (value) {
-                      if (value == "최신순") {
-                        ref.read(disasterContentsStateNotifierProvider.notifier)
-                            .getDisasterContentsList(sortType: "latest");
-                      } else {
-                        ref.read(disasterContentsStateNotifierProvider.notifier)
-                            .getDisasterContentsList(sortType: "popular");
-                      }
-                    },
-                    onSaved: (value) {
-
-                    },
-                  ),
-                ),
-              ),
-              const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(12),

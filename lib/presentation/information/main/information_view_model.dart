@@ -1,9 +1,10 @@
-import 'package:daepiro/domain/usecase/information/get_around_shelter_list_usecase.dart';
 import 'package:daepiro/domain/usecase/information/get_disaster_contents_list_usecase.dart';
 import 'package:daepiro/domain/usecase/home/register_user_location_usecase.dart';
 import 'package:daepiro/presentation/information/main/information_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+
+import '../../../domain/usecase/home/get_around_shelter_list_usecase.dart';
 
 final informationStateNotifierProvider = StateNotifierProvider<InformationViewModel, InformationState>((ref) {
   return InformationViewModel(ref);
@@ -22,17 +23,13 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
     if (index == 0) {
       state = state.copyWith(
-          shelterList: state.temperatureShelterList
+          shelterList: state.earthquakeShelterList
       );
     } else if (index == 1) {
       state = state.copyWith(
-          shelterList: state.earthquakeShelterList
-      );
-    } else if (index == 2) {
-      state = state.copyWith(
           shelterList: state.tsunamiShelterList
       );
-    } else if (index == 3) {
+    } else if (index == 2) {
       state = state.copyWith(
           shelterList: state.civilShelterList
       );
@@ -50,7 +47,6 @@ class InformationViewModel extends StateNotifier<InformationState> {
         Position location = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
 
-        getAroundShelterList(type: "temperature");
         getAroundShelterList(type: "earthquake");
         getAroundShelterList(type: "tsunami");
         getAroundShelterList(type: "civil");
@@ -100,15 +96,11 @@ class InformationViewModel extends StateNotifier<InformationState> {
           )).future
       );
 
-      if (type == "temperature") {
-        state = state.copyWith(
-            temperatureShelterList: response.data?.shelters ?? []
-        );
-        selectAroundShelterType(0);
-      } else if (type == "earthquake") {
+      if (type == "earthquake") {
         state = state.copyWith(
             earthquakeShelterList: response.data?.shelters ?? []
         );
+        selectAroundShelterType(0);
       } else if (type == "tsunami") {
         state = state.copyWith(
             tsunamiShelterList: response.data?.shelters ?? []

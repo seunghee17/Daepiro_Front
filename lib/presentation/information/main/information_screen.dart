@@ -148,35 +148,29 @@ class InformationScreen extends ConsumerWidget {
                                   const Spacer(),
                                   GestureDetector(
                                     onTap: () {
-                                      // context.push('/home/disasterMessageHistory');
+                                      context.push(
+                                          '/aroundShelter',
+                                          extra: AroundShelterExtra(
+                                              latitude: viewModel.latitude,
+                                              longitude: viewModel.longitude,
+                                              address: viewModel.myLocation,
+                                              earthquakeShelterList: viewModel.earthquakeShelterList,
+                                              tsunamiShelterList: viewModel.tsunamiShelterList,
+                                              civilShelterList: viewModel.civilShelterList
+                                          )
+                                      );
                                     },
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        context.push(
-                                            '/aroundShelter',
-                                            extra: AroundShelterExtra(
-                                                latitude: viewModel.latitude,
-                                                longitude: viewModel.longitude,
-                                                address: viewModel.myLocation,
-                                                temperatureShelterList: viewModel.temperatureShelterList,
-                                                earthquakeShelterList: viewModel.earthquakeShelterList,
-                                                tsunamiShelterList: viewModel.temperatureShelterList,
-                                                civilShelterList: viewModel.civilShelterList
-                                            )
-                                        );
-                                      },
-                                      child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "더보기",
-                                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                                color: DaepiroColorStyle.o_400,
-                                              ),
+                                    child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "더보기",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.o_400,
                                             ),
-                                            SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                          ]
-                                      ),
+                                          ),
+                                          SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                        ]
                                     ),
                                   )
                                 ]

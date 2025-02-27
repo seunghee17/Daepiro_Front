@@ -59,23 +59,39 @@ class BehaviorData {
     }
     return data;
   }
+
+  BehaviorData copyWith({String? disasterType, List<Tips>? tips}) {
+    return BehaviorData(
+      disasterType: disasterType ?? this.disasterType,
+      tips: tips ?? this.tips,
+    );
+  }
 }
 
 class Tips {
   String? filter;
-  List<String>? tips;
+  List<(String, bool)>? tips;
 
   Tips({this.filter, this.tips});
 
   Tips.fromJson(Map<String, dynamic> json) {
     filter = json['filter'];
-    tips = json['tips'].cast<String>();
+    tips = (json['tips'] as List<dynamic>?)
+        ?.map((e) => (e as String, false))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['filter'] = filter;
-    data['tips'] = tips;
+    data['tips'] = tips?.map((e) => e.$1).toList();
     return data;
+  }
+
+  Tips copyWith({String? filter, List<(String, bool)>? tips}) {
+    return Tips(
+      filter: filter ?? this.filter,
+      tips: tips ?? this.tips,
+    );
   }
 }

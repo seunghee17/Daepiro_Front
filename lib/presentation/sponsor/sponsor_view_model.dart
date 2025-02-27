@@ -46,7 +46,7 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
         if (response.data!.isNotEmpty) {
           final size = response.data!.length;
           final scrollList1 = List.generate(200, (index) {
-            return response.data![index % size~/2].content ?? "";
+            return response.data![index % (size~/2)].content ?? "";
           });
           final scrollList2 = List.generate(200, (index) {
             return response.data![(size~/2) + (index%(size-(size~/2)))].content ?? "";

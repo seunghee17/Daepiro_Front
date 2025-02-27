@@ -127,14 +127,14 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                     children: [
                                       Text(
                                           '수신권장',
-                                          style: DaepiroTextStyle.caption.copyWith(
+                                          style: DaepiroTextStyle.body_1_b.copyWith(
                                             color: DaepiroColorStyle.o_500,
                                           )
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
                                           '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
-                                          style: DaepiroTextStyle.caption.copyWith(
+                                          style: DaepiroTextStyle.body_2_m.copyWith(
                                             color: DaepiroColorStyle.g_800,
                                           )
                                       )
@@ -198,7 +198,7 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                     children: [
                                       Text(
                                           '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
-                                          style: DaepiroTextStyle.caption.copyWith(
+                                          style: DaepiroTextStyle.body_2_m.copyWith(
                                             color: DaepiroColorStyle.g_800,
                                           )
                                       )

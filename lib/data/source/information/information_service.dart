@@ -28,11 +28,11 @@ abstract class InformationService {
     @Query("size") required String size
   });
 
-  // 주변대피소 조회
-  @GET('/v1/shelters/{type}')
-  Future<AroundShelterListResponse> getAroundShelterList({
-    @Path("type") required String type
-  });
+  // // 주변대피소 조회
+  // @GET('/v1/shelters/{type}')
+  // Future<AroundShelterListResponse> getAroundShelterList({
+  //   @Path("type") required String type
+  // });
 
   // 행동요령 목록 조회
   @GET('/v1/behaviourtips/list/{type}')

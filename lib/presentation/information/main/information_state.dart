@@ -12,7 +12,6 @@ sealed class InformationState with _$InformationState {
     @Default(0) int selectedAroundShelterType,
     @Default("") String myLocation,
     @Default([]) List<Shelters> shelterList,    // 주변 대피소 리스트
-    @Default([]) List<Shelters> temperatureShelterList,    // 주변 대피소 리스트(전체)
     @Default([]) List<Shelters> earthquakeShelterList,    // 주변 대피소 리스트(지진)
     @Default([]) List<Shelters> tsunamiShelterList,    // 주변 대피소 리스트(수해)
     @Default([]) List<Shelters> civilShelterList,    // 주변 대피소 리스트(전쟁)

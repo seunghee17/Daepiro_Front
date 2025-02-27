@@ -13,6 +13,7 @@ import 'package:daepiro/route/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../../domain/usecase/home/get_around_shelter_list_usecase.dart';
 import '../../../domain/usecase/home/register_user_location_usecase.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
@@ -54,6 +55,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
                 longitude: location.longitude.toString()
             );
 
+        getAroundShelterList(type: "earthquake");
+        getAroundShelterList(type: "tsunami");
+        getAroundShelterList(type: "civil");
+
         state = state.copyWith(
             latitude: location.latitude,
             longitude: location.longitude
@@ -62,6 +67,56 @@ class HomeViewModel extends StateNotifier<HomeState> {
         // 위치 비활성화
 
       }
+    }
+  }
+
+  // 주변 대피소 조회
+  Future<void> getAroundShelterList({
+    required String type
+  }) async {
+    try {
+      final response = await ref.read(
+          getAroundShelterListUsecaseProvider(GetAroundShelterListUsecase(
+              type: type
+          )).future
+      );
+
+      if (type == "earthquake") {
+        state = state.copyWith(
+            earthquakeShelterList: response.data?.shelters ?? []
+        );
+        selectAroundShelterType(0);
+      } else if (type == "tsunami") {
+        state = state.copyWith(
+            tsunamiShelterList: response.data?.shelters ?? []
+        );
+      } else if (type == "civil") {
+        state = state.copyWith(
+            civilShelterList: response.data?.shelters ?? []
+        );
+      }
+
+      state = state.copyWith(
+        shelterLocation: response.data?.myLocation ?? "",
+      );
+    } catch (error) {
+      print('주변 대피소 조회 에러: $error');
+    }
+  }
+
+  void selectAroundShelterType(int index) {
+    if (index == 0) {
+      state = state.copyWith(
+          shelterList: state.earthquakeShelterList
+      );
+    } else if (index == 1) {
+      state = state.copyWith(
+          shelterList: state.tsunamiShelterList
+      );
+    } else if (index == 2) {
+      state = state.copyWith(
+          shelterList: state.civilShelterList
+      );
     }
   }
 
@@ -115,6 +170,26 @@ class HomeViewModel extends StateNotifier<HomeState> {
   void selectDisasterHistoryType(int index) async {
     state = state.copyWith(
       selectedDisasterHistoryType: index,
+    );
+  }
+
+  void selectCheckList(int selectedType, int index) async {
+    state = state.copyWith(
+      behaviorTip: state.behaviorTip?.copyWith(
+        tips: state.behaviorTip?.tips?.map((tipList) {
+          if (state.behaviorTip!.tips!.indexOf(tipList) == selectedType) {
+            return tipList.copyWith(
+              tips: tipList.tips?.asMap().entries.map((entry) {
+                if (entry.key == index) {
+                  return (entry.value.$1, !entry.value.$2); // bool 값 토글
+                }
+                return entry.value;
+              }).toList(),
+            );
+          }
+          return tipList;
+        }).toList(),
+      ),
     );
   }
 
@@ -211,7 +286,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       );
 
       state = state.copyWith(
-          contentsList: response.data?.contents ?? [],
+          contentsList: response.data?.contents?.sublist(0, 10) ?? [],
           isLoadingContents: false
       );
     } catch (error) {
@@ -247,6 +322,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       if (response.code == 1000) {
         state = state.copyWith(
           disastersList: response.data ?? [],
+          historyIsLoading: false
         );
       }
     } catch (error) {
@@ -302,5 +378,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
   }
 
-
+  Future<void> disposeDisasterDetail() async {
+    state = state.copyWith(
+      behaviorTip: null
+    );
+  }
 }

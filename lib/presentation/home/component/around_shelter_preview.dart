@@ -48,6 +48,7 @@ class AroundShelterPreview extends StatelessWidget {
                   style: DaepiroTextStyle.body_1_b.copyWith(
                     color: DaepiroColorStyle.g_900,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(width: 8),
                 Text(

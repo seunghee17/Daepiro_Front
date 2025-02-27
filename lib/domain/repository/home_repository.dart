@@ -11,6 +11,7 @@ import '../../data/model/request/register_user_location_request.dart';
 import '../../data/model/response/basic_response.dart';
 import '../../data/model/response/home/behavior_tips_response.dart';
 import '../../data/model/response/home/notification_response.dart';
+import '../../data/model/response/information/around_shelter_list_response.dart';
 import '../../data/model/response/information/disaster_contents_list_response.dart';
 import '../../data/repositoryimpl/home_repository_impl.dart';
 
@@ -35,4 +36,8 @@ abstract class HomeRepository {
   Future<BehaviorTipsResponse> getBehaviorTips(String disasterId);
 
   Future<NotificationResponse> getNotifications();
+
+  Future<AroundShelterListResponse> getAroundShelterList({
+    required String type
+  });
 }

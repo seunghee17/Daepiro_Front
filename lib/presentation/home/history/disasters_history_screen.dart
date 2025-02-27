@@ -17,11 +17,18 @@ class DisastersHistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen> {
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     ref.read(homeStateNotifierProvider.notifier).getDisastersHistory();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -74,6 +81,11 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                   isSelected: i == viewModel.selectedDisasterHistoryType,
                                   text: viewModel.disastersList[i].region ?? "",
                                   onPressed: () {
+                                    _scrollController.animateTo(
+                                      0.0, // 최상단
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
                                     ref.read(homeStateNotifierProvider.notifier).selectDisasterHistoryType(i);
                                   }
                               ),
@@ -87,6 +99,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: ListView.builder(
+                          controller: _scrollController,
                           itemCount: viewModel.disastersList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListView.builder(

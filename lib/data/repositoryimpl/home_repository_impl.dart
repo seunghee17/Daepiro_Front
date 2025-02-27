@@ -13,6 +13,8 @@ import 'package:daepiro/data/model/response/information/disaster_contents_list_r
 import 'package:daepiro/data/source/home/home_service.dart';
 import 'package:daepiro/domain/repository/home_repository.dart';
 
+import '../model/response/information/around_shelter_list_response.dart';
+
 class HomeRepositoryImpl extends HomeRepository {
   HomeRepositoryImpl({required HomeService service}) : _service = service;
   final HomeService _service;
@@ -132,5 +134,21 @@ class HomeRepositoryImpl extends HomeRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<AroundShelterListResponse> getAroundShelterList({
+    required String type
+  }) async {
+    try {
+      final response = await _service.getAroundShelterList(
+          type: type
+      );
+      return response;
+    } catch(e) {
+      print('주변대피소 조회 오류 ${e.toString()}');
+      rethrow;
+    }
+  }
+
 
 }

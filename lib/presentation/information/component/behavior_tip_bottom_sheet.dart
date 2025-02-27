@@ -65,22 +65,6 @@ class _BehaviorTipBottomSheetState extends State<BehaviorTipBottomSheet> {
               child: widget.behavior.tips!.isEmpty
                   ? Column(
                     children: [
-                      Row(
-                        children: [
-                          for (int i=0;i<3;i++)
-                            Row(
-                              children: [
-                                const SizedBox(width: 8),
-                                SecondaryChip(
-                                    isSelected: i == 0,
-                                    text: Const.actionTipsList[i],
-                                    onPressed: () {}
-                                )
-                              ],
-                            )
-                        ],
-                      ),
-                      const SizedBox(height: 16),
                       const SizedBox(height: 16),
                       SvgPicture.asset(
                         'assets/icons/icon_warning_large.svg',
@@ -132,7 +116,8 @@ class _BehaviorTipBottomSheetState extends State<BehaviorTipBottomSheet> {
                             itemCount: widget.behavior.tips?[selectedDisasterTypeIdx].tips?.length ?? 0,
                             itemBuilder: (BuildContext context, int index) {
                               return ActionTipItem(
-                                  text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index] ?? ""
+                                text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index] ?? "",
+                                isSelected: false,
                               );
                             }
                           ),

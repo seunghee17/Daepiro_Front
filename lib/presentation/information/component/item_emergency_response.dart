@@ -27,10 +27,10 @@ class ItemEmergencyResponse extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.12),  // 그림자의 색 (불투명도 조절)
-                    offset: const Offset(0, 0),  // 그림자의 위치 (오른쪽, 아래로 4픽셀)
-                    blurRadius: 8,  // 흐림 효과 (그림자가 퍼지는 정도)
-                    spreadRadius: 1,  // 그림자의 크기 확장 정도
+                    color: Colors.black.withOpacity(0.12),
+                    offset: const Offset(0, 0),
+                    blurRadius: 8,
+                    spreadRadius: 1,
                   ),
                 ],
               ),
@@ -80,6 +80,32 @@ class ItemEmergencyResponse extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  if (tabIndex == 1 && pageIndex == 2)
+                    Column(
+                      children: [
+                        const SizedBox(height: 4),
+                        Text(
+                          "*주의 : 벌침을 핀셋으로 뽑지 말아주세요.",
+                          style: DaepiroTextStyle.caption.copyWith(
+                            color: DaepiroColorStyle.r_300,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  if (tabIndex == 1 && pageIndex == 3)
+                    Column(
+                      children: [
+                        const SizedBox(height: 4),
+                        Text(
+                          "*물린 지 15분 이내라면, 물린 부위의 10cm 위에\n폭 2cm 이상의 헝겊으로 느슨하게 묶어주세요.",
+                          style: DaepiroTextStyle.caption.copyWith(
+                            color: DaepiroColorStyle.r_300,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: 14),
                 ],
               )

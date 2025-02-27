@@ -27,7 +27,7 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
   @override
   void initState() {
     super.initState();
-    shelterList = widget.extra.temperatureShelterList;
+    shelterList = widget.extra.earthquakeShelterList;
 
   }
 
@@ -84,12 +84,10 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                                   _selectedDisasterType = index;
 
                                   if (index == 0) {
-                                    shelterList = widget.extra.temperatureShelterList;
-                                  } else if (index == 1) {
                                     shelterList = widget.extra.earthquakeShelterList;
-                                  } else if (index == 2) {
+                                  } else if (index == 1) {
                                     shelterList = widget.extra.tsunamiShelterList;
-                                  } else if (index == 3) {
+                                  } else if (index == 2) {
                                     shelterList = widget.extra.civilShelterList;
                                   }
                                 });

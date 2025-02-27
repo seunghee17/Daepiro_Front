@@ -24,10 +24,6 @@ abstract class InformationRepository {
     required String size
   });
 
-  Future<AroundShelterListResponse> getAroundShelterList({
-    required String type
-  });
-
   Future<BehaviorListResponse> getBehaviorList({required String type});
   Future<BehaviorListResponse> searchDisasterType({required String keyword});
 }

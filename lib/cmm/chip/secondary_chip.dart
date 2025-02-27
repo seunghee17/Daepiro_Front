@@ -32,7 +32,7 @@ class _SecondaryChipState extends State<SecondaryChip> {
           ),
           child: Text(
             widget.text,
-            style: DaepiroTextStyle.body_2_b.copyWith(
+            style: DaepiroTextStyle.body_2_m.copyWith(
               color: widget.isSelected ? DaepiroColorStyle.white : DaepiroColorStyle.g_600
             ),
           )

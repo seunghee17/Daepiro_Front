@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../const/utils.dart';
+import '../../information/shelter/around_shelter_extra.dart';
 import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
 import '../main/home_view_model.dart';
@@ -32,10 +33,19 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
   int _selectedActionTipType = 0;
   int _selectedDisasterType = 0;
 
+  late HomeViewModel homeViewModel;
+
   @override
   void initState() {
     super.initState();
+    homeViewModel = ref.read(homeStateNotifierProvider.notifier);
     ref.read(homeStateNotifierProvider.notifier).getBehaviorTips(widget.extra.disasterTypeId.toString());
+  }
+
+  @override
+  void dispose() {
+    homeViewModel.disposeDisasterDetail();
+    super.dispose();
   }
 
   @override
@@ -142,42 +152,73 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                               ),
                               child: Column(
                                 children: [
-                                  if (viewModel.behaviorTip != null)
-                                    Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                                          child: Row(
-                                            children: [
-                                              for (int index=0;index<viewModel.behaviorTip!.tips!.length;index++)
-                                                Row(
-                                                  children: [
-                                                    SecondaryChip(
-                                                        isSelected: index == _selectedActionTipType,
-                                                        text: viewModel.behaviorTip!.tips![index].filter ?? "",
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            _selectedActionTipType = index;
-                                                          });
-                                                        }
-                                                    ),
-                                                    const SizedBox(width: 8)
-                                                  ],
-                                                )
-                                            ],
+                                  viewModel.behaviorTip != null && viewModel.behaviorTip!.tips!.isNotEmpty
+                                    ? Column(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                                            child: Row(
+                                              children: [
+                                                for (int index=0;index<viewModel.behaviorTip!.tips!.length;index++)
+                                                  Row(
+                                                    children: [
+                                                      SecondaryChip(
+                                                          isSelected: index == _selectedActionTipType,
+                                                          text: viewModel.behaviorTip!.tips![index].filter ?? "",
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _selectedActionTipType = index;
+                                                            });
+                                                          }
+                                                      ),
+                                                      const SizedBox(width: 8)
+                                                    ],
+                                                  )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                        for (int index=0;index<viewModel.behaviorTip!.tips![_selectedActionTipType].tips!.length;index++)
-                                          Column(
-                                            children: [
-                                              ActionTipItem(
-                                                  text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index]
-                                              ),
-                                            ],
-                                          )
-                                      ],
-                                    ),
+                                          const SizedBox(height: 16),
+                                          for (int index=0;index<viewModel.behaviorTip!.tips![_selectedActionTipType].tips!.length;index++)
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    ref.read(homeStateNotifierProvider.notifier).selectCheckList(_selectedActionTipType, index);
+                                                  },
+                                                  child: ActionTipItem(
+                                                    text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$1,
+                                                    isSelected: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$2,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                        ],
+                                      )
+                                      : Column(
+                                          children: [
+                                            const SizedBox(height: 16),
+                                            SvgPicture.asset(
+                                              'assets/icons/icon_warning_large.svg',
+                                              width: 40,
+                                              height: 40,
+                                              colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_75, BlendMode.srcIn),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                                "대피로는 공사중",
+                                                style: DaepiroTextStyle.h6.copyWith(
+                                                  color: DaepiroColorStyle.g_300,
+                                                )
+                                            ),
+                                            Text(
+                                                "추후 업데이트될 예정이에요!",
+                                                style: DaepiroTextStyle.body_2_m.copyWith(
+                                                  color: DaepiroColorStyle.g_300,
+                                                )
+                                            ),
+                                            const SizedBox(height: 16)
+                                          ],
+                                        )
                                 ],
                               ),
                             ),
@@ -201,24 +242,29 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                   const Spacer(),
                                   GestureDetector(
                                     onTap: () {
-                                      // context.push('/home/disasterMessageHistory');
+                                      context.push(
+                                          '/aroundShelter',
+                                          extra: AroundShelterExtra(
+                                              latitude: viewModel.latitude,
+                                              longitude: viewModel.longitude,
+                                              address: viewModel.shelterLocation,
+                                              earthquakeShelterList: viewModel.earthquakeShelterList,
+                                              tsunamiShelterList: viewModel.tsunamiShelterList,
+                                              civilShelterList: viewModel.civilShelterList
+                                          )
+                                      );
                                     },
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        // context.push('/home/aroundShelter');
-                                      },
-                                      child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "더보기",
-                                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                                color: DaepiroColorStyle.o_400,
-                                              ),
+                                    child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "더보기",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.o_400,
                                             ),
-                                            SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                          ]
-                                      ),
+                                          ),
+                                          SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                        ]
                                     ),
                                   )
                                 ]
@@ -236,6 +282,7 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                           isSelected: index == _selectedDisasterType,
                                           text: Const.disasterTypeList[index],
                                           onPressed: () {
+                                            ref.read(homeStateNotifierProvider.notifier).selectAroundShelterType(index);
                                             setState(() {
                                               _selectedDisasterType = index;
                                             });
@@ -258,14 +305,14 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                   return Container(
                                       padding: const EdgeInsets.only(top: 16, bottom: 20),
                                       margin: const EdgeInsets.only(right: 8),
-                                      child: const AroundShelterPreview(
-                                          name: "강남구 보건소 지하 1층",
-                                          distinct: 250,
-                                          address: "서울특별시 강남구 선릉로 668, 강남구 보건소(삼성동)",
-                                          startLatitude: 0,
-                                          startLongitude: 0,
-                                          endLatitude: 0,
-                                          endLongitude: 0
+                                      child: AroundShelterPreview(
+                                          name: viewModel.shelterList[index].name ?? "",
+                                          distinct: viewModel.shelterList[index].distance ?? 0,
+                                          address: viewModel.shelterList[index].address ?? "",
+                                          startLatitude: viewModel.latitude,
+                                          startLongitude: viewModel.longitude,
+                                          endLatitude: viewModel.shelterList[index].latitude ?? 0,
+                                          endLongitude: viewModel.shelterList[index].longitude ?? 0
                                       )
                                   );
                                 }

@@ -1,7 +1,7 @@
 class Const {
   static List popularPostCategoryList = ["전체", "일상", "교통", "치안", "기타"];
   static List actionTipsList = ["실내", "실외", "기타"];
-  static List disasterTypeList = ["전체", "지진", "수해", "전쟁"];
+  static List disasterTypeList = ["지진", "수해", "전쟁"];
 
   // 심폐소생술, 응급처치, 소화기, 하임리히
   static List<List<List<String>>> emergencyResponseList = [
@@ -16,7 +16,7 @@ class Const {
       ["화상", "assets/icons/image_emergency_response_02_01.png", "", "화상부위를 차가운 흐르는 물에 10~15분 냉각 후물집은 터트리지 않고, 화상부위에 붙어 있는 물질은 떼어내지 않음"],
       ["열사병", "assets/icons/image_emergency_response_02_02.png", "", "환자를 시원한 장소로 옮겨 찬물, 물수건, 선풍기를 이용해 빨리 체온을 낮춤"],
       ["벌에게 쏘였을 때", "assets/icons/image_emergency_response_02_03.png", "", "쏘인 부위에 벌침이 남아있으면, 카드로 밀어서 제거 후 상처를 비누와 물로 씻고, 통증이 심한 경우 얼음 주머니로 냉찜질함"],
-      ["뱀에게 물렸을 때", "assets/icons/image_emergency_response_02_04.png", "", "뱀에게 물린 부위를 심장보다 낮게 위치시킨 후 물린 부위를 비누와 물로 씻어냄 물린지 15분 이내인 경우, 물린 부위의 10cm 위에 (심장에 가까운 쪽) 폭 2cm 이상의 헝겊으로 느슨하게 묶음"],
+      ["뱀에게 물렸을 때", "assets/icons/image_emergency_response_02_04.png", "", "뱀에게 물린 부위를 심장보다 낮게 한 후 물린 부위를 비누와 물로 씻어내주세요. "],
       ["개에게 물렸을 때", "assets/icons/image_emergency_response_02_05.png", "", "출혈이 심하지 않으면 흐르는 물로 5~15분간 씻음 상처를 비비지 않고, 약간의 피가 흐르도록 하여 상처 내 세균이 밖으로 흘러 나오게 함"],
     ],
     [

@@ -45,21 +45,6 @@ class InformationRepositoryImpl extends InformationRepository {
   }
 
   @override
-  Future<AroundShelterListResponse> getAroundShelterList({
-    required String type
-  }) async {
-    try {
-      final response = await _service.getAroundShelterList(
-          type: type
-      );
-      return response;
-    } catch(e) {
-      print('주변대피소 조회 오류 ${e.toString()}');
-      rethrow;
-    }
-  }
-
-  @override
   Future<BehaviorListResponse> getBehaviorList({
     required String type
   }) async {

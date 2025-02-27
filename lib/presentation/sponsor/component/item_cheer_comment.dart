@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
-class ItemCheerComment extends StatelessWidget {
+class ItemCheerComment extends StatefulWidget {
   final String name;
   final String date;
   final String contents;
@@ -21,12 +21,32 @@ class ItemCheerComment extends StatelessWidget {
   });
 
   @override
+  State<ItemCheerComment> createState() => _ItemCheerCommentState();
+}
+
+class _ItemCheerCommentState extends State<ItemCheerComment> {
+  bool _isHighlighted = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _isHighlighted = false;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 20, top: 0, left: 20, bottom: 12),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: (isMine && timeAgo(date) == "방금전") ? DaepiroColorStyle.o_50 : DaepiroColorStyle.white,
+          color: (_isHighlighted && widget.isMine && timeAgoTwoSecond(widget.date)) ? DaepiroColorStyle.o_50 : DaepiroColorStyle.white,
           boxShadow: [
             BoxShadow(
               color: DaepiroColorStyle.black.withOpacity(0.08),
@@ -55,7 +75,7 @@ class ItemCheerComment extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "$name · ${timeAgo(date)}",
+                        "${widget.name} · ${timeAgo(widget.date)}",
                         style: DaepiroTextStyle.caption.copyWith(
                           color: DaepiroColorStyle.g_900,
                         ),
@@ -63,7 +83,7 @@ class ItemCheerComment extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        onClickMenu();
+                        widget.onClickMenu();
                       },
                       child: SvgPicture.asset(
                         'assets/icons/icon_more2.svg',
@@ -75,7 +95,7 @@ class ItemCheerComment extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  contents,
+                  widget.contents,
                   style: DaepiroTextStyle.body_2_m.copyWith(
                     color: DaepiroColorStyle.g_800,
                   ),
@@ -87,4 +107,12 @@ class ItemCheerComment extends StatelessWidget {
       ),
     );
   }
+
+  bool timeAgoTwoSecond(String date) {
+    DateTime past = DateTime.parse(date).toLocal();
+    Duration difference = DateTime.now().difference(past);
+
+    return difference.inSeconds <= 2;
+  }
 }
+

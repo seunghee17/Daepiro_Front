@@ -12,6 +12,7 @@ import 'package:retrofit/http.dart';
 
 import '../../model/request/register_user_location_request.dart';
 import '../../model/response/basic_response.dart';
+import '../../model/response/information/around_shelter_list_response.dart';
 import '../../model/response/information/disaster_contents_list_response.dart';
 part 'home_service.g.dart';
 
@@ -63,5 +64,11 @@ abstract class HomeService {
   @GET('/v1/behaviourtips/tip/{disasterId}')
   Future<BehaviorTipsResponse> getBehaviorTips({
     @Path("disasterId") required String disasterId
+  });
+
+  // 주변대피소 조회
+  @GET('/v1/shelters/{type}')
+  Future<AroundShelterListResponse> getAroundShelterList({
+    @Path("type") required String type
   });
 }

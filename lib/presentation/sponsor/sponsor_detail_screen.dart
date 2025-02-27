@@ -83,7 +83,7 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                 borderRadius: BorderRadius.circular(4),
                                 color: DaepiroColorStyle.o_50
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7),
+                            padding: const EdgeInsets.fromLTRB(6,7,10,7),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -107,9 +107,9 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                           Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                color: DaepiroColorStyle.o_50
+                                color: DaepiroColorStyle.g_50
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             child: Text(
                               calculateDaysDiff(widget.extra.deadline ?? ""),
                               style: DaepiroTextStyle.body_2_m.copyWith(
