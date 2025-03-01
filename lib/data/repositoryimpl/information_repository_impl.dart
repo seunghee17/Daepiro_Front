@@ -13,12 +13,14 @@ class InformationRepositoryImpl extends InformationRepository {
   @override
   Future<DisasterContentsListResponse> getDisasterContentsList({
     required String sortType,
-    required String size
+    required String size,
+    required String cursor
   }) async {
     try {
       final response = await _service.getDisasterContentsList(
         sortType: sortType,
-        size: size
+        size: size,
+        cursor: cursor
       );
       return response;
     } catch(e) {

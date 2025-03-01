@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
+import '../../../data/model/response/home/disasters_history_response.dart';
 import '../../const/utils.dart';
 import '../component/sponsor_preview.dart';
 
@@ -235,10 +236,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                       children: [
                                                         if (index != 0)
                                                           const SizedBox(height: 8),
-                                                        DisasterHistoryPreview(
-                                                            disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
-                                                            title: viewModel.disasterHistoryList[index].title ?? "",
-                                                            date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            context.push(
+                                                                '/disasterDetail',
+                                                                extra: Disasters(
+                                                                  disasterType: viewModel.disasterHistoryList[index].disasterType,
+                                                                  disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
+                                                                  title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
+                                                                  content: viewModel.disasterHistoryList[index].content,
+                                                                  time: viewModel.disasterHistoryList[index].time,
+                                                                )
+                                                            );
+                                                          },
+                                                          child: DisasterHistoryPreview(
+                                                              disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                              title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
+                                                              date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                          ),
                                                         ),
                                                       ],
                                                     );

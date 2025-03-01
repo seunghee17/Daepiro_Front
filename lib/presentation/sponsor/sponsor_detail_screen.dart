@@ -267,13 +267,20 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                               )
                                           ),
                                           const Spacer(),
-                                          Text(
-                                            widget.extra.sponsorName ?? "",
-                                            style: DaepiroTextStyle.body_2_m.copyWith(
-                                              color: DaepiroColorStyle.g_800,
-                                              decoration: TextDecoration.underline,
-                                              decorationColor: DaepiroColorStyle.g_800,
-                                              decorationThickness: 1,
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
+                                                 launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
+                                              }
+                                            },
+                                            child: Text(
+                                              widget.extra.sponsorName ?? "",
+                                              style: DaepiroTextStyle.body_2_m.copyWith(
+                                                color: DaepiroColorStyle.g_800,
+                                                decoration: TextDecoration.underline,
+                                                decorationColor: DaepiroColorStyle.g_800,
+                                                decorationThickness: 1,
+                                              ),
                                             ),
                                           )
                                         ],
@@ -307,8 +314,8 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                       Expanded(
                         child: GestureDetector(
                           onTap: () async {
-                            if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
-                              launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
+                            if (await canLaunchUrl(Uri.parse(widget.extra.sponsorPostUrl ?? ""))) {
+                              launchUrl(Uri.parse(widget.extra.sponsorPostUrl ?? ""), mode: LaunchMode.externalApplication);
                             }
                           },
                           child: Container(

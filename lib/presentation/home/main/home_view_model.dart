@@ -205,20 +205,30 @@ class HomeViewModel extends StateNotifier<HomeState> {
           isOccurred: response.data?.isOccurred ?? false
       );
 
-      if (response.data?.isOccurred == true) {
-        getHomeDisasterFeed();
+      loadNickname();
+      getHomeDisasterHistory();
+      getPopularPostList(category: "");
+      getPopularPostList(category: "LIFE");
+      getPopularPostList(category: "TRAFFIC");
+      getPopularPostList(category: "SAFE");
+      getPopularPostList(category: "OTHER");
+      getDisasterContentsList();
+      getSponsorList();
 
-      } else {
-        loadNickname();
-        getHomeDisasterHistory();
-        getPopularPostList(category: "");
-        getPopularPostList(category: "LIFE");
-        getPopularPostList(category: "TRAFFIC");
-        getPopularPostList(category: "SAFE");
-        getPopularPostList(category: "OTHER");
-        getDisasterContentsList();
-        getSponsorList();
-      }
+      // if (response.data?.isOccurred == true) {
+      //   getHomeDisasterFeed();
+      //
+      // } else {
+      //   loadNickname();
+      //   getHomeDisasterHistory();
+      //   getPopularPostList(category: "");
+      //   getPopularPostList(category: "LIFE");
+      //   getPopularPostList(category: "TRAFFIC");
+      //   getPopularPostList(category: "SAFE");
+      //   getPopularPostList(category: "OTHER");
+      //   getDisasterContentsList();
+      //   getSponsorList();
+      // }
     } catch (error) {
       print('재난 발생상황 조회 에러: $error');
     }

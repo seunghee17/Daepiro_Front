@@ -42,13 +42,16 @@ class AroundShelterPreview extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  name,
-                  style: DaepiroTextStyle.body_1_b.copyWith(
-                    color: DaepiroColorStyle.g_900,
+                Expanded(
+                  child: Text(
+                    name,
+                    style: DaepiroTextStyle.body_1_b.copyWith(
+                      color: DaepiroColorStyle.g_900,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -57,7 +60,7 @@ class AroundShelterPreview extends StatelessWidget {
                     color: DaepiroColorStyle.o_500,
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 12),
                 GestureDetector(
                   onTap: () {
                     Clipboard.setData(ClipboardData(text: address));

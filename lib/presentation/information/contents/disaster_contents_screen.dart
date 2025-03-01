@@ -7,18 +7,44 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
-class DisasterContentsScreen extends ConsumerWidget {
+class DisasterContentsScreen extends ConsumerStatefulWidget {
   const DisasterContentsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(disasterContentsStateNotifierProvider);
+  ConsumerState<DisasterContentsScreen> createState() => _DisasterContentsScreenState();
+}
 
-    ref.listen<DisasterContentsState>(disasterContentsStateNotifierProvider, (previous, next) {
-      if (next.isLoading) {
+class _DisasterContentsScreenState extends ConsumerState<DisasterContentsScreen> {
+  final ScrollController _scrollController = ScrollController();
 
+  @override
+  void initState() {
+    super.initState();
+    ref.read(disasterContentsStateNotifierProvider.notifier).getDisasterContentsList(sortType: "latest");
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (!ref.watch(disasterContentsStateNotifierProvider).isLoading) {
+        ref.read(disasterContentsStateNotifierProvider.notifier).getDisasterContentsList(
+            sortType: "latest",
+            cursor: ref.watch(disasterContentsStateNotifierProvider).nextCursor
+        );
       }
-    });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(disasterContentsStateNotifierProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -69,6 +95,7 @@ class DisasterContentsScreen extends ConsumerWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   child: ListView.builder(
+                      controller: _scrollController,
                       itemCount: viewModel.contentsList.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -77,8 +104,6 @@ class DisasterContentsScreen extends ConsumerWidget {
                             imagePath: viewModel.contentsList[index].thumbnailUrl ?? "",
                             from: viewModel.contentsList[index].source ?? "",
                             date: viewModel.contentsList[index].publishedAt ?? "",
-                            eye: viewModel.contentsList[index].viewCount ?? 0,
-                            save: viewModel.contentsList[index].likeCount ?? 0,
                             bodyUrl: viewModel.contentsList[index].bodyUrl ?? ""
                         );
                       }
@@ -91,5 +116,4 @@ class DisasterContentsScreen extends ConsumerWidget {
       ),
     );
   }
-
 }

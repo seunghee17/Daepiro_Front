@@ -7,16 +7,19 @@ final getDisasterContentsListUseCaseProvider = FutureProvider
   final repository = ref.watch(informationRepositoryProvider);
   return await repository.getDisasterContentsList(
     sortType: request.sortType,
-    size: request.size
+    size: request.size,
+    cursor: request.cursor
   );
 });
 
 class GetDisasterContentsListUseCase {
   final String sortType;
   final String size;
+  final String cursor;
 
   GetDisasterContentsListUseCase({
     required this.sortType,
-    required this.size
+    required this.size,
+    required this.cursor,
   });
 }

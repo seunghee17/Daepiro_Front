@@ -71,7 +71,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(20, 4, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 4, 0, 8),
                     child: Row(
                       children: [
                         for (int i=0;i<viewModel.disastersList.length;i++)
@@ -111,7 +111,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                     children: [
                                       DisasterHistoryItem(
                                         icon: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType ?? "",
-                                        title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title ?? "",
+                                        title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난") ?? "",
                                         contents: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content ?? "",
                                         date: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time ?? "",
                                         isVisibleDate: index == 0
@@ -126,7 +126,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                               extra: Disasters(
                                                 disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
                                                 disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,
-                                                title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title,
+                                                title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난"),
                                                 content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
                                                 time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,
                                               )

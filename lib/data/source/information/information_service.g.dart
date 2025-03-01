@@ -25,9 +25,13 @@ class _InformationService implements InformationService {
   Future<DisasterContentsListResponse> getDisasterContentsList({
     required String sortType,
     required String size,
+    required String cursor,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'size': size};
+    final queryParameters = <String, dynamic>{
+      r'size': size,
+      r'cursor': cursor,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<DisasterContentsListResponse>(Options(

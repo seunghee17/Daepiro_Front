@@ -35,11 +35,15 @@ class ItemAroundShelter extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      name,
-                      style: DaepiroTextStyle.body_1_b.copyWith(
-                        color: DaepiroColorStyle.g_900,
+                    Expanded(
+                      child: Text(
+                        name,
+                        style: DaepiroTextStyle.body_1_b.copyWith(
+                          color: DaepiroColorStyle.g_900,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -49,16 +53,16 @@ class ItemAroundShelter extends StatelessWidget {
                         color: DaepiroColorStyle.o_500,
                       ),
                     ),
-                    const Spacer(),
+                    const SizedBox(width: 12),
                     GestureDetector(
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: address));
                       },
                       child: SvgPicture.asset(
-                        'assets/icons/icon_copy.svg',
-                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
-                        width: 30,
-                        height: 30
+                          'assets/icons/icon_copy.svg',
+                          colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                          width: 30,
+                          height: 30
                       ),
                     )
                   ]

@@ -100,6 +100,7 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                 )
                             ),
                             const SizedBox(height: 8),
+                            // getHighlightText(title: widget.extra.title ?? "", disaster: widget.extra.disasterType ?? ""),
                             Text(
                               widget.extra.title ?? "",
                               style: DaepiroTextStyle.h5.copyWith(

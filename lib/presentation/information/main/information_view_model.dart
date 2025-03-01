@@ -70,13 +70,14 @@ class InformationViewModel extends StateNotifier<InformationState> {
     try {
       final response = await ref.read(
           getDisasterContentsListUseCaseProvider(GetDisasterContentsListUseCase(
-              sortType: sortType,
-              size: size
+            sortType: sortType,
+            size: size,
+            cursor: ""
           )).future
       );
 
       state = state.copyWith(
-        contentsList: response.data?.contents ?? [],
+        contentsList: response.data?.contents?.sublist(0, 3) ?? [],
         isLoadingContents: false
       );
 

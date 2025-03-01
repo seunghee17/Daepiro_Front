@@ -8,8 +8,6 @@ class DisasterContentsItem extends StatelessWidget {
   final String imagePath;
   final String from;
   final String date;
-  final int eye;
-  final int save;
   final String bodyUrl;
 
   const DisasterContentsItem({
@@ -18,8 +16,6 @@ class DisasterContentsItem extends StatelessWidget {
     required this.imagePath,
     required this.from,
     required this.date,
-    required this.eye,
-    required this.save,
     required this.bodyUrl
   });
 
