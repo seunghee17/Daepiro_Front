@@ -24,12 +24,14 @@ class LoginScreen extends ConsumerWidget {
         GoRouter.of(context).go('/home');
       } else if (next.isLoginSuccess && !next.isCompletedOnboarding) {
         showModalBottomSheet(
-            enableDrag: false,
-            isDismissible: false,
-            context: context,
-            builder: (context) {
-              return PermissionScreen(
-                onPermissionCheck: () async {
+          context: context,
+          isScrollControlled: true,
+          isDismissible: true,
+          enableDrag: false,
+          builder: (context) {
+            return Wrap(
+              children: [
+                PermissionScreen(onPermissionCheck: () async {
                   GoRouter.of(context).pop();
                   var locationGrant = await ref
                       .read(loginStateNotifierProvider.notifier)
@@ -39,9 +41,14 @@ class LoginScreen extends ConsumerWidget {
                   } else {
                     GoRouter.of(context).go('/onboarding');
                   }
-                },
-              );
-            });
+                }),
+              ],
+            );
+          },
+        ).then((value) {
+          GoRouter.of(context).go('/onboarding');
+        });
+
       }
     });
 

@@ -37,12 +37,18 @@ class _OnboardingFinalState extends ConsumerState<OnboardingFinalScreen> {
               top: 0,
               bottom: 0,
               child: Center(
-              child: SizedBox(
+              child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: AspectRatio(
-                    aspectRatio: controller.value.aspectRatio,
-                    child: VideoPlayer(controller),
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        child: VideoPlayer(controller),
+                      ),
+                    ),
                   )
               ),
             )),

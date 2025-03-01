@@ -30,7 +30,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="daepiro">
+        android:label="대피로">
 
         <meta-data
             android:name="com.naver.sdk.clientId"

@@ -17,6 +17,7 @@ class OnboardingSecondScreen extends ConsumerStatefulWidget {
 class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
+  bool isInitialized = false;
 
   @override
   void initState() {
@@ -25,61 +26,84 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      final state = ref.read(onboardingStateNotifierProvider);
+
+      nameController.text = state.userName;
+      nicknameController.text = state.userNickName;
+      setState(() {});
+      isInitialized = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    nicknameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingStateNotifierProvider);
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 20),
-                            headerWidget(),
-                            const SizedBox(height: 24),
-                            Text('이름',
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 20),
+                              headerWidget(),
+                              const SizedBox(height: 24),
+                              Text('이름',
+                                  style: DaepiroTextStyle.h6
+                                      .copyWith(color: DaepiroColorStyle.g_900)),
+                              const SizedBox(height: 8),
+                              NameTextField(nameController, state.nameState),
+                              if (state.nameState != '')
+                                namestateText(state.nameState),
+                              const SizedBox(height: 16),
+                              Text(
+                                '닉네임',
                                 style: DaepiroTextStyle.h6
-                                    .copyWith(color: DaepiroColorStyle.g_900)),
-                            const SizedBox(height: 8),
-                            NameTextField(nameController, state.nameState),
-                            if (state.nameState != '')
-                              namestateText(state.nameState),
-                            const SizedBox(height: 16),
-                            Text(
-                              '닉네임',
-                              style: DaepiroTextStyle.h6
-                                  .copyWith(color: DaepiroColorStyle.g_900),
-                            ),
-                            const SizedBox(height: 8),
-                            nickNameTextField(
-                                nicknameController, state.nicknameState),
-                            if (state.nicknameState != '')
-                              nickNamestateText(state.nicknameState)
-                          ],
+                                    .copyWith(color: DaepiroColorStyle.g_900),
+                              ),
+                              const SizedBox(height: 8),
+                              nickNameTextField(
+                                  nicknameController, state.nicknameState),
+                              if (state.nicknameState != '')
+                                nickNamestateText(state.nicknameState)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: keyboardHeight),
-                      // 키보드 높이만큼 하단 패딩 추가
-                      child: BottomWidget(
-                          context,
-                          ref
-                              .read(onboardingStateNotifierProvider.notifier)
-                              .getProceedState()),
-                    ),
-                    const SizedBox(height: 16)
-                  ],
-                ))));
+                      Padding(
+                        padding: EdgeInsets.only(bottom: keyboardHeight),
+                        // 키보드 높이만큼 하단 패딩 추가
+                        child: BottomWidget(
+                            context,
+                            ref
+                                .read(onboardingStateNotifierProvider.notifier)
+                                .getProceedState()),
+                      ),
+                      const SizedBox(height: 16)
+                    ],
+                  )))),
+    );
   }
 
   Widget BottomWidget(BuildContext context, bool isAvailable) {

@@ -61,7 +61,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
         ),
         SizedBox(height: 8,),
         Text(
-          '대피로 서비스 이용을 위해\n이용약관에 동의해 주세요.',
+          '대피로 서비스 이용을 위해\n이용 약관에 동의해 주세요',
           style: DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.g_900),
         ),
       ],
@@ -151,7 +151,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 }),
             SizedBox(width: 8,),
             Text(
-              '필수 약관 모두 동의',
+              '전체 동의',
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             )
           ],
@@ -165,7 +165,11 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          if(termValue != null) {
+            GoRouter.of(context).push('/onboarding_terms/${termValue}');
+          }
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.white,
             overlayColor: Colors.transparent,
@@ -206,20 +210,13 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
               style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
             ),
             Spacer(),
-            GestureDetector(
-              onTap: () {
-                if(termValue != null) {
-                  GoRouter.of(context).push('/onboarding_terms/${termValue}');
-                }
-              },
-              child: Visibility(
-                visible: index != 0,
-                child: SvgPicture.asset(
-                    'assets/icons/icon_arrow_right.svg',
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
-                ),
+            Visibility(
+              visible: index != 0,
+              child: SvgPicture.asset(
+                  'assets/icons/icon_arrow_right.svg',
+                  width: 24,
+                  height: 24,
+                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
               ),
             )
           ],

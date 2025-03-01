@@ -15,56 +15,34 @@ class PermissionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final permissionState = ref.watch(permissionStateNotifierProvider);
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      width: double.infinity,
-      height: screenHeight * 0.6,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-        color: DaepiroColorStyle.white),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8)),
+          color: DaepiroColorStyle.white),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded (
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 24,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      '대피로를 이용하기 위해\n다음과 같은 권한 허용이 필요해요',
-                      style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  allAgreeWidget(permissionState.isAllPermissionGrant, ref),
-                  SizedBox(
-                    child: ListView.builder(
-                        itemCount: 4,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              permissionWidget(index, permissionState.isPermissionCheckboxState, ref),
-                              if(index==3) SizedBox(height: 44),
-                            ],
-                          );
-                        }
-                    ),
-                  ),
-                ],
-              ),
+          SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              '대피로를 이용하기 위해\n다음과 같은 권한 허용이 필요해요',
+              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
             ),
           ),
-          bottomSheetFootter(screenWidth, ref, permissionState.isPermissionCheckboxState, context)
+          SizedBox(height: 16),
+          allAgreeWidget(permissionState.isAllPermissionGrant, ref),
+          SizedBox(height: 16),
+          ...List.generate(4, (index) => permissionWidget(index, permissionState.isPermissionCheckboxState, ref)),
+          SizedBox(height: 44),
+          bottomSheetFootter(double.infinity, ref, permissionState.isPermissionCheckboxState, context)
         ],
-      ),
+      )
     );
-
   }
 
   Widget allAgreeWidget(bool isAllPermissionGrant, WidgetRef ref) {
@@ -178,14 +156,14 @@ class PermissionScreen extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        //mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '권한을 허용하지 않으면 일부 서비스 이용이 제한될 수 있어요.',
+            '권한을 허용하지 않으면 일부 서비스 이용이 제한될 수 있으나\n일부 서비스 이용이 제한될 수 있어요.',
             style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           Container(
             width: screenWidth,
             child: PrimaryFilledButton(

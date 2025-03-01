@@ -25,6 +25,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   TextEditingController jusoNickController2 = TextEditingController();
   FocusNode nickFocusNode1 = FocusNode();
   FocusNode nickFocusNode2 = FocusNode();
+  bool isInitialized = false;
 
   @override
   void initState() {
@@ -33,6 +34,31 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     Future(() {
       ref.read(onboardingStateNotifierProvider.notifier).initSearchHistory();
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      final state = ref.read(onboardingStateNotifierProvider);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if(state.isJuso1Visible && state.firstJusoNick == '') {
+          ref.read(onboardingStateNotifierProvider.notifier).setVisibleState(1, false);
+        }
+        if(state.isJuso2Visible && state.secondJusoNick == '') {
+          ref.read(onboardingStateNotifierProvider.notifier).setVisibleState(2, false);
+        }
+      });
+      if(state.firstJusoNick != '') {
+        jusoNickController1.text = state.firstJusoNick;
+      }
+      if(state.secondJusoNick != '') {
+        jusoNickController2.text = state.secondJusoNick;
+      }
+      setState(() {});
+      isInitialized = true;
+    }
   }
 
   @override
@@ -122,7 +148,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         SizedBox(height: 24),
         RichText(
             text: TextSpan(
-                text: '재난정보를 받을\n',
+                text: '재난 정보를 받을\n',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
                 children: [
@@ -137,7 +163,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     .copyWith(color: DaepiroColorStyle.black),
               ),
               TextSpan(
-                text: '설정해 주세요.',
+                text: '설정해주세요.',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
@@ -243,7 +269,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
               children: [
                 Spacer(),
                 Text(
-                  '*집 주소는 필수로 입력해주세요',
+                  '*집 주소를 필수로 입력해주세요',
                   style: DaepiroTextStyle.body_2_m
                       .copyWith(color: DaepiroColorStyle.r_300),
                 ),
@@ -531,8 +557,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       bool juso2visible) {
     bool isButtonDisabled = ref
         .watch(onboardingStateNotifierProvider.notifier)
-        .checkPlusChipState(homecontroller, jusoController1, jusoController2,
-            juso1visible, juso2visible);
+        .checkPlusChipState(homecontroller, jusoController1, jusoController2, juso1visible, juso2visible);
     return SecondaryFilledButton(
       onPressed: () {
         if (!isButtonDisabled) {
@@ -565,7 +590,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            'assets/icons/icon_location.svg',
+            'assets/icons/icon_plus.svg',
             colorFilter: ColorFilter.mode(
                 isButtonDisabled
                     ? DaepiroColorStyle.g_600
@@ -662,7 +687,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         pressedColor: DaepiroColorStyle.g_75,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '그만두기',
+                          '취소',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
@@ -684,7 +709,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         pressedColor: DaepiroColorStyle.g_400,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '삭제하기',
+                          '삭제',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.white),
                         )),
