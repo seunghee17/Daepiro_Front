@@ -35,12 +35,18 @@ class _OnboardingFirstState extends State<OnboardingFirstScreen> {
               top: 0,
               bottom: 80,
               child: Center(
-                child: SizedBox(
+                child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                    child: AspectRatio(
-                      aspectRatio: controller.value.aspectRatio,
-                      child: VideoPlayer(controller),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: AspectRatio(
+                          aspectRatio: controller.value.aspectRatio,
+                          child: VideoPlayer(controller),
+                        ),
+                      ),
                     )
                 ),
               ),

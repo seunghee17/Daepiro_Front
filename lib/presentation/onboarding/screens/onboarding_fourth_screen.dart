@@ -18,30 +18,51 @@ class OnboardingFourthScreen extends ConsumerStatefulWidget {
 }
 
 class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
+  bool isInitialized = false;
   Set<int> selected = {};
   Set<int> selectedSub = {};
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      final state = ref.read(onboardingStateNotifierProvider);
+      for(int i=0; i<EmergencyDisasterList.length; i++) {
+        if(state.disasterTypes.contains(EmergencyDisasterList[i]['name']!)) {
+          selected.add(i);
+        }
+      }
+      for(int i=0; i<CommonDisasterList.length; i++) {
+        if(state.disasterTypes.contains(CommonDisasterList[i]['name']!)) {
+          selectedSub.add(i);
+        }
+      }
+      setState(() {});
+      isInitialized = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final viewModel = ref.read(onboardingStateNotifierProvider.notifier);
     return Scaffold(
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            headerWidget(),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    headerWidget(),
                     const SizedBox(height: 24),
                     Row(
                       children: [
                         Text(
                           '위급/긴급 재난',
-                          style: DaepiroTextStyle.body_1_b
+                          style: DaepiroTextStyle.h6
                               .copyWith(color: DaepiroColorStyle.g_900),
                         ),
                         const Spacer(),
@@ -52,8 +73,8 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                       height: 4,
                     ),
                     Text(
-                      '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난이에요.',
-                      style: DaepiroTextStyle.caption
+                      '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                      style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_300),
                     ),
                     const SizedBox(height: 12),
@@ -61,45 +82,56 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                         spacing: 8,
                         runSpacing: 8,
                         children: List.generate(EmergencyDisasterList.length,
-                            (index) {
-                          bool isTapped = selected.contains(index);
-                          return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (isTapped) {
-                                    selected.remove(index);
-                                    ref
-                                        .read(onboardingStateNotifierProvider
-                                            .notifier)
-                                        .removeDisasterType(
-                                            EmergencyDisasterList[index]
-                                                ['name']!);
-                                  } else {
-                                    selected.add(index);
-                                    ref
-                                        .read(onboardingStateNotifierProvider
-                                            .notifier)
-                                        .addDisasterType(
-                                            EmergencyDisasterList[index]
-                                                ['name']!);
-                                  }
-                                });
-                              },
-                              child: disasterItem(
-                                  isTapped,
-                                  EmergencyDisasterList[index]['name']!,
-                                  EmergencyDisasterList[index]['icon']!));
-                        })),
+                                (index) {
+                              bool isTapped = selected.contains(index);
+                              return ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if(isTapped) {
+                                        selected.remove(index);
+                                        viewModel.removeDisasterType(EmergencyDisasterList[index]['name']!);
+                                      } else {
+                                        selected.add(index);
+                                        viewModel.addDisasterType(EmergencyDisasterList[index]['name']!);
+                                      }
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      overlayColor: Colors.transparent,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        side: BorderSide(
+                                            color: isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
+                                            width: 1
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      elevation: 0.0,
+                                    shadowColor: Colors.transparent
+                                  ).copyWith(
+                                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                            (Set<MaterialState> states) {
+                                          if (states.contains(MaterialState.pressed)) {
+                                            return DaepiroColorStyle.g_50;
+                                          } else if(isTapped) {
+                                            return DaepiroColorStyle.g_75;
+                                          }
+                                          return DaepiroColorStyle.white;
+                                        }),
+                                  ),
+                                  child: disasterItem(EmergencyDisasterList[index]['name']!, EmergencyDisasterList[index]['icon']!)
+                              );
+                            })),
                     const SizedBox(height: 24),
                     Text(
                       '일반 재난',
-                      style: DaepiroTextStyle.body_1_b
+                      style: DaepiroTextStyle.h6
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '기상 특보와 같이 안전 주의를 요하는 재난이에요.',
-                      style: DaepiroTextStyle.caption
+                      '기상 특보와 같이 안전 주의를 요하는 재난입니다.',
+                      style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_300),
                     ),
                     const SizedBox(height: 12),
@@ -107,45 +139,57 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                       spacing: 8,
                       runSpacing: 8,
                       children:
-                          List.generate(CommonDisasterList.length, (index) {
+                      List.generate(CommonDisasterList.length, (index) {
                         bool isTapped = selectedSub.contains(index);
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (isTapped) {
-                                selectedSub.remove(index);
-                                ref
-                                    .read(onboardingStateNotifierProvider
-                                        .notifier)
-                                    .removeDisasterType(
-                                    CommonDisasterList[index]['name']!);
-                              } else {
-                                selectedSub.add(index);
-                                ref
-                                    .read(onboardingStateNotifierProvider
-                                        .notifier)
-                                    .addDisasterType(
-                                    CommonDisasterList[index]['name']!);
-                              }
-                            });
-                          },
-                          child: disasterItem(
-                              isTapped,
-                              CommonDisasterList[index]['name']!,
-                              CommonDisasterList[index]['icon']!),
+                        return ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                if(isTapped) {
+                                  selectedSub.remove(index);
+                                  viewModel.removeDisasterType(CommonDisasterList[index]['name']!);
+                                } else {
+                                  selectedSub.add(index);
+                                  viewModel.addDisasterType(CommonDisasterList[index]['name']!);
+                                }
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              overlayColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
+                                  width: 1
+                                ),
+                              ),
+                              padding: EdgeInsets.zero,
+                              elevation: 0.0,
+                                shadowColor: Colors.transparent
+                            ).copyWith(
+                              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                    if (states.contains(MaterialState.pressed)) {
+                                      return DaepiroColorStyle.g_50;
+                                    } else if(isTapped) {
+                                      return DaepiroColorStyle.g_75;
+                                    }
+                                    return DaepiroColorStyle.white;
+                                  }),
+                            ),
+                            child: disasterItem(CommonDisasterList[index]['name']!,  CommonDisasterList[index]['icon']!)
                         );
                       }),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
             bottomWidget(context),
           ],
-        ),
+        )
       )),
     );
   }
@@ -203,22 +247,22 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
         const SizedBox(height: 24),
         RichText(
             text: TextSpan(
-                text: '알림을 받고 싶은\n',
+                text: '수신 받을 ',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
                 children: [
               TextSpan(
-                text: '재난',
+                text: '재난 유형',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.o_400),
               ),
               TextSpan(
-                text: '을 ',
+                text: '을\n',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
               TextSpan(
-                text: '선택해주세요',
+                text: '선택해주세요.',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
@@ -227,16 +271,9 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
     );
   }
 
-  Widget disasterItem(bool isTapped, String name, String icon) {
+  Widget disasterItem(String name, String icon) {
     return Container(
       width: (MediaQuery.of(context).size.width / 3) - 20,
-      decoration: BoxDecoration(
-          color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
-          border: Border.all(
-              color:
-                  isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
-              width: 1),
-          borderRadius: BorderRadius.circular(8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -256,9 +293,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                       DaepiroColorStyle.g_500, BlendMode.srcIn)),
             ),
           ),
-          const SizedBox(
-            height: 4,
-          ),
+          const SizedBox(height: 4,),
           Text(
             name,
             style: DaepiroTextStyle.body_2_m
@@ -353,7 +388,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                     Text(
                       textAlign: TextAlign.center,
                       '알림 설정은 마이페이지에서 변경할 수 있어요.',
-                      style: DaepiroTextStyle.body_1_b
+                      style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_500),
                     ),
                   ]),
@@ -382,6 +417,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
+                          ref.read(onboardingStateNotifierProvider.notifier).setDisasterTypeInit();
                           GoRouter.of(context).pop();
                           GoRouter.of(context).push('/onboarding/fourth');
                         },

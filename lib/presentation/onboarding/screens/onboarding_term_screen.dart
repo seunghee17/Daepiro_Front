@@ -12,7 +12,7 @@ class OnboardingTermScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
           child: SingleChildScrollView(
             child: termTextWidget(int.tryParse(id ?? '0') ?? 0)
           ),

@@ -56,6 +56,7 @@ class _LocationChipState extends State<LocationChip> {
               child: TextField(
                 focusNode: widget.focusNode,
                 cursorWidth: 4,
+                maxLength: 8,
                 onChanged: widget.onChanged,
                 cursorColor: DaepiroColorStyle.white,
                 controller: widget.controller,
@@ -65,6 +66,7 @@ class _LocationChipState extends State<LocationChip> {
                     .copyWith(color: DaepiroColorStyle.white),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
+                  counterText: '',
                   isDense: true,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 16, 0),
                   enabledBorder: InputBorder.none,

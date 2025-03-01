@@ -23,7 +23,7 @@ def getBaseUrl(properties, String propertyBaseUrl) {
 }
 
 android {
-    namespace = "com.example.daepiro"
+    namespace = "com.numberone.daepiro"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.daepiro"
+        applicationId = "com.numberone.daepiro"
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()

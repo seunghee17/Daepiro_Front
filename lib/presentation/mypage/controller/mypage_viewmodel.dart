@@ -2,20 +2,17 @@ import 'package:daepiro/data/model/request/set_mypage_disaster_types_request.dar
 import 'package:daepiro/data/model/request/set_mypage_inquires_request.dart';
 import 'package:daepiro/data/model/request/set_mypage_profiles_request.dart';
 import 'package:daepiro/data/model/response/mypage/get_mypage_address_response.dart';
-import 'package:daepiro/domain/usecase/mypage/delete_account_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/logout_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_get_myarticles_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_set_address_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_set_profiles_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_withdraw_usecase.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../data/model/request/set_mypage_address_notification_request.dart';
 import '../../../data/model/request/withdraw_user_request.dart';
 import '../../../data/model/response/mypage/get_mypage_articles_response.dart';
@@ -462,41 +459,11 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   }
 
   Future<void> deleteUserAccount() async {
-    if (state.platform == 'kakao') {
-      await UserApi.instance.unlink();
-      await ref.read(withDrawUseCaseProvider(
-          WithDrawUseCase(
-              reason: WithDrawReason.getNamedByCategory(state.leaveType).toLowerCase(),
-            withDrawRequest: WithDrawRequest(appleCode: null)
-          )).future);
-    } else if (state.platform == 'naver') {
-      String clientId = dotenv.get('NAVER_CLIENT');
-      String client_secret = dotenv.get('NAVER_SECRET');
-      String? accessToken = await storage.read(key: 'accessToken');
-
-      await ref.read(deleteNaverAccountUseCaseProvider(
-              DeleteNaverAccountUseCase(
-                  clientId: clientId,
-                  client_secret: client_secret,
-                  access_token: accessToken ?? ''))
-          .future);
-      await ref.read(withDrawUseCaseProvider(
-          WithDrawUseCase(
-              reason: WithDrawReason.getNamedByCategory(state.leaveType).toLowerCase(),
-              withDrawRequest: WithDrawRequest(appleCode: null)
-          )).future);
-    } else {
-      //apple 로그인을 했을 경우
-      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ]);
-      await ref.read(withDrawUseCaseProvider(
-          WithDrawUseCase(
-              reason: WithDrawReason.getNamedByCategory(state.leaveType).toLowerCase(),
-              withDrawRequest: WithDrawRequest(appleCode: credential.authorizationCode)
-          )).future);
-    }
+    await ref.read(withDrawUseCaseProvider(
+        WithDrawUseCase(
+            reason: WithDrawReason.getNamedByCategory(state.leaveType).toLowerCase(),
+            withDrawRequest: WithDrawRequest(appleCode: null) //TODO 애플로그인에 인가코드 다시 안줘도 되는거 아닌가?
+        )).future);
     await storage.deleteAll();
   }
 }

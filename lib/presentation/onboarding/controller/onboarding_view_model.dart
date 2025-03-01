@@ -18,23 +18,49 @@ final onboardingStateNotifierProvider =
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
   final Ref ref;
   final FlutterSecureStorage storage = FlutterSecureStorage();
+
   Set<String> get inputJusoList => _inputJusoList;
   Set<String> _inputJusoList = Set<String>();
-
 
   OnboardingViewModel(this.ref) : super(OnboardingState());
 
   void setNameState(String name) {
     if (checkForNameRule(name)) {
-      state = state.copyWith(
-          nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
+      state =
+          state.copyWith(nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
     } else if (name.length > 6) {
       state = state.copyWith(
           nameState: '*최대 6자까지 작성 가능해주세요.', completeSetName: false);
     } else if (name.length <= 6 && !checkForNameRule(name) && name != '') {
       state = state.copyWith(nameState: '', completeSetName: true);
+    } else if (name == '') {
+      state = state.copyWith(nameState: '', completeSetName: false);
     }
+    updateUserName(name);
   }
+
+  Future<void> setNickNameState(String nickName) async {
+    if (nickName.length > 10) {
+      state = state.copyWith(nicknameState: '*최대 10자까지 작성해주세요.', completeSetNickName: false);
+    }
+
+    if (!checkForSpecialCharacter(nickName)) {
+      state = state.copyWith(nicknameState: '*닉네임은 한글/영문/숫자로 입력해주세요.', completeSetNickName: false);
+    }
+
+    if(nickName.length <= 10 && checkForSpecialCharacter(nickName)) {
+      bool isAvailable = await _checkNickName(nickName);
+      if (!isAvailable) {
+        state = state.copyWith(
+            nicknameState: nickName.isNotEmpty ? '*이미 사용 중인 닉네임이에요.' : '',
+            completeSetNickName: false);
+      } else {
+        state = state.copyWith(nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
+      }
+    }
+    updateNickName(nickName);
+  }
+
 
   void updateUserName(String name) {
     state = state.copyWith(userName: name);
@@ -42,24 +68,6 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   void updateNickName(String nickName) {
     state = state.copyWith(userNickName: nickName);
-  }
-
-  Future<void> setNickNameState(String nickName) async {
-    if (nickName.length > 10) {
-      state = state.copyWith(
-          nicknameState: '*최대 10자까지 작성해주세요.', completeSetNickName: false);
-    } else if (!checkForSpecialCharacter(nickName)) {
-      state = state.copyWith(
-          nicknameState: '*닉네임은 한글/영문/숫자로 입력해주세요.',
-          completeSetNickName: false);
-    } else if (!await _checkNickName(nickName)) {
-      //현재 닉네임이 중복됨
-      state = state.copyWith(
-          nicknameState: '*이미 사용 중인 닉네임이에요.', completeSetNickName: false);
-    } else {
-      state = state.copyWith(
-          nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
-    }
   }
 
   bool getProceedState() {
@@ -90,6 +98,10 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     state = state.copyWith(disasterTypes: List.unmodifiable(mutableList));
   }
 
+  void setDisasterTypeInit() {
+    state = state.copyWith(disasterTypes: []);
+  }
+
   Future<void> sendUserInfo() async {
     final address = parseAddress();
     final fcmToken = await getFcmToken();
@@ -106,7 +118,8 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   //주소 저장과 이름 닉네임 저장
   Future<void> storeSecureStorage() async {
     try {
-      final userAddresses = await ref.read(userAddressUseCaseProvider(UserAddressUseCase()).future);
+      final userAddresses = await ref
+          .read(userAddressUseCaseProvider(UserAddressUseCase()).future);
       if (userAddresses.length > 0) {
         for (int i = 0; i < userAddresses.length; i++) {
           await storage.write(
@@ -115,7 +128,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
               key: 'shortAddress_$i', value: userAddresses[i].shortAddress);
         }
       }
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -150,10 +163,12 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   Future<void> getJusoList(
       String inputJuso, int currentPage, bool append) async {
     final result = await ref.read(getJusoListUseCaseProvider(
-            GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage)).future);
+            GetJusoListUseCase(inputJuso: inputJuso, currentPage: currentPage))
+        .future);
     final currentList = _inputJusoList;
     try {
-      final updateList = append ? currentList.union(result.toSet()) : result.toSet();
+      final updateList =
+          append ? currentList.union(result.toSet()) : result.toSet();
       _inputJusoList = updateList;
       state = state.copyWith(isError: false);
     } catch (e) {
@@ -245,6 +260,11 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
       } else {
         state = state.copyWith(secondJusoState: 'Possible');
       }
+    }
+    if(index == 1) {
+      state = state.copyWith(firstJusoNick: nickController.text);
+    } else {
+      state = state.copyWith(secondJusoNick: nickController.text);
     }
   }
 
