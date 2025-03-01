@@ -15,6 +15,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../../domain/usecase/home/get_around_shelter_list_usecase.dart';
 import '../../../domain/usecase/home/register_user_location_usecase.dart';
+import '../../../domain/usecase/mypage/mypage_get_profiles_usecase.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
@@ -34,10 +35,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
 
   Future<void> loadNickname() async {
-    var nickname = await storage.read(key: 'nickname') ?? 'Empty닉네임';
-    state = state.copyWith(
-        nickname: nickname
-    );
+    final response = await ref
+        .read(getProfilesUseCaseProvider(GetMyPageProfileUseCase()).future);
+    state = state.copyWith(nickname: response.data?.nickname ?? '');
   }
 
   Future<void> getCurrentLocation() async {
