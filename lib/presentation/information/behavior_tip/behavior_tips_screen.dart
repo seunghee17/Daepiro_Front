@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
+import '../main/information_view_model.dart';
 
 class BehaviorTipsScreen extends ConsumerStatefulWidget {
   const BehaviorTipsScreen({super.key});
@@ -32,10 +33,6 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(behaviorTipsStateNotifierProvider);
-
-    ref.listen<BehaviorTipsState>(behaviorTipsStateNotifierProvider, (previous, next) {
-
-    });
 
     return Scaffold(
       body: SafeArea(

@@ -5,7 +5,7 @@ import '../../../cmm/DaepiroTheme.dart';
 
 class ActionTipItem extends StatefulWidget {
   final String text;
-  final isSelected;
+  final bool isSelected;
 
   const ActionTipItem({
     super.key,

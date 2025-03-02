@@ -28,7 +28,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(allPopularPostList: list);
 
     getHomeStatus();
-
     getCurrentLocation();
   }
 
