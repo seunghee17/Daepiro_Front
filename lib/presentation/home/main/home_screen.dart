@@ -226,40 +226,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               padding: const EdgeInsets.symmetric(vertical: 12),
                                               child: const Center(child: CircularProgressIndicator())
                                             )
-                                          : Expanded(
-                                              child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  physics: const NeverScrollableScrollPhysics(),
-                                                  itemCount: viewModel.disasterHistoryList.length,
-                                                  itemBuilder: (context, index) {
-                                                    return Column(
-                                                      children: [
-                                                        if (index != 0)
-                                                          const SizedBox(height: 8),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            context.push(
-                                                                '/disasterDetail',
-                                                                extra: Disasters(
-                                                                  disasterType: viewModel.disasterHistoryList[index].disasterType,
-                                                                  disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
-                                                                  title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
-                                                                  content: viewModel.disasterHistoryList[index].content,
-                                                                  time: viewModel.disasterHistoryList[index].time,
-                                                                )
-                                                            );
-                                                          },
-                                                          child: DisasterHistoryPreview(
-                                                              disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
-                                                              title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
-                                                              date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  }
-                                              ),
-                                            ),
+                                          : viewModel.disasterHistoryList.isEmpty
+                                              ? Container(
+                                                 padding: const EdgeInsets.symmetric(vertical: 60),
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    "최근 재난문자 내역이 없습니다.",
+                                                    style: DaepiroTextStyle.body_2_b.copyWith(
+                                                      color: DaepiroColorStyle.g_200,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Expanded(
+                                                  child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      itemCount: viewModel.disasterHistoryList.length,
+                                                      itemBuilder: (context, index) {
+                                                        return Column(
+                                                          children: [
+                                                            if (index != 0)
+                                                              const SizedBox(height: 8),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                context.push(
+                                                                    '/disasterDetail',
+                                                                    extra: Disasters(
+                                                                      disasterType: viewModel.disasterHistoryList[index].disasterType,
+                                                                      disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
+                                                                      title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
+                                                                      content: viewModel.disasterHistoryList[index].content,
+                                                                      time: viewModel.disasterHistoryList[index].time,
+                                                                    )
+                                                                );
+                                                              },
+                                                              child: DisasterHistoryPreview(
+                                                                  disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                                  title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
+                                                                  date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }
+                                                  ),
+                                                ),
                                     ),
                                     const SizedBox(height: 28),
                                     Row(
@@ -329,6 +340,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                   child: const Center(child: CircularProgressIndicator())
                                                 )
                                               : Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
                                                     if (viewModel.popularPostList.isNotEmpty)
                                                       Column(
@@ -372,6 +384,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                           )
                                                         ],
                                                       )
+                                                    else
+                                                      Container(
+                                                        padding: const EdgeInsets.symmetric(vertical: 60),
+                                                        alignment: Alignment.center,
+                                                        child: Text(
+                                                          "최근 등록된 게시물이 없습니다.",
+                                                          style: DaepiroTextStyle.body_2_b.copyWith(
+                                                            color: DaepiroColorStyle.g_200,
+                                                          ),
+                                                        ),
+                                                      ),
                                                   ],
                                           )
                                         ],
@@ -504,33 +527,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                     ),
                                     if (!viewModel.isLoadingSponsor)
-                                      ExpandablePageView.builder(
-                                          controller: _sponsorPageController,
-                                          scrollDirection: Axis.horizontal,
-                                          padEnds: false,
-                                          itemCount: viewModel.sponsorList.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return Container(
-                                              padding: const EdgeInsets.only(top: 12),
-                                              margin: const EdgeInsets.only(right: 8),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  context.push(
-                                                      '/sponsorDetail',
-                                                      extra: viewModel.sponsorList[index]
-                                                  );
-                                                },
-                                                child: SponsorPreview(
-                                                  disasterType: viewModel.sponsorList[index].disasterType ?? "",
-                                                  date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
-                                                  from: viewModel.sponsorList[index].sponsorName ?? "",
-                                                  title: viewModel.sponsorList[index].title ?? "",
-                                                  imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                      if (viewModel.sponsorList.isNotEmpty)
+                                        ExpandablePageView.builder(
+                                            controller: _sponsorPageController,
+                                            scrollDirection: Axis.horizontal,
+                                            padEnds: false,
+                                            itemCount: viewModel.sponsorList.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return Container(
+                                                padding: const EdgeInsets.only(top: 12),
+                                                margin: const EdgeInsets.only(right: 8),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    context.push(
+                                                        '/sponsorDetail',
+                                                        extra: viewModel.sponsorList[index]
+                                                    );
+                                                  },
+                                                  child: SponsorPreview(
+                                                    disasterType: viewModel.sponsorList[index].disasterType ?? "",
+                                                    date: calculateDaysDiff(viewModel.sponsorList[index].deadline ?? ""),
+                                                    from: viewModel.sponsorList[index].sponsorName ?? "",
+                                                    title: viewModel.sponsorList[index].title ?? "",
+                                                    imagePath: viewModel.sponsorList[index].thumbnail ?? "",
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                      )
+                                              );
+                                            }
+                                        )
+                                      else
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 60),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "최근 등록된 후원이 없습니다.",
+                                            style: DaepiroTextStyle.body_2_b.copyWith(
+                                              color: DaepiroColorStyle.g_200,
+                                            ),
+                                          ),
+                                        ),
                                   ],
                                 ),
                               )
