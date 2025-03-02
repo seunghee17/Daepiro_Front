@@ -92,12 +92,7 @@ class _UnNormalHomeScreenState extends ConsumerState<UnNormalHomeScreen> {
                                 )
                             ),
                             const SizedBox(height: 8),
-                            Text(
-                              viewModel.disasterInfo?.title ?? "",
-                              style: DaepiroTextStyle.h5.copyWith(
-                                color: DaepiroColorStyle.g_900,
-                              ),
-                            ),
+                            getLargeHighlightText(title: viewModel.disasterInfo?.title ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
                             const SizedBox(height: 8),
                             Text(
                               viewModel.disasterInfo?.content ?? "",

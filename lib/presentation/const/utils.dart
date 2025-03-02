@@ -112,6 +112,43 @@ Text getHighlightText({
   );
 }
 
+// 재난명을 강조해서 큰글씨 Text 반환
+Text getLargeHighlightText({
+  required String title,
+  required String disaster
+}) {
+  List<TextSpan> spans = [];
+  int start = 0;
+
+  while (true) {
+    int index = title.indexOf(disaster, start);
+    if (index == -1) {
+      spans.add(TextSpan(text: title.substring(start)));
+      break;
+    }
+
+    if (index > start) {
+      spans.add(TextSpan(text: title.substring(start, index)));
+    }
+
+    spans.add(TextSpan(
+      text: disaster,
+      style: const TextStyle(color: DaepiroColorStyle.o_500),
+    ));
+
+    start = index + disaster.length;
+  }
+
+  return Text.rich(
+      TextSpan(
+        children: spans,
+        style: DaepiroTextStyle.h5.copyWith(
+          color: DaepiroColorStyle.g_900,
+        ),
+      )
+  );
+}
+
 //00분전, 00일전으로 시간 반환
 String parseRegTime(String timeText) {
   if (timeText == '') {
