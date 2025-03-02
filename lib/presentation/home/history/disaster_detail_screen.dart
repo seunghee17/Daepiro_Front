@@ -287,6 +287,11 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                             setState(() {
                                               _selectedDisasterType = index;
                                             });
+                                            _aroundShelterPageController.animateToPage(
+                                                0,
+                                                duration: const Duration(milliseconds: 1),
+                                                curve: Curves.easeIn
+                                            );
                                           }
                                       ),
                                       const SizedBox(width: 8)

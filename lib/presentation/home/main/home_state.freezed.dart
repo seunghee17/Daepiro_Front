@@ -21,7 +21,10 @@ mixin _$HomeState {
   String get location => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  bool get isOccurred => throw _privateConstructorUsedError;
+  bool get isOccurred => throw _privateConstructorUsedError; // --재난 발생시
+  HomeDisaster? get disasterInfo => throw _privateConstructorUsedError;
+  BehaviorData? get disasterBehaviorTip =>
+      throw _privateConstructorUsedError; // --재난 발생시
   int get selectedPopularPostCategory => throw _privateConstructorUsedError;
   int get selectedContentsCategory => throw _privateConstructorUsedError;
   bool get isLoadingDisasterHistory => throw _privateConstructorUsedError;
@@ -67,6 +70,8 @@ abstract class $HomeStateCopyWith<$Res> {
       String nickname,
       bool isLoading,
       bool isOccurred,
+      HomeDisaster? disasterInfo,
+      BehaviorData? disasterBehaviorTip,
       int selectedPopularPostCategory,
       int selectedContentsCategory,
       bool isLoadingDisasterHistory,
@@ -109,6 +114,8 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? nickname = null,
     Object? isLoading = null,
     Object? isOccurred = null,
+    Object? disasterInfo = freezed,
+    Object? disasterBehaviorTip = freezed,
     Object? selectedPopularPostCategory = null,
     Object? selectedContentsCategory = null,
     Object? isLoadingDisasterHistory = null,
@@ -156,6 +163,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.isOccurred
           : isOccurred // ignore: cast_nullable_to_non_nullable
               as bool,
+      disasterInfo: freezed == disasterInfo
+          ? _value.disasterInfo
+          : disasterInfo // ignore: cast_nullable_to_non_nullable
+              as HomeDisaster?,
+      disasterBehaviorTip: freezed == disasterBehaviorTip
+          ? _value.disasterBehaviorTip
+          : disasterBehaviorTip // ignore: cast_nullable_to_non_nullable
+              as BehaviorData?,
       selectedPopularPostCategory: null == selectedPopularPostCategory
           ? _value.selectedPopularPostCategory
           : selectedPopularPostCategory // ignore: cast_nullable_to_non_nullable
@@ -259,6 +274,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       String nickname,
       bool isLoading,
       bool isOccurred,
+      HomeDisaster? disasterInfo,
+      BehaviorData? disasterBehaviorTip,
       int selectedPopularPostCategory,
       int selectedContentsCategory,
       bool isLoadingDisasterHistory,
@@ -299,6 +316,8 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? nickname = null,
     Object? isLoading = null,
     Object? isOccurred = null,
+    Object? disasterInfo = freezed,
+    Object? disasterBehaviorTip = freezed,
     Object? selectedPopularPostCategory = null,
     Object? selectedContentsCategory = null,
     Object? isLoadingDisasterHistory = null,
@@ -346,6 +365,14 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.isOccurred
           : isOccurred // ignore: cast_nullable_to_non_nullable
               as bool,
+      disasterInfo: freezed == disasterInfo
+          ? _value.disasterInfo
+          : disasterInfo // ignore: cast_nullable_to_non_nullable
+              as HomeDisaster?,
+      disasterBehaviorTip: freezed == disasterBehaviorTip
+          ? _value.disasterBehaviorTip
+          : disasterBehaviorTip // ignore: cast_nullable_to_non_nullable
+              as BehaviorData?,
       selectedPopularPostCategory: null == selectedPopularPostCategory
           ? _value.selectedPopularPostCategory
           : selectedPopularPostCategory // ignore: cast_nullable_to_non_nullable
@@ -444,6 +471,8 @@ class _$HomeStateImpl implements _HomeState {
       this.nickname = "",
       this.isLoading = true,
       this.isOccurred = false,
+      this.disasterInfo = null,
+      this.disasterBehaviorTip = null,
       this.selectedPopularPostCategory = 0,
       this.selectedContentsCategory = 0,
       this.isLoadingDisasterHistory = true,
@@ -495,6 +524,14 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final bool isOccurred;
+// --재난 발생시
+  @override
+  @JsonKey()
+  final HomeDisaster? disasterInfo;
+  @override
+  @JsonKey()
+  final BehaviorData? disasterBehaviorTip;
+// --재난 발생시
   @override
   @JsonKey()
   final int selectedPopularPostCategory;
@@ -641,7 +678,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(latitude: $latitude, longitude: $longitude, location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, historyIsLoading: $historyIsLoading, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList, shelterLocation: $shelterLocation, shelterList: $shelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList)';
+    return 'HomeState(latitude: $latitude, longitude: $longitude, location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, disasterInfo: $disasterInfo, disasterBehaviorTip: $disasterBehaviorTip, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, historyIsLoading: $historyIsLoading, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList, shelterLocation: $shelterLocation, shelterList: $shelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList)';
   }
 
   @override
@@ -661,6 +698,10 @@ class _$HomeStateImpl implements _HomeState {
                 other.isLoading == isLoading) &&
             (identical(other.isOccurred, isOccurred) ||
                 other.isOccurred == isOccurred) &&
+            (identical(other.disasterInfo, disasterInfo) ||
+                other.disasterInfo == disasterInfo) &&
+            (identical(other.disasterBehaviorTip, disasterBehaviorTip) ||
+                other.disasterBehaviorTip == disasterBehaviorTip) &&
             (identical(other.selectedPopularPostCategory, selectedPopularPostCategory) ||
                 other.selectedPopularPostCategory ==
                     selectedPopularPostCategory) &&
@@ -713,6 +754,8 @@ class _$HomeStateImpl implements _HomeState {
         nickname,
         isLoading,
         isOccurred,
+        disasterInfo,
+        disasterBehaviorTip,
         selectedPopularPostCategory,
         selectedContentsCategory,
         isLoadingDisasterHistory,
@@ -751,6 +794,8 @@ abstract class _HomeState implements HomeState {
       final String nickname,
       final bool isLoading,
       final bool isOccurred,
+      final HomeDisaster? disasterInfo,
+      final BehaviorData? disasterBehaviorTip,
       final int selectedPopularPostCategory,
       final int selectedContentsCategory,
       final bool isLoadingDisasterHistory,
@@ -785,7 +830,11 @@ abstract class _HomeState implements HomeState {
   bool get isLoading;
   @override
   bool get isOccurred;
+  @override // --재난 발생시
+  HomeDisaster? get disasterInfo;
   @override
+  BehaviorData? get disasterBehaviorTip;
+  @override // --재난 발생시
   int get selectedPopularPostCategory;
   @override
   int get selectedContentsCategory;

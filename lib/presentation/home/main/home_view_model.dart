@@ -33,6 +33,40 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
 
+  // 홈 화면에서 재난이 발생했는지 조회
+  Future<void> getHomeStatus() async {
+    try {
+      final response = await ref.read(
+          getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
+      );
+
+      state = state.copyWith(
+          isLoading: false,
+          isOccurred: response.data?.isOccurred ?? false
+      );
+
+      if (response.code == 1000) {
+        if (response.data?.isOccurred == true) {
+          getHomeDisasterFeed();
+          getHomeDisasterHistory();
+
+        } else {
+          loadNickname();
+          getHomeDisasterHistory();
+          getPopularPostList(category: "");
+          getPopularPostList(category: "LIFE");
+          getPopularPostList(category: "TRAFFIC");
+          getPopularPostList(category: "SAFE");
+          getPopularPostList(category: "OTHER");
+          getDisasterContentsList();
+          getSponsorList();
+        }
+      }
+    } catch (error) {
+      print('재난 발생상황 조회 에러: $error');
+    }
+  }
+
   Future<void> loadNickname() async {
     final response = await ref
         .read(getProfilesUseCaseProvider(GetMyPageProfileUseCase()).future);
@@ -192,47 +226,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     );
   }
 
-  // 홈 화면에서 재난이 발생했는지 조회
-  Future<void> getHomeStatus() async {
-    try {
-      final response = await ref.read(
-          getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
-      );
-
-      state = state.copyWith(
-          isLoading: false,
-          isOccurred: response.data?.isOccurred ?? false
-      );
-
-      loadNickname();
-      getHomeDisasterHistory();
-      getPopularPostList(category: "");
-      getPopularPostList(category: "LIFE");
-      getPopularPostList(category: "TRAFFIC");
-      getPopularPostList(category: "SAFE");
-      getPopularPostList(category: "OTHER");
-      getDisasterContentsList();
-      getSponsorList();
-
-      // if (response.data?.isOccurred == true) {
-      //   getHomeDisasterFeed();
-      //
-      // } else {
-      //   loadNickname();
-      //   getHomeDisasterHistory();
-      //   getPopularPostList(category: "");
-      //   getPopularPostList(category: "LIFE");
-      //   getPopularPostList(category: "TRAFFIC");
-      //   getPopularPostList(category: "SAFE");
-      //   getPopularPostList(category: "OTHER");
-      //   getDisasterContentsList();
-      //   getSponsorList();
-      // }
-    } catch (error) {
-      print('재난 발생상황 조회 에러: $error');
-    }
-  }
-
   // 홈 화면 재난문자 내역 조회
   Future<void> getHomeDisasterHistory() async {
     try {
@@ -380,11 +373,47 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getHomeDisasterFeedUseCaseProvider(GetHomeDisasterFeedUseCase()).future
       );
 
+      if (response.code == 1000) {
+        state = state.copyWith(
+            disasterInfo: response.data
+        );
+
+        final response2 = await ref.read(
+            getBehaviorTipsUsecaseProvider(GetBehaviorTipsUsecase(disasterId: response.data!.disasterTypeId.toString())).future
+        );
+
+        if (response2.code == 1000) {
+          state = state.copyWith(
+            disasterBehaviorTip: response2.data
+          );
 
 
+        }
+      }
     } catch (error) {
-      print('재난문자 내역 조회 에러: $error');
+      print('재난발생 - 재난 상세내용 에러: $error');
     }
+  }
+
+  // 재난발생 시 체크리스트 업데이트
+  void selectCheckListAtDisaster(int selectedType, int index) async {
+    state = state.copyWith(
+      disasterBehaviorTip: state.disasterBehaviorTip?.copyWith(
+        tips: state.disasterBehaviorTip?.tips?.map((tipList) {
+          if (state.disasterBehaviorTip!.tips!.indexOf(tipList) == selectedType) {
+            return tipList.copyWith(
+              tips: tipList.tips?.asMap().entries.map((entry) {
+                if (entry.key == index) {
+                  return (entry.value.$1, !entry.value.$2); // bool 값 토글
+                }
+                return entry.value;
+              }).toList(),
+            );
+          }
+          return tipList;
+        }).toList(),
+      ),
+    );
   }
 
   Future<void> disposeDisasterDetail() async {

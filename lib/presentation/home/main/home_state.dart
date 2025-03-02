@@ -7,6 +7,7 @@ import 'package:daepiro/data/model/response/information/disaster_contents_list_r
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../data/model/response/home/home_disaster_feed_response.dart';
 import '../../../data/model/response/information/around_shelter_list_response.dart';
 part 'home_state.freezed.dart';
 
@@ -20,6 +21,11 @@ sealed class HomeState with _$HomeState {
 
     @Default(true) bool isLoading,
     @Default(false) bool isOccurred,
+
+    // --재난 발생시
+    @Default(null) HomeDisaster? disasterInfo,
+    @Default(null) BehaviorData? disasterBehaviorTip,
+    // --재난 발생시
 
     @Default(0) int selectedPopularPostCategory,
     @Default(0) int selectedContentsCategory,
@@ -44,7 +50,6 @@ sealed class HomeState with _$HomeState {
     @Default(null) BehaviorData? behaviorTip,
 
     @Default([]) List<Notification> notificationList,
-
 
     @Default("") String shelterLocation,
     @Default([]) List<Shelters> shelterList,    // 주변 대피소 리스트
