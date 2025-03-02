@@ -1,5 +1,5 @@
+import 'package:daepiro/presentation/information/contents/disaster_contents_view_model.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,6 +29,12 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
   );
   int selectedActionTipType = 0;
   int selectedDisasterType = 0;
+
+  @override
+  void dispose() {
+    _aroundShelterPageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,43 +77,44 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
               child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: const BoxDecoration(
-                                  color: DaepiroColorStyle.o_50,
-                                  shape: BoxShape.circle,
+                      if (viewModel.disasterInfo != null)
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
+                                    color: DaepiroColorStyle.o_50,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: SvgPicture.asset(
+                                    findDisasterIconByName(name: viewModel.disasterInfo?.disasterType ?? ""),
+                                    width: 26,
+                                    height: 26,
+                                    colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
+                                  )
+                              ),
+                              const SizedBox(height: 8),
+                              getLargeHighlightText(title: viewModel.disasterInfo?.title ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
+                              const SizedBox(height: 8),
+                              Text(
+                                viewModel.disasterInfo?.content ?? "",
+                                style: DaepiroTextStyle.body_2_m.copyWith(
+                                  color: DaepiroColorStyle.g_500,
                                 ),
-                                child: SvgPicture.asset(
-                                  findDisasterIconByName(name: viewModel.disasterInfo?.disasterType ?? ""),
-                                  width: 26,
-                                  height: 26,
-                                  colorFilter: const ColorFilter.mode(DaepiroColorStyle.o_500, BlendMode.srcIn),
-                                )
-                            ),
-                            const SizedBox(height: 8),
-                            getLargeHighlightText(title: viewModel.disasterInfo?.title ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
-                            const SizedBox(height: 8),
-                            Text(
-                              viewModel.disasterInfo?.content ?? "",
-                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                color: DaepiroColorStyle.g_500,
                               ),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              formatDateToDateTime(viewModel.disasterInfo?.time ?? ""),
-                              style: DaepiroTextStyle.caption.copyWith(
-                                color: DaepiroColorStyle.g_300,
+                              const SizedBox(height: 16),
+                              Text(
+                                formatDateToDateTime(viewModel.disasterInfo?.time ?? ""),
+                                style: DaepiroTextStyle.caption.copyWith(
+                                  color: DaepiroColorStyle.g_300,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
                       Container(
                         color: DaepiroColorStyle.g_50,
                         height: 4,
@@ -313,7 +320,6 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
                           ),
                         ],
                       ),
-
                       Container(
                         padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
                         child: Column(

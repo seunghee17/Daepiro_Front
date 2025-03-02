@@ -46,10 +46,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
       );
 
       if (response.code == 1000) {
-        if (response.data?.isOccurred == true) {
-          // getHomeDisasterFeed();
+        if (response.data!.isOccurred == true) {
+          getHomeDisasterFeed();
+          getHomeDisasterHistory();
         } else {
           loadNickname();
+          getHomeDisasterHistory();
           getPopularPostList(category: "");
           getPopularPostList(category: "LIFE");
           getPopularPostList(category: "TRAFFIC");
@@ -58,8 +60,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getDisasterContentsList();
           getSponsorList();
         }
-
-        getHomeDisasterHistory();
       }
     } catch (error) {
       print('재난 발생상황 조회 에러: $error');

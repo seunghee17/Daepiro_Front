@@ -17,17 +17,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(homeStateNotifierProvider);
 
-    return MaterialApp(
-      home: Scaffold(
-          body: SafeArea(
-            child: viewModel.isLoading
-                ? Container()
-                : viewModel.isOccurred
-                    ? DisasterHomeScreen()
-                    : NormalHomeScreen()
-          )
-      ),
+    return Scaffold(
+        body: SafeArea(
+          child: viewModel.isLoading
+              ? Container(
+                  padding: const EdgeInsets.only(top: 100),
+                  color: Colors.white,
+                  child: const Center(child: CircularProgressIndicator())
+                )
+              : viewModel.isOccurred
+                  ? DisasterHomeScreen()
+                  : NormalHomeScreen()
+        )
     );
   }
-
 }

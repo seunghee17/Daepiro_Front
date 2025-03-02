@@ -1,11 +1,9 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../../data/model/response/home/disasters_history_response.dart';
@@ -31,6 +29,14 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
       initialPage: 0,
       viewportFraction: 0.9
   );
+
+  @override
+  void dispose() {
+    _popularPostPageController.dispose();
+    _infoContentsPageController.dispose();
+    _sponsorPageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
