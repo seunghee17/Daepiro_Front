@@ -485,7 +485,6 @@ class _CommunityService implements CommunityService {
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'id': id,
       r'articleType': articleType,
       r'articleCategory': articleCategory,
       r'visibility': visibility,
@@ -504,7 +503,7 @@ class _CommunityService implements CommunityService {
     )
         .compose(
           _dio.options,
-          '/v1/articles/{id}',
+          '/v1/articles/${id}',
           queryParameters: queryParameters,
           data: _data,
         )

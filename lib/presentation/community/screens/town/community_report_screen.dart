@@ -355,7 +355,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '신고가 정상적으로 접수되었습니다.',
+                  '신고가 정상적으로 접수되었어요.',
                   style: DaepiroTextStyle.body_1_b
                       .copyWith(color: DaepiroColorStyle.g_900),
                 ),

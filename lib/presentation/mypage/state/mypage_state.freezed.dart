@@ -17,10 +17,16 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MyPageState {
   dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get platform => throw _privateConstructorUsedError;
+
+  /// 사용자 정보 수정
   dynamic get profileImgUrl => throw _privateConstructorUsedError;
   dynamic get realName => throw _privateConstructorUsedError;
   dynamic get nickName => throw _privateConstructorUsedError;
-  dynamic get platform => throw _privateConstructorUsedError;
+  String get nameState => throw _privateConstructorUsedError;
+  String get nicknameState => throw _privateConstructorUsedError;
+  bool get completeSetName => throw _privateConstructorUsedError;
+  bool get completeSetNickName => throw _privateConstructorUsedError;
   dynamic get communityAlarmState => throw _privateConstructorUsedError;
   dynamic get disasterAlarmState => throw _privateConstructorUsedError;
   List<String> get disasterTypeList => throw _privateConstructorUsedError;
@@ -65,10 +71,14 @@ abstract class $MyPageStateCopyWith<$Res> {
   @useResult
   $Res call(
       {dynamic isLoading,
+      dynamic platform,
       dynamic profileImgUrl,
       dynamic realName,
       dynamic nickName,
-      dynamic platform,
+      String nameState,
+      String nicknameState,
+      bool completeSetName,
+      bool completeSetNickName,
       dynamic communityAlarmState,
       dynamic disasterAlarmState,
       List<String> disasterTypeList,
@@ -108,10 +118,14 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? platform = freezed,
     Object? profileImgUrl = freezed,
     Object? realName = freezed,
     Object? nickName = freezed,
-    Object? platform = freezed,
+    Object? nameState = null,
+    Object? nicknameState = null,
+    Object? completeSetName = null,
+    Object? completeSetNickName = null,
     Object? communityAlarmState = freezed,
     Object? disasterAlarmState = freezed,
     Object? disasterTypeList = null,
@@ -141,6 +155,10 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      platform: freezed == platform
+          ? _value.platform
+          : platform // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       profileImgUrl: freezed == profileImgUrl
           ? _value.profileImgUrl
           : profileImgUrl // ignore: cast_nullable_to_non_nullable
@@ -153,10 +171,22 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
           ? _value.nickName
           : nickName // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      platform: freezed == platform
-          ? _value.platform
-          : platform // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      nameState: null == nameState
+          ? _value.nameState
+          : nameState // ignore: cast_nullable_to_non_nullable
+              as String,
+      nicknameState: null == nicknameState
+          ? _value.nicknameState
+          : nicknameState // ignore: cast_nullable_to_non_nullable
+              as String,
+      completeSetName: null == completeSetName
+          ? _value.completeSetName
+          : completeSetName // ignore: cast_nullable_to_non_nullable
+              as bool,
+      completeSetNickName: null == completeSetNickName
+          ? _value.completeSetNickName
+          : completeSetNickName // ignore: cast_nullable_to_non_nullable
+              as bool,
       communityAlarmState: freezed == communityAlarmState
           ? _value.communityAlarmState
           : communityAlarmState // ignore: cast_nullable_to_non_nullable
@@ -263,10 +293,14 @@ abstract class _$$MyPageStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {dynamic isLoading,
+      dynamic platform,
       dynamic profileImgUrl,
       dynamic realName,
       dynamic nickName,
-      dynamic platform,
+      String nameState,
+      String nicknameState,
+      bool completeSetName,
+      bool completeSetNickName,
       dynamic communityAlarmState,
       dynamic disasterAlarmState,
       List<String> disasterTypeList,
@@ -304,10 +338,14 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? platform = freezed,
     Object? profileImgUrl = freezed,
     Object? realName = freezed,
     Object? nickName = freezed,
-    Object? platform = freezed,
+    Object? nameState = null,
+    Object? nicknameState = null,
+    Object? completeSetName = null,
+    Object? completeSetNickName = null,
     Object? communityAlarmState = freezed,
     Object? disasterAlarmState = freezed,
     Object? disasterTypeList = null,
@@ -334,11 +372,27 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
   }) {
     return _then(_$MyPageStateImpl(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
+      platform: freezed == platform ? _value.platform! : platform,
       profileImgUrl:
           freezed == profileImgUrl ? _value.profileImgUrl! : profileImgUrl,
       realName: freezed == realName ? _value.realName! : realName,
       nickName: freezed == nickName ? _value.nickName! : nickName,
-      platform: freezed == platform ? _value.platform! : platform,
+      nameState: null == nameState
+          ? _value.nameState
+          : nameState // ignore: cast_nullable_to_non_nullable
+              as String,
+      nicknameState: null == nicknameState
+          ? _value.nicknameState
+          : nicknameState // ignore: cast_nullable_to_non_nullable
+              as String,
+      completeSetName: null == completeSetName
+          ? _value.completeSetName
+          : completeSetName // ignore: cast_nullable_to_non_nullable
+              as bool,
+      completeSetNickName: null == completeSetNickName
+          ? _value.completeSetNickName
+          : completeSetNickName // ignore: cast_nullable_to_non_nullable
+              as bool,
       communityAlarmState: freezed == communityAlarmState
           ? _value.communityAlarmState!
           : communityAlarmState,
@@ -438,10 +492,14 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
 class _$MyPageStateImpl implements _MyPageState {
   _$MyPageStateImpl(
       {this.isLoading = true,
+      this.platform = '',
       this.profileImgUrl = '',
       this.realName = '',
       this.nickName = '',
-      this.platform = '',
+      this.nameState = '',
+      this.nicknameState = '',
+      this.completeSetName = false,
+      this.completeSetNickName = false,
       this.communityAlarmState = false,
       this.disasterAlarmState = false,
       final List<String> disasterTypeList = const [],
@@ -472,7 +530,8 @@ class _$MyPageStateImpl implements _MyPageState {
         '새 계정을 만들고 싶어요.',
         '알림이 너무 자주 와요.',
         '정보가 부족해요.',
-        '불쾌한 사람을 만났어요.'
+        '불쾌한 사람을 만났어요.',
+        '기타'
       ],
       this.leaveType = ''})
       : _disasterTypeList = disasterTypeList,
@@ -486,6 +545,11 @@ class _$MyPageStateImpl implements _MyPageState {
   final dynamic isLoading;
   @override
   @JsonKey()
+  final dynamic platform;
+
+  /// 사용자 정보 수정
+  @override
+  @JsonKey()
   final dynamic profileImgUrl;
   @override
   @JsonKey()
@@ -495,7 +559,16 @@ class _$MyPageStateImpl implements _MyPageState {
   final dynamic nickName;
   @override
   @JsonKey()
-  final dynamic platform;
+  final String nameState;
+  @override
+  @JsonKey()
+  final String nicknameState;
+  @override
+  @JsonKey()
+  final bool completeSetName;
+  @override
+  @JsonKey()
+  final bool completeSetNickName;
   @override
   @JsonKey()
   final dynamic communityAlarmState;
@@ -611,7 +684,7 @@ class _$MyPageStateImpl implements _MyPageState {
 
   @override
   String toString() {
-    return 'MyPageState(isLoading: $isLoading, profileImgUrl: $profileImgUrl, realName: $realName, nickName: $nickName, platform: $platform, communityAlarmState: $communityAlarmState, disasterAlarmState: $disasterAlarmState, disasterTypeList: $disasterTypeList, inquireTypeList: $inquireTypeList, inquireType: $inquireType, isArticleHasMore: $isArticleHasMore, myArticles: $myArticles, isArticleLoading: $isArticleLoading, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isError: $isError, announcementList: $announcementList, announcementDetailResponse: $announcementDetailResponse, leaveTypeList: $leaveTypeList, leaveType: $leaveType)';
+    return 'MyPageState(isLoading: $isLoading, platform: $platform, profileImgUrl: $profileImgUrl, realName: $realName, nickName: $nickName, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, communityAlarmState: $communityAlarmState, disasterAlarmState: $disasterAlarmState, disasterTypeList: $disasterTypeList, inquireTypeList: $inquireTypeList, inquireType: $inquireType, isArticleHasMore: $isArticleHasMore, myArticles: $myArticles, isArticleLoading: $isArticleLoading, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isError: $isError, announcementList: $announcementList, announcementDetailResponse: $announcementDetailResponse, leaveTypeList: $leaveTypeList, leaveType: $leaveType)';
   }
 
   @override
@@ -620,11 +693,19 @@ class _$MyPageStateImpl implements _MyPageState {
         (other.runtimeType == runtimeType &&
             other is _$MyPageStateImpl &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            const DeepCollectionEquality().equals(other.platform, platform) &&
             const DeepCollectionEquality()
                 .equals(other.profileImgUrl, profileImgUrl) &&
             const DeepCollectionEquality().equals(other.realName, realName) &&
             const DeepCollectionEquality().equals(other.nickName, nickName) &&
-            const DeepCollectionEquality().equals(other.platform, platform) &&
+            (identical(other.nameState, nameState) ||
+                other.nameState == nameState) &&
+            (identical(other.nicknameState, nicknameState) ||
+                other.nicknameState == nicknameState) &&
+            (identical(other.completeSetName, completeSetName) ||
+                other.completeSetName == completeSetName) &&
+            (identical(other.completeSetNickName, completeSetNickName) ||
+                other.completeSetNickName == completeSetNickName) &&
             const DeepCollectionEquality()
                 .equals(other.communityAlarmState, communityAlarmState) &&
             const DeepCollectionEquality()
@@ -678,10 +759,14 @@ class _$MyPageStateImpl implements _MyPageState {
   int get hashCode => Object.hashAll([
         runtimeType,
         const DeepCollectionEquality().hash(isLoading),
+        const DeepCollectionEquality().hash(platform),
         const DeepCollectionEquality().hash(profileImgUrl),
         const DeepCollectionEquality().hash(realName),
         const DeepCollectionEquality().hash(nickName),
-        const DeepCollectionEquality().hash(platform),
+        nameState,
+        nicknameState,
+        completeSetName,
+        completeSetNickName,
         const DeepCollectionEquality().hash(communityAlarmState),
         const DeepCollectionEquality().hash(disasterAlarmState),
         const DeepCollectionEquality().hash(_disasterTypeList),
@@ -717,10 +802,14 @@ class _$MyPageStateImpl implements _MyPageState {
 abstract class _MyPageState implements MyPageState {
   factory _MyPageState(
       {final dynamic isLoading,
+      final dynamic platform,
       final dynamic profileImgUrl,
       final dynamic realName,
       final dynamic nickName,
-      final dynamic platform,
+      final String nameState,
+      final String nicknameState,
+      final bool completeSetName,
+      final bool completeSetNickName,
       final dynamic communityAlarmState,
       final dynamic disasterAlarmState,
       final List<String> disasterTypeList,
@@ -748,13 +837,23 @@ abstract class _MyPageState implements MyPageState {
   @override
   dynamic get isLoading;
   @override
+  dynamic get platform;
+  @override
+
+  /// 사용자 정보 수정
   dynamic get profileImgUrl;
   @override
   dynamic get realName;
   @override
   dynamic get nickName;
   @override
-  dynamic get platform;
+  String get nameState;
+  @override
+  String get nicknameState;
+  @override
+  bool get completeSetName;
+  @override
+  bool get completeSetNickName;
   @override
   dynamic get communityAlarmState;
   @override

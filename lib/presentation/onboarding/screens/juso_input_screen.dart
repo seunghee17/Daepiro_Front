@@ -71,98 +71,104 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingStateNotifierProvider);
     final resultAddress = ref.watch(onboardingStateNotifierProvider.notifier);
+    final myPagestate = ref.watch(myPageProvider);
+    final myPageAddress = ref.watch(myPageProvider.notifier);
+
     return Scaffold(
       body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                headerWidget(widget.userName ?? ''),
-                SizedBox(height: 24),
-                jusoInputTextField(ref, jusoController, focusNode),
-                SizedBox(height: 16),
-                Text(
-                  '검색결과',
-                  style: DaepiroTextStyle.body_2_m.copyWith(
-                      color: DaepiroColorStyle.g_400),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 16),
+              headerWidget(widget.userName ?? ''),
+              SizedBox(height: 24),
+              jusoInputTextField(ref, jusoController, focusNode),
+              SizedBox(height: 16),
+              Text(
+                '검색결과',
+                style: DaepiroTextStyle.body_2_m.copyWith(
+                  color: DaepiroColorStyle.g_400,
                 ),
-                SizedBox(height: 8),
-                if(state.isError || (focusNode.hasFocus && resultAddress.inputJusoList.isEmpty))
-                  searchErrorWidget(),
-                if(!state.isError)
-                  Expanded(
-                    child: ListView.builder(
-                        controller: scrollController,
-                        itemCount: resultAddress.inputJusoList.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == resultAddress.inputJusoList.length)
-                            return Container();
-                          var jusoList = resultAddress.inputJusoList.toList();
-                          var juso = jusoList[index].toString();
-                          bool isTapped = selected.contains(index);
-                          return Container(
-                            child: ListTile(
-                                tileColor: isTapped
-                                    ? DaepiroColorStyle.g_50
-                                    : DaepiroColorStyle.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(
-                                        color: DaepiroColorStyle.white)
-                                ),
-                                title: Text(
-                                  juso,
-                                  style: DaepiroTextStyle.body_1_m.copyWith(
-                                      color: DaepiroColorStyle.g_900),
-                                ),
-                                onTap: () async {
-                                  setState(() {
-                                    selected.add(index);
-                                  });
-                                  if(widget.fromMyPage == false) {
-                                    if (widget.index == '0') {
-                                      ref.read(onboardingStateNotifierProvider
-                                          .notifier).addHomeJuso(juso);
-                                    } else if (widget.index == '1') {
-                                      ref.read(onboardingStateNotifierProvider
-                                          .notifier).addFirstJuso(juso);
-                                    } else {
-                                      ref.read(onboardingStateNotifierProvider
-                                          .notifier).addSecondJuso(juso);
-                                    }
-                                    ref.read(
-                                        onboardingStateNotifierProvider.notifier)
-                                        .initSearchHistory();
-                                  } else {
-                                    if (widget.index == '0') {
-                                      ref.read(myPageProvider
-                                          .notifier).addHomeJuso(juso);
-                                    } else if (widget.index == '1') {
-                                      ref.read(myPageProvider
-                                          .notifier).addFirstJuso(juso);
-                                    } else {
-                                      ref.read(myPageProvider
-                                          .notifier).addSecondJuso(juso);
-                                    }
-                                    ref.read(
-                                        myPageProvider.notifier)
-                                        .initSearchHistory();
-                                  }
-                                  GoRouter.of(context).pop();
-                                }
-                            ),
-                          );
-                        }
-                    ),
-                  )
-              ],
-            ),
-          )
+              ),
+              SizedBox(height: 8),
+
+              if (!widget.fromMyPage &&
+                  (state.isError || (focusNode.hasFocus && resultAddress.inputJusoList.isEmpty)))
+                searchErrorWidget(),
+              if (widget.fromMyPage &&
+                  (myPagestate.isError || (focusNode.hasFocus && myPageAddress.inputJusoList.isEmpty)))
+                searchErrorWidget(),
+
+              if ((!widget.fromMyPage && !state.isError && resultAddress.inputJusoList.isNotEmpty) ||
+                  (widget.fromMyPage && !myPagestate.isError && myPageAddress.inputJusoList.isNotEmpty))
+                Expanded(
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: widget.fromMyPage
+                        ? myPageAddress.inputJusoList.length
+                        : resultAddress.inputJusoList.length,
+                    itemBuilder: (context, index) {
+                      var jusoList = widget.fromMyPage
+                          ? myPageAddress.inputJusoList.toList()
+                          : resultAddress.inputJusoList.toList();
+
+                      if (index == jusoList.length) return Container();
+                      var juso = jusoList[index].toString();
+                      bool isTapped = selected.contains(index);
+
+                      return ListTile(
+                        tileColor:
+                        isTapped ? DaepiroColorStyle.g_50 : DaepiroColorStyle.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: BorderSide(color: DaepiroColorStyle.white),
+                        ),
+                        title: Text(
+                          juso,
+                          style: DaepiroTextStyle.body_1_m.copyWith(
+                            color: DaepiroColorStyle.g_900,
+                          ),
+                        ),
+                        onTap: () async {
+                          setState(() {
+                            selected.add(index);
+                          });
+
+                          if (!widget.fromMyPage) {
+                            if (widget.index == '0') {
+                              ref.read(onboardingStateNotifierProvider.notifier).addHomeJuso(juso);
+                            } else if (widget.index == '1') {
+                              ref.read(onboardingStateNotifierProvider.notifier).addFirstJuso(juso);
+                            } else {
+                              ref.read(onboardingStateNotifierProvider.notifier).addSecondJuso(juso);
+                            }
+                            ref.read(onboardingStateNotifierProvider.notifier).initSearchHistory();
+                          } else {
+                            if (widget.index == '0') {
+                              ref.read(myPageProvider.notifier).addHomeJuso(juso);
+                            } else if (widget.index == '1') {
+                              ref.read(myPageProvider.notifier).addFirstJuso(juso);
+                            } else {
+                              ref.read(myPageProvider.notifier).addSecondJuso(juso);
+                            }
+                            ref.read(myPageProvider.notifier).initSearchHistory();
+                          }
+
+                          GoRouter.of(context).pop();
+                        },
+                      );
+                    },
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
+
 
   Widget headerWidget(String userName) {
     return Column(
@@ -178,16 +184,15 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
                 colorFilter: ColorFilter.mode(
                     DaepiroColorStyle.g_900, BlendMode.srcIn))),
         SizedBox(height: 32),
-        Row(
+        Wrap(
+          spacing: 8,
           children: [
             Text(
               '${userName}님의 ',
               style: DaepiroTextStyle.h5.copyWith(
                   color: DaepiroColorStyle.g_900),
             ),
-            SizedBox(width: 8),
             typeChipWidget(),
-            SizedBox(width: 8),
             Text(
               '어디인가요?',
               style: DaepiroTextStyle.h5.copyWith(
@@ -263,9 +268,15 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               decorationThickness: 0
           ),
           onChanged: (text) async {
-            await ref.read(onboardingStateNotifierProvider.notifier)
-                .getJusoList(controller.text, 0, false);
-            setState(() {});
+            if(widget.fromMyPage) {
+              await ref.read(myPageProvider.notifier)
+                  .getJusoList(controller.text, 0, false);
+              setState(() {});
+            } else {
+              await ref.read(onboardingStateNotifierProvider.notifier)
+                  .getJusoList(controller.text, 0, false);
+              setState(() {});
+            }
           },
           focusNode: focusNode,
           decoration: InputDecoration(

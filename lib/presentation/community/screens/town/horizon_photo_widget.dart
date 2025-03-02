@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../data/model/selected_image.dart';
@@ -59,36 +57,35 @@ class HorizonPhotoWidget extends ConsumerWidget {
   Widget _horizonPhotoItem(SelectedImage image) {
     if(image.entity != null) {
       //갤러리에서 가져온 이미지
-      return Container(
-        width: 118,
-        height: 118,
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: image.entity != null
-                ? AssetEntityImage(
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: image.entity != null
+              ? Container(
+                width: 118,
+                height: 118,
+                child: AssetEntityImage(
                 image.entity!,
-                fit: BoxFit.cover)
-                : Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8)
-                ),
-                child: Image.file(
-                    File(image.file!.path),
-                    fit: BoxFit.cover)
-            )
-        ),
+                fit: BoxFit.cover),
+              )
+              : Container(
+              width: 118,
+              height: 118,
+              child: Image.file(
+                  File(image.file!.path),
+                  fit: BoxFit.cover)
+          )
       );
     } else {
       //카메라로 직접 찍은 동영상 혹은 이미지
-      return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8)
-        ),
-        width: 118,
-        height: 118,
-        child: Image.file(
-          File(image.file!.path),
-          fit: BoxFit.cover,
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          width: 118,
+          height: 118,
+          child: Image.file(
+            File(image.file!.path),
+            fit: BoxFit.cover,
+          ),
         ),
       );
     }

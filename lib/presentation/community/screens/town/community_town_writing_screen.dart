@@ -13,14 +13,18 @@ import '../../../../data/model/response/community/community_dongnae_content_deta
 class CommunityTownWritingScreen extends ConsumerStatefulWidget {
   final bool isEdit;
   final ContentDetail? contentDetail;
-  const CommunityTownWritingScreen({super.key, required this.isEdit, this.contentDetail});
+
+  const CommunityTownWritingScreen(
+      {super.key, required this.isEdit, this.contentDetail});
 
   @override
   CommunityTownWritingState createState() => CommunityTownWritingState();
 }
 
 //동네생활 글쓰기 화면
-class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen> with WidgetsBindingObserver {
+class CommunityTownWritingState
+    extends ConsumerState<CommunityTownWritingScreen>
+    with WidgetsBindingObserver {
   bool isCompleteEnabled = false;
   bool isWritingContainerPress = false;
 
@@ -36,13 +40,14 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
 
     titleTextController.addListener(_updateCompleteButtonState);
     contentTextController.addListener(_updateCompleteButtonState);
-    if(widget.isEdit) {
+    if (widget.isEdit) {
       titleTextController.text = widget.contentDetail?.title ?? '';
       contentTextController.text = widget.contentDetail?.body ?? '';
       //selectedImage 기본값을 세팅해야함
       WidgetsBinding.instance.addPostFrameCallback((_) {
-       ref.read(communityTownProvider.notifier).convertFileToAssetEntity();
-       ref.read(communityTownProvider.notifier).setCategoryState(ContentCategory.getByValue(widget.contentDetail!.category));
+        ref.read(communityTownProvider.notifier).convertFileToAssetEntity();
+        ref.read(communityTownProvider.notifier).setCategoryState(
+            ContentCategory.getByValue(widget.contentDetail!.category));
       });
     }
   }
@@ -63,6 +68,9 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   @override
   void dispose() {
     super.dispose();
+    _scrollController.dispose();
+    titleTextController.dispose();
+    contentTextController.dispose();
     WidgetsBinding.instance.removeObserver(this);
   }
 
@@ -72,7 +80,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
     switch (state) {
       case AppLifecycleState.resumed:
         bool isGrant = await viewModel.getLocationPermission();
-        if(!isGrant) {
+        if (!isGrant) {
           viewModel.initLocationState();
         }
         break;
@@ -100,28 +108,28 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                 SizedBox(height: 12),
                 Expanded(
                     child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      writingTypeWidget(state.writingTownCategory),
-                      SizedBox(
-                        height: 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          writingTypeWidget(state.writingTownCategory),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          titleTextField(titleTextController),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          contentTextField(contentTextController),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          photoWidget(),
+                          SizedBox(height: 20)
+                        ],
                       ),
-                      titleTextField(titleTextController),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      contentTextField(contentTextController),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      photoWidget(),
-                      SizedBox(height: 20)
-                    ],
-                  ),
-                )),
+                    )),
                 Visibility(
-                  visible: !widget.isEdit,
+                    visible: !widget.isEdit,
                     child: locationCheckWidget(state.isVisible)),
                 SizedBox(height: 16),
               ],
@@ -135,8 +143,14 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
   Widget headerWidget(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: (bool didPop) {
-        if(didPop) {
+      onPopInvoked: (bool didPop) async {
+        if (didPop && !widget.isEdit) {
+          await ref.read(communityTownProvider.notifier).loadContent();
+          ref.read(communityTownProvider.notifier).clearWritingState();
+        } else if (didPop && widget.isEdit) {
+          await ref
+              .read(communityTownProvider.notifier)
+              .getContentDetail(widget.contentDetail!.id);
           ref.read(communityTownProvider.notifier).clearWritingState();
         }
       },
@@ -166,28 +180,28 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               GestureDetector(
                   onTap: () async {
                     //게시글 작성 및 편집후 모든 상태 초기화
-                    if(isCompleteEnabled && !widget.isEdit) {
-                      final isSuccess = await ref.read(communityTownProvider.notifier).setArticle(titleTextController.text, contentTextController.text);
-                      GoRouter.of(context).pop();
-                      showSnackbar(context, isSuccess);
-                      ref.read(communityTownProvider.notifier).clearWritingState();
-                      await ref.read(communityTownProvider.notifier).loadContent();
-                    }
-                    if(widget.isEdit) {
-                      //게시글 수정 api 호출
-                      final isSuccess = await ref.read(communityTownProvider.notifier).editArticle(titleTextController.text, contentTextController.text);
-                      GoRouter.of(context).pop();
-                      showSnackbar(context, isSuccess);
-                      ref.read(communityTownProvider.notifier).clearWritingState();
-                      await ref
+                    if (isCompleteEnabled && !widget.isEdit) {
+                      final isSuccess = await ref
                           .read(communityTownProvider.notifier)
-                          .getContentDetail(widget.contentDetail!.id);
+                          .setArticle(titleTextController.text,
+                              contentTextController.text);
+                      GoRouter.of(context).pop();
+                      showSnackbar(context, isSuccess);
+                    }
+                    if (widget.isEdit) {
+                      //게시글 수정 api 호출
+                      final isSuccess = await ref
+                          .read(communityTownProvider.notifier)
+                          .editArticle(titleTextController.text,
+                              contentTextController.text);
+                      GoRouter.of(context).pop();
+                      showSnackbar(context, isSuccess);
                     }
                   },
                   child: Text(
                     '완료',
                     style: DaepiroTextStyle.body_1_m.copyWith(
-                        color: isCompleteEnabled || widget.isEdit
+                        color: isCompleteEnabled
                             ? DaepiroColorStyle.o_500
                             : DaepiroColorStyle.g_100),
                   )),
@@ -228,7 +242,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                           .copyWith(color: DaepiroColorStyle.g_300),
                     )
                   : Text(
-                writingTownCategory,
+                      writingTownCategory,
                       style: DaepiroTextStyle.body_1_m
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
@@ -275,15 +289,17 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
       height: 343,
       child: TextField(
         controller: controller,
-        maxLength: 38,
+        maxLength: 2000,
         cursorColor: DaepiroColorStyle.g_900,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         style:
             DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_900),
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
           counterText: '',
           isDense: true,
-          hintText: '동내와 관련된 이야기를 주민들과 나눠보세요.',
+          hintText: '동네생활과 관련된 이야기를 주민들과 나누세요.',
           hintStyle: DaepiroTextStyle.body_2_m
               .copyWith(color: DaepiroColorStyle.g_200),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
@@ -300,7 +316,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '사진/동영상',
+          '사진',
           style: DaepiroTextStyle.body_1_m.copyWith(
             color: DaepiroColorStyle.g_900,
           ),
@@ -317,7 +333,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                 }
               },
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0,8,8,0),
+                padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
                 child: Container(
                   width: 118,
                   height: 118,
@@ -339,38 +355,44 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
               ),
             ),
             SizedBox(width: 8),
-            if(widget.isEdit)
+            if (widget.isEdit)
               Expanded(
-                child: HorizonPhotoWidget( //편집상태이다
-                  scrollController: _scrollController),
+                child: HorizonPhotoWidget(
+                    //편집상태이다
+                    scrollController: _scrollController),
               ),
-            if(!widget.isEdit)
+            if (!widget.isEdit)
               Expanded(
-                  child: HorizonPhotoWidget( //글쓰기 상태이다
-                      scrollController: _scrollController)
-              ),
+                  child: HorizonPhotoWidget(
+                      //글쓰기 상태이다
+                      scrollController: _scrollController)),
           ],
         ),
       ],
     );
   }
 
-
   Widget locationCheckWidget(bool isVisible) {
-    return ElevatedButton(
-      onPressed: () async {
-        final locationState = await ref.read(communityTownProvider.notifier).getLocationPermission();
-        if(!locationState) { //위치권한 미허용된 상태
-          locationDialog(context);
+    Future<void> handleLocationCheck(bool? value) async {
+      final locationState = await ref
+          .read(communityTownProvider.notifier)
+          .getLocationPermission();
+      if (!locationState) {
+        locationDialog(context);
+      } else {
+        final locationCorrect = await ref
+            .read(communityTownProvider.notifier)
+            .checkShowCurrentLocation();
+        if (locationCorrect) {
+          await ref.read(communityTownProvider.notifier).setVisibleState();
         } else {
-          final locationCorrect = await ref.read(communityTownProvider.notifier).checkShowCurrentLocation();
-          if(locationCorrect) {
-            await ref.read(communityTownProvider.notifier).setVisibleState();
-          } else {
-            showErrorText(context, '작성하고자 하는 위치와 현위치가 일치하지 않습니다.');
-          }
+          showErrorText(context, '작성하고자 하는 위치와 현위치가 일치하지 않습니다.');
         }
-      },
+      }
+    }
+
+    return ElevatedButton(
+      onPressed: () => handleLocationCheck(isVisible),
       style: ElevatedButton.styleFrom(
           backgroundColor: DaepiroColorStyle.g_50,
           padding: EdgeInsets.symmetric(vertical: 12),
@@ -397,11 +419,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
                 return null;
               }),
               value: isVisible,
-              onChanged: (value) async {
-                final locationState = await ref.read(communityTownProvider.notifier).getLocationPermission();
-                if(!locationState) openAppSettings();
-                else await ref.read(communityTownProvider.notifier).setVisibleState();
-              }),
+              onChanged: (value) => handleLocationCheck(isVisible)),
           SizedBox(width: 8),
           Text(
             '현 위치를 표시하겠어요?',
@@ -503,9 +521,7 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
         builder: (context) {
           return Wrap(
             children: [
-              Container(
-                child: categoryItemWidget(isWritingContainerPress)
-              ),
+              Container(child: categoryItemWidget(isWritingContainerPress)),
             ],
           );
         },
@@ -628,18 +644,17 @@ class CommunityTownWritingState extends ConsumerState<CommunityTownWritingScreen
           GoRouter.of(context).pop();
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            children: [
-              Text(
-                category,
-                textAlign: TextAlign.start,
-                style: DaepiroTextStyle.body_1_m
-                    .copyWith(color: DaepiroColorStyle.g_900),
-              ),
-            ],
-          )
-        ),
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              children: [
+                Text(
+                  category,
+                  textAlign: TextAlign.start,
+                  style: DaepiroTextStyle.body_1_m
+                      .copyWith(color: DaepiroColorStyle.g_900),
+                ),
+              ],
+            )),
       ),
     );
   }

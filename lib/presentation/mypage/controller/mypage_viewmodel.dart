@@ -25,6 +25,7 @@ import '../../../domain/usecase/mypage/mypage_get_profiles_usecase.dart';
 import '../../../domain/usecase/mypage/mypage_set_alarm_setting_usecase.dart';
 import '../../../domain/usecase/mypage/mypage_set_disaster_type_usecase.dart';
 import '../../../domain/usecase/mypage/mypage_set_inquires_usecase.dart';
+import '../../../domain/usecase/onboarding/check_nickname_usecase.dart';
 import '../../../domain/usecase/onboarding/juso_result_usecase.dart';
 import '../../../domain/usecase/onboarding/user_adresses_usecase.dart';
 import '../../const/utils.dart';
@@ -50,11 +51,13 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   void setLoadingState() {
     state = state.copyWith(isLoading: true);
+    return;
   }
 
   void setPlatform() async {
     String platform = await storage.read(key: 'platform') ?? '';
     state = state.copyWith(platform: platform);
+    return;
   }
 
   /// 프로필 정보 수정
@@ -65,6 +68,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         profileImgUrl: response.data?.profileImgUrl ?? '',
         realName: response.data?.realname ?? '',
         nickName: response.data?.nickname ?? '');
+    return;
   }
 
   Future<void> setMyProfiles(String realName, String nickName) async {
@@ -73,6 +77,61 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       realname: realName,
       nickname: nickName,
     ))).future);
+    return;
+  }
+
+  void setNameState(String name) {
+    if (checkForNameRule(name)) {
+      state =
+          state.copyWith(nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
+    } else if (name.length > 6) {
+      state = state.copyWith(
+          nameState: '*최대 6자까지 작성 가능해주세요.', completeSetName: false);
+    } else if (name.length <= 6 && !checkForNameRule(name) && name != '') {
+      state = state.copyWith(nameState: '', completeSetName: true);
+    } else if (name == '') {
+      state = state.copyWith(nameState: '', completeSetName: false);
+    }
+    return;
+  }
+
+  Future<void> setNickNameState(String nickName) async {
+    if (nickName.length > 10) {
+      state = state.copyWith(nicknameState: '*최대 10자까지 작성해주세요.', completeSetNickName: false);
+    }
+
+    if (!checkForSpecialCharacter(nickName)) {
+      state = state.copyWith(nicknameState: '*닉네임은 한글/영문/숫자로 입력해주세요.', completeSetNickName: false);
+    }
+
+    if(nickName.length <= 10 && checkForSpecialCharacter(nickName)) {
+      bool isAvailable = await _checkNickName(nickName);
+      if (!isAvailable) {
+        state = state.copyWith(
+            nicknameState: nickName.isNotEmpty ? '*이미 사용 중인 닉네임이에요.' : '',
+            completeSetNickName: false);
+      } else {
+        state = state.copyWith(nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
+      }
+    }
+    return;
+  }
+
+  Future<bool> _checkNickName(String nickname) async {
+    final result = await ref.read(
+        checkNickNameUseCaseProvider(CheckNickNameUseCase(nickName: nickname))
+            .future);
+    return result.data?.isAvailable ?? false;
+  }
+
+  void clearState() {
+    state = state.copyWith(
+      nameState: '',
+      nicknameState: '',
+      completeSetName: false,
+      completeSetNickName: false
+    );
+    return;
   }
 
   /// 알람 정보 수정
@@ -85,6 +144,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     state = state.copyWith(
         communityAlarmState: response.data?.isCommunityNotificationEnabled,
         disasterAlarmState: response.data?.isDisasterNotificationEnabled);
+    return;
   }
 
   Future<void> setNotificationType(String type, bool isGrant) async {
@@ -97,6 +157,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         setAlarmSettingUseCaseProvider(SetAlarmSettingUseCase(type: type))
             .future);
     await getAlarmSettingType();
+    return;
   }
 
   Future<bool> checknotificationPermission() async {
@@ -144,6 +205,10 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       }
     }
     state = state.copyWith(isLoading: false);
+  }
+
+  void initErrorStateAddress() {
+    state = state.copyWith(isError: false);
   }
 
   void setJusoNick(String firstNick, String secondNick) {
@@ -462,7 +527,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     await ref.read(withDrawUseCaseProvider(
         WithDrawUseCase(
             reason: WithDrawReason.getNamedByCategory(state.leaveType).toLowerCase(),
-            withDrawRequest: WithDrawRequest(appleCode: null) //TODO 애플로그인에 인가코드 다시 안줘도 되는거 아닌가?
+            withDrawRequest: WithDrawRequest(appleCode: null)
         )).future);
     await storage.deleteAll();
   }

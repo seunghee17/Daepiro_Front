@@ -101,7 +101,7 @@ abstract class CommunityService {
   @POST('/v1/articles/{id}')
   @MultiPart()
   Future<CommunityWritingEditResponse> editArticle({
-    @Query('id') required int id,
+    @Path('id') required int id,
     @Query('articleType') required String articleType,
     @Query('articleCategory') required String articleCategory,
     @Query('visibility') required bool visibility,

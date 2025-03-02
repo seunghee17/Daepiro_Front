@@ -19,73 +19,81 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                      child: backgroundWidget(context)
-                  ),
-                  Positioned(
-                      top: 0,
-                      right: 20,
-                      left: 20,
-                      child: IntrinsicHeight(child:
-                      headerWidget(context, state.realName))
-                  ),
-                  Positioned(
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
-                      child: Image.asset('assets/icons/icon_withdraw.png', height: 182, width: 182,)
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 32),
-                        Text('탈퇴 전, 확인해주세요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-                        SizedBox(height: 16),
-                        checkWidget('모든 활동 내역이 사라져요!', false),
-                        SizedBox(height: 8),
-                        checkWidget('회원 정보는 탈퇴 후, ', true),
-                        SizedBox(height: 32),
-                        Text('대피로를 떠나는 이유가 궁금해요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-                        SizedBox(height: 16),
-                        GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                enableDrag: false,
-                                isDismissible: true,
-                                context: context,
-                                builder: (context) {
-                                  return leaveTypeBottomSheet(state.leaveTypeList, context, ref);
-                                });
-                          },
-                          child: leaveTypeWidget(state.leaveType),
-                        ),
-                        SizedBox(height: 35),
-                      ],
+    return PopScope(
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          viewModel.setLeaveType('');
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                        child: backgroundWidget(context)
                     ),
-                  ),
-                )
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: bottomWidget(context, ref),
-            )
-          ],
+                    Positioned(
+                        top: 0,
+                        right: 20,
+                        left: 20,
+                        child: IntrinsicHeight(child:
+                        headerWidget(context, state.realName))
+                    ),
+                    Positioned(
+                      right: 0,
+                      left: 0,
+                      bottom: 0,
+                        child: Image.asset('assets/icons/icon_withdraw.png', height: 182, width: 182,)
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 32),
+                          Text('탈퇴 전, 확인해주세요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
+                          SizedBox(height: 16),
+                          checkWidget(),
+                          SizedBox(height: 32),
+                          Text('대피로를 떠나는 이유가 궁금해요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
+                          SizedBox(height: 16),
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  enableDrag: false,
+                                  isDismissible: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return Wrap(
+                                        children: [leaveTypeBottomSheet(state.leaveTypeList, context, ref)]
+                                    );
+                                  });
+                            },
+                            child: leaveTypeWidget(state.leaveType),
+                          ),
+                          SizedBox(height: 35),
+                        ],
+                      ),
+                    ),
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: bottomWidget(context, ref),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -165,7 +173,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
     );
   }
 
-  Widget checkWidget(String contentText, bool isRichText) {
+  Widget checkWidget() {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -184,20 +192,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                 colorFilter: ColorFilter.mode(
                     DaepiroColorStyle.o_400, BlendMode.srcIn)),
             SizedBox(width: 10),
-            Text(contentText, style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.g_900)),
-            if(isRichText)
-              RichText(
-                text: TextSpan(
-                    text: '0일',
-                    style:
-                    DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.o_400),
-                    children: [
-                      TextSpan(
-                          text: '까지 보관해요.',
-                          style: DaepiroTextStyle.body_2_b
-                              .copyWith(color: DaepiroColorStyle.black))
-                    ]),
-              ),
+            Text('모든 회원 정보와 활동내역이 사라질 수 있어요!', style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.g_900)),
           ],
         ),
       ),
@@ -237,48 +232,47 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   }
 
   Widget leaveBoottmHeaderWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                SizedBox(width: 16),
-                Opacity(
-                  opacity: 0.0,
-                  child: SvgPicture.asset(
-                    'assets/icons/icon_close.svg',
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 20,),
+          Row(
+            children: [
+              SizedBox(width: 16),
+              Opacity(
+                opacity: 0.0,
+                child: SvgPicture.asset(
+                  'assets/icons/icon_close.svg',
+                  width: 24,
+                  height: 24,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  '탈퇴 이유',
+                  textAlign: TextAlign.center,
+                  style: DaepiroTextStyle.body_1_b
+                      .copyWith(color: DaepiroColorStyle.g_900),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: SvgPicture.asset('assets/icons/icon_close.svg',
                     width: 24,
                     height: 24,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    '탈퇴 이유',
-                    textAlign: TextAlign.center,
-                    style: DaepiroTextStyle.body_1_b
-                        .copyWith(color: DaepiroColorStyle.g_900),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: SvgPicture.asset('assets/icons/icon_close.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                          DaepiroColorStyle.g_900, BlendMode.srcIn)),
-                ),
-                SizedBox(width: 20),
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
-              width: double.infinity,
-              height: 1,
-            )
-          ],
-        ),
+                    colorFilter: ColorFilter.mode(
+                        DaepiroColorStyle.g_900, BlendMode.srcIn)),
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+          SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
+            width: double.infinity,
+            height: 1,
+          )
+        ],
       ),
     );
   }
@@ -286,7 +280,6 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   Widget leaveTypeBottomSheet(List<String> leaveTypeList, BuildContext context, WidgetRef ref) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.4,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -297,41 +290,39 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           leaveBoottmHeaderWidget(context),
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListView.builder(
-                    itemCount: leaveTypeList.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: SecondaryFilledButton(
-                            verticalPadding: 16,
-                            onPressed: () {
-                              ref.read(myPageProvider.notifier).setLeaveType(leaveTypeList[index]);
-                              GoRouter.of(context).pop();
-                            },
-                            radius: 8,
-                            backgroundColor: DaepiroColorStyle.white,
-                            pressedColor: DaepiroColorStyle.g_50,
-                            child: Row(
-                              children: [
-                                SizedBox(width: 16),
-                                Text(
-                                  textAlign: TextAlign.start,
-                                  leaveTypeList[index],
-                                  style: DaepiroTextStyle.body_1_m
-                                      .copyWith(color: DaepiroColorStyle.g_900),
-                                ),
-                              ],
-                            )),
-                      );
-                    })
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListView.builder(
+                  itemCount: leaveTypeList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: SecondaryFilledButton(
+                          verticalPadding: 16,
+                          onPressed: () {
+                            ref.read(myPageProvider.notifier).setLeaveType(leaveTypeList[index]);
+                            GoRouter.of(context).pop();
+                          },
+                          radius: 8,
+                          backgroundColor: DaepiroColorStyle.white,
+                          pressedColor: DaepiroColorStyle.g_50,
+                          child: Row(
+                            children: [
+                              SizedBox(width: 16),
+                              Text(
+                                textAlign: TextAlign.start,
+                                leaveTypeList[index],
+                                style: DaepiroTextStyle.body_1_m
+                                    .copyWith(color: DaepiroColorStyle.g_900),
+                              ),
+                            ],
+                          )),
+                    );
+                  })
+            ],
           )
         ],
       ),
@@ -411,11 +402,10 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                     child: PrimaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          if(Platform.isAndroid) {
-                            SystemNavigator.pop();
-                          } else {
-                            exit(0);
+                          while(context.canPop()) {
+                            context.pop();
                           }
+                          GoRouter.of(context).pushReplacement('/login');
                         },
                         backgroundColor: DaepiroColorStyle.g_700,
                         pressedColor: DaepiroColorStyle.g_600,
