@@ -13,18 +13,16 @@ import '../../information/shelter/around_shelter_extra.dart';
 import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
 import '../component/disaster_mesaage_history_preview.dart';
-import '../component/popular_post_preview.dart';
-import '../component/sponsor_preview.dart';
 import 'home_view_model.dart';
 
-class UnNormalHomeScreen extends ConsumerStatefulWidget {
-  const UnNormalHomeScreen({super.key});
+class DisasterHomeScreen extends ConsumerStatefulWidget {
+  const DisasterHomeScreen({super.key});
 
   @override
-  _UnNormalHomeScreenState createState() => _UnNormalHomeScreenState();
+  _DisasterHomeScreenState createState() => _DisasterHomeScreenState();
 }
 
-class _UnNormalHomeScreenState extends ConsumerState<UnNormalHomeScreen> {
+class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
   final PageController _aroundShelterPageController = PageController(
       initialPage: 0,
       viewportFraction: 0.9
@@ -102,8 +100,7 @@ class _UnNormalHomeScreenState extends ConsumerState<UnNormalHomeScreen> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              formatDateToDateTime(viewModel.disasterInfo
-                                  ?.time ?? ""),
+                              formatDateToDateTime(viewModel.disasterInfo?.time ?? ""),
                               style: DaepiroTextStyle.caption.copyWith(
                                 color: DaepiroColorStyle.g_300,
                               ),
@@ -182,7 +179,7 @@ class _UnNormalHomeScreenState extends ConsumerState<UnNormalHomeScreen> {
                                                 ],
                                               )
                                           ],
-                                        ) 
+                                        )
                                       : Column(
                                           children: [
                                             const SizedBox(height: 16),

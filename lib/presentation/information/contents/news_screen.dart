@@ -64,14 +64,13 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
               ),
               Expanded(
                 child: InAppWebView(
-                    initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
-                    initialOptions: InAppWebViewGroupOptions(
-                        crossPlatform: InAppWebViewOptions(
-                            javaScriptEnabled: true,
-                            javaScriptCanOpenWindowsAutomatically: true,
-                            verticalScrollBarEnabled: true
-                        )
-                    )
+                    initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+                    initialSettings: InAppWebViewSettings(
+                        javaScriptEnabled: true,
+                        javaScriptCanOpenWindowsAutomatically: true,
+                        verticalScrollBarEnabled: true,
+                        clearCache: true
+                    ),
                 ),
               ),
             ],
