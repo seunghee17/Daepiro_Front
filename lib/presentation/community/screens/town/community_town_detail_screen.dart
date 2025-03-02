@@ -24,12 +24,15 @@ class CommunityTownDetailScreen extends ConsumerStatefulWidget {
 class CommunityTownDetailState
     extends ConsumerState<CommunityTownDetailScreen> {
   TextEditingController replyController = TextEditingController();
+  final scrollController = ScrollController();
   FocusNode focusNode = FocusNode();
 
   @override
   void dispose() {
     super.dispose();
+    replyController.dispose();
     focusNode.dispose();
+    scrollController.dispose();
   }
 
   @override
@@ -48,7 +51,7 @@ class CommunityTownDetailState
       });
     }
 
-    return PopScope (
+    return PopScope(
         canPop: true,
         onPopInvoked: (bool didPop) {
           if (didPop) {
@@ -66,7 +69,7 @@ class CommunityTownDetailState
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             body: GestureDetector(
-              onTap: () =>  FocusManager.instance.primaryFocus?.unfocus(),
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               behavior: HitTestBehavior.opaque,
               child: SafeArea(
                 child: Column(
@@ -76,78 +79,88 @@ class CommunityTownDetailState
                                   state.townReplyList == [] ||
                               state.selectContentId == null)
                           ? Text('데이터 로드중 오류가 발생했어요! 다시 시도해주세요.')
-                          : SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        headerWidget(
-                                            ContentCategory.getByValue(
-                                                state.contentDetail.category),
-                                            context),
-                                        SizedBox(height: 8),
-                                        subHeaderWidget(state.contentDetail, ref),
-                                        const SizedBox(height: 20,),
-                                        Visibility(
-                                          visible: state.contentDetail.address != '',
-                                            child: addressChip(state.contentDetail.address)
-                                        ),
-                                        const SizedBox(height: 8),
-                                        contentWidget(state.contentDetail),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () async {
-                                              await ref
-                                                  .read(communityTownProvider
-                                                      .notifier)
-                                                  .setArticleLike();
-                                            },
-                                            child: likeButton(
-                                                state.contentDetail.isLiked,
-                                                state.contentDetail.likeCount)),
-                                        //Spacer()
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: DaepiroColorStyle.g_50),
-                                    width: double.infinity,
-                                    height: 4,
-                                  ),
-                                  if (state.isDongNaeLoading)
-                                    Center(
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  else
+                          : Scrollbar(
+                              controller: scrollController,
+                              child: SingleChildScrollView(
+                                controller: scrollController,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 10, 20, 0),
-                                      child: replyListWidget(
-                                          state.townReplyList,
-                                          state.isEditState,
-                                          state.editCommentId,
-                                          state.isChildCommentState,
-                                          state.editChildCommentId,
-                                          state.isEditChildCommentState),
-                                    )
-                                ],
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          headerWidget(
+                                              ContentCategory.getByValue(
+                                                  state.contentDetail.category),
+                                              context),
+                                          SizedBox(height: 8),
+                                          subHeaderWidget(
+                                              state.contentDetail, ref),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Visibility(
+                                              visible:
+                                                  state.contentDetail.address !=
+                                                      '',
+                                              child: addressChip(
+                                                  state.contentDetail.address)),
+                                          const SizedBox(height: 8),
+                                          contentWidget(state.contentDetail),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Row(
+                                        children: [
+                                          GestureDetector(
+                                              onTap: () async {
+                                                await ref
+                                                    .read(communityTownProvider
+                                                        .notifier)
+                                                    .setArticleLike();
+                                              },
+                                              child: likeButton(
+                                                  state.contentDetail.isLiked,
+                                                  state.contentDetail
+                                                      .likeCount)),
+                                          //Spacer()
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: DaepiroColorStyle.g_50),
+                                      width: double.infinity,
+                                      height: 4,
+                                    ),
+                                    if (state.isDongNaeLoading)
+                                      Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    else
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 10, 20, 0),
+                                        child: replyListWidget(
+                                            state.townReplyList,
+                                            state.isEditState,
+                                            state.editCommentId,
+                                            state.isChildCommentState,
+                                            state.editChildCommentId,
+                                            state.isEditChildCommentState),
+                                      )
+                                  ],
+                                ),
                               ),
                             ),
                     ),
@@ -256,7 +269,8 @@ class CommunityTownDetailState
           ),
           Spacer(),
           GestureDetector(
-            onTap: () => articleGoToAdditional(context, content.isMine, content.id),
+            onTap: () =>
+                articleGoToAdditional(context, content.isMine, content.id),
             child: SvgPicture.asset('assets/icons/icon_more.svg',
                 width: 24,
                 height: 24,
@@ -844,6 +858,7 @@ class CommunityTownDetailState
                             .setComment(controller.text);
                       }
                       controller.clear();
+                      FocusManager.instance.primaryFocus?.unfocus();
                     },
                     style: TextButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),
@@ -873,7 +888,8 @@ class CommunityTownDetailState
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Text(
           '${address}에서 작성한 글',
-          style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
+          style:
+              DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
         ),
       ),
     );

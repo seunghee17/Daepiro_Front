@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../cmm/button/secondary_filled_button.dart';
 import '../../../cmm/dialog/basic_dialog.dart';
+import '../../const/const.dart';
 
 class MypageScreen extends ConsumerWidget {
   const MypageScreen({super.key});
@@ -263,7 +263,7 @@ class MypageScreen extends ConsumerWidget {
                       DaepiroColorStyle.g_200, BlendMode.srcIn)),
             if (title == '앱버전')
               Text(
-                'v.1.0.0',
+                'v.${Const.appVersion}',
                 style: DaepiroTextStyle.body_1_m
                     .copyWith(color: DaepiroColorStyle.g_200),
               )

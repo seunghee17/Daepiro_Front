@@ -9,7 +9,8 @@ import '../../../data/model/response/mypage/get_mypage_announcements_list_respon
 import '../controller/mypage_viewmodel.dart';
 
 class MypageAnnouncementScreen extends ConsumerWidget {
-  const MypageAnnouncementScreen({super.key});
+  MypageAnnouncementScreen({super.key});
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,42 +20,46 @@ class MypageAnnouncementScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              headerWidget(context),
-              if(state.isLoading)
-                Center(child: CircularProgressIndicator()),
-              state.announcementList.isNotEmpty || state.announcementList.length>0 ?
-                Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            headerWidget(context),
+            if(state.isLoading)
+              Center(child: CircularProgressIndicator()),
+            state.announcementList.isNotEmpty || state.announcementList.length>0 ?
+              Expanded(
+                  child: Scrollbar(
+                    controller: scrollController,
                     child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: state.announcementList.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () async {
-                                    await viewModel.getAnnouncementDetail(state.announcementList[index].id.toString());
-                                    GoRouter.of(context).push('/mypage_announcement_detail/${state.announcementList[index].id}');
-                                  },
-                                    child: listWidget(state.announcementList[index])
-                                );
-                              }
-                          )
-                        ],
+                      controller: scrollController,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: state.announcementList.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      await viewModel.getAnnouncementDetail(state.announcementList[index].id.toString());
+                                      GoRouter.of(context).push('/mypage_announcement_detail/${state.announcementList[index].id}');
+                                    },
+                                      child: listWidget(state.announcementList[index])
+                                  );
+                                }
+                            )
+                          ],
+                        ),
                       ),
-                    )
-                ) : Center(
-                child: Text('데이터가 없습니다.'),
-              )
-            ],
-          ),
+                    ),
+                  )
+              ) : Center(
+              child: Text('데이터가 없습니다.'),
+            )
+          ],
         ),
       )
     );
@@ -62,11 +67,11 @@ class MypageAnnouncementScreen extends ConsumerWidget {
 
   //헤더 위젯
   Widget headerWidget(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: GestureDetector(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        children: [
+          GestureDetector(
             onTap: () => GoRouter.of(context).pop(),
             child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
                 width: 24,
@@ -74,17 +79,13 @@ class MypageAnnouncementScreen extends ConsumerWidget {
                 colorFilter:
                 ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
-        ),
-        Spacer(),
-        Text('공지사항',
-            style:
-            DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-        Spacer(),
-        Container(
-          width: 24,
-          height: 24,
-        )
-      ],
+          Spacer(),
+          Text('공지사항',
+              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
+          Spacer(),
+          SizedBox(width: 24)
+        ],
+      ),
     );
   }
   

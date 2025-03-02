@@ -149,7 +149,9 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
       canPop: true,
       onPopInvoked: (bool didPop) {
         if (didPop) {
-          viewModel.clearState();
+          Future.microtask(() {
+            viewModel.clearState();
+          });
         }
       },
       child: Scaffold(
@@ -199,8 +201,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                                       bottom: 12,
                                       right: 12,
                                       child: Visibility(
-                                          visible:
-                                          true, //!state.isSuccessCertificate
+                                          visible: !state.isSuccessCertificate,
                                           child: GestureDetector(
                                             onTap: () async {
                                               await _updateLocation();
@@ -245,7 +246,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                                                 painter: CustomBalloon(),
                                               ),
                                               SizedBox(
-                                                width: 226,
+                                                width: 250,
                                                 child: Text(
                                                   '현 위치가 다른 경우 페이지를 새로고침해주세요.',
                                                   textAlign: TextAlign.center,
@@ -271,7 +272,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                                       .copyWith(color: DaepiroColorStyle.g_500),
                                 ),
                               ),
-                            if (state.isSuccessCertificate) //TODO
+                            if (state.isSuccessCertificate)
                               Padding(
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: Center(
@@ -279,7 +280,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                               ),
                           ],
                         ),
-                        Spacer(), //TODO
+                        Spacer(),
                         state.isSuccessCertificate
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
@@ -720,17 +721,14 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
   Widget successCertificate(String selectAddress) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double availableHeight = constraints.maxHeight * 0.4; // 최대 40%까지만 차지
-        double availableWidth = constraints.maxWidth;
-        double size = availableHeight < availableWidth ? availableHeight : availableWidth * 0.9;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: size,
-              height: size,
+              width: 80,
+              height: 80,
               child: FutureBuilder(
                 future: controller.initialize(),
                 builder: (context, snapshot) {

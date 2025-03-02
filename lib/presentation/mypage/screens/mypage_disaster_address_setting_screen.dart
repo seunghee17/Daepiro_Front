@@ -24,10 +24,15 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
   TextEditingController jusoNickController2 = TextEditingController();
   FocusNode nickFocusNode1 = FocusNode();
   FocusNode nickFocusNode2 = FocusNode();
+  final ValueNotifier<bool> isValueChangeNotifier = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
+    // 검색 기록 초기화
+    Future(() {
+      ref.read(myPageProvider.notifier).initSearchHistory();
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(myPageProvider.notifier).getAddressList();
       final state = ref.watch(myPageProvider);
@@ -43,10 +48,6 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
         jusoController2.text = state.secondJuso;
         jusoNickController2.text = state.secondJusoNick;
       }
-    });
-    // 검색 기록 초기화
-    Future(() {
-      ref.read(myPageProvider.notifier).initSearchHistory();
     });
   }
 
@@ -95,7 +96,7 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                headerWidget(context),
+                headerWidget(context, state.homeJuso.isNotEmpty),
                 if(state.isLoading)
                   const Center(child: CircularProgressIndicator())
                 else
@@ -128,7 +129,7 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
   }
 
   //헤더 위젯
-  Widget headerWidget(BuildContext context) {
+  Widget headerWidget(BuildContext context, bool isAvailable) {
     return Row(
       children: [
         Padding(
@@ -147,16 +148,22 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
             style:
             DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
         Spacer(),
-        GestureDetector(
-          onTap: () async {
-            ref.read(myPageProvider.notifier).setJusoNick(jusoNickController1.text, jusoNickController2.text);
-            final isSuccess = await ref.read(myPageProvider.notifier).setAddressList();
-            showSnackbar(context, isSuccess);
-          },
-          child: Text('저장',
-              style: DaepiroTextStyle.body_1_m
-                  .copyWith(color: DaepiroColorStyle.o_500)),
-        )
+        ValueListenableBuilder<bool>(
+            valueListenable: isValueChangeNotifier,
+            builder: (context, isChanged, builder) {
+              return GestureDetector(
+                onTap: () async {
+                  if(isAvailable && isChanged) {
+                    ref.read(myPageProvider.notifier).setJusoNick(jusoNickController1.text, jusoNickController2.text);
+                    final isSuccess = await ref.read(myPageProvider.notifier).setAddressList();
+                    showSnackbar(context, isSuccess);
+                  }
+                },
+                child: Text('저장',
+                    style: DaepiroTextStyle.body_1_m
+                        .copyWith(color: isAvailable && isChanged ? DaepiroColorStyle.o_500 : DaepiroColorStyle.g_100)),
+              );
+            })
       ],
     );
   }
@@ -210,12 +217,17 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
           homeChipWidget(),
           SizedBox(height: 10),
           TextField(
-            onTap: () => GoRouter.of(context).push(
+            onTap: () {
+              if(!isValueChangeNotifier.value) {
+                isValueChangeNotifier.value = true;
+              }
+              GoRouter.of(context).push(
                 '/onboarding/juso/집/0/${userName}',
-              extra: {
-                'fromMyPage': true,
-              },
-            ),
+                extra: {
+                  'fromMyPage': true,
+                },
+              );
+            },
             enabled: true,
             readOnly: true,
             style: DaepiroTextStyle.body_1_m
@@ -329,6 +341,9 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
                 .copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
               if (firstJusoState == 'Possible') {
+                if(!isValueChangeNotifier.value) {
+                  isValueChangeNotifier.value = true;
+                }
                 GoRouter.of(context)
                     .push(
                     '/onboarding/juso/${jusoNickController1.text}/1/${userName}',
@@ -441,6 +456,9 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
             style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
               if (secondJusoState == 'Possible') {
+                if(!isValueChangeNotifier.value) {
+                  isValueChangeNotifier.value = true;
+                }
                 GoRouter.of(context)
                     .push(
                     '/onboarding/juso/${jusoNickController2.text}/2/${userName}',

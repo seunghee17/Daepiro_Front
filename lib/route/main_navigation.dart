@@ -30,6 +30,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
         if(index != widget.navigationShell.currentIndex) {
           widget.navigationShell.goBranch(index);
           if(index==1) {
+            await ref.read(communityTownProvider.notifier).setUserAddressList();
             await ref.read(communityDisasterProvider.notifier).getDisasterSituaions();
             await ref.read(communityTownProvider.notifier).loadContent();
           }

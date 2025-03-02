@@ -18,6 +18,12 @@ class CommunityDisasterScreen extends ConsumerWidget {
     ...CommonDisasterList,
     ...EmergencyDisasterList
   ];
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,46 +34,50 @@ class CommunityDisasterScreen extends ConsumerWidget {
       onRefresh: () async {
         await viewModel.getDisasterSituaions();
       },
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  GoRouter.of(context).push('/community_rule');
-                },
-                child: ruleContainer(),
-              ),
-              twoButtonContainer(ref, state.disasterCommunityType),
-              if (state.isLoading)
-                Center(child: CircularProgressIndicator())
-              else if (state.disasterCommunityType == 'all' &&
-                  state.allDisasterResponse.length == 0)
-                Center(child: Text('데이터가 없습니다.'))
-              else if (state.disasterCommunityType != 'all' &&
-                  state.receivedDisasterResponse.length == 0)
-                Center(child: Text('데이터가 없습니다.'))
-              else
-                ...List.generate(
-                  state.disasterCommunityType == 'all'
-                      ? state.allDisasterResponse.length
-                      : state.receivedDisasterResponse.length,
-                  (index) {
-                    final content = state.disasterCommunityType == 'all'
-                        ? (index < state.allDisasterResponse.length
-                            ? state.allDisasterResponse[index]
-                            : null)
-                        : (index < state.receivedDisasterResponse.length
-                            ? state.receivedDisasterResponse[index]
-                            : null);
-                    if (content == null)
-                      return SizedBox.shrink(); // 유효하지 않은 데이터 무시
-                    return contentItem(content, context, ref);
+      child: Scrollbar(
+        controller: scrollController,
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push('/community_rule');
                   },
+                  child: ruleContainer(),
                 ),
-            ],
+                twoButtonContainer(ref, state.disasterCommunityType),
+                if (state.isLoading)
+                  Center(child: CircularProgressIndicator())
+                else if (state.disasterCommunityType == 'all' &&
+                    state.allDisasterResponse.length == 0)
+                  Center(child: Text('데이터가 없습니다.'))
+                else if (state.disasterCommunityType != 'all' &&
+                    state.receivedDisasterResponse.length == 0)
+                  Center(child: Text('데이터가 없습니다.'))
+                else
+                  ...List.generate(
+                    state.disasterCommunityType == 'all'
+                        ? state.allDisasterResponse.length
+                        : state.receivedDisasterResponse.length,
+                    (index) {
+                      final content = state.disasterCommunityType == 'all'
+                          ? (index < state.allDisasterResponse.length
+                              ? state.allDisasterResponse[index]
+                              : null)
+                          : (index < state.receivedDisasterResponse.length
+                              ? state.receivedDisasterResponse[index]
+                              : null);
+                      if (content == null)
+                        return SizedBox.shrink(); // 유효하지 않은 데이터 무시
+                      return contentItem(content, context, ref);
+                    },
+                  ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 class Const {
+  static String appVersion = '1.0.0';
   static List popularPostCategoryList = ["전체", "일상", "교통", "치안", "기타"];
   static List actionTipsList = ["실내", "실외", "기타"];
   static List disasterTypeList = ["전체", "지진", "수해", "전쟁"];

@@ -41,13 +41,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   final FlutterSecureStorage storage = FlutterSecureStorage();
   var _currentPage = 0;
 
-  CommunityTownViewModel(this.ref) : super(CommunityTownState()) {
-    _initState();
-  }
-
-  Future<void> _initState() async {
-    await setUserAddressList();
-  }
+  CommunityTownViewModel(this.ref) : super(CommunityTownState());
 
   /// 동네생활 조회할 지역 선택
   Future<void> setUserAddressList() async {
@@ -75,10 +69,9 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<void> setSelectAddress(int index) async {
     state = state.copyWith(
-      selectTown: state.townList[index],
-      selectLongTownAddress: state.townLongAddressList[index],
-      contentList: []
-    );
+        selectTown: state.townList[index],
+        selectLongTownAddress: state.townLongAddressList[index],
+        contentList: []);
     _currentPage = 0;
     state = state.copyWith(isDongNaeHasMore: true);
     await loadContent();
@@ -139,7 +132,8 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
           .future);
       updateContentList.addAll(response.data?.content ?? []);
     }
-    state = state.copyWith(contentList: updateContentList, isDongNaeLoading: false);
+    state =
+        state.copyWith(contentList: updateContentList, isDongNaeLoading: false);
   }
 
   Future<void> selectButton(String type) async {
@@ -171,17 +165,18 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     final imageData = await changeMultiPart(false);
     String originalAddress = state.selectLongTownAddress;
     List<String> parts = originalAddress.split(" ");
-    String resultAddress = parts.sublist(0, parts.length -1).join(' ');
+    String resultAddress = parts.sublist(0, parts.length - 1).join(' ');
     try {
       final result = await ref.read(setCommunityArticleWritingUseCaseProvider(
               CommunityArticleWritingUseCase(
-                  articleCategory: ContentCategory.getNamedByCategory(state.writingTownCategory),
+                  articleCategory: ContentCategory.getNamedByCategory(
+                      state.writingTownCategory),
                   title: title,
                   body: body,
                   visibility: state.isVisible,
-                  longitude: state.latitude,
+                  longitude: state.longitude,
                   latitude: state.latitude,
-                  dongne: state.isVisible ? resultAddress : '',
+                  dongne: resultAddress,
                   attachFileList: imageData))
           .future);
       _currentPage = 0;
@@ -260,16 +255,23 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<List<MultipartFile>> changeMultiPart(bool isEdit) async {
     List<MultipartFile> multipartFiles = [];
-    if(isEdit) {
+    if (isEdit) {
       List<SelectedImage> totalList = [];
       totalList..addAll(state.attachedImages);
       totalList..addAll(state.choiceImages);
 
-      for (var image in totalList) { //생성하기 위해 변환했다
-        final file = await image.entity!.originFile;
-        final multiPartFile = await MultipartFile.fromFile(file!.path,
-            filename: file.uri.pathSegments.last);
-        multipartFiles.add(multiPartFile);
+      for (var image in totalList) {
+        if (image.entity != null) {
+          final file = await image.entity!.originFile;
+          final multiPartFile = await MultipartFile.fromFile(file!.path,
+              filename: file.uri.pathSegments.last);
+          multipartFiles.add(multiPartFile);
+        } else if (image.file != null) {
+          //서버로부터 온 이미지
+          final multiPartFile = await MultipartFile.fromFile(image.file!.path,
+              filename: image.file!.name);
+          multipartFiles.add(multiPartFile);
+        }
       }
     } else {
       for (var image in state.choiceImages) {
@@ -318,19 +320,18 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<bool> checkShowCurrentLocation() async {
     await getUserLocation();
-    final response = await ref.read(communityCheckShowCurrentLocationUseCaseProvider(
-        CommunityCheckShowCurrentlocationUsecase(communityCheckCurrentLocationRequest:
-                CommunityCheckCurrentLocationRequest(
+    final response = await ref.read(
+        communityCheckShowCurrentLocationUseCaseProvider(
+            CommunityCheckShowCurrentlocationUsecase(
+                communityCheckCurrentLocationRequest:
+                    CommunityCheckCurrentLocationRequest(
       address: state.selectLongTownAddress,
       longitude: state.longitude,
       latitude: state.latitude,
     ))).future);
-    if(response.code != 1000) return false;
-    if(response.data == false) {
-      state = state.copyWith(
-        longitude: 0.0,
-        latitude: 0.0
-      );
+    if (response.code != 1000) return false;
+    if (response.data == false) {
+      state = state.copyWith(longitude: 0.0, latitude: 0.0);
       return false;
     }
     return true;
@@ -346,7 +347,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   //댓글 신고하기 api
   Future<bool> sendReplyReportContent(
       int id, String detail, String email) async {
-   final response = await ref.read(communityReplyReportUseCaseProvider(
+    final response = await ref.read(communityReplyReportUseCaseProvider(
             CommunityReplyReportUseCase(
                 id: id,
                 communityReplyReportRequest: ReportRequest(
@@ -354,12 +355,13 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
                     type: ReportCategory.getNamedByCategory(state.reportType),
                     email: email)))
         .future);
-   if(response.code != 1000) return false;
-   return true;
+    if (response.code != 1000) return false;
+    return true;
   }
 
   //게시글 신고하기
-  Future<bool> sendArticleReportContent(int id, String detail, String email) async {
+  Future<bool> sendArticleReportContent(
+      int id, String detail, String email) async {
     final response = await ref.read(communityArticleReportUseCaseProvider(
             CommunityArticleReportUseCase(
                 id: id,
@@ -368,7 +370,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
                     type: ReportCategory.getNamedByCategory(state.reportType),
                     email: email)))
         .future);
-    if(response.code != 1000) return false;
+    if (response.code != 1000) return false;
     return true;
   }
 
@@ -502,21 +504,20 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
     state = state.copyWith(attachedImages: updateList);
   }
 
-
   //뒤로가기시 게시글 리스트 업데이트
   void needToClearContent() async {
     state = state.copyWith(
-        contentDetail: ContentDetail(),
+      contentDetail: ContentDetail(),
       deleteArticle: false,
-        townReplyList: [],
-        selectContentId: null,
-        writingTownCategory: '',
-        parentCommentId: 0,
-        isChildCommentState: false,
-        editChildCommentId: 0,
-        isEditChildCommentState: false,
-        isEditState: false,
-        editCommentId: 0,
+      townReplyList: [],
+      selectContentId: null,
+      writingTownCategory: '',
+      parentCommentId: 0,
+      isChildCommentState: false,
+      editChildCommentId: 0,
+      isEditChildCommentState: false,
+      isEditState: false,
+      editCommentId: 0,
     );
   }
 }

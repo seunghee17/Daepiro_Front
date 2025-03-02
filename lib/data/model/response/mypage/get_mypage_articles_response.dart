@@ -183,6 +183,7 @@ class Address {
   int? addressId;
   String? siDo;
   String? siGunGu;
+  String? eupMyeonDong;
 
   Address({this.addressId, this.siDo, this.siGunGu});
 
@@ -190,6 +191,7 @@ class Address {
     addressId = json['addressId'];
     siDo = json['siDo'];
     siGunGu = json['siGunGu'];
+    eupMyeonDong = json['eupMyeonDong'];
   }
 
   Map<String, dynamic> toJson() {
@@ -197,6 +199,7 @@ class Address {
     data['addressId'] = this.addressId;
     data['siDo'] = this.siDo;
     data['siGunGu'] = this.siGunGu;
+    data['eupMyeonDong'] = this.eupMyeonDong;
     return data;
   }
 }

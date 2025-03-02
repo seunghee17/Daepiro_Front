@@ -58,42 +58,45 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                headerWidget(),
-                Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              headerWidget(),
+              Expanded(
+                  child: Scrollbar(
+                    controller: scrollController,
                     child: SingleChildScrollView(
                       controller: scrollController,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 8),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: state.myArticles.length,
-                              itemBuilder: (context, index) {
-                                final content = state.myArticles[index];
-                                return listItemWidget(() async {
-                                  //상세 기사정보 화면으로 이동
-                                  await communityViewModel.getContentDetail(content.id!);
-                                  GoRouter.of(context).push('/community_town_detail', extra: {'fromMyPage': true});
-                                }, content, ref);
-                              }
-                          ),
-                          if (state.isArticleLoading)
-                            Center(
-                              child: CircularProgressIndicator(),
-                            )
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 8),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: state.myArticles.length,
+                                itemBuilder: (context, index) {
+                                  final content = state.myArticles[index];
+                                  return listItemWidget(() async {
+                                    //상세 기사정보 화면으로 이동
+                                    await communityViewModel.getContentDetail(content.id!);
+                                    GoRouter.of(context).push('/community_town_detail', extra: {'fromMyPage': true});
+                                  }, content, ref);
+                                }
+                            ),
+                            if (state.isArticleLoading)
+                              Center(
+                                child: CircularProgressIndicator(),
+                              )
+                          ],
+                        ),
                       ),
-                    )
-                )
-              ],
-            ),
+                    ),
+                  )
+              )
+            ],
           ),
         )
       ),
@@ -114,7 +117,16 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 8),
-                typeChip(ContentCategory.getByValue(content.category!)),
+                Row(
+                  children: [
+                    typeChip(ContentCategory.getByValue(content.category!)),
+                    SizedBox(width: 8,),
+                    Visibility(
+                        visible: content.address?.addressId != null,
+                        child: addressChip('${content.address?.eupMyeonDong ?? '00동'}에서 작성한 글')
+                    ),
+                  ],
+                ),
                 SizedBox(height: 12),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,14 +236,29 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
     );
   }
 
+  Widget addressChip(String eupMyeonDong) {
+    return Container(
+      decoration: BoxDecoration(
+          color: DaepiroColorStyle.o_50,
+          borderRadius: BorderRadius.circular(4)),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+        child: Text(
+          eupMyeonDong,
+          style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.o_500),
+        ),
+      ),
+    );
+  }
+
   Widget headerWidget() {
     return Container(
       width: double.infinity,
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 14),
-            child: GestureDetector(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+        child: Row(
+          children: [
+            GestureDetector(
               onTap: () {
                 GoRouter.of(context).pop();
               },
@@ -241,20 +268,17 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                   colorFilter: ColorFilter.mode(
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
-          ),
-          Expanded(
-            child: Text(
-              '내가 쓴 글',
-              textAlign: TextAlign.center,
-              style:
-              DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
+            Expanded(
+              child: Text(
+                '내가 쓴 글',
+                textAlign: TextAlign.center,
+                style:
+                DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800),
+              ),
             ),
-          ),
-          Container(
-            width: 24,
-            height: 24,
-          )
-        ],
+            SizedBox(width: 24)
+          ],
+        ),
       ),
     );
   }

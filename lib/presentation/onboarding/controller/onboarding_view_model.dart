@@ -176,6 +176,10 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     }
   }
 
+  void initErrorStateAddress() {
+    state = state.copyWith(isError: false);
+  }
+
   void addHomeJuso(String homeJuso) {
     state = state.copyWith(homeJuso: homeJuso);
   }

@@ -53,38 +53,41 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
         onRefresh: () async {
           await viewModel.reloadContent();
         },
-        child: SingleChildScrollView(
+        child: Scrollbar(
           controller: scrollController,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                GestureDetector(
-                    onTap: () {
-                      GoRouter.of(context).push('/community_rule');
-                    },
-                    child: ruleContainer()),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: typeRadioButton(state.townCategory, ref)),
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: state.contentList.length,
-                    itemBuilder: (context, index) {
-                      final content = state.contentList[index];
-                      return listItemWidget(() async {
-                        await viewModel.getContentDetail(content.id!);
-                        GoRouter.of(context).push('/community_town_detail');
-                      }, content, ref, state.townCategory);
-                    }),
-                if (state.isDongNaeLoading)
-                  Center(
-                    child: CircularProgressIndicator(),
-                  )
-              ],
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  GestureDetector(
+                      onTap: () {
+                        GoRouter.of(context).push('/community_rule');
+                      },
+                      child: ruleContainer()),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: typeRadioButton(state.townCategory, ref)),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: state.contentList.length,
+                      itemBuilder: (context, index) {
+                        final content = state.contentList[index];
+                        return listItemWidget(() async {
+                          await viewModel.getContentDetail(content.id!);
+                          GoRouter.of(context).push('/community_town_detail');
+                        }, content, ref, state.townCategory);
+                      }),
+                  if (state.isDongNaeLoading)
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                ],
+              ),
             ),
           ),
         ),
@@ -189,8 +192,8 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                           child: typeChip(ContentCategory.getByValue(content.category!)),
                         )),
                     Visibility(
-                      visible: content.address != null,
-                        child: addressChip(content.address?.eupMyeonDong ?? '00동에서 작성했어요!')
+                      visible: content.address?.addressId != null,
+                        child: addressChip('${content.address?.eupMyeonDong ?? '00동'}에서 작성한 글')
                     )
                   ],
                 ),

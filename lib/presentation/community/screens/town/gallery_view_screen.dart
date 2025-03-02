@@ -45,6 +45,7 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
           failSnackbar(context);
           return;
         }
+        totalSize += await file.length();
       }
       state = [...state, image];
     }

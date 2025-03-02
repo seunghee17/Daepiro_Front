@@ -260,7 +260,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
           children: [
             TextField(
               expands: true,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.multiline,
               maxLines: null,
               maxLength: 1000,
               style: DaepiroTextStyle.body_1_m

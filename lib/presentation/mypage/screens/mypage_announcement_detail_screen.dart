@@ -11,40 +11,44 @@ import '../controller/mypage_viewmodel.dart';
 
 class MypageAnnouncementDetailScreen extends ConsumerWidget {
   final String? id;
-  const MypageAnnouncementDetailScreen({super.key, this.id});
+  MypageAnnouncementDetailScreen({super.key, this.id});
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(myPageProvider);
-    final viewModel = ref.read(myPageProvider.notifier);
     return Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if(state.isLoading || state.announcementDetailResponse == null)
-                  const Center(child: CircularProgressIndicator()),
-                if(!state.isLoading && state.announcementDetailResponse != null)
-                  headerWidget(context),
-                  SizedBox(height: 20),
-                  Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if(state.isLoading || state.announcementDetailResponse == null)
+                const Center(child: CircularProgressIndicator()),
+              if(!state.isLoading && state.announcementDetailResponse != null)
+                headerWidget(context),
+                SizedBox(height: 20),
+                Expanded(
+                    child: Scrollbar(
+                      controller: scrollController,
                       child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            contentDetail(state.announcementDetailResponse!),
-                          ],
+                        controller: scrollController,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              contentDetail(state.announcementDetailResponse!),
+                            ],
+                          ),
                         ),
-                      )
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: footerWidget(),
-                )
-              ],
-            ),
+                      ),
+                    )
+                ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0 , left: 20, right: 20),
+                child: footerWidget(),
+              )
+            ],
           ),
         )
     );
@@ -55,7 +59,7 @@ class MypageAnnouncementDetailScreen extends ConsumerWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           child: GestureDetector(
             onTap: () => GoRouter.of(context).pop(),
             child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
@@ -90,7 +94,7 @@ class MypageAnnouncementDetailScreen extends ConsumerWidget {
           ),
           SizedBox(height: 8),
           Text(
-            formatDateToDot(detail.data?.createdAt ?? ''),
+            formatDateToDateTime(detail.data?.createdAt ?? ''),
             style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_400),
           ),
           SizedBox(height: 24),
@@ -99,21 +103,6 @@ class MypageAnnouncementDetailScreen extends ConsumerWidget {
             style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_800),
           ),
           SizedBox(height: 24),
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: DaepiroColorStyle.g_50
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-
-                ],
-              ),
-            )
-          )
         ],
       ),
     );

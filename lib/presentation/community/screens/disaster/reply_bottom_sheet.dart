@@ -569,6 +569,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                             .setComment(controller.text);
                       }
                       controller.clear();
+                      FocusManager.instance.primaryFocus?.unfocus();
                     },
                     style: TextButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),

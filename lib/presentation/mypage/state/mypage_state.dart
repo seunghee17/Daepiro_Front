@@ -8,10 +8,17 @@ part 'mypage_state.freezed.dart';
 sealed class MyPageState with _$MyPageState {
   factory MyPageState({
     @Default(true) isLoading,
+    @Default('') platform,
+
+    /// 사용자 정보 수정
     @Default('') profileImgUrl,
     @Default('') realName,
     @Default('') nickName,
-    @Default('') platform,
+    @Default('') String nameState,
+    @Default('') String nicknameState,
+    @Default(false) bool completeSetName,
+    @Default(false) bool completeSetNickName,
+
     @Default(false) communityAlarmState,
     @Default(false) disasterAlarmState,
     @Default([]) List<String> disasterTypeList,
@@ -47,7 +54,7 @@ sealed class MyPageState with _$MyPageState {
     @Default(null) AnnouncementDetailResponse? announcementDetailResponse,
 
     //탈퇴 이유
-    @Default(['새 계정을 만들고 싶어요.', '알림이 너무 자주 와요.', '정보가 부족해요.', '불쾌한 사람을 만났어요.']) List<String> leaveTypeList,
+    @Default(['새 계정을 만들고 싶어요.', '알림이 너무 자주 와요.', '정보가 부족해요.', '불쾌한 사람을 만났어요.', '기타']) List<String> leaveTypeList,
     @Default('') String leaveType,
 }) = _MyPageState;
 }

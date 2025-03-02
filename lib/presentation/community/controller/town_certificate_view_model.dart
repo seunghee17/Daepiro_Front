@@ -28,11 +28,11 @@ class TownCertificateViewModel extends StateNotifier<TownCertificateState> {
     }
   }
 
-  Future<void> getCertificateState() async {
-    final result = await ref.read(
-        townGetCertificateUseCaseProvider(TownGetCertificateUseCase()).future);
-    state = state.copyWith(isCertificate: result.data![0].isVerified!);
-  }
+  // Future<void> getCertificateState() async {
+  //   final result = await ref.read(
+  //       townGetCertificateUseCaseProvider(TownGetCertificateUseCase()).future);
+  //   state = state.copyWith(isCertificate: result.data![0].isVerified!);
+  // }
 
   Future<void> getUserLocation() async {
     var status = await Permission.location.status;

@@ -17,6 +17,7 @@ class MypageDisasterTypeSettingScreen extends ConsumerStatefulWidget {
 class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSettingScreen> {
   Set<int> selected = Set();
   Set<int> selectedSub = Set();
+  final ValueNotifier<bool> isValueChangeNotifier = ValueNotifier(false);
 
   @override
   void initState() {
@@ -87,23 +88,46 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                           children: List.generate(EmergencyDisasterList.length,
                                   (index) {
                                 bool isTapped = selected.contains(index);
-                                return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        if (isTapped) {
-                                          selected.remove(index);
-                                          viewModel
-                                              .removeDisasterType(EmergencyDisasterList[index]['name']!);
-                                        } else {
-                                          selected.add(index);
-                                          viewModel.addDisasterType(EmergencyDisasterList[index]['name']!);
-                                        }
-                                      });
-                                    },
-                                    child: disasterItem(
-                                        isTapped,
-                                        EmergencyDisasterList[index]['name']!,
-                                        EmergencyDisasterList[index]['icon']!));
+                                    return ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            if(!isValueChangeNotifier.value) {
+                                              isValueChangeNotifier.value = true;
+                                            }
+                                            if(isTapped) {
+                                              selected.remove(index);
+                                              viewModel.removeDisasterType(EmergencyDisasterList[index]['name']!);
+                                            } else {
+                                              selected.add(index);
+                                              viewModel.addDisasterType(EmergencyDisasterList[index]['name']!);
+                                            }
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            overlayColor: Colors.transparent,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              side: BorderSide(
+                                                  color: isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
+                                                  width: 1
+                                              ),
+                                            ),
+                                            padding: EdgeInsets.zero,
+                                            elevation: 0.0,
+                                            shadowColor: Colors.transparent
+                                        ).copyWith(
+                                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                                  (Set<MaterialState> states) {
+                                                if (states.contains(MaterialState.pressed)) {
+                                                  return DaepiroColorStyle.g_50;
+                                                } else if(isTapped) {
+                                                  return DaepiroColorStyle.g_75;
+                                                }
+                                                return DaepiroColorStyle.white;
+                                              }),
+                                        ),
+                                        child: disasterItem(EmergencyDisasterList[index]['name']!, EmergencyDisasterList[index]['icon']!)
+                                    );
                               })),
                       SizedBox(height: 24),
                       Text(
@@ -124,22 +148,45 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                         children:
                         List.generate(CommonDisasterList.length, (index) {
                           bool isTapped = selectedSub.contains(index);
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (isTapped) {
-                                  selectedSub.remove(index);
-                                 viewModel.removeDisasterType(CommonDisasterList[index]['name']!);
-                                } else {
-                                  selectedSub.add(index);
-                                  viewModel.addDisasterType(CommonDisasterList[index]['name']!);
-                                }
-                              });
-                            },
-                            child: disasterItem(
-                                isTapped,
-                                CommonDisasterList[index]['name']!,
-                                CommonDisasterList[index]['icon']!),
+                          return ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  if(!isValueChangeNotifier.value) {
+                                    isValueChangeNotifier.value = true;
+                                  }
+                                  if(isTapped) {
+                                    selectedSub.remove(index);
+                                    viewModel.removeDisasterType(CommonDisasterList[index]['name']!);
+                                  } else {
+                                    selectedSub.add(index);
+                                    viewModel.addDisasterType(CommonDisasterList[index]['name']!);
+                                  }
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  overlayColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: BorderSide(
+                                        color: isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
+                                        width: 1
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.zero,
+                                  elevation: 0.0,
+                                  shadowColor: Colors.transparent
+                              ).copyWith(
+                                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                      if (states.contains(MaterialState.pressed)) {
+                                        return DaepiroColorStyle.g_50;
+                                      } else if(isTapped) {
+                                        return DaepiroColorStyle.g_75;
+                                      }
+                                      return DaepiroColorStyle.white;
+                                    }),
+                              ),
+                              child: disasterItem(CommonDisasterList[index]['name']!,  CommonDisasterList[index]['icon']!)
                           );
                         }),
                       ),
@@ -174,14 +221,30 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
             style:
             DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
         Spacer(),
-        GestureDetector(
-          onTap: () async {
-            final isSuccess = await ref.read(myPageProvider.notifier).setDisasterType();
-            showSnackbar(context, isSuccess);
-          },
-          child: Text('저장',
-              style: DaepiroTextStyle.body_1_m
-                  .copyWith(color: DaepiroColorStyle.o_500)),
+        // GestureDetector(
+        //   onTap: () async {
+        //     final isSuccess = await ref.read(myPageProvider.notifier).setDisasterType();
+        //     showSnackbar(context, isSuccess);
+        //   },
+        //   child: Text('저장',
+        //       style: DaepiroTextStyle.body_1_m
+        //           .copyWith(color: DaepiroColorStyle.o_500)),
+        // )
+        ValueListenableBuilder<bool>(
+            valueListenable: isValueChangeNotifier,
+            builder: (context, isChanged, child) {
+              return GestureDetector(
+                onTap: () async {
+                  if(isChanged) {
+                    final isSuccess = await ref.read(myPageProvider.notifier).setDisasterType();
+                    showSnackbar(context, isSuccess);
+                  }
+                },
+                child: Text('저장',
+                    style: DaepiroTextStyle.body_1_m
+                        .copyWith(color: isChanged ? DaepiroColorStyle.o_500 : DaepiroColorStyle.g_100)),
+              );
+            }
         )
       ],
     );
@@ -212,17 +275,17 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
     );
   }
 
-  Widget disasterItem(bool isTapped, String name, String icon) {
+  Widget disasterItem(String name, String icon) {
     return Container(
       width: (MediaQuery.of(context).size.width / 3) - 20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Container(
             height: 50,
             width: 50,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DaepiroColorStyle.g_50,
               shape: BoxShape.circle,
             ),
@@ -230,28 +293,19 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
               child: SvgPicture.asset(icon,
                   width: 36,
                   height: 36,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                       DaepiroColorStyle.g_500, BlendMode.srcIn)),
             ),
           ),
-          SizedBox(
-            height: 4,
-          ),
+          const SizedBox(height: 4,),
           Text(
             name,
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_500),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
         ],
       ),
-      decoration: BoxDecoration(
-          color: isTapped ? DaepiroColorStyle.g_75 : DaepiroColorStyle.white,
-          border: Border.all(
-              color:
-              isTapped ? DaepiroColorStyle.g_100 : DaepiroColorStyle.g_50,
-              width: 1),
-          borderRadius: BorderRadius.circular(8)),
     );
   }
 
