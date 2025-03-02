@@ -1,10 +1,14 @@
+import 'package:daepiro/data/model/response/report_request.dart';
 import 'package:daepiro/domain/usecase/sponsor/delete_cheer_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/get_cheer_comment_list_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/modify_cheer_usecase.dart';
+import 'package:daepiro/domain/usecase/sponsor/report_comment_usecase.dart';
 import 'package:daepiro/domain/usecase/sponsor/write_cheer_usecase.dart';
 import 'package:daepiro/presentation/sponsor/sponsor_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../community/controller/community_disaster_view_model.dart';
 
 final sponsorStateNotifierProvider = StateNotifierProvider<SponsorViewModel, SponsorState>((ref) {
   return SponsorViewModel(ref);
@@ -17,7 +21,6 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
     getSponsorList();
     getCheerCommentList();
   }
-
 
   // 후원목록 조회
   Future<void> getSponsorList() async {
@@ -118,4 +121,32 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
     }
   }
 
+  // 응원메세지 신고
+  Future<bool> reportCheerComment({
+    required int id,
+    required String detail,
+    required String type,
+    required String email,
+  }) async {
+    final response = await ref.read(
+        reportCommentUsecaseProvider(ReportCommentUsecase(
+            id: id,
+            body: ReportRequest(
+                detail: detail,
+                type: ReportCategory.getNamedByCategory(state.reportType),
+                email: email
+            )
+        )).future
+    );
+
+    if (response.code == 1000 || response.code == 9002) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void setReportType(String type) {
+    state = state.copyWith(reportType: type);
+  }
 }

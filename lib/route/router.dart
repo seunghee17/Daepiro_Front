@@ -10,6 +10,7 @@ import 'package:daepiro/presentation/community/screens/community_rule_screen.dar
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
 import 'package:daepiro/presentation/onboarding/screens/juso_input_screen.dart';
 import 'package:daepiro/presentation/onboarding/screens/onboarding_third_screen.dart';
+import 'package:daepiro/presentation/sponsor/cheer_report_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -235,6 +236,12 @@ final goRouteProvider = Provider((ref) {
       GoRoute(
         path: '/cheer',
         builder: (context, state) => CheerScreen(),
+      ),
+      GoRoute(
+        path: '/cheerReport/:id',
+        builder: (context, state) {
+          return CheerReportScreen(id: int.tryParse(state.pathParameters['id'] ?? '0'));
+        },
       ),
       GoRoute(
         path: '/news/:url',

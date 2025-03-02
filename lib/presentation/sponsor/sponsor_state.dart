@@ -13,6 +13,8 @@ sealed class SponsorState with _$SponsorState {
     @Default([]) List<String> scrollCommentList1,    // 배너 응원메시지 1
     @Default([]) List<String> scrollCommentList2,    // 배너 응원메시지 2
 
+    @Default('') String reportType,
+    @Default(['허위사실 유포','욕설 및 비방','상업적 광고 및 판매','음란물 및 불건전한 내용','기타']) List<String> reportDescription
   }) = _SponsorState;
 }
 

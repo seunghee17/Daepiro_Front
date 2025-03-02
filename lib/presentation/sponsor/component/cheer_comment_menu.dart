@@ -83,7 +83,8 @@ class CheerCommentMenu extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
           onTap: () {
-            context.push('/community_report_screen');
+            context.pop();
+            context.push('/cheerReport/$id');
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 12),
