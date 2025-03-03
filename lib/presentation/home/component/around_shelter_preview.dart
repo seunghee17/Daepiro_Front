@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../cmm/DaepiroTheme.dart';
+import '../../const/utils.dart';
 import 'map_direction_item.dart';
 
 class AroundShelterPreview extends StatelessWidget {
@@ -55,7 +56,7 @@ class AroundShelterPreview extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  "${distinct}m",
+                  "${calculateDistance(startLatitude,startLongitude,endLatitude,endLongitude)}m",
                   style: DaepiroTextStyle.body_2_m.copyWith(
                     color: DaepiroColorStyle.o_500,
                   ),

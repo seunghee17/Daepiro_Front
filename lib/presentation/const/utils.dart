@@ -1,5 +1,6 @@
 import 'package:daepiro/presentation/const/common_disaster_list.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import '../../cmm/DaepiroTheme.dart';
 import 'emergency_disaster_list.dart';
@@ -200,4 +201,9 @@ bool isEmailValid(String email) {
   final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   if (!regExp.hasMatch(email)) return false;
   return true;
+}
+
+// 위도/경도 사이의 거리 계산
+int calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2).round();
 }

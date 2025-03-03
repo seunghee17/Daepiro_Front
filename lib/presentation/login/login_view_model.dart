@@ -4,7 +4,7 @@ import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/domain/usecase/login/set_fcm_token_usecase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
+// import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -115,9 +115,9 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   Future<void> naverLogin() async {
     try {
-      await FlutterNaverLogin.logIn();
-      NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
-      await fetchSocialToken('naver', accessToken.accessToken);
+      // await FlutterNaverLogin.logIn();
+      // NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
+      // await fetchSocialToken('naver', accessToken.accessToken);
     } catch (error) {
       print('네이버 로그인 에러: $error');
     }
