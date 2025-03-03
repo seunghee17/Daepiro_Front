@@ -587,7 +587,7 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            'assets/icons/icon_location.svg',
+            'assets/icons/icon_plus.svg',
             colorFilter: ColorFilter.mode(
                 isButtonDisabled
                     ? DaepiroColorStyle.g_600

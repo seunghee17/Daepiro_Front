@@ -187,17 +187,22 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         Wrap(
           spacing: 8,
           children: [
-            Text(
-              '${userName}님의 ',
-              style: DaepiroTextStyle.h5.copyWith(
-                  color: DaepiroColorStyle.g_900),
-            ),
-            typeChipWidget(),
-            Text(
-              '어디인가요?',
-              style: DaepiroTextStyle.h5.copyWith(
-                  color: DaepiroColorStyle.g_900),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  '${userName}님의 ',
+                  style: DaepiroTextStyle.h5.copyWith(
+                      color: DaepiroColorStyle.g_900),
+                ),
+                typeChipWidget(),
+                Text(
+                  ' 어디인가요?',
+                  style: DaepiroTextStyle.h5.copyWith(
+                      color: DaepiroColorStyle.g_900),
+                ),
+              ],
+            )
           ],
         ),
       ],
@@ -237,6 +242,8 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
+                width: 16,
+                  height: 16,
                   widget.type == '집'
                       ? 'assets/icons/icon_home.svg'
                       : 'assets/icons/icon_location_24.svg',

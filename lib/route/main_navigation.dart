@@ -1,5 +1,6 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,6 +34,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
             await ref.read(communityTownProvider.notifier).setUserAddressList();
             await ref.read(communityDisasterProvider.notifier).getDisasterSituaions();
             await ref.read(communityTownProvider.notifier).loadContent();
+          } else if(index == 4) {
+            await ref.read(myPageProvider.notifier).getMyProfiles();
           }
         }
       },

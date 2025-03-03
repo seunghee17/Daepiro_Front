@@ -30,24 +30,29 @@ class MypageAnnouncementDetailScreen extends ConsumerWidget {
                 Expanded(
                     child: Scrollbar(
                       controller: scrollController,
-                      child: SingleChildScrollView(
+                      child: CustomScrollView(
                         controller: scrollController,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              contentDetail(state.announcementDetailResponse!),
-                            ],
+                        slivers: [
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                contentDetail(state.announcementDetailResponse!),
+                                Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 0.0),
+                                  child: footerWidget(),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
+                        ),]
                       ),
                     )
                 ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0 , left: 20, right: 20),
-                child: footerWidget(),
-              )
             ],
           ),
         )

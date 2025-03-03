@@ -45,7 +45,6 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   Set<String> _inputJusoList = Set<String>();
 
   MyPageViewModel(this.ref) : super(MyPageState()) {
-    getMyProfiles();
     setPlatform();
   }
 

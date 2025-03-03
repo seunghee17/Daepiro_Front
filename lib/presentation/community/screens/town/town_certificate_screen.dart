@@ -179,8 +179,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                                       left: 0,
                                       child: Container(
                                         width: double.infinity,
-                                        height:
-                                        state.isSuccessCertificate ? 317 : 411,
+                                        height: state.isSuccessCertificate ? 317 : 411,
                                         child: NaverMap(
                                           options: NaverMapViewOptions(
                                               initialCameraPosition:
@@ -274,7 +273,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                               ),
                             if (state.isSuccessCertificate)
                               Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
+                                padding: const EdgeInsets.only(top: 20.0),
                                 child: Center(
                                     child: successCertificate(selectAddress)),
                               ),
@@ -651,7 +650,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
           borderRadius: BorderRadius.circular(8)),
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         child: Row(
           children: [
             checkSuccess
@@ -668,7 +667,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
             SizedBox(width: 8),
             checkSuccess
                 ? Text(
-                    '인증이 완료 되었습니다.',
+                    '인증이 완료되었습니다.',
                     style: DaepiroTextStyle.body_1_b
                         .copyWith(color: DaepiroColorStyle.gre_500),
                   )

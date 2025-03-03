@@ -59,7 +59,7 @@ class MyPageAlarmSettingScreenState extends ConsumerState<MyPageAlarmSettingScre
             headerWidget(context, ref),
             alarmSettingListItem(
                 '커뮤니티 알림',
-                '재난 상황과 동네생활 커뮤니케이션에 대한 댓글, 좋아요 등의 정보를 전달하는 알림입니다.',
+                '재난 상황과 동네생활 커뮤니케이션에 대한\n댓글, 좋아요 등의 정보를 전달하는 알림입니다.',
                 state.communityAlarmState,
                 () => viewModel.setNotificationType('community', isGrant)
             ),

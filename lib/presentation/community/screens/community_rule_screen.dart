@@ -26,10 +26,14 @@ class CommunityRuleScreen extends ConsumerWidget {
               headerWidget(context),
               Expanded(
                   child: SingleChildScrollView(
-                    child: bodyWidget(),
+                    child: Column(
+                      children: [
+                        bodyWidget(),
+                        footerWidget(),
+                        SizedBox(height: 20)
+                      ],
+                    ),
                   )),
-              footerWidget(),
-              SizedBox(height: 20)
             ],
           ),
         )
