@@ -39,25 +39,33 @@ class HomeDisasterHistoryResponse {
 
 class DisasterHistory {
   String? disasterType;
+  int? disasterTypeId;
   String? title;
+  String? content;
   String? time;
 
   DisasterHistory({
     this.disasterType,
+    this.disasterTypeId,
     this.title,
+    this.content,
     this.time,
   });
 
   DisasterHistory.fromJson(Map<String, dynamic> json) {
     disasterType = json['disasterType'];
+    disasterTypeId = json['disasterTypeId'];
     title = json['title'];
+    content = json['content'];
     time = json['time'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['disasterType'] = disasterType;
+    data['disasterTypeId'] = disasterTypeId;
     data['title'] = title;
+    data['content'] = content;
     data['time'] = time;
     return data;
   }

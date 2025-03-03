@@ -17,7 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DisasterContentsState {
   bool get isLoading => throw _privateConstructorUsedError;
-  List<Contents> get contentsList => throw _privateConstructorUsedError;
+  List<Contents> get contentsList =>
+      throw _privateConstructorUsedError; // 재난콘텐츠 목록
+  String get nextCursor => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DisasterContentsStateCopyWith<DisasterContentsState> get copyWith =>
@@ -30,7 +32,7 @@ abstract class $DisasterContentsStateCopyWith<$Res> {
           $Res Function(DisasterContentsState) then) =
       _$DisasterContentsStateCopyWithImpl<$Res, DisasterContentsState>;
   @useResult
-  $Res call({bool isLoading, List<Contents> contentsList});
+  $Res call({bool isLoading, List<Contents> contentsList, String nextCursor});
 }
 
 /// @nodoc
@@ -49,6 +51,7 @@ class _$DisasterContentsStateCopyWithImpl<$Res,
   $Res call({
     Object? isLoading = null,
     Object? contentsList = null,
+    Object? nextCursor = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -59,6 +62,10 @@ class _$DisasterContentsStateCopyWithImpl<$Res,
           ? _value.contentsList
           : contentsList // ignore: cast_nullable_to_non_nullable
               as List<Contents>,
+      nextCursor: null == nextCursor
+          ? _value.nextCursor
+          : nextCursor // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -72,7 +79,7 @@ abstract class _$$DisasterContentsStateImplCopyWith<$Res>
       __$$DisasterContentsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, List<Contents> contentsList});
+  $Res call({bool isLoading, List<Contents> contentsList, String nextCursor});
 }
 
 /// @nodoc
@@ -89,6 +96,7 @@ class __$$DisasterContentsStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? contentsList = null,
+    Object? nextCursor = null,
   }) {
     return _then(_$DisasterContentsStateImpl(
       isLoading: null == isLoading
@@ -99,6 +107,10 @@ class __$$DisasterContentsStateImplCopyWithImpl<$Res>
           ? _value._contentsList
           : contentsList // ignore: cast_nullable_to_non_nullable
               as List<Contents>,
+      nextCursor: null == nextCursor
+          ? _value.nextCursor
+          : nextCursor // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -107,7 +119,9 @@ class __$$DisasterContentsStateImplCopyWithImpl<$Res>
 
 class _$DisasterContentsStateImpl implements _DisasterContentsState {
   _$DisasterContentsStateImpl(
-      {this.isLoading = false, final List<Contents> contentsList = const []})
+      {this.isLoading = true,
+      final List<Contents> contentsList = const [],
+      this.nextCursor = ""})
       : _contentsList = contentsList;
 
   @override
@@ -122,9 +136,14 @@ class _$DisasterContentsStateImpl implements _DisasterContentsState {
     return EqualUnmodifiableListView(_contentsList);
   }
 
+// 재난콘텐츠 목록
+  @override
+  @JsonKey()
+  final String nextCursor;
+
   @override
   String toString() {
-    return 'DisasterContentsState(isLoading: $isLoading, contentsList: $contentsList)';
+    return 'DisasterContentsState(isLoading: $isLoading, contentsList: $contentsList, nextCursor: $nextCursor)';
   }
 
   @override
@@ -135,12 +154,14 @@ class _$DisasterContentsStateImpl implements _DisasterContentsState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
-                .equals(other._contentsList, _contentsList));
+                .equals(other._contentsList, _contentsList) &&
+            (identical(other.nextCursor, nextCursor) ||
+                other.nextCursor == nextCursor));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading,
-      const DeepCollectionEquality().hash(_contentsList));
+      const DeepCollectionEquality().hash(_contentsList), nextCursor);
 
   @JsonKey(ignore: true)
   @override
@@ -153,12 +174,15 @@ class _$DisasterContentsStateImpl implements _DisasterContentsState {
 abstract class _DisasterContentsState implements DisasterContentsState {
   factory _DisasterContentsState(
       {final bool isLoading,
-      final List<Contents> contentsList}) = _$DisasterContentsStateImpl;
+      final List<Contents> contentsList,
+      final String nextCursor}) = _$DisasterContentsStateImpl;
 
   @override
   bool get isLoading;
   @override
   List<Contents> get contentsList;
+  @override // 재난콘텐츠 목록
+  String get nextCursor;
   @override
   @JsonKey(ignore: true)
   _$$DisasterContentsStateImplCopyWith<_$DisasterContentsStateImpl>

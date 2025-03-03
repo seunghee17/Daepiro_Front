@@ -4,7 +4,6 @@ class AroundShelterExtra {
   final double latitude;
   final double longitude;
   final String address;
-  final List<Shelters> temperatureShelterList;
   final List<Shelters> earthquakeShelterList;
   final List<Shelters> tsunamiShelterList;
   final List<Shelters> civilShelterList;
@@ -13,7 +12,6 @@ class AroundShelterExtra {
     required this.latitude,
     required this.longitude,
     required this.address,
-    required this.temperatureShelterList,
     required this.earthquakeShelterList,
     required this.tsunamiShelterList,
     required this.civilShelterList,

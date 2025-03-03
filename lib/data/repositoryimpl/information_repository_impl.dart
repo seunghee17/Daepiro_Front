@@ -13,12 +13,14 @@ class InformationRepositoryImpl extends InformationRepository {
   @override
   Future<DisasterContentsListResponse> getDisasterContentsList({
     required String sortType,
-    required String size
+    required String size,
+    required String cursor
   }) async {
     try {
       final response = await _service.getDisasterContentsList(
         sortType: sortType,
-        size: size
+        size: size,
+        cursor: cursor
       );
       return response;
     } catch(e) {
@@ -40,36 +42,6 @@ class InformationRepositoryImpl extends InformationRepository {
       return response;
     } catch(e) {
       print('재난콘텐츠 검색 오류 ${e.toString()}');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<BasicResponse> registerUserLocation({
-    required RegisterUserLocationRequest body
-  }) async {
-    try {
-      final response = await _service.registerUserLocation(
-          body: body
-      );
-      return response;
-    } catch(e) {
-      print('사용자 위치 등록 오류 ${e.toString()}');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<AroundShelterListResponse> getAroundShelterList({
-    required String type
-  }) async {
-    try {
-      final response = await _service.getAroundShelterList(
-          type: type
-      );
-      return response;
-    } catch(e) {
-      print('주변대피소 조회 오류 ${e.toString()}');
       rethrow;
     }
   }

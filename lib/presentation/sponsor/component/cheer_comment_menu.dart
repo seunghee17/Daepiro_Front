@@ -52,32 +52,6 @@ class CheerCommentMenu extends ConsumerWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            context.pop();
-            // ref.
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: DaepiroColorStyle.g_50,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  '수정하기',
-                  textAlign: TextAlign.center,
-                  style: DaepiroTextStyle.body_1_b.copyWith(
-                      color: DaepiroColorStyle.g_700
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 7),
-        GestureDetector(
             onTap: () {
               context.pop();
               deleteDialog(context, ref, id, onClickDelete);
@@ -109,7 +83,8 @@ class CheerCommentMenu extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
           onTap: () {
-            context.push('/community_report_screen');
+            context.pop();
+            context.push('/cheerReport/$id');
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 12),

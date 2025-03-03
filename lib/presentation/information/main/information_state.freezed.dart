@@ -24,8 +24,6 @@ mixin _$InformationState {
   String get myLocation => throw _privateConstructorUsedError;
   List<Shelters> get shelterList =>
       throw _privateConstructorUsedError; // 주변 대피소 리스트
-  List<Shelters> get temperatureShelterList =>
-      throw _privateConstructorUsedError; // 주변 대피소 리스트(전체)
   List<Shelters> get earthquakeShelterList =>
       throw _privateConstructorUsedError; // 주변 대피소 리스트(지진)
   List<Shelters> get tsunamiShelterList =>
@@ -53,7 +51,6 @@ abstract class $InformationStateCopyWith<$Res> {
       int selectedAroundShelterType,
       String myLocation,
       List<Shelters> shelterList,
-      List<Shelters> temperatureShelterList,
       List<Shelters> earthquakeShelterList,
       List<Shelters> tsunamiShelterList,
       List<Shelters> civilShelterList,
@@ -80,7 +77,6 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
     Object? selectedAroundShelterType = null,
     Object? myLocation = null,
     Object? shelterList = null,
-    Object? temperatureShelterList = null,
     Object? earthquakeShelterList = null,
     Object? tsunamiShelterList = null,
     Object? civilShelterList = null,
@@ -111,10 +107,6 @@ class _$InformationStateCopyWithImpl<$Res, $Val extends InformationState>
       shelterList: null == shelterList
           ? _value.shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
-              as List<Shelters>,
-      temperatureShelterList: null == temperatureShelterList
-          ? _value.temperatureShelterList
-          : temperatureShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
       earthquakeShelterList: null == earthquakeShelterList
           ? _value.earthquakeShelterList
@@ -155,7 +147,6 @@ abstract class _$$InformationStateImplCopyWith<$Res>
       int selectedAroundShelterType,
       String myLocation,
       List<Shelters> shelterList,
-      List<Shelters> temperatureShelterList,
       List<Shelters> earthquakeShelterList,
       List<Shelters> tsunamiShelterList,
       List<Shelters> civilShelterList,
@@ -180,7 +171,6 @@ class __$$InformationStateImplCopyWithImpl<$Res>
     Object? selectedAroundShelterType = null,
     Object? myLocation = null,
     Object? shelterList = null,
-    Object? temperatureShelterList = null,
     Object? earthquakeShelterList = null,
     Object? tsunamiShelterList = null,
     Object? civilShelterList = null,
@@ -211,10 +201,6 @@ class __$$InformationStateImplCopyWithImpl<$Res>
       shelterList: null == shelterList
           ? _value._shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
-              as List<Shelters>,
-      temperatureShelterList: null == temperatureShelterList
-          ? _value._temperatureShelterList
-          : temperatureShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
       earthquakeShelterList: null == earthquakeShelterList
           ? _value._earthquakeShelterList
@@ -250,7 +236,6 @@ class _$InformationStateImpl implements _InformationState {
       this.selectedAroundShelterType = 0,
       this.myLocation = "",
       final List<Shelters> shelterList = const [],
-      final List<Shelters> temperatureShelterList = const [],
       final List<Shelters> earthquakeShelterList = const [],
       final List<Shelters> tsunamiShelterList = const [],
       final List<Shelters> civilShelterList = const [],
@@ -258,7 +243,6 @@ class _$InformationStateImpl implements _InformationState {
       this.longitude = 0})
       : _contentsList = contentsList,
         _shelterList = shelterList,
-        _temperatureShelterList = temperatureShelterList,
         _earthquakeShelterList = earthquakeShelterList,
         _tsunamiShelterList = tsunamiShelterList,
         _civilShelterList = civilShelterList;
@@ -295,20 +279,8 @@ class _$InformationStateImpl implements _InformationState {
   }
 
 // 주변 대피소 리스트
-  final List<Shelters> _temperatureShelterList;
-// 주변 대피소 리스트
-  @override
-  @JsonKey()
-  List<Shelters> get temperatureShelterList {
-    if (_temperatureShelterList is EqualUnmodifiableListView)
-      return _temperatureShelterList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_temperatureShelterList);
-  }
-
-// 주변 대피소 리스트(전체)
   final List<Shelters> _earthquakeShelterList;
-// 주변 대피소 리스트(전체)
+// 주변 대피소 리스트
   @override
   @JsonKey()
   List<Shelters> get earthquakeShelterList {
@@ -352,7 +324,7 @@ class _$InformationStateImpl implements _InformationState {
 
   @override
   String toString() {
-    return 'InformationState(isLoadingContents: $isLoadingContents, isLoadingShelters: $isLoadingShelters, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, myLocation: $myLocation, shelterList: $shelterList, temperatureShelterList: $temperatureShelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList, latitude: $latitude, longitude: $longitude)';
+    return 'InformationState(isLoadingContents: $isLoadingContents, isLoadingShelters: $isLoadingShelters, contentsList: $contentsList, selectedAroundShelterType: $selectedAroundShelterType, myLocation: $myLocation, shelterList: $shelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -373,8 +345,6 @@ class _$InformationStateImpl implements _InformationState {
                 other.myLocation == myLocation) &&
             const DeepCollectionEquality()
                 .equals(other._shelterList, _shelterList) &&
-            const DeepCollectionEquality().equals(
-                other._temperatureShelterList, _temperatureShelterList) &&
             const DeepCollectionEquality()
                 .equals(other._earthquakeShelterList, _earthquakeShelterList) &&
             const DeepCollectionEquality()
@@ -396,7 +366,6 @@ class _$InformationStateImpl implements _InformationState {
       selectedAroundShelterType,
       myLocation,
       const DeepCollectionEquality().hash(_shelterList),
-      const DeepCollectionEquality().hash(_temperatureShelterList),
       const DeepCollectionEquality().hash(_earthquakeShelterList),
       const DeepCollectionEquality().hash(_tsunamiShelterList),
       const DeepCollectionEquality().hash(_civilShelterList),
@@ -419,7 +388,6 @@ abstract class _InformationState implements InformationState {
       final int selectedAroundShelterType,
       final String myLocation,
       final List<Shelters> shelterList,
-      final List<Shelters> temperatureShelterList,
       final List<Shelters> earthquakeShelterList,
       final List<Shelters> tsunamiShelterList,
       final List<Shelters> civilShelterList,
@@ -439,8 +407,6 @@ abstract class _InformationState implements InformationState {
   @override
   List<Shelters> get shelterList;
   @override // 주변 대피소 리스트
-  List<Shelters> get temperatureShelterList;
-  @override // 주변 대피소 리스트(전체)
   List<Shelters> get earthquakeShelterList;
   @override // 주변 대피소 리스트(지진)
   List<Shelters> get tsunamiShelterList;

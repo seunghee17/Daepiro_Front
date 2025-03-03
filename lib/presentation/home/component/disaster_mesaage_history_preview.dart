@@ -26,6 +26,7 @@ class _DisasterHistoryPreview extends State<DisasterHistoryPreview> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
+      color: DaepiroColorStyle.white,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

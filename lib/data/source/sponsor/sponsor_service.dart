@@ -6,6 +6,8 @@ import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+
+import '../../model/response/report_request.dart';
 part 'sponsor_service.g.dart';
 
 @RestApi()
@@ -43,5 +45,11 @@ abstract class SponsorService {
     @Path("id") required String id,
   });
 
+  // 응원메시지 신고
+  @PUT('/v1/sponsors/cheering/{id}/report')
+  Future<BasicResponse> cheerCommentReport({
+    @Path('id') required int id,
+    @Body() required ReportRequest body
+  });
 
 }

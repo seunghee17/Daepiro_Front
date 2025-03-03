@@ -1,6 +1,7 @@
 
 import 'package:daepiro/data/model/request/cheer_request.dart';
 import 'package:daepiro/data/model/response/basic_response.dart';
+import 'package:daepiro/data/model/response/report_request.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_comment_response.dart';
 import 'package:daepiro/data/model/response/sponsor/cheer_keyword_response.dart';
 import 'package:daepiro/data/model/response/sponsor/sponsor_list_response.dart';
@@ -90,4 +91,21 @@ class SponsorRepositoryImpl extends SponsorRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<BasicResponse> reportComment({
+    required int id,
+    required ReportRequest body
+  }) async {
+    try {
+      final response = await _service.cheerCommentReport(
+        id: id,
+        body: body
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

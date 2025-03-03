@@ -59,9 +59,9 @@ class DisasterContentsMainItem extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 12),
+          const Spacer(),
           Text(
-            "${formatDateToHyphen(date)} · $source",
+            "${formatDateToDot(date)} · $source",
             style: DaepiroTextStyle.caption.copyWith(
               color: DaepiroColorStyle.g_400,
             ),
@@ -73,7 +73,7 @@ class DisasterContentsMainItem extends StatelessWidget {
                 child: Image.network(
                   thumbnailUrl,
                   width: double.infinity,
-                  height: 180,
+                  height: 187,
                   fit: BoxFit.cover))
           else
             ClipRRect(

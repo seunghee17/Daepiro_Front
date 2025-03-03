@@ -4,6 +4,7 @@ import 'package:daepiro/domain/usecase/home/get_notifications_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_popular_post_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_disasters_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/get_recent_contents_usecase.dart';
+import 'package:daepiro/domain/usecase/home/get_user_address_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_feed_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_disaster_history_usecase.dart';
 import 'package:daepiro/domain/usecase/home/home_status_usecase.dart';
@@ -12,6 +13,9 @@ import 'package:daepiro/route/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../../domain/usecase/home/get_around_shelter_list_usecase.dart';
+import '../../../domain/usecase/home/register_user_location_usecase.dart';
+import '../../../domain/usecase/mypage/mypage_get_profiles_usecase.dart';
 import '../../../domain/usecase/sponsor/get_sponsor_list_usecase.dart';
 
 final homeStateNotifierProvider = StateNotifierProvider<HomeViewModel, HomeState>((ref) {
@@ -24,16 +28,162 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(allPopularPostList: list);
 
     getHomeStatus();
-
+    getCurrentLocation();
   }
 
   final StateNotifierProviderRef<HomeViewModel, HomeState> ref;
 
+  // 홈 화면에서 재난이 발생했는지 조회
+  Future<void> getHomeStatus() async {
+    try {
+      final response = await ref.read(
+          getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
+      );
+
+      state = state.copyWith(
+          isLoading: false,
+          isOccurred: response.data?.isOccurred ?? false
+      );
+
+      if (response.code == 1000) {
+        if (response.data!.isOccurred == true) {
+          getHomeDisasterFeed();
+          getHomeDisasterHistory();
+        } else {
+          loadNickname();
+          getHomeDisasterHistory();
+          getPopularPostList(category: "");
+          getPopularPostList(category: "LIFE");
+          getPopularPostList(category: "TRAFFIC");
+          getPopularPostList(category: "SAFE");
+          getPopularPostList(category: "OTHER");
+          getDisasterContentsList();
+          getSponsorList();
+        }
+      }
+    } catch (error) {
+      print('재난 발생상황 조회 에러: $error');
+    }
+  }
+
   Future<void> loadNickname() async {
-    var nickname = await storage.read(key: 'nickname') ?? 'Empty닉네임';
-    state = state.copyWith(
-        nickname: nickname
-    );
+    final response = await ref
+        .read(getProfilesUseCaseProvider(GetMyPageProfileUseCase()).future);
+    state = state.copyWith(nickname: response.data?.nickname ?? '');
+  }
+
+  Future<void> getCurrentLocation() async {
+    bool isEnableLocation = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission;
+
+    if (isEnableLocation) {
+      permission = await Geolocator.checkPermission();
+      if (permission != LocationPermission.denied ||
+          permission != LocationPermission.deniedForever) {
+        Position location = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+            registerUserLocation(
+                latitude: location.latitude.toString(),
+                longitude: location.longitude.toString()
+            );
+
+        getAroundShelterList(type: "earthquake");
+        getAroundShelterList(type: "tsunami");
+        getAroundShelterList(type: "civil");
+
+        state = state.copyWith(
+            latitude: location.latitude,
+            longitude: location.longitude
+        );
+      } else {
+        // 위치 비활성화
+
+      }
+    }
+  }
+
+  // 주변 대피소 조회
+  Future<void> getAroundShelterList({
+    required String type
+  }) async {
+    try {
+      final response = await ref.read(
+          getAroundShelterListUsecaseProvider(GetAroundShelterListUsecase(
+              type: type
+          )).future
+      );
+
+      if (type == "earthquake") {
+        state = state.copyWith(
+            earthquakeShelterList: response.data?.shelters ?? []
+        );
+        selectAroundShelterType(0);
+      } else if (type == "tsunami") {
+        state = state.copyWith(
+            tsunamiShelterList: response.data?.shelters ?? []
+        );
+      } else if (type == "civil") {
+        state = state.copyWith(
+            civilShelterList: response.data?.shelters ?? []
+        );
+      }
+
+      state = state.copyWith(
+        shelterLocation: response.data?.myLocation ?? "",
+      );
+    } catch (error) {
+      print('주변 대피소 조회 에러: $error');
+    }
+  }
+
+  void selectAroundShelterType(int index) {
+    if (index == 0) {
+      state = state.copyWith(
+          shelterList: state.earthquakeShelterList
+      );
+    } else if (index == 1) {
+      state = state.copyWith(
+          shelterList: state.tsunamiShelterList
+      );
+    } else if (index == 2) {
+      state = state.copyWith(
+          shelterList: state.civilShelterList
+      );
+    }
+  }
+
+  // 사용자 위치 등록
+  Future<void> registerUserLocation({
+    required String latitude,
+    required String longitude,
+  }) async {
+    try {
+      await ref.read(
+          registerUserLocationUsecaseProvider(RegisterUserLocationUsecase(
+              latitude: latitude,
+              longitude: longitude
+          )).future
+      );
+
+      getUserAddress();
+    } catch (error) {
+      print('사용자 위치 등록 에러: $error');
+    }
+  }
+
+  // 사용자 주소 조회
+  Future<void> getUserAddress() async {
+    try {
+      final response = await ref.read(
+          getUserAddressUsecaseProvider(GetUserAddressUsecase()).future
+      );
+
+      state = state.copyWith(
+        location: response.data?.currentPosition ?? ""
+      );
+    } catch (error) {
+      print('사용자 주소 조회 에러: $error');
+    }
   }
 
   void selectPopularPostCategory(int index) {
@@ -55,36 +205,24 @@ class HomeViewModel extends StateNotifier<HomeState> {
     );
   }
 
-  // 홈 화면에서 재난이 발생했는지 조회
-  Future<void> getHomeStatus() async {
-    try {
-      final response = await ref.read(
-          getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
-      );
-
-      state = state.copyWith(
-          isLoading: false,
-          isOccurred: response.data?.isOccurred ?? false
-      );
-
-      if (response.data?.isOccurred == true) {
-        getHomeDisasterFeed();
-
-      } else {
-        loadNickname();
-        getAddress();
-        getHomeDisasterHistory();
-        getPopularPostList(category: "");
-        getPopularPostList(category: "LIFE");
-        getPopularPostList(category: "TRAFFIC");
-        getPopularPostList(category: "SAFE");
-        getPopularPostList(category: "OTHER");
-        getDisasterContentsList();
-        getSponsorList();
-      }
-    } catch (error) {
-      print('재난 발생상황 조회 에러: $error');
-    }
+  void selectCheckList(int selectedType, int index) async {
+    state = state.copyWith(
+      behaviorTip: state.behaviorTip?.copyWith(
+        tips: state.behaviorTip?.tips?.map((tipList) {
+          if (state.behaviorTip!.tips!.indexOf(tipList) == selectedType) {
+            return tipList.copyWith(
+              tips: tipList.tips?.asMap().entries.map((entry) {
+                if (entry.key == index) {
+                  return (entry.value.$1, !entry.value.$2); // bool 값 토글
+                }
+                return entry.value;
+              }).toList(),
+            );
+          }
+          return tipList;
+        }).toList(),
+      ),
+    );
   }
 
   // 홈 화면 재난문자 내역 조회
@@ -100,7 +238,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
             isLoadingDisasterHistory: false
         );
       }
-
     } catch (error) {
       print('재난문자 내역 조회 에러: $error');
     }
@@ -149,7 +286,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       );
 
       state = state.copyWith(
-          contentsList: response.data?.contents ?? [],
+          contentsList: response.data?.contents?.sublist(0, 10) ?? [],
           isLoadingContents: false
       );
     } catch (error) {
@@ -185,6 +322,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       if (response.code == 1000) {
         state = state.copyWith(
           disastersList: response.data ?? [],
+          historyIsLoading: false
         );
       }
     } catch (error) {
@@ -233,43 +371,50 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getHomeDisasterFeedUseCaseProvider(GetHomeDisasterFeedUseCase()).future
       );
 
-
-
-    } catch (error) {
-      print('재난문자 내역 조회 에러: $error');
-    }
-  }
-
-  Future<void> getAddress() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      print("결과 ${placemarks.toString()}");
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks.first;
-
-        // 3. 주소에서 "구"와 "동"만 추출
-        String district = place.administrativeArea ?? ""; // "강남구"
-        String district2 = place.subLocality ?? ""; // "강남구"
-        String neighborhood = place.locality!.isEmpty ? place.subLocality ?? "" : ""; // "역삼동"
-
+      if (response.code == 1000) {
         state = state.copyWith(
-          location: "$district $district2"
+            disasterInfo: response.data
         );
-      } else {
-        state = state.copyWith(
-            location: "주소 확인 불가"
+
+        final response2 = await ref.read(
+            getBehaviorTipsUsecaseProvider(GetBehaviorTipsUsecase(disasterId: response.data!.disasterTypeId.toString())).future
         );
+
+        if (response2.code == 1000) {
+          state = state.copyWith(
+            disasterBehaviorTip: response2.data
+          );
+        }
       }
-    } catch (e) {
-      print("홈 현위치 조회 오류 $e");
+    } catch (error) {
+      print('재난발생 - 재난 상세내용 에러: $error');
     }
   }
 
+  // 재난발생 시 체크리스트 업데이트
+  void selectCheckListAtDisaster(int selectedType, int index) async {
+    state = state.copyWith(
+      disasterBehaviorTip: state.disasterBehaviorTip?.copyWith(
+        tips: state.disasterBehaviorTip?.tips?.map((tipList) {
+          if (state.disasterBehaviorTip!.tips!.indexOf(tipList) == selectedType) {
+            return tipList.copyWith(
+              tips: tipList.tips?.asMap().entries.map((entry) {
+                if (entry.key == index) {
+                  return (entry.value.$1, !entry.value.$2); // bool 값 토글
+                }
+                return entry.value;
+              }).toList(),
+            );
+          }
+          return tipList;
+        }).toList(),
+      ),
+    );
+  }
 
+  Future<void> disposeDisasterDetail() async {
+    state = state.copyWith(
+      behaviorTip: null
+    );
+  }
 }

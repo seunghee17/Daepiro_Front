@@ -39,6 +39,26 @@
 	<key>KAKAO_KEY</key>
 	<string>0786b07056f57dd7e119842166e52498</string>
 	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>https</string>
+        <string>http</string>
+    </array>
+
+    <array>
+          <string>naversearchapp</string>
+          <string>naversearchthirdlogin</string>
+      </array>
+
+    <key>naverServiceAppUrlScheme</key>
+            <string>com.daepiro.app</string>
+            <key>naverConsumerKey</key>
+            <string>6IUl3ufVzcV1OzMLG3cS</string>
+            <key>naverConsumerSecret</key>
+            <string>WPYAXanUcu</string>
+            <key>naverServiceAppName</key>
+            <string>대피로</string>
+
+ <key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakao0786b07056f57dd7e119842166e52498</string>
 		<string>kakaokompassauth</string>

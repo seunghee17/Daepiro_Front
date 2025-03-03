@@ -16,8 +16,8 @@ abstract class InformationService {
   @GET('/v1/disastercontents/list/{sortType}')
   Future<DisasterContentsListResponse> getDisasterContentsList({
     @Path("sortType") required String sortType,
-    // @Query("cursor") String cursor = "",
-    @Query("size") required String size
+    @Query("size") required String size,
+    @Query("cursor") required String cursor,
   });
 
   // 재난콘텐츠 검색
@@ -28,17 +28,11 @@ abstract class InformationService {
     @Query("size") required String size
   });
 
-  // 사용자 위치 등록
-  @POST('/v1/users/gps')
-  Future<BasicResponse> registerUserLocation({
-    @Body() required RegisterUserLocationRequest body
-  });
-
-  // 주변대피소 조회
-  @GET('/v1/shelters/{type}')
-  Future<AroundShelterListResponse> getAroundShelterList({
-    @Path("type") required String type
-  });
+  // // 주변대피소 조회
+  // @GET('/v1/shelters/{type}')
+  // Future<AroundShelterListResponse> getAroundShelterList({
+  //   @Path("type") required String type
+  // });
 
   // 행동요령 목록 조회
   @GET('/v1/behaviourtips/list/{type}')

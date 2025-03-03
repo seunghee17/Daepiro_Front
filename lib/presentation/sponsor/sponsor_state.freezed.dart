@@ -22,7 +22,10 @@ mixin _$SponsorState {
       throw _privateConstructorUsedError; // 응원 메세지 목록
   List<String> get scrollCommentList1 =>
       throw _privateConstructorUsedError; // 배너 응원메시지 1
-  List<String> get scrollCommentList2 => throw _privateConstructorUsedError;
+  List<String> get scrollCommentList2 =>
+      throw _privateConstructorUsedError; // 배너 응원메시지 2
+  String get reportType => throw _privateConstructorUsedError;
+  List<String> get reportDescription => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SponsorStateCopyWith<SponsorState> get copyWith =>
@@ -40,7 +43,9 @@ abstract class $SponsorStateCopyWith<$Res> {
       List<Sponsor> sponsorList,
       List<Comment> cheerCommentList,
       List<String> scrollCommentList1,
-      List<String> scrollCommentList2});
+      List<String> scrollCommentList2,
+      String reportType,
+      List<String> reportDescription});
 }
 
 /// @nodoc
@@ -61,6 +66,8 @@ class _$SponsorStateCopyWithImpl<$Res, $Val extends SponsorState>
     Object? cheerCommentList = null,
     Object? scrollCommentList1 = null,
     Object? scrollCommentList2 = null,
+    Object? reportType = null,
+    Object? reportDescription = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -83,6 +90,14 @@ class _$SponsorStateCopyWithImpl<$Res, $Val extends SponsorState>
           ? _value.scrollCommentList2
           : scrollCommentList2 // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      reportType: null == reportType
+          ? _value.reportType
+          : reportType // ignore: cast_nullable_to_non_nullable
+              as String,
+      reportDescription: null == reportDescription
+          ? _value.reportDescription
+          : reportDescription // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -100,7 +115,9 @@ abstract class _$$SponsorStateImplCopyWith<$Res>
       List<Sponsor> sponsorList,
       List<Comment> cheerCommentList,
       List<String> scrollCommentList1,
-      List<String> scrollCommentList2});
+      List<String> scrollCommentList2,
+      String reportType,
+      List<String> reportDescription});
 }
 
 /// @nodoc
@@ -119,6 +136,8 @@ class __$$SponsorStateImplCopyWithImpl<$Res>
     Object? cheerCommentList = null,
     Object? scrollCommentList1 = null,
     Object? scrollCommentList2 = null,
+    Object? reportType = null,
+    Object? reportDescription = null,
   }) {
     return _then(_$SponsorStateImpl(
       isLoading: null == isLoading
@@ -141,6 +160,14 @@ class __$$SponsorStateImplCopyWithImpl<$Res>
           ? _value._scrollCommentList2
           : scrollCommentList2 // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      reportType: null == reportType
+          ? _value.reportType
+          : reportType // ignore: cast_nullable_to_non_nullable
+              as String,
+      reportDescription: null == reportDescription
+          ? _value._reportDescription
+          : reportDescription // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -153,11 +180,20 @@ class _$SponsorStateImpl implements _SponsorState {
       final List<Sponsor> sponsorList = const [],
       final List<Comment> cheerCommentList = const [],
       final List<String> scrollCommentList1 = const [],
-      final List<String> scrollCommentList2 = const []})
+      final List<String> scrollCommentList2 = const [],
+      this.reportType = '',
+      final List<String> reportDescription = const [
+        '허위사실 유포',
+        '욕설 및 비방',
+        '상업적 광고 및 판매',
+        '음란물 및 불건전한 내용',
+        '기타'
+      ]})
       : _sponsorList = sponsorList,
         _cheerCommentList = cheerCommentList,
         _scrollCommentList1 = scrollCommentList1,
-        _scrollCommentList2 = scrollCommentList2;
+        _scrollCommentList2 = scrollCommentList2,
+        _reportDescription = reportDescription;
 
   @override
   @JsonKey()
@@ -207,9 +243,23 @@ class _$SponsorStateImpl implements _SponsorState {
     return EqualUnmodifiableListView(_scrollCommentList2);
   }
 
+// 배너 응원메시지 2
+  @override
+  @JsonKey()
+  final String reportType;
+  final List<String> _reportDescription;
+  @override
+  @JsonKey()
+  List<String> get reportDescription {
+    if (_reportDescription is EqualUnmodifiableListView)
+      return _reportDescription;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reportDescription);
+  }
+
   @override
   String toString() {
-    return 'SponsorState(isLoading: $isLoading, sponsorList: $sponsorList, cheerCommentList: $cheerCommentList, scrollCommentList1: $scrollCommentList1, scrollCommentList2: $scrollCommentList2)';
+    return 'SponsorState(isLoading: $isLoading, sponsorList: $sponsorList, cheerCommentList: $cheerCommentList, scrollCommentList1: $scrollCommentList1, scrollCommentList2: $scrollCommentList2, reportType: $reportType, reportDescription: $reportDescription)';
   }
 
   @override
@@ -226,7 +276,11 @@ class _$SponsorStateImpl implements _SponsorState {
             const DeepCollectionEquality()
                 .equals(other._scrollCommentList1, _scrollCommentList1) &&
             const DeepCollectionEquality()
-                .equals(other._scrollCommentList2, _scrollCommentList2));
+                .equals(other._scrollCommentList2, _scrollCommentList2) &&
+            (identical(other.reportType, reportType) ||
+                other.reportType == reportType) &&
+            const DeepCollectionEquality()
+                .equals(other._reportDescription, _reportDescription));
   }
 
   @override
@@ -236,7 +290,9 @@ class _$SponsorStateImpl implements _SponsorState {
       const DeepCollectionEquality().hash(_sponsorList),
       const DeepCollectionEquality().hash(_cheerCommentList),
       const DeepCollectionEquality().hash(_scrollCommentList1),
-      const DeepCollectionEquality().hash(_scrollCommentList2));
+      const DeepCollectionEquality().hash(_scrollCommentList2),
+      reportType,
+      const DeepCollectionEquality().hash(_reportDescription));
 
   @JsonKey(ignore: true)
   @override
@@ -251,7 +307,9 @@ abstract class _SponsorState implements SponsorState {
       final List<Sponsor> sponsorList,
       final List<Comment> cheerCommentList,
       final List<String> scrollCommentList1,
-      final List<String> scrollCommentList2}) = _$SponsorStateImpl;
+      final List<String> scrollCommentList2,
+      final String reportType,
+      final List<String> reportDescription}) = _$SponsorStateImpl;
 
   @override
   bool get isLoading;
@@ -263,6 +321,10 @@ abstract class _SponsorState implements SponsorState {
   List<String> get scrollCommentList1;
   @override // 배너 응원메시지 1
   List<String> get scrollCommentList2;
+  @override // 배너 응원메시지 2
+  String get reportType;
+  @override
+  List<String> get reportDescription;
   @override
   @JsonKey(ignore: true)
   _$$SponsorStateImplCopyWith<_$SponsorStateImpl> get copyWith =>

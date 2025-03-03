@@ -83,7 +83,7 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                 borderRadius: BorderRadius.circular(4),
                                 color: DaepiroColorStyle.o_50
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7),
+                            padding: const EdgeInsets.fromLTRB(6,7,10,7),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -107,9 +107,9 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                           Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                color: DaepiroColorStyle.o_50
+                                color: DaepiroColorStyle.g_50
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             child: Text(
                               calculateDaysDiff(widget.extra.deadline ?? ""),
                               style: DaepiroTextStyle.body_2_m.copyWith(
@@ -267,13 +267,20 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                                               )
                                           ),
                                           const Spacer(),
-                                          Text(
-                                            widget.extra.sponsorName ?? "",
-                                            style: DaepiroTextStyle.body_2_m.copyWith(
-                                              color: DaepiroColorStyle.g_800,
-                                              decoration: TextDecoration.underline,
-                                              decorationColor: DaepiroColorStyle.g_800,
-                                              decorationThickness: 1,
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
+                                                 launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
+                                              }
+                                            },
+                                            child: Text(
+                                              widget.extra.sponsorName ?? "",
+                                              style: DaepiroTextStyle.body_2_m.copyWith(
+                                                color: DaepiroColorStyle.g_800,
+                                                decoration: TextDecoration.underline,
+                                                decorationColor: DaepiroColorStyle.g_800,
+                                                decorationThickness: 1,
+                                              ),
                                             ),
                                           )
                                         ],
@@ -307,8 +314,8 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                       Expanded(
                         child: GestureDetector(
                           onTap: () async {
-                            if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
-                              launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
+                            if (await canLaunchUrl(Uri.parse(widget.extra.sponsorPostUrl ?? ""))) {
+                              launchUrl(Uri.parse(widget.extra.sponsorPostUrl ?? ""), mode: LaunchMode.externalApplication);
                             }
                           },
                           child: Container(

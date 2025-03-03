@@ -34,23 +34,28 @@ class _DisasterHistoryItem extends State<DisasterHistoryItem> {
       child: Column(
         children: [
           if (widget.isVisibleDate)
-            Container(
-              padding: const EdgeInsets.only(top: 20),
-              alignment: Alignment.topLeft,
-              child: Text(
-                formatDateToDot(widget.date),
-                style: DaepiroTextStyle.body_1_b.copyWith(
-                  color: DaepiroColorStyle.g_900,
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 8),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    formatDateToDot(widget.date),
+                    style: DaepiroTextStyle.body_1_b.copyWith(
+                      color: DaepiroColorStyle.g_900,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 8)
+              ],
             ),
-          const SizedBox(height: 8),
           GestureDetector(
             onTap: () {
               widget.onClick();
             },
             child: Container(
               color: DaepiroColorStyle.white,
+              // padding: const EdgeInsets.all(8),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

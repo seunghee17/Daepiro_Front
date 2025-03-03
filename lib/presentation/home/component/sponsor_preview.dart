@@ -40,7 +40,7 @@ class SponsorPreview extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   color: DaepiroColorStyle.o_50
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7),
+                padding: const EdgeInsets.fromLTRB(6,7,10,7),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -64,7 +64,7 @@ class SponsorPreview extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: DaepiroColorStyle.o_50
+                    color: DaepiroColorStyle.g_50
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                 child: Text(

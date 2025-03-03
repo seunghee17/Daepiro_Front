@@ -5,9 +5,9 @@ part 'disaster_contents_state.freezed.dart';
 @freezed
 sealed class DisasterContentsState with _$DisasterContentsState {
   factory DisasterContentsState({
-    @Default(false) bool isLoading,
+    @Default(true) bool isLoading,
     @Default([]) List<Contents> contentsList,    // 재난콘텐츠 목록
-
+    @Default("") String nextCursor,
   }) = _DisasterContentsState;
 }
 

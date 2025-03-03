@@ -7,18 +7,44 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
 
-class DisasterContentsScreen extends ConsumerWidget {
+class DisasterContentsScreen extends ConsumerStatefulWidget {
   const DisasterContentsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(disasterContentsStateNotifierProvider);
+  ConsumerState<DisasterContentsScreen> createState() => _DisasterContentsScreenState();
+}
 
-    ref.listen<DisasterContentsState>(disasterContentsStateNotifierProvider, (previous, next) {
-      if (next.isLoading) {
+class _DisasterContentsScreenState extends ConsumerState<DisasterContentsScreen> {
+  final ScrollController _scrollController = ScrollController();
 
+  @override
+  void initState() {
+    super.initState();
+    ref.read(disasterContentsStateNotifierProvider.notifier).getDisasterContentsList(sortType: "latest");
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (!ref.watch(disasterContentsStateNotifierProvider).isLoading) {
+        ref.read(disasterContentsStateNotifierProvider.notifier).getDisasterContentsList(
+            sortType: "latest",
+            cursor: ref.watch(disasterContentsStateNotifierProvider).nextCursor
+        );
       }
-    });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(disasterContentsStateNotifierProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -65,57 +91,11 @@ class DisasterContentsScreen extends ConsumerWidget {
                 ),
               ),
               const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IntrinsicWidth(
-                  child: DropdownButtonFormField<String>(
-                    value: "최신순",
-                    icon: Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: SvgPicture.asset(
-                        'assets/icons/icon_arrow_down.svg',
-                        colorFilter: const ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
-                        width: 16,
-                        height: 16,
-                      ),
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                    isExpanded: true,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                    items: ["최신순", "인기순"].map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: DaepiroTextStyle.body_2_m.copyWith(
-                            color: DaepiroColorStyle.g_600
-                        ),
-                      ),
-                    )).toList(),
-                    onChanged: (value) {
-                      if (value == "최신순") {
-                        ref.read(disasterContentsStateNotifierProvider.notifier)
-                            .getDisasterContentsList(sortType: "latest");
-                      } else {
-                        ref.read(disasterContentsStateNotifierProvider.notifier)
-                            .getDisasterContentsList(sortType: "popular");
-                      }
-                    },
-                    onSaved: (value) {
-
-                    },
-                  ),
-                ),
-              ),
-              const Divider(height: 1.5, color: DaepiroColorStyle.g_50),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   child: ListView.builder(
+                      controller: _scrollController,
                       itemCount: viewModel.contentsList.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -124,8 +104,6 @@ class DisasterContentsScreen extends ConsumerWidget {
                             imagePath: viewModel.contentsList[index].thumbnailUrl ?? "",
                             from: viewModel.contentsList[index].source ?? "",
                             date: viewModel.contentsList[index].publishedAt ?? "",
-                            eye: viewModel.contentsList[index].viewCount ?? 0,
-                            save: viewModel.contentsList[index].likeCount ?? 0,
                             bodyUrl: viewModel.contentsList[index].bodyUrl ?? ""
                         );
                       }
@@ -138,5 +116,4 @@ class DisasterContentsScreen extends ConsumerWidget {
       ),
     );
   }
-
 }

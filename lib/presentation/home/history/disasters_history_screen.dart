@@ -17,11 +17,18 @@ class DisastersHistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen> {
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     ref.read(homeStateNotifierProvider.notifier).getDisastersHistory();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,7 +71,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(20, 4, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 4, 0, 8),
                     child: Row(
                       children: [
                         for (int i=0;i<viewModel.disastersList.length;i++)
@@ -74,6 +81,11 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                   isSelected: i == viewModel.selectedDisasterHistoryType,
                                   text: viewModel.disastersList[i].region ?? "",
                                   onPressed: () {
+                                    _scrollController.animateTo(
+                                      0.0, // 최상단
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
                                     ref.read(homeStateNotifierProvider.notifier).selectDisasterHistoryType(i);
                                   }
                               ),
@@ -83,52 +95,59 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                       ],
                     ),
                   ),
-                  Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: ListView.builder(
-                          itemCount: viewModel.disastersList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    children: [
-                                      DisasterHistoryItem(
-                                        icon: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType ?? "",
-                                        title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title ?? "",
-                                        contents: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content ?? "",
-                                        date: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time ?? "",
-                                        isVisibleDate: index == 0
-                                            ? true
-                                            : index != 0 && (
-                                            viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time?.split("T")[0]
-                                                != viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index-1].time?.split("T")[0]
-                                        ),
-                                        onClick: () {
-                                          context.push(
-                                              '/disasterDetail',
-                                              extra: Disasters(
-                                                disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
-                                                disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,
-                                                title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title,
-                                                content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
-                                                time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,
-                                              )
-                                          );
-                                        },
-                                      ),
-                                      const SizedBox(height: 8),
-                                    ],
-                                  );
-                                }
-                            );
-                          },
-                        ),
+                  viewModel.historyIsLoading
+                      ? Container(
+                            padding: const EdgeInsets.only(top: 100),
+                            child: const Center(child: CircularProgressIndicator())
+                        )
+                      : Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: viewModel.disastersList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Column(
+                                        children: [
+                                          DisasterHistoryItem(
+                                            icon: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType ?? "",
+                                            title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난") ?? "",
+                                            contents: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content ?? "",
+                                            date: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time ?? "",
+                                            isVisibleDate: index == 0
+                                                ? true
+                                                : index != 0 && (
+                                                viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time?.split("T")[0]
+                                                    != viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index-1].time?.split("T")[0]
+                                            ),
+                                            onClick: () {
+                                              context.push(
+                                                  '/disasterDetail',
+                                                  extra: Disasters(
+                                                    disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
+                                                    disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,
+                                                    title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난"),
+                                                    content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
+                                                    time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,
+                                                  )
+                                              );
+                                            },
+                                          ),
+                                          const SizedBox(height: 8),
+                                        ],
+                                      );
+                                    }
+                                );
+                              },
+                            ),
+                          )
                       )
-                  )
+
                 ],
               )
           ),

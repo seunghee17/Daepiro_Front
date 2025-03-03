@@ -16,20 +16,13 @@ final informationRepositoryProvider = Provider<InformationRepository>((ref) {
 abstract class InformationRepository {
   Future<DisasterContentsListResponse> getDisasterContentsList({
     required String sortType,
-    required String size
+    required String size,
+    required String cursor
   });
 
   Future<DisasterContentsListResponse> searchDisasterContents({
     required String keyword,
     required String size
-  });
-
-  Future<BasicResponse> registerUserLocation({
-    required RegisterUserLocationRequest body
-  });
-
-  Future<AroundShelterListResponse> getAroundShelterList({
-    required String type
   });
 
   Future<BehaviorListResponse> getBehaviorList({required String type});

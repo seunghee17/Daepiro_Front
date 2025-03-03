@@ -48,6 +48,7 @@ class Sponsor {
   int? targetHeart;
   String? sponsorDescription;
   String? sponsorUrl;
+  String? sponsorPostUrl;
   List<String>? summary;
   String? body;
   String? disasterType;
@@ -63,6 +64,7 @@ class Sponsor {
     this.targetHeart,
     this.sponsorDescription,
     this.sponsorUrl,
+    this.sponsorPostUrl,
     this.summary,
     this.body,
     this.disasterType
@@ -79,6 +81,7 @@ class Sponsor {
     targetHeart = json['targetHeart'];
     sponsorDescription = json['sponsorDescription'];
     sponsorUrl = json['sponsorUrl'];
+    sponsorPostUrl = json['sponsorPostUrl'];
     summary = json['summary'].cast<String>();
     body = json['body'];
     disasterType = json['disasterType'];
@@ -96,6 +99,7 @@ class Sponsor {
     data['targetHeart'] = targetHeart;
     data['sponsorDescription'] = sponsorDescription;
     data['sponsorUrl'] = sponsorUrl;
+    data['sponsorPostUrl'] = sponsorPostUrl;
     data['summary'] = summary;
     data['body'] = body;
     data['disasterType'] = disasterType;
