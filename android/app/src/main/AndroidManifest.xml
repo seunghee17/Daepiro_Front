@@ -29,6 +29,7 @@
 
 
     <application
+        android:name="com.numberone.daepiro"
         android:icon="@mipmap/ic_launcher"
         android:label="대피로">
 

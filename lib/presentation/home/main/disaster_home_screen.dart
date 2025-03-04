@@ -97,7 +97,7 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
                                   )
                               ),
                               const SizedBox(height: 8),
-                              getLargeHighlightText(title: viewModel.disasterInfo?.title ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
+                              getLargeHighlightText(title: viewModel.disasterInfo?.title?.replaceAll("기타", "기타 재난") ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
                               const SizedBox(height: 8),
                               Text(
                                 viewModel.disasterInfo?.content ?? "",

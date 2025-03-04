@@ -320,7 +320,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
           contentPadding: EdgeInsets.all(16),
           filled: true,
           fillColor: DaepiroColorStyle.g_50,
-          hintText: 'example@domain.com',
+          hintText: 'numberone@domain.com',
           hintStyle: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_200),
           border: OutlineInputBorder(

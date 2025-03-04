@@ -49,9 +49,21 @@ android {
 
     }
 
+    signingConfigs {
+        release {
+            def properties = new Properties()
+            properties.load(new FileInputStream(file("../key/key.properties")))
+
+            keyAlias properties["keyAlias"]
+            storeFile properties["../key/keystore.jks"]
+            storePassword properties["1q2w3e4r"]
+            keyPassword properties["1q2w3e4r"]
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
         }
     }
 }
@@ -59,5 +71,3 @@ android {
 flutter {
     source = "../.."
 }
-
-
