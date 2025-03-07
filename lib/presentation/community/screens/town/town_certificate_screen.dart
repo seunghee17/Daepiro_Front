@@ -163,123 +163,126 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         headerWidget(context),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            addressWidget(state.selectAddress),
-                            Container(
-                                width: double.infinity,
-                                height: state.isSuccessCertificate ? 317 : 411,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      left: 0,
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: state.isSuccessCertificate ? 317 : 411,
-                                        child: NaverMap(
-                                          options: NaverMapViewOptions(
-                                              initialCameraPosition:
-                                              NCameraPosition(
-                                                  target: NLatLng(
-                                                      state.latitude,
-                                                      state.longitude),
-                                                  zoom: 15.0),
-                                              indoorEnable: true,
-                                              logoClickEnable: false),
-                                          onMapReady: (controller) async {
-                                            _mapController = controller;
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: 12,
-                                      right: 12,
-                                      child: Visibility(
-                                          visible: !state.isSuccessCertificate,
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              await _updateLocation();
-                                            },
-                                            child: Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: DaepiroColorStyle.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.black
-                                                            .withOpacity(0.12),
-                                                        blurRadius: 4.0,
-                                                        spreadRadius: 0.0,
-                                                        offset: const Offset(0, 0))
-                                                  ]),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: SvgPicture.asset(
-                                                    width: 24,
-                                                    height: 24,
-                                                    'assets/icons/icon_reset.svg',
-                                                    colorFilter: ColorFilter.mode(
-                                                        DaepiroColorStyle.g_900,
-                                                        BlendMode.srcIn)),
-                                              ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                addressWidget(state.selectAddress),
+                                Container(
+                                    width: double.infinity,
+                                    height: state.isSuccessCertificate ? 317 : 411,
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          left: 0,
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: state.isSuccessCertificate ? 317 : 411,
+                                            child: NaverMap(
+                                              options: NaverMapViewOptions(
+                                                  initialCameraPosition:
+                                                  NCameraPosition(
+                                                      target: NLatLng(
+                                                          state.latitude,
+                                                          state.longitude),
+                                                      zoom: 15.0),
+                                                  indoorEnable: true,
+                                                  logoClickEnable: false),
+                                              onMapReady: (controller) async {
+                                                _mapController = controller;
+                                              },
                                             ),
-                                          )),
-                                    ),
-                                    Visibility(
-                                      visible: !state.isSuccessCertificate,
-                                      child: Positioned(
-                                          right: 68,
-                                          bottom: 14,
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              CustomPaint(
-                                                size: Size(250, 36),
-                                                painter: CustomBalloon(),
-                                              ),
-                                              SizedBox(
-                                                width: 250,
-                                                child: Text(
-                                                  '현 위치가 다른 경우 페이지를 새로고침해주세요.',
-                                                  textAlign: TextAlign.center,
-                                                  style: DaepiroTextStyle.caption
-                                                      .copyWith(
-                                                      color: DaepiroColorStyle
-                                                          .g_50),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 12,
+                                          right: 12,
+                                          child: Visibility(
+                                              visible: !state.isSuccessCertificate,
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await _updateLocation();
+                                                },
+                                                child: Container(
+                                                  width: 40,
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: DaepiroColorStyle.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.black
+                                                                .withOpacity(0.12),
+                                                            blurRadius: 4.0,
+                                                            spreadRadius: 0.0,
+                                                            offset: const Offset(0, 0))
+                                                      ]),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: SvgPicture.asset(
+                                                        width: 24,
+                                                        height: 24,
+                                                        'assets/icons/icon_reset.svg',
+                                                        colorFilter: ColorFilter.mode(
+                                                            DaepiroColorStyle.g_900,
+                                                            BlendMode.srcIn)),
+                                                  ),
                                                 ),
-                                              )
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                )),
-                            SizedBox(height: 24),
-                            locationCheckWidget(state.isSuccessCertificate),
-                            if (!state.isSuccessCertificate)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Text(
-                                  '현재 \‘${state.selectAddress}\' 동네 생활에 있어요.\n현 위치가 동네와 다르면 위치를 노출할 수 없어요.',
-                                  style: DaepiroTextStyle.body_2_m
-                                      .copyWith(color: DaepiroColorStyle.g_500),
-                                ),
-                              ),
-                            if (state.isSuccessCertificate)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0),
-                                child: Center(
-                                    child: successCertificate(selectAddress)),
-                              ),
-                          ],
+                                              )),
+                                        ),
+                                        Visibility(
+                                          visible: !state.isSuccessCertificate,
+                                          child: Positioned(
+                                              right: 68,
+                                              bottom: 14,
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  CustomPaint(
+                                                    size: Size(250, 36),
+                                                    painter: CustomBalloon(),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 250,
+                                                    child: Text(
+                                                      '현 위치가 다른 경우 페이지를 새로고침해주세요.',
+                                                      textAlign: TextAlign.center,
+                                                      style: DaepiroTextStyle.caption
+                                                          .copyWith(
+                                                          color: DaepiroColorStyle
+                                                              .g_50),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                        )
+                                      ],
+                                    )),
+                                SizedBox(height: 24),
+                                locationCheckWidget(state.isSuccessCertificate),
+                                if (!state.isSuccessCertificate)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      '현재 \‘${state.selectAddress}\' 동네 생활에 있어요.\n현 위치가 동네와 다르면 위치를 노출할 수 없어요.',
+                                      style: DaepiroTextStyle.body_2_m
+                                          .copyWith(color: DaepiroColorStyle.g_500),
+                                    ),
+                                  ),
+                                if (state.isSuccessCertificate)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 20.0),
+                                    child: Center(
+                                        child: successCertificate(selectAddress)),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
-                        Spacer(),
                         state.isSuccessCertificate
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
@@ -417,7 +420,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
       ),
       Text(
         textAlign: TextAlign.center,
-        '동네 주민임을 인증하고 투명한 정보를 교환해요!\n1개의 지역에 대해 주민 뱃지를 얻을 수 있어요.',
+        '동네를 인증하고 뱃지를 얻으세요.\n동네 뱃지는 투명한 정보 공유에 도움이 돼요.',
         style:
             DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_500),
       ),
@@ -466,6 +469,9 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)
+              ),
               backgroundColor: DaepiroColorStyle.white,
               titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
               title: Column(
@@ -473,7 +479,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '내 동네를 선택해주세요.',
+                      '인증할 동네를 선택해주세요.',
                       style: DaepiroTextStyle.body_1_b
                           .copyWith(color: DaepiroColorStyle.g_900),
                     ),
@@ -487,7 +493,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                   children: [
                     Text(
                       textAlign: TextAlign.center,
-                      '동네 주민임을 인증하고 투명한 정보를 교환해요!\n1개의 지역에 대해 주민 뱃지를 얻을 수 있어요.',
+                      '1개의 지역만 동네 뱃지를 얻을 수 있어요.',
                       style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_500),
                     ),
@@ -650,7 +656,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
           borderRadius: BorderRadius.circular(8)),
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         child: Row(
           children: [
             checkSuccess
@@ -687,6 +693,9 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: DaepiroColorStyle.white,
             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
@@ -720,7 +729,6 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
   Widget successCertificate(String selectAddress) {
     return LayoutBuilder(
       builder: (context, constraints) {
-
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,

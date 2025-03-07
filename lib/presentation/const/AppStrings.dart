@@ -3,7 +3,7 @@ class AppStrings {
   static const shareFineInformationTitle = "올바른 정보만을 공유해요.";
   static const shareFineInformationSubTitle = '대피로 커뮤니티는 동네의 안전과도 연결되는 중요한 곳이에요. 이웃들의 안전을 위해 올바르고 명확한 정보만을 공유해주세요.';
   static const cleanClutureTitle = '깨끗하고 긍정적인 문화를 만들어요.';
-  static const cleanClutureSubTitle = '대피로 커뮤니티에서는 .....';
+  static const cleanClutureSubTitle = '대피로 커뮤니티는 깨끗하고 신뢰할 수 있는 공간이에요. 대피로 커뮤니티를 이용하는 모두가 기분 좋은 경험을 할 수 있도록 노력해주세요.';
   static const protectTitle = '모두가 보호하고 보호받아요.';
   static const protectSubTitle = '대피로 커뮤니티에서는 모두가 보호 받아야하는 소중한 사람이에요. 모두의 올바른 커뮤니티 사용을 위해 함께 노력해주세요.';
   static const respectTitle = '서로를 존중해요.';

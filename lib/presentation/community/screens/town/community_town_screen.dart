@@ -70,8 +70,8 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                       child: ruleContainer()),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: typeRadioButton(state.townCategory, ref)),
-                  ListView.builder(
+                      child: Expanded(child: typeRadioButton(state.townCategory, ref))),
+                  state.contentList.length != 0 ? ListView.builder(
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
                       itemCount: state.contentList.length,
@@ -81,7 +81,8 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                           await viewModel.getContentDetail(content.id!);
                           GoRouter.of(context).push('/community_town_detail');
                         }, content, ref, state.townCategory);
-                      }),
+                      })
+                      : SizedBox.shrink(),
                   if (state.isDongNaeLoading)
                     Center(
                       child: CircularProgressIndicator(),
@@ -101,7 +102,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: DaepiroColorStyle.o_50),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 13),
+        padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             SizedBox(width: 12),
@@ -131,14 +132,17 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
   Widget typeRadioButton(String townCategory, WidgetRef ref) {
     return Container(
         height: 36,
-        child: Row(
-          children: [
-            typeItem(townCategory == '전체', '전체', ref),
-            typeItem(townCategory == '일상', '일상', ref),
-            typeItem(townCategory == '교통', '교통', ref),
-            typeItem(townCategory == '치안', '치안', ref),
-            typeItem(townCategory == '기타', '기타', ref)
-          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              typeItem(townCategory == '전체', '전체', ref),
+              typeItem(townCategory == '일상', '일상', ref),
+              typeItem(townCategory == '교통', '교통', ref),
+              typeItem(townCategory == '치안', '치안', ref),
+              typeItem(townCategory == '기타', '기타', ref)
+            ],
+          ),
         ));
   }
 
@@ -328,4 +332,32 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
       ),
     );
   }
+
+  // Widget noDataWidget() {
+  //   return Expanded(
+  //       child: Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           children: [
+  //             SvgPicture.asset('assets/icons/icon_community.svg',
+  //                 width: 48,
+  //                 height: 48,
+  //                 colorFilter:
+  //                 ColorFilter.mode(DaepiroColorStyle.g_75, BlendMode.srcIn)),
+  //             SizedBox(height: 8,),
+  //             Text(
+  //               '아직 작성된 글이 없어요',
+  //               style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_300),
+  //             ),
+  //             SizedBox(height: 4),
+  //             Text(
+  //               '글을 작성하고 이웃과 소통해보세요.',
+  //               style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300),
+  //             )
+  //           ],
+  //         ),
+  //       )
+  //   );
+  // }
 }

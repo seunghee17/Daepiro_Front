@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../cmm/button/secondary_filled_button.dart';
+import '../../../../data/model/response/home/disasters_history_response.dart';
 import '../../../const/common_disaster_list.dart';
 import '../../../const/emergency_disaster_list.dart';
 
@@ -90,15 +91,14 @@ class CommunityDisasterScreen extends ConsumerWidget {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: DaepiroColorStyle.o_50),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 13),
+        padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             SizedBox(width: 12),
             SvgPicture.asset('assets/icons/icon_noti.svg',
                 width: 28,
                 height: 28,
-                colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
+                colorFilter: ColorFilter.mode(DaepiroColorStyle.o_400, BlendMode.srcIn)),
             SizedBox(width: 6),
             Text('대피로 커뮤니티 이용수칙',
                 style: DaepiroTextStyle.body_2_m
@@ -145,8 +145,8 @@ class CommunityDisasterScreen extends ConsumerWidget {
               backgroundColor: type == 'all'
                   ? DaepiroColorStyle.g_600
                   : DaepiroColorStyle.g_50,
-              horizontalPadding: 16,
-              verticalPadding: 6,
+              horizontalPadding: 12,
+              verticalPadding: 4,
             ),
             SizedBox(width: 8),
             SecondaryFilledButton(
@@ -172,8 +172,8 @@ class CommunityDisasterScreen extends ConsumerWidget {
               backgroundColor: type == 'received'
                   ? DaepiroColorStyle.g_600
                   : DaepiroColorStyle.g_50,
-              horizontalPadding: 16,
-              verticalPadding: 6,
+              horizontalPadding: 12,
+              verticalPadding: 4,
             )
           ],
         ),
@@ -221,9 +221,19 @@ class CommunityDisasterScreen extends ConsumerWidget {
                 ),
               ),
               Spacer(),
-              //TODO: 행동요령 페이지 넘어가게 하기
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(
+                      '/disasterDetail',
+                    extra: Disasters(
+                      disasterType: content.type,
+                      disasterTypeId: content.typeId,
+                      title: content.title,
+                      content: content.content,
+                      time: content.time
+                    )
+                  );
+                },
                 child: Row(
                   children: [
                     Text(
@@ -336,7 +346,7 @@ class CommunityDisasterScreen extends ConsumerWidget {
                           parseRegTime(comment[index].time!),
                           comment[index].likeCount ?? 0),
                     )),
-            SizedBox(height: 2),
+            SizedBox(height: 10),
             GestureDetector(
               onTap: () async {
                 await ref
@@ -344,17 +354,23 @@ class CommunityDisasterScreen extends ConsumerWidget {
                     .getReplyData(situationId);
                 showReplyBottomSheet(context, situationId);
               },
-              child: Row(
-                children: [
-                  Spacer(),
-                  Text(
-                    textAlign: TextAlign.center,
-                    '더보기',
-                    style: DaepiroTextStyle.caption
-                        .copyWith(color: DaepiroColorStyle.g_600),
-                  ),
-                  Spacer()
-                ],
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        '더보기',
+                        style: DaepiroTextStyle.caption
+                            .copyWith(color: DaepiroColorStyle.g_600),
+                      ),
+                    ),
+                    Spacer()
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 10),

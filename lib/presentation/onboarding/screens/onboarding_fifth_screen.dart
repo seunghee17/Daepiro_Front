@@ -92,7 +92,7 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
             child: PrimaryFilledButton(
               onPressed: isAllAppPermissionGrant ? () {
                 GoRouter.of(context).push('/onboarding/final');
-              } : null, // 이 부분을 변경하여 콜백이 null이면 버튼 비활성화
+              } : null,
               backgroundColor: DaepiroColorStyle.o_500,
               pressedColor: DaepiroColorStyle.o_600,
               disabledColor: DaepiroColorStyle.o_100,

@@ -19,6 +19,8 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
+    final double statusBarSize = MediaQuery.of(context).padding.top;
+
     return PopScope(
       onPopInvoked: (bool didPop) {
         if (didPop) {
@@ -30,23 +32,23 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.45,
               child: Stack(
                 children: [
                   Positioned.fill(
                       child: backgroundWidget(context)
                   ),
                   Positioned(
-                      top: 0,
+                      top: MediaQuery.of(context).padding.top,
                       right: 20,
                       left: 20,
                       child: IntrinsicHeight(child:
                       headerWidget(context, state.realName))
                   ),
                   Positioned(
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
+                      right: 0,
+                      left: 0,
+                      bottom: 0,
                       child: Image.asset('assets/icons/icon_withdraw.png', height: 182, width: 182,)
                   )
                 ],
@@ -88,7 +90,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                 )
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: bottomWidget(context, ref),
             )
           ],
@@ -160,7 +162,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 57),
               child: Text(
-                '${userName}님, 정말 대피로를 떠나시나요?\n너무 아쉬워요..',
+                '${userName}님,\n정말 대피로를 떠나시나요? 너무 아쉬워요..',
                 textAlign: TextAlign.center,
                 style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
               ),
@@ -380,6 +382,9 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: DaepiroColorStyle.white,
             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 24),
             title: Column(

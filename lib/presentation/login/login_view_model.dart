@@ -1,6 +1,5 @@
 import 'package:daepiro/data/model/request/set_fcm_request.dart';
 import 'package:daepiro/data/model/request/social_login_request.dart';
-import 'package:daepiro/data/model/response/basic_response.dart';
 import 'package:daepiro/domain/usecase/login/set_fcm_token_usecase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';

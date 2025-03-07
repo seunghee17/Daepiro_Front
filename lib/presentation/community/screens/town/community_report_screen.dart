@@ -35,7 +35,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
       canPop: true,
       onPopInvoked: (bool didPop) {
         if (didPop) {
-          ref.read(myPageProvider.notifier).setInquireType('');
+          ref.read(communityTownProvider.notifier).setReortType('');
         }
       },
       child: Scaffold(
@@ -65,7 +65,12 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                                   isDismissible: true,
                                   context: context,
                                   builder: (context) {
-                                    return reportTypeBottomSheet(disasterState.isDisasterScreen, disasterState.reportDescription);});
+                                    return Wrap(
+                                      children: [
+                                        reportTypeBottomSheet(disasterState.isDisasterScreen, disasterState.reportDescription)
+                                      ],
+                                    );
+                                  });
                             },
                             child: disasterState.isDisasterScreen
                                 ? reportTypeWidget(disasterState.reportType)
@@ -176,10 +181,12 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
               cursorColor: DaepiroColorStyle.g_900,
               textAlignVertical: TextAlignVertical(y: -1),
               controller: contentEditingController,
-              onTapOutside: (event) =>
-                  FocusManager.instance.primaryFocus?.unfocus(),
+              onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+              onChanged: (text) {
+                setState(() {});
+              },
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                contentPadding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 40),
                 counterText: '',
                 filled: true,
                 isDense: true,
@@ -322,6 +329,9 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
             GoRouter.of(context).pop();
           });
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 20),
             content: Column(
@@ -348,6 +358,9 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 24),
             content: Column(
@@ -469,6 +482,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                 SizedBox(width: 20),
               ],
             ),
+            SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
               width: double.infinity,

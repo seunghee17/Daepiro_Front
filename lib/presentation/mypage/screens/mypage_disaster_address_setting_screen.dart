@@ -107,13 +107,13 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
                           children: [
                             SizedBox(height: 20),
                             InputHomeAddress(homeController, context, ref, state.homeJuso,
-                                state.isJuso1Visible, state.isJuso2Visible, state.realName),
+                                state.isJuso1Visible, state.isJuso2Visible, state.nickName),
                             if (state.isJuso1Visible)
                               InputLocationAddress1(jusoController1, jusoNickController1,
-                                  ref, state.firstJusoState, state.realName),
+                                  ref, state.firstJusoState, state.nickName),
                             if (state.isJuso2Visible)
                               InputLocationAddress2(jusoController2, jusoNickController2,
-                                  ref, state.secondJusoState, state.realName),
+                                  ref, state.secondJusoState, state.nickName),
                             if (!state.isJuso1Visible || !state.isJuso2Visible)
                               plusChipWidget(ref, homeController, jusoController1,
                                   jusoController2, state.isJuso1Visible , state.isJuso2Visible )
@@ -624,6 +624,9 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             titlePadding: EdgeInsets.only(top: 24),
             title: Column(
@@ -686,7 +689,7 @@ class MyPageDisasterAddressState extends ConsumerState<MypageDisasterAddressSett
                         pressedColor: DaepiroColorStyle.g_75,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '그만두기',
+                          '취소하기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),

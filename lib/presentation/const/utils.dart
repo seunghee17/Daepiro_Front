@@ -32,7 +32,8 @@ String calculateDaysDiff(String date) {
   DateTime parsedDate = DateTime.parse(date);
   DateTime now = DateTime.now();
 
-  DateTime parsedDateOnly = DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+  DateTime parsedDateOnly =
+      DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
   DateTime nowDateOnly = DateTime(now.year, now.month, now.day);
 
   int difference = nowDateOnly.difference(parsedDateOnly).inDays;
@@ -64,9 +65,7 @@ String timeAgo(String date) {
 }
 
 // 재난명으로 아이콘 찾기
-String findDisasterIconByName({
-  required String name
-}) {
+String findDisasterIconByName({required String name}) {
   for (var item in EmergencyDisasterList + CommonDisasterList) {
     if (item["name"] == name) {
       return item["icon"] ?? "";
@@ -77,10 +76,7 @@ String findDisasterIconByName({
 }
 
 // 재난명을 강조해서 Text 반환
-Text getHighlightText({
-  required String title,
-  required String disaster
-}) {
+Text getHighlightText({required String title, required String disaster}) {
   List<TextSpan> spans = [];
   int start = 0;
 
@@ -103,21 +99,16 @@ Text getHighlightText({
     start = index + disaster.length;
   }
 
-  return Text.rich(
-      TextSpan(
-        children: spans,
-        style: DaepiroTextStyle.body_1_b.copyWith(
-          color: DaepiroColorStyle.g_900,
-        ),
-      )
-  );
+  return Text.rich(TextSpan(
+    children: spans,
+    style: DaepiroTextStyle.body_1_b.copyWith(
+      color: DaepiroColorStyle.g_900,
+    ),
+  ));
 }
 
 // 재난명을 강조해서 큰글씨 Text 반환
-Text getLargeHighlightText({
-  required String title,
-  required String disaster
-}) {
+Text getLargeHighlightText({required String title, required String disaster}) {
   List<TextSpan> spans = [];
   int start = 0;
 
@@ -140,14 +131,12 @@ Text getLargeHighlightText({
     start = index + disaster.length;
   }
 
-  return Text.rich(
-      TextSpan(
-        children: spans,
-        style: DaepiroTextStyle.h5.copyWith(
-          color: DaepiroColorStyle.g_900,
-        ),
-      )
-  );
+  return Text.rich(TextSpan(
+    children: spans,
+    style: DaepiroTextStyle.h5.copyWith(
+      color: DaepiroColorStyle.g_900,
+    ),
+  ));
 }
 
 //00분전, 00일전으로 시간 반환
@@ -177,10 +166,9 @@ String parseDateTime(String timeText) {
   }
   DateTime dateTime = DateTime.parse(timeText).toLocal();
   String period = dateTime.hour >= 12 ? '오후' : '오전';
-  int hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
-  hour = hour == 0 ? 12 : hour;
+  String hour = (dateTime.hour - 12).toString().padLeft(2, '0');
   String minute = dateTime.minute.toString().padLeft(2, '0');
-  return '${period} ${hour}시 ${minute}분';
+  return '${period} ${hour}:${minute}';
 }
 
 //특수문자 판단용
@@ -197,8 +185,9 @@ bool checkForNameRule(String text) {
 
 //이메일 형식 체크
 bool isEmailValid(String email) {
-  if(email.isEmpty) return false;
-  final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  if (email.isEmpty) return false;
+  final regExp = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   if (!regExp.hasMatch(email)) return false;
   return true;
 }

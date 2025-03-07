@@ -156,11 +156,10 @@ class PermissionScreen extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        //mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '권한을 허용하지 않으면 일부 서비스 이용이 제한될 수 있으나\n일부 서비스 이용이 제한될 수 있어요.',
+            '권한을 허용하지 않으면 일부 서비스 이용이 제한될 수 있어요.',
             style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_300),
           ),
           SizedBox(height: 20),

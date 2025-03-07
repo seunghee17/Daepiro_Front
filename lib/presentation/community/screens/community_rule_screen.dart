@@ -28,7 +28,7 @@ class CommunityRuleScreen extends ConsumerWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        bodyWidget(),
+                        bodyWidget(context),
                         footerWidget(),
                         SizedBox(height: 20)
                       ],
@@ -76,7 +76,7 @@ class CommunityRuleScreen extends ConsumerWidget {
   }
 
 
-  Widget bodyWidget() {
+  Widget bodyWidget(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,7 +96,7 @@ class CommunityRuleScreen extends ConsumerWidget {
         SizedBox(height: 36),
         communityRuleItemWidget(AppStrings.respectTitle, AppStrings.respectSubTitle, Const.communityRuleList4),
         SizedBox(height: 36),
-        Text(AppStrings.limitTitle, style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
+        Text(AppStrings.limitTitle, style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900)),
         SizedBox(height: 8),
         RichText(
             text: TextSpan(
@@ -107,12 +107,7 @@ class CommunityRuleScreen extends ConsumerWidget {
                     text: '이용약관',
                     style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.g_900, decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () async {
-                      const url = 'https://www.notion.so/30a80bdfb6bd47758314de1339b18bce?pvs=4';
-                      if(await canLaunchUrl( Uri.parse(url))) {
-                        await launchUrl( Uri.parse(url));
-                      }
-                    }
+                    ..onTap = () => GoRouter.of(context).push('/onboarding_terms/0')
                 ),
                 TextSpan(text: '을 참고해주세요.'),
               ]

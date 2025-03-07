@@ -57,7 +57,9 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                                     isDismissible: true,
                                     context: context,
                                     builder: (context) {
-                                      return inquireTypeBottomSheet(state.inquireTypeList);
+                                      return Wrap(
+                                        children: [inquireTypeBottomSheet(state.inquireTypeList)],
+                                      );
                                     });
                               },
                               child: inquireTypeWidget(state.inquireType)),
@@ -76,7 +78,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                       ),
                     )
                 ),
-                footerWidget()
+                footerWidget(state.inquireType)
               ],
             ),
           ),
@@ -154,7 +156,6 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
   Widget inquireTypeBottomSheet(List<String> inquireTypeList) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.4,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -242,6 +243,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                 SizedBox(width: 20),
               ],
             ),
+            SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(color: DaepiroColorStyle.g_50),
               width: double.infinity,
@@ -268,10 +270,12 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
               cursorColor: DaepiroColorStyle.g_900,
               textAlignVertical: TextAlignVertical(y: -1),
               controller: contentEditingController,
-              onTapOutside: (event) =>
-                  FocusManager.instance.primaryFocus?.unfocus(),
+              onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+              onChanged: (text) {
+                setState(() {});
+              },
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                contentPadding: EdgeInsets.only(top: 16, left: 16, right: 16,bottom: 40),
                 counterText: '',
                 filled: true,
                 isDense: true,
@@ -341,20 +345,20 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
     );
   }
 
-  Widget footerWidget() {
+  Widget footerWidget(String inquireType) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16),
       child: Container(
         width: double.infinity,
         child: PrimaryFilledButton(
             backgroundColor: mailEditingController.text.length > 0 &&
-                contentEditingController.text.length > 0 && isEmailValid(mailEditingController.text)
+                contentEditingController.text.length > 0 && isEmailValid(mailEditingController.text) && inquireType != ''
                 ? DaepiroColorStyle.g_700
                 : DaepiroColorStyle.g_200,
             onPressed: () async {
               if (mailEditingController.text.length > 0 &&
                   contentEditingController.text.length > 0 &&
-                  isEmailValid(mailEditingController.text)
+                  isEmailValid(mailEditingController.text) && inquireType != ''
               ) {
                 await ref.read(myPageProvider.notifier).setInquires(contentEditingController.text, mailEditingController.text);
               } else {

@@ -207,6 +207,9 @@ class LoginScreen extends ConsumerWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: DaepiroColorStyle.white,
             titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(

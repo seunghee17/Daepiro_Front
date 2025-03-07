@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../data/model/request/set_mypage_address_notification_request.dart';
 import '../../../data/model/request/withdraw_user_request.dart';
 import '../../../data/model/response/mypage/get_mypage_articles_response.dart';
@@ -523,12 +524,30 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   }
 
   Future<void> deleteUserAccount() async {
+    String platform = await storage.read(key: 'platform') ?? '';
+    String? appleCode = null;
+    if(platform == 'apple') {
+      appleCode = await getAppleAuthorizeCode();
+    }
     await ref.read(withDrawUseCaseProvider(
         WithDrawUseCase(
             reason: WithDrawReason.getNamedByCategory(state.leaveType).toLowerCase(),
-            withDrawRequest: WithDrawRequest(appleCode: null)
+            withDrawRequest: WithDrawRequest(appleCode: platform =='apple' ? appleCode : null)
         )).future);
     await storage.deleteAll();
+  }
+
+  Future<String> getAppleAuthorizeCode() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ]);
+      return credential.authorizationCode;
+    } catch (e) {
+      print('애플 인가코드 로드중 error 발생 $e');
+      return '';
+    }
   }
 }
 
