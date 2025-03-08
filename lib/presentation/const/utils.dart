@@ -201,3 +201,4 @@ bool isEmailValid(String email) {
   if (!regExp.hasMatch(email)) return false;
   return true;
 }
+

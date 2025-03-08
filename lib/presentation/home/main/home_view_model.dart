@@ -27,7 +27,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final list = List.generate(5, (_) => <PopularPost>[]);  // 빈 리스트 5개 생성
     state = state.copyWith(allPopularPostList: list);
 
-    getHomeStatus();
     getCurrentLocation();
   }
 
@@ -86,10 +85,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
                 latitude: location.latitude.toString(),
                 longitude: location.longitude.toString()
             );
-
-        getAroundShelterList(type: "earthquake");
-        getAroundShelterList(type: "tsunami");
-        getAroundShelterList(type: "civil");
 
         state = state.copyWith(
             latitude: location.latitude,
@@ -164,6 +159,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
               longitude: longitude
           )).future
       );
+
+      getHomeStatus();
+
+      getAroundShelterList(type: "earthquake");
+      getAroundShelterList(type: "tsunami");
+      getAroundShelterList(type: "civil");
 
       getUserAddress();
     } catch (error) {
