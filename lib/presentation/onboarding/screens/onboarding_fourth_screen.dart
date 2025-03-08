@@ -364,6 +364,9 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             titlePadding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(

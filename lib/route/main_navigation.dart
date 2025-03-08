@@ -1,5 +1,6 @@
 import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,6 +34,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
             await ref.read(communityTownProvider.notifier).setUserAddressList();
             await ref.read(communityDisasterProvider.notifier).getDisasterSituaions();
             await ref.read(communityTownProvider.notifier).loadContent();
+          } else if(index == 4) {
+            await ref.read(myPageProvider.notifier).getMyProfiles();
           }
         }
       },
@@ -84,68 +87,71 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             ),
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
-          child: NavigationBar(
-            selectedIndex: currentIndex,
-            destinations: [
-              NavigationDestination(
-                icon: SvgPicture.asset(
-                  'assets/icons/icon_home.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
-                ),
-                selectedIcon: SvgPicture.asset(
-                  'assets/icons/icon_home.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
-                ),
-                label: '홈',
-              ),
-              NavigationDestination(
-                icon: SvgPicture.asset(
-                'assets/icons/icon_community.svg',
-                colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
-              ),
-                selectedIcon: SvgPicture.asset(
-                  'assets/icons/icon_community.svg',
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: NavigationBar(
+              selectedIndex: currentIndex,
+              destinations: [
+                NavigationDestination(
+                  icon: SvgPicture.asset(
+                    'assets/icons/icon_home.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  ),
+                  selectedIcon: SvgPicture.asset(
+                    'assets/icons/icon_home.svg',
                     colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  ),
+                  label: '홈',
                 ),
-                label: '커뮤니티',
-              ),
-              NavigationDestination(
-                icon: SvgPicture.asset(
-                  'assets/icons/icon_info.svg',
+                NavigationDestination(
+                  icon: SvgPicture.asset(
+                  'assets/icons/icon_community.svg',
                   colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
                 ),
-                selectedIcon:  SvgPicture.asset(
-                  'assets/icons/icon_info.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  selectedIcon: SvgPicture.asset(
+                    'assets/icons/icon_community.svg',
+                      colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  ),
+                  label: '커뮤니티',
                 ),
-                label: '재난정보',
-              ),
-              NavigationDestination(
-                icon: SvgPicture.asset(
-                  'assets/icons/icon_funding.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                NavigationDestination(
+                  icon: SvgPicture.asset(
+                    'assets/icons/icon_info.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  ),
+                  selectedIcon:  SvgPicture.asset(
+                    'assets/icons/icon_info.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  ),
+                  label: '재난정보',
                 ),
-                selectedIcon: SvgPicture.asset(
-                  'assets/icons/icon_funding.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                NavigationDestination(
+                  icon: SvgPicture.asset(
+                    'assets/icons/icon_funding.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  ),
+                  selectedIcon: SvgPicture.asset(
+                    'assets/icons/icon_funding.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  ),
+                  label: '후원',
                 ),
-                label: '후원',
-              ),
-              NavigationDestination(
-                icon:SvgPicture.asset(
-                  'assets/icons/icon_my.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                NavigationDestination(
+                  icon:SvgPicture.asset(
+                    'assets/icons/icon_my.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn),
+                  ),
+                  selectedIcon: SvgPicture.asset(
+                    'assets/icons/icon_my.svg',
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
+                  ),
+                  label: '마이페이지',
                 ),
-                selectedIcon: SvgPicture.asset(
-                  'assets/icons/icon_my.svg',
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_600, BlendMode.srcIn),
-                ),
-                label: '마이페이지',
-              ),
-            ],
-            onDestinationSelected: (index) {
-              if (index != currentIndex) onDestinationSelected(index);
-            },
+              ],
+              onDestinationSelected: (index) {
+                if (index != currentIndex) onDestinationSelected(index);
+              },
+            ),
           ),
         ),
       ),

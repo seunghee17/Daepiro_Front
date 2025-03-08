@@ -11,10 +11,10 @@ import '../controller/onboarding_view_model.dart';
 class JusoInputScreen extends ConsumerStatefulWidget {
   final String? type;
   final String? index;
-  final String? userName;
+  final String? userNickName;
   final bool fromMyPage;
 
-  const JusoInputScreen({super.key, this.type, this.index, this.userName, required this.fromMyPage});
+  const JusoInputScreen({super.key, this.type, this.index, this.userNickName, required this.fromMyPage});
 
   @override
   JusoInputState createState() => JusoInputState();
@@ -73,7 +73,6 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
     final resultAddress = ref.watch(onboardingStateNotifierProvider.notifier);
     final myPagestate = ref.watch(myPageProvider);
     final myPageAddress = ref.watch(myPageProvider.notifier);
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -82,7 +81,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 16),
-              headerWidget(widget.userName ?? ''),
+              headerWidget(widget.userNickName ?? ''),
               SizedBox(height: 24),
               jusoInputTextField(ref, jusoController, focusNode),
               SizedBox(height: 16),
@@ -170,7 +169,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
   }
 
 
-  Widget headerWidget(String userName) {
+  Widget headerWidget(String userNickName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -187,17 +186,24 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
         Wrap(
           spacing: 8,
           children: [
-            Text(
-              '${userName}님의 ',
-              style: DaepiroTextStyle.h5.copyWith(
-                  color: DaepiroColorStyle.g_900),
-            ),
-            typeChipWidget(),
-            Text(
-              '어디인가요?',
-              style: DaepiroTextStyle.h5.copyWith(
-                  color: DaepiroColorStyle.g_900),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    '${userNickName}님의 ',
+                    style: DaepiroTextStyle.h5.copyWith(
+                        color: DaepiroColorStyle.g_900),
+                  ),
+                ),
+                typeChipWidget(),
+                Text(
+                  ' 어디인가요?',
+                  style: DaepiroTextStyle.h5.copyWith(
+                      color: DaepiroColorStyle.g_900),
+                ),
+              ],
+            )
           ],
         ),
       ],
@@ -237,12 +243,15 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
+                width: 16,
+                  height: 16,
                   widget.type == '집'
                       ? 'assets/icons/icon_home.svg'
                       : 'assets/icons/icon_location_24.svg',
                   colorFilter: ColorFilter.mode(
                       DaepiroColorStyle.white, BlendMode.srcIn)
               ),
+              SizedBox(width: 4),
               Text(
                 widget.type!,
                 style: DaepiroTextStyle.body_2_b.copyWith(

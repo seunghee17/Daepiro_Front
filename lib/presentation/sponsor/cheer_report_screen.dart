@@ -237,7 +237,7 @@ class CheerReportState extends ConsumerState<CheerReportScreen> {
           contentPadding: EdgeInsets.all(16),
           filled: true,
           fillColor: DaepiroColorStyle.g_50,
-          hintText: 'example@domain.com',
+          hintText: 'numberone@domain.com',
           hintStyle: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_200),
           border: OutlineInputBorder(
@@ -317,6 +317,9 @@ class CheerReportState extends ConsumerState<CheerReportScreen> {
             context.pop();
           });
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 20),
             content: Column(
@@ -343,6 +346,9 @@ class CheerReportState extends ConsumerState<CheerReportScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 24),
             content: Column(

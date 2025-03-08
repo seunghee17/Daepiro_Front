@@ -81,29 +81,39 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
     return MaterialApp(
       home: Container(
         alignment: Alignment.center,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Lottie.asset('assets/lottie/splash.json',
-                controller: _controller,
-                onLoaded: (composition) {
-                  _controller.addStatusListener((status) {
-                    if(status == AnimationStatus.dismissed) {
-                      _controller.forward();
-                    } else if(status == AnimationStatus.completed)
-                      _controller.reverse();
-                  });
-                  _controller
-                  ..duration = composition.duration
-                  ..forward();
-                }
+        child: Center(
+          child: Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  color: Colors.white
+                ),
               ),
-            )
-          ],
+              Positioned(
+                top: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: Lottie.asset('assets/lottie/splash.json',
+                    controller: _controller,
+                    onLoaded: (composition) {
+                      _controller.addStatusListener((status) {
+                        if(status == AnimationStatus.dismissed) {
+                          _controller.forward();
+                        } else if(status == AnimationStatus.completed)
+                          _controller.reverse();
+                      });
+                      _controller
+                      ..duration = composition.duration
+                      ..forward();
+                    }
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

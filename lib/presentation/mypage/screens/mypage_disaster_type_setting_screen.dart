@@ -78,7 +78,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                       ),
                       Text(
                         '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난이에요.',
-                        style: DaepiroTextStyle.caption
+                        style: DaepiroTextStyle.body_2_m
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
                       SizedBox(height: 16),

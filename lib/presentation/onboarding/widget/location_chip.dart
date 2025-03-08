@@ -11,6 +11,7 @@ class LocationChip extends StatefulWidget {
   final WidgetRef ref;
   final FocusNode focusNode;
   final int index;
+  final void Function()? onTapOutside;
 
   const LocationChip({super.key, 
     required this.controller,
@@ -18,6 +19,7 @@ class LocationChip extends StatefulWidget {
     required this.ref,
     required this.focusNode,
     required this.index,
+    this.onTapOutside,
   });
 
   @override
@@ -60,8 +62,10 @@ class _LocationChipState extends State<LocationChip> {
                 onChanged: widget.onChanged,
                 cursorColor: DaepiroColorStyle.white,
                 controller: widget.controller,
-                onTapOutside: (event) =>
-                    FocusManager.instance.primaryFocus?.unfocus(),
+                onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+                widget.onTapOutside?.call();
+                },
                 style: DaepiroTextStyle.body_2_b
                     .copyWith(color: DaepiroColorStyle.white),
                 decoration: const InputDecoration(

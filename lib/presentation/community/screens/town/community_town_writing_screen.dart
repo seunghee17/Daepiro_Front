@@ -56,11 +56,12 @@ class CommunityTownWritingState
     // 제목과 내용이 비어있지 않은지 확인
     final isTitleNotEmpty = titleTextController.text.isNotEmpty;
     final isContentNotEmpty = contentTextController.text.isNotEmpty;
+    String category = ref.watch(communityTownProvider).writingTownCategory;
 
     // 버튼 상태 변경
-    if (isCompleteEnabled != (isTitleNotEmpty && isContentNotEmpty)) {
+    if (isCompleteEnabled != (isTitleNotEmpty && isContentNotEmpty && category != '')) {
       setState(() {
-        isCompleteEnabled = isTitleNotEmpty && isContentNotEmpty;
+        isCompleteEnabled = isTitleNotEmpty && isContentNotEmpty && category != '';
       });
     }
   }
@@ -92,7 +93,7 @@ class CommunityTownWritingState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(communityTownProvider);
-
+    _updateCompleteButtonState();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: GestureDetector(
@@ -185,8 +186,11 @@ class CommunityTownWritingState
                           .read(communityTownProvider.notifier)
                           .setArticle(titleTextController.text,
                               contentTextController.text);
-                      GoRouter.of(context).pop();
-                      showSnackbar(context, isSuccess);
+                      showSnackbar(context, '잠시만 기다려주세요.');
+                      Future.delayed(const Duration(milliseconds: 400), () {
+                        GoRouter.of(context).pop();
+                        showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
+                      });
                     }
                     if (widget.isEdit) {
                       //게시글 수정 api 호출
@@ -194,8 +198,11 @@ class CommunityTownWritingState
                           .read(communityTownProvider.notifier)
                           .editArticle(titleTextController.text,
                               contentTextController.text);
-                      GoRouter.of(context).pop();
-                      showSnackbar(context, isSuccess);
+                      showSnackbar(context, '잠시만 기다려주세요.');
+                      Future.delayed(const Duration(milliseconds: 400), () {
+                        GoRouter.of(context).pop();
+                        showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
+                      });
                     }
                   },
                   child: Text(
@@ -438,6 +445,9 @@ class CommunityTownWritingState
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: DaepiroColorStyle.white,
             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
             title: Column(
@@ -659,45 +669,7 @@ class CommunityTownWritingState
     );
   }
 
-//오류 다이얼로그
-//   void remindDialog(BuildContext context, String text) {
-//     showDialog(
-//         context: context,
-//         barrierDismissible: false,
-//         builder: (BuildContext context) {
-//           return AlertDialog(
-//             backgroundColor: Colors.white,
-//             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 4),
-//             title: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 SvgPicture.asset(
-//                     'assets/icons/icon_warning',
-//                     colorFilter: ColorFilter.mode(
-//                         DaepiroColorStyle.r_200, BlendMode.srcIn)),
-//               ],
-//             ),
-//             contentPadding: EdgeInsets.fromLTRB(20, 4, 20, 24),
-//             content: Container(
-//               width: MediaQuery.of(context).size.width * 0.8,
-//               child: Column(
-//                   mainAxisSize: MainAxisSize.min,
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   children: [
-//                     Text(
-//                       textAlign: TextAlign.center,
-//                       text,
-//                       style: DaepiroTextStyle.body_1_b
-//                           .copyWith(color: DaepiroColorStyle.g_900),
-//                     ),
-//                   ]),
-//             ),
-//           );
-//         });
-//   }
-
-  void showSnackbar(BuildContext context, bool isSuccess) {
+  void showSnackbar(BuildContext context, String text) {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(
@@ -716,7 +688,7 @@ class CommunityTownWritingState
                 Expanded(
                   child: Text(
                     textAlign: TextAlign.center,
-                    isSuccess ? '게시글 작성이 완료되었어요.' : '다시 시도해주세요.',
+                    text,
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.white),
                   ),

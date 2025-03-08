@@ -17,8 +17,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../data/model/response/community/community_dongnae_content_detail_response.dart';
 import '../data/model/response/information/behavior_list_response.dart';
-import '../data/model/selected_image.dart';
-import '../data/model/response/sponsor/sponsor_list_response.dart';
 import '../presentation/community/screens/community_main_screen.dart';
 import '../presentation/community/screens/town/community_report_screen.dart';
 import '../presentation/community/screens/town/community_town_detail_screen.dart';
@@ -180,14 +178,14 @@ final goRouteProvider = Provider((ref) {
                 path: 'second',
                 builder: (context, state) => const OnboardingThirdScreen()),
             GoRoute(
-                path: 'juso/:type/:index/:userName',
+                path: 'juso/:type/:index/:userNickName',
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>? ?? {};
                   final type = state.pathParameters['type'];
                   final index = state.pathParameters['index'];
-                  final userName = state.pathParameters['userName'];
+                  final userNickName = state.pathParameters['userNickName'];
                   final fromMyPage = extra['fromMyPage'] as bool? ?? false;
-                  return JusoInputScreen(type: type, index: index, userName: userName, fromMyPage: fromMyPage);
+                  return JusoInputScreen(type: type, index: index, userNickName: userNickName, fromMyPage: fromMyPage);
                 }),
             GoRoute(
                 path: 'third',

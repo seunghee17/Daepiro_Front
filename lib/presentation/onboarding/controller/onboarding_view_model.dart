@@ -138,6 +138,24 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     return _fcmToken ?? '';
   }
 
+  void controlJusoState(int index) {
+    if(index == 1) {
+      state = state.copyWith(
+        firstJusoNick: '',
+        firstJusoState: '',
+        firstJuso: '',
+        isJuso1Visible: false,
+      );
+    } else {
+      state = state.copyWith(
+        secondJusoNick: '',
+        secondJusoState: '',
+        secondJuso: '',
+        isJuso2Visible: false,
+      );
+    }
+  }
+
   void setJusoNick(String firstNick, String secondNick) {
     state =
         state.copyWith(firstJusoNick: firstNick, secondJusoNick: secondNick);

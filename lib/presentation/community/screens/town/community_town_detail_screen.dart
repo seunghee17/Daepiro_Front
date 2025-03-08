@@ -164,17 +164,14 @@ class CommunityTownDetailState
                               ),
                             ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: footerWidget(
-                          replyController,
-                          focusNode,
-                          context,
-                          state.isEditState,
-                          state.isChildCommentState,
-                          state.parentCommentId,
-                          state.isEditChildCommentState),
-                    )
+                    footerWidget(
+                        replyController,
+                        focusNode,
+                        context,
+                        state.isEditState,
+                        state.isChildCommentState,
+                        state.parentCommentId,
+                        state.isEditChildCommentState)
                   ],
                 ),
               ),
@@ -355,7 +352,7 @@ class CommunityTownDetailState
           pressedColor: DaepiroColorStyle.g_75,
           child: Text(
             textAlign: TextAlign.center,
-            '그만두기',
+            '취소하기',
             style: DaepiroTextStyle.body_1_b
                 .copyWith(color: DaepiroColorStyle.g_700),
           )),
@@ -515,6 +512,9 @@ class CommunityTownDetailState
       bool isChildCommentState,
       int editChildCommentId,
       bool isEditChildCommentState) {
+    if(editCommentId == comment.id) {
+      replyController.text = comment.body!;
+    }
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -578,7 +578,8 @@ class CommunityTownDetailState
             ),
             SizedBox(height: 4),
             Text(
-              editCommentId == comment.id ? '수정중' : comment.body!,
+              //editCommentId == comment.id ? '수정중' : comment.body!,
+              comment.body!,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),
             ),
@@ -620,7 +621,7 @@ class CommunityTownDetailState
                             BoxDecoration(color: DaepiroColorStyle.g_75),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    SizedBox(width: 8),
                     Expanded(
                       child: reReplyListWidget(
                         isEditChildCommentState,
@@ -645,6 +646,9 @@ class CommunityTownDetailState
     Children childComment,
     bool isChildCommentState,
   ) {
+    if(editTownChildCommentId == childComment.id) {
+      replyController.text = childComment.body!;
+    }
     return Container(
         decoration: BoxDecoration(
           color: isTownEditChildCommentState &&
@@ -682,6 +686,14 @@ class CommunityTownDetailState
                         ],
                       )),
                   SizedBox(width: 6),
+                  Visibility(
+                    visible: childComment.createdAt != childComment.lastModifiedAt,
+                    child: Text(
+                      '수정됨 · ',
+                      style: DaepiroTextStyle.caption
+                          .copyWith(color: DaepiroColorStyle.g_300),
+                    ),
+                  ),
                   Text(
                     parseRegTime(childComment.lastModifiedAt!),
                     style: DaepiroTextStyle.caption
@@ -703,9 +715,7 @@ class CommunityTownDetailState
               ),
               SizedBox(height: 4),
               Text(
-                editTownChildCommentId == childComment.id
-                    ? '수정중'
-                    : childComment.body!,
+                childComment.body!,
                 style: DaepiroTextStyle.body_2_m
                     .copyWith(color: DaepiroColorStyle.g_900),
               ),
@@ -767,7 +777,7 @@ class CommunityTownDetailState
       decoration: BoxDecoration(
           border: Border(top: BorderSide(color: DaepiroColorStyle.g_50))),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 25),
+        padding: EdgeInsets.symmetric(vertical: 16),
         child: Row(
           children: [
             SizedBox(width: 20),

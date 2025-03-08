@@ -39,10 +39,6 @@
 	<key>KAKAO_KEY</key>
 	<string>0786b07056f57dd7e119842166e52498</string>
 	<key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>https</string>
-        <string>http</string>
-    </array>
 
     <array>
           <string>naversearchapp</string>

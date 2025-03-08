@@ -77,6 +77,18 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingStateNotifierProvider);
 
+    bool isAvailable() {
+      if(state.isJuso1Visible && !state.isJuso2Visible) {
+        return state.homeJuso.isNotEmpty && state.firstJuso.isNotEmpty && state.firstJusoNick.isNotEmpty;
+      } else if(state.isJuso1Visible && state.isJuso2Visible) {
+        return state.homeJuso.isNotEmpty && state.firstJuso.isNotEmpty && state.firstJusoNick.isNotEmpty && state.secondJuso.isNotEmpty && state.secondJusoNick.isNotEmpty;
+      } else if(!state.isJuso1Visible && state.isJuso2Visible) {
+        return state.homeJuso.isNotEmpty && state.secondJuso.isNotEmpty && state.secondJusoNick.isNotEmpty;
+      } else { //홈주소만 보여지는 상태
+        return state.homeJuso.isNotEmpty;
+      }
+    }
+
     if (state.homeJuso != '') {
       homeController.text = state.homeJuso;
     }
@@ -102,17 +114,17 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                 children: [
                   if (state.isJuso2Visible)
                     InputLocationAddress2(jusoController2, jusoNickController2,
-                        ref, state.secondJusoState, state.userName),
+                        ref, state.secondJusoState, state.userNickName),
                   if (state.isJuso1Visible)
                     InputLocationAddress1(jusoController1, jusoNickController1,
-                        ref, state.firstJusoState, state.userName),
+                        ref, state.firstJusoState, state.userNickName, state.firstJusoNick),
                   InputHomeAddress(homeController, context, ref, state.homeJuso,
-                      state.isJuso1Visible, state.isJuso2Visible, state.userName)
+                      state.isJuso1Visible, state.isJuso2Visible, state.userNickName)
                 ],
               ),
             ),
           ),
-          bottomWidget(context, state.homeJuso, state.homeJuso.isNotEmpty),
+          bottomWidget(context, state.homeJuso, isAvailable()),
           SizedBox(height: 16),
         ],
       ),
@@ -163,14 +175,14 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                     .copyWith(color: DaepiroColorStyle.black),
               ),
               TextSpan(
-                text: '설정해주세요.',
+                text: '설정해주세요',
                 style: DaepiroTextStyle.h5
                     .copyWith(color: DaepiroColorStyle.black),
               ),
             ])),
         SizedBox(height: 4),
         Text(
-          '지역은 최대 3개까지 추가할 수 있어요.',
+          '지역은 최소 1개, 최대 3개까지 추가할 수 있어요.',
           style: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_300),
         ),
@@ -186,7 +198,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
       String homeJuso,
       bool juso1Visible,
       bool juso2Visible,
-      String userName,) {
+      String userNickName,) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -196,7 +208,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
           SizedBox(height: 10),
           TextField(
             onTap: () => GoRouter.of(context).push(
-                '/onboarding/juso/집/0/${userName}',
+                '/onboarding/juso/집/0/${userNickName}',
               extra: {
                 'fromMyPage': false,
               },
@@ -290,7 +302,9 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     TextEditingController jusoNickController1,
     WidgetRef ref,
     String firstJusoState,
-      String userName,
+      String userNickName,
+      String jusoNick
+
   ) {
     return Container(
       width: double.infinity,
@@ -308,6 +322,11 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             ref: ref,
             focusNode: nickFocusNode1,
             index: 1,
+            onTapOutside: () {
+              if(jusoNickController1.text.isEmpty) {
+                ref.read(onboardingStateNotifierProvider.notifier).controlJusoState(1);
+              }
+            },
           ),
           SizedBox(
             height: 10,
@@ -316,9 +335,9 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             style: DaepiroTextStyle.body_1_m
                 .copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
-              if (firstJusoState == 'Possible') {
+              if (jusoNickController1.text.isNotEmpty) {
                 GoRouter.of(context).push(
-                    '/onboarding/juso/${jusoNickController1.text}/1/${userName}',
+                    '/onboarding/juso/${jusoNickController1.text}/1/${userNickName}',
                   extra: {
                     'fromMyPage': false,
                   },
@@ -406,7 +425,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
     TextEditingController jusoNickController2,
     WidgetRef ref,
     String secondJusoState,
-      String userName
+      String userNickName
   ) {
     return Container(
       width: double.infinity,
@@ -423,6 +442,11 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             ref: ref,
             focusNode: nickFocusNode2,
             index: 2,
+            onTapOutside: () {
+              if(jusoNickController2.text.isEmpty) {
+                ref.read(onboardingStateNotifierProvider.notifier).controlJusoState(2);
+              }
+            },
           ),
           SizedBox(
             height: 10,
@@ -431,10 +455,9 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
             style: DaepiroTextStyle.body_1_m
                 .copyWith(color: DaepiroColorStyle.g_900),
             onTap: () {
-              if (secondJusoState == 'Possible') {
-                GoRouter.of(context)
-                    .push(
-                    '/onboarding/juso/${jusoNickController2.text}/2/${userName}',
+              if (jusoNickController2.text.isNotEmpty) {
+                GoRouter.of(context).push(
+                    '/onboarding/juso/${jusoNickController2.text}/2/${userNickName}',
                   extra: {
                     'fromMyPage': false,
                   },
@@ -625,6 +648,9 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: Colors.white,
             titlePadding: EdgeInsets.only(top: 24),
             title: Column(
@@ -687,7 +713,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         pressedColor: DaepiroColorStyle.g_75,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '취소',
+                          '취소하기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.g_700),
                         )),
@@ -709,7 +735,7 @@ class OnboardingThirdState extends ConsumerState<OnboardingThirdScreen> {
                         pressedColor: DaepiroColorStyle.g_400,
                         child: Text(
                           textAlign: TextAlign.center,
-                          '삭제',
+                          '삭제하기',
                           style: DaepiroTextStyle.body_1_b
                               .copyWith(color: DaepiroColorStyle.white),
                         )),

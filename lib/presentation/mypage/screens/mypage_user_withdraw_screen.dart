@@ -19,6 +19,8 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
+    final double statusBarSize = MediaQuery.of(context).padding.top;
+
     return PopScope(
       onPopInvoked: (bool didPop) {
         if (didPop) {
@@ -26,74 +28,72 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
         }
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                        child: backgroundWidget(context)
-                    ),
-                    Positioned(
-                        top: 0,
-                        right: 20,
-                        left: 20,
-                        child: IntrinsicHeight(child:
-                        headerWidget(context, state.realName))
-                    ),
-                    Positioned(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.45,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                      child: backgroundWidget(context)
+                  ),
+                  Positioned(
+                      top: MediaQuery.of(context).padding.top,
+                      right: 20,
+                      left: 20,
+                      child: IntrinsicHeight(child:
+                      headerWidget(context, state.realName))
+                  ),
+                  Positioned(
                       right: 0,
                       left: 0,
                       bottom: 0,
-                        child: Image.asset('assets/icons/icon_withdraw.png', height: 182, width: 182,)
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 32),
-                          Text('탈퇴 전, 확인해주세요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-                          SizedBox(height: 16),
-                          checkWidget(),
-                          SizedBox(height: 32),
-                          Text('대피로를 떠나는 이유가 궁금해요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-                          SizedBox(height: 16),
-                          GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  enableDrag: false,
-                                  isDismissible: true,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return Wrap(
-                                        children: [leaveTypeBottomSheet(state.leaveTypeList, context, ref)]
-                                    );
-                                  });
-                            },
-                            child: leaveTypeWidget(state.leaveType),
-                          ),
-                          SizedBox(height: 35),
-                        ],
-                      ),
-                    ),
+                      child: Image.asset('assets/icons/icon_withdraw.png', height: 182, width: 182,)
                   )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: bottomWidget(context, ref),
-              )
-            ],
-          ),
+            ),
+            Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 32),
+                        Text('탈퇴 전, 확인해주세요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
+                        SizedBox(height: 16),
+                        checkWidget(),
+                        SizedBox(height: 32),
+                        Text('대피로를 떠나는 이유가 궁금해요.', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
+                        SizedBox(height: 16),
+                        GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                                enableDrag: false,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  return Wrap(
+                                      children: [leaveTypeBottomSheet(state.leaveTypeList, context, ref)]
+                                  );
+                                });
+                          },
+                          child: leaveTypeWidget(state.leaveType),
+                        ),
+                        SizedBox(height: 35),
+                      ],
+                    ),
+                  ),
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: bottomWidget(context, ref),
+            )
+          ],
         ),
       ),
     );
@@ -162,7 +162,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 57),
               child: Text(
-                '${userName}님, 정말 대피로를 떠나시나요?\n너무 아쉬워요..',
+                '${userName}님,\n정말 대피로를 떠나시나요? 너무 아쉬워요..',
                 textAlign: TextAlign.center,
                 style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
               ),
@@ -382,6 +382,9 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+            ),
             backgroundColor: DaepiroColorStyle.white,
             titlePadding: EdgeInsets.fromLTRB(20, 24, 20, 24),
             title: Column(
@@ -402,10 +405,15 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                     child: PrimaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          while(context.canPop()) {
-                            context.pop();
+                          // while(context.canPop()) {
+                          //   context.pop();
+                          // }
+                          // GoRouter.of(context).pushReplacement('/login');
+                          if(Platform.isAndroid) {
+                            SystemNavigator.pop();
+                          } else {
+                            exit(0);
                           }
-                          GoRouter.of(context).pushReplacement('/login');
                         },
                         backgroundColor: DaepiroColorStyle.g_700,
                         pressedColor: DaepiroColorStyle.g_600,

@@ -207,6 +207,10 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
     bool isEditChildCommentState,
     int editChildCommentId,
   ) {
+    if(editCommentId == reply.id) {
+      replyController.text = reply.content!;
+      setState(() {});
+    }
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,7 +276,8 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    editCommentId == reply.id ? '수정중' : reply.content!,
+                    //editCommentId == reply.id ? '수정중' : reply.content!,
+                    reply.content!,
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.g_900),
                   ),
@@ -364,6 +369,10 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       bool isChildCommentState,
       bool isEditChildCommentState,
       int editChildCommentId) {
+    if(editChildCommentId == childComments.id) {
+      replyController.text = childComments.content!;
+      setState(() {});
+    }
     return Container(
       decoration: BoxDecoration(
         color: isEditChildCommentState && editChildCommentId == childComments.id
@@ -434,9 +443,10 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             ),
             SizedBox(height: 4),
             Text(
-              editChildCommentId == childComments.id
-                  ? '수정중'
-                  : childComments.content!,
+              // editChildCommentId == childComments.id
+              //     ? '수정중'
+              //     : childComments.content!,
+              childComments.content!,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),
             ),
@@ -473,7 +483,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
       decoration: BoxDecoration(
           border: Border(top: BorderSide(color: DaepiroColorStyle.g_50))),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 25),
+        padding: EdgeInsets.symmetric(vertical: 16),
         child: Row(
           children: [
             SizedBox(width: 20),
@@ -492,8 +502,7 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                       focusNode: replyFocusNode,
                       controller: controller,
                       cursorColor: DaepiroColorStyle.g_900,
-                      // onTapOutside: (event) =>
-                      //     FocusManager.instance.primaryFocus?.unfocus(),
+                      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                       style: DaepiroTextStyle.body_2_m
                           .copyWith(color: DaepiroColorStyle.g_900),
                       decoration: InputDecoration(

@@ -37,6 +37,7 @@ class DisasterResponse {
 class Disaster {
   int? id;
   String? type;
+  int? typeId;
   String? title;
   String? content;
   String? location;
@@ -48,6 +49,7 @@ class Disaster {
   Disaster(
       {this.id,
         this.type,
+        this.typeId,
         this.title,
         this.content,
         this.location,
@@ -59,6 +61,7 @@ class Disaster {
   Disaster.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = json['type'];
+    typeId = json['typeId'];
     title = json['title'];
     content = json['content'];
     location = json['location'];
@@ -77,6 +80,7 @@ class Disaster {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['type'] = type;
+    data['typeId'] = typeId;
     data['title'] = title;
     data['content'] = content;
     data['location'] = location;

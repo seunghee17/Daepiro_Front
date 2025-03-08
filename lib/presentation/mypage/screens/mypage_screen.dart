@@ -131,8 +131,14 @@ class MypageScreen extends ConsumerWidget {
                           GoRouter.of(context).push('/mypage_inquires'),
                       child: mypageListItem('문의하기')),
                   GestureDetector(
+                      onTap: () => GoRouter.of(context).push('/onboarding_terms/0'),
+                      child: mypageListItem('이용약관')),
+                  GestureDetector(
                       onTap: () => GoRouter.of(context).push('/onboarding_terms/1'),
                       child: mypageListItem('개인정보 처리 약관')),
+                  GestureDetector(
+                      onTap: () => GoRouter.of(context).push('/onboarding_terms/2'),
+                      child: mypageListItem('위치정보 이용 동의')),
                   GestureDetector(
                       onTap: () => null, child: mypageListItem('앱버전')),
                   SizedBox(height: 20),

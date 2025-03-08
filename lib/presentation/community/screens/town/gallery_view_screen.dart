@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,21 +68,27 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
         child: Material(
           elevation: 8.0,
           borderRadius: BorderRadius.circular(8),
-          color: Colors.black.withOpacity(0.6),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    '파일 용량이 10MB를 초과할 수 없습니다.',
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.white),
+          child: Stack(
+            children: [
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: Colors.black.withOpacity(0.6), // 백그라운드 색상은 여기에
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    child: Text(
+                      '파일 용량이 10MB를 초과할 수 없습니다.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -92,6 +100,7 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
       }
     });
   }
+
 }
 
 class GalleryViewScreen extends ConsumerStatefulWidget {
@@ -356,8 +365,8 @@ class gridPhoto extends ConsumerWidget {
     final isSelected = selectedImages.any((element) => element.entity == e);
 
     return Positioned(
-        right: 8,
-        top: 8,
+        right: 0,
+        top: 0,
         child: Checkbox(
           visualDensity: VisualDensity.compact,
           side: BorderSide(color: Colors.transparent),

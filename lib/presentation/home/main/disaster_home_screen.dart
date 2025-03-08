@@ -97,7 +97,7 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
                                   )
                               ),
                               const SizedBox(height: 8),
-                              getLargeHighlightText(title: viewModel.disasterInfo?.title ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
+                              getLargeHighlightText(title: viewModel.disasterInfo?.title?.replaceAll("기타", "기타 재난") ?? "", disaster: viewModel.disasterInfo?.disasterType ?? ""),
                               const SizedBox(height: 8),
                               Text(
                                 viewModel.disasterInfo?.content ?? "",
@@ -200,17 +200,18 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> {
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
-                                                "대피로는 공사중",
+                                                "행동요령 준비중",
                                                 style: DaepiroTextStyle.h6.copyWith(
                                                   color: DaepiroColorStyle.g_300,
                                                 )
                                             ),
                                             Text(
-                                                "추후 업데이트될 예정이에요!",
+                                                "더 많은 재난에 대처할 수 있도록\n행동요령을 준비해둘게요.",
                                                 style: DaepiroTextStyle.body_2_m
                                                     .copyWith(
                                                   color: DaepiroColorStyle.g_300,
-                                                )
+                                                ),
+                                                textAlign: TextAlign.center,
                                             ),
                                             const SizedBox(height: 16)
                                           ],
