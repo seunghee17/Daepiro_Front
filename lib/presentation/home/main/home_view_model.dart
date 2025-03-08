@@ -86,11 +86,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
                 longitude: location.longitude.toString()
             );
 
-        getHomeStatus();
-        getAroundShelterList(type: "earthquake");
-        getAroundShelterList(type: "tsunami");
-        getAroundShelterList(type: "civil");
-
         state = state.copyWith(
             latitude: location.latitude,
             longitude: location.longitude
@@ -164,6 +159,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
               longitude: longitude
           )).future
       );
+
+      getHomeStatus();
+
+      getAroundShelterList(type: "earthquake");
+      getAroundShelterList(type: "tsunami");
+      getAroundShelterList(type: "civil");
 
       getUserAddress();
     } catch (error) {

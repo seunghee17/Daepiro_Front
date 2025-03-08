@@ -1,6 +1,5 @@
 import 'package:daepiro/presentation/const/common_disaster_list.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import '../../cmm/DaepiroTheme.dart';
 import 'emergency_disaster_list.dart';
@@ -192,7 +191,3 @@ bool isEmailValid(String email) {
   return true;
 }
 
-// 위도/경도 사이의 거리 계산
-int calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2).round();
-}

@@ -8,7 +8,7 @@ import 'package:daepiro/domain/usecase/mypage/mypage_set_address_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_set_profiles_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_withdraw_usecase.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
+// import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -480,7 +480,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     if (state.platform == 'kakao') {
       await UserApi.instance.logout();
     } else if (state.platform == 'naver') {
-      await FlutterNaverLogin.logOut();
+      // await FlutterNaverLogin.logOut();
     }
     await ref.read(logoutUseCaseProvider(LogoutUsecase()).future);
     await storage.deleteAll();

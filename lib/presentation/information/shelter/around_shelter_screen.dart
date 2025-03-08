@@ -21,6 +21,7 @@ class AroundShelterScreen extends StatefulWidget {
 }
 
 class _AroundShelterScreen extends State<AroundShelterScreen> {
+  final ScrollController _scrollController = ScrollController();
   int _selectedDisasterType = 0;
   List<Shelters> shelterList = [];
 
@@ -28,7 +29,12 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
   void initState() {
     super.initState();
     shelterList = widget.extra.earthquakeShelterList;
+  }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,6 +97,12 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                                     shelterList = widget.extra.civilShelterList;
                                   }
                                 });
+
+                                _scrollController.animateTo(
+                                  0.0, // 최상단
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
                               }
                           ),
                           const SizedBox(width: 8)
@@ -123,6 +135,7 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
               Expanded(
                 child: ListView.builder(
                     itemCount: shelterList.length,
+                    controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemAroundShelter(
                           name: shelterList[index].name ?? "",
