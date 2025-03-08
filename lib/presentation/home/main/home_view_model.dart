@@ -86,19 +86,17 @@ class HomeViewModel extends StateNotifier<HomeState> {
                 longitude: location.longitude.toString()
             );
 
-        getHomeStatus();
-        getAroundShelterList(type: "earthquake");
-        getAroundShelterList(type: "tsunami");
-        getAroundShelterList(type: "civil");
-
         state = state.copyWith(
             latitude: location.latitude,
             longitude: location.longitude
         );
       } else {
-        // 위치 비활성화
+        // 위치 권한 X
 
       }
+    } else {
+      // 시스템 위치 OFF
+
     }
   }
 
@@ -164,6 +162,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
               longitude: longitude
           )).future
       );
+
+      getHomeStatus();
+
+      getAroundShelterList(type: "earthquake");
+      getAroundShelterList(type: "tsunami");
+      getAroundShelterList(type: "civil");
 
       getUserAddress();
     } catch (error) {

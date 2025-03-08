@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
-import '../../const/utils.dart';
 import '../../home/component/map_direction_item.dart';
 
 class ItemAroundShelter extends StatelessWidget {
@@ -49,7 +49,7 @@ class ItemAroundShelter extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "${calculateDistance(startLatitude,startLongitude,endLatitude,endLongitude)}m",
+                      "${Geolocator.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude).round()}m",
                       style: DaepiroTextStyle.body_2_m.copyWith(
                         color: DaepiroColorStyle.o_500,
                       ),

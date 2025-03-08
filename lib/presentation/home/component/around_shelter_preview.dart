@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../cmm/DaepiroTheme.dart';
-import '../../const/utils.dart';
 import 'map_direction_item.dart';
 
 class AroundShelterPreview extends StatelessWidget {
@@ -56,7 +55,7 @@ class AroundShelterPreview extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  "${calculateDistance(startLatitude,startLongitude,endLatitude,endLongitude)}m",
+                  "${Geolocator.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude).round()}m",
                   style: DaepiroTextStyle.body_2_m.copyWith(
                     color: DaepiroColorStyle.o_500,
                   ),

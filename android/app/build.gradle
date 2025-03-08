@@ -1,8 +1,6 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
     id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -20,6 +18,12 @@ def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 
 def getBaseUrl(properties, String propertyBaseUrl) {
     return properties.getProperty(propertyBaseUrl)
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 android {
@@ -46,18 +50,16 @@ android {
         manifestPlaceholders["naverClient"] = "${getBaseUrl(localProperties, "NAVER_CLIENT")}"
         manifestPlaceholders["naverSecret"] = "${getBaseUrl(localProperties, "NAVER_SECRET")}"
         manifestPlaceholders["naverMapClientId"] = "${getBaseUrl(localProperties, "NAVER_MAP_CLIENTID")}"
-
     }
 
     signingConfigs {
         release {
-            def properties = new Properties()
-            properties.load(new FileInputStream(file("../key/key.properties")))
-
-            keyAlias properties["keyAlias"]
-            storeFile properties["../key/keystore.jks"]
-            storePassword properties["1q2w3e4r"]
-            keyPassword properties["1q2w3e4r"]
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                keyPassword keystoreProperties['keyPassword']
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
@@ -71,3 +73,5 @@ android {
 flutter {
     source = "../.."
 }
+
+
