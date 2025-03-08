@@ -92,11 +92,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
         );
       } else {
         // 위치 권한 X
-
+        getHomeStatus();
       }
     } else {
       // 시스템 위치 OFF
-
+      getHomeStatus();
     }
   }
 

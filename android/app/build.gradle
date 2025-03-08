@@ -50,6 +50,7 @@ android {
         manifestPlaceholders["naverClient"] = "${getBaseUrl(localProperties, "NAVER_CLIENT")}"
         manifestPlaceholders["naverSecret"] = "${getBaseUrl(localProperties, "NAVER_SECRET")}"
         manifestPlaceholders["naverMapClientId"] = "${getBaseUrl(localProperties, "NAVER_MAP_CLIENTID")}"
+
     }
 
     signingConfigs {
@@ -73,5 +74,3 @@ android {
 flutter {
     source = "../.."
 }
-
-
