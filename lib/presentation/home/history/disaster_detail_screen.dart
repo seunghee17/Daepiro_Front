@@ -246,7 +246,8 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                               address: viewModel.shelterLocation,
                                               earthquakeShelterList: viewModel.earthquakeShelterList,
                                               tsunamiShelterList: viewModel.tsunamiShelterList,
-                                              civilShelterList: viewModel.civilShelterList
+                                              civilShelterList: viewModel.civilShelterList,
+                                              temperatureShelterList: viewModel.temperatureShelterList,
                                           )
                                       );
                                     },

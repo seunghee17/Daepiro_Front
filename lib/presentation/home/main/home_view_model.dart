@@ -39,12 +39,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
       );
 
-      state = state.copyWith(
-          isLoading: false,
-          isOccurred: response.data?.isOccurred ?? false
-      );
-
       if (response.code == 1000) {
+        state = state.copyWith(
+            isLoading: false,
+            isOccurred: response.data?.isOccurred ?? false
+        );
+
         if (response.data!.isOccurred == true) {
           getHomeDisasterFeed();
           getHomeDisasterHistory();
@@ -64,6 +64,48 @@ class HomeViewModel extends StateNotifier<HomeState> {
       print('재난 발생상황 조회 에러: $error');
     }
   }
+
+  Future<void> getHomeStatusRe(bool nowIsOccurred) async {
+    // print("리즘");
+    state = state.copyWith(
+        isLoading: true
+    );
+
+    try {
+      final response = await ref.read(
+          getHomeStatusUseCaseProvider(GetHomeStatusUseCase()).future
+      );
+
+      state = state.copyWith(
+          isLoading: false,
+          isOccurred: response.data?.isOccurred ?? false
+      );
+
+      if (response.code == 1000) {
+        if (nowIsOccurred) {
+          if (response.data!.isOccurred == false) {
+            loadNickname();
+            getHomeDisasterHistory();
+            getPopularPostList(category: "");
+            getPopularPostList(category: "LIFE");
+            getPopularPostList(category: "TRAFFIC");
+            getPopularPostList(category: "SAFE");
+            getPopularPostList(category: "OTHER");
+            getDisasterContentsList();
+            getSponsorList();
+          }
+        } else {
+          if (response.data!.isOccurred == true) {
+            getHomeDisasterFeed();
+            getHomeDisasterHistory();
+          }
+        }
+      }
+    } catch (error) {
+      print('재난 발생상황 조회 에러: $error');
+    }
+  }
+
 
   Future<void> loadNickname() async {
     final response = await ref
@@ -93,10 +135,16 @@ class HomeViewModel extends StateNotifier<HomeState> {
       } else {
         // 위치 권한 X
         getHomeStatus();
+        state = state.copyWith(
+            isLoadingShelters: false
+        );
       }
     } else {
       // 시스템 위치 OFF
       getHomeStatus();
+      state = state.copyWith(
+          isLoadingShelters: false
+      );
     }
   }
 
@@ -111,23 +159,28 @@ class HomeViewModel extends StateNotifier<HomeState> {
           )).future
       );
 
-      if (type == "earthquake") {
+      if (type == "civil") {
+        state = state.copyWith(
+            civilShelterList: response.data?.shelters ?? []
+        );
+        selectAroundShelterType(0);
+      } else if (type == "earthquake") {
         state = state.copyWith(
             earthquakeShelterList: response.data?.shelters ?? []
         );
-        selectAroundShelterType(0);
       } else if (type == "tsunami") {
         state = state.copyWith(
             tsunamiShelterList: response.data?.shelters ?? []
         );
-      } else if (type == "civil") {
+      } else if (type == "temperature") {
         state = state.copyWith(
-            civilShelterList: response.data?.shelters ?? []
+            temperatureShelterList: response.data?.shelters ?? []
         );
       }
 
       state = state.copyWith(
         shelterLocation: response.data?.myLocation ?? "",
+          isLoadingShelters: false
       );
     } catch (error) {
       print('주변 대피소 조회 에러: $error');
@@ -137,15 +190,19 @@ class HomeViewModel extends StateNotifier<HomeState> {
   void selectAroundShelterType(int index) {
     if (index == 0) {
       state = state.copyWith(
-          shelterList: state.earthquakeShelterList
+          shelterList: state.civilShelterList
       );
     } else if (index == 1) {
       state = state.copyWith(
-          shelterList: state.tsunamiShelterList
+          shelterList: state.earthquakeShelterList
       );
     } else if (index == 2) {
       state = state.copyWith(
-          shelterList: state.civilShelterList
+          shelterList: state.tsunamiShelterList
+      );
+    } else if (index == 3) {
+      state = state.copyWith(
+          shelterList: state.temperatureShelterList
       );
     }
   }
@@ -165,9 +222,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       getHomeStatus();
 
+      getAroundShelterList(type: "civil");
       getAroundShelterList(type: "earthquake");
       getAroundShelterList(type: "tsunami");
-      getAroundShelterList(type: "civil");
+      getAroundShelterList(type: "temperature");
 
       getUserAddress();
     } catch (error) {

@@ -44,14 +44,18 @@ mixin _$HomeState {
   List<DisastersData> get disastersList => throw _privateConstructorUsedError;
   BehaviorData? get behaviorTip => throw _privateConstructorUsedError;
   List<Notification> get notificationList => throw _privateConstructorUsedError;
+  bool get isLoadingShelters => throw _privateConstructorUsedError;
   String get shelterLocation => throw _privateConstructorUsedError;
   List<Shelters> get shelterList =>
       throw _privateConstructorUsedError; // 주변 대피소 리스트
+  List<Shelters> get civilShelterList =>
+      throw _privateConstructorUsedError; // 주변 대피소 리스트(민방위)
   List<Shelters> get earthquakeShelterList =>
       throw _privateConstructorUsedError; // 주변 대피소 리스트(지진)
   List<Shelters> get tsunamiShelterList =>
-      throw _privateConstructorUsedError; // 주변 대피소 리스트(수해)
-  List<Shelters> get civilShelterList => throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; // 주변 대피소 리스트(지진해일)
+  List<Shelters> get temperatureShelterList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -88,11 +92,13 @@ abstract class $HomeStateCopyWith<$Res> {
       List<DisastersData> disastersList,
       BehaviorData? behaviorTip,
       List<Notification> notificationList,
+      bool isLoadingShelters,
       String shelterLocation,
       List<Shelters> shelterList,
+      List<Shelters> civilShelterList,
       List<Shelters> earthquakeShelterList,
       List<Shelters> tsunamiShelterList,
-      List<Shelters> civilShelterList});
+      List<Shelters> temperatureShelterList});
 }
 
 /// @nodoc
@@ -132,11 +138,13 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? disastersList = null,
     Object? behaviorTip = freezed,
     Object? notificationList = null,
+    Object? isLoadingShelters = null,
     Object? shelterLocation = null,
     Object? shelterList = null,
+    Object? civilShelterList = null,
     Object? earthquakeShelterList = null,
     Object? tsunamiShelterList = null,
-    Object? civilShelterList = null,
+    Object? temperatureShelterList = null,
   }) {
     return _then(_value.copyWith(
       latitude: null == latitude
@@ -235,6 +243,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.notificationList
           : notificationList // ignore: cast_nullable_to_non_nullable
               as List<Notification>,
+      isLoadingShelters: null == isLoadingShelters
+          ? _value.isLoadingShelters
+          : isLoadingShelters // ignore: cast_nullable_to_non_nullable
+              as bool,
       shelterLocation: null == shelterLocation
           ? _value.shelterLocation
           : shelterLocation // ignore: cast_nullable_to_non_nullable
@@ -242,6 +254,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       shelterList: null == shelterList
           ? _value.shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      civilShelterList: null == civilShelterList
+          ? _value.civilShelterList
+          : civilShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
       earthquakeShelterList: null == earthquakeShelterList
           ? _value.earthquakeShelterList
@@ -251,9 +267,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.tsunamiShelterList
           : tsunamiShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
-      civilShelterList: null == civilShelterList
-          ? _value.civilShelterList
-          : civilShelterList // ignore: cast_nullable_to_non_nullable
+      temperatureShelterList: null == temperatureShelterList
+          ? _value.temperatureShelterList
+          : temperatureShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
     ) as $Val);
   }
@@ -292,11 +308,13 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       List<DisastersData> disastersList,
       BehaviorData? behaviorTip,
       List<Notification> notificationList,
+      bool isLoadingShelters,
       String shelterLocation,
       List<Shelters> shelterList,
+      List<Shelters> civilShelterList,
       List<Shelters> earthquakeShelterList,
       List<Shelters> tsunamiShelterList,
-      List<Shelters> civilShelterList});
+      List<Shelters> temperatureShelterList});
 }
 
 /// @nodoc
@@ -334,11 +352,13 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? disastersList = null,
     Object? behaviorTip = freezed,
     Object? notificationList = null,
+    Object? isLoadingShelters = null,
     Object? shelterLocation = null,
     Object? shelterList = null,
+    Object? civilShelterList = null,
     Object? earthquakeShelterList = null,
     Object? tsunamiShelterList = null,
-    Object? civilShelterList = null,
+    Object? temperatureShelterList = null,
   }) {
     return _then(_$HomeStateImpl(
       latitude: null == latitude
@@ -437,6 +457,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._notificationList
           : notificationList // ignore: cast_nullable_to_non_nullable
               as List<Notification>,
+      isLoadingShelters: null == isLoadingShelters
+          ? _value.isLoadingShelters
+          : isLoadingShelters // ignore: cast_nullable_to_non_nullable
+              as bool,
       shelterLocation: null == shelterLocation
           ? _value.shelterLocation
           : shelterLocation // ignore: cast_nullable_to_non_nullable
@@ -444,6 +468,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       shelterList: null == shelterList
           ? _value._shelterList
           : shelterList // ignore: cast_nullable_to_non_nullable
+              as List<Shelters>,
+      civilShelterList: null == civilShelterList
+          ? _value._civilShelterList
+          : civilShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
       earthquakeShelterList: null == earthquakeShelterList
           ? _value._earthquakeShelterList
@@ -453,9 +481,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._tsunamiShelterList
           : tsunamiShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
-      civilShelterList: null == civilShelterList
-          ? _value._civilShelterList
-          : civilShelterList // ignore: cast_nullable_to_non_nullable
+      temperatureShelterList: null == temperatureShelterList
+          ? _value._temperatureShelterList
+          : temperatureShelterList // ignore: cast_nullable_to_non_nullable
               as List<Shelters>,
     ));
   }
@@ -489,11 +517,13 @@ class _$HomeStateImpl implements _HomeState {
       final List<DisastersData> disastersList = const [],
       this.behaviorTip = null,
       final List<Notification> notificationList = const [],
+      this.isLoadingShelters = true,
       this.shelterLocation = "",
       final List<Shelters> shelterList = const [],
+      final List<Shelters> civilShelterList = const [],
       final List<Shelters> earthquakeShelterList = const [],
       final List<Shelters> tsunamiShelterList = const [],
-      final List<Shelters> civilShelterList = const []})
+      final List<Shelters> temperatureShelterList = const []})
       : _disasterHistoryList = disasterHistoryList,
         _popularPostList = popularPostList,
         _allPopularPostList = allPopularPostList,
@@ -502,9 +532,10 @@ class _$HomeStateImpl implements _HomeState {
         _disastersList = disastersList,
         _notificationList = notificationList,
         _shelterList = shelterList,
+        _civilShelterList = civilShelterList,
         _earthquakeShelterList = earthquakeShelterList,
         _tsunamiShelterList = tsunamiShelterList,
-        _civilShelterList = civilShelterList;
+        _temperatureShelterList = temperatureShelterList;
 
   @override
   @JsonKey()
@@ -630,6 +661,9 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   @JsonKey()
+  final bool isLoadingShelters;
+  @override
+  @JsonKey()
   final String shelterLocation;
   final List<Shelters> _shelterList;
   @override
@@ -641,8 +675,20 @@ class _$HomeStateImpl implements _HomeState {
   }
 
 // 주변 대피소 리스트
-  final List<Shelters> _earthquakeShelterList;
+  final List<Shelters> _civilShelterList;
 // 주변 대피소 리스트
+  @override
+  @JsonKey()
+  List<Shelters> get civilShelterList {
+    if (_civilShelterList is EqualUnmodifiableListView)
+      return _civilShelterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_civilShelterList);
+  }
+
+// 주변 대피소 리스트(민방위)
+  final List<Shelters> _earthquakeShelterList;
+// 주변 대피소 리스트(민방위)
   @override
   @JsonKey()
   List<Shelters> get earthquakeShelterList {
@@ -664,21 +710,21 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_tsunamiShelterList);
   }
 
-// 주변 대피소 리스트(수해)
-  final List<Shelters> _civilShelterList;
-// 주변 대피소 리스트(수해)
+// 주변 대피소 리스트(지진해일)
+  final List<Shelters> _temperatureShelterList;
+// 주변 대피소 리스트(지진해일)
   @override
   @JsonKey()
-  List<Shelters> get civilShelterList {
-    if (_civilShelterList is EqualUnmodifiableListView)
-      return _civilShelterList;
+  List<Shelters> get temperatureShelterList {
+    if (_temperatureShelterList is EqualUnmodifiableListView)
+      return _temperatureShelterList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_civilShelterList);
+    return EqualUnmodifiableListView(_temperatureShelterList);
   }
 
   @override
   String toString() {
-    return 'HomeState(latitude: $latitude, longitude: $longitude, location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, disasterInfo: $disasterInfo, disasterBehaviorTip: $disasterBehaviorTip, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, historyIsLoading: $historyIsLoading, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList, shelterLocation: $shelterLocation, shelterList: $shelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, civilShelterList: $civilShelterList)';
+    return 'HomeState(latitude: $latitude, longitude: $longitude, location: $location, nickname: $nickname, isLoading: $isLoading, isOccurred: $isOccurred, disasterInfo: $disasterInfo, disasterBehaviorTip: $disasterBehaviorTip, selectedPopularPostCategory: $selectedPopularPostCategory, selectedContentsCategory: $selectedContentsCategory, isLoadingDisasterHistory: $isLoadingDisasterHistory, disasterHistoryList: $disasterHistoryList, isLoadingPopularPost: $isLoadingPopularPost, popularPostList: $popularPostList, allPopularPostList: $allPopularPostList, isLoadingContents: $isLoadingContents, contentsList: $contentsList, isLoadingSponsor: $isLoadingSponsor, sponsorList: $sponsorList, historyIsLoading: $historyIsLoading, selectedDisasterHistoryType: $selectedDisasterHistoryType, disastersList: $disastersList, behaviorTip: $behaviorTip, notificationList: $notificationList, isLoadingShelters: $isLoadingShelters, shelterLocation: $shelterLocation, shelterList: $shelterList, civilShelterList: $civilShelterList, earthquakeShelterList: $earthquakeShelterList, tsunamiShelterList: $tsunamiShelterList, temperatureShelterList: $temperatureShelterList)';
   }
 
   @override
@@ -736,13 +782,15 @@ class _$HomeStateImpl implements _HomeState {
                 other.behaviorTip == behaviorTip) &&
             const DeepCollectionEquality()
                 .equals(other._notificationList, _notificationList) &&
+            (identical(other.isLoadingShelters, isLoadingShelters) ||
+                other.isLoadingShelters == isLoadingShelters) &&
             (identical(other.shelterLocation, shelterLocation) ||
                 other.shelterLocation == shelterLocation) &&
-            const DeepCollectionEquality()
-                .equals(other._shelterList, _shelterList) &&
+            const DeepCollectionEquality().equals(other._shelterList, _shelterList) &&
+            const DeepCollectionEquality().equals(other._civilShelterList, _civilShelterList) &&
             const DeepCollectionEquality().equals(other._earthquakeShelterList, _earthquakeShelterList) &&
             const DeepCollectionEquality().equals(other._tsunamiShelterList, _tsunamiShelterList) &&
-            const DeepCollectionEquality().equals(other._civilShelterList, _civilShelterList));
+            const DeepCollectionEquality().equals(other._temperatureShelterList, _temperatureShelterList));
   }
 
   @override
@@ -772,11 +820,13 @@ class _$HomeStateImpl implements _HomeState {
         const DeepCollectionEquality().hash(_disastersList),
         behaviorTip,
         const DeepCollectionEquality().hash(_notificationList),
+        isLoadingShelters,
         shelterLocation,
         const DeepCollectionEquality().hash(_shelterList),
+        const DeepCollectionEquality().hash(_civilShelterList),
         const DeepCollectionEquality().hash(_earthquakeShelterList),
         const DeepCollectionEquality().hash(_tsunamiShelterList),
-        const DeepCollectionEquality().hash(_civilShelterList)
+        const DeepCollectionEquality().hash(_temperatureShelterList)
       ]);
 
   @JsonKey(ignore: true)
@@ -812,11 +862,13 @@ abstract class _HomeState implements HomeState {
       final List<DisastersData> disastersList,
       final BehaviorData? behaviorTip,
       final List<Notification> notificationList,
+      final bool isLoadingShelters,
       final String shelterLocation,
       final List<Shelters> shelterList,
+      final List<Shelters> civilShelterList,
       final List<Shelters> earthquakeShelterList,
       final List<Shelters> tsunamiShelterList,
-      final List<Shelters> civilShelterList}) = _$HomeStateImpl;
+      final List<Shelters> temperatureShelterList}) = _$HomeStateImpl;
 
   @override
   double get latitude;
@@ -867,15 +919,19 @@ abstract class _HomeState implements HomeState {
   @override
   List<Notification> get notificationList;
   @override
+  bool get isLoadingShelters;
+  @override
   String get shelterLocation;
   @override
   List<Shelters> get shelterList;
   @override // 주변 대피소 리스트
+  List<Shelters> get civilShelterList;
+  @override // 주변 대피소 리스트(민방위)
   List<Shelters> get earthquakeShelterList;
   @override // 주변 대피소 리스트(지진)
   List<Shelters> get tsunamiShelterList;
-  @override // 주변 대피소 리스트(수해)
-  List<Shelters> get civilShelterList;
+  @override // 주변 대피소 리스트(지진해일)
+  List<Shelters> get temperatureShelterList;
   @override
   @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>

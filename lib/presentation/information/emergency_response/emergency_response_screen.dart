@@ -80,36 +80,51 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                   ],
                 ),
               ),
-              TabBar(
-                controller: _tabController,
-                labelColor: DaepiroColorStyle.g_800,
-                labelStyle: DaepiroTextStyle.body_1_m,
-                labelPadding: const EdgeInsets.symmetric(vertical: 12),
-                unselectedLabelColor: DaepiroColorStyle.g_300,
-                unselectedLabelStyle: DaepiroTextStyle.body_1_m,
-                indicatorColor: DaepiroColorStyle.g_800,
-                dividerColor: DaepiroColorStyle.black.withOpacity(0.1),
-                dividerHeight: 3,
-                indicatorPadding: const EdgeInsets.symmetric(horizontal: 8),
-                indicatorWeight: 3,
-                indicatorSize: TabBarIndicatorSize.tab,
-                tabs: const [
-                  Tab(child: Text("심폐소생술")),
-                  Tab(child: Text("응급처치")),
-                  Tab(child: Text("소화기")),
-                  Tab(child: Text("하임리히"))
-                ],
+              const SizedBox(height: 4),
+              Container(
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: TabBar(
+                        controller: _tabController,
+                        labelColor: DaepiroColorStyle.g_800,
+                        labelStyle: DaepiroTextStyle.body_1_m,
+                        labelPadding: const EdgeInsets.symmetric(vertical: 12),
+                        unselectedLabelColor: DaepiroColorStyle.g_300,
+                        unselectedLabelStyle: DaepiroTextStyle.body_1_m,
+                        indicatorColor: DaepiroColorStyle.g_800,
+                        dividerColor: DaepiroColorStyle.white,
+                        dividerHeight: 3,
+                        indicatorPadding: const EdgeInsets.symmetric(horizontal: 8),
+                        indicatorWeight: 3,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        tabs: const [
+                          Tab(child: Text("심폐소생술")),
+                          Tab(child: Text("응급처치")),
+                          Tab(child: Text("소화기")),
+                          Tab(child: Text("하임리히"))
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 0, right: 0, bottom: 0, 
+                      child: Container(
+                        height: 3, 
+                        color: DaepiroColorStyle.black.withOpacity(0.1),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               ExpandablePageView(
                 controller: _responsePageController,
                 scrollDirection: Axis.horizontal,
                 children: [
                   for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
-                    Flexible(
-                      child: ItemEmergencyResponse(
-                          tabIndex: selectedTabIndex,
-                          pageIndex: i
-                      ),
+                    ItemEmergencyResponse(
+                        tabIndex: selectedTabIndex,
+                        pageIndex: i
                     )
                 ],
               ),

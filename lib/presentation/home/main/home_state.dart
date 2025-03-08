@@ -51,11 +51,13 @@ sealed class HomeState with _$HomeState {
 
     @Default([]) List<Notification> notificationList,
 
+    @Default(true) bool isLoadingShelters,
     @Default("") String shelterLocation,
     @Default([]) List<Shelters> shelterList,    // 주변 대피소 리스트
+    @Default([]) List<Shelters> civilShelterList,    // 주변 대피소 리스트(민방위)
     @Default([]) List<Shelters> earthquakeShelterList,    // 주변 대피소 리스트(지진)
-    @Default([]) List<Shelters> tsunamiShelterList,    // 주변 대피소 리스트(수해)
-    @Default([]) List<Shelters> civilShelterList,    // 주변 대피소 리스트(전쟁)
+    @Default([]) List<Shelters> tsunamiShelterList,    // 주변 대피소 리스트(지진해일)
+    @Default([]) List<Shelters> temperatureShelterList,    // 주변 대피소 리스트(쉼터)
   }) = _HomeState;
 }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../const/utils.dart';
 import 'map_direction_item.dart';
@@ -12,6 +14,7 @@ class NotLocationPermissionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(vertical: 44),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -27,16 +30,21 @@ class NotLocationPermissionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
-              color: DaepiroColorStyle.white,
-            ),
-            child:  Text(
-              "권한 허용하기",
-              style: DaepiroTextStyle.body_2_m.copyWith(
-                color: DaepiroColorStyle.g_600,
+          GestureDetector(
+            onTap: () {
+              openAppSettings();
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: DaepiroColorStyle.white,
+              ),
+              child:  Text(
+                "권한 허용하기",
+                style: DaepiroTextStyle.body_2_m.copyWith(
+                  color: DaepiroColorStyle.g_600,
+                ),
               ),
             ),
           )
