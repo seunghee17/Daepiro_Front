@@ -13,7 +13,7 @@ import UIKit
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
     
-//    override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOㄷptionsKey : Any] = [:]) -> Bool {
+//    override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 //        var applicationResult = false
 //        if (!applicationResult) {
 //           applicationResult = NaverThirdPartyLoginConnection.getSharedInstance().application(app, open: url, options: options)
