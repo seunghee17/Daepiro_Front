@@ -231,34 +231,35 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> with Wi
                                     ),
                                   ),
                                   const Spacer(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      context.push(
-                                          '/aroundShelter',
-                                          extra: AroundShelterExtra(
-                                              latitude: viewModel.latitude,
-                                              longitude: viewModel.longitude,
-                                              address: viewModel.shelterLocation,
-                                              earthquakeShelterList: viewModel.earthquakeShelterList,
-                                              tsunamiShelterList: viewModel.tsunamiShelterList,
-                                              civilShelterList: viewModel.civilShelterList,
-                                              temperatureShelterList: viewModel.temperatureShelterList,
-                                          )
-                                      );
-                                    },
-                                    child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "더보기",
-                                            style: DaepiroTextStyle.body_2_m.copyWith(
-                                              color: DaepiroColorStyle.o_400,
+                                  if (viewModel.shelterList.isNotEmpty)
+                                    GestureDetector(
+                                      onTap: () {
+                                        context.push(
+                                            '/aroundShelter',
+                                            extra: AroundShelterExtra(
+                                                latitude: viewModel.latitude,
+                                                longitude: viewModel.longitude,
+                                                address: viewModel.shelterLocation,
+                                                earthquakeShelterList: viewModel.earthquakeShelterList,
+                                                tsunamiShelterList: viewModel.tsunamiShelterList,
+                                                civilShelterList: viewModel.civilShelterList,
+                                                temperatureShelterList: viewModel.temperatureShelterList,
+                                            )
+                                        );
+                                      },
+                                      child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "더보기",
+                                              style: DaepiroTextStyle.body_2_m.copyWith(
+                                                color: DaepiroColorStyle.o_400,
+                                              ),
                                             ),
-                                          ),
-                                          SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                        ]
-                                    ),
-                                  )
+                                            SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                          ]
+                                      ),
+                                    )
                                 ]
                             ),
                           ),
