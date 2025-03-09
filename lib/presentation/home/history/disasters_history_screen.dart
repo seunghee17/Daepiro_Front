@@ -82,7 +82,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                                   text: viewModel.disastersList[i].region ?? "",
                                   onPressed: () {
                                     _scrollController.animateTo(
-                                      0.0, // 최상단
+                                      0.0,
                                       duration: const Duration(milliseconds: 300),
                                       curve: Curves.easeInOut,
                                     );
@@ -100,54 +100,79 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                             padding: const EdgeInsets.only(top: 100),
                             child: const Center(child: CircularProgressIndicator())
                         )
-                      : Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              itemCount: viewModel.disastersList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return Column(
-                                        children: [
-                                          DisasterHistoryItem(
-                                            icon: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType ?? "",
-                                            title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난") ?? "",
-                                            contents: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content ?? "",
-                                            date: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time ?? "",
-                                            isVisibleDate: index == 0
-                                                ? true
-                                                : index != 0 && (
-                                                viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time?.split("T")[0]
-                                                    != viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index-1].time?.split("T")[0]
-                                            ),
-                                            onClick: () {
-                                              context.push(
-                                                  '/disasterDetail',
-                                                  extra: Disasters(
-                                                    disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
-                                                    disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,
-                                                    title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난"),
-                                                    content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
-                                                    time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,
-                                                  )
-                                              );
-                                            },
-                                          ),
-                                          const SizedBox(height: 8),
-                                        ],
-                                      );
-                                    }
-                                );
-                              },
-                            ),
+                      : viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters!.isNotEmpty
+                          ? Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  itemCount: viewModel.disastersList.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return Column(
+                                            children: [
+                                              DisasterHistoryItem(
+                                                icon: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType ?? "",
+                                                title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난") ?? "",
+                                                contents: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content ?? "",
+                                                date: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time ?? "",
+                                                isVisibleDate: index == 0
+                                                    ? true
+                                                    : index != 0 && (
+                                                    viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time?.split("T")[0]
+                                                        != viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index-1].time?.split("T")[0]
+                                                ),
+                                                onClick: () {
+                                                  context.push(
+                                                      '/disasterDetail',
+                                                      extra: Disasters(
+                                                        disasterType: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterType,
+                                                        disasterTypeId: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].disasterTypeId,
+                                                        title: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].title?.replaceAll("기타", "기타 재난"),
+                                                        content: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].content,
+                                                        time: viewModel.disastersList[viewModel.selectedDisasterHistoryType].disasters?[index].time,
+                                                      )
+                                                  );
+                                                },
+                                              ),
+                                              const SizedBox(height: 8),
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  },
+                                ),
+                              )
+                            )
+                          : Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/icon_warning_large.svg',
+                                    width: 48,
+                                    height: 48,
+                                    colorFilter: const ColorFilter.mode(
+                                        DaepiroColorStyle.g_75,
+                                        BlendMode.srcIn
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                      "최근 한달 간\n재난문자 내역이 없어요",
+                                      style: DaepiroTextStyle.h6.copyWith(
+                                        color: DaepiroColorStyle.g_300,
+                                      ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
                           )
-                      )
-
                 ],
               )
           ),

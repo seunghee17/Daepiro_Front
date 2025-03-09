@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/home/component/not_location_permission_widget.dart';
 import 'package:daepiro/presentation/information/component/disaster_contents_main_item.dart';
 import 'package:daepiro/presentation/information/main/information_view_model.dart';
 import 'package:daepiro/presentation/information/shelter/around_shelter_extra.dart';
@@ -156,7 +157,8 @@ class InformationScreen extends ConsumerWidget {
                                               address: viewModel.myLocation,
                                               earthquakeShelterList: viewModel.earthquakeShelterList,
                                               tsunamiShelterList: viewModel.tsunamiShelterList,
-                                              civilShelterList: viewModel.civilShelterList
+                                              civilShelterList: viewModel.civilShelterList,
+                                              temperatureShelterList: viewModel.temperatureShelterList,
                                           )
                                       );
                                     },
@@ -225,6 +227,11 @@ class InformationScreen extends ConsumerWidget {
                                         ),
                                       );
                                     }
+                                )
+                              else
+                                Container(
+                                    padding: const EdgeInsets.only(top: 16),
+                                    child: const NotLocationPermissionWidget()
                                 )
                           ],
                         ),

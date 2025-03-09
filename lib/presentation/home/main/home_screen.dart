@@ -11,7 +11,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: const Center(child: CircularProgressIndicator())
                 )
               : viewModel.isOccurred
-                  ? DisasterHomeScreen()
-                  : NormalHomeScreen()
+                  ? const DisasterHomeScreen()
+                  : const NormalHomeScreen()
         )
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      ref.read(homeStateNotifierProvider.notifier).getHomeStatusRe(
+          ref.watch(homeStateNotifierProvider).isOccurred
+      );
+    }
   }
 }
