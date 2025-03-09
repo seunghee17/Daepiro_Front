@@ -23,15 +23,19 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
     if (index == 0) {
       state = state.copyWith(
-          shelterList: state.earthquakeShelterList
+          shelterList: state.civilShelterList
       );
     } else if (index == 1) {
       state = state.copyWith(
-          shelterList: state.tsunamiShelterList
+          shelterList: state.earthquakeShelterList
       );
     } else if (index == 2) {
       state = state.copyWith(
-          shelterList: state.civilShelterList
+          shelterList: state.tsunamiShelterList
+      );
+    } else if (index == 3) {
+      state = state.copyWith(
+          shelterList: state.temperatureShelterList
       );
     }
   }
@@ -42,23 +46,29 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
     if (isEnableLocation) {
       permission = await Geolocator.checkPermission();
-      if (permission != LocationPermission.denied ||
-          permission != LocationPermission.deniedForever) {
-        Position location = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        Position location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
+        getAroundShelterList(type: "civil");
         getAroundShelterList(type: "earthquake");
         getAroundShelterList(type: "tsunami");
-        getAroundShelterList(type: "civil");
+        getAroundShelterList(type: "temperature");
 
         state = state.copyWith(
             latitude: location.latitude,
             longitude: location.longitude
         );
       } else {
-        // 위치 비활성화
-
+        // 위치 권한 X
+        state = state.copyWith(
+            isLoadingShelters: false
+        );
       }
+    } else {
+      // 시스템 위치 X
+      state = state.copyWith(
+          isLoadingShelters: false
+      );
     }
   }
 
@@ -97,18 +107,22 @@ class InformationViewModel extends StateNotifier<InformationState> {
           )).future
       );
 
-      if (type == "earthquake") {
+      if (type == "civil") {
+        state = state.copyWith(
+            civilShelterList: response.data?.shelters ?? []
+        );
+        selectAroundShelterType(0);
+      } else if (type == "earthquake") {
         state = state.copyWith(
             earthquakeShelterList: response.data?.shelters ?? []
         );
-        selectAroundShelterType(0);
       } else if (type == "tsunami") {
         state = state.copyWith(
             tsunamiShelterList: response.data?.shelters ?? []
         );
-      } else if (type == "civil") {
+      } else if (type == "temperature") {
         state = state.copyWith(
-            civilShelterList: response.data?.shelters ?? []
+            temperatureShelterList: response.data?.shelters ?? []
         );
       }
 

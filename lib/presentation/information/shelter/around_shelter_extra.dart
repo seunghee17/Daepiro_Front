@@ -7,6 +7,7 @@ class AroundShelterExtra {
   final List<Shelters> earthquakeShelterList;
   final List<Shelters> tsunamiShelterList;
   final List<Shelters> civilShelterList;
+  final List<Shelters> temperatureShelterList;
 
   AroundShelterExtra({
     required this.latitude,
@@ -15,5 +16,6 @@ class AroundShelterExtra {
     required this.earthquakeShelterList,
     required this.tsunamiShelterList,
     required this.civilShelterList,
+    required this.temperatureShelterList,
   });
 }

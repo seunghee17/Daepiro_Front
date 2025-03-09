@@ -12,9 +12,10 @@ sealed class InformationState with _$InformationState {
     @Default(0) int selectedAroundShelterType,
     @Default("") String myLocation,
     @Default([]) List<Shelters> shelterList,    // 주변 대피소 리스트
+    @Default([]) List<Shelters> civilShelterList,    // 주변 대피소 리스트(민방위)
     @Default([]) List<Shelters> earthquakeShelterList,    // 주변 대피소 리스트(지진)
-    @Default([]) List<Shelters> tsunamiShelterList,    // 주변 대피소 리스트(수해)
-    @Default([]) List<Shelters> civilShelterList,    // 주변 대피소 리스트(전쟁)
+    @Default([]) List<Shelters> tsunamiShelterList,    // 주변 대피소 리스트(지진해일)
+    @Default([]) List<Shelters> temperatureShelterList,    // 주변 대피소 리스트(쉼터)
     @Default(0) double latitude,
     @Default(0) double longitude,
   }) = _InformationState;

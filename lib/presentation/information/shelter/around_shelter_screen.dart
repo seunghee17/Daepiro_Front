@@ -90,11 +90,13 @@ class _AroundShelterScreen extends State<AroundShelterScreen> {
                                   _selectedDisasterType = index;
 
                                   if (index == 0) {
-                                    shelterList = widget.extra.earthquakeShelterList;
-                                  } else if (index == 1) {
-                                    shelterList = widget.extra.tsunamiShelterList;
-                                  } else if (index == 2) {
                                     shelterList = widget.extra.civilShelterList;
+                                  } else if (index == 1) {
+                                    shelterList = widget.extra.earthquakeShelterList;
+                                  } else if (index == 2) {
+                                    shelterList = widget.extra.tsunamiShelterList;
+                                  } else if (index == 3) {
+                                    shelterList = widget.extra.temperatureShelterList;
                                   }
                                 });
 
