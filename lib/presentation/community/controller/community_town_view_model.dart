@@ -80,6 +80,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   ///동네생활 게시글 리스트
   Future<void> loadContent() async {
+    print('게시글이 다시 로드되어야함 ${state.townCategory}');
     if (!state.isDongNaeHasMore) return;
     state = state.copyWith(isDongNaeLoading: true);
     final newPage = _currentPage + 1;
