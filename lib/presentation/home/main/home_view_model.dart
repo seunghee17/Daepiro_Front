@@ -66,7 +66,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> getHomeStatusRe(bool nowIsOccurred) async {
-    // print("리즘");
     state = state.copyWith(
         isLoading: true
     );
@@ -119,14 +118,13 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     if (isEnableLocation) {
       permission = await Geolocator.checkPermission();
-      if (permission != LocationPermission.denied ||
-          permission != LocationPermission.deniedForever) {
-        Position location = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
-            registerUserLocation(
-                latitude: location.latitude.toString(),
-                longitude: location.longitude.toString()
-            );
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        Position location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+        registerUserLocation(
+            latitude: location.latitude.toString(),
+            longitude: location.longitude.toString()
+        );
 
         state = state.copyWith(
             latitude: location.latitude,
@@ -136,14 +134,16 @@ class HomeViewModel extends StateNotifier<HomeState> {
         // 위치 권한 X
         getHomeStatus();
         state = state.copyWith(
-            isLoadingShelters: false
+          isLoadingShelters: false,
+          location: "위치 권한을 허용해주세요."
         );
       }
     } else {
       // 시스템 위치 OFF
       getHomeStatus();
       state = state.copyWith(
-          isLoadingShelters: false
+          isLoadingShelters: false,
+          location: "위치 권한을 허용해주세요."
       );
     }
   }

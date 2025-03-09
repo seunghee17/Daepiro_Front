@@ -46,10 +46,8 @@ class InformationViewModel extends StateNotifier<InformationState> {
 
     if (isEnableLocation) {
       permission = await Geolocator.checkPermission();
-      if (permission != LocationPermission.denied ||
-          permission != LocationPermission.deniedForever) {
-        Position location = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        Position location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
         getAroundShelterList(type: "civil");
         getAroundShelterList(type: "earthquake");

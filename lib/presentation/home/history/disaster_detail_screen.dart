@@ -11,6 +11,7 @@ import '../../const/utils.dart';
 import '../../information/shelter/around_shelter_extra.dart';
 import '../component/action_tip_item.dart';
 import '../component/around_shelter_preview.dart';
+import '../component/not_location_permission_widget.dart';
 import '../main/home_view_model.dart';
 
 class DisasterDetailScreen extends ConsumerStatefulWidget {
@@ -296,30 +297,35 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                               ],
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: ExpandablePageView.builder(
-                                controller: _aroundShelterPageController,
-                                scrollDirection: Axis.horizontal,
-                                padEnds: false,
-                                itemCount: 5,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                      padding: const EdgeInsets.only(top: 16, bottom: 20),
-                                      margin: const EdgeInsets.only(right: 8),
-                                      child: AroundShelterPreview(
-                                          name: viewModel.shelterList[index].name ?? "",
-                                          distinct: viewModel.shelterList[index].distance ?? 0,
-                                          address: viewModel.shelterList[index].address ?? "",
-                                          startLatitude: viewModel.latitude,
-                                          startLongitude: viewModel.longitude,
-                                          endLatitude: viewModel.shelterList[index].latitude ?? 0,
-                                          endLongitude: viewModel.shelterList[index].longitude ?? 0
-                                      )
-                                  );
-                                }
-                            ),
-                          ),
+                          viewModel.shelterList.isNotEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: ExpandablePageView.builder(
+                                      controller: _aroundShelterPageController,
+                                      scrollDirection: Axis.horizontal,
+                                      padEnds: false,
+                                      itemCount: 5,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return Container(
+                                            padding: const EdgeInsets.only(top: 16, bottom: 20),
+                                            margin: const EdgeInsets.only(right: 8),
+                                            child: AroundShelterPreview(
+                                                name: viewModel.shelterList[index].name ?? "",
+                                                distinct: viewModel.shelterList[index].distance ?? 0,
+                                                address: viewModel.shelterList[index].address ?? "",
+                                                startLatitude: viewModel.latitude,
+                                                startLongitude: viewModel.longitude,
+                                                endLatitude: viewModel.shelterList[index].latitude ?? 0,
+                                                endLongitude: viewModel.shelterList[index].longitude ?? 0
+                                            )
+                                        );
+                                      }
+                                  ),
+                                )
+                              : Container(
+                                    padding: const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 20),
+                                    child: const NotLocationPermissionWidget()
+                                )
                         ],
                       )
                     ],

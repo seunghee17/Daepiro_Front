@@ -140,6 +140,13 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
                                                     width: 1,
                                                     color: DaepiroColorStyle.white.withOpacity(0.7),
                                                   ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.white.withOpacity(0.7), // 그림자 색상 및 투명도
+                                                      offset: Offset(0, 4), // X, Y 방향의 그림자 위치 조정
+                                                      blurRadius: 15, // 블러 효과 (Figma에서 15로 설정된 경우)
+                                                    )
+                                                  ],
                                                 ),
                                                 child: Stack(
                                                   children: [

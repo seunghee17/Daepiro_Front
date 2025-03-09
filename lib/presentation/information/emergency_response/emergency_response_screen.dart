@@ -80,7 +80,6 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                   ],
                 ),
               ),
-              const SizedBox(height: 4),
               Container(
                 child: Stack(
                   children: [

@@ -16,7 +16,7 @@ sealed class HomeState with _$HomeState {
   factory HomeState({
     @Default(0) double latitude,
     @Default(0) double longitude,
-    @Default("") String location,
+    @Default("") String location,        // 현재 위치는 ㅇㅇ
     @Default("") String nickname,
 
     @Default(true) bool isLoading,
