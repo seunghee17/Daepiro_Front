@@ -61,10 +61,6 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
                 nickNameTextField(nicknameController, state.nicknameState),
                 if (state.nicknameState != '')
                   nickNamestateText(state.nicknameState),
-                SizedBox(height: 24),
-                Text('계정', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-                SizedBox(height: 8),
-                emailTextField(state.platform)
               ],
             ),
           ),

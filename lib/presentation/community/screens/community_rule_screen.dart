@@ -84,7 +84,7 @@ class CommunityRuleScreen extends ConsumerWidget {
         Text('대피로 커뮤니티 수칙',
         style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),),
         SizedBox(height: 8),
-        Text('2024.09.09', style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_400),),
+        Text('2025.03.01', style: DaepiroTextStyle.caption.copyWith(color: DaepiroColorStyle.g_400),),
         SizedBox(height: 24),
         Text(AppStrings.daepiroCommunityRule, style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_800)),
         SizedBox(height: 36),

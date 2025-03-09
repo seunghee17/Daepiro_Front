@@ -80,7 +80,6 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   ///동네생활 게시글 리스트
   Future<void> loadContent() async {
-    print('게시글이 다시 로드되어야함 ${state.townCategory}');
     if (!state.isDongNaeHasMore) return;
     state = state.copyWith(isDongNaeLoading: true);
     final newPage = _currentPage + 1;
@@ -275,10 +274,18 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
         }
       }
     } else {
+      print('여기서 ${state.choiceImages}');
       for (var image in state.choiceImages) {
-        final file = await image.entity!.originFile;
-        final multiPartFile = await MultipartFile.fromFile(file!.path,
-            filename: file.uri.pathSegments.last);
+        late var multiPartFile;
+        if(image.file == null) {
+          final file = await image.entity!.originFile;
+          multiPartFile = await MultipartFile.fromFile(file!.path,
+              filename: file.uri.pathSegments.last);
+        } else {
+          multiPartFile = await MultipartFile.fromFile(image.file!.path,
+              filename: image.file!.path);
+          print('변혼 값 ${multiPartFile}');
+        }
         multipartFiles.add(multiPartFile);
       }
     }
@@ -326,7 +333,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
             CommunityCheckShowCurrentlocationUsecase(
                 communityCheckCurrentLocationRequest:
                     CommunityCheckCurrentLocationRequest(
-      address: state.selectLongTownAddress,
+      address: state.selectLongTownAddress, //TODO 구까지만 보내기로
       longitude: state.longitude,
       latitude: state.latitude,
     ))).future);

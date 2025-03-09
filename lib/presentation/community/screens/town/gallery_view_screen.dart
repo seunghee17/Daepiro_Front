@@ -45,7 +45,6 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
         final fileSize = await file.length();
         if(totalSize + fileSize > 10 * 1024 * 1024) {
           failSnackbar(context);
-          print('여기서 사이즈 체크 ${totalSize} && ${totalLength}');
           return;
         }
         totalSize += await file.length();
@@ -282,7 +281,6 @@ class gridPhoto extends ConsumerWidget {
     if(file != null) {
       final item = SelectedImage(entity: null, file: file); //카메라로 가져온 이미지는 entiy가 널이다
       onTap(item);
-      GoRouter.of(context).pop();
     }
   }
 

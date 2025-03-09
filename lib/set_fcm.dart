@@ -68,7 +68,7 @@ class SettingFCM {
               priority: Priority.high,
               icon: '@mipmap/ic_launcher',
             ),
-            iOS: DarwinNotificationDetails(sound: 'default'),
+            //iOS: DarwinNotificationDetails(sound: 'default'),
           ),
         );
       }

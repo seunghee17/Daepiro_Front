@@ -130,7 +130,7 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                          '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난입니다.',
+                                          '국가적 위기상황이나 당장 대피가 필요할만큼\n생명에 위협이 되는 재난이에요.',
                                           style: DaepiroTextStyle.body_2_m.copyWith(
                                             color: DaepiroColorStyle.g_800,
                                           )

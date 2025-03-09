@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../data/model/request/set_town_certificate_request.dart';
-import '../../../domain/usecase/community/town_get_certificate_usecase.dart';
 import '../../../domain/usecase/community/town_set_certificate_usecase.dart';
 
 final townCertificateProvider =
@@ -62,6 +61,9 @@ class TownCertificateViewModel extends StateNotifier<TownCertificateState> {
         certificateAddress = address;
       }
     }
+    List<String> parts = certificateAddress.split(' ');
+    parts.removeLast();
+    certificateAddress = parts.join(' ');
     final request = SetTownCertificateRequest(
       longitude: state.longitude,
       latitude: state.latitude,
