@@ -134,21 +134,19 @@ class _BehaviorTipBottomSheetState extends ConsumerState<BehaviorTipBottomSheet>
                             shrinkWrap: true,
                             itemCount: widget.behavior.tips?[selectedDisasterTypeIdx].tips?.length ?? 0,
                             itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
+                              return ActionTipItem(
+                                text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index].$1 ?? "",
+                                isSelected: (viewModel.emergencyBehaviorList + viewModel.commonBehaviorList)
+                                    .firstWhere((b) => b.name == widget.behavior.name, orElse: () => Behavior())
+                                    .tips?[selectedDisasterTypeIdx]
+                                    .tips?[index].$2 ?? false,
+                                onClick: () {
                                   ref.read(behaviorTipsStateNotifierProvider.notifier).selectCheckList(
                                       widget.behavior.name ?? "",
                                       widget.behavior.tips?[selectedDisasterTypeIdx].filter ?? "",
                                       widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index].$1 ?? ""
                                   );
                                 },
-                                child: ActionTipItem(
-                                  text: widget.behavior.tips?[selectedDisasterTypeIdx].tips?[index].$1 ?? "",
-                                  isSelected: (viewModel.emergencyBehaviorList + viewModel.commonBehaviorList)
-                                      .firstWhere((b) => b.name == widget.behavior.name, orElse: () => Behavior())
-                                      .tips?[selectedDisasterTypeIdx]
-                                      .tips?[index].$2 ?? false,
-                                ),
                               );
                             }
                           ),

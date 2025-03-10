@@ -1,4 +1,3 @@
-import 'package:daepiro/presentation/information/contents/disaster_contents_view_model.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -168,15 +167,13 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> with Wi
                                             for (int index = 0; index < viewModel.disasterBehaviorTip!.tips![selectedActionTipType].tips!.length; index++)
                                               Column(
                                                 children: [
-                                                  GestureDetector(
-                                                    onTap: () {
+                                                  ActionTipItem(
+                                                    text: viewModel.disasterBehaviorTip!.tips![selectedActionTipType].tips![index].$1,
+                                                    isSelected: viewModel.disasterBehaviorTip!.tips![selectedActionTipType].tips![index].$2,
+                                                    onClick: () {
                                                       ref.read(homeStateNotifierProvider.notifier)
                                                           .selectCheckListAtDisaster(selectedActionTipType, index);
                                                     },
-                                                    child: ActionTipItem(
-                                                      text: viewModel.disasterBehaviorTip!.tips![selectedActionTipType].tips![index].$1,
-                                                      isSelected: viewModel.disasterBehaviorTip!.tips![selectedActionTipType].tips![index].$2,
-                                                    ),
                                                   ),
                                                 ],
                                               )

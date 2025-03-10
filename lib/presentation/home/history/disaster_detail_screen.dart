@@ -177,14 +177,12 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                           for (int index=0;index<viewModel.behaviorTip!.tips![_selectedActionTipType].tips!.length;index++)
                                             Column(
                                               children: [
-                                                GestureDetector(
-                                                  onTap: () {
+                                                ActionTipItem(
+                                                  text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$1,
+                                                  isSelected: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$2,
+                                                  onClick: () {
                                                     ref.read(homeStateNotifierProvider.notifier).selectCheckList(_selectedActionTipType, index);
                                                   },
-                                                  child: ActionTipItem(
-                                                    text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$1,
-                                                    isSelected: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$2,
-                                                  ),
                                                 ),
                                               ],
                                             )

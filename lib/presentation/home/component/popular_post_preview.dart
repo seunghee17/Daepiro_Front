@@ -31,6 +31,7 @@ class _PopularPostPreviewState extends State<PopularPostPreview> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
+      color: DaepiroColorStyle.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -154,22 +154,20 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                       crossAxisSpacing: 8
                                   ),
                                   itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
+                                    return DisasterType(
+                                      name: viewModel.emergencyBehaviorList[index].name ?? "",
+                                      onClick: () {
                                         showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            useSafeArea: true,
-                                            context: context,
-                                            builder: (context) {
-                                              return BehaviorTipBottomSheet(
-                                                behavior: viewModel.emergencyBehaviorList[index],
-                                              );
-                                            }
+                                          isScrollControlled: true,
+                                          useSafeArea: true,
+                                          context: context,
+                                          builder: (context) {
+                                            return BehaviorTipBottomSheet(
+                                              behavior: viewModel.emergencyBehaviorList[index],
+                                            );
+                                          }
                                         );
                                       },
-                                      child: DisasterType(
-                                          name: viewModel.emergencyBehaviorList[index].name ?? ""
-                                      ),
                                     );
                                   }
                               ),
@@ -218,8 +216,9 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                       crossAxisSpacing: 8
                                   ),
                                   itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
+                                    return DisasterType(
+                                      name: viewModel.commonBehaviorList[index].name ?? "",
+                                      onClick: () {
                                         showModalBottomSheet(
                                             isScrollControlled: true,
                                             useSafeArea: true,
@@ -231,9 +230,6 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                                             }
                                         );
                                       },
-                                      child: DisasterType(
-                                          name: viewModel.commonBehaviorList[index].name ?? ""
-                                      ),
                                     );
                                   }
                               ),
