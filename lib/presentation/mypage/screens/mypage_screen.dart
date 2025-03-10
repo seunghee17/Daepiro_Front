@@ -316,7 +316,7 @@ class MypageScreen extends ConsumerWidget {
       actionWidget: SecondaryFilledButton(
           verticalPadding: 12,
           onPressed: () async {
-            event();
+            await event();
           },
           radius: 8,
           backgroundColor: DaepiroColorStyle.g_700,

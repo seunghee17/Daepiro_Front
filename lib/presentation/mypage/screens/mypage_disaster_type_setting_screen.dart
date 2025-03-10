@@ -68,7 +68,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                         children: [
                           Text(
                             '위급/긴급 재난',
-                            style: DaepiroTextStyle.body_1_b
+                            style: DaepiroTextStyle.h6
                                 .copyWith(color: DaepiroColorStyle.g_900),
                           ),
                           Spacer(),
@@ -134,13 +134,13 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
                       SizedBox(height: 24),
                       Text(
                         '일반 재난',
-                        style: DaepiroTextStyle.body_1_b
+                        style: DaepiroTextStyle.h6
                             .copyWith(color: DaepiroColorStyle.g_900),
                       ),
                       SizedBox(height: 4),
                       Text(
                         '기상 특보와 같이 안전 주의를 요하는 재난이에요.',
-                        style: DaepiroTextStyle.caption
+                        style: DaepiroTextStyle.body_2_m
                             .copyWith(color: DaepiroColorStyle.g_300),
                       ),
                       SizedBox(height: 16),

@@ -33,7 +33,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   LoginViewModel(this.ref) : super(LoginState());
 
-  // 상태를 관리하는 ViewModel 또는 Notifier에서
   Future<SocialLoginTokenResponse?> fetchSocialToken(String platform, String token) async {
     state = state.copyWith(isLoading: true);
     try {
