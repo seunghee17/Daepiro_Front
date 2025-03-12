@@ -172,13 +172,13 @@ String parseDateTime(String timeText) {
 
 //특수문자 판단용
 bool checkForSpecialCharacter(String text) {
-  final regex = RegExp(r'[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]');
+  final regex = RegExp(r'[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+$');
   return !regex.hasMatch(text);
 }
 
 //영문 판단용
 bool checkForNameRule(String text) {
-  final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}]', unicode: true);
+  final pattern = RegExp(r'[a-zA-Z0-9\p{P}\p{S}\s]', unicode: true);
   return pattern.hasMatch(text);
 }
 
