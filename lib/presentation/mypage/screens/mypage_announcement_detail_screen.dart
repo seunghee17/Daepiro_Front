@@ -43,7 +43,7 @@ class MypageAnnouncementDetailScreen extends ConsumerWidget {
                                 contentDetail(state.announcementDetailResponse!),
                                 Spacer(),
                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 0.0),
+                                  padding: const EdgeInsets.only(bottom: 16.0),
                                   child: footerWidget(),
                                 )
                               ],
@@ -74,15 +74,18 @@ class MypageAnnouncementDetailScreen extends ConsumerWidget {
                 ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
         ),
-        Spacer(),
-        Text('공지사항',
-            style:
-            DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-        Spacer(),
-        Container(
-          width: 24,
-          height: 24,
-        )
+        Expanded(
+          child: Text('공지사항',
+              textAlign: TextAlign.center,
+              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
+        ),
+        Opacity(
+          opacity: 0.0,
+          child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+            width: 24,
+            height: 24,
+          ),
+        ),
       ],
     );
   }

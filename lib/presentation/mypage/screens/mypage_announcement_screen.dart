@@ -79,11 +79,17 @@ class MypageAnnouncementScreen extends ConsumerWidget {
                 colorFilter:
                 ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ),
-          Spacer(),
-          Text('공지사항',
-              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
-          Spacer(),
-          SizedBox(width: 24)
+          Expanded(
+            child: Text('공지사항',
+                style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
+          ),
+          Opacity(
+            opacity: 0.0,
+            child: SvgPicture.asset('assets/icons/icon_arrow_left.svg',
+              width: 24,
+              height: 24,
+            ),
+          ),
         ],
       ),
     );
