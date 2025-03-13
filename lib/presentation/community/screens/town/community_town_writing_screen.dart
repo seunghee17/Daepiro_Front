@@ -311,7 +311,7 @@ class CommunityTownWritingState
         decoration: InputDecoration(
           counterText: '',
           isDense: true,
-          hintText: '동네와 관련된 이야기를 주민들과 나누세요.',
+          hintText: '동네생활과 관련된 이야기를 주민들과 나누세요.',
           hintStyle: DaepiroTextStyle.body_2_m
               .copyWith(color: DaepiroColorStyle.g_200),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),

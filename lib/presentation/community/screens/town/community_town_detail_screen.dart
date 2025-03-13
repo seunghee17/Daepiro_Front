@@ -133,7 +133,6 @@ class CommunityTownDetailState
                                                   state.contentDetail.isLiked,
                                                   state.contentDetail
                                                       .likeCount)),
-                                          //Spacer()
                                         ],
                                       ),
                                     ),
