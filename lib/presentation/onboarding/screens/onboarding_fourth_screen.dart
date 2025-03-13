@@ -420,7 +420,13 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
                     child: SecondaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          ref.read(onboardingStateNotifierProvider.notifier).setDisasterTypeInit();
+                          ref.read(onboardingStateNotifierProvider.notifier).setDisasterAllType();
+                          for(int i=0; i<EmergencyDisasterList.length; i++) {
+                            selected.add(i);
+                          }
+                          for(int i=0; i<CommonDisasterList.length; i++) {
+                            selectedSub.add(i);
+                          }
                           GoRouter.of(context).pop();
                           GoRouter.of(context).push('/onboarding/fourth');
                         },
