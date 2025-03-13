@@ -275,11 +275,26 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
                     ],
                   ),
                   SizedBox(height: 4),
-                  Text(
-                    //editCommentId == reply.id ? '수정중' : reply.content!,
+                  reply.isDeleted == false
+                      ? Text(
                     reply.content!,
                     style: DaepiroTextStyle.body_2_m
                         .copyWith(color: DaepiroColorStyle.g_900),
+                  ) : Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6.0),
+                        child: SvgPicture.asset('assets/icons/icon_warning.svg',
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                                DaepiroColorStyle.g_300, BlendMode.srcIn)),
+                      ),
+                      Text(
+                        reply.content!,
+                        style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300),
+                      )
+                    ],
                   ),
                   SizedBox(height: 12),
                   Row(
@@ -443,9 +458,6 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
             ),
             SizedBox(height: 4),
             Text(
-              // editChildCommentId == childComments.id
-              //     ? '수정중'
-              //     : childComments.content!,
               childComments.content!,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),

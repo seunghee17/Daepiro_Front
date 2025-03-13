@@ -595,11 +595,26 @@ class CommunityTownDetailState
               ],
             ),
             SizedBox(height: 4),
-            Text(
-              //editCommentId == comment.id ? '수정중' : comment.body!,
+            comment.deletedAt == null
+                ? Text(
               comment.body!,
               style: DaepiroTextStyle.body_2_m
                   .copyWith(color: DaepiroColorStyle.g_900),
+            ) : Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 6.0),
+                  child: SvgPicture.asset('assets/icons/icon_warning.svg',
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(
+                          DaepiroColorStyle.g_300, BlendMode.srcIn)),
+                ),
+                Text(
+                  comment.body!,
+                  style: DaepiroTextStyle.body_2_m.copyWith(color: DaepiroColorStyle.g_300),
+                )
+              ],
             ),
             SizedBox(height: 12),
             Row(
