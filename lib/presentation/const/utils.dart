@@ -185,9 +185,9 @@ bool checkForNameRule(String text) {
 //이메일 형식 체크
 bool isEmailValid(String email) {
   if (email.isEmpty) return false;
-  final regExp = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-  if (!regExp.hasMatch(email)) return false;
+  final regExp = RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+
+  if(!regExp.hasMatch(email)) return false;
   return true;
 }
 

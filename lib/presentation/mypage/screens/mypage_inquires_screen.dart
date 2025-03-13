@@ -314,8 +314,10 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
     return Container(
       width: double.infinity,
       child: TextField(
-        style:
-        DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+        style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_900),
+        onChanged: (text) {
+          setState(() {});
+        },
         keyboardType: TextInputType.emailAddress,
         cursorColor: DaepiroColorStyle.g_900,
         controller: mailEditingController,
