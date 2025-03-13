@@ -42,11 +42,6 @@ Future<void> _naverInit() async {
   return;
 }
 
-// Future<void> _audioSession() async {
-//   final session = await AudioSession.instance;
-//   await session.configure(AudioSessionConfiguration.music());
-// }
-
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -66,6 +61,11 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     await _initAudioSession();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
     WidgetsBinding.instance.removeObserver(this);
   }
 

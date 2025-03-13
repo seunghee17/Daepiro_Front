@@ -15,7 +15,8 @@ import '../../../../cmm/DaepiroTheme.dart';
 import '../../../../data/model/Album.dart';
 import '../../../../data/model/selected_image.dart';
 
-final selectedImagesProvider = StateNotifierProvider<SelectedImagesNotifier, List<SelectedImage>>((ref) {
+final selectedImagesProvider =
+    StateNotifierProvider<SelectedImagesNotifier, List<SelectedImage>>((ref) {
   return SelectedImagesNotifier();
 });
 
@@ -25,7 +26,8 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
   int totalSize = 0;
 
   //선택 제거 상태를 제어하기 위함
-  Future<void> selectImage(SelectedImage image, int attachImages, BuildContext context) async {
+  Future<void> selectImage(
+      SelectedImage image, int attachImages, BuildContext context) async {
     final addedImageCheck = state.any((e) => _addedImageCheck(image, e));
     final totalLength = state.length + attachImages;
 
@@ -37,13 +39,13 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
       state = state.where((e) => !_addedImageCheck(image, e)).toList();
     } else {
       //개수 제한
-      if(totalLength >= 3) return;
+      if (totalLength >= 3) return;
 
       //크기 제한
       final file = await image.entity?.originFile;
-      if(file != null) {
+      if (file != null) {
         final fileSize = await file.length();
-        if(totalSize + fileSize > 10 * 1024 * 1024) {
+        if (totalSize + fileSize > 10 * 1024 * 1024) {
           failSnackbar(context);
           return;
         }
@@ -59,7 +61,8 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
   }
 
   bool _addedImageCheck(SelectedImage image, SelectedImage compareImage) {
-    return image.entity == compareImage.entity && image.file == compareImage.file;
+    return image.entity == compareImage.entity &&
+        image.file == compareImage.file;
   }
 
   void failSnackbar(BuildContext context) {
@@ -85,7 +88,8 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
                       color: Colors.black.withOpacity(0.6), // 백그라운드 색상은 여기에
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
                         child: Text(
                           '파일 용량이 10MB를 초과할 수 없습니다.',
                           textAlign: TextAlign.center,
@@ -111,7 +115,6 @@ class SelectedImagesNotifier extends StateNotifier<List<SelectedImage>> {
       }
     });
   }
-
 }
 
 class GalleryViewScreen extends ConsumerStatefulWidget {
@@ -145,7 +148,7 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
     _paths = await PhotoManager.getAssetPathList(
         onlyAll: true, //전체보기만 불러온다
         type: RequestType.image //불러올 파일 형식 이미지
-    );
+        );
 
     _albums = _paths!.map((e) {
       return Album(
@@ -156,8 +159,6 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
     await getPhotos(_albums[0], albumChange: true);
   }
 
-
-
   //앨범의 이미지 목록
   // 이 페이지에 처음 진입했을때 & 스크롤이 끝에 다다랐을때 호출된다
   Future<void> getPhotos(Album album, {bool albumChange = false}) async {
@@ -167,9 +168,9 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
     final loadImages = await _paths!
         .singleWhere((AssetPathEntity e) => e.id == album.id)
         .getAssetListPaged(
-      page: _currentPage,
-      size: 20,
-    );
+          page: _currentPage,
+          size: 20,
+        );
 
     setState(() {
       if (albumChange) {
@@ -181,7 +182,8 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
   }
 
 // 카메라 버튼을 포함하는 함수
-  List<AssetEntity> _isAllCheck(List<AssetEntity> loadImages, {required bool reset}) {
+  List<AssetEntity> _isAllCheck(List<AssetEntity> loadImages,
+      {required bool reset}) {
     const dummy = AssetEntity(id: 'camera', typeInt: 0, width: 0, height: 0);
 
     if (reset) {
@@ -203,22 +205,22 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
           children: [
             headerWidget(totalLength),
             Expanded(
-                child:
-                NotificationListener<ScrollNotification>(
+                child: NotificationListener<ScrollNotification>(
                     onNotification: (ScrollNotification scroll) {
-                      final scrollPixels = scroll.metrics.pixels / scroll.metrics.maxScrollExtent;
-                      if(scrollPixels > 0.7)
-                        getPhotos(_currentAlbum);
+                      final scrollPixels = scroll.metrics.pixels /
+                          scroll.metrics.maxScrollExtent;
+                      if (scrollPixels > 0.7) getPhotos(_currentAlbum);
                       return false;
                     },
                     child: _paths == null
                         ? Center(child: CircularProgressIndicator())
-                        :gridPhoto(
-                        images: _images,
-                        selectedImages: selectedImages,
-                        onTap: (image) => ref.read(selectedImagesProvider.notifier).selectImage(image, attachedImages.length, context))
-                )
-            )
+                        : gridPhoto(
+                            images: _images,
+                            selectedImages: selectedImages,
+                            onTap: (image) => ref
+                                .read(selectedImagesProvider.notifier)
+                                .selectImage(
+                                    image, attachedImages.length, context))))
           ],
         ),
       ),
@@ -226,7 +228,7 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
   }
 
   Widget headerWidget(int totalLength) {
-   return Container(
+    return Container(
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -243,21 +245,46 @@ class _PhotoSelectScreenState extends ConsumerState<GalleryViewScreen> {
                       DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
             Spacer(),
-            Text('${totalLength}/3', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_800)),
+            Text('${totalLength}/3',
+                style: DaepiroTextStyle.h6
+                    .copyWith(color: DaepiroColorStyle.g_800)),
             Spacer(),
             GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  final images = ref.read(selectedImagesProvider);
+                  final totalSize = await calculateTotalSize(images);
+                  if (totalSize > 10 * 1024 * 1024) {
+                    return;
+                  }
                   ref.read(communityTownProvider.notifier).setFinalFiles(ref.read(selectedImagesProvider));
                   GoRouter.of(context).pop();
                 },
-                child: Text('추가', style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.o_500),))
+                child: Text(
+                  '추가',
+                  style: DaepiroTextStyle.body_1_m
+                      .copyWith(color: DaepiroColorStyle.o_500),
+                ))
           ],
         ),
       ),
     );
   }
-}
 
+  Future<int> calculateTotalSize(List<SelectedImage> images) async {
+    int totalSize = 0;
+    for (var image in images) {
+      if (image.file != null) {
+        totalSize += await image.file!.length();
+      } else if (image.entity != null) {
+        final file = await image.entity!.originFile;
+        if (file != null) {
+          totalSize += await file.length();
+        }
+      }
+    }
+    return totalSize;
+  }
+}
 
 //갤러리 이미지 선택과 해제를 위한 item
 //_gridPhotoItem에서 selectedImages에 해당하면 dim처리와 카운팅
@@ -278,8 +305,9 @@ class gridPhoto extends ConsumerWidget {
 
   void _loadCamera(BuildContext context) async {
     final file = await picker.pickImage(source: ImageSource.camera);
-    if(file != null) {
-      final item = SelectedImage(entity: null, file: file); //카메라로 가져온 이미지는 entiy가 널이다
+    if (file != null) {
+      final item =
+          SelectedImage(entity: null, file: file); //카메라로 가져온 이미지는 entiy가 널이다
       onTap(item);
     }
   }
@@ -296,9 +324,9 @@ class gridPhoto extends ConsumerWidget {
     return GridView(
       physics: const BouncingScrollPhysics(),
       gridDelegate:
-      const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       children: images.map((e) {
-        if(e.id == 'camera') {
+        if (e.id == 'camera') {
           return _cameraButton(context);
         } else {
           return _gridPhotoItem(e, selectedImages, ref);
@@ -311,7 +339,7 @@ class gridPhoto extends ConsumerWidget {
     return GestureDetector(
       onTap: () async {
         var status = await Permission.camera.status;
-        if(status.isGranted) {
+        if (status.isGranted) {
           _loadCamera(context);
         } else {
           await openAppSettings();
@@ -326,7 +354,8 @@ class gridPhoto extends ConsumerWidget {
     );
   }
 
-  Widget _gridPhotoItem(AssetEntity e, List<SelectedImage> selectedImages, WidgetRef ref) {
+  Widget _gridPhotoItem(
+      AssetEntity e, List<SelectedImage> selectedImages, WidgetRef ref) {
     final isSelected = selectedImages.any((element) => element.entity == e);
 
     return GestureDetector(
@@ -345,7 +374,7 @@ class gridPhoto extends ConsumerWidget {
             _dimContainer(isSelected),
             _selectNumberContainer(e, isSelected),
             //동영상일 경우 상징 표시만 해주기
-            if(e.type == AssetType.video)
+            if (e.type == AssetType.video)
               Positioned(
                 child: Icon(
                   Icons.play_circle_fill,
@@ -364,8 +393,7 @@ class gridPhoto extends ConsumerWidget {
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? Colors.black38 : Colors.transparent
-        ),
+            color: isSelected ? Colors.black38 : Colors.transparent),
       ),
     );
   }
@@ -383,7 +411,7 @@ class gridPhoto extends ConsumerWidget {
           activeColor: DaepiroColorStyle.o_500,
           checkColor: Colors.white,
           fillColor: MaterialStateProperty.resolveWith((states) {
-            if(states.contains(MaterialState.selected)) {
+            if (states.contains(MaterialState.selected)) {
               return DaepiroColorStyle.o_500;
             }
             return DaepiroColorStyle.g_75;
@@ -392,7 +420,6 @@ class gridPhoto extends ConsumerWidget {
           onChanged: (value) {
             onTap(SelectedImage(entity: e, file: null));
           },
-        )
-    );
+        ));
   }
 }
