@@ -1,3 +1,4 @@
+import 'package:audio_session/audio_session.dart';
 import 'package:daepiro/data/http/tokenErrorViewModel.dart';
 import 'package:daepiro/presentation/const/string_helper.dart';
 import 'package:daepiro/route/router.dart';
@@ -28,7 +29,6 @@ Future<void> main() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   String? token = await messaging.getToken();
   print("FCM 토큰: $token");
-
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -42,11 +42,40 @@ Future<void> _naverInit() async {
   return;
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+// Future<void> _audioSession() async {
+//   final session = await AudioSession.instance;
+//   await session.configure(AudioSessionConfiguration.music());
+// }
+
+class MyApp extends ConsumerStatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _initAudioSession();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    await _initAudioSession();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  Future<void> _initAudioSession() async {
+    final session = await AudioSession.instance;
+    await session.configure(AudioSessionConfiguration.music());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final tokenRefreshError = ref.watch(errorNotifierProvider);
     final goRouter = ref.watch(goRouteProvider);
 
