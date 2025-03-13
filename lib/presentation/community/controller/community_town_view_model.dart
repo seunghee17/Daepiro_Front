@@ -180,7 +180,10 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
                   attachFileList: imageData))
           .future);
       _currentPage = 0;
-      state = state.copyWith(contentList: []);
+      state = state.copyWith(
+        contentList: [],
+        isDongNaeHasMore: true
+      );
       if (result.code != 1000) {
         return false;
       } else {
@@ -468,6 +471,7 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
   /// 상태 초기화
   //글쓰기 상태 초기화
   void clearWritingState() {
+    print('호출');
     ref.read(selectedImagesProvider.notifier).state = [];
     state = state.copyWith(
       isVisible: false,

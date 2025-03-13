@@ -192,7 +192,12 @@ class CommunityTownWritingState
                           .setArticle(titleTextController.text,
                               contentTextController.text);
                       showSnackbar(context, '잠시만 기다려주세요.');
-                      Future.delayed(const Duration(milliseconds: 500), () {
+                      if(isSuccess) {
+                        await ref.read(communityTownProvider.notifier).loadContent();
+                        ref.read(communityTownProvider.notifier).clearWritingState();
+                        ref.read(selectedImagesProvider.notifier).clearImages();
+                      }
+                      Future.delayed(const Duration(milliseconds: 500), () async {
                         GoRouter.of(context).pop();
                         showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
                       });
@@ -203,8 +208,13 @@ class CommunityTownWritingState
                           .read(communityTownProvider.notifier)
                           .editArticle(titleTextController.text,
                               contentTextController.text);
+                      await ref
+                          .read(communityTownProvider.notifier)
+                          .getContentDetail(widget.contentDetail!.id);
+                      ref.read(communityTownProvider.notifier).clearWritingState();
+                      ref.read(selectedImagesProvider.notifier).clearImages();
                       showSnackbar(context, '잠시만 기다려주세요.');
-                      Future.delayed(const Duration(milliseconds: 400), () {
+                      Future.delayed(const Duration(milliseconds: 500), () async {
                         GoRouter.of(context).pop();
                         showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
                       });
