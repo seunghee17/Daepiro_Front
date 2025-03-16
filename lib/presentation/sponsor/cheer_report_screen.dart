@@ -232,6 +232,9 @@ class CheerReportState extends ConsumerState<CheerReportScreen> {
         keyboardType: TextInputType.emailAddress,
         cursorColor: DaepiroColorStyle.g_900,
         controller: mailEditingController,
+        onChanged: (text) {
+          setState(() {});
+        },
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(16),

@@ -73,7 +73,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 8),
-                            ListView.builder(
+                            state.myArticles.length != 0 ? ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: state.myArticles.length,
@@ -85,7 +85,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                                     GoRouter.of(context).push('/community_town_detail', extra: {'fromMyPage': true});
                                   }, content, ref);
                                 }
-                            ),
+                            ) : Center(child: noDataWidget()),
                             if (state.isArticleLoading)
                               Center(
                                 child: CircularProgressIndicator(),
@@ -281,6 +281,39 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
         ),
       ),
     );
+  }
+
+  Widget noDataWidget() {
+    return Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height/2,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset('assets/icons/icon_community.svg',
+                  width: 48,
+                  height: 48,
+                  colorFilter: ColorFilter.mode(
+                      DaepiroColorStyle.g_75, BlendMode.srcIn)),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                '아직 작성된 글이 없어요',
+                style: DaepiroTextStyle.h6
+                    .copyWith(color: DaepiroColorStyle.g_300),
+              ),
+              SizedBox(height: 4),
+              Text(
+                '커뮤니티에서 글을 작성하고 이웃과 소통해보세요.',
+                style: DaepiroTextStyle.body_2_m
+                    .copyWith(color: DaepiroColorStyle.g_300),
+              )
+            ],
+          ),
+        ));
   }
 
 }

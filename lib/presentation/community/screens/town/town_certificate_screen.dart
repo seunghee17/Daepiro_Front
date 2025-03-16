@@ -111,6 +111,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
   @override
   void dispose() {
     super.dispose();
+    controller.dispose();
     WidgetsBinding.instance.removeObserver(this);
   }
 

@@ -1,6 +1,8 @@
 import 'package:daepiro/domain/usecase/onboarding/check_nickname_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/onboarding_sendinfo_usecase.dart';
 import 'package:daepiro/domain/usecase/onboarding/user_adresses_usecase.dart';
+import 'package:daepiro/presentation/const/common_disaster_list.dart';
+import 'package:daepiro/presentation/const/emergency_disaster_list.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -98,8 +100,10 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     state = state.copyWith(disasterTypes: List.unmodifiable(mutableList));
   }
 
-  void setDisasterTypeInit() {
-    state = state.copyWith(disasterTypes: []);
+  void setDisasterAllType() {
+    List<String> commonList = CommonDisasterList.map((item) => item['name']!).toList();
+    List<String> emergencyList = EmergencyDisasterList.map((item) => item['name']!).toList();
+    state = state.copyWith(disasterTypes: commonList..addAll(emergencyList));
   }
 
   Future<void> sendUserInfo() async {

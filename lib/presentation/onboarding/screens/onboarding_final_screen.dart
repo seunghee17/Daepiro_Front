@@ -25,6 +25,12 @@ class _OnboardingFinalState extends ConsumerState<OnboardingFinalScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final viewModel = ref.read(onboardingStateNotifierProvider.notifier);
     return Scaffold(

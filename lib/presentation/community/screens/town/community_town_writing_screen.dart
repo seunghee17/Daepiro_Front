@@ -192,7 +192,12 @@ class CommunityTownWritingState
                           .setArticle(titleTextController.text,
                               contentTextController.text);
                       showSnackbar(context, '잠시만 기다려주세요.');
-                      Future.delayed(const Duration(milliseconds: 500), () {
+                      if(isSuccess) {
+                        await ref.read(communityTownProvider.notifier).loadContent();
+                        ref.read(communityTownProvider.notifier).clearWritingState();
+                        ref.read(selectedImagesProvider.notifier).clearImages();
+                      }
+                      Future.delayed(const Duration(milliseconds: 600), () async {
                         GoRouter.of(context).pop();
                         showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
                       });
@@ -204,7 +209,14 @@ class CommunityTownWritingState
                           .editArticle(titleTextController.text,
                               contentTextController.text);
                       showSnackbar(context, '잠시만 기다려주세요.');
-                      Future.delayed(const Duration(milliseconds: 400), () {
+                      if(isSuccess) {
+                        await ref
+                            .read(communityTownProvider.notifier)
+                            .getContentDetail(widget.contentDetail!.id);
+                        ref.read(communityTownProvider.notifier).clearWritingState();
+                        ref.read(selectedImagesProvider.notifier).clearImages();
+                      }
+                      Future.delayed(const Duration(milliseconds: 600), () async {
                         GoRouter.of(context).pop();
                         showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
                       });
@@ -311,7 +323,7 @@ class CommunityTownWritingState
         decoration: InputDecoration(
           counterText: '',
           isDense: true,
-          hintText: '동네와 관련된 이야기를 주민들과 나누세요.',
+          hintText: '동네생활과 관련된 이야기를 주민들과 나누세요.',
           hintStyle: DaepiroTextStyle.body_2_m
               .copyWith(color: DaepiroColorStyle.g_200),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),

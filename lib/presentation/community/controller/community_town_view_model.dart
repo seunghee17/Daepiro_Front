@@ -180,14 +180,17 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
                   attachFileList: imageData))
           .future);
       _currentPage = 0;
-      state = state.copyWith(contentList: []);
+      state = state.copyWith(
+        contentList: [],
+        isDongNaeHasMore: true
+      );
       if (result.code != 1000) {
         return false;
       } else {
         return true;
       }
     } catch (e) {
-      print('게시글 편집 오류 발생 $e');
+      print('게시글 작성 오류 발생 $e');
       return false;
     }
   }
@@ -274,19 +277,17 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
         }
       }
     } else {
-      print('여기서 ${state.choiceImages}');
       for (var image in state.choiceImages) {
-        late var multiPartFile;
-        if(image.file == null) {
+        if(image.entity != null) {
           final file = await image.entity!.originFile;
-          multiPartFile = await MultipartFile.fromFile(file!.path,
+          final multiPartFile = await MultipartFile.fromFile(file!.path,
               filename: file.uri.pathSegments.last);
-        } else {
-          multiPartFile = await MultipartFile.fromFile(image.file!.path,
-              filename: image.file!.path);
-          print('변혼 값 ${multiPartFile}');
+          multipartFiles.add(multiPartFile);
+        } else if(image.file != null) {
+          final multiPartFile = await MultipartFile.fromFile(image.file!.path,
+              filename: image.file!.name);
+          multipartFiles.add(multiPartFile);
         }
-        multipartFiles.add(multiPartFile);
       }
     }
     return multipartFiles;
