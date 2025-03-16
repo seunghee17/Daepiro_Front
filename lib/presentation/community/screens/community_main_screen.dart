@@ -9,67 +9,102 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cmm/DaepiroTheme.dart';
+import '../state/community_disaster_state.dart';
 
 //커뮤니티 메인화면
-class CommunityMainScreen extends ConsumerWidget {
-  const CommunityMainScreen({super.key});
+class CommunityMainScreen extends ConsumerStatefulWidget {
+  final bool? fromHome;
+  const CommunityMainScreen({super.key, this.fromHome});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _CommunityMainScreenState createState() => _CommunityMainScreenState();
+}
+class _CommunityMainScreenState extends ConsumerState<CommunityMainScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    final disasterViewModel = ref.read(communityDisasterProvider.notifier);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.fromHome == true) {
+        setState(() {
+          _tabController.index = 1;
+          disasterViewModel.changeScreenState(false);
+        });
+      }
+    });
+
+    _tabController.addListener(() {
+      if (_tabController.index == 1) {
+        ref.read(communityDisasterProvider.notifier).changeScreenState(false);
+      } else {
+        ref.read(communityDisasterProvider.notifier).changeScreenState(true);
+      }
+    });
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(communityDisasterProvider);
     final townState = ref.watch(communityTownProvider);
     final disasterViewModel = ref.read(communityDisasterProvider.notifier);
-    final townViewModel = ref.read(communityTownProvider.notifier);
-    return Scaffold(
-      body: SafeArea(
-        child: DefaultTabController(
-            length: 2,
-            child: Builder(
-              builder: (BuildContext context) {
-                final TabController tabController =
-                DefaultTabController.of(context);
-                tabController.addListener(() {
-                  if (tabController.index == 1) {
-                    disasterViewModel.changeScreenState(false);
-                  } else {
-                    disasterViewModel.changeScreenState(true);
-                  }
-                });
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+
+    ref.listen<CommunityDisasterState>(communityDisasterProvider, (previous, next) {
+      if(next.fromHome) {
+        _tabController.index = 1;
+        disasterViewModel.setStateFromHomeScreen(false);
+      }
+    });
+
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            communityHeader(state.isDisasterScreen, townState.selectTown, context),
+            TabBar(
+              controller: _tabController,
+              padding: EdgeInsets.zero,
+              splashFactory: NoSplash.splashFactory,
+              indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(
+                  width: 2.0,
+                  color: DaepiroColorStyle.g_800,
+                ),
+                insets: EdgeInsets.symmetric(
+                    horizontal: 100.0),
+              ),
+              indicatorWeight: 2,
+              labelStyle: DaepiroTextStyle.body_1_m,
+              labelColor: DaepiroColorStyle.g_800,
+              unselectedLabelColor: DaepiroColorStyle.g_300,
+              labelPadding: const EdgeInsets.symmetric(vertical: 5),
+              tabs: [Tab(text: '재난상황'), Tab(text: '동네생활')],
+            ),
+            Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
-                    communityHeader(state.isDisasterScreen, townState.selectTown, context),
-                    TabBar(
-                      padding: EdgeInsets.zero,
-                      splashFactory: NoSplash.splashFactory,
-                      indicator: UnderlineTabIndicator(
-                        borderSide: BorderSide(
-                          width: 2.0,
-                          color: DaepiroColorStyle.g_800,
-                        ),
-                        insets: EdgeInsets.symmetric(
-                            horizontal: 100.0),
-                      ),
-                      indicatorWeight: 2,
-                      labelStyle: DaepiroTextStyle.body_1_m,
-                      labelColor: DaepiroColorStyle.g_800,
-                      unselectedLabelColor: DaepiroColorStyle.g_300,
-                      labelPadding: const EdgeInsets.symmetric(vertical: 5),
-                      tabs: [Tab(text: '재난상황'), Tab(text: '동네생활')],
-                    ),
-                    Expanded(
-                        child: TabBarView(
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
-                            CommunityDisasterScreen(),
-                            CommunityTownScreen()
-                          ],
-                        ))
+                    CommunityDisasterScreen(),
+                    CommunityTownScreen()
                   ],
-                );
-              },
-            ))
-      ),
+                ))
+          ],
+        ),
+      )),
     );
   }
 

@@ -21,6 +21,7 @@ mixin _$CommunityDisasterState {
 //---------------------------------------------------------
 //현재 보여지는 상태
   bool get isDisasterScreen => throw _privateConstructorUsedError;
+  bool get fromHome => throw _privateConstructorUsedError;
   int? get selectSituaionId =>
       throw _privateConstructorUsedError; //대댓글 작성시 필요한 부모 댓글 id
   int get parentCommentId =>
@@ -57,6 +58,7 @@ abstract class $CommunityDisasterStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isDisasterScreen,
+      bool fromHome,
       int? selectSituaionId,
       int parentCommentId,
       dynamic isChildCommentState,
@@ -89,6 +91,7 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? isDisasterScreen = null,
+    Object? fromHome = null,
     Object? selectSituaionId = freezed,
     Object? parentCommentId = null,
     Object? isChildCommentState = freezed,
@@ -109,6 +112,10 @@ class _$CommunityDisasterStateCopyWithImpl<$Res,
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fromHome: null == fromHome
+          ? _value.fromHome
+          : fromHome // ignore: cast_nullable_to_non_nullable
               as bool,
       selectSituaionId: freezed == selectSituaionId
           ? _value.selectSituaionId
@@ -185,6 +192,7 @@ abstract class _$$CommunityDisasterStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isDisasterScreen,
+      bool fromHome,
       int? selectSituaionId,
       int parentCommentId,
       dynamic isChildCommentState,
@@ -216,6 +224,7 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isDisasterScreen = null,
+    Object? fromHome = null,
     Object? selectSituaionId = freezed,
     Object? parentCommentId = null,
     Object? isChildCommentState = freezed,
@@ -236,6 +245,10 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
       isDisasterScreen: null == isDisasterScreen
           ? _value.isDisasterScreen
           : isDisasterScreen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fromHome: null == fromHome
+          ? _value.fromHome
+          : fromHome // ignore: cast_nullable_to_non_nullable
               as bool,
       selectSituaionId: freezed == selectSituaionId
           ? _value.selectSituaionId
@@ -305,6 +318,7 @@ class __$$CommunityDisasterStateImplCopyWithImpl<$Res>
 class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
   _$CommunityDisasterStateImpl(
       {this.isDisasterScreen = true,
+      this.fromHome = false,
       this.selectSituaionId = null,
       this.parentCommentId = 0,
       this.isChildCommentState = false,
@@ -338,6 +352,9 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
   @override
   @JsonKey()
   final bool isDisasterScreen;
+  @override
+  @JsonKey()
+  final bool fromHome;
   @override
   @JsonKey()
   final int? selectSituaionId;
@@ -427,7 +444,7 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
 
   @override
   String toString() {
-    return 'CommunityDisasterState(isDisasterScreen: $isDisasterScreen, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, isEditState: $isEditState, editCommentId: $editCommentId, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reportType: $reportType, reportDescription: $reportDescription)';
+    return 'CommunityDisasterState(isDisasterScreen: $isDisasterScreen, fromHome: $fromHome, selectSituaionId: $selectSituaionId, parentCommentId: $parentCommentId, isChildCommentState: $isChildCommentState, editChildCommentId: $editChildCommentId, isEditChildCommentState: $isEditChildCommentState, isEditState: $isEditState, editCommentId: $editCommentId, allDisasterResponse: $allDisasterResponse, receivedDisasterResponse: $receivedDisasterResponse, isLoading: $isLoading, isReplyLoading: $isReplyLoading, disasterCommunityType: $disasterCommunityType, disasterReplyList: $disasterReplyList, reportType: $reportType, reportDescription: $reportDescription)';
   }
 
   @override
@@ -437,6 +454,8 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
             other is _$CommunityDisasterStateImpl &&
             (identical(other.isDisasterScreen, isDisasterScreen) ||
                 other.isDisasterScreen == isDisasterScreen) &&
+            (identical(other.fromHome, fromHome) ||
+                other.fromHome == fromHome) &&
             (identical(other.selectSituaionId, selectSituaionId) ||
                 other.selectSituaionId == selectSituaionId) &&
             (identical(other.parentCommentId, parentCommentId) ||
@@ -474,6 +493,7 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
   int get hashCode => Object.hash(
       runtimeType,
       isDisasterScreen,
+      fromHome,
       selectSituaionId,
       parentCommentId,
       const DeepCollectionEquality().hash(isChildCommentState),
@@ -501,6 +521,7 @@ class _$CommunityDisasterStateImpl implements _CommunityDisasterState {
 abstract class _CommunityDisasterState implements CommunityDisasterState {
   factory _CommunityDisasterState(
       {final bool isDisasterScreen,
+      final bool fromHome,
       final int? selectSituaionId,
       final int parentCommentId,
       final dynamic isChildCommentState,
@@ -522,6 +543,8 @@ abstract class _CommunityDisasterState implements CommunityDisasterState {
 //---------------------------------------------------------
 //현재 보여지는 상태
   bool get isDisasterScreen;
+  @override
+  bool get fromHome;
   @override
   int? get selectSituaionId;
   @override //대댓글 작성시 필요한 부모 댓글 id

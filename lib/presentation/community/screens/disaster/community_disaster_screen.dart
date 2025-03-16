@@ -14,7 +14,11 @@ import '../../../const/common_disaster_list.dart';
 import '../../../const/emergency_disaster_list.dart';
 
 //재난상황 화면
-class CommunityDisasterScreen extends ConsumerWidget {
+class CommunityDisasterScreen extends ConsumerStatefulWidget {
+  @override
+  CommunityDisasterStateScreen createState() => CommunityDisasterStateScreen();
+}
+class CommunityDisasterStateScreen extends ConsumerState<CommunityDisasterScreen> {
   List<Map<String, String>> totalList = [
     ...CommonDisasterList,
     ...EmergencyDisasterList
@@ -22,12 +26,20 @@ class CommunityDisasterScreen extends ConsumerWidget {
   final scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(communityDisasterProvider.notifier).getDisasterSituaions();
+    });
+  }
+
+  @override
   void dispose() {
     scrollController.dispose();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final viewModel = ref.read(communityDisasterProvider.notifier);
     final state = ref.watch(communityDisasterProvider);
 

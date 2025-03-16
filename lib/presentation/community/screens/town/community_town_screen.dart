@@ -22,6 +22,10 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
   void initState() {
     super.initState();
     scrollController.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if(ref.watch(communityTownProvider).selectTown == '') await ref.read(communityTownProvider.notifier).setUserAddressList();
+      await ref.read(communityTownProvider.notifier).loadContent();
+    });
   }
 
   @override

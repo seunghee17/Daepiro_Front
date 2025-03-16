@@ -26,6 +26,13 @@ class CommunityDisasterViewModel extends StateNotifier<CommunityDisasterState> {
     state = state.copyWith(isDisasterScreen: isdisasterScreen);
   }
 
+  void setStateFromHomeScreen(bool value) {
+    state = state.copyWith(fromHome: value);
+    if(value == false) {
+      state = state.copyWith(isDisasterScreen: false);
+    }
+  }
+
   Future<void> getDisasterSituaions() async {
     state = state.copyWith(isLoading: true);
     final result = await ref.read(

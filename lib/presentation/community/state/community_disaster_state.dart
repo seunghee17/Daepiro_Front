@@ -12,6 +12,7 @@ sealed class CommunityDisasterState with _$CommunityDisasterState {
 //---------------------------------------------------------
     //현재 보여지는 상태
     @Default(true) bool isDisasterScreen,
+    @Default(false) bool fromHome,
     @Default(null) int? selectSituaionId,
 
     //대댓글 작성시 필요한 부모 댓글 id

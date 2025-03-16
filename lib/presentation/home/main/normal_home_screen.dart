@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,6 +50,7 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(homeStateNotifierProvider);
     final communityViewModel = ref.read(communityTownProvider.notifier);
+    final disasterCommunityViewModel = ref.read(communityDisasterProvider.notifier);
 
     return Container(
         width: MediaQuery.of(context).size.width,
@@ -298,17 +300,23 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "더보기",
-                                          style: DaepiroTextStyle.body_2_m.copyWith(
-                                            color: DaepiroColorStyle.o_400,
+                                  GestureDetector(
+                                    onTap: () {
+                                      GoRouter.of(context).replace('/community', extra: {'fromHome': true});
+                                      disasterCommunityViewModel.setStateFromHomeScreen(true);
+                                    },
+                                    child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "더보기",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.o_400,
+                                            ),
                                           ),
-                                        ),
-                                        SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                      ]
+                                          SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                        ]
+                                    ),
                                   )
                                 ]
                             ),

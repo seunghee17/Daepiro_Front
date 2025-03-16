@@ -288,7 +288,10 @@ final goRouteProvider = Provider((ref) {
               routes: [
                 GoRoute(
                   path: '/community',
-                  builder: (context, state) => const CommunityMainScreen(),
+                  builder: (context, state) {
+                    final fromHome = state.extra as Map<String, bool>? ?? {'fromHome': false};
+                    return CommunityMainScreen(fromHome: fromHome['fromHome']);
+                  }
                 ),
               ],
             ),

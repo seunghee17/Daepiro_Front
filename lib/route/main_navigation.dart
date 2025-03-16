@@ -1,5 +1,3 @@
-import 'package:daepiro/presentation/community/controller/community_disaster_view_model.dart';
-import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +28,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
       onDestinationSelected: (index) async {
         if(index != widget.navigationShell.currentIndex) {
           widget.navigationShell.goBranch(index);
-          if(index==1) {
-            if(ref.watch(communityTownProvider).selectTown == '') await ref.read(communityTownProvider.notifier).setUserAddressList();
-            await ref.read(communityDisasterProvider.notifier).getDisasterSituaions();
-            await ref.read(communityTownProvider.notifier).loadContent();
-          } else if(index == 4) {
+          if(index == 4) {
             await ref.read(myPageProvider.notifier).getMyProfiles();
           }
         }
