@@ -7,6 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../cmm/DaepiroTheme.dart';
 import '../../../cmm/chip/secondary_chip.dart';
 import '../../../data/model/response/home/disasters_history_response.dart';
+import '../../community/controller/community_town_view_model.dart';
 import '../../const/const.dart';
 import '../../const/utils.dart';
 import '../component/disaster_mesaage_history_preview.dart';
@@ -31,6 +32,12 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    ref.read(homeStateNotifierProvider.notifier).loadNickname();
+  }
+
+  @override
   void dispose() {
     _popularPostPageController.dispose();
     _infoContentsPageController.dispose();
@@ -41,6 +48,7 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(homeStateNotifierProvider);
+    final communityViewModel = ref.read(communityTownProvider.notifier);
 
     return Container(
         width: MediaQuery.of(context).size.width,
@@ -362,13 +370,20 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
                                                     children: [
                                                       for (int j=0;j<3;j++)
                                                         if (i+j <viewModel.popularPostList.length)
-                                                          PopularPostPreview(
-                                                            title: viewModel.popularPostList[i+j].title ?? "",
-                                                            contents: viewModel.popularPostList[i+j].body ?? "",
-                                                            location: "${viewModel.popularPostList[i+j].address?.siDo} ${viewModel.popularPostList[i+j].address?.siGunGu}",
-                                                            time: viewModel.popularPostList[i+j].createdAt ?? "",
-                                                            like: (viewModel.popularPostList[i+j].likeCount ?? 0).toString(),
-                                                            comment: (viewModel.popularPostList[i+j].commentCount ?? 0).toString(),
+                                                          GestureDetector(
+                                                            onTap: () async {
+                                                              //상세 기사정보 화면으로 이동
+                                                              await communityViewModel.getContentDetail(viewModel.popularPostList[i+j].id!);
+                                                              GoRouter.of(context).push('/community_town_detail', extra: {'fromMyPage': false});
+                                                            },
+                                                            child: PopularPostPreview(
+                                                              title: viewModel.popularPostList[i+j].title ?? "",
+                                                              contents: viewModel.popularPostList[i+j].body ?? "",
+                                                              location: "${viewModel.popularPostList[i+j].address?.siDo} ${viewModel.popularPostList[i+j].address?.siGunGu}",
+                                                              time: viewModel.popularPostList[i+j].createdAt ?? "",
+                                                              like: (viewModel.popularPostList[i+j].likeCount ?? 0).toString(),
+                                                              comment: (viewModel.popularPostList[i+j].commentCount ?? 0).toString(),
+                                                            ),
                                                           ),
                                                     ],
                                                   )

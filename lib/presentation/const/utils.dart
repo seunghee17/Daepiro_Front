@@ -1,5 +1,6 @@
 import 'package:daepiro/presentation/const/common_disaster_list.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import '../../cmm/DaepiroTheme.dart';
 import 'emergency_disaster_list.dart';
@@ -39,7 +40,7 @@ String calculateDaysDiff(String date) {
 
   // D-day 형식으로 반환
   if (difference == 0) {
-    return "D-0";
+    return "D-day";
   } else if (difference > 0) {
     return "D+$difference"; // 과거
   } else {
@@ -191,3 +192,12 @@ bool isEmailValid(String email) {
   return true;
 }
 
+String calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+  double distanceInMeters = Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+
+  if (distanceInMeters >= 1000) {
+    return '${(distanceInMeters / 1000).toStringAsFixed(1)}km';
+  } else {
+    return '${distanceInMeters.round()}m';
+  }
+}

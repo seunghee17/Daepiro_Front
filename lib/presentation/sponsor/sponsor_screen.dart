@@ -88,73 +88,73 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                        color: DaepiroColorStyle.o_50,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "대피로",
-                                    style: DaepiroTextStyle.h6.copyWith(
-                                      color: DaepiroColorStyle.o_500,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: "와 함께\n응원의 한마디를 남겨보세요!",
-                                    style: DaepiroTextStyle.h6.copyWith(
-                                      color: DaepiroColorStyle.g_900,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              controller: _scrollController1,
-                              child: Row(
+                      GestureDetector(
+                        onTap: () {
+                          context.push('/cheer');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                          color: DaepiroColorStyle.o_50,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text.rich(
+                                TextSpan(
                                   children: [
-                                    for (int i=0;i<viewModel.scrollCommentList1.length;i++)
-                                      Row(
-                                        children: [
-                                          ItemCheerKeyword(
-                                              text: viewModel.scrollCommentList1[i]
-                                          ),
-                                          const SizedBox(width: 8)
-                                        ],
+                                    TextSpan(
+                                      text: "대피로",
+                                      style: DaepiroTextStyle.h6.copyWith(
+                                        color: DaepiroColorStyle.o_500,
                                       ),
-                                  ]
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              controller: _scrollController2,
-                              child: Row(
-                                  children: [
-                                    for (int i=0;i<viewModel.scrollCommentList2.length;i++)
-                                      Row(
-                                        children: [
-                                          ItemCheerKeyword(
-                                              text: viewModel.scrollCommentList2[i]
-                                          ),
-                                          const SizedBox(width: 8)
-                                        ],
+                                    ),
+                                    TextSpan(
+                                      text: "와 함께\n응원의 한마디를 남겨보세요!",
+                                      style: DaepiroTextStyle.h6.copyWith(
+                                        color: DaepiroColorStyle.g_900,
                                       ),
-                                  ]
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.push('/cheer');
-                                },
+                              const SizedBox(height: 15),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                controller: _scrollController1,
+                                child: Row(
+                                    children: [
+                                      for (int i=0;i<viewModel.scrollCommentList1.length;i++)
+                                        Row(
+                                          children: [
+                                            ItemCheerKeyword(
+                                                text: viewModel.scrollCommentList1[i]
+                                            ),
+                                            const SizedBox(width: 8)
+                                          ],
+                                        ),
+                                    ]
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                controller: _scrollController2,
+                                child: Row(
+                                    children: [
+                                      for (int i=0;i<viewModel.scrollCommentList2.length;i++)
+                                        Row(
+                                          children: [
+                                            ItemCheerKeyword(
+                                                text: viewModel.scrollCommentList2[i]
+                                            ),
+                                            const SizedBox(width: 8)
+                                          ],
+                                        ),
+                                    ]
+                                ),
+                              ),
+                              const SizedBox(height: 15),
+                              Align(
+                                alignment: Alignment.centerRight,
                                 child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -170,8 +170,8 @@ class _SponsorScreenState extends ConsumerState<SponsorScreen> {
                                     ]
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       viewModel.isLoading

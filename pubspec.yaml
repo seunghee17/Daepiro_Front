@@ -2,7 +2,7 @@ name: daepiro
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.0+2
+version: 1.0.0+3
 
 #flutter: 3.22.X dart: 3.4.X
 environment:

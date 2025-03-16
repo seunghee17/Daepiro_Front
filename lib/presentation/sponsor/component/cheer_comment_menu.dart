@@ -143,7 +143,7 @@ class CheerCommentMenu extends ConsumerWidget {
                       pressedColor: DaepiroColorStyle.g_75,
                       child: Text(
                         textAlign: TextAlign.center,
-                        '그만두기',
+                        '취소하기',
                         style: DaepiroTextStyle.body_1_b.copyWith(
                             color: DaepiroColorStyle.g_700
                         ),

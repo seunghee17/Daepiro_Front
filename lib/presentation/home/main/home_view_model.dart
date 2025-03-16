@@ -49,7 +49,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
           getHomeDisasterFeed();
           getHomeDisasterHistory();
         } else {
-          loadNickname();
           getHomeDisasterHistory();
           getPopularPostList(category: "");
           getPopularPostList(category: "LIFE");
@@ -83,7 +82,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
       if (response.code == 1000) {
         if (nowIsOccurred) {
           if (response.data!.isOccurred == false) {
-            loadNickname();
             getHomeDisasterHistory();
             getPopularPostList(category: "");
             getPopularPostList(category: "LIFE");
@@ -97,6 +95,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
           if (response.data!.isOccurred == true) {
             getHomeDisasterFeed();
             getHomeDisasterHistory();
+
+            getAroundShelterList(type: "civil");
+            getAroundShelterList(type: "earthquake");
+            getAroundShelterList(type: "tsunami");
+            getAroundShelterList(type: "temperature");
           }
         }
       }
