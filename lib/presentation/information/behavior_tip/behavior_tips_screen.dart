@@ -81,26 +81,40 @@ class _BehaviorTipsScreenState extends ConsumerState<BehaviorTipsScreen> with Si
                   ],
                 ),
               ),
-              Container(
-                // padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: DaepiroColorStyle.g_800,
-                  labelStyle: DaepiroTextStyle.body_1_m,
-                  unselectedLabelColor: DaepiroColorStyle.g_300,
-                  unselectedLabelStyle: DaepiroTextStyle.body_1_m,
-                  indicatorColor: DaepiroColorStyle.g_800,
-                  indicatorWeight: 2,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(
-                      child: Text("위급/긴급 재난"),
+              Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: DaepiroColorStyle.g_800,
+                      labelStyle: DaepiroTextStyle.body_1_m,
+                      labelPadding: const EdgeInsets.symmetric(vertical: 12),
+                      unselectedLabelColor: DaepiroColorStyle.g_300,
+                      unselectedLabelStyle: DaepiroTextStyle.body_1_m,
+                      dividerColor: DaepiroColorStyle.white,
+                      indicatorColor: DaepiroColorStyle.g_800,
+                      indicatorPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      indicatorWeight: 3,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      tabs: const [
+                        Tab(
+                          child: Text("위급/긴급 재난"),
+                        ),
+                        Tab(
+                          child: Text("일반재난"),
+                        )
+                      ],
                     ),
-                    Tab(
-                      child: Text("일반재난"),
-                    )
-                  ],
-                ),
+                  ),
+                  Positioned(
+                    left: 0, right: 0, bottom: 0,
+                    child: Container(
+                      height: 3,
+                      color: DaepiroColorStyle.black.withOpacity(0.1),
+                    ),
+                  ),
+                ],
               ),
               Expanded(
                 child: TabBarView(

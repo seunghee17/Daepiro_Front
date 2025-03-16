@@ -32,6 +32,12 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    ref.read(homeStateNotifierProvider.notifier).loadNickname();
+  }
+
+  @override
   void dispose() {
     _popularPostPageController.dispose();
     _infoContentsPageController.dispose();
