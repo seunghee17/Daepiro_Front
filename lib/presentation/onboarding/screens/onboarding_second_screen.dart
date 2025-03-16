@@ -288,7 +288,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
             await ref
                 .read(onboardingStateNotifierProvider.notifier)
                 .setNickNameState(text);
-            setState(() {});
           },
         ),
       ],

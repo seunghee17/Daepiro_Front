@@ -17,10 +17,10 @@ class LoginScreen extends ConsumerWidget {
     final viewModel = ref.read(loginStateNotifierProvider.notifier);
     final screenHeight = MediaQuery.of(context).size.height;
 
-    ref.listen<LoginState>(loginStateNotifierProvider, (previous, next) {
+    ref.listen<LoginState>(loginStateNotifierProvider, (previous, next) async {
       if (next.isLoginSuccess && next.isCompletedOnboarding) {
-        viewModel.setFcmToken();
-        viewModel.storeUserAdresses();
+        await viewModel.setFcmToken();
+        await viewModel.storeUserAdresses();
         GoRouter.of(context).go('/home');
       } else if (next.isLoginSuccess && !next.isCompletedOnboarding) {
         showModalBottomSheet(

@@ -8,7 +8,6 @@ part 'mypage_state.freezed.dart';
 sealed class MyPageState with _$MyPageState {
   factory MyPageState({
     @Default(true) isLoading,
-    @Default('') platform,
 
     /// 사용자 정보 수정
     @Default('') profileImgUrl,

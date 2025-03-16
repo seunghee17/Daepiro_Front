@@ -157,12 +157,29 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
                       visible: content.previewImageUrl != null,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: content.previewImageUrl != null ? Image.network(
+                        child: content.previewImageUrl != null
+                            ? Image.network(
                           width: 68,
                           height: 68,
                           content.previewImageUrl!,
                           fit: BoxFit.fill,
-                        ) : SizedBox.shrink(),
+                          loadingBuilder: (BuildContext context,
+                              Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          errorBuilder: (BuildContext context,
+                              Object exception,
+                              StackTrace? stackTrace) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        )
+                            : SizedBox.shrink(),
                       ),
                     )
                   ],

@@ -229,6 +229,21 @@ class CommunityTownDetailState
                 fit: BoxFit.cover,
                 width: 40,
                 height: 40,
+                loadingBuilder: (BuildContext context,
+                    Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+                errorBuilder: (BuildContext context,
+                    Object exception,
+                    StackTrace? stackTrace) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
               ),
             ),
           ),
@@ -427,6 +442,21 @@ class CommunityTownDetailState
                               child: Image.network(
                                 content.files[index],
                                 fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception,
+                                    StackTrace? stackTrace) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
                               ),
                             ),
                           ),

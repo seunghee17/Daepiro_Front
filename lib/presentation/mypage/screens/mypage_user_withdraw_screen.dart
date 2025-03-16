@@ -19,7 +19,6 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
-    final double statusBarSize = MediaQuery.of(context).padding.top;
 
     return PopScope(
       onPopInvoked: (bool didPop) {
@@ -43,7 +42,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                       right: 20,
                       left: 20,
                       child: IntrinsicHeight(child:
-                      headerWidget(context, state.realName))
+                      headerWidget(context, state.nickName))
                   ),
                   Positioned(
                       right: 0,
@@ -117,7 +116,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
     );
   }
 
-  Widget headerWidget(BuildContext context, String userName) {
+  Widget headerWidget(BuildContext context, String userNickName) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -162,7 +161,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 57),
               child: Text(
-                '${userName}님,\n정말 대피로를 떠나시나요? 너무 아쉬워요..',
+                '${userNickName}님,\n정말 대피로를 떠나시나요? 너무 아쉬워요..',
                 textAlign: TextAlign.center,
                 style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_900),
               ),

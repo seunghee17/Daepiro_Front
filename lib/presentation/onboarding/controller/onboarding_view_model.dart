@@ -43,24 +43,26 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   Future<void> setNickNameState(String nickName) async {
     if (nickName.length > 10) {
-      state = state.copyWith(nicknameState: '*최대 10자까지 작성해주세요.', completeSetNickName: false);
+      state = state.copyWith(
+          nicknameState: '*최대 10자까지 작성해주세요.',
+          completeSetNickName: false,
+      userNickName: nickName);
+      return;
     }
 
     if (!checkForSpecialCharacter(nickName)) {
-      state = state.copyWith(nicknameState: '*닉네임은 한글/영문/숫자로 입력해주세요.', completeSetNickName: false);
+      state = state.copyWith(nicknameState: '*닉네임은 한글/영문/숫자로 입력해주세요.', completeSetNickName: false, userNickName: nickName);
+      return;
     }
 
-    if(nickName.length <= 10 && checkForSpecialCharacter(nickName)) {
-      bool isAvailable = await _checkNickName(nickName);
-      if (!isAvailable) {
-        state = state.copyWith(
-            nicknameState: nickName.isNotEmpty ? '*이미 사용 중인 닉네임이에요.' : '',
-            completeSetNickName: false);
-      } else {
-        state = state.copyWith(nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true);
-      }
+    bool isAvailable = await _checkNickName(nickName);
+    if (!isAvailable) {
+      state = state.copyWith(
+          nicknameState: nickName.isNotEmpty ? '*이미 사용 중인 닉네임이에요.' : '',
+          completeSetNickName: false, userNickName: nickName);
+    } else if(nickName.length <= 10) {
+      state = state.copyWith(nicknameState: '*사용 가능한 닉네임 입니다.', completeSetNickName: true, userNickName: nickName);
     }
-    updateNickName(nickName);
   }
 
 

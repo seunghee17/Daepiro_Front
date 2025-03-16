@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MyPageState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get platform => throw _privateConstructorUsedError;
 
   /// 사용자 정보 수정
   dynamic get profileImgUrl => throw _privateConstructorUsedError;
@@ -71,7 +70,6 @@ abstract class $MyPageStateCopyWith<$Res> {
   @useResult
   $Res call(
       {dynamic isLoading,
-      dynamic platform,
       dynamic profileImgUrl,
       dynamic realName,
       dynamic nickName,
@@ -118,7 +116,6 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? platform = freezed,
     Object? profileImgUrl = freezed,
     Object? realName = freezed,
     Object? nickName = freezed,
@@ -154,10 +151,6 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
       isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      platform: freezed == platform
-          ? _value.platform
-          : platform // ignore: cast_nullable_to_non_nullable
               as dynamic,
       profileImgUrl: freezed == profileImgUrl
           ? _value.profileImgUrl
@@ -293,7 +286,6 @@ abstract class _$$MyPageStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {dynamic isLoading,
-      dynamic platform,
       dynamic profileImgUrl,
       dynamic realName,
       dynamic nickName,
@@ -338,7 +330,6 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? platform = freezed,
     Object? profileImgUrl = freezed,
     Object? realName = freezed,
     Object? nickName = freezed,
@@ -372,7 +363,6 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
   }) {
     return _then(_$MyPageStateImpl(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
-      platform: freezed == platform ? _value.platform! : platform,
       profileImgUrl:
           freezed == profileImgUrl ? _value.profileImgUrl! : profileImgUrl,
       realName: freezed == realName ? _value.realName! : realName,
@@ -492,7 +482,6 @@ class __$$MyPageStateImplCopyWithImpl<$Res>
 class _$MyPageStateImpl implements _MyPageState {
   _$MyPageStateImpl(
       {this.isLoading = true,
-      this.platform = '',
       this.profileImgUrl = '',
       this.realName = '',
       this.nickName = '',
@@ -543,9 +532,6 @@ class _$MyPageStateImpl implements _MyPageState {
   @override
   @JsonKey()
   final dynamic isLoading;
-  @override
-  @JsonKey()
-  final dynamic platform;
 
   /// 사용자 정보 수정
   @override
@@ -684,7 +670,7 @@ class _$MyPageStateImpl implements _MyPageState {
 
   @override
   String toString() {
-    return 'MyPageState(isLoading: $isLoading, platform: $platform, profileImgUrl: $profileImgUrl, realName: $realName, nickName: $nickName, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, communityAlarmState: $communityAlarmState, disasterAlarmState: $disasterAlarmState, disasterTypeList: $disasterTypeList, inquireTypeList: $inquireTypeList, inquireType: $inquireType, isArticleHasMore: $isArticleHasMore, myArticles: $myArticles, isArticleLoading: $isArticleLoading, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isError: $isError, announcementList: $announcementList, announcementDetailResponse: $announcementDetailResponse, leaveTypeList: $leaveTypeList, leaveType: $leaveType)';
+    return 'MyPageState(isLoading: $isLoading, profileImgUrl: $profileImgUrl, realName: $realName, nickName: $nickName, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, communityAlarmState: $communityAlarmState, disasterAlarmState: $disasterAlarmState, disasterTypeList: $disasterTypeList, inquireTypeList: $inquireTypeList, inquireType: $inquireType, isArticleHasMore: $isArticleHasMore, myArticles: $myArticles, isArticleLoading: $isArticleLoading, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isError: $isError, announcementList: $announcementList, announcementDetailResponse: $announcementDetailResponse, leaveTypeList: $leaveTypeList, leaveType: $leaveType)';
   }
 
   @override
@@ -693,7 +679,6 @@ class _$MyPageStateImpl implements _MyPageState {
         (other.runtimeType == runtimeType &&
             other is _$MyPageStateImpl &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.platform, platform) &&
             const DeepCollectionEquality()
                 .equals(other.profileImgUrl, profileImgUrl) &&
             const DeepCollectionEquality().equals(other.realName, realName) &&
@@ -759,7 +744,6 @@ class _$MyPageStateImpl implements _MyPageState {
   int get hashCode => Object.hashAll([
         runtimeType,
         const DeepCollectionEquality().hash(isLoading),
-        const DeepCollectionEquality().hash(platform),
         const DeepCollectionEquality().hash(profileImgUrl),
         const DeepCollectionEquality().hash(realName),
         const DeepCollectionEquality().hash(nickName),
@@ -802,7 +786,6 @@ class _$MyPageStateImpl implements _MyPageState {
 abstract class _MyPageState implements MyPageState {
   factory _MyPageState(
       {final dynamic isLoading,
-      final dynamic platform,
       final dynamic profileImgUrl,
       final dynamic realName,
       final dynamic nickName,
@@ -836,8 +819,6 @@ abstract class _MyPageState implements MyPageState {
 
   @override
   dynamic get isLoading;
-  @override
-  dynamic get platform;
   @override
 
   /// 사용자 정보 수정

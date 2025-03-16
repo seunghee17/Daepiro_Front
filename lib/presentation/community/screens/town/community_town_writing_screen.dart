@@ -218,7 +218,7 @@ class CommunityTownWritingState
                       }
                       Future.delayed(const Duration(milliseconds: 600), () async {
                         GoRouter.of(context).pop();
-                        showSnackbar(context, isSuccess ? '게시글 작성이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
+                        showSnackbar(context, isSuccess ? '게시글 수정이 완료되었습니다.' : '잠시 후 다시 시도해주세요.');
                       });
                     }
                   },

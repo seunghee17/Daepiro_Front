@@ -187,30 +187,27 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
               GoRouter.of(context).pop();
             },
             icon: SvgPicture.asset(
+              width: 24,
+                height: 24,
                 'assets/icons/icon_arrow_left.svg',
                 colorFilter: ColorFilter.mode(
                     DaepiroColorStyle.g_900, BlendMode.srcIn))),
-        SizedBox(height: 32),
+        SizedBox(height: 16),
         Wrap(
           spacing: 8,
+          runSpacing: 4,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: Text(
-                    '${userNickName}님의 ',
-                    style: DaepiroTextStyle.h5.copyWith(
-                        color: DaepiroColorStyle.g_900),
-                  ),
-                ),
-                typeChipWidget(),
-                Text(
-                  ' 어디인가요?',
-                  style: DaepiroTextStyle.h5.copyWith(
-                      color: DaepiroColorStyle.g_900),
-                ),
-              ],
+            Text(
+              '${userNickName}님의 ',
+              style: DaepiroTextStyle.h5.copyWith(
+                  color: DaepiroColorStyle.g_900),
+            ),
+            typeChipWidget(),
+            Text(
+              ' 어디인가요?',
+              style: DaepiroTextStyle.h5.copyWith(
+                  color: DaepiroColorStyle.g_900),
             )
           ],
         ),

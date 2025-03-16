@@ -43,14 +43,15 @@ class LoginViewModel extends StateNotifier<LoginState> {
           .future);
       if(response.code != 1000) {
         throw Exception("Invalid response code: ${response}");
+      } else {
+        state = state.copyWith(
+            isLoading: false,
+            isCompletedOnboarding: response.data?.isCompletedOnboarding ?? false,
+            isLoginSuccess: true);
+        await storage.write(key: 'accessToken', value: response.data?.accessToken);
+        await storage.write(key: 'refreshToken', value: response.data?.refreshToken);
+        await storage.write(key: 'platform', value: platform);
       }
-      state = state.copyWith(
-          isLoading: false,
-          isCompletedOnboarding: response.data?.isCompletedOnboarding ?? false,
-          isLoginSuccess: true);
-      await storage.write(key: 'accessToken', value: response.data?.accessToken);
-      await storage.write(key: 'refreshToken', value: response.data?.refreshToken);
-      await storage.write(key: 'platform', value: platform);
     } catch (error) {
       print('토큰 저장 오류: $error');
       state = state.copyWith(isLoading: false);

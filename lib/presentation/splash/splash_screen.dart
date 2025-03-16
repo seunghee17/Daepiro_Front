@@ -28,6 +28,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
       Future.delayed(const Duration(seconds: 5), () async {
         if (isAuthenticated) {
           try {
+
             bool isOnboardingComplete = await _checkOnboardingComplete(ref);
             if(isOnboardingComplete) {
               GoRouter.of(context).replace('/home');
@@ -52,7 +53,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
 
   Future<bool> checkAuth() async {
     String? accessToken = await storage.read(key: 'accessToken');
-    print("accessToken: $accessToken");
     String? refreshToken = await storage.read(key: 'refreshToken');
     if((accessToken == null) && refreshToken == null || accessToken == "" && refreshToken == "") {
       return false;

@@ -11,7 +11,6 @@ class CommunityPhotoScreen extends ConsumerWidget {
   final List<String>? fileList;
   const CommunityPhotoScreen({super.key, this.fileList});
 
-  //filelist 전달받기
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -27,7 +26,26 @@ class CommunityPhotoScreen extends ConsumerWidget {
                 itemCount: fileList!.length,
                   itemBuilder: (context, index) {
                     String file = fileList![index];
-                    return PhotoView(
+                    return file.toLowerCase().endsWith('.gif')
+                        ? Image.network(
+                        file,
+                      loadingBuilder: (BuildContext context,
+                          Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                      errorBuilder: (BuildContext context,
+                          Object exception,
+                          StackTrace? stackTrace) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    )
+                    : PhotoView(
                         imageProvider: NetworkImage(file),
                       minScale: PhotoViewComputedScale.contained,
                       maxScale: PhotoViewComputedScale.covered * 2,

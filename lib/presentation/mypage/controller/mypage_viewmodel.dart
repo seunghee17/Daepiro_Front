@@ -45,18 +45,10 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   Set<String> get inputJusoList => _inputJusoList;
   Set<String> _inputJusoList = Set<String>();
 
-  MyPageViewModel(this.ref) : super(MyPageState()) {
-    setPlatform();
-  }
+  MyPageViewModel(this.ref) : super(MyPageState());
 
   void setLoadingState() {
     state = state.copyWith(isLoading: true);
-    return;
-  }
-
-  void setPlatform() async {
-    String platform = await storage.read(key: 'platform') ?? '';
-    state = state.copyWith(platform: platform);
     return;
   }
 
@@ -495,19 +487,19 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   }
 
   Future<void> logout() async {
-    if (state.platform == 'kakao') {
+    String platform = await storage.read(key: 'platform') ?? '';
+    await ref.read(logoutUseCaseProvider(LogoutUsecase()).future);
+    if (platform == 'kakao') {
       await UserApi.instance.logout();
-    } else if (state.platform == 'naver') {
+    } else if (platform == 'naver') {
       await FlutterNaverLogin.logOut();
     }
-    await ref.read(logoutUseCaseProvider(LogoutUsecase()).future);
     await storage.deleteAll();
   }
 
   ///공지사항
   //공지사항 리스트 조회
   Future<void> getAnnouncementList() async {
-    print('여깅겨ㅣ');
     try {
       state = state.copyWith(isLoading: true);
       final response = await ref.read(
@@ -515,7 +507,6 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       state = state.copyWith(
           announcementList: response.data ?? [], isLoading: false);
     } catch (e) {
-      print('공지사항을 불러올 수 없습니다. 다시 시도해주세요.');
       state = state.copyWith(announcementList: [], isLoading: false);
     }
   }
@@ -529,9 +520,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       state = state.copyWith(
           announcementDetailResponse: response, isLoading: false);
     } catch (e) {
-      print('공지사항을 불러올 수 없습니다. 다시 시도해주세요.');
-      state =
-          state.copyWith(announcementDetailResponse: null, isLoading: false);
+      state = state.copyWith(announcementDetailResponse: null, isLoading: false);
     }
   }
 
@@ -567,7 +556,6 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       ]);
       return credential.authorizationCode;
     } catch (e) {
-      print('애플 인가코드 로드중 error 발생 $e');
       return '';
     }
   }
