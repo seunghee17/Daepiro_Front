@@ -38,6 +38,29 @@ target 'Runner' do
 end
 
 post_install do |installer|
+    #xcode 16 비트코드 이슈 해결용
+    require 'fileutils'
+    bitcode_strip_path = `xcrun --find bitcode_strip`.chop!
+
+       def  strip_bitcode_from_framework ( bitcode_strip_path, framework_relative_path )
+          framework_path = File.join(Dir.pwd, framework_relative_path)
+           temp_output_path = "#{framework_path}"  # 임시 경로로 파일을 스트립핑 -> 경로가 같아야함. 없어도 되는 코드
+
+          command = " #{bitcode_strip_path}  #{framework_path} -r -o #{temp_output_path} "
+           puts "비트코드 스트리핑: #{command} "
+           system(command)
+       end
+   framework_paths = [
+           "/Pods/naveridlogin-sdk-ios/NaverThirdPartyLogin.xcframework/ios-arm64_x86_64-simulator/NaverThirdPartyLogin.framework/NaverThirdPartyLogin",
+           "/Pods/naveridlogin-sdk-ios/NaverThirdPartyLogin.xcframework/ios-arm64_x86_64-simulator/dSYMs/NaverThirdPartyLogin.framework.dSYM/Contents/Resources/DWARF/NaverThirdPartyLogin",
+           "/Pods/naveridlogin-sdk-ios/NaverThirdPartyLogin.xcframework/ios-arm64/NaverThirdPartyLogin.framework/NaverThirdPartyLogin",
+           "/Pods/naveridlogin-sdk-ios/NaverThirdPartyLogin.xcframework/ios-arm64/dSYMs/NaverThirdPartyLogin.framework.dSYM/Contents/Resources/DWARF/NaverThirdPartyLogin"
+        ]
+    framework_paths.each do | framework_relative_path |
+         strip_bitcode_from_framework(bitcode_strip_path, framework_relative_path)
+   end
+
+
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
 

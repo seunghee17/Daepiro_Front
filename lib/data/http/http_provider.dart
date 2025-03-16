@@ -125,14 +125,14 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
               return;
             } else {
               //refresh 토큰이 존재하지 않거나 만료되었음 로그인 화면으로 이동해야함
-              ref.read(errorNotifierProvider.notifier).addError(exception);
+              //ref.read(errorNotifierProvider.notifier).addError(exception);
               //저장된 토큰 있다면 리셋 잠시만 비활성화
               await storage.write(key: 'accessToken', value: '');
               await storage.write(key: 'refreshToken', value: '');
             }
           } catch(e) {
             print('토큰 갱신중 에러가 발생함: $e');
-            ref.read(errorNotifierProvider.notifier).addError(exception);
+            //ref.read(errorNotifierProvider.notifier).addError(exception);
           }
         }
       }

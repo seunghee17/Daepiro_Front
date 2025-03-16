@@ -76,18 +76,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final tokenRefreshError = ref.watch(errorNotifierProvider);
     final goRouter = ref.watch(goRouteProvider);
-
-    if(tokenRefreshError != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        while(context.canPop()) {
-          context.pop();
-        }
-        GoRouter.of(context).push('/login');
-        ref.read(errorNotifierProvider.notifier).clearError();
-      });
-    }
 
     return MaterialApp.router(
       routerConfig: goRouter,
