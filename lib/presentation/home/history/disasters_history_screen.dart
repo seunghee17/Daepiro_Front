@@ -62,7 +62,7 @@ class _DisasterMessageHistoryScreen extends ConsumerState<DisastersHistoryScreen
                         margin: const EdgeInsets.symmetric(vertical: 14),
                         alignment: Alignment.center,
                         child: Text(
-                          "재난문자 내역",
+                          "재난문자 히스토리",
                           style: DaepiroTextStyle.h6.copyWith(
                             color: DaepiroColorStyle.g_800,
                           ),

@@ -177,14 +177,12 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                           for (int index=0;index<viewModel.behaviorTip!.tips![_selectedActionTipType].tips!.length;index++)
                                             Column(
                                               children: [
-                                                GestureDetector(
-                                                  onTap: () {
+                                                ActionTipItem(
+                                                  text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$1,
+                                                  isSelected: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$2,
+                                                  onClick: () {
                                                     ref.read(homeStateNotifierProvider.notifier).selectCheckList(_selectedActionTipType, index);
                                                   },
-                                                  child: ActionTipItem(
-                                                    text: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$1,
-                                                    isSelected: viewModel.behaviorTip!.tips![_selectedActionTipType].tips![index].$2,
-                                                  ),
                                                 ),
                                               ],
                                             )
@@ -237,34 +235,35 @@ class _DisasterDetailScreenState extends ConsumerState<DisasterDetailScreen> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      context.push(
-                                          '/aroundShelter',
-                                          extra: AroundShelterExtra(
-                                              latitude: viewModel.latitude,
-                                              longitude: viewModel.longitude,
-                                              address: viewModel.shelterLocation,
-                                              earthquakeShelterList: viewModel.earthquakeShelterList,
-                                              tsunamiShelterList: viewModel.tsunamiShelterList,
-                                              civilShelterList: viewModel.civilShelterList,
-                                              temperatureShelterList: viewModel.temperatureShelterList,
-                                          )
-                                      );
-                                    },
-                                    child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "더보기",
-                                            style: DaepiroTextStyle.body_2_m.copyWith(
-                                              color: DaepiroColorStyle.o_400,
+                                  if (viewModel.shelterList.isNotEmpty)
+                                    GestureDetector(
+                                      onTap: () {
+                                        context.push(
+                                            '/aroundShelter',
+                                            extra: AroundShelterExtra(
+                                                latitude: viewModel.latitude,
+                                                longitude: viewModel.longitude,
+                                                address: viewModel.shelterLocation,
+                                                earthquakeShelterList: viewModel.earthquakeShelterList,
+                                                tsunamiShelterList: viewModel.tsunamiShelterList,
+                                                civilShelterList: viewModel.civilShelterList,
+                                                temperatureShelterList: viewModel.temperatureShelterList,
+                                            )
+                                        );
+                                      },
+                                      child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "더보기",
+                                              style: DaepiroTextStyle.body_2_m.copyWith(
+                                                color: DaepiroColorStyle.o_400,
+                                              ),
                                             ),
-                                          ),
-                                          SvgPicture.asset('assets/icons/icon_arrow_right.svg')
-                                        ]
-                                    ),
-                                  )
+                                            SvgPicture.asset('assets/icons/icon_arrow_right.svg')
+                                          ]
+                                      ),
+                                    )
                                 ]
                             ),
                           ),

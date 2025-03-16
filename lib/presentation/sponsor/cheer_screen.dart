@@ -20,16 +20,15 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
   final FocusNode focusNode = FocusNode();
   bool isFocused = false;
 
-  @override
-  void initState() {
-    super.initState();
-    focusNode.addListener(() {
-      setState(() {
-        isFocused = focusNode.hasFocus;
-      });
-    });
-
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   focusNode.addListener(() {
+  //     setState(() {
+  //       isFocused = focusNode.hasFocus;
+  //     });
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -52,7 +51,6 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          textEditingController.clear();
           FocusScope.of(context).unfocus();
         },
         child: Container(
@@ -146,6 +144,9 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
                                       viewModel.cheerCommentList[index].isMine ?? false,
                                       viewModel.cheerCommentList[index].id ?? 0
                                   );
+
+                                  isFocused = false;
+                                  FocusScope.of(context).unfocus();
                                 },
                                 isMine: viewModel.cheerCommentList[index].isMine ?? false
                             ),
@@ -204,6 +205,7 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
                           if (textEditingController.text.isNotEmpty) {
                             ref.read(sponsorStateNotifierProvider.notifier).writeCheerMessage(textEditingController.text);
                             textEditingController.clear();
+                            isFocused = false;
                             FocusScope.of(context).unfocus();
                           }
 
