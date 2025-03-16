@@ -39,22 +39,6 @@
 	<key>KAKAO_KEY</key>
 	<string>0786b07056f57dd7e119842166e52498</string>
 	<key>LSApplicationQueriesSchemes</key>
-
-    <array>
-          <string>naversearchapp</string>
-          <string>naversearchthirdlogin</string>
-      </array>
-
-    <key>naverServiceAppUrlScheme</key>
-            <string>com.daepiro.app</string>
-            <key>naverConsumerKey</key>
-            <string>6IUl3ufVzcV1OzMLG3cS</string>
-            <key>naverConsumerSecret</key>
-            <string>WPYAXanUcu</string>
-            <key>naverServiceAppName</key>
-            <string>대피로</string>
-
- <key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakao0786b07056f57dd7e119842166e52498</string>
 		<string>kakaokompassauth</string>
@@ -62,6 +46,14 @@
 		<string>kakaolink</string>
 		<string>kakaotalk-5.9.7</string>
 	</array>
+	<key>naverServiceAppUrlScheme</key>
+	<string>com.daepiro.app</string>
+	<key>naverConsumerKey</key>
+	<string>6IUl3ufVzcV1OzMLG3cS</string>
+	<key>naverConsumerSecret</key>
+	<string>WPYAXanUcu</string>
+	<key>naverServiceAppName</key>
+	<string>대피로</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -91,7 +83,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>커뮤니티에서 게시글 및 댓글을 작성할 때 사진을 업로드하기 위해서는 '카메라' 접근 권한을 허용해주세요.</string>
+	<string>커뮤니티에서 게시글 및 댓글을 작성할 때 사진을 업로드하기 위해서는 &apos;카메라&apos; 접근 권한을 허용해주세요.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>앱의 audio control을 위해 권한이 사용됩니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>현위치를 기반으로 날씨, 재난 정보, 대피소 정보를 제공하기 위해 사용됩니다.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -126,13 +120,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>naverConsumerKey</key>
-	<string>6IUl3ufVzcV1OzMLG3cS</string>
-	<key>naverConsumerSecret</key>
-	<string>WPYAXanUcu</string>
-	<key>naverServiceAppName</key>
-	<string>대피로</string>
-	<key>naverServiceAppUrlScheme</key>
-	<string>com.daepiro.app</string>
 </dict>
 </plist>
