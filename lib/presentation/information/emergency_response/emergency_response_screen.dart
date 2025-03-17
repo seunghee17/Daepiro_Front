@@ -114,19 +114,22 @@ class _EmergencyResponseScreen extends ConsumerState<EmergencyResponseScreen> wi
                   ),
                 ],
               ),
-              ExpandablePageView(
-                controller: _responsePageController,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
-                    ItemEmergencyResponse(
-                        tabIndex: selectedTabIndex,
-                        pageIndex: i
-                    )
-                ],
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ExpandablePageView(
+                    controller: _responsePageController,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      for (int i=0;i<Const.emergencyResponseList[selectedTabIndex].length;i++)
+                        ItemEmergencyResponse(
+                            tabIndex: selectedTabIndex,
+                            pageIndex: i
+                        )
+                    ],
+                  ),
+                ),
               ),
-              // const SizedBox(height: 12),
-              const Spacer(),
+              const SizedBox(height: 12),
               Center(
                 child: SmoothPageIndicator(
                   controller: _responsePageController,
