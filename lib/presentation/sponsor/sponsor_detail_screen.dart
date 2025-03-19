@@ -181,122 +181,130 @@ class _SponsorDetailScreenState extends ConsumerState<SponsorDetailScreen> with 
                   child: TabBarView(
                       controller: _tabController,
                       children: [
-                        Expanded(
-                            child: SingleChildScrollView(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.g_50,
-                                          borderRadius: BorderRadius.circular(8)
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              '후원 정보 요약',
-                                              style: DaepiroTextStyle.body_1_b.copyWith(
-                                                color: DaepiroColorStyle.g_900,
-                                              )
+                        Column(
+                          children: [
+                            Expanded(
+                                child: SingleChildScrollView(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: DaepiroColorStyle.g_50,
+                                              borderRadius: BorderRadius.circular(8)
                                           ),
-                                          const SizedBox(height: 10),
-                                          for (int i=0;i<widget.extra.summary!.length;i++)
-                                            Column(
-                                              children: [
-                                                if (i !=0)
-                                                  const SizedBox(height: 2),
-                                                Text(
-                                                    "- ${widget.extra.summary?[i]}",
-                                                    style: DaepiroTextStyle.body_2_m.copyWith(
-                                                      color: DaepiroColorStyle.g_800,
-                                                    )
-                                                ),
-                                              ],
-                                            )
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Text(
-                                        widget.extra.subtitle ?? "",
-                                        style: DaepiroTextStyle.body_2_m.copyWith(
-                                          color: DaepiroColorStyle.g_800,
-                                        )
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                        widget.extra.body ?? "",
-                                        style: DaepiroTextStyle.body_2_m.copyWith(
-                                          color: DaepiroColorStyle.g_800,
-                                        )
-                                    ),
-                                    const SizedBox(height: 12)
-                                  ],
-                                ),
-                              ),
-                            )
-                        ),
-                        Expanded(
-                            child: SingleChildScrollView(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                          color: DaepiroColorStyle.g_50,
-                                          borderRadius: BorderRadius.circular(8)
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                              "기관/단체",
-                                              style: DaepiroTextStyle.body_2_b.copyWith(
-                                                color: DaepiroColorStyle.o_500,
-                                              )
-                                          ),
-                                          const Spacer(),
-                                          GestureDetector(
-                                            onTap: () async {
-                                              if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
-                                                 launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
-                                              }
-                                            },
-                                            child: Text(
-                                              widget.extra.sponsorName ?? "",
-                                              style: DaepiroTextStyle.body_2_m.copyWith(
-                                                color: DaepiroColorStyle.g_800,
-                                                decoration: TextDecoration.underline,
-                                                decorationColor: DaepiroColorStyle.g_800,
-                                                decorationThickness: 1,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  '후원 정보 요약',
+                                                  style: DaepiroTextStyle.body_1_b.copyWith(
+                                                    color: DaepiroColorStyle.g_900,
+                                                  )
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                              const SizedBox(height: 10),
+                                              for (int i=0;i<widget.extra.summary!.length;i++)
+                                                Column(
+                                                  children: [
+                                                    if (i !=0)
+                                                      const SizedBox(height: 2),
+                                                    Text(
+                                                        "- ${widget.extra.summary?[i]}",
+                                                        style: DaepiroTextStyle.body_2_m.copyWith(
+                                                          color: DaepiroColorStyle.g_800,
+                                                        )
+                                                    ),
+                                                  ],
+                                                )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Text(
+                                            widget.extra.subtitle ?? "",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.g_800,
+                                            )
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                            widget.extra.body ?? "",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.g_800,
+                                            )
+                                        ),
+                                        const SizedBox(height: 12)
+                                      ],
                                     ),
-                                    const SizedBox(height: 20),
-                                    Text(
-                                        widget.extra.sponsorDescription ?? "",
-                                        style: DaepiroTextStyle.body_2_m.copyWith(
-                                          color: DaepiroColorStyle.g_800,
+                                  ),
+                                )
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Expanded(
+                                child: SingleChildScrollView(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: DaepiroColorStyle.g_50,
+                                              borderRadius: BorderRadius.circular(8)
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                  "기관/단체",
+                                                  style: DaepiroTextStyle.body_2_b.copyWith(
+                                                    color: DaepiroColorStyle.o_500,
+                                                  )
+                                              ),
+                                              const Spacer(),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  if (await canLaunchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""))) {
+                                                     launchUrl(Uri.parse(widget.extra.sponsorUrl ?? ""));
+                                                  }
+                                                },
+                                                child: Text(
+                                                  widget.extra.sponsorName ?? "",
+                                                  style: DaepiroTextStyle.body_2_m.copyWith(
+                                                    color: DaepiroColorStyle.g_800,
+                                                    decoration: TextDecoration.underline,
+                                                    decorationColor: DaepiroColorStyle.g_800,
+                                                    decorationThickness: 1,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Text(
+                                            widget.extra.sponsorDescription ?? "",
+                                            style: DaepiroTextStyle.body_2_m.copyWith(
+                                              color: DaepiroColorStyle.g_800,
+                                            )
                                         )
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ),
+                          ],
                         ),
                       ]
                   ),

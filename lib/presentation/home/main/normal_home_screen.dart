@@ -240,55 +240,57 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
                               ),
                               child: viewModel.isLoadingDisasterHistory
                                   ? Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  child: const Center(child: CircularProgressIndicator())
-                              )
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      child: const Center(child: CircularProgressIndicator()))
                                   : viewModel.disasterHistoryList.isEmpty
-                                  ? Container(
-                                padding: const EdgeInsets.symmetric(vertical: 60),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "최근 재난문자 내역이 없습니다.",
-                                  style: DaepiroTextStyle.body_2_b.copyWith(
-                                    color: DaepiroColorStyle.g_200,
-                                  ),
-                                ),
-                              )
-                                  : Expanded(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: viewModel.disasterHistoryList.length,
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        children: [
-                                          if (index != 0)
-                                            const SizedBox(height: 8),
-                                          GestureDetector(
-                                            onTap: () {
-                                              context.push(
-                                                  '/disasterDetail',
-                                                  extra: Disasters(
-                                                    disasterType: viewModel.disasterHistoryList[index].disasterType,
-                                                    disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
-                                                    title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
-                                                    content: viewModel.disasterHistoryList[index].content,
-                                                    time: viewModel.disasterHistoryList[index].time,
-                                                  )
-                                              );
-                                            },
-                                            child: DisasterHistoryPreview(
-                                                disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
-                                                title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
-                                                date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                      ? Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 60),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "최근 재난문자 내역이 없습니다.",
+                                            style: DaepiroTextStyle.body_2_b.copyWith(
+                                              color: DaepiroColorStyle.g_200,
                                             ),
                                           ),
-                                        ],
-                                      );
-                                    }
-                                ),
-                              ),
-                            ),
+                                        )
+                                      : Column(
+                                          children: [
+                                            Expanded(
+                                                child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics: const NeverScrollableScrollPhysics(),
+                                                    itemCount: viewModel.disasterHistoryList.length,
+                                                    itemBuilder: (context, index) {
+                                                      return Column(
+                                                        children: [
+                                                          if (index != 0)
+                                                            const SizedBox(height: 8),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              context.push(
+                                                                  '/disasterDetail',
+                                                                  extra: Disasters(
+                                                                    disasterType: viewModel.disasterHistoryList[index].disasterType,
+                                                                    disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
+                                                                    title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
+                                                                    content: viewModel.disasterHistoryList[index].content,
+                                                                    time: viewModel.disasterHistoryList[index].time,
+                                                                  )
+                                                              );
+                                                            },
+                                                            child: DisasterHistoryPreview(
+                                                                disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                                title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
+                                                                date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                ),
+                                              ),
+                                          ],
+                                      )),
                             const SizedBox(height: 28),
                             Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
