@@ -74,12 +74,7 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                       child: ruleContainer()),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: typeRadioButton(state.townCategory, ref)),
-                        ],
-                      )),
+                      child: typeRadioButton(state.townCategory, ref)),
                   state.contentList.length != 0
                       ? ListView.builder(
                           shrinkWrap: true,
@@ -141,42 +136,41 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
 
   //글 유형 타입 radio button
   Widget typeRadioButton(String townCategory, WidgetRef ref) {
-    return Container(
-        height: 36,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              typeItem(townCategory == '전체', '전체', ref),
-              typeItem(townCategory == '일상', '일상', ref),
-              typeItem(townCategory == '교통', '교통', ref),
-              typeItem(townCategory == '치안', '치안', ref),
-              typeItem(townCategory == '기타', '기타', ref)
-            ],
-          ),
-        ));
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Wrap(
+        spacing: 8,
+        children: [
+          typeItem(townCategory == '전체', '전체', ref),
+          typeItem(townCategory == '일상', '일상', ref),
+          typeItem(townCategory == '교통', '교통', ref),
+          typeItem(townCategory == '치안', '치안', ref),
+          typeItem(townCategory == '기타', '기타', ref)
+        ],
+      ),
+    );
   }
 
   Widget typeItem(bool isSame, String realText, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: GestureDetector(
-        onTap: () async {
-          await ref.read(communityTownProvider.notifier).selectButton(realText);
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(99),
-              color: isSame ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-            child: Text(
-              realText,
-              style: isSame
-                  ? DaepiroTextStyle.body_1_m.copyWith(color: Colors.white)
-                  : DaepiroTextStyle.body_1_m
-                      .copyWith(color: DaepiroColorStyle.g_600),
-            ),
+    return GestureDetector(
+      onTap: () async {
+        await ref.read(communityTownProvider.notifier).selectButton(realText);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(99),
+            color: isSame ? DaepiroColorStyle.g_600 : DaepiroColorStyle.g_50),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+          child: Text(
+            realText,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            softWrap: false,
+            style: isSame
+                ? DaepiroTextStyle.body_1_m.copyWith(color: Colors.white)
+                : DaepiroTextStyle.body_1_m
+                    .copyWith(color: DaepiroColorStyle.g_600),
           ),
         ),
       ),
