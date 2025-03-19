@@ -125,10 +125,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   Future<void> appleLogin() async {
     try {
-      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ]);
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: []);
       await fetchSocialToken('apple', credential.authorizationCode ?? '');
     } catch (e) {
       print('애플로그인 시도중 error 발생 $e');
