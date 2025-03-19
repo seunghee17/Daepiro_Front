@@ -324,6 +324,7 @@ class MyPageUserWritingState extends ConsumerState<MyPageUserWritingScreen> {
               ),
               SizedBox(height: 4),
               Text(
+                textAlign: TextAlign.center,
                 '커뮤니티에서 글을 작성하고 이웃과 소통해보세요.',
                 style: DaepiroTextStyle.body_2_m
                     .copyWith(color: DaepiroColorStyle.g_300),

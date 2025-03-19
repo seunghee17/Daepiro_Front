@@ -205,9 +205,11 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                  ref.read(onboardingStateNotifierProvider.notifier).updateEachPermissionState(index);
                 }),
             SizedBox(width: 8,),
-            Text(
-              term,
-              style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
+            Expanded(
+              child: Text(
+                term,
+                style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
+              ),
             ),
             Spacer(),
             Visibility(

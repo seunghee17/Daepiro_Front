@@ -135,7 +135,14 @@ class CommunityRuleScreen extends ConsumerWidget {
                   colorFilter: ColorFilter.mode(
                       DaepiroColorStyle.o_300, BlendMode.srcIn)),
               SizedBox(width: 6),
-              Text(title, style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_800))
+              Expanded(
+                child: Text(
+                  title,
+                  style: DaepiroTextStyle.body_1_b.copyWith(color: DaepiroColorStyle.g_800),
+                  softWrap: true,
+                  maxLines: 2,
+                overflow: TextOverflow.visible,),
+              )
             ],
           ),
           SizedBox(height: 10),
