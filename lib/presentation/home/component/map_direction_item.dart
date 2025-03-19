@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:geocoding/geocoding.dart';
@@ -32,23 +33,36 @@ class MapDirectionItem extends StatelessWidget {
       String storeUrl = "";
 
       if (type == "naver") {
-        List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
-        List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
+        if (Platform.isAndroid) {
+          List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
+          List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
 
-        String startAddress = startLocationAddress.first.street ?? "";
-        String endAddress = endLocationAddress.first.street ?? "";
+          String startAddress = startLocationAddress.first.street ?? "";
+          String endAddress = endLocationAddress.first.street ?? "";
 
-        String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
-        String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
+          String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
+          String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
 
-        url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
-        storeUrl = "com.nhn.android.nmap";
+          url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
+          storeUrl = "com.nhn.android.nmap";
+        } else if (Platform.isIOS) {
+          url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&dlat=$endLatitude&dlng=$endLongitude";
+          storeUrl = "https://apps.apple.com/kr/app/naver-map/id311867728";
+        }
       } else if (type == "kakao") {
         url = "kakaomap://route?sp=$startLatitude,$startLongitude&ep=$endLatitude,$endLongitude&by=FOOT";
-        storeUrl = "net.daum.android.map";
+        if (Platform.isAndroid) {
+          storeUrl = "net.daum.android.map";
+        } else if (Platform.isIOS) {
+          storeUrl = "https://apps.apple.com/kr/app/kakaomap/id304608425";
+        }
       } else {
         url = "tmap://route?startx=$startLongitude&starty=$startLatitude&goalx=$endLongitude&goaly=$endLatitude&reqCoordType=WGS84&resCoordType=WGS84";
-        storeUrl = "com.skt.tmap.ku";
+        if (Platform.isAndroid) {
+          storeUrl = "com.skt.tmap.ku";
+        } else if (Platform.isIOS) {
+          storeUrl = "https://apps.apple.com/kr/app/t-map/id431589174";
+        }
       }
 
       bool isInstalled = await DeviceApps.isAppInstalled(storeUrl);
