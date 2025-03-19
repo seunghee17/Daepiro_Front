@@ -35,6 +35,7 @@ class CommunityDisasterStateScreen extends ConsumerState<CommunityDisasterScreen
 
   @override
   void dispose() {
+    super.dispose();
     scrollController.dispose();
   }
 

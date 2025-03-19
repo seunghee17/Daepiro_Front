@@ -74,8 +74,12 @@ class CommunityTownState extends ConsumerState<CommunityTownScreen> {
                       child: ruleContainer()),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Expanded(
-                          child: typeRadioButton(state.townCategory, ref))),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: typeRadioButton(state.townCategory, ref)),
+                        ],
+                      )),
                   state.contentList.length != 0
                       ? ListView.builder(
                           shrinkWrap: true,
