@@ -33,22 +33,6 @@ class MapDirectionItem extends StatelessWidget {
       String storeUrl = "";
 
       if (type == "naver") {
-        // if (Platform.isAndroid) {
-        //   List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
-        //   List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
-        //
-        //   String startAddress = startLocationAddress.first.street ?? "";
-        //   String endAddress = endLocationAddress.first.street ?? "";
-        //
-        //   String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
-        //   String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
-        //
-        //   url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
-        //   storeUrl = "com.nhn.android.nmap";
-        // } else if (Platform.isIOS) {
-        //   url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&dlat=$endLatitude&dlng=$endLongitude";
-        //   storeUrl = "https://apps.apple.com/kr/app/naver-map/id311867728";
-        // }
         List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
         List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
 
@@ -76,16 +60,6 @@ class MapDirectionItem extends StatelessWidget {
         }
       }
 
-      // bool isInstalled = await DeviceApps.isAppInstalled(storeUrl);
-      // if (isInstalled) {
-      //   if (await canLaunchUrl(Uri.parse(url))) {
-      //     await launchUrl(Uri.parse(url));
-      //   }
-      // } else {
-      //   if (await canLaunchUrl(Uri.parse(STORE_URL + url))) {
-      //     await launchUrl(Uri.parse(STORE_URL + storeUrl));
-      //   }
-      // }
       bool isInstalled = await canLaunchUrl(Uri.parse(url));
       if(isInstalled) {
         await launchUrl(Uri.parse(url));
