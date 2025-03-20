@@ -1,3 +1,4 @@
+import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
 import 'package:daepiro/presentation/mypage/controller/mypage_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
           widget.navigationShell.goBranch(index);
           if(index == 4) {
             await ref.read(myPageProvider.notifier).getMyProfiles();
+          } else if(index == 1) {
+            await ref.read(communityTownProvider.notifier).setUserAddressList();
           }
         }
       },
