@@ -48,7 +48,6 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(myPageProvider);
     final viewModel = ref.read(myPageProvider.notifier);
     return Scaffold(
       body: SafeArea(
@@ -304,6 +303,7 @@ class MypageDisasterTypeSettingState extends ConsumerState<MypageDisasterTypeSet
             name,
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_500),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
         ],

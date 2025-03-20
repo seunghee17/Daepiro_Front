@@ -23,26 +23,28 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 48,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: headerWidget()),
-            SizedBox(height: 36),
-          allAgreeWidget(state.isAllAppPermissionGrant, ref),
-            SizedBox(height: 16),
-            ListView(
-              shrinkWrap: true,
-               children: [
-                 privateInfoWidget(state.termList[0], 0, state.isAppPermissionCheckboxState, ref, null),
-                 privateInfoWidget(state.termList[1], 1, state.isAppPermissionCheckboxState, ref, 0),
-                 privateInfoWidget(state.termList[2], 2, state.isAppPermissionCheckboxState, ref, 1),
-                 privateInfoWidget(state.termList[3], 3, state.isAppPermissionCheckboxState, ref, 2),
-               ],
-
+            Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 48,),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: headerWidget()),
+                      SizedBox(height: 36),
+                      allAgreeWidget(state.isAllAppPermissionGrant, ref),
+                      SizedBox(height: 16),
+                      privateInfoWidget(state.termList[0], 0, state.isAppPermissionCheckboxState, ref, null),
+                      privateInfoWidget(state.termList[1], 1, state.isAppPermissionCheckboxState, ref, 0),
+                      privateInfoWidget(state.termList[2], 2, state.isAppPermissionCheckboxState, ref, 1),
+                      privateInfoWidget(state.termList[3], 3, state.isAppPermissionCheckboxState, ref, 2),
+                    ],
+                  ),
+                )
             ),
-            Spacer(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: bottomWidget(state.isAllAppPermissionGrant)),
             SizedBox(height: 28)
           ],
@@ -211,14 +213,16 @@ class OnboardingFifthState extends ConsumerState<OnboardingFifthScreen> {
                 style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_800),
               ),
             ),
-            Spacer(),
-            Visibility(
-              visible: index != 0,
-              child: SvgPicture.asset(
-                  'assets/icons/icon_arrow_right.svg',
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: Visibility(
+                visible: index != 0,
+                child: SvgPicture.asset(
+                    'assets/icons/icon_arrow_right.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(DaepiroColorStyle.g_100, BlendMode.srcIn)
+                ),
               ),
             )
           ],

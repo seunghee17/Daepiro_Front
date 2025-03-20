@@ -85,7 +85,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
             child: NavigationBar(
               selectedIndex: currentIndex,
               destinations: [

@@ -298,6 +298,7 @@ class OnboardingFourthState extends ConsumerState<OnboardingFourthScreen> {
             name,
             style: DaepiroTextStyle.body_2_m
                 .copyWith(color: DaepiroColorStyle.g_500),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
         ],
