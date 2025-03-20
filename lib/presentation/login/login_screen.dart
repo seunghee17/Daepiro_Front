@@ -69,6 +69,7 @@ class LoginScreen extends ConsumerWidget {
                         '안전으로 연결하는 통로',
                         style: DaepiroTextStyle.body_1_b
                             .copyWith(color: DaepiroColorStyle.o_500),
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),
                       Flexible(

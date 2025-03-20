@@ -31,7 +31,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.45,
+              height: MediaQuery.of(context).size.height * 0.5,
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -41,8 +41,11 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                       top: MediaQuery.of(context).padding.top,
                       right: 20,
                       left: 20,
-                      child: IntrinsicHeight(child:
-                      headerWidget(context, state.nickName))
+                      child: Column(
+                        children: [
+                          IntrinsicHeight(child: headerWidget(context, state.nickName)),
+                        ],
+                      )
                   ),
                   Positioned(
                       right: 0,
@@ -101,7 +104,6 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
   Widget backgroundWidget(BuildContext context) {
     return Container(
       width: double.infinity,
-      //height: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
         gradient: LinearGradient(
@@ -191,7 +193,7 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                 colorFilter: ColorFilter.mode(
                     DaepiroColorStyle.o_400, BlendMode.srcIn)),
             SizedBox(width: 10),
-            Text('모든 회원 정보와 활동내역이 사라질 수 있어요!', style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.g_900)),
+            Expanded(child: Text('모든 회원 정보와 활동내역이 사라질 수 있어요!', style: DaepiroTextStyle.body_2_b.copyWith(color: DaepiroColorStyle.g_900))),
           ],
         ),
       ),

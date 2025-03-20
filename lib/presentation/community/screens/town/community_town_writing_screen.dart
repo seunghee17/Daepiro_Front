@@ -260,20 +260,26 @@ class CommunityTownWritingState
           child: Row(
             children: [
               writingTownCategory == ''
-                  ? Text(
-                      '게시글 주제를 선택해주세요.',
-                      style: DaepiroTextStyle.body_1_m
-                          .copyWith(color: DaepiroColorStyle.g_300),
-                    )
-                  : Text(
-                      writingTownCategory,
-                      style: DaepiroTextStyle.body_1_m
-                          .copyWith(color: DaepiroColorStyle.g_900),
-                    ),
-              Spacer(),
-              SvgPicture.asset('assets/icons/icon_arrow_down.svg',
-                  colorFilter: ColorFilter.mode(
-                      DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                  ? Expanded(
+                    child: Text(
+                        '게시글 주제를 선택해주세요.',
+                        style: DaepiroTextStyle.body_1_m
+                            .copyWith(color: DaepiroColorStyle.g_300),
+                      ),
+                  )
+                  : Expanded(
+                    child: Text(
+                        writingTownCategory,
+                        style: DaepiroTextStyle.body_1_m
+                            .copyWith(color: DaepiroColorStyle.g_900),
+                      ),
+                  ),
+              Padding(
+                padding: const EdgeInsets.only(right: 0.0),
+                child: SvgPicture.asset('assets/icons/icon_arrow_down.svg',
+                    colorFilter: ColorFilter.mode(
+                        DaepiroColorStyle.g_900, BlendMode.srcIn)),
+              ),
             ],
           ),
         ),
@@ -324,6 +330,7 @@ class CommunityTownWritingState
           counterText: '',
           isDense: true,
           hintText: '동네생활과 관련된 이야기를 주민들과 나누세요.',
+          hintMaxLines: 3,
           hintStyle: DaepiroTextStyle.body_2_m
               .copyWith(color: DaepiroColorStyle.g_200),
           contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16),

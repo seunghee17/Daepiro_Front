@@ -152,20 +152,26 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
         child: Row(
           children: [
             reportType == ''
-                ? Text(
-                    '신고 유형을 선택해주세요 (필수)',
-                    style: DaepiroTextStyle.body_1_m
-                        .copyWith(color: DaepiroColorStyle.g_300),
-                  )
-                : Text(
-                    reportType,
-                    style: DaepiroTextStyle.body_1_m
-                        .copyWith(color: DaepiroColorStyle.g_900),
-                  ),
-            Spacer(),
-            SvgPicture.asset('assets/icons/icon_arrow_down.svg',
-                colorFilter:
-                    ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+                ? Expanded(
+                  child: Text(
+                      '신고 유형을 선택해주세요 (필수)',
+                      style: DaepiroTextStyle.body_1_m
+                          .copyWith(color: DaepiroColorStyle.g_300),
+                    ),
+                )
+                : Expanded(
+                  child: Text(
+                      reportType,
+                      style: DaepiroTextStyle.body_1_m
+                          .copyWith(color: DaepiroColorStyle.g_900),
+                    ),
+                ),
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: SvgPicture.asset('assets/icons/icon_arrow_down.svg',
+                  colorFilter:
+                      ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
+            ),
           ],
         ),
       ),
@@ -213,6 +219,7 @@ class CommunityReportState extends ConsumerState<CommunityReportScreen> {
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
+                hintMaxLines: 3,
               ),
             ),
             Positioned(

@@ -17,30 +17,33 @@ class PermissionScreen extends ConsumerWidget {
     final permissionState = ref.watch(permissionStateNotifierProvider);
 
     return Container(
+      //height: MediaQuery.of(context).size.height * 0.9,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8)),
           color: DaepiroColorStyle.white),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              '대피로를 이용하기 위해\n다음과 같은 권한 허용이 필요해요',
-              style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                '대피로를 이용하기 위해\n다음과 같은 권한 허용이 필요해요',
+                style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900),
+              ),
             ),
-          ),
-          SizedBox(height: 16),
-          allAgreeWidget(permissionState.isAllPermissionGrant, ref),
-          SizedBox(height: 16),
-          ...List.generate(4, (index) => permissionWidget(index, permissionState.isPermissionCheckboxState, ref)),
-          SizedBox(height: 44),
-          bottomSheetFootter(double.infinity, ref, permissionState.isPermissionCheckboxState, context)
-        ],
+            SizedBox(height: 16),
+            allAgreeWidget(permissionState.isAllPermissionGrant, ref),
+            SizedBox(height: 16),
+            ...List.generate(4, (index) => permissionWidget(index, permissionState.isPermissionCheckboxState, ref)),
+            SizedBox(height: 44),
+            bottomSheetFootter(double.infinity, ref, permissionState.isPermissionCheckboxState, context)
+          ],
+        ),
       )
     );
   }

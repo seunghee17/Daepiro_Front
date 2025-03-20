@@ -82,6 +82,7 @@ class JusoInputState extends ConsumerState<JusoInputScreen> {
     final myPagestate = ref.watch(myPageProvider);
     final myPageAddress = ref.watch(myPageProvider.notifier);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),

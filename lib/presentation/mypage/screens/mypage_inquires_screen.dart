@@ -132,20 +132,26 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
         child: Row(
           children: [
             inquireType == ''
-                ? Text(
-              '문의 유형을 선택해주세요. (필수)',
-              style: DaepiroTextStyle.body_1_m
-                  .copyWith(color: DaepiroColorStyle.g_300),
-            )
-                : Text(
-              inquireType,
-              style: DaepiroTextStyle.body_1_m
-                  .copyWith(color: DaepiroColorStyle.g_900),
+                ? Expanded(
+                  child: Text('문의 유형을 선택해주세요. (필수)',
+                                style: DaepiroTextStyle.body_1_m
+                    .copyWith(color: DaepiroColorStyle.g_300),
+                              ),
+                )
+                : Expanded(
+                  child: Text(
+                                inquireType,
+                                style: DaepiroTextStyle.body_1_m
+                    .copyWith(color: DaepiroColorStyle.g_900),
+                              ),
+                ),
+            //Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: SvgPicture.asset('assets/icons/icon_arrow_down.svg',
+                  colorFilter:
+                  ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
             ),
-            Spacer(),
-            SvgPicture.asset('assets/icons/icon_arrow_down.svg',
-                colorFilter:
-                ColorFilter.mode(DaepiroColorStyle.g_900, BlendMode.srcIn)),
           ],
         ),
       ),
@@ -281,6 +287,7 @@ class MyPageInquiresState extends ConsumerState<MyPageInquiresScreen> {
                 isDense: true,
                 fillColor: DaepiroColorStyle.g_50,
                 hintText: '궁금한 사항을 구체적으로 작성해주세요.',
+                hintMaxLines: 3,
                 hintStyle: DaepiroTextStyle.body_1_m
                     .copyWith(color: DaepiroColorStyle.g_200),
                 border: OutlineInputBorder(

@@ -24,8 +24,8 @@ class ReplyBottomSheetState extends ConsumerState<ReplyBottomSheet> {
 
   @override
   void dispose() {
-    focusNode.dispose();
     super.dispose();
+    focusNode.dispose();
   }
 
   @override
