@@ -33,22 +33,33 @@ class MapDirectionItem extends StatelessWidget {
       String storeUrl = "";
 
       if (type == "naver") {
-        if (Platform.isAndroid) {
-          List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
-          List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
+        // if (Platform.isAndroid) {
+        //   List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
+        //   List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
+        //
+        //   String startAddress = startLocationAddress.first.street ?? "";
+        //   String endAddress = endLocationAddress.first.street ?? "";
+        //
+        //   String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
+        //   String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
+        //
+        //   url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
+        //   storeUrl = "com.nhn.android.nmap";
+        // } else if (Platform.isIOS) {
+        //   url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&dlat=$endLatitude&dlng=$endLongitude";
+        //   storeUrl = "https://apps.apple.com/kr/app/naver-map/id311867728";
+        // }
+        List<Placemark> startLocationAddress = await placemarkFromCoordinates(startLatitude, startLongitude);
+        List<Placemark> endLocationAddress = await placemarkFromCoordinates(endLatitude, endLongitude);
 
-          String startAddress = startLocationAddress.first.street ?? "";
-          String endAddress = endLocationAddress.first.street ?? "";
+        String startAddress = startLocationAddress.first.street ?? "";
+        String endAddress = endLocationAddress.first.street ?? "";
 
-          String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
-          String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
+        String encodedStartAddress = Uri.encodeFull(startAddress.replaceAll("대한민국 ", ""));
+        String encodedEndAddress = Uri.encodeFull(endAddress.replaceAll("대한민국 ", ""));
 
-          url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
-          storeUrl = "com.nhn.android.nmap";
-        } else if (Platform.isIOS) {
-          url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&dlat=$endLatitude&dlng=$endLongitude";
-          storeUrl = "https://apps.apple.com/kr/app/naver-map/id311867728";
-        }
+        url = "nmap://route/walk?slat=$startLatitude&slng=$startLongitude&sname=$encodedStartAddress&dlat=$endLatitude&dlng=$endLongitude&dname=$encodedEndAddress";
+        storeUrl = Platform.isAndroid ? "com.nhn.android.nmap" : "https://apps.apple.com/kr/app/naver-map/id311867728";
       } else if (type == "kakao") {
         url = "kakaomap://route?sp=$startLatitude,$startLongitude&ep=$endLatitude,$endLongitude&by=FOOT";
         if (Platform.isAndroid) {
@@ -65,15 +76,21 @@ class MapDirectionItem extends StatelessWidget {
         }
       }
 
-      bool isInstalled = await DeviceApps.isAppInstalled(storeUrl);
-      if (isInstalled) {
-        if (await canLaunchUrl(Uri.parse(url))) {
-          launchUrl(Uri.parse(url));
-        }
+      // bool isInstalled = await DeviceApps.isAppInstalled(storeUrl);
+      // if (isInstalled) {
+      //   if (await canLaunchUrl(Uri.parse(url))) {
+      //     await launchUrl(Uri.parse(url));
+      //   }
+      // } else {
+      //   if (await canLaunchUrl(Uri.parse(STORE_URL + url))) {
+      //     await launchUrl(Uri.parse(STORE_URL + storeUrl));
+      //   }
+      // }
+      bool isInstalled = await canLaunchUrl(Uri.parse(url));
+      if(isInstalled) {
+        await launchUrl(Uri.parse(url));
       } else {
-        if (await canLaunchUrl(Uri.parse(STORE_URL + url))) {
-          launchUrl(Uri.parse(STORE_URL + storeUrl));
-        }
+        Platform.isAndroid ? await launchUrl(Uri.parse(STORE_URL + storeUrl)) : await launchUrl(Uri.parse(storeUrl));
       }
     };
 
