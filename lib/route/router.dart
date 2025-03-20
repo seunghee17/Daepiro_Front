@@ -55,7 +55,7 @@ import 'main_navigation.dart';
 
 //navigatorstate로 접근할 수 있게 해주어 앱내 화면이동 가능
 //루트 네비게이터와 별도의 네비게이션 키를 설정하는 부분
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _communityNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'community');
 final _informationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'information');
@@ -83,8 +83,7 @@ Future<String?> checkRedirect(BuildContext context, GoRouterState state) async {
 final goRouteProvider = Provider((ref) {
   return GoRouter(
     initialLocation: '/splash',
-    // initialLocation: '/login',
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -272,7 +271,7 @@ final goRouteProvider = Provider((ref) {
         builder: (context, state, navigationShell) {
           return MainNavigation(navigationShell: navigationShell);
         },
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
           branches:[
             StatefulShellBranch(
               navigatorKey: _homeNavigatorKey,

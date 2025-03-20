@@ -2,9 +2,11 @@ import 'package:daepiro/data/http/tokenErrorViewModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storge;
+import 'package:go_router/go_router.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
+import '../../route/router.dart';
 import '../model/request/refresh_token_request.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -72,6 +74,7 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
       handler.next(options);
     },
     onError: (DioException exception, handler) async {
+      final router = rootNavigatorKey.currentContext != null ? GoRouter.of(rootNavigatorKey.currentContext!) : null;
       //토큰 갱신 요청 실패시 재시도 하지 않음
       if(exception.requestOptions.path.contains('/v1/auth/refresh')) {
         print('토큰 갱신 요청 실패시 재시도 하지 않음:: ');
@@ -127,13 +130,18 @@ final interceptorProvider = Provider.family<InterceptorsWrapper, Dio> ((ref, dio
               //refresh 토큰이 존재하지 않거나 만료되었음 로그인 화면으로 이동해야함
               //ref.read(errorNotifierProvider.notifier).addError(exception);
               //저장된 토큰 있다면 리셋 잠시만 비활성화
-              await storage.write(key: 'accessToken', value: '');
-              await storage.write(key: 'refreshToken', value: '');
+              await storage.delete(key: 'accessToken');
+              await storage.delete(key: 'refreshToken');
             }
           } catch(e) {
             print('토큰 갱신중 에러가 발생함: $e');
             //ref.read(errorNotifierProvider.notifier).addError(exception);
           }
+        }
+        await storage.delete(key: 'accessToken');
+        await storage.delete(key: 'refreshToken');
+        if(router != null) {
+          router.go('/login');
         }
       }
       handler.next(exception);

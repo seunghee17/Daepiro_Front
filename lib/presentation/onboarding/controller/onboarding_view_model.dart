@@ -133,6 +133,8 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
           await storage.write(
               key: 'shortAddress_$i', value: userAddresses[i].shortAddress);
         }
+      } else {
+        throw Exception('no Address Available');
       }
     } catch (e) {
       rethrow;
