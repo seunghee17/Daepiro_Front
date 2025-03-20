@@ -92,7 +92,7 @@ dependencies:
   path_provider: ^2.1.5
 
   # Webview
-  flutter_inappwebview: ^6.0.3
+  flutter_inappwebview: ^6.0.0
   # dropdown button
   dropdown_button2: ^2.3.9
 
