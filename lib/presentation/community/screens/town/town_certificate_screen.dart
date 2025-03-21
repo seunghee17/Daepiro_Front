@@ -93,14 +93,15 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
+  void didChangeAppLifecycleState(AppLifecycleState appState) async {
     final viewModel = ref.read(townCertificateProvider.notifier);
     final state = ref.watch(townCertificateProvider);
-    switch (state) {
+    switch (appState) {
       case AppLifecycleState.resumed:
         await viewModel.getLocationPermissionStatus();
-        if (!state.isPermissionGrant) {
-          locationPermissionDialog(context);
+        if (!state.isPermissionGrant && isSecondDialogAppear && isFirstDialogAppear) {
+          GoRouter.of(context).pop();
+          GoRouter.of(context).pop();
         }
         break;
       default:
@@ -565,8 +566,6 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                             child: SecondaryFilledButton(
                           onPressed: selectAddress.isNotEmpty
                               ? () async {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
                                   ref
                                       .read(townCertificateProvider.notifier)
                                       .selectCertificateTown(selectAddress);
@@ -576,6 +575,8 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
                                   if (!isPermissionGrant) {
                                     locationPermissionDialog(context);
                                   } else {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
                                     await _initMapState();
                                   }
                                 }
@@ -621,6 +622,7 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
           onPressed: () {
             GoRouter.of(context).pop();
             GoRouter.of(context).pop();
+            GoRouter.of(context).pop();
           },
           radius: 8,
           backgroundColor: DaepiroColorStyle.g_50,
@@ -634,8 +636,8 @@ class TownCertificateScreenState extends ConsumerState<TownCertificateScreen>
       SecondaryFilledButton(
           verticalPadding: 12,
           onPressed: () {
-            openAppSettings();
             GoRouter.of(context).pop();
+            openAppSettings();
           },
           radius: 8,
           backgroundColor: DaepiroColorStyle.g_700,
