@@ -15,7 +15,6 @@ class OnboardingSecondScreen extends ConsumerStatefulWidget {
 }
 
 class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
   bool isInitialized = false;
 
@@ -31,7 +30,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
     if (!isInitialized) {
       final state = ref.read(onboardingStateNotifierProvider);
 
-      nameController.text = state.userName;
       nicknameController.text = state.userNickName;
       setState(() {});
       isInitialized = true;
@@ -40,7 +38,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
 
   @override
   void dispose() {
-    nameController.dispose();
     nicknameController.dispose();
     super.dispose();
   }
@@ -69,14 +66,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                               const SizedBox(height: 20),
                               headerWidget(),
                               const SizedBox(height: 24),
-                              Text('이름',
-                                  style: DaepiroTextStyle.h6
-                                      .copyWith(color: DaepiroColorStyle.g_900)),
-                              const SizedBox(height: 8),
-                              NameTextField(nameController, state.nameState),
-                              if (state.nameState != '')
-                                namestateText(state.nameState),
-                              const SizedBox(height: 16),
                               Text(
                                 '닉네임',
                                 style: DaepiroTextStyle.h6
@@ -132,10 +121,6 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
                               ref
                                   .read(
                                       onboardingStateNotifierProvider.notifier)
-                                  .updateUserName(nameController.text),
-                              ref
-                                  .read(
-                                      onboardingStateNotifierProvider.notifier)
                                   .updateNickName(nicknameController.text),
                               GoRouter.of(context).push('/onboarding/second'),
                               storage.write(key: 'nickname', value: nicknameController.text)
@@ -179,19 +164,19 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
         const SizedBox(height: 24),
         RichText(
           text: TextSpan(
-              text: '기본 정보',
+              text: '닉네임',
               style:
                   DaepiroTextStyle.h5.copyWith(color: DaepiroColorStyle.o_400),
               children: [
                 TextSpan(
-                    text: '를 입력해주세요.',
+                    text: '을 입력해주세요',
                     style: DaepiroTextStyle.h5
                         .copyWith(color: DaepiroColorStyle.black))
               ]),
         ),
         const SizedBox(height: 4),
         Text(
-          '이름은 기본 서비스 이용을 위해,\n닉네임은 커뮤니티에서 사용돼요.',
+          '서비스에서 사용할 닉네임을 입력해주세요',
           style: DaepiroTextStyle.body_1_m
               .copyWith(color: DaepiroColorStyle.g_300),
         ),
@@ -200,53 +185,53 @@ class OnboardingState extends ConsumerState<OnboardingSecondScreen> {
   }
 
   //이름 입력란
-  Widget NameTextField(
-      TextEditingController controller, String nameState) {
-    return Stack(
-      children: [
-        TextField(
-          controller: controller,
-          cursorColor: DaepiroColorStyle.g_900,
-          onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-          style: DaepiroTextStyle.body_1_m
-              .copyWith(color: DaepiroColorStyle.g_900, decorationThickness: 0),
-          decoration: InputDecoration(
-              filled: true,
-              isDense: true,
-              contentPadding: const EdgeInsets.all(16),
-              fillColor: DaepiroColorStyle.g_50,
-              hintText: '6자 이내의 한글',
-              hintStyle: DaepiroTextStyle.body_1_m
-                  .copyWith(color: DaepiroColorStyle.g_200),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  borderSide: BorderSide(
-                      width: 1.5,
-                      color: nameState != ''
-                          ? DaepiroColorStyle.r_300
-                          : DaepiroColorStyle.g_100)),
-              enabledBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  borderSide:
-                      BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
-              suffixIcon: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: Text('${controller.text.length}/6',
-                    style: DaepiroTextStyle.body_1_m.copyWith(
-                        color: controller.text.length > 6
-                            ? DaepiroColorStyle.r_300
-                            : DaepiroColorStyle.g_200)),
-              )),
-          onChanged: (text) {
-            ref
-                .read(onboardingStateNotifierProvider.notifier)
-                .setNameState(text);
-            setState(() {});
-          },
-        ),
-      ],
-    );
-  }
+  // Widget NameTextField(
+  //     TextEditingController controller, String nameState) {
+  //   return Stack(
+  //     children: [
+  //       TextField(
+  //         controller: controller,
+  //         cursorColor: DaepiroColorStyle.g_900,
+  //         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+  //         style: DaepiroTextStyle.body_1_m
+  //             .copyWith(color: DaepiroColorStyle.g_900, decorationThickness: 0),
+  //         decoration: InputDecoration(
+  //             filled: true,
+  //             isDense: true,
+  //             contentPadding: const EdgeInsets.all(16),
+  //             fillColor: DaepiroColorStyle.g_50,
+  //             hintText: '6자 이내의 한글',
+  //             hintStyle: DaepiroTextStyle.body_1_m
+  //                 .copyWith(color: DaepiroColorStyle.g_200),
+  //             focusedBorder: OutlineInputBorder(
+  //                 borderRadius: const BorderRadius.all(Radius.circular(4)),
+  //                 borderSide: BorderSide(
+  //                     width: 1.5,
+  //                     color: nameState != ''
+  //                         ? DaepiroColorStyle.r_300
+  //                         : DaepiroColorStyle.g_100)),
+  //             enabledBorder: const OutlineInputBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(4)),
+  //                 borderSide:
+  //                     BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
+  //             suffixIcon: Padding(
+  //               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+  //               child: Text('${controller.text.length}/6',
+  //                   style: DaepiroTextStyle.body_1_m.copyWith(
+  //                       color: controller.text.length > 6
+  //                           ? DaepiroColorStyle.r_300
+  //                           : DaepiroColorStyle.g_200)),
+  //             )),
+  //         onChanged: (text) {
+  //           ref
+  //               .read(onboardingStateNotifierProvider.notifier)
+  //               .setNameState(text);
+  //           setState(() {});
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
   //닉네임 입력란
   Widget nickNameTextField(

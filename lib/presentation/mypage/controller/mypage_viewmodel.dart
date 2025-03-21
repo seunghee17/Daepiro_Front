@@ -58,7 +58,6 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         .read(getProfilesUseCaseProvider(GetMyPageProfileUseCase()).future);
     state = state.copyWith(
         profileImgUrl: response.data?.profileImgUrl ?? '',
-        realName: response.data?.realname ?? '',
         nickName: response.data?.nickname ?? '');
     return;
   }
@@ -72,20 +71,20 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     return;
   }
 
-  void setNameState(String name) {
-    if (checkForNameRule(name)) {
-      state =
-          state.copyWith(nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
-    } else if (name.length > 6) {
-      state = state.copyWith(
-          nameState: '*최대 6자까지 작성 가능해주세요.', completeSetName: false);
-    } else if (name.length <= 6 && !checkForNameRule(name) && name != '') {
-      state = state.copyWith(nameState: '', completeSetName: true);
-    } else if (name == '') {
-      state = state.copyWith(nameState: '', completeSetName: false);
-    }
-    return;
-  }
+  // void setNameState(String name) {
+  //   if (checkForNameRule(name)) {
+  //     state =
+  //         state.copyWith(nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
+  //   } else if (name.length > 6) {
+  //     state = state.copyWith(
+  //         nameState: '*최대 6자까지 작성 가능해주세요.', completeSetName: false);
+  //   } else if (name.length <= 6 && !checkForNameRule(name) && name != '') {
+  //     state = state.copyWith(nameState: '', completeSetName: true);
+  //   } else if (name == '') {
+  //     state = state.copyWith(nameState: '', completeSetName: false);
+  //   }
+  //   return;
+  // }
 
   Future<void> setNickNameState(String nickName) async {
     if (nickName.length > 10) {
@@ -118,9 +117,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   void clearState() {
     state = state.copyWith(
-      nameState: '',
       nicknameState: '',
-      completeSetName: false,
       completeSetNickName: false
     );
     return;

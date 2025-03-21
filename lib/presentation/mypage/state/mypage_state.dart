@@ -11,11 +11,8 @@ sealed class MyPageState with _$MyPageState {
 
     /// 사용자 정보 수정
     @Default('') profileImgUrl,
-    @Default('') realName,
     @Default('') nickName,
-    @Default('') String nameState,
     @Default('') String nicknameState,
-    @Default(false) bool completeSetName,
     @Default(false) bool completeSetNickName,
 
     @Default(false) communityAlarmState,

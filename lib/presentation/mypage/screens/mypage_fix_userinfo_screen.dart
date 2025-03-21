@@ -14,7 +14,6 @@ class MyPageFixUserinfoScreen extends ConsumerStatefulWidget {
 }
 
 class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
-  final TextEditingController nameController = new TextEditingController();
   final TextEditingController nicknameController = new TextEditingController();
   final ValueNotifier<bool> isValueChangeNotifier = ValueNotifier(false);
 
@@ -23,7 +22,6 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final state = ref.read(myPageProvider);
-      nameController.text = state.realName;
       nicknameController.text = state.nickName;
     });
   }
@@ -48,14 +46,8 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                headerWidget(context, ref, state.completeSetNickName || state.completeSetName),
+                headerWidget(context, ref, state.completeSetNickName),
                 SizedBox(height: 8),
-                Text('이름', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
-                SizedBox(height: 8),
-                nameTextField(nameController, state.nameState),
-                if (state.nameState != '')
-                  namestateText(state.nameState),
-                SizedBox(height: 24),
                 Text('닉네임', style: DaepiroTextStyle.h6.copyWith(color: DaepiroColorStyle.g_900)),
                 SizedBox(height: 8),
                 nickNameTextField(nicknameController, state.nicknameState),
@@ -95,7 +87,7 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
               return GestureDetector(
                 onTap: () async {
                   if(isChanged && isAvailable) {
-                    await ref.read(myPageProvider.notifier).setMyProfiles(nameController.text, nicknameController.text);
+                    await ref.read(myPageProvider.notifier).setMyProfiles('홍길동', nicknameController.text);
                     ref.read(myPageProvider.notifier).getMyProfiles();
                     GoRouter.of(context).pop();
                   }
@@ -111,48 +103,48 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
   }
 
   //이름 입력란
-  Widget nameTextField(TextEditingController controller, String nameState) {
-    return Stack(
-      children: [
-        TextField(
-            controller: controller,
-            onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-            onChanged: (text) {
-              ref.read(myPageProvider.notifier).setNameState(text);
-              setState(() {});
-              if(!isValueChangeNotifier.value) {
-                isValueChangeNotifier.value = true;
-              }
-            },
-            style: DaepiroTextStyle.body_1_m.copyWith(
-                color: DaepiroColorStyle.g_900, decorationThickness: 0),
-            decoration: InputDecoration(
-              filled: true,
-              isDense: true,
-              contentPadding: EdgeInsets.all(16),
-              fillColor: DaepiroColorStyle.g_50,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  borderSide:
-                      BorderSide(
-                          width: 1.5,
-                          color: nameState != '' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_75)),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  borderSide:
-                      BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
-              suffixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: SvgPicture.asset('assets/icons/icon_edit.svg',
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(
-                        DaepiroColorStyle.g_200, BlendMode.srcIn)),
-              ),
-            ))
-      ],
-    );
-  }
+  // Widget nameTextField(TextEditingController controller, String nameState) {
+  //   return Stack(
+  //     children: [
+  //       TextField(
+  //           controller: controller,
+  //           onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+  //           onChanged: (text) {
+  //             ref.read(myPageProvider.notifier).setNameState(text);
+  //             setState(() {});
+  //             if(!isValueChangeNotifier.value) {
+  //               isValueChangeNotifier.value = true;
+  //             }
+  //           },
+  //           style: DaepiroTextStyle.body_1_m.copyWith(
+  //               color: DaepiroColorStyle.g_900, decorationThickness: 0),
+  //           decoration: InputDecoration(
+  //             filled: true,
+  //             isDense: true,
+  //             contentPadding: EdgeInsets.all(16),
+  //             fillColor: DaepiroColorStyle.g_50,
+  //             focusedBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(4)),
+  //                 borderSide:
+  //                     BorderSide(
+  //                         width: 1.5,
+  //                         color: nameState != '' ? DaepiroColorStyle.r_300 : DaepiroColorStyle.g_75)),
+  //             enabledBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(4)),
+  //                 borderSide:
+  //                     BorderSide(width: 1, color: DaepiroColorStyle.g_50)),
+  //             suffixIcon: Padding(
+  //               padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+  //               child: SvgPicture.asset('assets/icons/icon_edit.svg',
+  //                   width: 24,
+  //                   height: 24,
+  //                   colorFilter: ColorFilter.mode(
+  //                       DaepiroColorStyle.g_200, BlendMode.srcIn)),
+  //             ),
+  //           ))
+  //     ],
+  //   );
+  // }
 
   //닉네임 입력란
   Widget nickNameTextField(TextEditingController controller, String nickNameState) {
@@ -199,24 +191,24 @@ class MyPageFixUserinfoState extends ConsumerState<MyPageFixUserinfoScreen> {
   }
 
   //이메일 입력란
-  Widget emailTextField(String platform) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: DaepiroColorStyle.g_50
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(PlatformCategory.getCategoryByKeyword(platform), style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
-          ],
-        ),
-      )
-    );
-  }
+  // Widget emailTextField(String platform) {
+  //   return Container(
+  //     width: double.infinity,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(8),
+  //       color: DaepiroColorStyle.g_50
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         children: [
+  //           Text(PlatformCategory.getCategoryByKeyword(platform), style: DaepiroTextStyle.body_1_m.copyWith(color: DaepiroColorStyle.g_200)),
+  //         ],
+  //       ),
+  //     )
+  //   );
+  // }
 
   Widget nickNamestateText(String nickNameState) {
     return Container(

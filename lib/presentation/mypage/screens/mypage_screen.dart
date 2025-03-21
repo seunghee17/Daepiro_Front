@@ -38,8 +38,7 @@ class MypageScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserWidget(context, state.realName, state.profileImgUrl,
-                      state.nickName),
+                  UserWidget(context,state.profileImgUrl, state.nickName),
                   SizedBox(height: 20),
                   Text(
                     '내 정보',
@@ -191,8 +190,7 @@ class MypageScreen extends ConsumerWidget {
     ));
   }
 
-  Widget UserWidget(BuildContext context, String realName, String profileImgUrl,
-      String nickName) {
+  Widget UserWidget(BuildContext context, String profileImgUrl, String nickName) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -228,19 +226,9 @@ class MypageScreen extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 8),
-          Row(
-            children: [
-              Spacer(),
-              Text(realName,
-                  style: DaepiroTextStyle.body_1_b
-                      .copyWith(color: DaepiroColorStyle.g_800)),
-              SizedBox(width: 8),
-              Text('@${nickName}',
-                  style: DaepiroTextStyle.body_1_m
-                      .copyWith(color: DaepiroColorStyle.g_200)),
-              Spacer(),
-            ],
-          ),
+          Text(nickName,
+              style: DaepiroTextStyle.body_1_b
+                  .copyWith(color: DaepiroColorStyle.g_800)),
           SizedBox(height: 16),
           GestureDetector(
             onTap: () => GoRouter.of(context).push('/mypage_fix_userinfo'),

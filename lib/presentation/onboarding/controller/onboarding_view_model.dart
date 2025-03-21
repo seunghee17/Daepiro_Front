@@ -26,21 +26,6 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
 
   OnboardingViewModel(this.ref) : super(OnboardingState());
 
-  void setNameState(String name) {
-    if (checkForNameRule(name)) {
-      state =
-          state.copyWith(nameState: '*이름은 한글로 입력해주세요.', completeSetName: false);
-    } else if (name.length > 6) {
-      state = state.copyWith(
-          nameState: '*최대 6자까지 작성 가능해주세요.', completeSetName: false);
-    } else if (name.length <= 6 && !checkForNameRule(name) && name != '') {
-      state = state.copyWith(nameState: '', completeSetName: true);
-    } else if (name == '') {
-      state = state.copyWith(nameState: '', completeSetName: false);
-    }
-    updateUserName(name);
-  }
-
   Future<void> setNickNameState(String nickName) async {
     if (nickName.length > 10) {
       state = state.copyWith(
@@ -65,17 +50,12 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     }
   }
 
-
-  void updateUserName(String name) {
-    state = state.copyWith(userName: name);
-  }
-
   void updateNickName(String nickName) {
     state = state.copyWith(userNickName: nickName);
   }
 
   bool getProceedState() {
-    if (state.completeSetName && state.completeSetNickName) {
+    if (state.completeSetNickName) {
       return true;
     } else {
       return false;
@@ -113,7 +93,7 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
     final fcmToken = await getFcmToken();
     await ref.read(sendonboardingInfoUseCaseProvider(SendOnboardinginfoUseCase(
         onboardingInfoRequest: OnboardingInfoRequest(
-      realname: state.userName,
+      realname: '홍길동',
       nickname: state.userNickName,
       addresses: address,
       disasterTypes: state.disasterTypes,

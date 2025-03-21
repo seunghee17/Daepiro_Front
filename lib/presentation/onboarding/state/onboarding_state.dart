@@ -7,11 +7,8 @@ sealed class OnboardingState with _$OnboardingState {
   factory OnboardingState({
     //주소 검색 오류 상태
     @Default(false) bool isError,
-    @Default('') String nameState,
     @Default('') String nicknameState,
-    @Default(false) bool completeSetName,
     @Default(false) bool completeSetNickName,
-    @Default('') String userName,
     @Default('') String userNickName,
     //입력한 주소값
     @Default('') String homeJuso,

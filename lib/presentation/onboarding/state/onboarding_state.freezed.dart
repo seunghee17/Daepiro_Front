@@ -17,12 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$OnboardingState {
 //주소 검색 오류 상태
-  bool get isError => throw _privateConstructorUsedError;
-  String get nameState => throw _privateConstructorUsedError;
-  String get nicknameState => throw _privateConstructorUsedError;
-  bool get completeSetName => throw _privateConstructorUsedError;
-  bool get completeSetNickName => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
+  bool get isError =>
+      throw _privateConstructorUsedError; //@Default('') String nameState,
+  String get nicknameState =>
+      throw _privateConstructorUsedError; //@Default(false) bool completeSetName,
+  bool get completeSetNickName =>
+      throw _privateConstructorUsedError; //@Default('') String userName,
   String get userNickName => throw _privateConstructorUsedError; //입력한 주소값
   String get homeJuso => throw _privateConstructorUsedError;
   String get firstJuso => throw _privateConstructorUsedError;
@@ -57,11 +57,8 @@ abstract class $OnboardingStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isError,
-      String nameState,
       String nicknameState,
-      bool completeSetName,
       bool completeSetNickName,
-      String userName,
       String userNickName,
       String homeJuso,
       String firstJuso,
@@ -93,11 +90,8 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
   @override
   $Res call({
     Object? isError = null,
-    Object? nameState = null,
     Object? nicknameState = null,
-    Object? completeSetName = null,
     Object? completeSetNickName = null,
-    Object? userName = null,
     Object? userNickName = null,
     Object? homeJuso = null,
     Object? firstJuso = null,
@@ -119,26 +113,14 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      nameState: null == nameState
-          ? _value.nameState
-          : nameState // ignore: cast_nullable_to_non_nullable
-              as String,
       nicknameState: null == nicknameState
           ? _value.nicknameState
           : nicknameState // ignore: cast_nullable_to_non_nullable
               as String,
-      completeSetName: null == completeSetName
-          ? _value.completeSetName
-          : completeSetName // ignore: cast_nullable_to_non_nullable
-              as bool,
       completeSetNickName: null == completeSetNickName
           ? _value.completeSetNickName
           : completeSetNickName // ignore: cast_nullable_to_non_nullable
               as bool,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
       userNickName: null == userNickName
           ? _value.userNickName
           : userNickName // ignore: cast_nullable_to_non_nullable
@@ -213,11 +195,8 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isError,
-      String nameState,
       String nicknameState,
-      bool completeSetName,
       bool completeSetNickName,
-      String userName,
       String userNickName,
       String homeJuso,
       String firstJuso,
@@ -247,11 +226,8 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isError = null,
-    Object? nameState = null,
     Object? nicknameState = null,
-    Object? completeSetName = null,
     Object? completeSetNickName = null,
-    Object? userName = null,
     Object? userNickName = null,
     Object? homeJuso = null,
     Object? firstJuso = null,
@@ -273,26 +249,14 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      nameState: null == nameState
-          ? _value.nameState
-          : nameState // ignore: cast_nullable_to_non_nullable
-              as String,
       nicknameState: null == nicknameState
           ? _value.nicknameState
           : nicknameState // ignore: cast_nullable_to_non_nullable
               as String,
-      completeSetName: null == completeSetName
-          ? _value.completeSetName
-          : completeSetName // ignore: cast_nullable_to_non_nullable
-              as bool,
       completeSetNickName: null == completeSetNickName
           ? _value.completeSetNickName
           : completeSetNickName // ignore: cast_nullable_to_non_nullable
               as bool,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
       userNickName: null == userNickName
           ? _value.userNickName
           : userNickName // ignore: cast_nullable_to_non_nullable
@@ -362,11 +326,8 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
 class _$OnboardingStateImpl implements _OnboardingState {
   _$OnboardingStateImpl(
       {this.isError = false,
-      this.nameState = '',
       this.nicknameState = '',
-      this.completeSetName = false,
       this.completeSetNickName = false,
-      this.userName = '',
       this.userNickName = '',
       this.homeJuso = '',
       this.firstJuso = '',
@@ -401,21 +362,15 @@ class _$OnboardingStateImpl implements _OnboardingState {
   @override
   @JsonKey()
   final bool isError;
-  @override
-  @JsonKey()
-  final String nameState;
+//@Default('') String nameState,
   @override
   @JsonKey()
   final String nicknameState;
-  @override
-  @JsonKey()
-  final bool completeSetName;
+//@Default(false) bool completeSetName,
   @override
   @JsonKey()
   final bool completeSetNickName;
-  @override
-  @JsonKey()
-  final String userName;
+//@Default('') String userName,
   @override
   @JsonKey()
   final String userNickName;
@@ -489,7 +444,7 @@ class _$OnboardingStateImpl implements _OnboardingState {
 
   @override
   String toString() {
-    return 'OnboardingState(isError: $isError, nameState: $nameState, nicknameState: $nicknameState, completeSetName: $completeSetName, completeSetNickName: $completeSetNickName, userName: $userName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes, termList: $termList)';
+    return 'OnboardingState(isError: $isError, nicknameState: $nicknameState, completeSetNickName: $completeSetNickName, userNickName: $userNickName, homeJuso: $homeJuso, firstJuso: $firstJuso, secondJuso: $secondJuso, homeJusoNick: $homeJusoNick, firstJusoNick: $firstJusoNick, secondJusoNick: $secondJusoNick, firstJusoState: $firstJusoState, secondJusoState: $secondJusoState, isJuso1Visible: $isJuso1Visible, isJuso2Visible: $isJuso2Visible, isAllAppPermissionGrant: $isAllAppPermissionGrant, isAppPermissionCheckboxState: $isAppPermissionCheckboxState, disasterTypes: $disasterTypes, termList: $termList)';
   }
 
   @override
@@ -498,16 +453,10 @@ class _$OnboardingStateImpl implements _OnboardingState {
         (other.runtimeType == runtimeType &&
             other is _$OnboardingStateImpl &&
             (identical(other.isError, isError) || other.isError == isError) &&
-            (identical(other.nameState, nameState) ||
-                other.nameState == nameState) &&
             (identical(other.nicknameState, nicknameState) ||
                 other.nicknameState == nicknameState) &&
-            (identical(other.completeSetName, completeSetName) ||
-                other.completeSetName == completeSetName) &&
             (identical(other.completeSetNickName, completeSetNickName) ||
                 other.completeSetNickName == completeSetNickName) &&
-            (identical(other.userName, userName) ||
-                other.userName == userName) &&
             (identical(other.userNickName, userNickName) ||
                 other.userNickName == userNickName) &&
             (identical(other.homeJuso, homeJuso) ||
@@ -542,30 +491,26 @@ class _$OnboardingStateImpl implements _OnboardingState {
   }
 
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        isError,
-        nameState,
-        nicknameState,
-        completeSetName,
-        completeSetNickName,
-        userName,
-        userNickName,
-        homeJuso,
-        firstJuso,
-        secondJuso,
-        homeJusoNick,
-        firstJusoNick,
-        secondJusoNick,
-        firstJusoState,
-        secondJusoState,
-        isJuso1Visible,
-        isJuso2Visible,
-        isAllAppPermissionGrant,
-        const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
-        const DeepCollectionEquality().hash(_disasterTypes),
-        const DeepCollectionEquality().hash(_termList)
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isError,
+      nicknameState,
+      completeSetNickName,
+      userNickName,
+      homeJuso,
+      firstJuso,
+      secondJuso,
+      homeJusoNick,
+      firstJusoNick,
+      secondJusoNick,
+      firstJusoState,
+      secondJusoState,
+      isJuso1Visible,
+      isJuso2Visible,
+      isAllAppPermissionGrant,
+      const DeepCollectionEquality().hash(_isAppPermissionCheckboxState),
+      const DeepCollectionEquality().hash(_disasterTypes),
+      const DeepCollectionEquality().hash(_termList));
 
   @JsonKey(ignore: true)
   @override
@@ -578,11 +523,8 @@ class _$OnboardingStateImpl implements _OnboardingState {
 abstract class _OnboardingState implements OnboardingState {
   factory _OnboardingState(
       {final bool isError,
-      final String nameState,
       final String nicknameState,
-      final bool completeSetName,
       final bool completeSetNickName,
-      final String userName,
       final String userNickName,
       final String homeJuso,
       final String firstJuso,
@@ -601,17 +543,11 @@ abstract class _OnboardingState implements OnboardingState {
 
   @override //주소 검색 오류 상태
   bool get isError;
-  @override
-  String get nameState;
-  @override
+  @override //@Default('') String nameState,
   String get nicknameState;
-  @override
-  bool get completeSetName;
-  @override
+  @override //@Default(false) bool completeSetName,
   bool get completeSetNickName;
-  @override
-  String get userName;
-  @override
+  @override //@Default('') String userName,
   String get userNickName;
   @override //입력한 주소값
   String get homeJuso;
