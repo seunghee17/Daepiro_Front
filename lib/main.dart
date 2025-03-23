@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'cmm/DaepiroTheme.dart';
@@ -25,10 +24,10 @@ Future<void> main() async {
   await _naverInit();
 
   await Firebase.initializeApp();
-  SettingFCM().initNotification();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  String? token = await messaging.getToken();
-  print("FCM 토큰: $token");
+  await SettingFCM().initNotification();
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // String? token = await messaging.getToken();
+  // print("FCM 토큰: $token");
   runApp(const ProviderScope(child: MyApp()));
 }
 

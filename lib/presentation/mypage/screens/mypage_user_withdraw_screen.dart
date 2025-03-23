@@ -406,10 +406,6 @@ class MyPageUserWithDrawScreen extends ConsumerWidget {
                     child: PrimaryFilledButton(
                         verticalPadding: 12,
                         onPressed: () {
-                          // while(context.canPop()) {
-                          //   context.pop();
-                          // }
-                          // GoRouter.of(context).pushReplacement('/login');
                           if(Platform.isAndroid) {
                             SystemNavigator.pop();
                           } else {
