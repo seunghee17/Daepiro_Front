@@ -26,7 +26,7 @@ class LoginScreen extends ConsumerWidget {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
-          isDismissible: true,
+          isDismissible: false,
           enableDrag: false,
           builder: (context) {
             return Wrap(
