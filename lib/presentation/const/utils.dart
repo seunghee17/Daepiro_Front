@@ -166,7 +166,8 @@ String parseDateTime(String timeText) {
   }
   DateTime dateTime = DateTime.parse(timeText).toLocal();
   String period = dateTime.hour >= 12 ? '오후' : '오전';
-  String hour = (dateTime.hour - 12).toString().padLeft(2, '0');
+  String hour = (period == '오전' ? dateTime.hour : dateTime.hour - 12).toString().padLeft(2, '0');
+  period == '오후' && hour == '00' ? hour = '12' : hour;
   String minute = dateTime.minute.toString().padLeft(2, '0');
   return '${period} ${hour}:${minute}';
 }
