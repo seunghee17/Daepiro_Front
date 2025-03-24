@@ -2,8 +2,10 @@ import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model
 import 'package:daepiro/route/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -26,9 +28,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
     _controller.forward();
     checkAuth().then((isAuthenticated) {
       Future.delayed(const Duration(seconds: 5), () async {
+        bool isfirstlaunch = await _isFirstLaunch();
+        if(isfirstlaunch) {
+          FlutterSecureStorage storage = FlutterSecureStorage();
+          storage.deleteAll();
+          await setFirstLauch();
+          GoRouter.of(context).replace('/login');
+          return;
+        }
         if (isAuthenticated) {
           try {
-
             bool isOnboardingComplete = await _checkOnboardingComplete(ref);
             if(isOnboardingComplete) {
               GoRouter.of(context).replace('/home');
@@ -74,6 +83,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
       rethrow;
     }
 
+  }
+
+  Future<bool> _isFirstLaunch() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isFirstLaunch = await prefs.getBool('isFirstLaunch');
+    return isFirstLaunch == null ? true : false;
+  }
+
+  Future<void> setFirstLauch() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFirstLaunch', true);
   }
 
   @override
