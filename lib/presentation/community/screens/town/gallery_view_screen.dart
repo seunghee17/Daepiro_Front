@@ -339,6 +339,7 @@ class gridPhoto extends ConsumerWidget {
     return GestureDetector(
       onTap: () async {
         var status = await Permission.camera.status;
+        await Permission.camera.request();
         if (status.isGranted) {
           _loadCamera(context);
         } else {

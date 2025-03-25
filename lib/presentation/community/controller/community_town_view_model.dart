@@ -329,12 +329,15 @@ class CommunityTownViewModel extends StateNotifier<CommunityTownState> {
 
   Future<bool> checkShowCurrentLocation() async {
     await getUserLocation();
+    var checkAddress = '';
+    List<String> townLongAddressList = state.selectLongTownAddress.trim().split(' ');
+    checkAddress = townLongAddressList.sublist(0, townLongAddressList.length-1).join(' ');
     final response = await ref.read(
         communityCheckShowCurrentLocationUseCaseProvider(
             CommunityCheckShowCurrentlocationUsecase(
                 communityCheckCurrentLocationRequest:
                     CommunityCheckCurrentLocationRequest(
-      address: state.selectLongTownAddress, //TODO 구까지만 보내기로
+      address: checkAddress, //TODO 구까지만 보내기로
       longitude: state.longitude,
       latitude: state.latitude,
     ))).future);

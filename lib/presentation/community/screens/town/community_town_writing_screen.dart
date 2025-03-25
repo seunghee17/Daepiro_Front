@@ -527,7 +527,13 @@ class CommunityTownWritingState
                         verticalPadding: 12,
                         onPressed: () async {
                           GoRouter.of(context).pop();
-                          await openAppSettings();
+                          var requestStatus = await Permission.location.request();
+                          var status = await Permission.location.status;
+                          if(requestStatus.isPermanentlyDenied || status.isPermanentlyDenied) {
+                            openAppSettings();
+                          } else if(status.isRestricted) {
+                            openAppSettings();
+                          }
                         },
                         radius: 8,
                         backgroundColor: DaepiroColorStyle.g_700,

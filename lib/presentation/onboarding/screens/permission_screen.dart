@@ -17,7 +17,6 @@ class PermissionScreen extends ConsumerWidget {
     final permissionState = ref.watch(permissionStateNotifierProvider);
 
     return Container(
-      //height: MediaQuery.of(context).size.height * 0.9,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8),

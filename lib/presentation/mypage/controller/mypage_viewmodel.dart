@@ -7,6 +7,12 @@ import 'package:daepiro/domain/usecase/mypage/mypage_get_myarticles_usecase.dart
 import 'package:daepiro/domain/usecase/mypage/mypage_set_address_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_set_profiles_usecase.dart';
 import 'package:daepiro/domain/usecase/mypage/mypage_withdraw_usecase.dart';
+import 'package:daepiro/presentation/community/controller/community_town_view_model.dart';
+import 'package:daepiro/presentation/community/controller/town_certificate_view_model.dart';
+import 'package:daepiro/presentation/information/contents/disaster_contents_view_model.dart';
+import 'package:daepiro/presentation/information/main/information_view_model.dart';
+import 'package:daepiro/presentation/login/login_view_model.dart';
+import 'package:daepiro/presentation/onboarding/controller/onboarding_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -137,9 +143,14 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   }
 
   Future<void> setNotificationType(String type, bool isGrant) async {
-    bool status = await checknotificationPermission();
-    if (!status) {
-      await openAppSettings();
+    await checknotificationPermission();
+    var requestStatus = await Permission.notification.request();
+    var statusNoti = await Permission.notification.status;
+    if(requestStatus.isPermanentlyDenied || statusNoti.isPermanentlyDenied) {
+      openAppSettings();
+      return;
+    } else if(statusNoti.isRestricted) {
+      openAppSettings();
       return;
     }
     await ref.read(
@@ -483,15 +494,26 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         myArticles: [], isArticleHasMore: true, isArticleLoading: true);
   }
 
+  void initViewModel() {
+    ref.invalidate(onboardingStateNotifierProvider);
+    ref.invalidate(loginStateNotifierProvider);
+    ref.invalidate(disasterContentsStateNotifierProvider);
+    ref.invalidate(communityTownProvider);
+    ref.invalidate(townCertificateProvider);
+    ref.invalidate(informationStateNotifierProvider);
+    ref.invalidate(myPageProvider);
+  }
+
   Future<void> logout() async {
     String platform = await storage.read(key: 'platform') ?? '';
-    await ref.read(logoutUseCaseProvider(LogoutUsecase()).future);
     if (platform == 'kakao') {
       await UserApi.instance.logout();
     } else if (platform == 'naver') {
       await FlutterNaverLogin.logOut();
     }
+    await ref.read(logoutUseCaseProvider(LogoutUsecase()).future);
     await storage.deleteAll();
+    initViewModel();
   }
 
   ///공지사항
@@ -591,30 +613,6 @@ enum InquireCategory {
     return InquireCategory.values
         .firstWhere((el) => el.getCategory() == category)
         .name;
-  }
-}
-
-enum PlatformCategory {
-  kakao('카카오 계정'),
-  naver('네이버 계정'),
-  apple('애플 계정'),
-  other('');
-
-  final String value;
-
-  const PlatformCategory(this.value);
-
-  static String getCategoryByKeyword(String keyword) {
-    switch (keyword) {
-      case 'kakao':
-        return kakao.value;
-      case 'naver':
-        return naver.value;
-      case 'apple':
-        return apple.value;
-      default:
-        return other.value;
-    }
   }
 }
 
