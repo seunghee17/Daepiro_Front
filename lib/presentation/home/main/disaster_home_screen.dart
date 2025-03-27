@@ -45,12 +45,7 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> with Wi
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      GoRouter.of(context).go('/shelter');
-                    },
-                    child: SvgPicture.asset('assets/icons/icon_logo_small.svg'),
-                  ),
+                  SvgPicture.asset('assets/icons/icon_logo_small.svg'),
                   GestureDetector(
                     onTap: () {
                       context.push('/notification');
@@ -387,40 +382,42 @@ class _DisasterHomeScreenState extends ConsumerState<DisasterHomeScreen> with Wi
                                         ),
                                       ),
                                     )
-                                  : Expanded(
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          itemCount: viewModel.disasterHistoryList
-                                              .length,
-                                          itemBuilder: (context, index) {
-                                            return Column(
-                                              children: [
-                                                if (index != 0)
-                                                  const SizedBox(height: 8),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    context.push(
-                                                        '/disasterDetail',
-                                                        extra: Disasters(
-                                                          disasterType: viewModel.disasterHistoryList[index].disasterType,
-                                                          disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
-                                                          title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
-                                                          content: viewModel.disasterHistoryList[index].content,
-                                                          time: viewModel.disasterHistoryList[index].time,
-                                                        )
-                                                    );
-                                                  },
-                                                  child: DisasterHistoryPreview(
-                                                      disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
-                                                      title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
-                                                      date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                  : Column(
+                                      children: [
+                                        ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemCount: viewModel.disasterHistoryList
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              return Column(
+                                                children: [
+                                                  if (index != 0)
+                                                    const SizedBox(height: 8),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      context.push(
+                                                          '/disasterDetail',
+                                                          extra: Disasters(
+                                                            disasterType: viewModel.disasterHistoryList[index].disasterType,
+                                                            disasterTypeId: viewModel.disasterHistoryList[index].disasterTypeId,
+                                                            title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난"),
+                                                            content: viewModel.disasterHistoryList[index].content,
+                                                            time: viewModel.disasterHistoryList[index].time,
+                                                          )
+                                                      );
+                                                    },
+                                                    child: DisasterHistoryPreview(
+                                                        disasterType: viewModel.disasterHistoryList[index].disasterType ?? "",
+                                                        title: viewModel.disasterHistoryList[index].title?.replaceAll("기타", "기타 재난") ?? "",
+                                                        date: formatDateToDateTime(viewModel.disasterHistoryList[index].time ?? "")
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            );
-                                          }
-                                      ),
+                                                ],
+                                              );
+                                            }
+                                        ),
+                                      ],
                                     ),
                                   ),
                           ],

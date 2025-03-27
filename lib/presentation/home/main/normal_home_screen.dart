@@ -63,12 +63,7 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      GoRouter.of(context).go('/shelter');
-                    },
-                    child: SvgPicture.asset('assets/icons/icon_logo_small.svg'),
-                  ),
+                  SvgPicture.asset('assets/icons/icon_logo_small.svg'),
                   GestureDetector(
                     onTap: () {
                       context.push('/notification');
@@ -127,7 +122,7 @@ class _NormalHomeScreenState extends ConsumerState<NormalHomeScreen> {
                                                 ),
                                               ),
                                               const TextSpan(
-                                                text: ", 오늘도\n안전한 하루 보내세요!", // 나머지 텍스트
+                                                text: "님, 오늘도\n안전한 하루 보내세요!",
                                               ),
                                             ],
                                           ),
