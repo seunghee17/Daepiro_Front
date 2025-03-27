@@ -48,22 +48,38 @@ class SponsorViewModel extends StateNotifier<SponsorState> {
       if (response.code == 1000) {
         if (response.data!.isNotEmpty) {
           final size = response.data!.length;
-          final scrollList1 = List.generate(200, (index) {
-            return response.data![index % (size~/2)].content ?? "";
-          });
-          final scrollList2 = List.generate(200, (index) {
-            return response.data![(size~/2) + (index%(size-(size~/2)))].content ?? "";
-          });
+
+          final scrollList1 = size > 1
+              ? List.generate(200, (index) {
+                  return response.data![index % (size ~/ 2)].content ?? "";
+                })
+              : List.generate(200, (index) {
+                  return response.data![0].content ?? "";
+                });
+
+          final scrollList2 = size > 1
+              ? List.generate(200, (index) {
+                  return response.data![(size ~/ 2) + (index % (size - (size ~/ 2)))].content ?? "";
+                })
+              : List.generate(200, (index) {
+                  return response.data![0].content ?? "";
+                });
 
           state = state.copyWith(
-              cheerCommentList: response.data ?? [],
+            cheerCommentList: response.data ?? [],
             scrollCommentList1: scrollList1,
             scrollCommentList2: scrollList2,
+          );
+        } else {
+          state = state.copyWith(
+            cheerCommentList:  [],
+            scrollCommentList1: [],
+            scrollCommentList2: [],
           );
         }
       }
     } catch (error) {
-      print('응원메세 조회 에러: $error');
+      print('응원메세지 조회 에러: $error');
       state = state.copyWith(isLoading: false);
     }
   }

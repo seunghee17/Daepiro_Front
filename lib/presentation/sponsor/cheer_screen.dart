@@ -155,78 +155,82 @@ class _CheerScreenState extends ConsumerState<CheerScreen> {
                       }
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 1,
-                  color: DaepiroColorStyle.g_50,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: DaepiroColorStyle.g_50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: isFocused
-                        ? Border.all(color: DaepiroColorStyle.g_75, width: 1.5)
-                        : Border.all(color: Colors.transparent),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: textEditingController,
-                          focusNode: focusNode,
-                          maxLength: 10,
-                          style: DaepiroTextStyle.body_2_m.copyWith(
-                            color: DaepiroColorStyle.g_900,
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: DaepiroColorStyle.g_50,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(12)
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            hintText: "여러분의 메시지를 전해보세요.(최대 10자)",
-                            hintStyle: DaepiroTextStyle.body_2_m.copyWith(
-                              color: DaepiroColorStyle.g_200,
-                            ),
-                            counterText: "",
-                          ),
-                          onChanged: (text) {
-                            // textEditingController.text = text;
-                          },
-                        ),
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 1,
+                      color: DaepiroColorStyle.g_50,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: DaepiroColorStyle.g_50,
+                        borderRadius: BorderRadius.circular(12),
+                        border: isFocused
+                            ? Border.all(color: DaepiroColorStyle.g_75, width: 1.5)
+                            : Border.all(color: Colors.transparent),
                       ),
-                      const SizedBox(width: 12),
-                      GestureDetector(
-                        onTap: () {
-                          if (textEditingController.text.isNotEmpty) {
-                            ref.read(sponsorStateNotifierProvider.notifier).writeCheerMessage(textEditingController.text);
-                            textEditingController.clear();
-                            isFocused = false;
-                            FocusScope.of(context).unfocus();
-                          }
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: textEditingController,
+                              focusNode: focusNode,
+                              maxLength: 10,
+                              style: DaepiroTextStyle.body_2_m.copyWith(
+                                color: DaepiroColorStyle.g_900,
+                              ),
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: DaepiroColorStyle.g_50,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(12)
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                hintText: "여러분의 메시지를 전해보세요.(최대 10자)",
+                                hintStyle: DaepiroTextStyle.body_2_m.copyWith(
+                                  color: DaepiroColorStyle.g_200,
+                                ),
+                                counterText: "",
+                              ),
+                              onChanged: (text) {
+                                // textEditingController.text = text;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          GestureDetector(
+                            onTap: () {
+                              if (textEditingController.text.isNotEmpty) {
+                                ref.read(sponsorStateNotifierProvider.notifier).writeCheerMessage(textEditingController.text);
+                                textEditingController.clear();
+                                isFocused = false;
+                                FocusScope.of(context).unfocus();
+                              }
 
-                          _scrollController.animateTo(
-                            0.0, // 최상단
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: Text(
-                            "등록",
-                            style: DaepiroTextStyle.body_2_m.copyWith(
-                              color: DaepiroColorStyle.g_600,
+                              _scrollController.animateTo(
+                                0.0, // 최상단
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: Text(
+                                "등록",
+                                style: DaepiroTextStyle.body_2_m.copyWith(
+                                  color: DaepiroColorStyle.g_600,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 )
               ]
           ),
