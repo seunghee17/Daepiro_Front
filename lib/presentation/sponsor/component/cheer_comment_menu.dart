@@ -202,12 +202,10 @@ class CheerCommentMenu extends ConsumerWidget {
               color: Colors.black.withOpacity(0.6),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Expanded(
-                  child: Text(
-                    '댓글이 삭제되었습니다.',
-                    style: DaepiroTextStyle.body_2_m
-                        .copyWith(color: DaepiroColorStyle.white),
-                  ),
+                child: Text(
+                  '댓글이 삭제되었습니다.',
+                  style: DaepiroTextStyle.body_2_m
+                      .copyWith(color: DaepiroColorStyle.white),
                 ),
               ),
             ),
