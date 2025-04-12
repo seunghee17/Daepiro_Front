@@ -1,16 +1,13 @@
-# daepiro
+## 앱 설치 링크
+### AppStore
+https://apps.apple.com/kr/app/%EB%8C%80%ED%94%BC%EB%A1%9C/id6740171608
 
-A new Flutter project.
+### PlayStore
+https://play.google.com/store/apps/details?id=com.numberone.daepiro
 
-## Getting Started
+# 🌟 대피로
+![8c16273f990a980b93e53a47c72f7c66852139d2](https://github.com/user-attachments/assets/8cce4f8f-418e-476a-a108-dcbc2881fc83)
 
-This project is a starting point for a Flutter application.
+<br>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+> ‘대피로’는 위기 상황이 발생했을때 정확하고 신속하게 대응할 수 있도록 돕는 안전•재난 알림 서비스입니다. 
